@@ -1,0 +1,12 @@
+[package]
+name = "melt-ui"
+version = "0.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+leptos = { version = "0.2.4", features = ["stable"] }
+stylers = "0.3.0"
+web-sys = "0.3.61"
+leptos_dom = { version = "0.2.4" }

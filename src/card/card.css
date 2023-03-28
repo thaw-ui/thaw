@@ -1,0 +1,30 @@
+.melt-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.melt-card__header {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+.melt-card__header-extra {
+    display: flex;
+    align-items: center;
+}
+.melt-card__header-content {
+    flex: 1;
+}
+.melt-card__header,
+.melt-card__content,
+.melt-card__footer {
+    padding: 12px 28px;
+    background-color: #fff;
+}
+.melt-card__header {
+    padding: 20px 28px;
+}
+.melt-card__header + .melt-card__content,
+.melt-card__footer {
+    padding: 0 28px 20px;
+}

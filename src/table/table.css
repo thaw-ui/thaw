@@ -1,0 +1,16 @@
+.melt-table {
+    width: 100%;
+}
+
+.melt-table th {
+    text-align: inherit;
+}
+
+.melt-table td,
+.melt-table th {
+    padding: 10px 12px;
+}
+
+.melt-table thead {
+    border-bottom: 1px solid #888;
+}
