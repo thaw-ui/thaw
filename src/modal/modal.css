@@ -20,30 +20,12 @@
     min-height: 100%;
     z-index: 2002;
 }
-.melt-model-card {
+
+.melt-modal-body > :deep(.melt-card) {
     width: 600px;
     margin: auto;
 }
-.melt-model-card__header-close {
-    cursor: pointer;
-}
-.melt-model-card__header-title {
-    font-size: 16px;
-}
-.melt-modal-body {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    min-height: 100%;
-    z-index: 2002;
-}
-.melt-modal-body .melt-card {
-    width: 480px;
-    margin: auto;
-}
-.melt-modal-body .melt-card__header-content {
+
+.melt-model-title {
     font-size: 16px;
 }
