@@ -1,5 +1,6 @@
+use crate::utils::mount_style::mount_style;
 use leptos::*;
-use stylers::style_sheet;
+use stylers::style_sheet_str;
 
 #[component]
 pub fn Card(
@@ -10,7 +11,7 @@ pub fn Card(
     children: Children,
     #[prop(default = None)] footer: Option<Children>,
 ) -> impl IntoView {
-    let class_name = style_sheet!("./src/card/card.css");
+    let class_name = mount_style("card", || style_sheet_str!("./src/card/card.css"));
     view! {
         cx, class=class_name,
         <div class="melt-card">

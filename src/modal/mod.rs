@@ -1,7 +1,8 @@
 use crate::card::*;
 use crate::teleport::*;
+use crate::utils::mount_style::mount_style;
 use leptos::*;
-use stylers::style_sheet;
+use stylers::style_sheet_str;
 
 #[component]
 pub fn Modal(
@@ -12,7 +13,7 @@ pub fn Modal(
     open: ReadSignal<bool>,
     #[prop(default = None)] on_cancel: Option<Box<dyn Fn() + 'static>>,
 ) -> impl IntoView {
-    let class_name = style_sheet!("./src/modal/modal.css");
+    let class_name = mount_style("modal", || style_sheet_str!("./src/modal/modal.css"));
     let header = move |cx| {
         view! {
             cx, class=class_name,
