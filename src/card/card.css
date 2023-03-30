@@ -24,7 +24,7 @@
 .melt-card__header {
     padding: 20px 28px;
 }
-.melt-card__header + .melt-card__content,
+.melt-card__header+.melt-card__content,
 .melt-card__footer {
     padding: 0 28px 20px;
 }
