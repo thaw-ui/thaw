@@ -4,6 +4,7 @@ mod modal;
 mod progress;
 mod table;
 mod teleport;
+mod theme;
 mod utils;
 
 pub use button::*;
