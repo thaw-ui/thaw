@@ -11,7 +11,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     let (open, set_open) = create_signal(cx, true);
     let (button_type, set_button_type) = create_signal(cx, ButtonType::TEXT);
     view! { cx,
-        <div class="root">
+        <Space>
             <Button on:click=move |_| set_button_type.update(move |value| *value = ButtonType::PRIMARY)>"click"</Button>
             <Button on:click=move |_| set_count.update(move |value| *value += 1.0) type_=button_type>"click"</Button>
             {move || count.get()}
@@ -19,7 +19,7 @@ pub fn App(cx: Scope) -> impl IntoView {
                 "sd" {move || count.get()}
             </Modal>
             <Progress percentage=count/>
-        </div>
+        </Space>
     }
 }
 

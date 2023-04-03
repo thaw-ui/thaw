@@ -1,0 +1,7 @@
+.melt-space {
+    display: flex;
+}
+
+.melt-space__item {
+    max-width: 100%;
+}
