@@ -1,4 +1,6 @@
 use crate::theme::ThemeMethod;
+
+#[derive(Clone)]
 pub struct ButtonTheme {
 
 }

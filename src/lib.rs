@@ -15,3 +15,4 @@ pub use modal::*;
 pub use progress::*;
 pub use space::*;
 pub use table::*;
+pub use theme::Theme;
