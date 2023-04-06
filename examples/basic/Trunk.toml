@@ -1,6 +1,11 @@
 [build]
 target = "index.html"
 
+[watch]
+watch = [
+    "../../src"
+]
+
 [serve]
 address = "127.0.0.1"
 port = 6421
