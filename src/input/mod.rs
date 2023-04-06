@@ -21,7 +21,7 @@ pub fn Input(
     view! {
         cx, class=class_name,
         <div class:jo-input=true>
-            <input type="text" prop:value=value.get() ref=input_ref/>
+            <input type="text" prop:value=move || value.get() ref=input_ref/>
         </div>
     }
 }
