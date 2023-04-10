@@ -4,7 +4,7 @@ mod demo_modal;
 pub use demo_modal::*;
 
 fn main() {
-    mount_to_body(|cx| view! { cx,  <App /> })
+    mount_to_body(|cx| view! { cx, <App/> })
 }
 
 #[component]
@@ -24,11 +24,23 @@ pub fn App(cx: Scope) -> impl IntoView {
     view! { cx,
         <Space>
             <Input value=count_string on_input=on_input/>
-            <Button on:click=move |_| set_theme.update(move |value| *value = Theme::dark()) type_=button_type>"theme"</Button>
-            <Button on:click=move |_| set_button_type.update(move |value| *value = ButtonType::PRIMARY)>"click"</Button>
-            <Button on:click=move |_| set_count.update(move |value| *value += 1.0) type_=button_type>"click"</Button>
+            <Button
+                on:click=move |_| set_theme.update(move |value| *value = Theme::dark())
+                type_=button_type
+            >
+                "theme"
+            </Button>
+            <Button on:click=move |_| set_button_type.update(move |value| *value = ButtonType::PRIMARY)>
+                "click"
+            </Button>
+            <Button
+                on:click=move |_| set_count.update(move |value| *value += 1.0)
+                type_=button_type
+            >
+                "click"
+            </Button>
             {move || count.get()}
-            <DemoModal />
+            <DemoModal/>
             <Progress percentage=count/>
         </Space>
     }

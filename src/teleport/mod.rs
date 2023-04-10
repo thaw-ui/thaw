@@ -24,8 +24,5 @@ pub fn Teleport(cx: Scope, #[prop(optional)] to: Option<String>, children: Child
         _ = children;
     }
     
-    view! {
-        cx,
-        <></>
-    }
+    view! { cx, <></> }
 }

@@ -56,10 +56,10 @@ pub fn use_theme(cx: Scope, default: impl Fn() -> Theme) -> ReadSignal<Theme> {
 
 #[cfg(test)]
 mod tests {
-    use super::{use_theme, Theme, ThemeMethod};
+    use super::{use_theme, Theme};
     use leptos::*;
 
-    fn t_use_theme(cx: Scope) {
+    fn _t_use_theme(cx: Scope) {
         use_theme(cx, Theme::dark);
     }
 }
