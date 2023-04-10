@@ -7,11 +7,11 @@ use stylers::style_sheet_str;
 #[component]
 pub fn Modal(
     cx: Scope,
-    #[prop(default = None)] title: Option<String>,
+    #[prop(optional, into)] title: Option<MaybeSignal<String>>,
     children: Children,
-    #[prop(default = None)] footer: Option<Children>,
-    open: ReadSignal<bool>,
-    #[prop(default = None)] on_cancel: Option<Box<dyn Fn() + 'static>>,
+    #[prop(optional)] footer: Option<Children>,
+    #[prop(optional, into)] open: MaybeSignal<bool>,
+    #[prop(optional)] on_cancel: Option<SignalSetter<()>>,
 ) -> impl IntoView {
     let class_name = mount_style("modal", || style_sheet_str!("./src/modal/modal.css"));
     let header = move |cx| {
@@ -24,11 +24,12 @@ pub fn Modal(
             </>
         }
     };
-    let header_extra = |cx| {
+
+    let header_extra = move |cx| {
         view! {
             cx,
             <>
-                <span style="cursor: pointer;" on:click=move |_| if let Some(on_cancel) = &on_cancel { on_cancel()}>
+                <span style="cursor: pointer;" on:click=move |_| if let Some(on_cancel) = &on_cancel { on_cancel.set(())}>
                     { "x" }
                 </span>
             </>

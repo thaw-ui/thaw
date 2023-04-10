@@ -1,5 +1,7 @@
 use leptos::*;
 use melt_ui::*;
+mod demo_modal;
+pub use demo_modal::*;
 
 fn main() {
     mount_to_body(|cx| view! { cx,  <App /> })
@@ -10,7 +12,6 @@ pub fn App(cx: Scope) -> impl IntoView {
     let (theme, set_theme) = create_signal(cx, Theme::light());
     provide_context(cx, theme);
     let (count, set_count) = create_signal(cx, 0.0);
-    let (open, set_open) = create_signal(cx, true);
     let (button_type, set_button_type) = create_signal(cx, ButtonType::TEXT);
     
     let count_string = create_memo(cx, move |_| {
@@ -27,9 +28,7 @@ pub fn App(cx: Scope) -> impl IntoView {
             <Button on:click=move |_| set_button_type.update(move |value| *value = ButtonType::PRIMARY)>"click"</Button>
             <Button on:click=move |_| set_count.update(move |value| *value += 1.0) type_=button_type>"click"</Button>
             {move || count.get()}
-            <Modal title=Some("".to_string()) open=open on_cancel=Some(Box::new(move || { set_open.set(false) }))>
-                "sd" {move || count.get()}
-            </Modal>
+            <DemoModal />
             <Progress percentage=count/>
         </Space>
     }
