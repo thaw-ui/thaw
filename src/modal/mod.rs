@@ -3,6 +3,7 @@ use crate::teleport::*;
 use crate::utils::mount_style::mount_style;
 use leptos::*;
 use stylers::style_sheet_str;
+use leptos_icons::*;
 
 #[component]
 pub fn Modal(
@@ -30,7 +31,7 @@ pub fn Modal(
             cx,
             <>
                 <span style="cursor: pointer;" on:click=move |_| if let Some(on_cancel) = &on_cancel { on_cancel.set(())}>
-                    { "x" }
+                    <LeptosIcon icon=AiIcon::AiCloseOutlined/>
                 </span>
             </>
         }

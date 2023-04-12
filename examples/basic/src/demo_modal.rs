@@ -11,7 +11,7 @@ pub fn DemoModal(cx: Scope) -> impl IntoView {
         <Button on:click=move |_| set_open.update(move |value| *value = !*value)>
             "open modal"
         </Button>
-        <Modal title="" open=open on_cancel=on_cancel>
+        <Modal title="标题" open=open on_cancel=on_cancel>
             "sd"
         </Modal>
     }
