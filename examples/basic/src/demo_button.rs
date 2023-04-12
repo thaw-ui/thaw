@@ -14,6 +14,9 @@ pub fn DemoButton(cx: Scope) -> impl IntoView {
             <Button type_=ButtonType::TEXT>
                 "TEXT"
             </Button>
+            <Button type_=ButtonType::LINK>
+                "LINK"
+            </Button>
             <Button color=ButtonColor::PRIMARY>
                 "PRIMARY Color"
             </Button>

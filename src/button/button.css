@@ -13,10 +13,16 @@
     border-color: var(--border-color-hover);
 }
 
-.melt-button--text {
+.melt-button--text,
+.melt-button--link {
     border: none;
 }
 
 .melt-button--text:hover {
+    color: var(--font-color-hover);
+    background-color: #f2f2f2;
+}
+
+.melt-button--link:hover {
     color: var(--font-color-hover);
 }

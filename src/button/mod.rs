@@ -4,12 +4,13 @@ use leptos::*;
 use stylers::style_sheet_str;
 pub use theme::ButtonTheme;
 
-#[derive(Default, PartialEq, Clone)]
+#[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonType {
     #[default]
     PRIMARY,
     SOLID,
     TEXT,
+    LINK,
 }
 
 #[derive(Default, Clone)]
@@ -40,33 +41,30 @@ pub fn Button(
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
-    let css_vars;
-    {
-        let type_ = type_.clone().get();
-        css_vars = create_memo(cx, move |_| {
-            let mut css_vars = String::new();
-            let theme = theme.get();
-            let bg_color = color.get().theme_color(&theme);
-            if type_ == ButtonType::PRIMARY {
-                css_vars.push_str(&format!("--background-color: {bg_color};"));
-                css_vars.push_str(&format!("--font-color: #fff;"));
-                css_vars.push_str(&format!("--border-color: {bg_color};"));
-                css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
-            } else {
-                css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
-                css_vars.push_str(&format!("--border-color: #555a;"));
-                css_vars.push_str(&format!("--border-color-hover: #555;"));
-            }
+    let css_vars = create_memo(cx, move |_| {
+        let mut css_vars = String::new();
+        let theme = theme.get();
+        let bg_color = color.get().theme_color(&theme);
+        if type_.get() == ButtonType::PRIMARY {
+            css_vars.push_str(&format!("--background-color: {bg_color};"));
+            css_vars.push_str(&format!("--font-color: #fff;"));
+            css_vars.push_str(&format!("--border-color: {bg_color};"));
+            css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
+        } else {
+            css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
+            css_vars.push_str(&format!("--border-color: #555a;"));
+            css_vars.push_str(&format!("--border-color-hover: #555;"));
+        }
 
-            css_vars
-        });
-    }
+        css_vars
+    });
     let class_name = mount_style("button", || style_sheet_str!("./src/button/button.css"));
 
     view! {cx, class=class_name,
         <button
             class:melt-button=true
             class=("melt-button--text", move || type_.get() == ButtonType::TEXT)
+            class=("melt-button--link", move || type_.get() == ButtonType::LINK)
             style=move || css_vars.get()
             >
             {children(cx)}
