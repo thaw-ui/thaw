@@ -1,15 +1,16 @@
 .melt-button {
     height: 34px;
     padding: 0 16px;
-    background-color: #0000;
-    border: 1px solid #555a;
+    background-color: var(--background-color);
+    color: var(--font-color);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     cursor: pointer;
 }
 
 .melt-button:hover {
     transition: all 0.3s;
-    border-color: #555;
+    border-color: var(--border-color-hover);
 }
 
 .melt-button--text {
@@ -17,5 +18,5 @@
 }
 
 .melt-button--text:hover {
-    color: #4af;
+    color: var(--font-color-hover);
 }

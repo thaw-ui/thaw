@@ -1,11 +1,9 @@
 use leptos::*;
 use melt_ui::*;
+mod demo_button;
 mod demo_modal;
+pub use demo_button::*;
 pub use demo_modal::*;
-
-fn main() {
-    mount_to_body(|cx| view! { cx, <App/> })
-}
 
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
@@ -13,7 +11,7 @@ pub fn App(cx: Scope) -> impl IntoView {
     provide_context(cx, theme);
     let (count, set_count) = create_signal(cx, 0.0);
     let (button_type, set_button_type) = create_signal(cx, ButtonType::TEXT);
-    
+
     let count_string = create_memo(cx, move |_| {
         log!("sd");
         count.get().to_string()
@@ -40,9 +38,16 @@ pub fn App(cx: Scope) -> impl IntoView {
                 "click"
             </Button>
             {move || count.get()}
-            <DemoModal/>
+
             <Progress percentage=count/>
         </Space>
+        <hr />
+        <DemoButton />
+        <hr />
+        <DemoModal/>
     }
 }
 
+fn main() {
+    mount_to_body(|cx| view! { cx, <App/> })
+}

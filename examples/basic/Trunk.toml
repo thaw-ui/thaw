@@ -3,7 +3,8 @@ target = "index.html"
 
 [watch]
 watch = [
-    "../../src"
+    "../../src",
+    "./src"
 ]
 
 [serve]
