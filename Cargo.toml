@@ -17,7 +17,7 @@ leptos = { version = "0.2.5", features = ["stable"] }
 stylers = "0.3.1"
 web-sys = "0.3.61"
 leptos_dom = { version = "0.2.5" }
-leptos-icons = { git = "https://github.com/Carlosted/leptos-icons.git", features = ["AiCloseOutlined"] }
+leptos-icons = { git = "https://github.com/Carlosted/leptos-icons.git", features = ["AiCloseOutlined", "AiCheckOutlined"] }
 
 [workspace]
 members = ["examples/basic"]

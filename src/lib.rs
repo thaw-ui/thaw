@@ -1,5 +1,6 @@
 mod button;
 mod card;
+mod checkbox;
 mod input;
 mod modal;
 mod progress;
@@ -10,6 +11,7 @@ mod theme;
 mod utils;
 
 pub use button::*;
+pub use checkbox::*;
 pub use input::*;
 pub use modal::*;
 pub use progress::*;
