@@ -28,4 +28,5 @@
 .melt-checkbox__label {
     display: inline-block;
     padding: 0 6px;
+    user-select: none;
 }
