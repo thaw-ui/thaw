@@ -3,9 +3,12 @@ use melt_ui::*;
 mod demo_button;
 mod demo_checkbox;
 mod demo_modal;
+mod demo_slider;
+
 pub use demo_button::*;
 pub use demo_checkbox::*;
 pub use demo_modal::*;
+pub use demo_slider::*;
 
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
@@ -49,6 +52,8 @@ pub fn App(cx: Scope) -> impl IntoView {
         <DemoModal/>
         <hr />
         <DemoCheckout />
+        <hr />
+        <DemoSlider />
     }
 }
 

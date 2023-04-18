@@ -1,0 +1,25 @@
+.melt-slider {
+    position: relative;
+    padding: 6px 0;
+    cursor: pointer;
+}
+.melt-slider-rail {
+    height: 4px;
+    background-color: #e6e6e6;
+    border-radius: 2px;
+}
+.melt-slider-rail__fill {
+    width: 0%;
+    height: 4px;
+    background-color: var(--background-color-fill);
+    border-radius: 2px;
+}
+.melt-slider-handle {
+    position: absolute;
+    top: 0px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0px 0px 4px #2224;
+}
