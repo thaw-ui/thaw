@@ -10,6 +10,7 @@ mod table;
 mod teleport;
 mod theme;
 mod utils;
+mod wave;
 
 pub use button::*;
 pub use checkbox::*;
@@ -20,3 +21,4 @@ pub use slider::*;
 pub use space::*;
 pub use table::*;
 pub use theme::Theme;
+pub use wave::*;

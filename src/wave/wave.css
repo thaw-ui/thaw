@@ -1,0 +1,38 @@
+.melt-wave {
+    position: relative;
+}
+.melt-wave::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    transition: 0.2s;
+    background: #fff;
+    opacity: 0;
+}
+.melt-wave:active::before {
+    opacity: 0.2;
+}
+.melt-wave::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    left: var(--x, 0);
+    top: var(--y, 0);
+    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: translate(-50%, -50%) scale(10);
+    opacity: 0;
+    transition: transform 0.8s, opacity 0.8s;
+}
+.melt-wave:active::after {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.3;
+    transition: 0s;
+}
