@@ -39,8 +39,9 @@ pub fn Button(
     cx: Scope,
     #[prop(optional, into)] type_: MaybeSignal<ButtonType>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
+    #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(optional, into)] icon: Option<leptos_icons::Icon>,
-    children: Children,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
     let css_vars = create_memo(cx, move |_| {
@@ -62,23 +63,36 @@ pub fn Button(
     });
     let class_name = mount_style("button", || style_sheet_str!("./src/button/button.css"));
 
+    let icon_style= if children.is_some() {
+        "margin-right: 6px"
+    } else {
+        ""
+    };
+
     view! {cx, class=class_name,
         <button
             class:melt-button=true
             class=("melt-button--text", move || type_.get() == ButtonType::TEXT)
             class=("melt-button--link", move || type_.get() == ButtonType::LINK)
+            class=("melt-button--round", move || round.get())
             style=move || css_vars.get()
             >
             {
                 if let Some(icon) = icon {
                     view!{cx,
-                            <LeptosIcon icon=icon style="margin-right: 6px"/>
+                            <LeptosIcon icon=icon style=icon_style/>
                     }.into()
                 } else {
                     None
                 }
             }
-            {children(cx)}
+            {
+                if let Some(children) = children {
+                    children(cx).into()
+                } else {
+                    None
+                }
+            }
         </button>
     }
 }

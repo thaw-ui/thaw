@@ -31,3 +31,8 @@
 .melt-button--link:hover {
     color: var(--font-color-hover);
 }
+
+.melt-button--round {
+    padding: 0 10px;
+    border-radius: 50%;
+}

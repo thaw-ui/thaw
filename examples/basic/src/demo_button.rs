@@ -32,6 +32,8 @@ pub fn DemoButton(cx: Scope) -> impl IntoView {
             <Button color=ButtonColor::ERROR icon=leptos_icons::AiIcon::AiCloseOutlined>
                 "ERROR Color Icon"
             </Button>
+            <Button color=ButtonColor::ERROR icon=leptos_icons::AiIcon::AiCloseOutlined round=true>
+            </Button>
         </Space>
     }
 }
