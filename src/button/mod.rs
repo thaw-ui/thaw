@@ -1,6 +1,7 @@
 mod theme;
 use crate::{theme::*, utils::mount_style::mount_style};
 use leptos::*;
+use leptos_icons::*;
 use stylers::style_sheet_str;
 pub use theme::ButtonTheme;
 
@@ -38,6 +39,7 @@ pub fn Button(
     cx: Scope,
     #[prop(optional, into)] type_: MaybeSignal<ButtonType>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
+    #[prop(optional, into)] icon: Option<leptos_icons::Icon>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
@@ -67,6 +69,15 @@ pub fn Button(
             class=("melt-button--link", move || type_.get() == ButtonType::LINK)
             style=move || css_vars.get()
             >
+            {
+                if let Some(icon) = icon {
+                    view!{cx,
+                            <LeptosIcon icon=icon style="margin-right: 6px"/>
+                    }.into()
+                } else {
+                    None
+                }
+            }
             {children(cx)}
         </button>
     }

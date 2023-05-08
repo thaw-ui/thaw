@@ -6,6 +6,11 @@
     border: 1px solid var(--border-color);
     border-radius: 5px;
     cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
 }
 
 .melt-button:hover {
