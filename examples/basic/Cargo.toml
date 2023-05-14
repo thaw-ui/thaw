@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.2.5", features = ["stable"] }
+leptos = { version = "0.3.0", features = ["stable"] }
 melt-ui = { path = "../../" }
 leptos-icons = { git = "https://github.com/Carlosted/leptos-icons.git", features = ["AiCloseOutlined", "AiCheckOutlined"] }
