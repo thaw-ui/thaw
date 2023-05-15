@@ -40,7 +40,7 @@ pub fn Button(
     #[prop(optional, into)] type_: MaybeSignal<ButtonType>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
-    #[prop(optional, into)] icon: Option<leptos_icons::Icon>,
+    #[prop(optional, into)] icon: Option<IconData>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
@@ -80,7 +80,7 @@ pub fn Button(
             {
                 if let Some(icon) = icon {
                     view!{cx,
-                            <LeptosIcon icon=icon style=icon_style/>
+                            <Icon icon=icon style=icon_style/>
                     }.into()
                 } else {
                     None
