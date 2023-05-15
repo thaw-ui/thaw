@@ -1,6 +1,7 @@
 mod button;
 mod card;
 mod checkbox;
+mod components;
 mod input;
 mod modal;
 mod progress;

@@ -1,5 +1,5 @@
 mod theme;
-use crate::{theme::*, utils::mount_style::mount_style};
+use crate::{components::*, theme::*, utils::mount_style::mount_style};
 use leptos::*;
 use leptos_icons::*;
 use stylers::style_sheet_str;
@@ -63,7 +63,7 @@ pub fn Button(
     });
     let class_name = mount_style("button", || style_sheet_str!("./src/button/button.css"));
 
-    let icon_style= if children.is_some() {
+    let icon_style = if children.is_some() {
         "margin-right: 6px"
     } else {
         ""
@@ -77,22 +77,14 @@ pub fn Button(
             class=("melt-button--round", move || round.get())
             style=move || css_vars.get()
             >
-            {
-                if let Some(icon) = icon {
+                <OptionComp value=icon view=move |cx, icon| {
                     view!{cx,
-                            <Icon icon=icon style=icon_style/>
-                    }.into()
-                } else {
-                    None
-                }
-            }
-            {
-                if let Some(children) = children {
-                    children(cx).into()
-                } else {
-                    None
-                }
-            }
+                        <Icon icon=icon style=icon_style/>
+                    }
+                }/>
+                <OptionComp value=children view=move |cx, children| {
+                    children(cx).into_view(cx)
+                }/>
         </button>
     }
 }
