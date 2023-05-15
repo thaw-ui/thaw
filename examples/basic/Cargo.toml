@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 leptos = { version = "0.3.0", features = ["stable"] }
 melt-ui = { path = "../../" }
-leptos-icons = { git = "https://github.com/Carlosted/leptos-icons.git", features = ["AiCloseOutlined", "AiCheckOutlined"] }
+leptos_icons = { version = "0.0.10", features = ["AiCloseOutlined", "AiCheckOutlined"] }

@@ -31,7 +31,7 @@ pub fn Modal(
             cx,
             <>
                 <span style="cursor: pointer;" on:click=move |_| if let Some(on_cancel) = &on_cancel { on_cancel.set(())}>
-                    <LeptosIcon icon=AiIcon::AiCloseOutlined/>
+                    <Icon icon=AiIcon::AiCloseOutlined/>
                 </span>
             </>
         }

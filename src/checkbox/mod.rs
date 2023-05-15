@@ -35,7 +35,7 @@ pub fn Checkbox(
                     move || {
                         if checked.get() {
                             view! {cx,
-                                <LeptosIcon icon=AiIcon::AiCheckOutlined style="color: white"/>
+                                <Icon icon=AiIcon::AiCheckOutlined style="color: white"/>
                             }.into()
                         } else {
                             None
