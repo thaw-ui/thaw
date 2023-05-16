@@ -82,7 +82,7 @@ pub fn Button(
                         <Icon icon=icon style=icon_style/>
                     }
                 }/>
-                <OptionComp value=children view=move |cx, children| {
+                <OptionComp value=children view=|cx, children| {
                     children(cx).into_view(cx)
                 }/>
         </button>
