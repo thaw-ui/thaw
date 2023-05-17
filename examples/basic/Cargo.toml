@@ -9,3 +9,4 @@ edition = "2021"
 leptos = { version = "0.3.0", features = ["stable"] }
 melt-ui = { path = "../../" }
 leptos_icons = { version = "0.0.10", features = ["AiCloseOutlined", "AiCheckOutlined"] }
+leptos_router = { version = "0.3.0", features = ["csr"] }
