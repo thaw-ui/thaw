@@ -54,8 +54,8 @@ pub fn Slider(
     on_cleanup(cx, on_mouse_up);
 
     let on_mouse_move = window_event_listener("mousemove", move |ev| {
-        if is_mouse_move.get() {
-            if let Some(rail) = rail_ref.get() {
+        if is_mouse_move.get_untracked() {
+            if let Some(rail) = rail_ref.get_untracked() {
                 let ev = ev.unchecked_into::<web_sys::MouseEvent>();
                 let rect = rail.get_bounding_client_rect();
                 let ev_x = f64::from(ev.x());
@@ -66,7 +66,7 @@ pub fn Slider(
                 } else {
                     set_mouse_move_value.set(Some(((ev_x - rect.x()) / rect.width()) * max.get()));
                 }
-                if let Some(value) = mouse_move_value.get() {
+                if let Some(value) = mouse_move_value.get_untracked() {
                     do_update_value(value);
                 }
             };
