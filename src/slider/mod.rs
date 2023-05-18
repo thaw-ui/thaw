@@ -47,13 +47,13 @@ pub fn Slider(
     let on_mouse_down = move |_| {
         set_mouse_move.set(true);
     };
-
-    let on_mouse_up = window_event_listener("mouseup", move |_| {
+    
+    let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
         set_mouse_move.set(false);
     });
     on_cleanup(cx, on_mouse_up);
 
-    let on_mouse_move = window_event_listener("mousemove", move |ev| {
+    let on_mouse_move = window_event_listener(ev::mousemove, move |ev| {
         if is_mouse_move.get_untracked() {
             if let Some(rail) = rail_ref.get_untracked() {
                 let ev = ev.unchecked_into::<web_sys::MouseEvent>();
