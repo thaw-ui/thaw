@@ -10,6 +10,9 @@ pub fn App(cx: Scope) -> impl IntoView {
                 <Route path="/" view=move |cx| view! {cx,
                     <Home />
                 } />
+                <Route path="/menu" view=move |cx| view! {cx,
+                    <MenuPage />
+                } />
                 <Route path="/slider" view=move |cx| view! {cx,
                     <SliderPage />
                 } />

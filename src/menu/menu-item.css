@@ -1,0 +1,16 @@
+.melt-menu-item__content {
+    margin: 6px 8px;
+    padding: 12px 10px;
+    padding-left: 14px;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
+.melt-menu-item__content:hover {
+    color: var(--font-color);
+}
+
+.melt-menu-item__content--selected {
+    color: var(--font-color);
+    background-color: var(--bg-color);
+}
