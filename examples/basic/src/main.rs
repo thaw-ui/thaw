@@ -4,6 +4,7 @@ mod demo_checkbox;
 mod demo_modal;
 mod demo_slider;
 mod pages;
+mod components;
 
 use app::*;
 use leptos::*;
