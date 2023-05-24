@@ -1,21 +1,39 @@
 use leptos::*;
-use leptos_router::{Outlet, use_route, use_router};
+use leptos_router::{use_location, Outlet, use_navigate};
 use melt_ui::*;
+use regex::Regex;
 
 #[component]
 pub fn ComponentsPage(cx: Scope) -> impl IntoView {
-    let router = use_router(cx);
-    let route = use_route(cx);
+    let loaction = use_location(cx);
+    let navigate = use_navigate(cx);
     let selected = create_rw_signal(cx, String::from(""));
     create_effect(cx, move |_| {
-        let path = route.original_path();
-        let path2 = route.path();
-        log!("{:?} {}", path, path2);
+        let pathname = loaction.pathname.get();
+
+        let re = Regex::new(r"^/components/(.+)$").unwrap();
+        let Some(caps) = re.captures(&pathname) else {
+            return;
+        };
+        let Some(path) = caps.get(1) else {
+            return;
+        };
+        let path = path.as_str().to_string();
+        selected.set(path);
+    });
+
+    create_effect(cx, move |value| {
+        let selected = selected.get();
+        if value.is_some() {
+            _ = navigate(&format!("/components/{selected}"), Default::default());
+        }
+        selected
     });
     view! {cx,
         <div class="components-page-box">
             <aside>
                 <Menu selected>
+                    <MenuItem key="menu" label="menu" />
                     <MenuItem key="slider" label="slider" />
                 </Menu>
             </aside>

@@ -13,7 +13,7 @@ pub fn MenuItem(
     let theme = use_theme(cx, Theme::light);
     let menu = use_menu(cx);
     let onclick_select = move |_| {
-        menu.set(MenuInjectionKey::from_string(cx, key.get().to_string()));
+        menu.set(MenuInjectionKey::new(key.get().to_string()));
     };
 
     let css_vars = create_memo(cx, move |_| {
@@ -28,7 +28,7 @@ pub fn MenuItem(
     });
     view! {cx, class=class_name,
         <div class="melt-menu-item">
-            <div class="melt-menu-item__content" class=("melt-menu-item__content--selected", move || menu.get().value() == key.get()) on:click=onclick_select style=move || css_vars.get()>
+            <div class="melt-menu-item__content" class=("melt-menu-item__content--selected", move || menu.get().value == key.get()) on:click=onclick_select style=move || css_vars.get()>
                 { move || label.get() }
             </div>
         </div>

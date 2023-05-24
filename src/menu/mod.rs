@@ -9,7 +9,22 @@ pub fn Menu(
     #[prop(into)] selected: RwSignal<String>,
     children: Children,
 ) -> impl IntoView {
-    let menu_injection_key = create_rw_signal(cx, MenuInjectionKey::new(selected));
+    let menu_injection_key = create_rw_signal(cx, MenuInjectionKey::new(selected.get()));
+    create_effect(cx, move |_| {
+        let selected_key = selected.get();
+        let key = menu_injection_key.get_untracked();
+        if selected_key != key.value {
+            menu_injection_key.set(MenuInjectionKey::new(selected_key));
+        }
+    });
+
+    create_effect(cx, move |_| {
+        let selected_key = selected.get_untracked();
+        let key = menu_injection_key.get();
+        if selected_key != key.value {
+            selected.set(key.value);
+        }
+    });
     provide_context(cx, menu_injection_key);
     view! {cx,
         <div class="melt-menu">
@@ -20,23 +35,13 @@ pub fn Menu(
 
 #[derive(Clone)]
 pub struct MenuInjectionKey {
-    value: RwSignal<String>,
+    value: String,
 }
 
 
 impl MenuInjectionKey {
-    pub fn new(value: RwSignal<String>) -> Self {
+    pub fn new(value: String) -> Self {
         Self { value }
-    }
-
-    pub fn from_string(cx: Scope, value: String) -> Self {
-        Self {
-            value: create_rw_signal(cx, value),
-        }
-    }
-
-    pub fn value(&self) -> String {
-        self.value.get()
     }
 }
 
