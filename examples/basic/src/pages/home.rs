@@ -3,6 +3,7 @@ use crate::demo_checkbox::*;
 use crate::demo_modal::*;
 use crate::demo_slider::*;
 use leptos::*;
+use leptos_router::use_navigate;
 use melt_ui::*;
 
 #[component]
@@ -13,13 +14,19 @@ pub fn Home(cx: Scope) -> impl IntoView {
     let (button_type, set_button_type) = create_signal(cx, ButtonType::TEXT);
 
     let count_string = create_memo(cx, move |_| {
-        log!("sd");
         count.get().to_string()
     });
     let on_input = SignalSetter::map(cx, move |value: String| {
         set_count.set(value.parse().unwrap());
     });
     view! { cx,
+        <Button on:click=move |_| {
+            let navigate = use_navigate(cx);
+            _ = navigate("/components/menu", Default::default());
+        }>
+            "components"
+        </Button>
+        <hr />
         <Space>
             <Input value=count_string on_input=on_input/>
             <Button
