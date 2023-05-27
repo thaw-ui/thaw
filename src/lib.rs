@@ -4,6 +4,7 @@ mod checkbox;
 mod components;
 mod input;
 mod menu;
+pub mod mobile;
 mod modal;
 mod progress;
 mod slider;

@@ -1,0 +1,17 @@
+.melt-tabbar-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.melt-tabbar-item--selected {
+    color: var(--font-color-selected)
+}
+
+.melt-tabbar-item__content {
+    font-size: 14px;
+    line-height: 14px;
+}

@@ -1,4 +1,3 @@
-use crate::components::*;
 use crate::pages::*;
 use leptos::*;
 use leptos_router::*;
@@ -26,7 +25,15 @@ pub fn App(cx: Scope) -> impl IntoView {
                     <Route path="/slider" view=move |cx| view! {cx,
                         <SliderPage />
                     } />
+                    <Route path="/tabbar" view=move |cx| view! {cx,
+                        <MobilePage path="/mobile/tabbar" />
+                    } />
                 </Route>
+            </Routes>
+            <Routes base="/mobile".to_string()>
+                <Route path="/tabbar" view=move |cx| view! {cx,
+                    <TabbarPage />
+                } />
             </Routes>
         </Router>
     }
