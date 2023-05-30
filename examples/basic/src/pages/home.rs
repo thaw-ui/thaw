@@ -12,13 +12,6 @@ pub fn Home(cx: Scope) -> impl IntoView {
     provide_context(cx, theme);
     let (count, set_count) = create_signal(cx, 0.0);
     let (button_type, set_button_type) = create_signal(cx, ButtonType::TEXT);
-
-    let count_string = create_memo(cx, move |_| {
-        count.get().to_string()
-    });
-    let on_input = SignalSetter::map(cx, move |value: String| {
-        set_count.set(value.parse().unwrap());
-    });
     view! { cx,
         <Button on:click=move |_| {
             let navigate = use_navigate(cx);
@@ -28,7 +21,6 @@ pub fn Home(cx: Scope) -> impl IntoView {
         </Button>
         <hr />
         <Space>
-            <Input value=count_string on_input=on_input/>
             <Button
                 on:click=move |_| set_theme.update(move |value| *value = Theme::dark())
                 type_=button_type
