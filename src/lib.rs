@@ -2,6 +2,7 @@ mod button;
 mod card;
 mod checkbox;
 mod components;
+mod image;
 mod input;
 mod menu;
 pub mod mobile;
@@ -17,6 +18,7 @@ mod wave;
 
 pub use button::*;
 pub use checkbox::*;
+pub use image::*;
 pub use input::*;
 pub use menu::*;
 pub use modal::*;
