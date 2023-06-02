@@ -1,6 +1,5 @@
 use crate::demo_button::*;
 use crate::demo_checkbox::*;
-use crate::demo_modal::*;
 use crate::demo_slider::*;
 use leptos::*;
 use leptos_router::use_navigate;
@@ -42,8 +41,6 @@ pub fn Home(cx: Scope) -> impl IntoView {
         </Space>
         <hr />
         <DemoButton />
-        <hr />
-        <DemoModal/>
         <hr />
         <DemoCheckout />
         <hr />

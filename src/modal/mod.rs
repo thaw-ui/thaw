@@ -11,8 +11,7 @@ pub fn Modal(
     #[prop(optional, into)] title: Option<MaybeSignal<String>>,
     children: Children,
     #[prop(optional)] footer: Option<Children>,
-    #[prop(optional, into)] open: MaybeSignal<bool>,
-    #[prop(optional)] on_cancel: Option<SignalSetter<()>>,
+    #[prop(into)] show: RwSignal<bool>,
 ) -> impl IntoView {
     let class_name = mount_style("modal", || style_sheet_str!("./src/modal/modal.css"));
     let header = move |cx| {
@@ -30,7 +29,7 @@ pub fn Modal(
         view! {
             cx,
             <>
-                <span style="cursor: pointer;" on:click=move |_| if let Some(on_cancel) = &on_cancel { on_cancel.set(())}>
+                <span style="cursor: pointer;" on:click=move |_| show.set(false)>
                     <Icon icon=AiIcon::AiCloseOutlined/>
                 </span>
             </>
@@ -39,7 +38,7 @@ pub fn Modal(
     view! {
         cx, class=class_name,
         <Teleport>
-            <div class="melt-modal-container" style=move || if open.get() { "" } else { "display: none" }>
+            <div class="melt-modal-container" style=move || if show.get() { "" } else { "display: none" }>
                 <div class="melt-modal-mask"></div>
                 <div class="melt-modal-body">
                     <Card header=Some(Box::new(header)) header_extra=Some(Box::new(header_extra)) footer=footer>

@@ -38,6 +38,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
                     <MenuItem key="tabbar" label="tabbar" />
                     <MenuItem key="input" label="input" />
                     <MenuItem key="image" label="image" />
+                    <MenuItem key="modal" label="madal" />
                 </Menu>
             </aside>
             <main>
