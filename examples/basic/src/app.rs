@@ -28,6 +28,9 @@ pub fn App(cx: Scope) -> impl IntoView {
                     <Route path="/tabbar" view=move |cx| view! {cx,
                         <MobilePage path="/mobile/tabbar" />
                     } />
+                    <Route path="/nav-bar" view=move |cx| view! {cx,
+                        <MobilePage path="/mobile/nav-bar" />
+                    } />
                     <Route path="/input" view=move |cx| view! {cx,
                         <InputPage />
                     } />
@@ -42,6 +45,9 @@ pub fn App(cx: Scope) -> impl IntoView {
             <Routes base="/mobile".to_string()>
                 <Route path="/tabbar" view=move |cx| view! {cx,
                     <TabbarPage />
+                } />
+                <Route path="/nav-bar" view=move |cx| view! {cx,
+                    <NavBarPage />
                 } />
             </Routes>
         </Router>

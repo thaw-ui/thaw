@@ -1,5 +1,5 @@
 use leptos::*;
-use leptos_router::{use_location, Outlet, use_navigate};
+use leptos_router::{use_location, use_navigate, Outlet};
 use melt_ui::*;
 use regex::Regex;
 
@@ -39,6 +39,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
                     <MenuItem key="input" label="input" />
                     <MenuItem key="image" label="image" />
                     <MenuItem key="modal" label="madal" />
+                    <MenuItem key="nav-bar" label="nav-bar" />
                 </Menu>
             </aside>
             <main>

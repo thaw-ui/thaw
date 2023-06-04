@@ -1,0 +1,40 @@
+.melt-nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 46px;
+    line-height: 46px;
+    background-color: #fff;
+}
+
+.melt-nav-bar__center {
+    max-width: 60%;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.melt-nav-bar__left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0 12px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+}
+
+.melt-nav-bar__right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0 12px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+}

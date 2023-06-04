@@ -17,7 +17,7 @@ leptos = { version = "0.3.0", features = ["stable"] }
 stylers = "0.3.1"
 web-sys = { version = "0.3.62", features = ["DomRect"] }
 leptos_dom = { version = "0.3.0" }
-leptos_icons = { version = "0.0.10", features = ["AiCloseOutlined", "AiCheckOutlined"] }
+leptos_icons = { version = "0.0.10", features = ["AiCloseOutlined", "AiCheckOutlined", "AiLeftOutlined"] }
 wasm-bindgen = "0.2.85"
 
 [workspace]
