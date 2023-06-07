@@ -1,3 +1,4 @@
+mod button;
 mod components;
 mod home;
 mod image;
@@ -9,6 +10,7 @@ mod nav_bar;
 mod slider;
 mod tabbar;
 
+pub use button::*;
 pub use components::*;
 pub use home::*;
 pub use image::*;

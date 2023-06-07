@@ -2,7 +2,7 @@ use leptos::*;
 use melt_ui::*;
 
 #[component]
-pub fn DemoButton(cx: Scope) -> impl IntoView {
+pub fn ButtonPage(cx: Scope) -> impl IntoView {
     view! {cx,
         <Space>
             <Button type_=ButtonType::PRIMARY>
@@ -35,5 +35,9 @@ pub fn DemoButton(cx: Scope) -> impl IntoView {
             <Button color=ButtonColor::ERROR icon=leptos_icons::AiIcon::AiCloseOutlined round=true>
             </Button>
         </Space>
+        <div style="padding-top: 12px">
+            <Button style="background: blue;">"style blue"</Button>
+            <Button style="width: 40px; height: 20px">"size"</Button>
+        </div>
     }
 }

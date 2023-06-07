@@ -1,5 +1,4 @@
 mod app;
-mod demo_button;
 mod demo_checkbox;
 mod demo_slider;
 mod pages;

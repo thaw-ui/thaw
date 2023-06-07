@@ -37,6 +37,7 @@ impl ButtonColor {
 #[component]
 pub fn Button(
     cx: Scope,
+    #[prop(optional, into)] style: MaybeSignal<String>,
     #[prop(optional, into)] type_: MaybeSignal<ButtonType>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
@@ -75,7 +76,7 @@ pub fn Button(
             class=("melt-button--text", move || type_.get() == ButtonType::TEXT)
             class=("melt-button--link", move || type_.get() == ButtonType::LINK)
             class=("melt-button--round", move || round.get())
-            style=move || css_vars.get()
+            style=move || format!("{}{}", css_vars.get(), style.get())
             >
                 <OptionComp value=icon view=move |cx, icon| {
                     view!{cx,

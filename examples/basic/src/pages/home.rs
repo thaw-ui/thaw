@@ -1,4 +1,3 @@
-use crate::demo_button::*;
 use crate::demo_checkbox::*;
 use crate::demo_slider::*;
 use leptos::*;
@@ -39,8 +38,6 @@ pub fn Home(cx: Scope) -> impl IntoView {
 
             <Progress percentage=count/>
         </Space>
-        <hr />
-        <DemoButton />
         <hr />
         <DemoCheckout />
         <hr />

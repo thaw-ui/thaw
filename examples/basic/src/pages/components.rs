@@ -40,6 +40,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
                     <MenuItem key="image" label="image" />
                     <MenuItem key="modal" label="madal" />
                     <MenuItem key="nav-bar" label="nav-bar" />
+                    <MenuItem key="button" label="button" />
                 </Menu>
             </aside>
             <main>
