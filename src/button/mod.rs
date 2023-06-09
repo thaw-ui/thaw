@@ -41,8 +41,8 @@ pub fn Button(
     #[prop(optional, into)] type_: MaybeSignal<ButtonType>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
-    #[prop(optional, into)] icon: Option<IconData>,
-    #[prop(optional)] children: Option<Children>,
+    #[prop(optional, into)] icon: Option<Icon>,
+    #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
     let css_vars = create_memo(cx, move |_| {
@@ -78,14 +78,12 @@ pub fn Button(
             class=("melt-button--round", move || round.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
             >
-                <OptionComp value=icon view=move |cx, icon| {
-                    view!{cx,
-                        <Icon icon=icon style=icon_style/>
-                    }
-                }/>
-                <OptionComp value=children view=|cx, children| {
-                    children(cx).into_view(cx)
-                }/>
+                <OptionComp value=icon bind:icon>
+                    <Icon icon=icon style=icon_style/>
+                </OptionComp>
+                <OptionComp value=children bind:children>
+                    { children(cx) }
+                </OptionComp>
         </button>
     }
 }

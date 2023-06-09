@@ -21,20 +21,18 @@ pub fn Card(
                         cx, class=class_name,
                         <div class="melt-card__header">
                             <div class="melt-card__header-content">
-                                <OptionComp value=header view=|cx, header| {
-                                    header(cx).into_view(cx)
-                                }>
-                                    { title.get() }
+                                <OptionComp value=header bind:header>
+                                    <Fallback slot>
+                                        { title.get() }
+                                    </Fallback>
+                                    { header(cx) }
                                 </OptionComp>
                             </div>
-                            <OptionComp value=header_extra view=move |cx, header_extra| {
-                                view! {
-                                    cx, class=class_name,
-                                    <div class="melt-card__header-extra">
-                                        { header_extra(cx)}
-                                    </div>
-                                }
-                            }/>
+                            <OptionComp value=header_extra bind:header_extra>
+                                <div class="melt-card__header-extra">
+                                    { header_extra(cx) }
+                                </div>
+                            </OptionComp>
                         </div>
                     }.into()
                 } else {
@@ -44,14 +42,11 @@ pub fn Card(
             <div class="melt-card__content">
                 { children(cx) }
             </div>
-            <OptionComp value=footer view=move |cx, footer| {
-                view! {
-                    cx, class=class_name,
-                    <div class="melt-card__footer">
-                        { footer(cx) }
-                    </div>
-                }
-            }/>
+            <OptionComp value=footer bind:footer>
+                <div class="melt-card__footer">
+                    { footer(cx) }
+                </div>
+            </OptionComp>
          </div>
     }
 }

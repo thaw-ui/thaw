@@ -9,7 +9,7 @@ use leptos_icons::*;
 pub fn TabbarItem(
     cx: Scope,
     #[prop(into)] name: MaybeSignal<&'static str>,
-    #[prop(optional, into)] icon: Option<IconData>,
+    #[prop(optional, into)] icon: Option<Icon>,
     children: Children,
 ) -> impl IntoView {
     let class_name = mount_style("tabbar-item", || style_sheet_str!("./src/mobile/tabbar/tabbar-item.css"));
@@ -29,11 +29,9 @@ pub fn TabbarItem(
 
     view! {cx, class=class_name,
         <div class="melt-tabbar-item" class=("melt-tabbar-item--selected", move || tabbar.get().value == name.get()) on:click=onclick_select style=move || css_vars.get()>
-            <OptionComp value=icon view=move |cx, icon| {
-                view!{cx,
-                    <Icon icon=icon width="22px" height="22px" class="melt-tabbar-item__icon"/>
-                }
-            }/>
+            <OptionComp value=icon bind:icon>
+                <Icon icon=icon width="22px" height="22px" class="melt-tabbar-item__icon"/>
+            </OptionComp>
             <div class="melt-tabbar-item__content">
                 { children(cx) }
             </div>

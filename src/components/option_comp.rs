@@ -1,20 +1,21 @@
 use leptos::*;
+use super::Fallback;
 
 #[component]
-pub fn OptionComp<T, VF, IV>(
+pub fn OptionComp<T, CF, IV>(
     cx: Scope,
     value: Option<T>,
-    view: VF,
-    #[prop(optional)] children: Option<Children>,
+    children: CF,
+    #[prop(optional)] fallback: Option<Fallback>,
 ) -> impl IntoView
 where
-    VF: FnOnce(Scope, T) -> IV + 'static,
+    CF: Fn(Scope, T) -> IV + 'static,
     IV: IntoView,
 {
     if let Some(value) = value {
-        view(cx, value).into_view(cx)
-    } else if let Some(children) = children {
-        children(cx).into_view(cx)
+        children(cx, value).into_view(cx)
+    } else if let Some(fallback) = fallback {
+        (fallback.children)(cx).into_view(cx)
     } else {
         ().into_view(cx)
     }
