@@ -10,8 +10,7 @@ use wasm_bindgen::JsCast;
 #[component]
 pub fn Slider(
     cx: Scope,
-    #[prop(optional, into)] value: MaybeSignal<f64>,
-    #[prop(optional)] on_value: Option<SignalSetter<f64>>,
+    #[prop(into)] value: RwSignal<f64>,
     #[prop(default = MaybeSignal::Static(100f64), into)] max: MaybeSignal<f64>,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
@@ -35,10 +34,8 @@ pub fn Slider(
     });
     let class_name = mount_style("slider", || style_sheet_str!("./src/slider/slider.css"));
 
-    let do_update_value = move |value| {
-        if let Some(on_value) = on_value {
-            on_value.set(value);
-        }
+    let do_update_value = move |val| {
+        value.set(val);
     };
 
     let rail_ref = create_node_ref::<html::Div>(cx);
@@ -47,7 +44,7 @@ pub fn Slider(
     let on_mouse_down = move |_| {
         set_mouse_move.set(true);
     };
-    
+
     let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
         set_mouse_move.set(false);
     });

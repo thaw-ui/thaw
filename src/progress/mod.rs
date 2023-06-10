@@ -1,12 +1,12 @@
-use crate::utils::mount_style::mount_style;
+use crate::{utils::mount_style::mount_style, components::*};
 use leptos::*;
 use stylers::style_sheet_str;
 
 #[component]
 pub fn Progress(
     cx: Scope,
-    #[prop(optional)] left_tip: Option<ReadSignal<String>>,
-    #[prop(optional)] right_tip: Option<ReadSignal<String>>,
+    #[prop(optional, into)] left_tip: MaybeSignal<&'static str>,
+    #[prop(optional, into)] right_tip: MaybeSignal<&'static str>,
     percentage: ReadSignal<f64>,
 ) -> impl IntoView {
     let class_name = mount_style("progress", || style_sheet_str!("./src/progress/progress.css"));
@@ -15,15 +15,11 @@ pub fn Progress(
         cx, class=class_name,
         <div class="melt-progress">
             <span class="melt-progress__tip-left">
-                {
-                    move || {
-                        if let Some(left_tip) = left_tip {
-                            left_tip.get()
-                        }  else {
-                            "".into()
-                        }
-                    }
-                }
+                <If cond=MaybeSignal::derive(cx, move || !left_tip.get().is_empty())>
+                    <Then slot>
+                        { left_tip.get() }
+                    </Then>
+                </If>
             </span>
             <span class="melt-progress__progress">
                 <span class="melt-progress__progress-inner" style=style>
@@ -31,15 +27,11 @@ pub fn Progress(
                 </span>
             </span>
             <span class="melt-progress__tip-right">
-                {
-                    move || {
-                        if let Some(right_tip) = right_tip {
-                            right_tip.get()
-                        }  else {
-                            "".into()
-                        }
-                    }
-                }
+                <If cond=MaybeSignal::derive(cx, move || !right_tip.get().is_empty())>
+                    <Then slot>
+                        { right_tip.get() }
+                    </Then>
+                </If>
             </span>
          </div>
     }

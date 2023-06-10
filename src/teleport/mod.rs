@@ -3,9 +3,16 @@ use web_sys::Element;
 
 /// https://github.com/solidjs/solid/blob/main/packages/solid/web/src/index.ts#L56
 #[component]
-pub fn Teleport(cx: Scope, #[prop(optional)] to: Option<String>, children: Children) -> impl IntoView {
+pub fn Teleport(
+    cx: Scope,
+    #[prop(optional)] to: Option<&'static str>,
+    children: Children,
+) -> impl IntoView {
     let parent = if let Some(to) = to {
-        document().query_selector(to.as_str()).expect("element not to exist").expect("element not to exist")
+        document()
+            .query_selector(to)
+            .expect("element not to exist")
+            .expect("element not to exist")
     } else {
         Element::from(document().body().expect("body element not to exist"))
     };
@@ -23,6 +30,6 @@ pub fn Teleport(cx: Scope, #[prop(optional)] to: Option<String>, children: Child
         _ = parent;
         _ = children;
     }
-    
+
     view! { cx, <></> }
 }
