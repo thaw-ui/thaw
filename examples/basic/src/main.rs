@@ -1,6 +1,4 @@
 mod app;
-mod demo_checkbox;
-mod demo_slider;
 mod pages;
 
 use app::*;

@@ -15,7 +15,7 @@ pub struct ElseIf {
 #[component]
 pub fn If(
     cx: Scope,
-    cond: MaybeSignal<bool>,
+    #[prop(into)] cond: MaybeSignal<bool>,
     then: Then,
     #[prop(default=vec![])] else_if: Vec<ElseIf>,
     #[prop(optional)] fallback: Option<Fallback>,

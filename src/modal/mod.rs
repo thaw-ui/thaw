@@ -1,48 +1,49 @@
 use crate::card::*;
+use crate::components::OptionComp;
 use crate::teleport::*;
 use crate::utils::mount_style::mount_style;
 use leptos::*;
 use stylers::style_sheet_str;
 use leptos_icons::*;
 
+#[slot]
+pub struct ModalFooter {
+    children: ChildrenFn,
+}
+
 #[component]
 pub fn Modal(
     cx: Scope,
-    #[prop(optional, into)] title: Option<MaybeSignal<String>>,
-    children: Children,
-    #[prop(optional)] footer: Option<Children>,
     #[prop(into)] show: RwSignal<bool>,
+    #[prop(optional, into)] title: MaybeSignal<&'static str>,
+    children: Children,
+    #[prop(optional)] modal_footer: Option<ModalFooter>,
 ) -> impl IntoView {
     let class_name = mount_style("modal", || style_sheet_str!("./src/modal/modal.css"));
-    let header = move |cx| {
-        view! {
-            cx, class=class_name,
-            <>
-                <span class="melt-model-title">
-                    {title}
-                </span>
-            </>
-        }
-    };
 
-    let header_extra = move |cx| {
-        view! {
-            cx,
-            <>
-                <span style="cursor: pointer;" on:click=move |_| show.set(false)>
-                    <Icon icon=AiIcon::AiCloseOutlined/>
-                </span>
-            </>
-        }
-    };
     view! {
         cx, class=class_name,
         <Teleport>
             <div class="melt-modal-container" style=move || if show.get() { "" } else { "display: none" }>
                 <div class="melt-modal-mask"></div>
                 <div class="melt-modal-body">
-                    <Card header=Some(Box::new(header)) header_extra=Some(Box::new(header_extra)) footer=footer>
-                        {children(cx)}
+                    <Card>
+                        <CardHeader slot>
+                            <span class="melt-model-title">
+                                { title.get() }
+                            </span>
+                        </CardHeader>
+                        <CardHeaderExtra slot>
+                            <span style="cursor: pointer;" on:click=move |_| show.set(false)>
+                                <Icon icon=AiIcon::AiCloseOutlined/>
+                            </span>
+                        </CardHeaderExtra>
+                        { children(cx) }
+                        <CardFooter slot if_=modal_footer.is_some()>
+                            <OptionComp value=modal_footer.as_ref() bind:footer>
+                                { (footer.children)(cx) }
+                            </OptionComp>
+                        </CardFooter>
                     </Card>
                 </div>
             </div>

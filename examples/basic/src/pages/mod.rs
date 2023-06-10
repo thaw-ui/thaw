@@ -1,4 +1,5 @@
 mod button;
+mod checkbox;
 mod components;
 mod home;
 mod image;
@@ -11,6 +12,7 @@ mod slider;
 mod tabbar;
 
 pub use button::*;
+pub use checkbox::*;
 pub use components::*;
 pub use home::*;
 pub use image::*;

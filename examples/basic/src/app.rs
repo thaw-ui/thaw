@@ -43,6 +43,9 @@ pub fn App(cx: Scope) -> impl IntoView {
                     <Route path="/button" view=move |cx| view! {cx,
                         <ButtonPage />
                     } />
+                    <Route path="/checkbox" view=move |cx| view! {cx,
+                        <CheckboxPage />
+                    } />
                 </Route>
             </Routes>
             <Routes base="/mobile".to_string()>

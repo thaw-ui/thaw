@@ -1,13 +1,12 @@
-use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
+use crate::{theme::use_theme, utils::mount_style::mount_style, Theme, components::*};
 use leptos::*;
-use stylers::style_sheet_str;
 use leptos_icons::*;
+use stylers::style_sheet_str;
 
 #[component]
 pub fn Checkbox(
     cx: Scope,
-    #[prop(optional, into)] checked: MaybeSignal<bool>,
-    #[prop(optional, into)] on_checked: Option<SignalSetter<bool>>,
+    #[prop(into)] checked: RwSignal<bool>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
@@ -22,29 +21,20 @@ pub fn Checkbox(
         css_vars.push_str(&format!("--background-color-checked: {bg_color};"));
         css_vars
     });
-    let on_click = move |_| {
-        if let Some(on_checked) = on_checked {
-            on_checked.set(!checked.get());
-        }
-    };
+
     view! {cx, class=class_name,
-        <div class:melt-checkbox=true class=("melt-checkbox--checked", move || checked.get()) style=move || css_vars.get() on:click=on_click>
+        <div class:melt-checkbox=true class=("melt-checkbox--checked", move || checked.get()) style=move || css_vars.get()
+            on:click=move |_| checked.set(!checked.get_untracked())>
             <input class="melt-checkbox__input" type="checkbox" />
             <div class="melt-checkbox__dot">
-                {
-                    move || {
-                        if checked.get() {
-                            view! {cx,
-                                <Icon icon=AiIcon::AiCheckOutlined style="color: white"/>
-                            }.into()
-                        } else {
-                            None
-                        }
-                    }
-                }
+                <If cond=checked>
+                    <Then slot>
+                        <Icon icon=AiIcon::AiCheckOutlined style="color: white"/>
+                    </Then>
+                </If>
             </div>
             <div class="melt-checkbox__label">
-                {children(cx)}
+                { children(cx) }
             </div>
         </div>
     }
