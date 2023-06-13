@@ -26,10 +26,10 @@ pub fn App(cx: Scope) -> impl IntoView {
                         <SliderPage />
                     } />
                     <Route path="/tabbar" view=move |cx| view! {cx,
-                        <MobilePage path="/melt-ui/mobile/tabbar" />
+                        <MobilePage path="/melt-ui?path=/mobile/tabbar" />
                     } />
                     <Route path="/nav-bar" view=move |cx| view! {cx,
-                        <MobilePage path="/melt-ui/mobile/nav-bar" />
+                        <MobilePage path="/melt-ui?path=/mobile/nav-bar" />
                     } />
                     <Route path="/input" view=move |cx| view! {cx,
                         <InputPage />
