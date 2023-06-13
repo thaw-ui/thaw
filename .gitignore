@@ -10,3 +10,5 @@ Cargo.lock
 **/*.rs.bk
 
 /examples/**/dist
+/gh-pages/dist
+/docs

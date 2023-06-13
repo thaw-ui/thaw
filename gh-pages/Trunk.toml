@@ -1,0 +1,16 @@
+[build]
+target = "index.html"
+public_url = "/melt-ui/"
+dist = "../docs"
+release = true
+
+[watch]
+watch = [
+    "../src",
+    "./src"
+]
+
+[serve]
+address = "127.0.0.1"
+port = 6421
+open = false
