@@ -42,6 +42,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
                     <MenuItem key="nav-bar" label="nav-bar" />
                     <MenuItem key="button" label="button" />
                     <MenuItem key="checkbox" label="checkbox" />
+                    <MenuItem key="toast" label="toast" />
                 </Menu>
             </aside>
             <main>

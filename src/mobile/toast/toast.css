@@ -1,0 +1,15 @@
+.melt-toast {
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-width: 80%;
+    font-size: 14px;
+    line-height: 20px;
+    color: #fff;
+    background-color: #000000b3;
+    padding: 8px 12px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    border-radius: 8px;
+}
