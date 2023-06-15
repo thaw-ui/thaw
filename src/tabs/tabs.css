@@ -1,0 +1,20 @@
+.melt-tabs__label-list {
+    position: relative;
+}
+
+.melt-tabs__label {
+    padding: 0 20px;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.melt-tabs-label__active {
+    position: absolute;
+    height: 3px;
+    background-color: var(--label-active-background-color);
+    border-radius: 3px;
+    bottom: 0;
+    left: 0;
+}
