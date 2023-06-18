@@ -12,37 +12,27 @@ pub fn Home(cx: Scope) -> impl IntoView {
             _ = navigate(&path.get_value(), Default::default());
         });
     }
-    let (theme, set_theme) = create_signal(cx, Theme::light());
-    provide_context(cx, theme);
-    let (count, set_count) = create_signal(cx, 0.0);
-    let (button_type, set_button_type) = create_signal(cx, ButtonType::TEXT);
     view! { cx,
-        <Button on:click=move |_| {
-            let navigate = use_navigate(cx);
-            _ = navigate("/components/menu", Default::default());
-        }>
-            "components"
-        </Button>
-        <hr />
-        <Space>
-            <Button
-                on:click=move |_| set_theme.update(move |value| *value = Theme::dark())
-                type_=button_type
-            >
-                "theme"
-            </Button>
-            <Button on:click=move |_| set_button_type.update(move |value| *value = ButtonType::PRIMARY)>
-                "click"
-            </Button>
-            <Button
-                on:click=move |_| set_count.update(move |value| *value += 1.0)
-                type_=button_type
-            >
-                "click"
-            </Button>
-            {move || count.get()}
-
-            <Progress percentage=count/>
-        </Space>
+        <Layout position=LayoutPosition::ABSOLUTE>
+            <LayoutHeader
+                style="height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #efeff6"
+                >
+                "Melt UI"
+                <Button type_=ButtonType::TEXT on:click=move |_| {
+                    _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
+                }>
+                    "Github"
+                </Button>
+            </LayoutHeader>
+            <Layout position=LayoutPosition::ABSOLUTE style="top: 54px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                <p>"A Leptos UI Library"</p>
+                <Button on:click=move |_| {
+                    let navigate = use_navigate(cx);
+                    _ = navigate("/components/menu", Default::default());
+                }>
+                    "Read the docs"
+                </Button>
+            </Layout>
+        </Layout>
     }
 }
