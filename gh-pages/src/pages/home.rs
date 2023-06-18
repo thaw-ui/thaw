@@ -1,3 +1,4 @@
+use crate::components::*;
 use leptos::*;
 use leptos_router::{use_navigate, use_query_map};
 use melt_ui::*;
@@ -14,16 +15,7 @@ pub fn Home(cx: Scope) -> impl IntoView {
     }
     view! { cx,
         <Layout position=LayoutPosition::ABSOLUTE>
-            <LayoutHeader
-                style="height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #efeff6"
-                >
-                "Melt UI"
-                <Button type_=ButtonType::TEXT on:click=move |_| {
-                    _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
-                }>
-                    "Github"
-                </Button>
-            </LayoutHeader>
+            <SiteHeader />
             <Layout position=LayoutPosition::ABSOLUTE style="top: 54px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
                 <p>"A Leptos UI Library"</p>
                 <Button on:click=move |_| {

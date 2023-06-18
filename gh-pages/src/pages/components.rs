@@ -1,3 +1,4 @@
+use crate::components::SiteHeader;
 use leptos::*;
 use leptos_router::{use_location, use_navigate, Outlet};
 use melt_ui::*;
@@ -30,24 +31,27 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
         selected
     });
     view! {cx,
-        <div class="components-page-box">
-            <aside>
-                <Menu selected>
-                    <MenuItem key="menu" label="menu" />
-                    <MenuItem key="slider" label="slider" />
-                    <MenuItem key="tabbar" label="tabbar" />
-                    <MenuItem key="input" label="input" />
-                    <MenuItem key="image" label="image" />
-                    <MenuItem key="modal" label="modal" />
-                    <MenuItem key="nav-bar" label="nav-bar" />
-                    <MenuItem key="button" label="button" />
-                    <MenuItem key="checkbox" label="checkbox" />
-                    <MenuItem key="toast" label="toast" />
-                </Menu>
-            </aside>
-            <main>
-                <Outlet />
-            </main>
-        </div>
+        <Layout position=LayoutPosition::ABSOLUTE>
+            <SiteHeader />
+            <Layout has_sider=true position=LayoutPosition::ABSOLUTE style="top: 54px;">
+                <LayoutSider>
+                    <Menu selected>
+                        <MenuItem key="menu" label="menu" />
+                        <MenuItem key="slider" label="slider" />
+                        <MenuItem key="tabbar" label="tabbar" />
+                        <MenuItem key="input" label="input" />
+                        <MenuItem key="image" label="image" />
+                        <MenuItem key="modal" label="modal" />
+                        <MenuItem key="nav-bar" label="nav-bar" />
+                        <MenuItem key="button" label="button" />
+                        <MenuItem key="checkbox" label="checkbox" />
+                        <MenuItem key="toast" label="toast" />
+                    </Menu>
+                </LayoutSider>
+                <Layout>
+                    <Outlet />
+                </Layout>
+            </Layout>
+        </Layout>
     }
 }
