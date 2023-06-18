@@ -6,11 +6,11 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { git = "https://github.com/leptos-rs/leptos.git", rev = "3d75c71", features = [
+leptos = { git = "https://github.com/leptos-rs/leptos.git", rev = "3a570dc", features = [
     "stable",
 ] }
 melt-ui = { path = "../../" }
-leptos_icons = { git = "https://github.com/luoxiaozero/leptos-icons.git", rev = "4fe4417", features = ["AiCloseOutlined", "AiCheckOutlined"] }
-leptos_router = { git = "https://github.com/leptos-rs/leptos.git", rev = "3d75c71", features = ["csr"] }
+leptos_icons = { git = "https://github.com/luoxiaozero/leptos-icons.git", rev = "9d52325", features = ["AiCloseOutlined", "AiCheckOutlined"] }
+leptos_router = { git = "https://github.com/leptos-rs/leptos.git", rev = "3a570dc", features = ["csr"] }
 
 regex = "1.8.2"
