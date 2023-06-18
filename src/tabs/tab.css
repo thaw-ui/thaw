@@ -1,3 +1,7 @@
+.melt-tab {
+    padding-top: 12px;
+}
+
 .melt-tab--hidden {
     display: none;
 }

@@ -12,7 +12,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
     create_effect(cx, move |_| {
         let pathname = loaction.pathname.get();
 
-        let re = Regex::new(r"^/components/(.+)$").unwrap();
+        let re = Regex::new(r"^/melt-ui/components/(.+)$").unwrap();
         let Some(caps) = re.captures(&pathname) else {
             return;
         };
@@ -46,6 +46,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
                         <MenuItem key="button" label="button" />
                         <MenuItem key="checkbox" label="checkbox" />
                         <MenuItem key="toast" label="toast" />
+                        <MenuItem key="tabs" label="tabs" />
                     </Menu>
                 </LayoutSider>
                 <Layout>

@@ -10,7 +10,7 @@
     cursor: pointer;
 }
 
-.melt-tabs-label__active {
+.melt-tabs-label__line {
     position: absolute;
     height: 3px;
     background-color: var(--label-active-background-color);

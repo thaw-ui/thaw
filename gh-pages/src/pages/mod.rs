@@ -10,6 +10,7 @@ mod modal;
 mod nav_bar;
 mod slider;
 mod tabbar;
+mod tabs;
 mod toast;
 
 pub use button::*;
@@ -24,4 +25,5 @@ pub use modal::*;
 pub use nav_bar::*;
 pub use slider::*;
 pub use tabbar::*;
+pub use tabs::*;
 pub use toast::*;
