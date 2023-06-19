@@ -1,6 +1,7 @@
 mod button;
 mod card;
 mod checkbox;
+mod code;
 mod components;
 mod image;
 mod input;
@@ -19,7 +20,9 @@ mod utils;
 mod wave;
 
 pub use button::*;
+pub use card::*;
 pub use checkbox::*;
+pub use code::*;
 pub use image::*;
 pub use input::*;
 pub use layout::*;
@@ -28,7 +31,7 @@ pub use modal::*;
 pub use progress::*;
 pub use slider::*;
 pub use space::*;
-pub use tabs::*;
 pub use table::*;
+pub use tabs::*;
 pub use theme::Theme;
 pub use wave::*;

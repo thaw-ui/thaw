@@ -49,7 +49,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
                         <MenuItem key="tabs" label="tabs" />
                     </Menu>
                 </LayoutSider>
-                <Layout>
+                <Layout style="padding: 8px 12px 28px">
                     <Outlet />
                 </Layout>
             </Layout>

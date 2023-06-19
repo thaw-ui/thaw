@@ -40,7 +40,7 @@ pub fn Card(
     view! {
         cx, class=class_name,
         <div class="melt-card">
-                <If cond=MaybeSignal::derive(cx, move || is_header || title.get().is_empty())  >
+                <If cond=MaybeSignal::derive(cx, move || is_header || !title.get().is_empty())  >
                     <Then slot>
                         <div class="melt-card__header">
                             <div class="melt-card__header-content">
