@@ -7,11 +7,27 @@ use leptos::*;
 use stylers::style_sheet_str;
 pub use theme::InputTheme;
 
+#[derive(Default, Clone)]
+pub enum InputType {
+    #[default]
+    TEXT,
+    PASSWORD,
+}
+
+impl InputType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            InputType::TEXT => "text",
+            InputType::PASSWORD => "password",
+        }
+    }
+}
+
 #[component]
 pub fn Input(
     cx: Scope,
     #[prop(into)] value: RwSignal<String>,
-    #[prop(default = MaybeSignal::Static(String::from("text")), into)] type_: MaybeSignal<String>,
+    #[prop(optional, into)] type_: MaybeSignal<InputType>,
 ) -> impl IntoView {
     let theme = use_theme(cx, Theme::light);
     let class_name = mount_style("input", || style_sheet_str!("./src/input/input.css"));
@@ -35,7 +51,7 @@ pub fn Input(
     view! {
         cx, class=class_name,
         <div class:melt-input=true style=move || css_vars.get()>
-            <input type=move || type_.get() prop:value=move || value.get() ref=input_ref class="melt-input__input-el"/>
+            <input type=move || type_.get().as_str() prop:value=move || value.get() ref=input_ref class="melt-input__input-el"/>
         </div>
     }
 }

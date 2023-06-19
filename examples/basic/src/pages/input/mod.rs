@@ -8,7 +8,7 @@ pub fn InputPage(cx: Scope) -> impl IntoView {
         <>
             {move || value.get()}
             <Input value/>
-            <Input value type_="password" />
+            <Input value type_=InputType::PASSWORD />
         </>
     }
 }
