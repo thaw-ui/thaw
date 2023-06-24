@@ -10,6 +10,7 @@ mod menu;
 pub mod mobile;
 mod modal;
 mod progress;
+mod select;
 mod slider;
 mod space;
 mod table;
