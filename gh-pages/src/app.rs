@@ -52,6 +52,9 @@ pub fn App(cx: Scope) -> impl IntoView {
                     <Route path="/tabs" view=move |cx| view! {cx,
                         <TabsPage />
                     } />
+                    <Route path="/select" view=move |cx| view! {cx,
+                        <SelectPage />
+                    } />
                 </Route>
             </Routes>
             <Routes base="/melt-ui/mobile".to_string()>

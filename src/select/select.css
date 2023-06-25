@@ -1,0 +1,45 @@
+.melt-select {
+    position: relative;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #fafbfc;
+    color: #24292e;
+    border: 1px solid #e0e0e6;
+    border-radius: 3px;
+    transition: all 0.3s;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.melt-select:hover {
+    border-color: var(--border-color-hover);
+}
+
+.melt-select-menu {
+    box-sizing: border-box;
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    border-radius: 3px;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+}
+
+.melt-select-menu__item {
+    padding: 6px 5px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.melt-select-menu__item:hover {
+    background-color: #f6f6f7;
+}
+
+.melt-select-menu__item-selected {
+    color: var(--font-color);
+}

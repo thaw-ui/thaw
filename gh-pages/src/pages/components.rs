@@ -47,6 +47,7 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
                         <MenuItem key="checkbox" label="checkbox" />
                         <MenuItem key="toast" label="toast" />
                         <MenuItem key="tabs" label="tabs" />
+                        <MenuItem key="select" label="select" />
                     </Menu>
                 </LayoutSider>
                 <Layout style="padding: 8px 12px 28px">

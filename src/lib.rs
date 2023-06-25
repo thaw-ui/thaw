@@ -30,6 +30,7 @@ pub use layout::*;
 pub use menu::*;
 pub use modal::*;
 pub use progress::*;
+pub use select::*;
 pub use slider::*;
 pub use space::*;
 pub use table::*;

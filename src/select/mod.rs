@@ -1,6 +1,13 @@
-use crate::teleport::Teleport;
+use crate::{
+    teleport::Teleport,
+    theme::use_theme,
+    utils::{dom::window_event_listener, mount_style::mount_style},
+    Theme,
+};
 use leptos::*;
 use std::hash::Hash;
+use stylers::style_sheet_str;
+use wasm_bindgen::__rt::IntoJsResult;
 
 #[derive(Clone, PartialEq, Eq, Hash)]
 pub struct SelectOption<T> {
@@ -17,6 +24,19 @@ pub fn Select<T>(
 where
     T: Eq + Hash + Clone + 'static,
 {
+    let class_name = mount_style("select", || style_sheet_str!("./src/select/select.css"));
+
+    let theme = use_theme(cx, Theme::light);
+    let css_vars = create_memo(cx, move |_| {
+        let mut css_vars = String::new();
+        let theme = theme.get();
+        let bg_color = theme.common.color_primary;
+        css_vars.push_str(&format!("--font-color: {bg_color};"));
+        css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
+
+        css_vars
+    });
+
     let is_show_popover = create_rw_signal(cx, false);
     let trigger_ref = create_node_ref::<html::Div>(cx);
     let popover_ref = create_node_ref::<html::Div>(cx);
@@ -36,6 +56,25 @@ where
                 );
         }
     };
+    let timer = window_event_listener(ev::click, move |ev| {
+        let el = ev.target();
+        let mut el: Option<web_sys::Element> =
+            el.into_js_result().map_or(None, |el| Some(el.into()));
+        let body = document().body().unwrap();
+        while let Some(current_el) = el {
+            if current_el == *body {
+                break;
+            };
+            if current_el == ***popover_ref.get().unwrap()
+                || current_el == ***trigger_ref.get().unwrap()
+            {
+                return;
+            }
+            el = current_el.parent_element();
+        }
+        is_show_popover.set(false);
+    });
+    on_cleanup(cx, timer);
 
     let temp_options = options.clone();
     let select_option_label = create_memo(cx, move |_| match value.get() {
@@ -46,21 +85,27 @@ where
             .map_or(String::new(), |v| v.label.clone()),
         None => String::new(),
     });
-    view! { cx,
-        <div class="melt-select" ref=trigger_ref on:click=show_popover>
+    view! { cx, class=class_name,
+        <div class="melt-select" ref=trigger_ref on:click=show_popover style=move || css_vars.get()>
             {
                 move || select_option_label.get()
             }
         </div>
         <Teleport>
-            <div class="melt-select-menu" style=move || if is_show_popover.get() { "display: none" } else { "" } ref=popover_ref>
+            <div class="melt-select-menu" style=move || if is_show_popover.get() { css_vars.get() } else { format!("display: none; {}", css_vars.get()) } ref=popover_ref>
                 <For
                     each=move || options.get()
                     key=move |item| item.value.clone()
                     view=move |cx, item| {
-                        view! { cx,
-                            <div class="melt-select-menu__item">
-                                { item.label }
+                        let item = store_value(cx, item);
+                        let onclick = move |_| {
+                            let SelectOption { value: item_value, label: _ } = item.get_value();
+                            value.set(Some(item_value));
+                            is_show_popover.set(false);
+                        };
+                        view! { cx, class=class_name,
+                            <div class="melt-select-menu__item" class=("melt-select-menu__item-selected", move || value.get() == Some(item.get_value().value) ) on:click=onclick>
+                                { item.get_value().label }
                             </div>
                         }
                     }
