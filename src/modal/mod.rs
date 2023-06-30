@@ -1,10 +1,10 @@
 use crate::card::*;
 use crate::components::OptionComp;
+use crate::icon::*;
 use crate::teleport::*;
 use crate::utils::mount_style::mount_style;
 use leptos::*;
 use stylers::style_sheet_str;
-use leptos_icons::*;
 
 #[slot]
 pub struct ModalFooter {
@@ -35,7 +35,7 @@ pub fn Modal(
                         </CardHeader>
                         <CardHeaderExtra slot>
                             <span style="cursor: pointer;" on:click=move |_| show.set(false)>
-                                <Icon icon=AiIcon::AiCloseOutlined/>
+                                <Icon icon=Icon::from(AiIcon::AiCloseOutlined)/>
                             </span>
                         </CardHeaderExtra>
                         { children(cx) }

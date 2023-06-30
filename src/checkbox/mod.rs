@@ -1,6 +1,6 @@
-use crate::{theme::use_theme, utils::mount_style::mount_style, Theme, components::*};
+use crate::{components::*, icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
+use icondata::AiIcon;
 use leptos::*;
-use leptos_icons::*;
 use stylers::style_sheet_str;
 
 #[component]
@@ -29,7 +29,7 @@ pub fn Checkbox(
             <div class="melt-checkbox__dot">
                 <If cond=checked>
                     <Then slot>
-                        <Icon icon=AiIcon::AiCheckOutlined style="color: white"/>
+                        <Icon icon=Icon::from(AiIcon::AiCheckOutlined) style="color: white"/>
                     </Then>
                 </If>
             </div>

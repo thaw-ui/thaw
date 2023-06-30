@@ -1,7 +1,6 @@
 mod theme;
-use crate::{components::*, theme::*, utils::mount_style::mount_style};
+use crate::{components::*, icon::*, theme::*, utils::mount_style::mount_style};
 use leptos::*;
-use leptos_icons::*;
 use stylers::style_sheet_str;
 pub use theme::ButtonTheme;
 

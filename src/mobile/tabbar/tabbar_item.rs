@@ -1,9 +1,8 @@
 use super::{use_tabbar, TabbarInjectionKey};
-use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
+use crate::components::*;
+use crate::{icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 use stylers::style_sheet_str;
-use crate::components::*;
-use leptos_icons::*;
 
 #[component]
 pub fn TabbarItem(
@@ -12,7 +11,9 @@ pub fn TabbarItem(
     #[prop(optional, into)] icon: Option<Icon>,
     children: Children,
 ) -> impl IntoView {
-    let class_name = mount_style("tabbar-item", || style_sheet_str!("./src/mobile/tabbar/tabbar-item.css"));
+    let class_name = mount_style("tabbar-item", || {
+        style_sheet_str!("./src/mobile/tabbar/tabbar-item.css")
+    });
     let theme = use_theme(cx, Theme::light);
     let tabbar = use_tabbar(cx);
     let onclick_select = move |_| {

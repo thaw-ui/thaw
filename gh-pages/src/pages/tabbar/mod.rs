@@ -14,7 +14,7 @@ pub fn TabbarPage(cx: Scope) -> impl IntoView {
                 <TabbarItem name="i">
                     "if"
                 </TabbarItem> 
-                <TabbarItem name="o" icon=leptos_icons::AiIcon::AiCloseOutlined>
+                <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>
                     "or"
                 </TabbarItem> 
             </Tabbar>

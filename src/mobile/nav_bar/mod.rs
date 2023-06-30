@@ -1,6 +1,5 @@
-use crate::{utils::mount_style::mount_style, components::*};
+use crate::{components::*, icon::*, utils::mount_style::mount_style};
 use leptos::*;
-use leptos_icons::*;
 use stylers::style_sheet_str;
 use web_sys::MouseEvent;
 
@@ -13,9 +12,10 @@ pub fn NavBar(
     #[prop(optional, into)] click_left: Option<SignalSetter<MouseEvent>>,
     #[prop(optional, into)] right_text: MaybeSignal<&'static str>,
     #[prop(optional, into)] click_right: Option<SignalSetter<MouseEvent>>,
-
 ) -> impl IntoView {
-    let class_name = mount_style("nav-bar", || style_sheet_str!("./src/mobile/nav_bar/nav-bar.css"));
+    let class_name = mount_style("nav-bar", || {
+        style_sheet_str!("./src/mobile/nav_bar/nav-bar.css")
+    });
 
     let onclick_left = move |ev| {
         if let Some(click_left) = click_left {
@@ -35,7 +35,7 @@ pub fn NavBar(
                     <div class="melt-nav-bar__left" on:click=onclick_left>
                         <If cond=left_arrow>
                             <Then slot>
-                                <Icon icon=AiIcon::AiLeftOutlined/>
+                                <Icon icon=Icon::from(AiIcon::AiLeftOutlined)/>
                             </Then>
                         </If>
                         { left_text.get() }
@@ -51,7 +51,7 @@ pub fn NavBar(
                         { right_text.get() }
                     </div>
                 </Then>
-            </If>            
+            </If>
         </div>
     }
 }

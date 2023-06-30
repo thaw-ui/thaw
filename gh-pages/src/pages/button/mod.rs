@@ -29,10 +29,10 @@ pub fn ButtonPage(cx: Scope) -> impl IntoView {
             <Button color=ButtonColor::ERROR>
                 "ERROR Color"
             </Button>
-            <Button color=ButtonColor::ERROR icon=leptos_icons::AiIcon::AiCloseOutlined>
+            <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined>
                 "ERROR Color Icon"
             </Button>
-            <Button color=ButtonColor::ERROR icon=leptos_icons::AiIcon::AiCloseOutlined round=true>
+            <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
             </Button>
         </Space>
         <div style="padding-top: 12px">
