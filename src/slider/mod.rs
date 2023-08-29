@@ -1,8 +1,4 @@
-use crate::{
-    theme::use_theme,
-    utils::{dom::window_event_listener, mount_style::mount_style},
-    Theme,
-};
+use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 use stylers::style_sheet_str;
 use wasm_bindgen::JsCast;
@@ -47,7 +43,7 @@ pub fn Slider(
     let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
         set_mouse_move.set(false);
     });
-    on_cleanup(on_mouse_up);
+    on_cleanup(move || on_mouse_up.remove());
 
     let on_mouse_move = window_event_listener(ev::mousemove, move |ev| {
         if is_mouse_move.get_untracked() {
@@ -68,7 +64,7 @@ pub fn Slider(
             };
         }
     });
-    on_cleanup(on_mouse_move);
+    on_cleanup(move || on_mouse_move.remove());
 
     view! { class=class_name,
         <div class="melt-slider" style=move || css_vars.get()>

@@ -1,9 +1,4 @@
-use crate::{
-    teleport::Teleport,
-    theme::use_theme,
-    utils::{dom::window_event_listener, mount_style::mount_style},
-    Theme,
-};
+use crate::{teleport::Teleport, theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 use std::hash::Hash;
 use stylers::style_sheet_str;
@@ -73,7 +68,7 @@ where
         }
         is_show_popover.set(false);
     });
-    on_cleanup(timer);
+    on_cleanup(move || timer.remove());
 
     let temp_options = options.clone();
     let select_option_label = create_memo(move |_| match value.get() {
