@@ -5,13 +5,11 @@ use melt_ui::*;
 
 #[component]
 pub fn Home() -> impl IntoView {
-    let query_map = use_query_map().get();
+    let query_map = use_query_map().get_untracked();
     if let Some(path) = query_map.get("path") {
         let path = store_value(path.clone());
-        request_animation_frame(move || {
-            let navigate = use_navigate();
-            navigate(&path.get_value(), Default::default());
-        });
+        let navigate = use_navigate();
+        navigate(&path.get_value(), Default::default());
     }
     view! {
         <Layout position=LayoutPosition::ABSOLUTE>

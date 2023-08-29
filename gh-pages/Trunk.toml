@@ -2,7 +2,7 @@
 target = "index.html"
 public_url = "/melt-ui/"
 dist = "../docs"
-release = true
+# release = true
 
 [watch]
 watch = [

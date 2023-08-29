@@ -5,7 +5,7 @@ pub use menu_item::*;
 
 #[component]
 pub fn Menu(#[prop(into)] selected: RwSignal<String>, children: Children) -> impl IntoView {
-    let menu_injection_key = create_rw_signal(MenuInjectionKey::new(selected.get()));
+    let menu_injection_key = create_rw_signal(MenuInjectionKey::new(selected.get_untracked()));
     create_effect(move |_| {
         let selected_key = selected.get();
         let key = menu_injection_key.get_untracked();
