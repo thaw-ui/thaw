@@ -2,9 +2,9 @@ use leptos::*;
 use melt_ui::*;
 
 #[component]
-pub fn CheckboxPage(cx: Scope) -> impl IntoView {
-    let checked = create_rw_signal(cx, false);
-    view! {cx,
+pub fn CheckboxPage() -> impl IntoView {
+    let checked = create_rw_signal(false);
+    view! {
         <div>
             <Checkbox checked>
                 "Click"

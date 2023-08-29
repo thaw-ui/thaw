@@ -13,7 +13,6 @@ pub struct ModalFooter {
 
 #[component]
 pub fn Modal(
-    cx: Scope,
     #[prop(into)] show: RwSignal<bool>,
     #[prop(optional, into)] title: MaybeSignal<&'static str>,
     children: Children,
@@ -22,7 +21,7 @@ pub fn Modal(
     let class_name = mount_style("modal", || style_sheet_str!("./src/modal/modal.css"));
 
     view! {
-        cx, class=class_name,
+         class=class_name,
         <Teleport>
             <div class="melt-modal-container" style=move || if show.get() { "" } else { "display: none" }>
                 <div class="melt-modal-mask"></div>
@@ -38,10 +37,10 @@ pub fn Modal(
                                 <Icon icon=Icon::from(AiIcon::AiCloseOutlined)/>
                             </span>
                         </CardHeaderExtra>
-                        { children(cx) }
+                        { children() }
                         <CardFooter slot if_=modal_footer.is_some()>
                             <OptionComp value=modal_footer.as_ref() bind:footer>
-                                { (footer.children)(cx) }
+                                { (footer.children)() }
                             </OptionComp>
                         </CardFooter>
                     </Card>

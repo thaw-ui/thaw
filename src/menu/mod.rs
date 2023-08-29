@@ -4,13 +4,9 @@ use leptos::*;
 pub use menu_item::*;
 
 #[component]
-pub fn Menu(
-    cx: Scope,
-    #[prop(into)] selected: RwSignal<String>,
-    children: Children,
-) -> impl IntoView {
-    let menu_injection_key = create_rw_signal(cx, MenuInjectionKey::new(selected.get()));
-    create_effect(cx, move |_| {
+pub fn Menu(#[prop(into)] selected: RwSignal<String>, children: Children) -> impl IntoView {
+    let menu_injection_key = create_rw_signal(MenuInjectionKey::new(selected.get()));
+    create_effect(move |_| {
         let selected_key = selected.get();
         let key = menu_injection_key.get_untracked();
         if selected_key != key.value {
@@ -18,17 +14,17 @@ pub fn Menu(
         }
     });
 
-    create_effect(cx, move |_| {
+    create_effect(move |_| {
         let selected_key = selected.get_untracked();
         let key = menu_injection_key.get();
         if selected_key != key.value {
             selected.set(key.value);
         }
     });
-    provide_context(cx, menu_injection_key);
-    view! {cx,
+    provide_context(menu_injection_key);
+    view! {
         <div class="melt-menu">
-            { children(cx) }
+            { children() }
         </div>
     }
 }
@@ -38,13 +34,12 @@ pub struct MenuInjectionKey {
     value: String,
 }
 
-
 impl MenuInjectionKey {
     pub fn new(value: String) -> Self {
         Self { value }
     }
 }
 
-pub fn use_menu(cx: Scope) -> RwSignal<MenuInjectionKey> {
-    use_context::<RwSignal<MenuInjectionKey>>(cx).expect("MenuInjectionKey not exist")
+pub fn use_menu() -> RwSignal<MenuInjectionKey> {
+    use_context::<RwSignal<MenuInjectionKey>>().expect("MenuInjectionKey not exist")
 }

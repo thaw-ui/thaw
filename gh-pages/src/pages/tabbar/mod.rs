@@ -2,9 +2,9 @@ use leptos::*;
 use melt_ui::mobile::*;
 
 #[component]
-pub fn TabbarPage(cx: Scope) -> impl IntoView {
-    let selected = create_rw_signal(cx, String::from("o"));
-    view! { cx,
+pub fn TabbarPage() -> impl IntoView {
+    let selected = create_rw_signal(String::from("o"));
+    view! {
         <div style="height: 100vh; background: #f5f5f5">
             { move || selected.get() }
             <Tabbar selected>
@@ -13,10 +13,10 @@ pub fn TabbarPage(cx: Scope) -> impl IntoView {
                 </TabbarItem>
                 <TabbarItem name="i">
                     "if"
-                </TabbarItem> 
+                </TabbarItem>
                 <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>
                     "or"
-                </TabbarItem> 
+                </TabbarItem>
             </Tabbar>
         </div>
     }

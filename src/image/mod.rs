@@ -1,9 +1,7 @@
-
 use leptos::*;
 
 #[component]
 pub fn Image(
-    cx: Scope,
     #[prop(optional, into)] src: MaybeSignal<String>,
     #[prop(optional, into)] alt: MaybeSignal<String>,
     #[prop(optional, into)] width: MaybeSignal<String>,
@@ -11,7 +9,6 @@ pub fn Image(
     #[prop(optional, into)] border_radius: MaybeSignal<String>,
     #[prop(optional, into)] object_fit: MaybeSignal<String>,
 ) -> impl IntoView {
-
     let style = move || {
         let mut style = String::new();
 
@@ -24,7 +21,7 @@ pub fn Image(
         if !height.is_empty() {
             style.push_str(&format!("height: {height};"))
         }
-        
+
         let border_radius = border_radius.get();
         if !border_radius.is_empty() {
             style.push_str(&format!("border-radius: {border_radius};"))
@@ -33,7 +30,7 @@ pub fn Image(
         style
     };
     view! {
-        cx,
+
         <img src=move || src.get()  alt=move || alt.get() style=style object_fit=move || object_fit.get()/>
     }
 }

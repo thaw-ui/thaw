@@ -9,12 +9,11 @@ use wasm_bindgen::JsCast;
 
 #[component]
 pub fn Slider(
-    cx: Scope,
     #[prop(into)] value: RwSignal<f64>,
     #[prop(default = MaybeSignal::Static(100f64), into)] max: MaybeSignal<f64>,
 ) -> impl IntoView {
-    let theme = use_theme(cx, Theme::light);
-    let css_vars = create_memo(cx, move |_| {
+    let theme = use_theme(Theme::light);
+    let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         let theme = theme.get();
         let bg_color = theme.common.color_primary;
@@ -23,7 +22,7 @@ pub fn Slider(
         css_vars
     });
 
-    let percentage = create_memo(cx, move |_| {
+    let percentage = create_memo(move |_| {
         if value.get() < 0.0 || max.get() <= 0.0 {
             0f64
         } else if value.get() >= max.get() {
@@ -38,9 +37,9 @@ pub fn Slider(
         value.set(val);
     };
 
-    let rail_ref = create_node_ref::<html::Div>(cx);
-    let (mouse_move_value, set_mouse_move_value) = create_signal::<Option<f64>>(cx, None);
-    let (is_mouse_move, set_mouse_move) = create_signal(cx, false);
+    let rail_ref = create_node_ref::<html::Div>();
+    let (mouse_move_value, set_mouse_move_value) = create_signal::<Option<f64>>(None);
+    let (is_mouse_move, set_mouse_move) = create_signal(false);
     let on_mouse_down = move |_| {
         set_mouse_move.set(true);
     };
@@ -48,7 +47,7 @@ pub fn Slider(
     let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
         set_mouse_move.set(false);
     });
-    on_cleanup(cx, on_mouse_up);
+    on_cleanup(on_mouse_up);
 
     let on_mouse_move = window_event_listener(ev::mousemove, move |ev| {
         if is_mouse_move.get_untracked() {
@@ -69,9 +68,9 @@ pub fn Slider(
             };
         }
     });
-    on_cleanup(cx, on_mouse_move);
+    on_cleanup(on_mouse_move);
 
-    view! {cx, class=class_name,
+    view! { class=class_name,
         <div class="melt-slider" style=move || css_vars.get()>
             <div class="melt-slider-rail" ref=rail_ref>
                 <div class="melt-slider-rail__fill" style=move || format!("width: {}%", percentage.get())></div>

@@ -13,7 +13,7 @@ pub enum SpaceGap {
 }
 
 #[component]
-pub fn Space(cx: Scope, #[prop(optional)] gap: SpaceGap, children: Children) -> impl IntoView {
+pub fn Space(#[prop(optional)] gap: SpaceGap, children: Children) -> impl IntoView {
     let class_name = mount_style("space", || style_sheet_str!("./src/space/space.css"));
     let gap = match gap {
         SpaceGap::SMALL => "gap: 4px 8px".into(),
@@ -24,12 +24,12 @@ pub fn Space(cx: Scope, #[prop(optional)] gap: SpaceGap, children: Children) -> 
     };
 
     view! {
-        cx, class=class_name,
+         class=class_name,
         <div class="melt-space" style=format!("{gap};")>
             {
-                children(cx).nodes.into_iter().map(|node| {
+                children().nodes.into_iter().map(|node| {
                     view! {
-                        cx, class=class_name,
+                         class=class_name,
                         <div class="melt-space__item">
                             {node}
                         </div>

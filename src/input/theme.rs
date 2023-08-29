@@ -1,16 +1,14 @@
 use crate::theme::ThemeMethod;
 
 #[derive(Clone)]
-pub struct InputTheme {
-
-}
+pub struct InputTheme {}
 
 impl ThemeMethod for InputTheme {
     fn light() -> Self {
-        Self {  }
+        Self {}
     }
 
     fn dark() -> Self {
-        Self {  }
+        Self {}
     }
 }

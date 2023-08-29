@@ -4,17 +4,13 @@ use leptos::*;
 use stylers::style_sheet_str;
 
 #[component]
-pub fn Checkbox(
-    cx: Scope,
-    #[prop(into)] checked: RwSignal<bool>,
-    children: Children,
-) -> impl IntoView {
-    let theme = use_theme(cx, Theme::light);
+pub fn Checkbox(#[prop(into)] checked: RwSignal<bool>, children: Children) -> impl IntoView {
+    let theme = use_theme(Theme::light);
     let class_name = mount_style("checkbox", || {
         style_sheet_str!("./src/checkbox/checkbox.css")
     });
 
-    let css_vars = create_memo(cx, move |_| {
+    let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         let theme = theme.get();
         let bg_color = theme.common.color_primary;
@@ -22,7 +18,7 @@ pub fn Checkbox(
         css_vars
     });
 
-    view! {cx, class=class_name,
+    view! { class=class_name,
         <div class:melt-checkbox=true class=("melt-checkbox--checked", move || checked.get()) style=move || css_vars.get()
             on:click=move |_| checked.set(!checked.get_untracked())>
             <input class="melt-checkbox__input" type="checkbox" />
@@ -34,7 +30,7 @@ pub fn Checkbox(
                 </If>
             </div>
             <div class="melt-checkbox__label">
-                { children(cx) }
+                { children() }
             </div>
         </div>
     }

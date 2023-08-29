@@ -35,7 +35,6 @@ impl ButtonColor {
 
 #[component]
 pub fn Button(
-    cx: Scope,
     #[prop(optional, into)] style: MaybeSignal<String>,
     #[prop(optional, into)] type_: MaybeSignal<ButtonType>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
@@ -43,8 +42,8 @@ pub fn Button(
     #[prop(optional, into)] icon: Option<Icon>,
     #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
-    let theme = use_theme(cx, Theme::light);
-    let css_vars = create_memo(cx, move |_| {
+    let theme = use_theme(Theme::light);
+    let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         let theme = theme.get();
         let bg_color = color.get().theme_color(&theme);
@@ -69,7 +68,7 @@ pub fn Button(
         ""
     };
 
-    view! {cx, class=class_name,
+    view! { class=class_name,
         <button
             class:melt-button=true
             class=("melt-button--text", move || type_.get() == ButtonType::TEXT)
@@ -81,7 +80,7 @@ pub fn Button(
                     <Icon icon=icon style=icon_style/>
                 </OptionComp>
                 <OptionComp value=children bind:children>
-                    { children(cx) }
+                    { children() }
                 </OptionComp>
         </button>
     }
