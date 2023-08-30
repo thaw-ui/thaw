@@ -10,12 +10,6 @@ pub fn App() -> impl IntoView {
                 <Route path="/" view=move || view! {
                     <Home />
                 } />
-                <Route path="/menu" view=move || view! {
-                    <MenuPage />
-                } />
-                <Route path="/slider" view=move || view! {
-                    <SliderPage />
-                } />
                 <Route path="/components" view=move || view! {
                     <ComponentsPage />
                 } >
@@ -56,15 +50,13 @@ pub fn App() -> impl IntoView {
                         <SelectPage />
                     } />
                 </Route>
-            </Routes>
-            <Routes base="/melt-ui/mobile".to_string()>
-                <Route path="/tabbar" view=move || view! {
+                <Route path="/mobile/tabbar" view=move || view! {
                     <TabbarPage />
                 } />
-                <Route path="/nav-bar" view=move || view! {
+                <Route path="/mobile/nav-bar" view=move || view! {
                     <NavBarPage />
                 } />
-                <Route path="/toast" view=move || view! {
+                <Route path="/mobile/toast" view=move || view! {
                     <ToastPage />
                 } />
             </Routes>

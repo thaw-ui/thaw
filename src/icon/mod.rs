@@ -45,19 +45,19 @@ pub fn Icon(
     svg = svg.attr(
         "width",
         Attribute::String(match (width, icon.width) {
-            (Some(a), Some(_b)) => std::borrow::Cow::from(a.get()),
-            (Some(a), None) => std::borrow::Cow::from(a.get()),
-            (None, Some(_b)) => std::borrow::Cow::from("1em"),
-            (None, None) => std::borrow::Cow::from("1em"),
+            (Some(a), Some(_b)) => Oco::from(a.get()),
+            (Some(a), None) => Oco::from(a.get()),
+            (None, Some(_b)) => Oco::from("1em"),
+            (None, None) => Oco::from("1em"),
         }),
     );
     svg = svg.attr(
         "height",
         Attribute::String(match (height, icon.height) {
-            (Some(a), Some(_b)) => std::borrow::Cow::from(a.get()),
-            (Some(a), None) => std::borrow::Cow::from(a.get()),
-            (None, Some(_b)) => std::borrow::Cow::from("1em"),
-            (None, None) => std::borrow::Cow::from("1em"),
+            (Some(a), Some(_b)) => Oco::from(a.get()),
+            (Some(a), None) => Oco::from(a.get()),
+            (None, Some(_b)) => Oco::from("1em"),
+            (None, None) => Oco::from("1em"),
         }),
     );
     if let Some(view_box) = icon.view_box {

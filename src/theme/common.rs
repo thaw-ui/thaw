@@ -31,24 +31,20 @@ impl CommonTheme {
     fn common() -> Self {
         Self {
             font_family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'".into(),
-            
             color_primary: "".into(),
             color_success: "".into(),
             color_warning: "".into(),
             color_error: "".into(),
-
             font_size: "14px".into(),
             font_size_small: "12px".into(),
             font_size_medium: "16px".into(),
             font_size_large: "20px".into(),
             font_size_huge: "24px".into(),
-
             line_height: "22px".into(),
             line_height_small: "20px".into(),
             line_height_medium: "24px".into(),
             line_height_large: "28px".into(),
             line_height_huge: "32px".into(),
-
             border_radius: "3px".into(),
             border_radius_small: "2px".into(),
             border_radius_medium: "4px".into(),
