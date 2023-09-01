@@ -7,58 +7,30 @@ pub fn App() -> impl IntoView {
     view! {
         <Router base="/melt-ui">
             <Routes base="/melt-ui".to_string() >
-                <Route path="/" view=move || view! {
-                    <Home />
-                } />
-                <Route path="/components" view=move || view! {
-                    <ComponentsPage />
-                } >
-                    <Route path="/menu" view=move || view! {
-                        <MenuPage />
-                    } />
-                    <Route path="/slider" view=move || view! {
-                        <SliderPage />
-                    } />
-                    <Route path="/tabbar" view=move || view! {
+                <Route path="/" view=Home />
+                <Route path="/components" view=ComponentsPage>
+                    <Route path="/menu" view=MenuPage />
+                    <Route path="/slider" view=SliderPage />
+                    <Route path="/tabbar" view=|| view! {
                         <MobilePage path="/melt-ui?path=/mobile/tabbar" />
                     } />
-                    <Route path="/nav-bar" view=move || view! {
+                    <Route path="/nav-bar" view=|| view! {
                         <MobilePage path="/melt-ui?path=/mobile/nav-bar" />
                     } />
-                    <Route path="/input" view=move || view! {
-                        <InputPage />
-                    } />
-                    <Route path="/image" view=move || view! {
-                        <ImagePage />
-                    } />
-                    <Route path="/modal" view=move || view! {
-                        <ModalPage />
-                    } />
-                    <Route path="/button" view=move || view! {
-                        <ButtonPage />
-                    } />
-                    <Route path="/checkbox" view=move || view! {
-                        <CheckboxPage />
-                    } />
-                    <Route path="/toast" view=move || view! {
+                    <Route path="/input" view=InputPage />
+                    <Route path="/image" view=ImagePage />
+                    <Route path="/modal" view=ModalPage />
+                    <Route path="/button" view=ButtonPage />
+                    <Route path="/checkbox" view=CheckboxPage />
+                    <Route path="/toast" view=|| view! {
                         <MobilePage path="/melt-ui?path=/mobile/toast" />
                     } />
-                    <Route path="/tabs" view=move || view! {
-                        <TabsPage />
-                    } />
-                    <Route path="/select" view=move || view! {
-                        <SelectPage />
-                    } />
+                    <Route path="/tabs" view=TabsPage />
+                    <Route path="/select" view=SelectPage />
                 </Route>
-                <Route path="/mobile/tabbar" view=move || view! {
-                    <TabbarPage />
-                } />
-                <Route path="/mobile/nav-bar" view=move || view! {
-                    <NavBarPage />
-                } />
-                <Route path="/mobile/toast" view=move || view! {
-                    <ToastPage />
-                } />
+                <Route path="/mobile/tabbar" view=TabbarPage />
+                <Route path="/mobile/nav-bar" view=NavBarPage />
+                <Route path="/mobile/toast" view=ToastPage />
             </Routes>
         </Router>
     }
