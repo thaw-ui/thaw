@@ -10,13 +10,13 @@ pub(crate) struct TabOptions {
 }
 
 #[component]
-pub fn Tab(cx: Scope, key: &'static str, label: &'static str, children: Children) -> impl IntoView {
+pub fn Tab(key: &'static str, label: &'static str, children: Children) -> impl IntoView {
     let class_name = mount_style("tab", || style_sheet_str!("./src/tabs/tab.css"));
-    let tabs = use_tabs(cx);
+    let tabs = use_tabs();
     tabs.push_tab_options(TabOptions { key, label });
-    view! { cx, class=class_name,
+    view! {  class=class_name,
         <div class="melt-tab" class=("melt-tab--hidden", move || key != tabs.get_key()) >
-            { children(cx) }
+            { children() }
         </div>
     }
 }

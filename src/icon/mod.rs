@@ -1,31 +1,30 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
 pub use icondata::*;
-use leptos::SignalGet;
+use leptos::*;
 
 /// The Icon component.
-#[leptos::component]
+#[component]
 pub fn Icon(
-    cx: leptos::Scope,
     /// The icon to show.
     #[prop(into)]
-    icon: leptos::MaybeSignal<Icon>,
+    icon: MaybeSignal<Icon>,
     /// The width of the icon (horizontal side length of the square surrounding the icon). Defaults to "1em".
     #[prop(into, optional)]
-    width: Option<leptos::MaybeSignal<String>>,
+    width: Option<MaybeSignal<String>>,
     /// The height of the icon (vertical side length of the square surrounding the icon). Defaults to "1em".
     #[prop(into, optional)]
-    height: Option<leptos::MaybeSignal<String>>,
+    height: Option<MaybeSignal<String>>,
     /// HTML class attribute.
     #[prop(into, optional)]
-    class: Option<leptos::MaybeSignal<String>>,
+    class: Option<MaybeSignal<String>>,
     /// HTML style attribute.
     #[prop(into, optional)]
-    style: Option<leptos::MaybeSignal<String>>,
-) -> impl leptos::IntoView {
+    style: Option<MaybeSignal<String>>,
+) -> impl IntoView {
     let icon: IconData = icon.get().into();
 
-    let mut svg = leptos::svg::svg(cx);
+    let mut svg = svg::svg();
     if let Some(classes) = class {
         svg = svg.classes(classes.get());
     }
@@ -45,20 +44,20 @@ pub fn Icon(
     // We ignore the width and height attributes of the icon, even if the user hasn't specified any.
     svg = svg.attr(
         "width",
-        leptos::Attribute::String(match (width, icon.width) {
-            (Some(a), Some(_b)) => std::borrow::Cow::from(a.get()),
-            (Some(a), None) => std::borrow::Cow::from(a.get()),
-            (None, Some(_b)) => std::borrow::Cow::from("1em"),
-            (None, None) => std::borrow::Cow::from("1em"),
+        Attribute::String(match (width, icon.width) {
+            (Some(a), Some(_b)) => Oco::from(a.get()),
+            (Some(a), None) => Oco::from(a.get()),
+            (None, Some(_b)) => Oco::from("1em"),
+            (None, None) => Oco::from("1em"),
         }),
     );
     svg = svg.attr(
         "height",
-        leptos::Attribute::String(match (height, icon.height) {
-            (Some(a), Some(_b)) => std::borrow::Cow::from(a.get()),
-            (Some(a), None) => std::borrow::Cow::from(a.get()),
-            (None, Some(_b)) => std::borrow::Cow::from("1em"),
-            (None, None) => std::borrow::Cow::from("1em"),
+        Attribute::String(match (height, icon.height) {
+            (Some(a), Some(_b)) => Oco::from(a.get()),
+            (Some(a), None) => Oco::from(a.get()),
+            (None, Some(_b)) => Oco::from("1em"),
+            (None, None) => Oco::from("1em"),
         }),
     );
     if let Some(view_box) = icon.view_box {
@@ -79,5 +78,5 @@ pub fn Icon(
     svg = svg.attr("fill", icon.fill.unwrap_or("currentColor"));
     svg = svg.attr("role", "graphics-symbol");
     svg = svg.inner_html(icon.data);
-    leptos::IntoView::into_view(svg, cx)
+    IntoView::into_view(svg)
 }

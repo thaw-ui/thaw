@@ -6,17 +6,13 @@ use stylers::style_sheet_str;
 pub use tabbar_item::*;
 
 #[component]
-pub fn Tabbar(
-    cx: Scope,
-    #[prop(into)] selected: RwSignal<String>,
-    children: Children,
-) -> impl IntoView {
+pub fn Tabbar(#[prop(into)] selected: RwSignal<String>, children: Children) -> impl IntoView {
     let class_name = mount_style("tabbar", || {
         style_sheet_str!("./src/mobile/tabbar/tabbar.css")
     });
 
-    let tabbar_injection_key = create_rw_signal(cx, TabbarInjectionKey::new(selected.get()));
-    create_effect(cx, move |_| {
+    let tabbar_injection_key = create_rw_signal(TabbarInjectionKey::new(selected.get()));
+    create_effect(move |_| {
         let selected_key = selected.get();
         let key = tabbar_injection_key.get_untracked();
         if selected_key != key.value {
@@ -24,17 +20,17 @@ pub fn Tabbar(
         }
     });
 
-    create_effect(cx, move |_| {
+    create_effect(move |_| {
         let selected_key = selected.get_untracked();
         let key = tabbar_injection_key.get();
         if selected_key != key.value {
             selected.set(key.value);
         }
     });
-    provide_context(cx, tabbar_injection_key);
-    view! {cx, class=class_name,
+    provide_context(tabbar_injection_key);
+    view! { class=class_name,
         <div class="melt-tabbar">
-            { children(cx) }
+            { children() }
         </div>
     }
 }
@@ -50,6 +46,6 @@ impl TabbarInjectionKey {
     }
 }
 
-pub fn use_tabbar(cx: Scope) -> RwSignal<TabbarInjectionKey> {
-    use_context::<RwSignal<TabbarInjectionKey>>(cx).expect("TabbarInjectionKey not exist")
+pub fn use_tabbar() -> RwSignal<TabbarInjectionKey> {
+    use_context::<RwSignal<TabbarInjectionKey>>().expect("TabbarInjectionKey not exist")
 }

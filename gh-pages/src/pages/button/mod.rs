@@ -2,8 +2,8 @@ use leptos::*;
 use melt_ui::*;
 
 #[component]
-pub fn ButtonPage(cx: Scope) -> impl IntoView {
-    view! {cx,
+pub fn ButtonPage() -> impl IntoView {
+    view! {
         <Space>
             <Button type_=ButtonType::PRIMARY>
                 "PRIMARY"

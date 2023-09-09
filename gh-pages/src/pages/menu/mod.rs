@@ -3,9 +3,9 @@ use leptos::*;
 use melt_ui::*;
 
 #[component]
-pub fn MenuPage(cx: Scope) -> impl IntoView {
-    let selected = create_rw_signal(cx, String::from("o"));
-    view! { cx,
+pub fn MenuPage() -> impl IntoView {
+    let selected = create_rw_signal(String::from("o"));
+    view! {
         <Card>
             { move || selected.get() }
             <Menu selected>

@@ -3,70 +3,34 @@ use leptos::*;
 use leptos_router::*;
 
 #[component]
-pub fn App(cx: Scope) -> impl IntoView {
-    view! { cx,
+pub fn App() -> impl IntoView {
+    view! {
         <Router base="/melt-ui">
             <Routes base="/melt-ui".to_string() >
-                <Route path="/" view=move |cx| view! {cx,
-                    <Home />
-                } />
-                <Route path="/menu" view=move |cx| view! {cx,
-                    <MenuPage />
-                } />
-                <Route path="/slider" view=move |cx| view! {cx,
-                    <SliderPage />
-                } />
-                <Route path="/components" view=move |cx| view! {cx,
-                    <ComponentsPage />
-                } >
-                    <Route path="/menu" view=move |cx| view! {cx,
-                        <MenuPage />
-                    } />
-                    <Route path="/slider" view=move |cx| view! {cx,
-                        <SliderPage />
-                    } />
-                    <Route path="/tabbar" view=move |cx| view! {cx,
+                <Route path="/" view=Home />
+                <Route path="/components" view=ComponentsPage>
+                    <Route path="/menu" view=MenuPage />
+                    <Route path="/slider" view=SliderPage />
+                    <Route path="/tabbar" view=|| view! {
                         <MobilePage path="/melt-ui?path=/mobile/tabbar" />
                     } />
-                    <Route path="/nav-bar" view=move |cx| view! {cx,
+                    <Route path="/nav-bar" view=|| view! {
                         <MobilePage path="/melt-ui?path=/mobile/nav-bar" />
                     } />
-                    <Route path="/input" view=move |cx| view! {cx,
-                        <InputPage />
-                    } />
-                    <Route path="/image" view=move |cx| view! {cx,
-                        <ImagePage />
-                    } />
-                    <Route path="/modal" view=move |cx| view! {cx,
-                        <ModalPage />
-                    } />
-                    <Route path="/button" view=move |cx| view! {cx,
-                        <ButtonPage />
-                    } />
-                    <Route path="/checkbox" view=move |cx| view! {cx,
-                        <CheckboxPage />
-                    } />
-                    <Route path="/toast" view=move |cx| view! {cx,
+                    <Route path="/input" view=InputPage />
+                    <Route path="/image" view=ImagePage />
+                    <Route path="/modal" view=ModalPage />
+                    <Route path="/button" view=ButtonPage />
+                    <Route path="/checkbox" view=CheckboxPage />
+                    <Route path="/toast" view=|| view! {
                         <MobilePage path="/melt-ui?path=/mobile/toast" />
                     } />
-                    <Route path="/tabs" view=move |cx| view! {cx,
-                        <TabsPage />
-                    } />
-                    <Route path="/select" view=move |cx| view! {cx,
-                        <SelectPage />
-                    } />
+                    <Route path="/tabs" view=TabsPage />
+                    <Route path="/select" view=SelectPage />
                 </Route>
-            </Routes>
-            <Routes base="/melt-ui/mobile".to_string()>
-                <Route path="/tabbar" view=move |cx| view! {cx,
-                    <TabbarPage />
-                } />
-                <Route path="/nav-bar" view=move |cx| view! {cx,
-                    <NavBarPage />
-                } />
-                <Route path="/toast" view=move |cx| view! {cx,
-                    <ToastPage />
-                } />
+                <Route path="/mobile/tabbar" view=TabbarPage />
+                <Route path="/mobile/nav-bar" view=NavBarPage />
+                <Route path="/mobile/toast" view=ToastPage />
             </Routes>
         </Router>
     }

@@ -50,16 +50,15 @@ impl ThemeMethod for Theme {
     }
 }
 
-pub fn use_theme(cx: Scope, default: impl Fn() -> Theme) -> ReadSignal<Theme> {
-    use_context::<ReadSignal<Theme>>(cx).unwrap_or_else(|| create_signal(cx, default()).0)
+pub fn use_theme(default: impl Fn() -> Theme) -> ReadSignal<Theme> {
+    use_context::<ReadSignal<Theme>>().unwrap_or_else(|| create_signal(default()).0)
 }
 
 #[cfg(test)]
 mod tests {
     use super::{use_theme, Theme};
-    use leptos::*;
 
-    fn _t_use_theme(cx: Scope) {
-        use_theme(cx, Theme::dark);
+    fn _t_use_theme() {
+        use_theme(Theme::dark);
     }
 }

@@ -9,16 +9,16 @@ pub struct ToastOptions {
     pub duration: Duration,
 }
 
-pub fn show_toast(cx: Scope, options: ToastOptions) {
+pub fn show_toast(options: ToastOptions) {
     let class_name = mount_style("toast", || style_sheet_str!("./src/mobile/toast/toast.css"));
 
     let parent = Element::from(document().body().expect("body element not to exist"));
-    let children = view! {cx, class=class_name,
+    let children = view! { class=class_name,
         <div class="melt-toast">
             { options.message }
         </div>
     };
-    let node = children.into_view(cx);
+    let node = children.into_view();
 
     #[cfg(all(target_arch = "wasm32"))]
     {
@@ -31,5 +31,10 @@ pub fn show_toast(cx: Scope, options: ToastOptions) {
             },
             options.duration,
         );
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        _ = parent;
+        _ = node;
     }
 }

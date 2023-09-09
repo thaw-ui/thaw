@@ -25,21 +25,20 @@ impl InputType {
 
 #[component]
 pub fn Input(
-    cx: Scope,
     #[prop(into)] value: RwSignal<String>,
     #[prop(optional, into)] type_: MaybeSignal<InputType>,
 ) -> impl IntoView {
-    let theme = use_theme(cx, Theme::light);
+    let theme = use_theme(Theme::light);
     let class_name = mount_style("input", || style_sheet_str!("./src/input/input.css"));
 
-    let input_ref = create_node_ref::<html::Input>(cx);
-    input_ref.on_load(cx, move |input| {
+    let input_ref = create_node_ref::<html::Input>();
+    input_ref.on_load(move |input| {
         input.on(ev::input, move |ev| {
             value.set(event_target_value(&ev));
         });
     });
 
-    let css_vars = create_memo(cx, move |_| {
+    let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         let theme = theme.get();
         let border_color_hover = theme.common.color_primary.clone();
@@ -49,7 +48,7 @@ pub fn Input(
         css_vars
     });
     view! {
-        cx, class=class_name,
+         class=class_name,
         <div class:melt-input=true style=move || css_vars.get()>
             <input type=move || type_.get().as_str() prop:value=move || value.get() ref=input_ref class="melt-input__input-el"/>
         </div>

@@ -5,18 +5,15 @@ use stylers::style_sheet_str;
 pub use tab::*;
 
 #[component]
-pub fn Tabs(cx: Scope, active_key: RwSignal<&'static str>, children: Children) -> impl IntoView {
+pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl IntoView {
     let class_name = mount_style("tabs", || style_sheet_str!("./src/tabs/tabs.css"));
-    let tab_options_vec = create_rw_signal(cx, vec![]);
-    provide_context(
-        cx,
-        TabsInjectionKey {
-            active_key: active_key.clone(),
-            tab_options_vec: tab_options_vec.clone(),
-        },
-    );
-    let theme = use_theme(cx, Theme::light);
-    let css_vars = create_memo(cx, move |_| {
+    let tab_options_vec = create_rw_signal(vec![]);
+    provide_context(TabsInjectionKey {
+        active_key: active_key.clone(),
+        tab_options_vec: tab_options_vec.clone(),
+    });
+    let theme = use_theme(Theme::light);
+    let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         let theme = theme.get();
         let color_primary = theme.common.color_primary.clone();
@@ -26,22 +23,22 @@ pub fn Tabs(cx: Scope, active_key: RwSignal<&'static str>, children: Children) -
         css_vars
     });
 
-    let label_line = create_rw_signal::<Option<TabsLabelLine>>(cx, None);
-    let label_line_style = create_memo(cx, move |_| {
+    let label_line = create_rw_signal::<Option<TabsLabelLine>>(None);
+    let label_line_style = create_memo(move |_| {
         let mut style = String::new();
         if let Some(line) = label_line.get() {
             style.push_str(&format!("width: {}px; left: {}px", line.width, line.left))
         }
         style
     });
-    let label_list_ref = create_node_ref::<html::Div>(cx);
+    let label_list_ref = create_node_ref::<html::Div>();
 
-    view! { cx, class=class_name,
+    view! {  class=class_name,
         <div class="melt-tabs" style=move || css_vars.get()>
             <div class="melt-tabs__label-list" ref=label_list_ref>
-                <For each=move || tab_options_vec.get() key=move |v| v.key.clone() view=move |cx, options| {
-                    let label_ref = create_node_ref::<html::Span>(cx);
-                    create_effect(cx, move |_| {
+                <For each=move || tab_options_vec.get() key=move |v| v.key.clone() view=move | options| {
+                    let label_ref = create_node_ref::<html::Span>();
+                    create_effect( move |_| {
                         let Some(label) = label_ref.get() else {
                             return;
                         };
@@ -59,7 +56,7 @@ pub fn Tabs(cx: Scope, active_key: RwSignal<&'static str>, children: Children) -
                             });
                         }
                     });
-                    view! {cx, class=class_name,
+                    view! { class=class_name,
                         <span class="melt-tabs__label" class=("melt-tabs__label--active", move || options.key == active_key.get())
                             on:click=move |_| active_key.set(options.key)
                             ref=label_ref
@@ -72,7 +69,7 @@ pub fn Tabs(cx: Scope, active_key: RwSignal<&'static str>, children: Children) -
                 <span class="melt-tabs-label__line" style=move || label_line_style.get()></span>
             </div>
             <div>
-                { children(cx) }
+                { children() }
             </div>
         </div>
     }
@@ -102,6 +99,6 @@ impl TabsInjectionKey {
     }
 }
 
-pub fn use_tabs(cx: Scope) -> TabsInjectionKey {
-    use_context::<TabsInjectionKey>(cx).expect("TabsInjectionKey not exist")
+pub fn use_tabs() -> TabsInjectionKey {
+    use_context::<TabsInjectionKey>().expect("TabsInjectionKey not exist")
 }

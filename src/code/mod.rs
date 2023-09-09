@@ -1,10 +1,10 @@
 use leptos::*;
 
 #[component]
-pub fn Code(cx: Scope, children: Children) -> impl IntoView {
-    view! { cx,
+pub fn Code(children: Children) -> impl IntoView {
+    view! {
         <code class="melt-code">
-            { children(cx) }
+            { children() }
         </code>
     }
 }

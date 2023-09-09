@@ -3,11 +3,7 @@ use web_sys::Element;
 
 /// https://github.com/solidjs/solid/blob/main/packages/solid/web/src/index.ts#L56
 #[component]
-pub fn Teleport(
-    cx: Scope,
-    #[prop(optional)] to: Option<&'static str>,
-    children: Children,
-) -> impl IntoView {
+pub fn Teleport(#[prop(optional)] to: Option<&'static str>, children: Children) -> impl IntoView {
     let parent = if let Some(to) = to {
         document()
             .query_selector(to)
@@ -20,16 +16,15 @@ pub fn Teleport(
     #[cfg(all(target_arch = "wasm32"))]
     {
         use leptos_dom::Mountable;
-        let node = children(cx).into_view(cx);
+        let node = children().into_view();
         parent.append_child(&node.get_mountable_node()).unwrap();
     }
 
     #[cfg(not(target_arch = "wasm32"))]
     {
-        _ = cx;
         _ = parent;
         _ = children;
     }
 
-    view! { cx, <></> }
+    view! {  <></> }
 }

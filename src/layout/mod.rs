@@ -25,7 +25,6 @@ impl LayoutPosition {
 
 #[component]
 pub fn Layout(
-    cx: Scope,
     #[prop(optional, into)] style: MaybeSignal<String>,
     #[prop(optional)] position: LayoutPosition,
     #[prop(optional, into)] has_sider: MaybeSignal<bool>,
@@ -33,16 +32,16 @@ pub fn Layout(
 ) -> impl IntoView {
     let class_name = mount_style("layout", || style_sheet_str!("./src/layout/layout.css"));
 
-    let style = create_memo(cx, move |_| {
+    let style = create_memo(move |_| {
         let mut style = style.get();
         if has_sider.get() {
             style.push_str("display: flex; flex-wrap: nowrap; flex-direction: row; width: 100;%")
         }
         style
     });
-    view! { cx, class=class_name,
+    view! {  class=class_name,
         <div class="melt-layout" class=("melt-layout--absolute-positioned", position == LayoutPosition::ABSOLUTE) style=move || style.get()>
-            { children(cx) }
+            { children() }
         </div>
     }
 }

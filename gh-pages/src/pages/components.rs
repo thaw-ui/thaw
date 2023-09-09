@@ -5,11 +5,11 @@ use melt_ui::*;
 use regex::Regex;
 
 #[component]
-pub fn ComponentsPage(cx: Scope) -> impl IntoView {
-    let loaction = use_location(cx);
-    let navigate = use_navigate(cx);
-    let selected = create_rw_signal(cx, String::from(""));
-    create_effect(cx, move |_| {
+pub fn ComponentsPage() -> impl IntoView {
+    let loaction = use_location();
+    let navigate = use_navigate();
+    let selected = create_rw_signal(String::from(""));
+    create_effect(move |_| {
         let pathname = loaction.pathname.get();
 
         let re = Regex::new(r"^/melt-ui/components/(.+)$").unwrap();
@@ -23,14 +23,14 @@ pub fn ComponentsPage(cx: Scope) -> impl IntoView {
         selected.set(path);
     });
 
-    create_effect(cx, move |value| {
+    create_effect(move |value| {
         let selected = selected.get();
         if value.is_some() {
-            _ = navigate(&format!("/components/{selected}"), Default::default());
+            navigate(&format!("/components/{selected}"), Default::default());
         }
         selected
     });
-    view! {cx,
+    view! {
         <Layout position=LayoutPosition::ABSOLUTE>
             <SiteHeader />
             <Layout has_sider=true position=LayoutPosition::ABSOLUTE style="top: 54px;">
