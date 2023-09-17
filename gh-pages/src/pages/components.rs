@@ -50,7 +50,7 @@ pub fn ComponentsPage() -> impl IntoView {
                         <MenuItem key="select" label="select" />
                     </Menu>
                 </LayoutSider>
-                <Layout style="padding: 8px 12px 28px">
+                <Layout style="padding: 8px 12px 28px; overflow-y: scroll;">
                     <Outlet />
                 </Layout>
             </Layout>
