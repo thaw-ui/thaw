@@ -35,7 +35,7 @@ pub fn Layout(
     let style = create_memo(move |_| {
         let mut style = style.get();
         if has_sider.get() {
-            style.push_str("display: flex; flex-wrap: nowrap; flex-direction: row; width: 100;%")
+            style.push_str("display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;")
         }
         style
     });
