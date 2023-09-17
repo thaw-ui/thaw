@@ -5,9 +5,13 @@ pub struct CommonTheme {
     pub font_family: String,
 
     pub color_primary: String,
+    pub color_primary_hover: String,
     pub color_success: String,
+    pub color_success_hover: String,
     pub color_warning: String,
+    pub color_warning_hover: String,
     pub color_error: String,
+    pub color_error_hover: String,
 
     pub font_size: String,
     pub font_size_small: String,
@@ -32,9 +36,13 @@ impl CommonTheme {
         Self {
             font_family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'".into(),
             color_primary: "".into(),
+            color_primary_hover: "".into(),
             color_success: "".into(),
+            color_success_hover: "".into(),
             color_warning: "".into(),
+            color_warning_hover: "".into(),
             color_error: "".into(),
+            color_error_hover: "".into(),
             font_size: "14px".into(),
             font_size_small: "12px".into(),
             font_size_medium: "16px".into(),
@@ -57,18 +65,26 @@ impl ThemeMethod for CommonTheme {
     fn light() -> Self {
         Self {
             color_primary: "#f5222d".into(),
+            color_primary_hover: "#ff4d4f".into(),
             color_success: "#18a058".into(),
+            color_success_hover: "#36ad6a".into(),
             color_warning: "#f0a020".into(),
+            color_warning_hover: "#fcb040".into(),
             color_error: "#d03050".into(),
+            color_error_hover: "#de576d".into(),
             ..CommonTheme::common()
         }
     }
     fn dark() -> Self {
         Self {
             color_primary: "#d32029".into(),
+            color_primary_hover: "#e04648".into(),
             color_success: "#18a058".into(),
+            color_success_hover: "".into(),
             color_warning: "#f0a020".into(),
+            color_warning_hover: "#fcb040".into(),
             color_error: "#d03050".into(),
+            color_error_hover: "#de576d".into(),
             ..CommonTheme::common()
         }
     }
