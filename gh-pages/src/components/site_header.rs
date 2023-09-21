@@ -6,7 +6,7 @@ use melt_ui::*;
 pub fn SiteHeader() -> impl IntoView {
     view! {
         <LayoutHeader
-            style="height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #efeff6"
+            style="height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e5e8eb"
         >
             <span style="cursor: pointer" on:click=move |_| {
                 let navigate = use_navigate();

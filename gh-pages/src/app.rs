@@ -11,9 +11,7 @@ pub fn App() -> impl IntoView {
                 <Route path="/components" view=ComponentsPage>
                     <Route path="/menu" view=MenuPage />
                     <Route path="/slider" view=SliderPage />
-                    <Route path="/tabbar" view=|| view! {
-                        <MobilePage path="/melt-ui?path=/mobile/tabbar" />
-                    } />
+                    <Route path="/tabbar" view=TabbarPage />
                     <Route path="/nav-bar" view=|| view! {
                         <MobilePage path="/melt-ui?path=/mobile/nav-bar" />
                     } />
@@ -28,7 +26,7 @@ pub fn App() -> impl IntoView {
                     <Route path="/tabs" view=TabsPage />
                     <Route path="/select" view=SelectPage />
                 </Route>
-                <Route path="/mobile/tabbar" view=TabbarPage />
+                <Route path="/mobile/tabbar" view=TabbarDemoPage />
                 <Route path="/mobile/nav-bar" view=NavBarPage />
                 <Route path="/mobile/toast" view=ToastPage />
             </Routes>
