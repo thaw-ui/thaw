@@ -1,3 +1,5 @@
 {
-    "rust-analyzer.check.targets": ["wasm32-unknown-unknown"],
+    "rust-analyzer.linkedProjects": [
+        "gh-pages/Cargo.toml"
+    ]
 }

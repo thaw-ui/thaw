@@ -1,7 +1,9 @@
 mod menu_item;
+mod theme;
 
 use leptos::*;
 pub use menu_item::*;
+pub use theme::MenuTheme;
 
 #[component]
 pub fn Menu(#[prop(into)] selected: RwSignal<String>, children: Children) -> impl IntoView {

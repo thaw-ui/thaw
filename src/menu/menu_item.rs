@@ -19,10 +19,10 @@ pub fn MenuItem(
         let mut css_vars = String::new();
         let theme = theme.get();
         let font_color = theme.common.color_primary.clone();
-        css_vars.push_str(&format!("--font-color: {font_color};"));
+        css_vars.push_str(&format!("--font-color-active: {font_color};"));
+        css_vars.push_str(&format!("--font-color: {};", theme.menu.color));
         css_vars.push_str(&format!("--bg-color: {font_color}1a;"));
-        let border_radius = theme.common.border_radius.clone();
-        css_vars.push_str(&format!("--border-radius: {border_radius};"));
+        css_vars.push_str(&format!("--bg-color-hover: {};", theme.menu.item_color_hover));
         css_vars
     });
     view! { class=class_name,
