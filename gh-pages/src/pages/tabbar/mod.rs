@@ -36,7 +36,7 @@ pub fn TabbarPage() -> impl IntoView {
                 </Demo>
             </div>
             <div>
-                <MobilePage path="/melt-ui?path=/mobile/nav-bar" />
+                <MobilePage path="/melt-ui?path=/mobile/tabbar" />
             </div>
         </div>
     }

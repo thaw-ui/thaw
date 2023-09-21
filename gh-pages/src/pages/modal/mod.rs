@@ -1,3 +1,5 @@
+use crate::components::{Demo, DemoCode};
+use indoc::indoc;
 use leptos::*;
 use melt_ui::*;
 
@@ -5,11 +7,30 @@ use melt_ui::*;
 pub fn ModalPage() -> impl IntoView {
     let show = create_rw_signal(false);
     view! {
-        <Button on:click=move |_| show.set(true)>
-            "open modal"
-        </Button>
-        <Modal title="title" show>
-            "sd"
-        </Modal>
+        <div style="width: 896px; margin: 0 auto;">
+            <h1>"Modal"</h1>
+            <Demo>
+                <Button on:click=move |_| show.set(true)>
+                    "Open Modal"
+                </Button>
+                <Modal title="title" show>
+                    "hello"
+                </Modal>
+                <DemoCode slot>
+                    {
+                        indoc! {r#"
+                        let show = create_rw_signal(false);
+
+                        <Button on:click=move |_| show.set(true)>
+                            "open modal"
+                        </Button>
+                        <Modal title="title" show>
+                            "hello"
+                        </Modal>
+                        "#}
+                    }
+                </DemoCode>
+            </Demo>
+        </div>
     }
 }

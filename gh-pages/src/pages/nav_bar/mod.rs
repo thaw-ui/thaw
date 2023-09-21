@@ -1,8 +1,44 @@
+use crate::{
+    components::{Demo, DemoCode},
+    pages::MobilePage,
+};
+use indoc::indoc;
 use leptos::*;
 use melt_ui::mobile::NavBar;
 
 #[component]
 pub fn NavBarPage() -> impl IntoView {
+    view! {
+        <div style="display: flex">
+            <div style="width: 896px; margin: 0 auto;">
+                <h1>"Navbar"</h1>
+                <Demo>
+                    ""
+                    <DemoCode slot>
+                        {
+                            indoc!(r#"
+                                <NavBar 
+                                    title="Home" 
+                                    left_arrow=true 
+                                    left_text="back" 
+                                    right_text="add" 
+                                    click_left=click_left 
+                                    click_right=click_right
+                                />
+                            "#)
+                        }
+                    </DemoCode>
+                </Demo>
+            </div>
+            <div>
+                <MobilePage path="/melt-ui?path=/mobile/nav-bar" />
+            </div>
+        </div>
+    }
+}
+
+#[component]
+pub fn NavBarDemoPage() -> impl IntoView {
     let click_text = create_rw_signal(String::from("none"));
 
     let click_left = SignalSetter::map(move |_| click_text.set("left".to_string()));
