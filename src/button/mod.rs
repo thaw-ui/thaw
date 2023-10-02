@@ -86,10 +86,10 @@ pub fn Button(
             class=("melt-button--round", move || round.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
             >
-                <OptionComp value=icon bind:icon>
+                <OptionComp value=icon let:icon>
                     <Icon icon=icon style=icon_style/>
                 </OptionComp>
-                <OptionComp value=children bind:children>
+                <OptionComp value=children let:children>
                     { children() }
                 </OptionComp>
         </button>

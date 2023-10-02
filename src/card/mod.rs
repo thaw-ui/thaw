@@ -43,14 +43,14 @@ pub fn Card(
                     <Then slot>
                         <div class="melt-card__header">
                             <div class="melt-card__header-content">
-                                <OptionComp value=header.clone() bind:header>
+                                <OptionComp value=header.clone() let:header>
                                     <Fallback slot>
                                         { title.get() }
                                     </Fallback>
                                     { (header.children)() }
                                 </OptionComp>
                             </div>
-                            <OptionComp value=header_extra.clone() bind:header_extra>
+                            <OptionComp value=header_extra.clone() let:header_extra>
                                 <div class="melt-card__header-extra">
                                     { (header_extra.children)() }
                                 </div>
@@ -61,7 +61,7 @@ pub fn Card(
             <div class="melt-card__content">
                 { children() }
             </div>
-            <OptionComp value=card_footer bind:footer>
+            <OptionComp value=card_footer let:footer>
                 <If cond=footer.if_ >
                     <Then slot>
                         <div class="melt-card__footer">

@@ -39,7 +39,7 @@ pub fn Modal(
                         </CardHeaderExtra>
                         { children() }
                         <CardFooter slot if_=modal_footer.is_some()>
-                            <OptionComp value=modal_footer.as_ref() bind:footer>
+                            <OptionComp value=modal_footer.as_ref() let:footer>
                                 { (footer.children)() }
                             </OptionComp>
                         </CardFooter>

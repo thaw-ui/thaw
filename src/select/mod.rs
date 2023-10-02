@@ -90,7 +90,7 @@ where
                 <For
                     each=move || options.get()
                     key=move |item| item.value.clone()
-                    view=move | item| {
+                    children=move | item| {
                         let item = store_value( item);
                         let onclick = move |_| {
                             let SelectOption { value: item_value, label: _ } = item.get_value();

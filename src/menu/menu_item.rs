@@ -22,7 +22,10 @@ pub fn MenuItem(
         css_vars.push_str(&format!("--font-color-active: {font_color};"));
         css_vars.push_str(&format!("--font-color: {};", theme.menu.color));
         css_vars.push_str(&format!("--bg-color: {font_color}1a;"));
-        css_vars.push_str(&format!("--bg-color-hover: {};", theme.menu.item_color_hover));
+        css_vars.push_str(&format!(
+            "--bg-color-hover: {};",
+            theme.menu.item_color_hover
+        ));
         css_vars
     });
     view! { class=class_name,
