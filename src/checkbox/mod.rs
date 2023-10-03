@@ -1,4 +1,9 @@
+mod checkbox_group;
+mod checkbox_item;
+
 use crate::{components::*, icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
+pub use checkbox_group::CheckboxGroup;
+pub use checkbox_item::CheckboxItem;
 use icondata::AiIcon;
 use leptos::*;
 use stylers::style_sheet_str;
