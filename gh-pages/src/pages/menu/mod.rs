@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
-use indoc::indoc;
 use leptos::*;
 use melt_ui::*;
+use prisms::highlight_str;
 
 #[component]
 pub fn MenuPage() -> impl IntoView {
@@ -14,17 +14,15 @@ pub fn MenuPage() -> impl IntoView {
                     <MenuItem key="a" label="and"/>
                     <MenuItem key="o" label="or"/>
                 </Menu>
-                <DemoCode slot>
-                    {
-                        indoc!(r#"
-                        let selected = create_rw_signal(String::from("o"));
-                        
-                        <Menu selected>
-                            <MenuItem key="a" label="and"/>
-                            <MenuItem key="o" label="or"/>
-                        </Menu>
-                        "#)
-                    }
+                <DemoCode slot html=highlight_str!(r#"
+                    let selected = create_rw_signal(String::from("o"));
+                            
+                    <Menu selected>
+                        <MenuItem key="a" label="and"/>
+                        <MenuItem key="o" label="or"/>
+                    </Menu>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
         </div>

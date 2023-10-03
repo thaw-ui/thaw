@@ -2,10 +2,10 @@ use crate::{
     components::{Demo, DemoCode},
     pages::MobilePage,
 };
-use indoc::indoc;
 use leptos::*;
 use melt_ui::mobile::*;
 use melt_ui::*;
+use prisms::highlight_str;
 use std::time::Duration;
 
 #[component]
@@ -16,19 +16,17 @@ pub fn ToastPage() -> impl IntoView {
                 <h1>"Toast"</h1>
                 <Demo>
                     ""
-                    <DemoCode slot>
-                        {
-                            indoc!(r#"
-                            let count = create_rw_signal(0u32);
-                            let onclick = move |_| {
-                                show_toast(ToastOptions {
-                                    message: format!("Hello {}", count.get_untracked()),
-                                    duration: Duration::from_millis(2000),
-                                });
-                                count.set(count.get_untracked() + 1);
-                            };
-                            "#)
-                        }
+                    <DemoCode slot html=highlight_str!(r#"
+                        let count = create_rw_signal(0u32);
+                        let onclick = move |_| {
+                            show_toast(ToastOptions {
+                                message: format!("Hello {}", count.get_untracked()),
+                                duration: Duration::from_millis(2000),
+                            });
+                            count.set(count.get_untracked() + 1);
+                        };
+                    "#, "rust")>
+                        ""
                     </DemoCode>
                 </Demo>
             </div>

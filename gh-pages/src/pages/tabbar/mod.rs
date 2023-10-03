@@ -2,9 +2,9 @@ use crate::{
     components::{Demo, DemoCode},
     pages::MobilePage,
 };
-use indoc::indoc;
 use leptos::*;
 use melt_ui::mobile::*;
+use prisms::highlight_str;
 
 #[component]
 pub fn TabbarPage() -> impl IntoView {
@@ -14,24 +14,22 @@ pub fn TabbarPage() -> impl IntoView {
                 <h1>"Tabbar"</h1>
                 <Demo>
                     ""
-                    <DemoCode slot>
-                        {
-                            indoc!(r#"
-                            let selected = create_rw_signal(String::from("o"));
-                            
-                            <Tabbar selected>
-                                <TabbarItem name="a">
-                                    "and"
-                                </TabbarItem>
-                                <TabbarItem name="i">
-                                    "if"
-                                </TabbarItem>
-                                <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>
-                                    "or"
-                                </TabbarItem>
-                            </Tabbar>
-                            "#)
-                        }
+                    <DemoCode slot html=highlight_str!(r#"
+                        let selected = create_rw_signal(String::from("o"));
+                                
+                        <Tabbar selected>
+                            <TabbarItem name="a">
+                                "and"
+                            </TabbarItem>
+                            <TabbarItem name="i">
+                                "if"
+                            </TabbarItem>
+                            <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>
+                                "or"
+                            </TabbarItem>
+                        </Tabbar>
+                    "#, "rust")>
+                        ""
                     </DemoCode>
                 </Demo>
             </div>

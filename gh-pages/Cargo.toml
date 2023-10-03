@@ -13,9 +13,9 @@ icondata = { version = "0.0.7", features = [
     "AiCheckOutlined",
 ] }
 leptos_router = { version = "0.5.0", features = ["csr"] }
-indoc = "2.0.1"
 regex = "1.8.2"
 leptos_devtools = "0.0.1"
+prisms = { git = "https://github.com/luoxiaozero/prisms" }
 
 [features]
 tracing = ["leptos/tracing"]

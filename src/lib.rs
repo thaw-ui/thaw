@@ -38,4 +38,5 @@ pub use space::*;
 pub use table::*;
 pub use tabs::*;
 pub use theme::Theme;
+pub use utils::mount_style::mount_style;
 pub use wave::*;

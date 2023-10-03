@@ -2,9 +2,9 @@ use crate::{
     components::{Demo, DemoCode},
     pages::MobilePage,
 };
-use indoc::indoc;
 use leptos::*;
 use melt_ui::mobile::NavBar;
+use prisms::highlight_str;
 
 #[component]
 pub fn NavBarPage() -> impl IntoView {
@@ -14,19 +14,17 @@ pub fn NavBarPage() -> impl IntoView {
                 <h1>"Navbar"</h1>
                 <Demo>
                     ""
-                    <DemoCode slot>
-                        {
-                            indoc!(r#"
-                                <NavBar 
-                                    title="Home" 
-                                    left_arrow=true 
-                                    left_text="back" 
-                                    right_text="add" 
-                                    click_left=click_left 
-                                    click_right=click_right
-                                />
-                            "#)
-                        }
+                    <DemoCode slot html=highlight_str!(r#"
+                        <NavBar 
+                            title="Home" 
+                            left_arrow=true 
+                            left_text="back" 
+                            right_text="add" 
+                            click_left=click_left 
+                            click_right=click_right
+                        />
+                    "#, "rust")>
+                        ""
                     </DemoCode>
                 </Demo>
             </div>

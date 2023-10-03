@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
-use indoc::indoc;
 use leptos::*;
 use melt_ui::*;
+use prisms::highlight_str;
 
 #[component]
 pub fn ModalPage() -> impl IntoView {
@@ -16,19 +16,17 @@ pub fn ModalPage() -> impl IntoView {
                 <Modal title="title" show>
                     "hello"
                 </Modal>
-                <DemoCode slot>
-                    {
-                        indoc! {r#"
-                        let show = create_rw_signal(false);
+                <DemoCode slot html=highlight_str!(r#"
+                    let show = create_rw_signal(false);
 
-                        <Button on:click=move |_| show.set(true)>
-                            "open modal"
-                        </Button>
-                        <Modal title="title" show>
-                            "hello"
-                        </Modal>
-                        "#}
-                    }
+                    <Button on:click=move |_| show.set(true)>
+                        "open modal"
+                    </Button>
+                    <Modal title="title" show>
+                        "hello"
+                    </Modal>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
         </div>

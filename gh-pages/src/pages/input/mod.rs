@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
-use indoc::indoc;
 use leptos::*;
 use melt_ui::*;
+use prisms::highlight_str;
 
 #[component]
 pub fn InputPage() -> impl IntoView {
@@ -12,15 +12,14 @@ pub fn InputPage() -> impl IntoView {
             <Demo>
                 <Input value/>
                 <Input value type_=InputType::PASSWORD />
-                <DemoCode slot>
-                    {
-                        indoc! {r#"
-                            let value = create_rw_signal(String::from("o"));
+                <DemoCode slot html=highlight_str!(r#"
+                    let value = create_rw_signal(String::from("o"));
 
-                            <Input value/>
-                            <Input value type_=InputType::PASSWORD />
-                        "#}
-                    }
+                    <Input value/>
+                    <Input value type_=InputType::PASSWORD />
+                "#, "rust")>
+                ""
+                    ""
                 </DemoCode>
             </Demo>
         </div>

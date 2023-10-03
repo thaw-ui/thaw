@@ -1,9 +1,9 @@
 use std::collections::HashSet;
 
 use crate::components::{Demo, DemoCode};
-use indoc::indoc;
 use leptos::*;
 use melt_ui::*;
+use prisms::highlight_str;
 
 #[component]
 pub fn CheckboxPage() -> impl IntoView {
@@ -16,16 +16,14 @@ pub fn CheckboxPage() -> impl IntoView {
                 <Checkbox checked>
                     "Click"
                 </Checkbox>
-                <DemoCode slot>
-                    {
-                        indoc! {r#"
-                            let checked = create_rw_signal(false);
+                <DemoCode slot html=highlight_str!(r#"
+                    let checked = create_rw_signal(false);
 
-                            <Checkbox checked>
-                                "Click"
-                            </Checkbox>
-                        "#}
-                    }
+                    <Checkbox checked>
+                        "Click"
+                    </Checkbox>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
             <h3>"group"</h3>
@@ -38,18 +36,16 @@ pub fn CheckboxPage() -> impl IntoView {
                 <div style="margin-top: 1rem">
                     "value: " { move || format!("{:?}", value.get()) }
                 </div>
-                <DemoCode slot>
-                    {
-                        indoc! {r#"
-                            let value = create_rw_signal(HashSet::new());
+                <DemoCode slot html=highlight_str!(r#"
+                    let value = create_rw_signal(HashSet::new());
 
-                            <CheckboxGroup value>
-                                <CheckboxItem label="apple" value="a" />
-                                <CheckboxItem label="b" value="b" />
-                                <CheckboxItem label="c" value="c" />
-                            </CheckboxGroup>
-                        "#}
-                    }
+                    <CheckboxGroup value>
+                        <CheckboxItem label="apple" value="a" />
+                        <CheckboxItem label="b" value="b" />
+                        <CheckboxItem label="c" value="c" />
+                    </CheckboxGroup>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
         </div>

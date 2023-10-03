@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
-use indoc::indoc;
 use leptos::*;
 use melt_ui::*;
+use prisms::highlight_str;
 
 #[component]
 pub fn SliderPage() -> impl IntoView {
@@ -12,14 +12,12 @@ pub fn SliderPage() -> impl IntoView {
             <h1>"Slider"</h1>
             <Demo>
                 <Slider value/>
-                <DemoCode slot>
-                    {
-                        indoc!(r#"
-                        let value = create_rw_signal(0.0);
+                <DemoCode slot html=highlight_str!(r#"
+                    let value = create_rw_signal(0.0);
                         
-                        <Slider value/>
-                        "#)
-                    }
+                    <Slider value/>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
         </div>

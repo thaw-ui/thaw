@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
-use indoc::indoc;
 use leptos::*;
 use melt_ui::*;
+use prisms::highlight_str;
 
 #[component]
 pub fn ButtonPage() -> impl IntoView {
@@ -21,23 +21,21 @@ pub fn ButtonPage() -> impl IntoView {
                 <Button type_=ButtonType::LINK>
                     "LINK"
                 </Button>
-                <DemoCode slot>
-                    {
-                        indoc!(r#"
-                            <Button type_=ButtonType::PRIMARY>
-                                "PRIMARY"
-                            </Button>
-                            <Button type_=ButtonType::SOLID>
-                                "SOLID"
-                            </Button>
-                            <Button type_=ButtonType::TEXT>
-                                "TEXT"
-                            </Button>
-                            <Button type_=ButtonType::LINK>
-                                "LINK"
-                            </Button>
-                        "#)
-                    }
+                <DemoCode slot html=highlight_str!(r#"
+                    <Button type_=ButtonType::PRIMARY>
+                        "PRIMARY"
+                    </Button>
+                    <Button type_=ButtonType::SOLID>
+                        "SOLID"
+                    </Button>
+                    <Button type_=ButtonType::TEXT>
+                        "TEXT"
+                    </Button>
+                    <Button type_=ButtonType::LINK>
+                        "LINK"
+                    </Button>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
             <h3>"color"</h3>
@@ -54,23 +52,21 @@ pub fn ButtonPage() -> impl IntoView {
                 <Button color=ButtonColor::ERROR>
                     "ERROR Color"
                 </Button>
-                <DemoCode slot>
-                    {
-                        indoc!(r#"
-                            <Button color=ButtonColor::PRIMARY>
-                                "PRIMARY Color"
-                            </Button>
-                            <Button color=ButtonColor::SUCCESS>
-                                "SUCCESS Color"
-                            </Button>
-                            <Button color=ButtonColor::WARNING>
-                                "WARNING Color"
-                            </Button>
-                            <Button color=ButtonColor::ERROR>
-                                "ERROR Color"
-                            </Button>
-                        "#)
-                    }
+                <DemoCode slot html=highlight_str!(r#"
+                    <Button color=ButtonColor::PRIMARY>
+                        "PRIMARY Color"
+                    </Button>
+                    <Button color=ButtonColor::SUCCESS>
+                        "SUCCESS Color"
+                    </Button>
+                    <Button color=ButtonColor::WARNING>
+                        "WARNING Color"
+                    </Button>
+                    <Button color=ButtonColor::ERROR>
+                        "ERROR Color"
+                    </Button>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
             <h3>"icon"</h3>
@@ -80,29 +76,25 @@ pub fn ButtonPage() -> impl IntoView {
                 </Button>
                 <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
                 </Button>
-                <DemoCode slot>
-                    {
-                        indoc! {r#"
-                            <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined>
-                                "ERROR Color Icon"
-                            </Button>
-                            <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
-                            </Button>
-                        "#}
-                    }
+                <DemoCode slot html=highlight_str!(r#"
+                    <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined>
+                        "ERROR Color Icon"
+                    </Button>
+                    <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
+                    </Button>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
             <h3>"style"</h3>
             <Demo>
                 <Button style="background: blue;">"style blue"</Button>
                 <Button style="width: 40px; height: 20px">"size"</Button>
-                <DemoCode slot>
-                    {
-                        indoc! {r#"
-                            <Button style="background: blue;">"style blue"</Button>
-                            <Button style="width: 40px; height: 20px">"size"</Button>
-                        "#}
-                    }
+                <DemoCode slot html=highlight_str!(r#"
+                    <Button style="background: blue;">"style blue"</Button>
+                    <Button style="width: 40px; height: 20px">"size"</Button>
+                "#, "rust")>
+                    ""
                 </DemoCode>
             </Demo>
         </div>
