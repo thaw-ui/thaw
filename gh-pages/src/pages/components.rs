@@ -48,6 +48,7 @@ pub fn ComponentsPage() -> impl IntoView {
                         <MenuItem key="toast" label="toast" />
                         <MenuItem key="tabs" label="tabs" />
                         <MenuItem key="select" label="select" />
+                        <MenuItem key="space" label="space" />
                     </Menu>
                 </LayoutSider>
                 <Layout style="padding: 8px 12px 28px; overflow-y: scroll;">

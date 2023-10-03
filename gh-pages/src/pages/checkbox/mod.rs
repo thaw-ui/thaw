@@ -28,7 +28,7 @@ pub fn CheckboxPage() -> impl IntoView {
                     }
                 </DemoCode>
             </Demo>
-
+            <h3>"group"</h3>
             <Demo>
                 <CheckboxGroup value>
                     <CheckboxItem label="apple" value="a" />
