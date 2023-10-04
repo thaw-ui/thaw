@@ -39,6 +39,15 @@ impl ButtonColor {
             ButtonColor::ERROR => theme.common.color_error_hover.clone(),
         }
     }
+
+    pub fn theme_color_active(&self, theme: &Theme) -> String {
+        match self {
+            ButtonColor::PRIMARY => theme.common.color_primary_active.clone(),
+            ButtonColor::SUCCESS => theme.common.color_success_active.clone(),
+            ButtonColor::WARNING => theme.common.color_warning_active.clone(),
+            ButtonColor::ERROR => theme.common.color_error_active.clone(),
+        }
+    }
 }
 
 #[component]
@@ -56,9 +65,11 @@ pub fn Button(
         let theme = theme.get();
         let bg_color = color.get().theme_color(&theme);
         let bg_color_hover = color.get().theme_color_hover(&theme);
+        let bg_color_active = color.get().theme_color_active(&theme);
         if type_.get() == ButtonType::PRIMARY {
             css_vars.push_str(&format!("--background-color: {bg_color};"));
             css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
+            css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));
             css_vars.push_str(&format!("--font-color: #fff;"));
             css_vars.push_str(&format!("--border-color: {bg_color};"));
             css_vars.push_str(&format!("--border-color-hover: {bg_color};"));

@@ -19,6 +19,12 @@
     background-color: var(--background-color-hover);
 }
 
+.melt-button:active {
+    transition: all 0.3s;
+    border-color: var(--border-color-hover);
+    background-color: var(--background-color-active);
+}
+
 .melt-button--text,
 .melt-button--link {
     border: none;

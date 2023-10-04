@@ -6,12 +6,16 @@ pub struct CommonTheme {
 
     pub color_primary: String,
     pub color_primary_hover: String,
+    pub color_primary_active: String,
     pub color_success: String,
     pub color_success_hover: String,
+    pub color_success_active: String,
     pub color_warning: String,
     pub color_warning_hover: String,
+    pub color_warning_active: String,
     pub color_error: String,
     pub color_error_hover: String,
+    pub color_error_active: String,
 
     pub font_size: String,
     pub font_size_small: String,
@@ -37,12 +41,16 @@ impl CommonTheme {
             font_family: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'".into(),
             color_primary: "".into(),
             color_primary_hover: "".into(),
+            color_primary_active: "".into(),
             color_success: "".into(),
             color_success_hover: "".into(),
+            color_success_active: "".into(),
             color_warning: "".into(),
             color_warning_hover: "".into(),
+            color_warning_active: "".into(),
             color_error: "".into(),
             color_error_hover: "".into(),
+            color_error_active: "".into(),
             font_size: "14px".into(),
             font_size_small: "12px".into(),
             font_size_medium: "16px".into(),
@@ -66,12 +74,16 @@ impl ThemeMethod for CommonTheme {
         Self {
             color_primary: "#f5222d".into(),
             color_primary_hover: "#ff4d4f".into(),
+            color_primary_active: "#cf1322".into(),
             color_success: "#18a058".into(),
             color_success_hover: "#36ad6a".into(),
+            color_success_active: "#0c7a43".into(),
             color_warning: "#f0a020".into(),
             color_warning_hover: "#fcb040".into(),
+            color_warning_active: "#c97c10".into(),
             color_error: "#d03050".into(),
             color_error_hover: "#de576d".into(),
+            color_error_active: "#ab1f3f".into(),
             ..CommonTheme::common()
         }
     }
@@ -79,12 +91,16 @@ impl ThemeMethod for CommonTheme {
         Self {
             color_primary: "#d32029".into(),
             color_primary_hover: "#e04648".into(),
-            color_success: "#18a058".into(),
-            color_success_hover: "".into(),
+            color_primary_active: "#ad111e".into(),
+            color_success: "#63e2b7".into(),
+            color_success_hover: "#7fe7c4".into(),
+            color_success_active: "#5acea7".into(),
             color_warning: "#f0a020".into(),
             color_warning_hover: "#fcb040".into(),
+            color_warning_active: "#e6c260".into(),
             color_error: "#d03050".into(),
             color_error_hover: "#de576d".into(),
+            color_error_active: "#e57272".into(),
             ..CommonTheme::common()
         }
     }
