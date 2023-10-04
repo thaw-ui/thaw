@@ -1,13 +1,14 @@
 .melt-menu-item__content {
     margin: 0.3rem 0.4rem;
-    padding: 0.6rem 0.8rem 0.6rem 1rem;
+    padding: 0.5rem 0.75rem;
     color: var(--font-color);
     cursor: pointer;
     border-radius: 0.25rem;
+    font-size: 0.875rem;
 
     transition-property: color, background-color;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
-    transition-duration: .15s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.15s;
 }
 
 .melt-menu-item__content:hover:not(.melt-menu-item__content--selected) {
