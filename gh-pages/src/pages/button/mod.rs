@@ -92,6 +92,7 @@ pub fn ButtonPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <LoadingButton />
             <h3>"style"</h3>
             <Demo>
                 <Space>
@@ -106,5 +107,34 @@ pub fn ButtonPage() -> impl IntoView {
                 </DemoCode>
             </Demo>
         </div>
+    }
+}
+
+#[component]
+pub fn LoadingButton() -> impl IntoView {
+    let loading = create_rw_signal(false);
+    view! {
+        <h3>"loading"</h3>
+        <Demo>
+            <Space>
+                <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined on:click=move |_| loading.set(true)>
+                    "ERROR Color Icon"
+                </Button>
+                <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
+                </Button>
+            </Space>
+            <DemoCode slot html=highlight_str!(r#"
+                let loading = create_rw_signal(false);
+                view! {
+                    <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined>
+                        "ERROR Color Icon"
+                    </Button>
+                    <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
+                    </Button>
+                }
+            "#, "rust")>
+                ""
+            </DemoCode>
+        </Demo>
     }
 }

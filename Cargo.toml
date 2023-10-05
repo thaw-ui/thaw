@@ -13,7 +13,7 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.5.0",  features = ["csr"] }
+leptos = { version = "0.5.0", features = ["csr"] }
 stylers = "0.3.2"
 web-sys = { version = "0.3.62", features = ["DomRect"] }
 leptos_dom = { version = "0.5.0" }
@@ -22,6 +22,7 @@ icondata = { version = "0.0.7", features = [
     "AiCloseOutlined",
     "AiCheckOutlined",
     "AiLeftOutlined",
+    "AiLoadingOutlined",
 ] }
 
 [workspace]

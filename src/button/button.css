@@ -43,3 +43,9 @@
     padding: 0 10px;
     border-radius: 50%;
 }
+
+@keyframes meltLoadingCircle {
+    100% {
+        transform: rotate(360deg);
+    }
+}

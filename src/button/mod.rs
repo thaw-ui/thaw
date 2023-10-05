@@ -57,6 +57,7 @@ pub fn Button(
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(optional, into)] icon: Option<Icon>,
+    #[prop(optional, into)] loading: MaybeSignal<bool>,
     #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -89,7 +90,7 @@ pub fn Button(
         ""
     };
 
-    view! { class=class_name,
+    view! {class=class_name,
         <button
             class:melt-button=true
             class=("melt-button--text", move || type_.get() == ButtonType::TEXT)
@@ -97,9 +98,21 @@ pub fn Button(
             class=("melt-button--round", move || round.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
             >
-                <OptionComp value=icon let:icon>
-                    <Icon icon=icon style=icon_style/>
-                </OptionComp>
+                {
+                    move || {
+                        if loading.get() {
+                            view! {
+                                <Icon icon=Icon::from(AiIcon::AiLoadingOutlined) style=format!("animation: meltLoadingCircle 1s infinite linear;{icon_style}")/>
+                            }.into()
+                        } else if let Some(icon) = icon {
+                            view! {
+                                <Icon icon=icon style=icon_style/>
+                            }.into()
+                        } else {
+                            None
+                        }
+                    }
+                }
                 <OptionComp value=children let:children>
                     { children() }
                 </OptionComp>
