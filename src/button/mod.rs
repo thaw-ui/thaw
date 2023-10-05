@@ -58,6 +58,8 @@ pub fn Button(
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(optional, into)] icon: Option<Icon>,
     #[prop(optional, into)] loading: MaybeSignal<bool>,
+    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] on_click: Option<Callback<ev::MouseEvent>>,
     #[prop(optional)] children: Option<ChildrenFn>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -90,13 +92,33 @@ pub fn Button(
         ""
     };
 
+    let disabled = create_memo(move |_| {
+        if loading.get() {
+            return true;
+        }
+
+        disabled.get()
+    });
+
+    let on_click = move |event| {
+        if disabled.get() {
+            return;
+        }
+        let Some(callback) = on_click.as_ref() else {
+            return;
+        };
+        callback.call(event);
+    };
+
     view! {class=class_name,
         <button
             class:melt-button=true
             class=("melt-button--text", move || type_.get() == ButtonType::TEXT)
             class=("melt-button--link", move || type_.get() == ButtonType::LINK)
             class=("melt-button--round", move || round.get())
+            class=("melt-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
+            on:click=on_click
             >
                 {
                     move || {

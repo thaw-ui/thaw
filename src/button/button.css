@@ -5,7 +5,6 @@
     color: var(--font-color);
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    cursor: pointer;
 
     display: inline-flex;
     align-items: center;
@@ -14,12 +13,14 @@
 }
 
 .melt-button:hover {
-    transition: all 0.3s;
     border-color: var(--border-color-hover);
     background-color: var(--background-color-hover);
+    cursor: pointer;
+
+    transition: all 0.3s;
 }
 
-.melt-button:active {
+.melt-button:active:not(.melt-button--disabled) {
     transition: all 0.3s;
     border-color: var(--border-color-hover);
     background-color: var(--background-color-active);

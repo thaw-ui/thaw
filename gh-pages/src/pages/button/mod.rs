@@ -113,24 +113,46 @@ pub fn ButtonPage() -> impl IntoView {
 #[component]
 pub fn LoadingButton() -> impl IntoView {
     let loading = create_rw_signal(false);
+    let on_click = move |_| {
+        loading.set(true);
+        set_timeout(
+            move || {
+                loading.set(false);
+            },
+            std::time::Duration::new(2, 0),
+        );
+    };
     view! {
-        <h3>"loading"</h3>
+        <h3>"Loading"</h3>
         <Demo>
             <Space>
-                <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined on:click=move |_| loading.set(true)>
-                    "ERROR Color Icon"
+                <Button loading on_click icon=icondata::AiIcon::AiCloseOutlined>
+                    "Click Me"
                 </Button>
-                <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
+                <Button loading on_click>
+                    "Click Me"
                 </Button>
             </Space>
             <DemoCode slot html=highlight_str!(r#"
                 let loading = create_rw_signal(false);
+                let on_click = move |_| {
+                    loading.set(true);
+                    set_timeout(
+                        move || {
+                            loading.set(false);
+                        },
+                        std::time::Duration::new(2, 0),
+                    );
+                };
                 view! {
-                    <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined>
-                        "ERROR Color Icon"
-                    </Button>
-                    <Button loading color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
-                    </Button>
+                    <Space>
+                        <Button loading on_click icon=icondata::AiIcon::AiCloseOutlined>
+                            "Click Me"
+                        </Button>
+                        <Button loading on_click>
+                            "Click Me"
+                        </Button>
+                    </Space>
                 }
             "#, "rust")>
                 ""
