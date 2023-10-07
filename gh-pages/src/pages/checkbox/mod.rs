@@ -19,9 +19,11 @@ pub fn CheckboxPage() -> impl IntoView {
                 <DemoCode slot html=highlight_str!(r#"
                     let checked = create_rw_signal(false);
 
-                    <Checkbox checked>
-                        "Click"
-                    </Checkbox>
+                    view! {
+                        <Checkbox checked>
+                            "Click"
+                        </Checkbox>
+                    }
                 "#, "rust")>
                     ""
                 </DemoCode>
@@ -29,9 +31,9 @@ pub fn CheckboxPage() -> impl IntoView {
             <h3>"group"</h3>
             <Demo>
                 <CheckboxGroup value>
-                    <CheckboxItem label="apple" value="a" />
-                    <CheckboxItem label="b" value="b" />
-                    <CheckboxItem label="c" value="c" />
+                    <CheckboxItem label="apple" key="a" />
+                    <CheckboxItem label="b" key="b" />
+                    <CheckboxItem label="c" key="c" />
                 </CheckboxGroup>
                 <div style="margin-top: 1rem">
                     "value: " { move || format!("{:?}", value.get()) }
@@ -39,11 +41,13 @@ pub fn CheckboxPage() -> impl IntoView {
                 <DemoCode slot html=highlight_str!(r#"
                     let value = create_rw_signal(HashSet::new());
 
-                    <CheckboxGroup value>
-                        <CheckboxItem label="apple" value="a" />
-                        <CheckboxItem label="b" value="b" />
-                        <CheckboxItem label="c" value="c" />
-                    </CheckboxGroup>
+                    view! {
+                        <CheckboxGroup value>
+                            <CheckboxItem label="apple" key="a" />
+                            <CheckboxItem label="b" key="b" />
+                            <CheckboxItem label="c" key="c" />
+                        </CheckboxGroup>
+                    }
                 "#, "rust")>
                     ""
                 </DemoCode>

@@ -1,12 +1,13 @@
+use crate::utils::maybe_rw_signal::MaybeRwSignal;
 use leptos::*;
 use std::collections::HashSet;
 
 #[component]
 pub fn CheckboxGroup(
-    #[prop(into)] value: RwSignal<HashSet<String>>,
+    #[prop(optional, into)] value: MaybeRwSignal<HashSet<String>>,
     children: Children,
 ) -> impl IntoView {
-    let injection_key = CheckboxGroupInjectionKey::new(value);
+    let injection_key = CheckboxGroupInjectionKey::new(value.into());
     provide_context(injection_key);
 
     children()

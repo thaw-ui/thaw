@@ -33,10 +33,10 @@ pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl Into
     });
     let label_list_ref = create_node_ref::<html::Div>();
 
-    view! {  class=class_name,
+    view! {class=class_name,
         <div class="melt-tabs" style=move || css_vars.get()>
             <div class="melt-tabs__label-list" ref=label_list_ref>
-                <For each=move || tab_options_vec.get() key=move |v| v.key.clone() children=move | options| {
+                <For each=move || tab_options_vec.get() key=move |v| v.key children=move | options| {
                     let label_ref = create_node_ref::<html::Span>();
                     create_effect( move |_| {
                         let Some(label) = label_ref.get() else {
