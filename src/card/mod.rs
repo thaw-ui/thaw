@@ -1,8 +1,6 @@
-use std::rc::Rc;
-
 use crate::{components::*, utils::mount_style::mount_style};
 use leptos::*;
-use stylers::style_sheet_str;
+use std::rc::Rc;
 
 #[slot]
 pub struct CardHeader {
@@ -29,7 +27,7 @@ pub fn Card(
     children: Children,
     #[prop(optional)] card_footer: Option<CardFooter>,
 ) -> impl IntoView {
-    let class_name = mount_style("card", || style_sheet_str!("./src/card/card.css"));
+    mount_style("card", include_str!("./card.css"));
 
     let is_header = card_header.is_some();
     let header = card_header.map_or(None, |v| Some(Rc::new(v)));
@@ -37,7 +35,6 @@ pub fn Card(
     // let footer = card_footer.map_or(None, |v| Some(Rc::new(v)));
 
     view! {
-         class=class_name,
         <div class="melt-card">
                 <If cond=MaybeSignal::derive( move || is_header || !title.get().is_empty())  >
                     <Then slot>

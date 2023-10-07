@@ -1,6 +1,5 @@
 use crate::utils::mount_style::mount_style;
 use leptos::*;
-use stylers::style_sheet_str;
 
 #[derive(Default)]
 pub enum SpaceGap {
@@ -18,7 +17,7 @@ pub fn Space(
     #[prop(optional)] vertical: bool,
     children: Children,
 ) -> impl IntoView {
-    let class_name = mount_style("space", || style_sheet_str!("./src/space/space.css"));
+    mount_style("space", include_str!("./space.css"));
     let gap = match gap {
         SpaceGap::SMALL => "4px 8px".into(),
         SpaceGap::MEDIUM => "8px 12px".into(),
@@ -28,12 +27,10 @@ pub fn Space(
     };
 
     view! {
-         class=class_name,
         <div class="melt-space" style:gap={gap} style:flex-direction=if vertical { "column" } else { "row" }>
             {
                 children().nodes.into_iter().map(|node| {
                     view! {
-                         class=class_name,
                         <div class="melt-space__item">
                             {node}
                         </div>

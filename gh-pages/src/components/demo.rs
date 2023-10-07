@@ -10,7 +10,7 @@ pub struct DemoCode {
 
 #[component]
 pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
-    mount_style("demo", || ("", prisms::prism_css!()));
+    mount_style("demo", prisms::prism_css!());
     view! {
        <div style="background-image: url(/melt-ui/grid_dot.svg); background-repeat: repeat; background-size: 1.5rem; margin-top: 1rem; padding: 1rem; border: 1px solid #e5e8eb; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
             { children() }

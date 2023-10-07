@@ -1,10 +1,10 @@
 mod theme;
+
 use crate::{
     theme::{use_theme, Theme},
     utils::mount_style::mount_style,
 };
 use leptos::*;
-use stylers::style_sheet_str;
 pub use theme::InputTheme;
 
 #[derive(Default, Clone)]
@@ -29,7 +29,7 @@ pub fn Input(
     #[prop(optional, into)] type_: MaybeSignal<InputType>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
-    let class_name = mount_style("input", || style_sheet_str!("./src/input/input.css"));
+    mount_style("input", include_str!("./input.css"));
 
     let input_ref = create_node_ref::<html::Input>();
     input_ref.on_load(move |input| {
@@ -48,7 +48,6 @@ pub fn Input(
         css_vars
     });
     view! {
-         class=class_name,
         <div class:melt-input=true style=move || css_vars.get()>
             <input type=move || type_.get().as_str() prop:value=move || value.get() ref=input_ref class="melt-input__input-el"/>
         </div>

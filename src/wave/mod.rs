@@ -1,10 +1,9 @@
 use crate::utils::mount_style::mount_style;
 use leptos::*;
-use stylers::style_sheet_str;
 
 #[component]
 pub fn Wave(children: Children) -> impl IntoView {
-    let class_name = mount_style("wave", || style_sheet_str!("./src/wave/wave.css"));
+    mount_style("wave", include_str!("./wave.css"));
     let (css_vars, set_css_vars) = create_signal(String::new());
     let wave_ref = create_node_ref::<html::Div>();
     wave_ref.on_load(move |wave| {
@@ -22,7 +21,6 @@ pub fn Wave(children: Children) -> impl IntoView {
         });
     });
     view! {
-         class=class_name,
         <div class="melt-wave" ref=wave_ref style=move || css_vars.get()>
             { children() }
         </div>

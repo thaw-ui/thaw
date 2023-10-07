@@ -4,7 +4,6 @@ use crate::icon::*;
 use crate::teleport::*;
 use crate::utils::mount_style::mount_style;
 use leptos::*;
-use stylers::style_sheet_str;
 
 #[slot]
 pub struct ModalFooter {
@@ -18,10 +17,9 @@ pub fn Modal(
     children: Children,
     #[prop(optional)] modal_footer: Option<ModalFooter>,
 ) -> impl IntoView {
-    let class_name = mount_style("modal", || style_sheet_str!("./src/modal/modal.css"));
+    mount_style("modal", include_str!("./modal.css"));
 
     view! {
-         class=class_name,
         <Teleport>
             <div class="melt-modal-container" style=move || if show.get() { "" } else { "display: none" }>
                 <div class="melt-modal-mask"></div>
