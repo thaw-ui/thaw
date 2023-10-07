@@ -5,7 +5,7 @@ edition = "2021"
 keywords = ["web", "leptos", "ui", "melt-ui"]
 
 authors = ["luoxiaozero <luoxiaozero@163.com>"]
-description = "A Leptos UI Library"
+description = "An easy to use leptos component library"
 homepage = "https://github.com/luoxiaozero/melt-ui"
 repository = "https://github.com/luoxiaozero/melt-ui"
 license = "MIT"
