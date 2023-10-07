@@ -21,7 +21,7 @@
     z-index: 2002;
 }
 
-.melt-modal-body>:deep(.melt-card) {
+.melt-modal-body .melt-card {
     width: 600px;
     margin: auto;
 }
