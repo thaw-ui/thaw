@@ -2,7 +2,6 @@ use super::{use_tabbar, TabbarInjectionKey};
 use crate::components::*;
 use crate::{icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
-use stylers::style_sheet_str;
 
 #[component]
 pub fn TabbarItem(
@@ -10,9 +9,7 @@ pub fn TabbarItem(
     #[prop(optional, into)] icon: Option<Icon>,
     children: Children,
 ) -> impl IntoView {
-    let class_name = mount_style("tabbar-item", || {
-        style_sheet_str!("./src/mobile/tabbar/tabbar-item.css")
-    });
+    mount_style("tabbar-item", include_str!("./tabbar-item.css"));
     let theme = use_theme(Theme::light);
     let tabbar = use_tabbar();
     let onclick_select = move |_| {
@@ -27,7 +24,7 @@ pub fn TabbarItem(
         css_vars
     });
 
-    view! { class=class_name,
+    view! {
         <div class="melt-tabbar-item" class=("melt-tabbar-item--selected", move || tabbar.get().value == name.get()) on:click=onclick_select style=move || css_vars.get()>
             <OptionComp value=icon let:icon>
                 <Icon icon=icon width="22px" height="22px" class="melt-tabbar-item__icon"/>

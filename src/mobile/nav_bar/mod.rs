@@ -1,6 +1,5 @@
 use crate::{components::*, icon::*, utils::mount_style::mount_style};
 use leptos::*;
-use stylers::style_sheet_str;
 use web_sys::MouseEvent;
 
 #[component]
@@ -12,9 +11,7 @@ pub fn NavBar(
     #[prop(optional, into)] right_text: MaybeSignal<&'static str>,
     #[prop(optional, into)] click_right: Option<SignalSetter<MouseEvent>>,
 ) -> impl IntoView {
-    let class_name = mount_style("nav-bar", || {
-        style_sheet_str!("./src/mobile/nav_bar/nav-bar.css")
-    });
+    mount_style("nav-bar", include_str!("./nav-bar.css"));
 
     let onclick_left = move |ev| {
         if let Some(click_left) = click_left {
@@ -27,7 +24,7 @@ pub fn NavBar(
         }
     };
 
-    view! {  class=class_name,
+    view! {
         <div class="melt-nav-bar">
             <If cond=MaybeSignal::derive( move || left_arrow.get() || !left_text.get().is_empty())>
                 <Then slot>

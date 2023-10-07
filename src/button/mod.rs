@@ -1,7 +1,7 @@
 mod theme;
+
 use crate::{components::*, icon::*, theme::*, utils::mount_style::mount_style};
 use leptos::*;
-use stylers::style_sheet_str;
 pub use theme::ButtonTheme;
 
 #[derive(Default, PartialEq, Clone, Copy)]
@@ -84,7 +84,7 @@ pub fn Button(
 
         css_vars
     });
-    let class_name = mount_style("button", || style_sheet_str!("./src/button/button.css"));
+    mount_style("button", include_str!("./button.css"));
 
     let icon_style = if children.is_some() {
         "margin-right: 6px"
@@ -110,7 +110,7 @@ pub fn Button(
         callback.call(event);
     };
 
-    view! {class=class_name,
+    view! {
         <button
             class:melt-button=true
             class=("melt-button--text", move || type_.get() == ButtonType::TEXT)

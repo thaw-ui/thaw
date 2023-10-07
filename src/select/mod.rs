@@ -1,7 +1,6 @@
 use crate::{teleport::Teleport, theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 use std::hash::Hash;
-use stylers::style_sheet_str;
 use wasm_bindgen::__rt::IntoJsResult;
 
 #[derive(Clone, PartialEq, Eq, Hash)]
@@ -18,7 +17,7 @@ pub fn Select<T>(
 where
     T: Eq + Hash + Clone + 'static,
 {
-    let class_name = mount_style("select", || style_sheet_str!("./src/select/select.css"));
+    mount_style("select", include_str!("./select.css"));
 
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -79,7 +78,7 @@ where
             .map_or(String::new(), |v| v.label.clone()),
         None => String::new(),
     });
-    view! {  class=class_name,
+    view! {
         <div class="melt-select" ref=trigger_ref on:click=show_popover style=move || css_vars.get()>
             {
                 move || select_option_label.get()
@@ -97,7 +96,7 @@ where
                             value.set(Some(item_value));
                             is_show_popover.set(false);
                         };
-                        view! {  class=class_name,
+                        view! {
                             <div class="melt-select-menu__item" class=("melt-select-menu__item-selected", move || value.get() == Some(item.get_value().value) ) on:click=onclick>
                                 { item.get_value().label }
                             </div>

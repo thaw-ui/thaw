@@ -1,12 +1,12 @@
 mod tab;
 use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
-use stylers::style_sheet_str;
+
 pub use tab::*;
 
 #[component]
 pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl IntoView {
-    let class_name = mount_style("tabs", || style_sheet_str!("./src/tabs/tabs.css"));
+    mount_style("tabs", include_str!("./tabs.css"));
     let tab_options_vec = create_rw_signal(vec![]);
     provide_context(TabsInjectionKey {
         active_key: active_key.clone(),
@@ -33,7 +33,7 @@ pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl Into
     });
     let label_list_ref = create_node_ref::<html::Div>();
 
-    view! {class=class_name,
+    view! {
         <div class="melt-tabs" style=move || css_vars.get()>
             <div class="melt-tabs__label-list" ref=label_list_ref>
                 <For each=move || tab_options_vec.get() key=move |v| v.key children=move | options| {
@@ -56,7 +56,7 @@ pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl Into
                             });
                         }
                     });
-                    view! { class=class_name,
+                    view! {
                         <span class="melt-tabs__label" class=("melt-tabs__label--active", move || options.key == active_key.get())
                             on:click=move |_| active_key.set(options.key)
                             ref=label_ref

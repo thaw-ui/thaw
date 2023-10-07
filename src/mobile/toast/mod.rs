@@ -1,7 +1,6 @@
 use crate::utils::mount_style::mount_style;
 use leptos::*;
 use std::time::Duration;
-use stylers::style_sheet_str;
 use web_sys::Element;
 
 pub struct ToastOptions {
@@ -10,10 +9,10 @@ pub struct ToastOptions {
 }
 
 pub fn show_toast(options: ToastOptions) {
-    let class_name = mount_style("toast", || style_sheet_str!("./src/mobile/toast/toast.css"));
+    mount_style("toast", include_str!("./toast.css"));
 
     let parent = Element::from(document().body().expect("body element not to exist"));
-    let children = view! { class=class_name,
+    let children = view! {
         <div class="melt-toast">
             { options.message }
         </div>

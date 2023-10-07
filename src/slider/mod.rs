@@ -1,6 +1,5 @@
 use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
-use stylers::style_sheet_str;
 use wasm_bindgen::JsCast;
 
 #[component]
@@ -27,7 +26,7 @@ pub fn Slider(
             value.get() / max.get() * 100.0
         }
     });
-    let class_name = mount_style("slider", || style_sheet_str!("./src/slider/slider.css"));
+    mount_style("slider", include_str!("./slider.css"));
 
     let do_update_value = move |val| {
         value.set(val);
@@ -66,7 +65,7 @@ pub fn Slider(
     });
     on_cleanup(move || on_mouse_move.remove());
 
-    view! { class=class_name,
+    view! {
         <div class="melt-slider" style=move || css_vars.get()>
             <div class="melt-slider-rail" ref=rail_ref>
                 <div class="melt-slider-rail__fill" style=move || format!("width: {}%", percentage.get())></div>

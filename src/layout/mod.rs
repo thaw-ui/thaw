@@ -5,7 +5,6 @@ use crate::utils::mount_style::mount_style;
 pub use layout_header::*;
 pub use layout_sider::*;
 use leptos::*;
-use stylers::style_sheet_str;
 
 #[derive(Default, PartialEq)]
 pub enum LayoutPosition {
@@ -30,7 +29,7 @@ pub fn Layout(
     #[prop(optional, into)] has_sider: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {
-    let class_name = mount_style("layout", || style_sheet_str!("./src/layout/layout.css"));
+    mount_style("layout", include_str!("./layout.css"));
 
     let style = create_memo(move |_| {
         let mut style = style.get();
@@ -39,7 +38,7 @@ pub fn Layout(
         }
         style
     });
-    view! {  class=class_name,
+    view! {
         <div class="melt-layout" class=("melt-layout--absolute-positioned", position == LayoutPosition::ABSOLUTE) style=move || style.get()>
             { children() }
         </div>

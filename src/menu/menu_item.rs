@@ -1,14 +1,13 @@
 use super::{use_menu, MenuInjectionKey};
 use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
-use stylers::style_sheet_str;
 
 #[component]
 pub fn MenuItem(
     #[prop(into)] key: MaybeSignal<&'static str>,
     #[prop(into)] label: MaybeSignal<String>,
 ) -> impl IntoView {
-    let class_name = mount_style("menu-item", || style_sheet_str!("./src/menu/menu-item.css"));
+    mount_style("menu-item", include_str!("./menu-item.css"));
     let theme = use_theme(Theme::light);
     let menu = use_menu();
     let onclick_select = move |_| {
@@ -28,7 +27,7 @@ pub fn MenuItem(
         ));
         css_vars
     });
-    view! { class=class_name,
+    view! {
         <div class="melt-menu-item">
             <div class="melt-menu-item__content" class=("melt-menu-item__content--selected", move || menu.get().value == key.get()) on:click=onclick_select style=move || css_vars.get()>
                 { move || label.get() }
