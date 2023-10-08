@@ -17,7 +17,11 @@ pub fn Teleport(#[prop(optional)] to: Option<&'static str>, children: Children) 
     {
         use leptos_dom::Mountable;
         let node = children().into_view();
-        parent.append_child(&node.get_mountable_node()).unwrap();
+        let node = node.get_mountable_node();
+        parent.append_child(&node).unwrap();
+        on_cleanup(move || {
+            _ = parent.remove_child(&node);
+        });
     }
 
     #[cfg(not(target_arch = "wasm32"))]

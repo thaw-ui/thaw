@@ -23,6 +23,7 @@ pub fn App() -> impl IntoView {
                     <Route path="/select" view=SelectPage/>
                     <Route path="/space" view=SpacePage/>
                     <Route path="/table" view=TablePage/>
+                    <Route path="/color-picker" view=ColorPickerPage/>
                 </Route>
                 <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                 <Route path="/mobile/nav-bar" view=NavBarDemoPage/>

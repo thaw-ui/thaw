@@ -1,5 +1,6 @@
 mod button;
 mod checkbox;
+mod color_picker;
 mod components;
 mod home;
 mod image;
@@ -18,6 +19,7 @@ mod toast;
 
 pub use button::*;
 pub use checkbox::*;
+pub use color_picker::*;
 pub use components::*;
 pub use home::*;
 pub use image::*;

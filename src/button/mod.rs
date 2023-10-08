@@ -126,7 +126,7 @@ pub fn Button(
                         <Icon
                             icon=Icon::from(AiIcon::AiLoadingOutlined)
                             style=format!(
-                                "animation: meltLoadingCircle 1s infinite linear;{icon_style}"
+                                "animation: meltLoadingCircle 1s infinite linear;{icon_style}",
                             )
                         />
                     }
