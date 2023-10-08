@@ -12,6 +12,7 @@ mod select;
 mod slider;
 mod space;
 mod tabbar;
+mod table;
 mod tabs;
 mod toast;
 
@@ -29,5 +30,6 @@ pub use select::*;
 pub use slider::*;
 pub use space::*;
 pub use tabbar::*;
+pub use table::*;
 pub use tabs::*;
 pub use toast::*;

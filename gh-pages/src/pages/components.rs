@@ -47,6 +47,7 @@ pub fn ComponentsPage() -> impl IntoView {
                             <MenuItem key="tabs" label="Tabs"/>
                             <MenuItem key="select" label="Select"/>
                             <MenuItem key="space" label="Space"/>
+                            <MenuItem key="table" label="Table"/>
                         </MenuGroup>
                         <MenuGroup label="Mobile Components">
                             <MenuItem key="tabbar" label="Tabbar"/>

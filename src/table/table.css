@@ -1,16 +1,39 @@
 .melt-table {
     width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
 }
 
 .melt-table th {
     text-align: inherit;
+    background-color: var(--background-color-striped);
 }
 
 .melt-table td,
 .melt-table th {
-    padding: 10px 12px;
+    padding: 12px;
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.melt-table thead {
-    border-bottom: 1px solid #888;
+.melt-table.melt-table--single-row td,
+.melt-table.melt-table--single-row th {
+    border-right: none;
+}
+.melt-table.melt-table--single-column td {
+    border-bottom: none;
+}
+.melt-table td:last-child,
+.melt-table th:last-child {
+    border-right: none;
+}
+
+.melt-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.melt-table tr {
+    border-bottom: 1px solid var(--border-color);
 }
