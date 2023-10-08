@@ -16,7 +16,10 @@ pub fn ToastPage() -> impl IntoView {
                 <h1>"Toast"</h1>
                 <Demo>
                     ""
-                    <DemoCode slot html=highlight_str!(r#"
+                    <DemoCode
+                        slot
+                        html=highlight_str!(
+                            r#"
                         let count = create_rw_signal(0u32);
                         let onclick = move |_| {
                             show_toast(ToastOptions {
@@ -25,13 +28,17 @@ pub fn ToastPage() -> impl IntoView {
                             });
                             count.set(count.get_untracked() + 1);
                         };
-                    "#, "rust")>
+                    "#,
+                            "rust"
+                        )
+                    >
+
                         ""
                     </DemoCode>
                 </Demo>
             </div>
             <div>
-                <MobilePage path="/melt-ui?path=/mobile/toast" />
+                <MobilePage path="/melt-ui?path=/mobile/toast"/>
             </div>
         </div>
     }

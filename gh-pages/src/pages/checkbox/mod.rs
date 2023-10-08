@@ -13,10 +13,11 @@ pub fn CheckboxPage() -> impl IntoView {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Checkbox"</h1>
             <Demo>
-                <Checkbox checked>
-                    "Click"
-                </Checkbox>
-                <DemoCode slot html=highlight_str!(r#"
+                <Checkbox checked>"Click"</Checkbox>
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     let checked = create_rw_signal(false);
 
                     view! {
@@ -24,21 +25,26 @@ pub fn CheckboxPage() -> impl IntoView {
                             "Click"
                         </Checkbox>
                     }
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>
             <h3>"group"</h3>
             <Demo>
                 <CheckboxGroup value>
-                    <CheckboxItem label="apple" key="a" />
-                    <CheckboxItem label="b" key="b" />
-                    <CheckboxItem label="c" key="c" />
+                    <CheckboxItem label="apple" key="a"/>
+                    <CheckboxItem label="b" key="b"/>
+                    <CheckboxItem label="c" key="c"/>
                 </CheckboxGroup>
-                <div style="margin-top: 1rem">
-                    "value: " { move || format!("{:?}", value.get()) }
-                </div>
-                <DemoCode slot html=highlight_str!(r#"
+                <div style="margin-top: 1rem">"value: " {move || format!("{:?}", value.get())}</div>
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     let value = create_rw_signal(HashSet::new());
 
                     view! {
@@ -48,7 +54,11 @@ pub fn CheckboxPage() -> impl IntoView {
                             <CheckboxItem label="c" key="c" />
                         </CheckboxGroup>
                     }
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>

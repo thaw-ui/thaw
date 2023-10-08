@@ -26,5 +26,5 @@ pub fn Teleport(#[prop(optional)] to: Option<&'static str>, children: Children) 
         _ = children;
     }
 
-    view! {  <></> }
+    view! { <></> }
 }

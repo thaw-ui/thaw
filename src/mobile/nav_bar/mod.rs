@@ -26,7 +26,7 @@ pub fn NavBar(
 
     view! {
         <div class="melt-nav-bar">
-            <If cond=MaybeSignal::derive( move || left_arrow.get() || !left_text.get().is_empty())>
+            <If cond=MaybeSignal::derive(move || left_arrow.get() || !left_text.get().is_empty())>
                 <Then slot>
                     <div class="melt-nav-bar__left" on:click=onclick_left>
                         <If cond=left_arrow>
@@ -34,17 +34,15 @@ pub fn NavBar(
                                 <Icon icon=Icon::from(AiIcon::AiLeftOutlined)/>
                             </Then>
                         </If>
-                        { left_text.get() }
+                        {left_text.get()}
                     </div>
                 </Then>
             </If>
-            <div class="melt-nav-bar__center">
-                { move || title.get() }
-            </div>
-            <If cond=MaybeSignal::derive( move || !right_text.get().is_empty())>
+            <div class="melt-nav-bar__center">{move || title.get()}</div>
+            <If cond=MaybeSignal::derive(move || !right_text.get().is_empty())>
                 <Then slot>
                     <div class="melt-nav-bar__right" on:click=onclick_right>
-                        { right_text.get() }
+                        {right_text.get()}
                     </div>
                 </Then>
             </If>

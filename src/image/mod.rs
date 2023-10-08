@@ -30,7 +30,11 @@ pub fn Image(
         style
     };
     view! {
-
-        <img src=move || src.get()  alt=move || alt.get() style=style object_fit=move || object_fit.get()/>
+        <img
+            src=move || src.get()
+            alt=move || alt.get()
+            style=style
+            object_fit=move || object_fit.get()
+        />
     }
 }

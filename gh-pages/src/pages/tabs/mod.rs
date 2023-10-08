@@ -18,7 +18,10 @@ pub fn TabsPage() -> impl IntoView {
                         "pear"
                     </Tab>
                 </Tabs>
-                <DemoCode slot html=highlight_str!(r#"
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     let active_key = create_rw_signal("apple");
                     <Tabs active_key>
                         <Tab key="apple" label="Apple">
@@ -28,7 +31,11 @@ pub fn TabsPage() -> impl IntoView {
                             "pear"
                         </Tab>
                     </Tabs>
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>

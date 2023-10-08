@@ -4,9 +4,5 @@ use leptos::*;
 #[component]
 pub fn Table(children: Children) -> impl IntoView {
     mount_style("table", include_str!("./table.css"));
-    view! {
-        <table class="melt-table">
-            {children()}
-        </table>
-    }
+    view! { <table class="melt-table">{children()}</table> }
 }

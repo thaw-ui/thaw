@@ -36,41 +36,50 @@ pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl Into
     view! {
         <div class="melt-tabs" style=move || css_vars.get()>
             <div class="melt-tabs__label-list" ref=label_list_ref>
-                <For each=move || tab_options_vec.get() key=move |v| v.key children=move | options| {
-                    let label_ref = create_node_ref::<html::Span>();
-                    create_effect( move |_| {
-                        let Some(label) = label_ref.get() else {
-                            return;
+                <For
+                    each=move || tab_options_vec.get()
+                    key=move |v| v.key
+                    children=move |options| {
+                        let label_ref = create_node_ref::<html::Span>();
+                        create_effect(move |_| {
+                            let Some(label) = label_ref.get() else { return;
                         };
-                        let Some(label_list) = label_list_ref.get() else {
-                            return;
+                            let Some(label_list) = label_list_ref.get() else { return;
                         };
-                        if options.key == active_key.get() {
-                            request_animation_frame(move || {
-                                let list_rect = label_list.get_bounding_client_rect();
-                                let rect = label.get_bounding_client_rect();
-                                label_line.set(Some(TabsLabelLine {
-                                    width: rect.width(),
-                                    left: rect.left() - list_rect.left(),
-                                }));
-                            });
+                            if options.key == active_key.get() {
+                                request_animation_frame(move || {
+                                    let list_rect = label_list.get_bounding_client_rect();
+                                    let rect = label.get_bounding_client_rect();
+                                    label_line
+                                        .set(
+                                            Some(TabsLabelLine {
+                                                width: rect.width(),
+                                                left: rect.left() - list_rect.left(),
+                                            }),
+                                        );
+                                });
+                            }
+                        });
+                        view! {
+                            <span
+                                class="melt-tabs__label"
+                                class=(
+                                    "melt-tabs__label--active",
+                                    move || options.key == active_key.get(),
+                                )
+
+                                on:click=move |_| active_key.set(options.key)
+                                ref=label_ref
+                            >
+                                {options.label}
+                            </span>
                         }
-                    });
-                    view! {
-                        <span class="melt-tabs__label" class=("melt-tabs__label--active", move || options.key == active_key.get())
-                            on:click=move |_| active_key.set(options.key)
-                            ref=label_ref
-                        >
-                            { options.label }
-                        </span>
                     }
-                }>
-                </For>
+                />
+
                 <span class="melt-tabs-label__line" style=move || label_line_style.get()></span>
             </div>
-            <div>
-                { children() }
-            </div>
+            <div>{children()}</div>
         </div>
     }
 }

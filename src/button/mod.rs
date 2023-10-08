@@ -119,25 +119,28 @@ pub fn Button(
             class=("melt-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
             on:click=on_click
-            >
-                {
-                    move || {
-                        if loading.get() {
-                            view! {
-                                <Icon icon=Icon::from(AiIcon::AiLoadingOutlined) style=format!("animation: meltLoadingCircle 1s infinite linear;{icon_style}")/>
-                            }.into()
-                        } else if let Some(icon) = icon {
-                            view! {
-                                <Icon icon=icon style=icon_style/>
-                            }.into()
-                        } else {
-                            None
-                        }
+        >
+            {move || {
+                if loading.get() {
+                    view! {
+                        <Icon
+                            icon=Icon::from(AiIcon::AiLoadingOutlined)
+                            style=format!(
+                                "animation: meltLoadingCircle 1s infinite linear;{icon_style}"
+                            )
+                        />
                     }
+                        .into()
+                } else if let Some(icon) = icon {
+                    view! { <Icon icon=icon style=icon_style/> }.into()
+                } else {
+                    None
                 }
-                <OptionComp value=children let:children>
-                    { children() }
-                </OptionComp>
+            }}
+
+            <OptionComp value=children let:children>
+                {children()}
+            </OptionComp>
         </button>
     }
 }

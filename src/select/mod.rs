@@ -85,30 +85,49 @@ where
     });
     view! {
         <div class="melt-select" ref=trigger_ref on:click=show_popover style=move || css_vars.get()>
-            {
-                move || select_option_label.get()
-            }
+
+            {move || select_option_label.get()}
+
         </div>
         <Teleport>
-            <div class="melt-select-menu" style=move || if is_show_popover.get() { css_vars.get() } else { format!("display: none; {}", css_vars.get()) } ref=popover_ref>
+            <div
+                class="melt-select-menu"
+                style=move || {
+                    if is_show_popover.get() {
+                        css_vars.get()
+                    } else {
+                        format!("display: none; {}", css_vars.get())
+                    }
+                }
+
+                ref=popover_ref
+            >
                 <For
                     each=move || options.get()
                     key=move |item| item.value.clone()
-                    children=move | item| {
-                        let item = store_value( item);
+                    children=move |item| {
+                        let item = store_value(item);
                         let onclick = move |_| {
                             let SelectOption { value: item_value, label: _ } = item.get_value();
                             value.set(Some(item_value));
                             is_show_popover.set(false);
                         };
                         view! {
-                            <div class="melt-select-menu__item" class=("melt-select-menu__item-selected", move || value.get() == Some(item.get_value().value) ) on:click=onclick>
-                                { item.get_value().label }
+                            <div
+                                class="melt-select-menu__item"
+                                class=(
+                                    "melt-select-menu__item-selected",
+                                    move || value.get() == Some(item.get_value().value),
+                                )
+
+                                on:click=onclick
+                            >
+                                {item.get_value().label}
                             </div>
                         }
                     }
-                >
-                </For>
+                />
+
             </div>
         </Teleport>
     }

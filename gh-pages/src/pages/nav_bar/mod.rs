@@ -14,7 +14,10 @@ pub fn NavBarPage() -> impl IntoView {
                 <h1>"Navbar"</h1>
                 <Demo>
                     ""
-                    <DemoCode slot html=highlight_str!(r#"
+                    <DemoCode
+                        slot
+                        html=highlight_str!(
+                            r#"
                         <NavBar 
                             title="Home" 
                             left_arrow=true 
@@ -23,13 +26,17 @@ pub fn NavBarPage() -> impl IntoView {
                             click_left=click_left 
                             click_right=click_right
                         />
-                    "#, "rust")>
+                    "#,
+                            "rust"
+                        )
+                    >
+
                         ""
                     </DemoCode>
                 </Demo>
             </div>
             <div>
-                <MobilePage path="/melt-ui?path=/mobile/nav-bar" />
+                <MobilePage path="/melt-ui?path=/mobile/nav-bar"/>
             </div>
         </div>
     }
@@ -45,10 +52,15 @@ pub fn NavBarDemoPage() -> impl IntoView {
 
     view! {
         <div style="height: 100vh; background: #f5f5f5">
-            <NavBar title="Home" left_arrow=true left_text="back" right_text="add" click_left=click_left click_right=click_right/>
-            <div style="padding-top: 50px">
-                { move || click_text.get() }
-            </div>
+            <NavBar
+                title="Home"
+                left_arrow=true
+                left_text="back"
+                right_text="add"
+                click_left=click_left
+                click_right=click_right
+            />
+            <div style="padding-top: 50px">{move || click_text.get()}</div>
         </div>
     }
 }

@@ -14,8 +14,8 @@ pub fn MenuGroup(label: &'static str, children: Children) -> impl IntoView {
     });
     view! {
         <div class="melt-menu-group" style=move || css_vars.get()>
-            { label }
+            {label}
         </div>
-        { children() }
+        {children()}
     }
 }

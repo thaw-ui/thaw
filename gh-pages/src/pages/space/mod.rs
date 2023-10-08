@@ -14,13 +14,20 @@ pub fn SpacePage() -> impl IntoView {
                     <Button>"2"</Button>
                     <Button>"3"</Button>
                 </Space>
-                <DemoCode slot html=highlight_str!(r#"
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     <Space>
                         <Button>"1"</Button>
                         <Button>"2"</Button>
                         <Button>"3"</Button>
                     </Space>
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>
@@ -31,13 +38,20 @@ pub fn SpacePage() -> impl IntoView {
                     <Button>"2"</Button>
                     <Button>"3"</Button>
                 </Space>
-                <DemoCode slot html=highlight_str!(r#"
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     <Space vertical=true>
                         <Button>"1"</Button>
                         <Button>"2"</Button>
                         <Button>"3"</Button>
                     </Space>
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>
@@ -53,7 +67,10 @@ pub fn SpacePage() -> impl IntoView {
                     <Button>"2"</Button>
                     <Button>"3"</Button>
                 </Space>
-                <DemoCode slot html=highlight_str!(r#"
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     <Space gap=SpaceGap::LARGE>
                         <Button>"1"</Button>
                         <Button>"2"</Button>
@@ -64,7 +81,11 @@ pub fn SpacePage() -> impl IntoView {
                         <Button>"2"</Button>
                         <Button>"3"</Button>
                     </Space>
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>

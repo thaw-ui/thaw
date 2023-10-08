@@ -14,8 +14,8 @@ pub fn Tab(key: &'static str, label: &'static str, children: Children) -> impl I
     let tabs = use_tabs();
     tabs.push_tab_options(TabOptions { key, label });
     view! {
-        <div class="melt-tab" class=("melt-tab--hidden", move || key != tabs.get_key()) >
-            { children() }
+        <div class="melt-tab" class=("melt-tab--hidden", move || key != tabs.get_key())>
+            {children()}
         </div>
     }
 }

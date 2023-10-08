@@ -49,7 +49,12 @@ pub fn Input(
     });
     view! {
         <div class:melt-input=true style=move || css_vars.get()>
-            <input type=move || type_.get().as_str() prop:value=move || value.get() ref=input_ref class="melt-input__input-el"/>
+            <input
+                type=move || type_.get().as_str()
+                prop:value=move || value.get()
+                ref=input_ref
+                class="melt-input__input-el"
+            />
         </div>
     }
 }

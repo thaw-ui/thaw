@@ -25,13 +25,16 @@ pub fn TabbarItem(
     });
 
     view! {
-        <div class="melt-tabbar-item" class=("melt-tabbar-item--selected", move || tabbar.get().value == name.get()) on:click=onclick_select style=move || css_vars.get()>
+        <div
+            class="melt-tabbar-item"
+            class=("melt-tabbar-item--selected", move || tabbar.get().value == name.get())
+            on:click=onclick_select
+            style=move || css_vars.get()
+        >
             <OptionComp value=icon let:icon>
                 <Icon icon=icon width="22px" height="22px" class="melt-tabbar-item__icon"/>
             </OptionComp>
-            <div class="melt-tabbar-item__content">
-                { children() }
-            </div>
+            <div class="melt-tabbar-item__content">{children()}</div>
         </div>
     }
 }

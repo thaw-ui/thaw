@@ -9,7 +9,7 @@ pub fn LayoutSider(
     mount_style("layout-sider", include_str!("./layout-sider.css"));
     view! {
         <div class="melt-layout-sider" style=move || style.get()>
-            { children() }
+            {children()}
         </div>
     }
 }

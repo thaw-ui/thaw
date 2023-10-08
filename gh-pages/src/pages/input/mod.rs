@@ -11,14 +11,21 @@ pub fn InputPage() -> impl IntoView {
             <h1>"Input"</h1>
             <Demo>
                 <Input value/>
-                <Input value type_=InputType::PASSWORD />
-                <DemoCode slot html=highlight_str!(r#"
+                <Input value type_=InputType::PASSWORD/>
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     let value = create_rw_signal(String::from("o"));
 
                     <Input value/>
                     <Input value type_=InputType::PASSWORD />
-                "#, "rust")>
-                ""
+                "#,
+                        "rust"
+                    )
+                >
+
+                    ""
                     ""
                 </DemoCode>
             </Demo>

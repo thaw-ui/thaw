@@ -39,8 +39,12 @@ pub fn Layout(
         style
     });
     view! {
-        <div class="melt-layout" class=("melt-layout--absolute-positioned", position == LayoutPosition::ABSOLUTE) style=move || style.get()>
-            { children() }
+        <div
+            class="melt-layout"
+            class=("melt-layout--absolute-positioned", position == LayoutPosition::ABSOLUTE)
+            style=move || style.get()
+        >
+            {children()}
         </div>
     }
 }

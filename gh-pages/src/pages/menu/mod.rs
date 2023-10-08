@@ -14,14 +14,21 @@ pub fn MenuPage() -> impl IntoView {
                     <MenuItem key="a" label="and"/>
                     <MenuItem key="o" label="or"/>
                 </Menu>
-                <DemoCode slot html=highlight_str!(r#"
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     let selected = create_rw_signal(String::from("o"));
                             
                     <Menu selected>
                         <MenuItem key="a" label="and"/>
                         <MenuItem key="o" label="or"/>
                     </Menu>
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>

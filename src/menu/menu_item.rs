@@ -29,8 +29,13 @@ pub fn MenuItem(
     });
     view! {
         <div class="melt-menu-item">
-            <div class="melt-menu-item__content" class=("melt-menu-item__content--selected", move || menu.get().value == key.get()) on:click=onclick_select style=move || css_vars.get()>
-                { move || label.get() }
+            <div
+                class="melt-menu-item__content"
+                class=("melt-menu-item__content--selected", move || menu.get().value == key.get())
+                on:click=onclick_select
+                style=move || css_vars.get()
+            >
+                {move || label.get()}
             </div>
         </div>
     }

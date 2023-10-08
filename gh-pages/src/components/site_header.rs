@@ -5,18 +5,24 @@ use melt_ui::*;
 #[component]
 pub fn SiteHeader() -> impl IntoView {
     view! {
-        <LayoutHeader
-            style="height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e5e8eb"
-        >
-            <span style="cursor: pointer" on:click=move |_| {
-                let navigate = use_navigate();
-                navigate("/", Default::default());
-            }>
+        <LayoutHeader style="height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e5e8eb">
+            <span
+                style="cursor: pointer"
+                on:click=move |_| {
+                    let navigate = use_navigate();
+                    navigate("/", Default::default());
+                }
+            >
+
                 "Melt UI"
             </span>
-            <Button type_=ButtonType::TEXT on:click=move |_| {
-                _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
-            }>
+            <Button
+                type_=ButtonType::TEXT
+                on:click=move |_| {
+                    _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
+                }
+            >
+
                 "Github"
             </Button>
         </LayoutHeader>

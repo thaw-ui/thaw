@@ -27,16 +27,20 @@ pub fn Space(
     };
 
     view! {
-        <div class="melt-space" style:gap={gap} style:flex-direction=if vertical { "column" } else { "row" }>
-            {
-                children().nodes.into_iter().map(|node| {
-                    view! {
-                        <div class="melt-space__item">
-                            {node}
-                        </div>
-                    }
-                }).collect::<Vec<_>>()
-            }
+        <div
+            class="melt-space"
+            style:gap=gap
+            style:flex-direction=if vertical { "column" } else { "row" }
+        >
+
+            {children()
+                .nodes
+                .into_iter()
+                .map(|node| {
+                    view! { <div class="melt-space__item">{node}</div> }
+                })
+                .collect::<Vec<_>>()}
+
         </div>
     }
 }

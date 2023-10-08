@@ -30,9 +30,13 @@ pub fn Checkbox(
     });
 
     view! {
-        <div class:melt-checkbox=true class=("melt-checkbox--checked", move || checked.get()) style=move || css_vars.get()
-            on:click=move |_| checked.set(!checked.get_untracked())>
-            <input class="melt-checkbox__input" type="checkbox" />
+        <div
+            class:melt-checkbox=true
+            class=("melt-checkbox--checked", move || checked.get())
+            style=move || css_vars.get()
+            on:click=move |_| checked.set(!checked.get_untracked())
+        >
+            <input class="melt-checkbox__input" type="checkbox"/>
             <div class="melt-checkbox__dot">
                 <If cond=checked.clone_into()>
                     <Then slot>
@@ -40,9 +44,7 @@ pub fn Checkbox(
                     </Then>
                 </If>
             </div>
-            <div class="melt-checkbox__label">
-                { children() }
-            </div>
+            <div class="melt-checkbox__label">{children()}</div>
         </div>
     }
 }

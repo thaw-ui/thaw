@@ -22,7 +22,7 @@ pub fn Wave(children: Children) -> impl IntoView {
     });
     view! {
         <div class="melt-wave" ref=wave_ref style=move || css_vars.get()>
-            { children() }
+            {children()}
         </div>
     }
 }

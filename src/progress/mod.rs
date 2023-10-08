@@ -12,10 +12,8 @@ pub fn Progress(
     view! {
         <div class="melt-progress">
             <span class="melt-progress__tip-left">
-                <If cond=MaybeSignal::derive( move || !left_tip.get().is_empty())>
-                    <Then slot>
-                        { left_tip.get() }
-                    </Then>
+                <If cond=MaybeSignal::derive(move || !left_tip.get().is_empty())>
+                    <Then slot>{left_tip.get()}</Then>
                 </If>
             </span>
             <span class="melt-progress__progress">
@@ -24,12 +22,10 @@ pub fn Progress(
                 </span>
             </span>
             <span class="melt-progress__tip-right">
-                <If cond=MaybeSignal::derive( move || !right_tip.get().is_empty())>
-                    <Then slot>
-                        { right_tip.get() }
-                    </Then>
+                <If cond=MaybeSignal::derive(move || !right_tip.get().is_empty())>
+                    <Then slot>{right_tip.get()}</Then>
                 </If>
             </span>
-         </div>
+        </div>
     }
 }

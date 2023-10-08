@@ -26,11 +26,7 @@ pub fn Tabbar(#[prop(into)] selected: RwSignal<String>, children: Children) -> i
         }
     });
     provide_context(tabbar_injection_key);
-    view! {
-        <div class="melt-tabbar">
-            { children() }
-        </div>
-    }
+    view! { <div class="melt-tabbar">{children()}</div> }
 }
 
 #[derive(Clone)]

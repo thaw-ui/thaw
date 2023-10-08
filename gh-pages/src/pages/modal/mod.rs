@@ -10,13 +10,14 @@ pub fn ModalPage() -> impl IntoView {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Modal"</h1>
             <Demo>
-                <Button on:click=move |_| show.set(true)>
-                    "Open Modal"
-                </Button>
+                <Button on:click=move |_| show.set(true)>"Open Modal"</Button>
                 <Modal title="title" show>
                     "hello"
                 </Modal>
-                <DemoCode slot html=highlight_str!(r#"
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
                     let show = create_rw_signal(false);
 
                     <Button on:click=move |_| show.set(true)>
@@ -25,7 +26,11 @@ pub fn ModalPage() -> impl IntoView {
                     <Modal title="title" show>
                         "hello"
                     </Modal>
-                "#, "rust")>
+                "#,
+                        "rust"
+                    )
+                >
+
                     ""
                 </DemoCode>
             </Demo>

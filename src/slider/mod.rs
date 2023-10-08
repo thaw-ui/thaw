@@ -68,9 +68,20 @@ pub fn Slider(
     view! {
         <div class="melt-slider" style=move || css_vars.get()>
             <div class="melt-slider-rail" ref=rail_ref>
-                <div class="melt-slider-rail__fill" style=move || format!("width: {}%", percentage.get())></div>
+                <div
+                    class="melt-slider-rail__fill"
+                    style=move || format!("width: {}%", percentage.get())
+                ></div>
             </div>
-            <div on:mousedown=on_mouse_down class="melt-slider-handle" style=move || format!("left: {}%; transform: translateX(-{}%)", percentage.get(), percentage.get())>
+            <div
+                on:mousedown=on_mouse_down
+                class="melt-slider-handle"
+                style=move || {
+                    format!(
+                        "left: {}%; transform: translateX(-{}%)", percentage.get(), percentage.get()
+                    )
+                }
+            >
             </div>
         </div>
     }

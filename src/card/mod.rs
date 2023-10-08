@@ -36,37 +36,29 @@ pub fn Card(
 
     view! {
         <div class="melt-card">
-                <If cond=MaybeSignal::derive( move || is_header || !title.get().is_empty())  >
-                    <Then slot>
-                        <div class="melt-card__header">
-                            <div class="melt-card__header-content">
-                                <OptionComp value=header.clone() let:header>
-                                    <Fallback slot>
-                                        { title.get() }
-                                    </Fallback>
-                                    { (header.children)() }
-                                </OptionComp>
-                            </div>
-                            <OptionComp value=header_extra.clone() let:header_extra>
-                                <div class="melt-card__header-extra">
-                                    { (header_extra.children)() }
-                                </div>
+            <If cond=MaybeSignal::derive(move || is_header || !title.get().is_empty())>
+                <Then slot>
+                    <div class="melt-card__header">
+                        <div class="melt-card__header-content">
+                            <OptionComp value=header.clone() let:header>
+                                <Fallback slot>{title.get()}</Fallback>
+                                {(header.children)()}
                             </OptionComp>
                         </div>
-                    </Then>
-                </If>
-            <div class="melt-card__content">
-                { children() }
-            </div>
+                        <OptionComp value=header_extra.clone() let:header_extra>
+                            <div class="melt-card__header-extra">{(header_extra.children)()}</div>
+                        </OptionComp>
+                    </div>
+                </Then>
+            </If>
+            <div class="melt-card__content">{children()}</div>
             <OptionComp value=card_footer let:footer>
-                <If cond=footer.if_ >
+                <If cond=footer.if_>
                     <Then slot>
-                        <div class="melt-card__footer">
-                            { (footer.children)() }
-                        </div>
+                        <div class="melt-card__footer">{(footer.children)()}</div>
                     </Then>
                 </If>
             </OptionComp>
-         </div>
+        </div>
     }
 }
