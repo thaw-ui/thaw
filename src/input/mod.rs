@@ -8,17 +8,17 @@ use leptos::*;
 pub use theme::InputTheme;
 
 #[derive(Default, Clone)]
-pub enum InputType {
+pub enum InputVariant {
     #[default]
     TEXT,
     PASSWORD,
 }
 
-impl InputType {
+impl InputVariant {
     pub fn as_str(&self) -> &'static str {
         match self {
-            InputType::TEXT => "text",
-            InputType::PASSWORD => "password",
+            InputVariant::TEXT => "text",
+            InputVariant::PASSWORD => "password",
         }
     }
 }
@@ -26,7 +26,7 @@ impl InputType {
 #[component]
 pub fn Input(
     #[prop(into)] value: RwSignal<String>,
-    #[prop(optional, into)] type_: MaybeSignal<InputType>,
+    #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
@@ -50,7 +50,7 @@ pub fn Input(
     view! {
         <div class:melt-input=true style=move || css_vars.get()>
             <input
-                type=move || type_.get().as_str()
+                type=move || variant.get().as_str()
                 prop:value=move || value.get()
                 ref=input_ref
                 class="melt-input__input-el"

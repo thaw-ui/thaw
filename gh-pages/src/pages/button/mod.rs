@@ -10,25 +10,25 @@ pub fn ButtonPage() -> impl IntoView {
             <h1>"Button"</h1>
             <Demo>
                 <Space>
-                    <Button type_=ButtonType::PRIMARY>"PRIMARY"</Button>
-                    <Button type_=ButtonType::SOLID>"SOLID"</Button>
-                    <Button type_=ButtonType::TEXT>"TEXT"</Button>
-                    <Button type_=ButtonType::LINK>"LINK"</Button>
+                    <Button variant=ButtonVariant::PRIMARY>"PRIMARY"</Button>
+                    <Button variant=ButtonVariant::SOLID>"SOLID"</Button>
+                    <Button variant=ButtonVariant::TEXT>"TEXT"</Button>
+                    <Button variant=ButtonVariant::LINK>"LINK"</Button>
                 </Space>
                 <DemoCode
                     slot
                     html=highlight_str!(
                         r#"
-                    <Button type_=ButtonType::PRIMARY>
+                    <Button variant=ButtonVariant::PRIMARY>
                         "PRIMARY"
                     </Button>
-                    <Button type_=ButtonType::SOLID>
+                    <Button variant=ButtonVariant::SOLID>
                         "SOLID"
                     </Button>
-                    <Button type_=ButtonType::TEXT>
+                    <Button variant=ButtonVariant::TEXT>
                         "TEXT"
                     </Button>
-                    <Button type_=ButtonType::LINK>
+                    <Button variant=ButtonVariant::LINK>
                         "LINK"
                     </Button>
                 "#,

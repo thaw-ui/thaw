@@ -17,7 +17,7 @@ pub fn SiteHeader() -> impl IntoView {
                 "Melt UI"
             </span>
             <Button
-                type_=ButtonType::TEXT
+                variant=ButtonVariant::TEXT
                 on:click=move |_| {
                     _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
                 }

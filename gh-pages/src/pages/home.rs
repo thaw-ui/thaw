@@ -22,7 +22,7 @@ pub fn Home() -> impl IntoView {
                     navigate("/components/menu", Default::default());
                 }>"Read the docs"</Button>
                 <Button
-                    type_=ButtonType::TEXT
+                    variant=ButtonVariant::TEXT
                     on:click=move |_| {
                         _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
                     }

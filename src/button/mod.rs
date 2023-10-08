@@ -5,7 +5,7 @@ use leptos::*;
 pub use theme::ButtonTheme;
 
 #[derive(Default, PartialEq, Clone, Copy)]
-pub enum ButtonType {
+pub enum ButtonVariant {
     #[default]
     PRIMARY,
     SOLID,
@@ -53,7 +53,7 @@ impl ButtonColor {
 #[component]
 pub fn Button(
     #[prop(optional, into)] style: MaybeSignal<String>,
-    #[prop(optional, into)] type_: MaybeSignal<ButtonType>,
+    #[prop(optional, into)] variant: MaybeSignal<ButtonVariant>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(optional, into)] icon: Option<Icon>,
@@ -69,7 +69,7 @@ pub fn Button(
         let bg_color = color.get().theme_color(&theme);
         let bg_color_hover = color.get().theme_color_hover(&theme);
         let bg_color_active = color.get().theme_color_active(&theme);
-        if type_.get() == ButtonType::PRIMARY {
+        if variant.get() == ButtonVariant::PRIMARY {
             css_vars.push_str(&format!("--background-color: {bg_color};"));
             css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
             css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));
@@ -113,8 +113,8 @@ pub fn Button(
     view! {
         <button
             class:melt-button=true
-            class=("melt-button--text", move || type_.get() == ButtonType::TEXT)
-            class=("melt-button--link", move || type_.get() == ButtonType::LINK)
+            class=("melt-button--text", move || variant.get() == ButtonVariant::TEXT)
+            class=("melt-button--link", move || variant.get() == ButtonVariant::LINK)
             class=("melt-button--round", move || round.get())
             class=("melt-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
