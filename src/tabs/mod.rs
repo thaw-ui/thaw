@@ -42,12 +42,10 @@ pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl Into
                     children=move |options| {
                         let label_ref = create_node_ref::<html::Span>();
                         create_effect(move |_| {
-                            let Some(label) = label_ref.get() else {
-                                return;
-                            };
-                            let Some(label_list) = label_list_ref.get() else {
-                                return;
-                            };
+                            let Some(label) = label_ref.get() else { return;
+                        };
+                            let Some(label_list) = label_list_ref.get() else { return;
+                        };
                             if options.key == active_key.get() {
                                 request_animation_frame(move || {
                                     let list_rect = label_list.get_bounding_client_rect();

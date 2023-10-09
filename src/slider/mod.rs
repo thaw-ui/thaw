@@ -78,9 +78,8 @@ pub fn Slider(
                 class="melt-slider-handle"
                 style=move || {
                     format!(
-                        "left: {}%; transform: translateX(-{}%)",
-                        percentage.get(),
-                        percentage.get(),
+                        "left: {}%; transform: translateX(-{}%)", percentage.get(), percentage
+                        .get(),
                     )
                 }
             >
