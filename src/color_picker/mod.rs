@@ -1,5 +1,6 @@
 use crate::{mount_style, teleport::Teleport, utils::maybe_rw_signal::MaybeRwSignal};
 use leptos::*;
+use leptos_dom::helpers::WindowListenerHandle;
 use wasm_bindgen::__rt::IntoJsResult;
 
 #[component]
@@ -58,6 +59,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<String>) -> impl
         is_show_popover.set(false);
     });
     on_cleanup(move || timer.remove());
+    let hue = create_rw_signal(0);
     view! {
         <div class="melt-color-picker-trigger" on:click=show_popover ref=trigger_ref>
             <div class="melt-color-picker-trigger__content" style=move || style.get()>
@@ -73,9 +75,57 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<String>) -> impl
                 }
             >
 
-                <div class="melt-color-picker-popover__layer"></div>
-                <div></div>
+                <div class="melt-color-picker-popover__panel">
+                    <div class="melt-color-picker-popover__layer"></div>
+                    <div class="melt-color-picker-popover__layer--shadowed"></div>
+                    <div></div>
+                </div>
+                <HueSlider hue/>
             </div>
         </Teleport>
+    }
+}
+
+#[component]
+fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
+    let rail_ref = create_node_ref::<html::Div>();
+    let mouse = store_value(Vec::<WindowListenerHandle>::new());
+
+    let on_mouse_down = move |_| {
+        let on_mouse_move = window_event_listener(ev::mousemove, move |ev| {
+            if let Some(rail) = rail_ref.get_untracked() {
+                let rect = rail.get_bounding_client_rect();
+                let ev_x = f64::from(ev.x());
+                let value = (ev_x - rect.x()) / (rect.width() - 12.0) * 360.0;
+                let value = if value < 0.0 {
+                    0
+                } else if value > 359.0 {
+                    359
+                } else {
+                    value.round().to_string().parse::<u16>().unwrap()
+                };
+                hue.set(value);
+            }
+        });
+        let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
+            mouse.update_value(|value| {
+                for handle in value.drain(..).into_iter() {
+                    handle.remove();
+                }
+            });
+        });
+        mouse.update_value(|value| {
+            value.push(on_mouse_move);
+            value.push(on_mouse_up);
+        });
+    };
+    view! {
+        <div class="melt-color-picker-slider" ref=rail_ref>
+            <div
+                class="melt-color-picker-slider__handle"
+                on:mousedown=on_mouse_down
+                style=move || format!("left: {}%", f32::from(hue.get()) / 359.0 * 100.0)
+            ></div>
+        </div>
     }
 }

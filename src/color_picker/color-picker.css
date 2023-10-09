@@ -32,6 +32,52 @@
     z-index: 1000;
 }
 
+.melt-color-picker-popover__panel {
+    position: relative;
+    height: 180px;
+    margin-bottom: 8px;
+}
+
 .melt-color-picker-popover__layer {
-    height: 176px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.melt-color-picker-popover__layer--shadowed {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+}
+
+.melt-color-picker-slider {
+    height: 12px;
+    padding-right: 12px;
+    background-image: linear-gradient(
+        90deg,
+        red,
+        rgb(255, 255, 0) 16.66%,
+        rgb(0, 255, 0) 33.33%,
+        rgb(0, 255, 255) 50%,
+        rgb(0, 0, 255) 66.66%,
+        rgb(255, 0, 255) 83.33%,
+        red
+    );
+    border-radius: 6px;
+}
+
+.melt-color-picker-slider__handle {
+    position: relative;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: 2px solid white;
+    cursor: pointer;
 }
