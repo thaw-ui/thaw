@@ -12,22 +12,23 @@ pub fn NavBar(
 ) -> impl IntoView {
     mount_style("nav-bar", include_str!("./nav-bar.css"));
 
-    let on_click_left = move |ev| {
-        if let Some(click_left) = click_left {
+    let on_click_left = SignalSetter::map(move |ev| {
+        if let Some(click_left) = click_left.as_ref() {
             click_left.call(ev);
         }
-    };
-    let on_click_right = move |ev| {
-        if let Some(click_right) = click_right {
+    });
+
+    let on_click_right = SignalSetter::map(move |ev| {
+        if let Some(click_right) = click_right.as_ref() {
             click_right.call(ev);
         }
-    };
+    });
 
     view! {
         <div class="melt-nav-bar">
             <If cond=MaybeSignal::derive(move || left_arrow.get() || !left_text.get().is_empty())>
                 <Then slot>
-                    <div class="melt-nav-bar__left" on:click=on_click_left>
+                    <div class="melt-nav-bar__left" on:click=move |ev| on_click_left.set(ev)>
                         <If cond=left_arrow>
                             <Then slot>
                                 <Icon icon=Icon::from(AiIcon::AiLeftOutlined)/>
@@ -40,7 +41,7 @@ pub fn NavBar(
             <div class="melt-nav-bar__center">{move || title.get()}</div>
             <If cond=MaybeSignal::derive(move || !right_text.get().is_empty())>
                 <Then slot>
-                    <div class="melt-nav-bar__right" on:click=on_click_right>
+                    <div class="melt-nav-bar__right" on:click=move |ev| on_click_right.set(ev)>
                         {right_text.get()}
                     </div>
                 </Then>
