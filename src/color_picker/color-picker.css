@@ -36,6 +36,7 @@
     position: relative;
     height: 180px;
     margin-bottom: 8px;
+    cursor: crosshair;
 }
 
 .melt-color-picker-popover__layer {
@@ -53,6 +54,18 @@
     top: 0;
     bottom: 0;
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+}
+
+.melt-color-picker-popover__handle {
+    position: absolute;
+    left: -6px;
+    bottom: -6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    border: 2px solid white;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, .45);
 }
 
 .melt-color-picker-slider {

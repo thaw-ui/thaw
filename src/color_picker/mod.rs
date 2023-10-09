@@ -1,26 +1,50 @@
+mod color;
+
 use crate::{mount_style, teleport::Teleport, utils::maybe_rw_signal::MaybeRwSignal};
+pub use color::*;
 use leptos::*;
 use leptos_dom::helpers::WindowListenerHandle;
 use wasm_bindgen::__rt::IntoJsResult;
 
 #[component]
-pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<String>) -> impl IntoView {
+pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
+    let hue = create_rw_signal(0);
+    let sv = create_rw_signal((0.0, 0.0));
     let label = create_rw_signal(String::new());
     let style = create_memo(move |_| {
         let mut style = String::new();
 
         value.with(|value| {
-            if value.is_empty() {
-                label.set("Invalid value".into());
-                return;
+            let value = value.to_hex_string();
+            style.push_str(&format!("background-color: {value};"));
+            let (s, v) = sv.get_untracked();
+            if s < 0.5 && v > 0.5 {
+                style.push_str("color: #000;");
+            } else {
+                style.push_str("color: #fff;");
             }
-
-            style.push_str(&format!("background-color: {value}"));
-            label.set(value.clone());
+            label.set(value);
         });
 
         style
+    });
+
+    create_effect(move |prev| {
+        let (s, v) = sv.get();
+        let hue_value = hue.get();
+        if prev.is_none() {
+            let HSV {
+                hue: h,
+                saturation: s,
+                value: v,
+                ..
+            } = value.get_untracked().into();
+            hue.set(h);
+            sv.set((s, v))
+        } else {
+            value.set(RGBA::from(HSV::new(hue_value, s, v)));
+        }
     });
 
     let is_show_popover = create_rw_signal(false);
@@ -59,7 +83,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<String>) -> impl
         is_show_popover.set(false);
     });
     on_cleanup(move || timer.remove());
-    let hue = create_rw_signal(0);
+
     view! {
         <div class="melt-color-picker-trigger" on:click=show_popover ref=trigger_ref>
             <div class="melt-color-picker-trigger__content" style=move || style.get()>
@@ -75,14 +99,82 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<String>) -> impl
                 }
             >
 
-                <div class="melt-color-picker-popover__panel">
-                    <div class="melt-color-picker-popover__layer"></div>
-                    <div class="melt-color-picker-popover__layer--shadowed"></div>
-                    <div></div>
-                </div>
+                <Panel hue=hue.read_only() sv/>
                 <HueSlider hue/>
             </div>
         </Teleport>
+    }
+}
+
+#[component]
+fn Panel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
+    let panel_ref = create_node_ref::<html::Div>();
+    let mouse = store_value(Vec::<WindowListenerHandle>::new());
+
+    let on_mouse_down = move |_| {
+        let on_mouse_move = window_event_listener(ev::mousemove, move |ev| {
+            if let Some(panel) = panel_ref.get_untracked() {
+                let rect = panel.get_bounding_client_rect();
+                let ev_x = f64::from(ev.x());
+                let ev_y = f64::from(ev.y());
+
+                let v = (rect.bottom() - ev_y) / rect.height();
+                let s = (ev_x - rect.x()) / rect.width();
+
+                let v = if v > 1.0 {
+                    1.0
+                } else if v < 0.0 {
+                    0.0
+                } else {
+                    v
+                };
+                let s = if s > 1.0 {
+                    1.0
+                } else if s < 0.0 {
+                    0.0
+                } else {
+                    s
+                };
+
+                sv.set((s, v))
+            }
+        });
+        let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
+            mouse.update_value(|value| {
+                for handle in value.drain(..).into_iter() {
+                    handle.remove();
+                }
+            });
+        });
+        mouse.update_value(|value| {
+            value.push(on_mouse_move);
+            value.push(on_mouse_up);
+        });
+    };
+
+    view! {
+        <div class="melt-color-picker-popover__panel" ref=panel_ref>
+            <div
+                class="melt-color-picker-popover__layer"
+                style:background-image=move || {
+                    format!("linear-gradient(90deg, white, hsl({}, 100%, 50%))", hue.get())
+                }
+            >
+            </div>
+            <div class="melt-color-picker-popover__layer--shadowed"></div>
+            <div
+                class="melt-color-picker-popover__handle"
+                on:mousedown=on_mouse_down
+                style=move || {
+                    format!(
+                        "left: calc({}% - 6px); bottom: calc({}% - 6px)",
+                        sv.get().0 * 100.0,
+                        sv.get().1 * 100.0,
+                    )
+                }
+            >
+            </div>
+        </div>
     }
 }
 
