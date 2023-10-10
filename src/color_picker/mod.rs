@@ -99,7 +99,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
                 }
             >
 
-                <Panel hue=hue.read_only() sv/>
+                <ColorPanel hue=hue.read_only() sv/>
                 <HueSlider hue/>
             </div>
         </Teleport>
@@ -107,19 +107,19 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
 }
 
 #[component]
-fn Panel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
+fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
     let panel_ref = create_node_ref::<html::Div>();
     let mouse = store_value(Vec::<WindowListenerHandle>::new());
 
-    let on_mouse_down = move |_| {
-        let on_mouse_move = window_event_listener(ev::mousemove, move |ev| {
+    let on_mouse_down = move |ev| {
+        let cb = move |ev: ev::MouseEvent| {
             if let Some(panel) = panel_ref.get_untracked() {
                 let rect = panel.get_bounding_client_rect();
                 let ev_x = f64::from(ev.x());
                 let ev_y = f64::from(ev.y());
 
                 let v = (rect.bottom() - ev_y) / rect.height();
-                let s = (ev_x - rect.x()) / rect.width();
+                let s = (ev_x - rect.left()) / rect.width();
 
                 let v = if v > 1.0 {
                     1.0
@@ -138,7 +138,9 @@ fn Panel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
 
                 sv.set((s, v))
             }
-        });
+        };
+        cb(ev);
+        let on_mouse_move = window_event_listener(ev::mousemove, cb);
         let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
             mouse.update_value(|value| {
                 for handle in value.drain(..).into_iter() {
@@ -153,7 +155,7 @@ fn Panel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
     };
 
     view! {
-        <div class="melt-color-picker-popover__panel" ref=panel_ref>
+        <div class="melt-color-picker-popover__panel" ref=panel_ref on:mousedown=on_mouse_down>
             <div
                 class="melt-color-picker-popover__layer"
                 style:background-image=move || {
@@ -164,12 +166,10 @@ fn Panel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
             <div class="melt-color-picker-popover__layer--shadowed"></div>
             <div
                 class="melt-color-picker-popover__handle"
-                on:mousedown=on_mouse_down
                 style=move || {
                     format!(
-                        "left: calc({}% - 6px); bottom: calc({}% - 6px)",
-                        sv.get().0 * 100.0,
-                        sv.get().1 * 100.0,
+                        "left: calc({}% - 6px); bottom: calc({}% - 6px)", sv.get().0 * 100.0, sv
+                        .get().1 * 100.0,
                     )
                 }
             >
@@ -183,12 +183,12 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
     let rail_ref = create_node_ref::<html::Div>();
     let mouse = store_value(Vec::<WindowListenerHandle>::new());
 
-    let on_mouse_down = move |_| {
-        let on_mouse_move = window_event_listener(ev::mousemove, move |ev| {
+    let on_mouse_down = move |ev| {
+        let cb = move |ev: ev::MouseEvent| {
             if let Some(rail) = rail_ref.get_untracked() {
                 let rect = rail.get_bounding_client_rect();
                 let ev_x = f64::from(ev.x());
-                let value = (ev_x - rect.x()) / (rect.width() - 12.0) * 360.0;
+                let value = (ev_x - rect.left() - 6.0) / (rect.width() - 12.0) * 359.0;
                 let value = if value < 0.0 {
                     0
                 } else if value > 359.0 {
@@ -198,7 +198,10 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
                 };
                 hue.set(value);
             }
-        });
+        };
+        cb(ev);
+
+        let on_mouse_move = window_event_listener(ev::mousemove, cb);
         let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
             mouse.update_value(|value| {
                 for handle in value.drain(..).into_iter() {
@@ -212,11 +215,10 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
         });
     };
     view! {
-        <div class="melt-color-picker-slider" ref=rail_ref>
+        <div class="melt-color-picker-slider" ref=rail_ref on:mousedown=on_mouse_down>
             <div
                 class="melt-color-picker-slider__handle"
-                on:mousedown=on_mouse_down
-                style=move || format!("left: {}%", f32::from(hue.get()) / 359.0 * 100.0)
+                style=move || format!("left: calc({}% - 6px)", f32::from(hue.get()) / 359.0 * 100.0)
             ></div>
         </div>
     }

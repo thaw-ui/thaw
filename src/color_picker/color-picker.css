@@ -70,7 +70,7 @@
 
 .melt-color-picker-slider {
     height: 12px;
-    padding-right: 12px;
+    padding: 0 6px;
     background-image: linear-gradient(
         90deg,
         red,
