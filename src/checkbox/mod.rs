@@ -15,7 +15,7 @@ use leptos::*;
 
 #[component]
 pub fn Checkbox(
-    #[prop(optional, into)] checked: MaybeRwSignal<bool>,
+    #[prop(optional, into)] value: MaybeRwSignal<bool>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -32,13 +32,13 @@ pub fn Checkbox(
     view! {
         <div
             class:melt-checkbox=true
-            class=("melt-checkbox--checked", move || checked.get())
+            class=("melt-checkbox--checked", move || value.get())
             style=move || css_vars.get()
-            on:click=move |_| checked.set(!checked.get_untracked())
+            on:click=move |_| value.set(!value.get_untracked())
         >
             <input class="melt-checkbox__input" type="checkbox"/>
             <div class="melt-checkbox__dot">
-                <If cond=checked.clone_into()>
+                <If cond=value.clone_into()>
                     <Then slot>
                         <Icon icon=Icon::from(AiIcon::AiCheckOutlined) style="color: white"/>
                     </Then>

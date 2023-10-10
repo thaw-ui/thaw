@@ -7,21 +7,21 @@ use prisms::highlight_str;
 
 #[component]
 pub fn CheckboxPage() -> impl IntoView {
-    let checked = create_rw_signal(false);
+    let value = create_rw_signal(false);
     let value = create_rw_signal(HashSet::new());
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Checkbox"</h1>
             <Demo>
-                <Checkbox checked>"Click"</Checkbox>
+                <Checkbox value>"Click"</Checkbox>
                 <DemoCode
                     slot
                     html=highlight_str!(
                         r#"
-                    let checked = create_rw_signal(false);
+                    let value = create_rw_signal(false);
 
                     view! {
-                        <Checkbox checked>
+                        <Checkbox value>
                             "Click"
                         </Checkbox>
                     }
