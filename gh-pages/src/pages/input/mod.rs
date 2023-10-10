@@ -10,17 +10,21 @@ pub fn InputPage() -> impl IntoView {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Input"</h1>
             <Demo>
-                <Input value/>
-                <Input value variant=InputVariant::PASSWORD/>
+                <Space vertical=true>
+                    <Input value/>
+                    <Input value variant=InputVariant::PASSWORD/>
+                </Space>
                 <DemoCode
                     slot
                     html=highlight_str!(
                         r#"
-                    let value = create_rw_signal(String::from("o"));
+                        let value = create_rw_signal(String::from("o"));
 
-                    <Input value/>
-                    <Input value variant=InputVariant::PASSWORD />
-                "#,
+                        view! {
+                            <Input value/>
+                            <Input value variant=InputVariant::PASSWORD />
+                        }
+                    "#,
                         "rust"
                     )
                 >

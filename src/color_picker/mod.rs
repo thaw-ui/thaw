@@ -2,8 +2,8 @@ mod color;
 
 use crate::{mount_style, teleport::Teleport, utils::maybe_rw_signal::MaybeRwSignal};
 pub use color::*;
+use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
-use leptos_dom::helpers::WindowListenerHandle;
 use wasm_bindgen::__rt::IntoJsResult;
 
 #[component]
