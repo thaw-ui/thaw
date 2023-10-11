@@ -10,7 +10,7 @@ Cargo.lock
 **/*.rs.bk
 
 /examples/**/dist
-/gh-pages/dist
+/demo/dist
 /docs
 
 .DS_Store

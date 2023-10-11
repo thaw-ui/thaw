@@ -24,4 +24,4 @@ icondata = { version = "0.0.7", features = [
 ] }
 
 [workspace]
-members = ["gh-pages"]
+members = ["demo"]

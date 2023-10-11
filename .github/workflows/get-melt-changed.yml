@@ -22,7 +22,7 @@ jobs:
               uses: tj-actions/changed-files@v36
               with:
                   files: |
-                      gh-pages
+                      demo
                       src
                       Cargo.toml
 
