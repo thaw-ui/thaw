@@ -1,0 +1,35 @@
+name: Get Melt Changed Call
+
+on:
+    workflow_call:
+        outputs:
+            melt_changed:
+                description: "Melt Changed"
+                value: ${{ jobs.create.outputs.melt_changed }}
+
+jobs:
+    create:
+        name: Detect Source Change
+        runs-on: ubuntu-latest
+        outputs:
+            melt_changed: ${{ steps.set-source-changed.outputs.melt_changed }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Get source files that changed
+              id: changed-source
+              uses: tj-actions/changed-files@v36
+              with:
+                  files: |
+                      gh-pages
+                      src
+                      Cargo.toml
+
+            - name: List source files that changed
+              run: echo '${{ steps.changed-source.outputs.all_changed_files }}'
+
+            - name: Set melt_changed
+              id: set-source-changed
+              run: |
+                  echo "melt_changed=${{ steps.changed-source.outputs.any_changed }}" >> "$GITHUB_OUTPUT"
