@@ -18,9 +18,9 @@ pub fn TabbarPage() -> impl IntoView {
                         slot
                         html=highlight_str!(
                             r#"
-                        let selected = create_rw_signal(String::from("o"));
+                        let value = create_rw_signal(String::from("o"));
                                 
-                        <Tabbar selected>
+                        <Tabbar value>
                             <TabbarItem name="a">
                                 "and"
                             </TabbarItem>
@@ -49,10 +49,10 @@ pub fn TabbarPage() -> impl IntoView {
 
 #[component]
 pub fn TabbarDemoPage() -> impl IntoView {
-    let selected = create_rw_signal(String::from("o"));
+    let value = create_rw_signal(String::from("o"));
     view! {
         <div style="height: 100vh; background: #f5f5f5">
-            {move || selected.get()} <Tabbar selected>
+            {move || value.get()} <Tabbar value>
                 <TabbarItem name="a">"and"</TabbarItem>
                 <TabbarItem name="i">"if"</TabbarItem>
                 <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>

@@ -5,12 +5,12 @@ use prisms::highlight_str;
 
 #[component]
 pub fn TabsPage() -> impl IntoView {
-    let active_key = create_rw_signal("apple");
+    let value = create_rw_signal("apple");
     view! {
         <div style="width: 896px; margin: 0 auto;">
-            <h1>"Tabs"</h1>
+            <h1>"Tabs2"</h1>
             <Demo>
-                <Tabs active_key>
+                <Tabs value>
                     <Tab key="apple" label="Apple">
                         "apple"
                     </Tab>
@@ -22,8 +22,8 @@ pub fn TabsPage() -> impl IntoView {
                     slot
                     html=highlight_str!(
                         r#"
-                    let active_key = create_rw_signal("apple");
-                    <Tabs active_key>
+                    let value = create_rw_signal("apple");
+                    <Tabs value>
                         <Tab key="apple" label="Apple">
                             "apple"
                         </Tab>

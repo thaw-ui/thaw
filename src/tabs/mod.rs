@@ -1,15 +1,24 @@
 mod tab;
-use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
+use std::ops::Deref;
+
+use crate::{
+    theme::use_theme,
+    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
+    Theme,
+};
 use leptos::*;
 
 pub use tab::*;
 
 #[component]
-pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl IntoView {
+pub fn Tabs(
+    #[prop(optional, into)] value: MaybeRwSignal<&'static str>,
+    children: Children,
+) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
     let tab_options_vec = create_rw_signal(vec![]);
     provide_context(TabsInjectionKey {
-        active_key: active_key.clone(),
+        active_key: value.deref().clone(),
         tab_options_vec: tab_options_vec.clone(),
     });
     let theme = use_theme(Theme::light);
@@ -48,7 +57,7 @@ pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl Into
                             let Some(label_list) = label_list_ref.get() else {
                                 return;
                             };
-                            if options.key == active_key.get() {
+                            if options.key == value.get() {
                                 request_animation_frame(move || {
                                     let list_rect = label_list.get_bounding_client_rect();
                                     let rect = label.get_bounding_client_rect();
@@ -67,10 +76,10 @@ pub fn Tabs(active_key: RwSignal<&'static str>, children: Children) -> impl Into
                                 class="melt-tabs__label"
                                 class=(
                                     "melt-tabs__label--active",
-                                    move || options.key == active_key.get(),
+                                    move || options.key == value.get(),
                                 )
 
-                                on:click=move |_| active_key.set(options.key)
+                                on:click=move |_| value.set(options.key)
                                 ref=label_ref
                             >
                                 {options.label}

@@ -1,10 +1,14 @@
-use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
+use crate::{
+    theme::use_theme,
+    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
+    Theme,
+};
 use leptos::*;
 use wasm_bindgen::JsCast;
 
 #[component]
 pub fn Slider(
-    #[prop(into)] value: RwSignal<f64>,
+    #[prop(optional, into)] value: MaybeRwSignal<f64>,
     #[prop(default = MaybeSignal::Static(100f64), into)] max: MaybeSignal<f64>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);

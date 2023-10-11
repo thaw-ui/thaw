@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::{use_theme, Theme},
-    utils::mount_style::mount_style,
+    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
 };
 use leptos::*;
 pub use theme::InputTheme;
@@ -25,7 +25,7 @@ impl InputVariant {
 
 #[component]
 pub fn Input(
-    #[prop(into)] value: RwSignal<String>,
+    #[prop(optional, into)] value: MaybeRwSignal<String>,
     #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);

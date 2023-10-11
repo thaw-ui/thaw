@@ -5,12 +5,12 @@ use prisms::highlight_str;
 
 #[component]
 pub fn MenuPage() -> impl IntoView {
-    let selected = create_rw_signal(String::from("o"));
+    let value = create_rw_signal(String::from("o"));
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Menu"</h1>
             <Demo>
-                <Menu selected>
+                <Menu value>
                     <MenuItem key="a" label="and"/>
                     <MenuItem key="o" label="or"/>
                 </Menu>
@@ -18,9 +18,9 @@ pub fn MenuPage() -> impl IntoView {
                     slot
                     html=highlight_str!(
                         r#"
-                    let selected = create_rw_signal(String::from("o"));
+                    let value = create_rw_signal(String::from("o"));
                             
-                    <Menu selected>
+                    <Menu value>
                         <MenuItem key="a" label="and"/>
                         <MenuItem key="o" label="or"/>
                     </Menu>

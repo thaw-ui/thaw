@@ -29,7 +29,7 @@ pub fn ComponentsPage() -> impl IntoView {
             <SiteHeader/>
             <Layout has_sider=true position=LayoutPosition::ABSOLUTE style="top: 54px;">
                 <LayoutSider>
-                    <Menu selected>
+                    <Menu value=selected>
                         <MenuGroup label="Common Components">
                             <MenuItem key="menu" label="Menu"/>
                             <MenuItem key="slider" label="Slider"/>

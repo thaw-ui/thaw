@@ -1,17 +1,20 @@
 mod tabbar_item;
 
-use crate::utils::mount_style::mount_style;
+use crate::utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style};
 use leptos::*;
 
 pub use tabbar_item::*;
 
 #[component]
-pub fn Tabbar(#[prop(into)] selected: RwSignal<String>, children: Children) -> impl IntoView {
+pub fn Tabbar(
+    #[prop(optional, into)] value: MaybeRwSignal<String>,
+    children: Children,
+) -> impl IntoView {
     mount_style("tabbar", include_str!("./tabbar.css"));
 
-    let tabbar_injection_key = create_rw_signal(TabbarInjectionKey::new(selected.get()));
+    let tabbar_injection_key = create_rw_signal(TabbarInjectionKey::new(value.get()));
     create_effect(move |_| {
-        let selected_key = selected.get();
+        let selected_key = value.get();
         let key = tabbar_injection_key.get_untracked();
         if selected_key != key.value {
             tabbar_injection_key.set(TabbarInjectionKey::new(selected_key));
@@ -19,10 +22,10 @@ pub fn Tabbar(#[prop(into)] selected: RwSignal<String>, children: Children) -> i
     });
 
     create_effect(move |_| {
-        let selected_key = selected.get_untracked();
+        let selected_key = value.get_untracked();
         let key = tabbar_injection_key.get();
         if selected_key != key.value {
-            selected.set(key.value);
+            value.set(key.value);
         }
     });
     provide_context(tabbar_injection_key);

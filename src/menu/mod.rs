@@ -10,12 +10,12 @@ pub use theme::MenuTheme;
 
 #[component]
 pub fn Menu(
-    #[prop(optional, into)] selected: MaybeRwSignal<String>,
+    #[prop(optional, into)] value: MaybeRwSignal<String>,
     children: Children,
 ) -> impl IntoView {
-    let menu_injection_key = create_rw_signal(MenuInjectionKey::new(selected.get_untracked()));
+    let menu_injection_key = create_rw_signal(MenuInjectionKey::new(value.get_untracked()));
     create_effect(move |_| {
-        let selected_key = selected.get();
+        let selected_key = value.get();
         let key = menu_injection_key.get_untracked();
         if selected_key != key.value {
             menu_injection_key.set(MenuInjectionKey::new(selected_key));
@@ -23,10 +23,10 @@ pub fn Menu(
     });
 
     create_effect(move |_| {
-        let selected_key = selected.get_untracked();
+        let selected_key = value.get_untracked();
         let key = menu_injection_key.get();
         if selected_key != key.value {
-            selected.set(key.value);
+            value.set(key.value);
         }
     });
     provide_context(menu_injection_key);
