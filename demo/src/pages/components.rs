@@ -2,25 +2,19 @@ use crate::components::SiteHeader;
 use leptos::*;
 use leptos_router::{use_location, use_navigate, Outlet};
 use melt_ui::*;
-use regex::Regex;
 
 #[component]
 pub fn ComponentsPage() -> impl IntoView {
-    let loaction = use_location();
     let navigate = use_navigate();
-    let selected = create_rw_signal(String::from(""));
-    create_effect(move |_| {
-        let pathname = loaction.pathname.get();
+    let selected = create_rw_signal({
+        let loaction = use_location();
+        let mut pathname = loaction.pathname.get_untracked();
 
-        let re = Regex::new(r"^/melt-ui/components/(.+)$").unwrap();
-        let Some(caps) = re.captures(&pathname) else {
-            return;
-        };
-        let Some(path) = caps.get(1) else {
-            return;
-        };
-        let path = path.as_str().to_string();
-        selected.set(path);
+        if pathname.starts_with("/melt-ui/components/") {
+            pathname.drain(20..).collect()
+        } else {
+            String::new()
+        }
     });
 
     create_effect(move |value| {

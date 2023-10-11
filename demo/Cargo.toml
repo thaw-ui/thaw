@@ -13,7 +13,6 @@ icondata = { version = "0.0.7", features = [
     "AiCheckOutlined",
 ] }
 leptos_router = { version = "0.5.1", features = ["csr"] }
-regex = "1.8.2"
 leptos_devtools = "0.0.1"
 prisms = { git = "https://github.com/luoxiaozero/prisms" }
 
