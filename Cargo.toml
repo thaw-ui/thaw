@@ -21,6 +21,9 @@ icondata = { version = "0.0.7", features = [
     "AiCheckOutlined",
     "AiLeftOutlined",
     "AiLoadingOutlined",
+    "AiCheckCircleFilled",
+    "AiExclamationCircleFilled",
+    "AiCloseCircleFilled"
 ] }
 
 [workspace]

@@ -1,3 +1,4 @@
+mod alert;
 mod button;
 mod card;
 mod checkbox;
@@ -22,6 +23,7 @@ mod theme;
 mod utils;
 mod wave;
 
+pub use alert::*;
 pub use button::*;
 pub use card::*;
 pub use checkbox::*;

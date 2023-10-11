@@ -1,0 +1,21 @@
+.melt-alert {
+    position: relative;
+    padding: 14px 20px 14px 42px;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+}
+
+.melt-alert__icon {
+    position: absolute;
+    top: 12px;
+    left: 8px;
+}
+
+.melt-alert__header {
+    font-size: 16px;
+}
+
+.melt-alert__header + .alert-body__content {
+    margin-top: 8px;
+}

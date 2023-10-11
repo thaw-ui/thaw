@@ -1,3 +1,4 @@
+mod alert;
 mod button;
 mod checkbox;
 mod color_picker;
@@ -17,6 +18,7 @@ mod table;
 mod tabs;
 mod toast;
 
+pub use alert::*;
 pub use button::*;
 pub use checkbox::*;
 pub use color_picker::*;
