@@ -10,9 +10,15 @@ pub fn AlertPage() -> impl IntoView {
             <h1>"Alert"</h1>
             <Demo>
                 <Space vertical=true>
-                    <Alert variant=AlertVariant::SUCCESS title="title">"success"</Alert>
-                    <Alert variant=AlertVariant::WARNING title="title">"warning"</Alert>
-                    <Alert variant=AlertVariant::ERROR title="title">"error"</Alert>
+                    <Alert variant=AlertVariant::SUCCESS title="title">
+                        "success"
+                    </Alert>
+                    <Alert variant=AlertVariant::WARNING title="title">
+                        "warning"
+                    </Alert>
+                    <Alert variant=AlertVariant::ERROR title="title">
+                        "error"
+                    </Alert>
                 </Space>
                 <DemoCode
                     slot

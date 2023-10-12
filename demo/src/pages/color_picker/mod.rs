@@ -25,6 +25,7 @@ pub fn ColorPickerPage() -> impl IntoView {
                         "rust"
                     )
                 >
+
                     ""
                 </DemoCode>
             </Demo>

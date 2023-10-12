@@ -4,13 +4,13 @@ pub use grid_item::*;
 use leptos::*;
 
 #[component]
-fn Grid(
+pub fn Grid(
     #[prop(default = MaybeSignal::Static(1u16), into)] cols: MaybeSignal<u16>,
     #[prop(optional, into)] x_gap: MaybeSignal<i32>,
     #[prop(optional, into)] y_gap: MaybeSignal<i32>,
     children: Children,
 ) -> impl IntoView {
-    let grid_injection_key = create_rw_signal(GridInjectionKey::new(x_gap));
+    let grid_injection_key = GridInjectionKey::new(x_gap);
     provide_context(grid_injection_key);
 
     let style = create_memo(move |_| {
@@ -19,7 +19,7 @@ fn Grid(
             "grid-template-columns: repeat({}, minmax(0px, 1fr));",
             cols.get()
         ));
-        style.push_str(&format!("grid-gap: {}px ${}px;", y_gap.get(), x_gap.get()));
+        style.push_str(&format!("grid-gap: {}px {}px;", y_gap.get(), x_gap.get()));
         style
     });
 

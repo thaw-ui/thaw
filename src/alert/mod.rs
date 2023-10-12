@@ -82,23 +82,16 @@ pub fn Alert(
         <div class="melt-alert" style=move || css_vars.get()>
             <Icon icon class="melt-alert__icon"/>
             <div>
-                {
-                    move || {
-                        let title = title.get();
-                        if title.is_empty() {
-                            None
-                        } else {
-                            view! {
-                                <div class="melt-alert__header">
-                                    {title}
-                                </div>
-                            }.into()
-                        }
+
+                {move || {
+                    let title = title.get();
+                    if title.is_empty() {
+                        None
+                    } else {
+                        view! { <div class="melt-alert__header">{title}</div> }.into()
                     }
-                }
-                <div class="melt-alert__content">
-                    { children() }
-                </div>
+                }}
+                <div class="melt-alert__content">{children()}</div>
             </div>
         </div>
     }
