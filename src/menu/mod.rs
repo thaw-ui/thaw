@@ -45,5 +45,5 @@ impl MenuInjectionKey {
 }
 
 pub fn use_menu() -> RwSignal<MenuInjectionKey> {
-    use_context::<RwSignal<MenuInjectionKey>>().expect("MenuInjectionKey not exist")
+    expect_context::<RwSignal<MenuInjectionKey>>()
 }
