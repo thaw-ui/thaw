@@ -4,18 +4,24 @@
     background-color: var(--background-color);
     border: 1px solid var(--border-color);
     border-radius: 3px;
+    line-height: 1.6;
 }
 
 .melt-alert__icon {
     position: absolute;
     top: 12px;
-    left: 8px;
+    left: 10px;
+    font-size: 24px;
+    color: var(--icon-color);
 }
 
 .melt-alert__header {
     font-size: 16px;
+    line-height: 19px;
+    font-weight: 500;
 }
 
-.melt-alert__header + .alert-body__content {
+.melt-alert__header + .melt-alert__content {
     margin-top: 8px;
+    font-size: 14px;
 }

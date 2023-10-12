@@ -2,7 +2,7 @@ mod common;
 use leptos::*;
 
 use self::common::CommonTheme;
-use crate::{ButtonTheme, InputTheme, MenuTheme, TableTheme};
+use crate::{AlertTheme, ButtonTheme, InputTheme, MenuTheme, TableTheme};
 
 pub trait ThemeMethod {
     fn light() -> Self;
@@ -16,6 +16,7 @@ pub struct Theme {
     pub input: InputTheme,
     pub menu: MenuTheme,
     pub table: TableTheme,
+    pub alert: AlertTheme,
 }
 
 impl Theme {
@@ -26,6 +27,7 @@ impl Theme {
             input: InputTheme::light(),
             menu: MenuTheme::light(),
             table: TableTheme::light(),
+            alert: AlertTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -35,6 +37,7 @@ impl Theme {
             input: InputTheme::dark(),
             menu: MenuTheme::dark(),
             table: TableTheme::dark(),
+            alert: AlertTheme::dark(),
         }
     }
 }
@@ -47,6 +50,7 @@ impl ThemeMethod for Theme {
             input: InputTheme::light(),
             menu: MenuTheme::light(),
             table: TableTheme::light(),
+            alert: AlertTheme::light(),
         }
     }
     fn dark() -> Self {
@@ -56,6 +60,7 @@ impl ThemeMethod for Theme {
             input: InputTheme::dark(),
             menu: MenuTheme::dark(),
             table: TableTheme::dark(),
+            alert: AlertTheme::dark(),
         }
     }
 }

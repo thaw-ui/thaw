@@ -1,6 +1,9 @@
+mod theme;
+
 use crate::{theme::use_theme, utils::mount_style::mount_style, Icon, Theme};
 use icondata::AiIcon;
 use leptos::*;
+pub use theme::AlertTheme;
 
 #[derive(Clone)]
 pub enum AlertVariant {
@@ -10,11 +13,25 @@ pub enum AlertVariant {
 }
 
 impl AlertVariant {
-    pub fn theme_border_color(&self, theme: &Theme) -> String {
+    pub fn theme_icon_color(&self, theme: &Theme) -> String {
         match self {
             AlertVariant::SUCCESS => theme.common.color_success.clone(),
             AlertVariant::WARNING => theme.common.color_warning.clone(),
             AlertVariant::ERROR => theme.common.color_error.clone(),
+        }
+    }
+    pub fn theme_background_color(&self, theme: &Theme) -> String {
+        match self {
+            AlertVariant::SUCCESS => theme.alert.success_background_color.clone(),
+            AlertVariant::WARNING => theme.alert.warning_background_color.clone(),
+            AlertVariant::ERROR => theme.alert.error_background_color.clone(),
+        }
+    }
+    pub fn theme_border_color(&self, theme: &Theme) -> String {
+        match self {
+            AlertVariant::SUCCESS => theme.alert.success_border_color.clone(),
+            AlertVariant::WARNING => theme.alert.warning_border_color.clone(),
+            AlertVariant::ERROR => theme.alert.error_border_color.clone(),
         }
     }
 }
@@ -36,9 +53,18 @@ pub fn Alert(
 
             theme.with(|theme| {
                 let variant = variant.get();
-                let border_color = variant.theme_border_color(&theme);
-                css_vars.push_str(&format!("--background-color: {border_color}aa;"));
-                css_vars.push_str(&format!("--border-color: {border_color};"));
+                css_vars.push_str(&format!(
+                    "--icon-color: {};",
+                    variant.theme_icon_color(&theme)
+                ));
+                css_vars.push_str(&format!(
+                    "--background-color: {};",
+                    variant.theme_background_color(&theme)
+                ));
+                css_vars.push_str(&format!(
+                    "--border-color: {};",
+                    variant.theme_border_color(&theme)
+                ));
             });
 
             css_vars
@@ -70,7 +96,7 @@ pub fn Alert(
                         }
                     }
                 }
-                <div class="melt-alert-body__content">
+                <div class="melt-alert__content">
                     { children() }
                 </div>
             </div>
