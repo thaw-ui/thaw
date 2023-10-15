@@ -32,19 +32,22 @@ pub fn ComponentsPage() -> impl IntoView {
                     <Menu value=selected>
                         <MenuGroup label="Common Components">
                             <MenuItem key="menu" label="Menu"/>
-                            <MenuItem key="slider" label="Slider"/>
-                            <MenuItem key="input" label="Input"/>
                             <MenuItem key="image" label="Image"/>
                             <MenuItem key="modal" label="Modal"/>
                             <MenuItem key="button" label="Button"/>
-                            <MenuItem key="checkbox" label="Checkbox"/>
                             <MenuItem key="tabs" label="Tabs"/>
-                            <MenuItem key="select" label="Select"/>
                             <MenuItem key="space" label="Space"/>
                             <MenuItem key="table" label="Table"/>
-                            <MenuItem key="color-picker" label="Color Picker"/>
                             <MenuItem key="alert" label="Alert"/>
                             <MenuItem key="grid" label="Grid"/>
+                        </MenuGroup>
+                        <MenuGroup label="Data Input Components">
+                            <MenuItem key="auto-complete" label="Auto Complete"/>
+                            <MenuItem key="color-picker" label="Color Picker"/>
+                            <MenuItem key="checkbox" label="Checkbox"/>
+                            <MenuItem key="input" label="Input"/>
+                            <MenuItem key="select" label="Select"/>
+                            <MenuItem key="slider" label="Slider"/>
                         </MenuGroup>
                         <MenuGroup label="Mobile Components">
                             <MenuItem key="tabbar" label="Tabbar"/>

@@ -26,17 +26,34 @@ impl InputVariant {
 #[component]
 pub fn Input(
     #[prop(optional, into)] value: MaybeRwSignal<String>,
+    #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
     #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
+    #[prop(optional, into)] placeholder: MaybeSignal<String>,
+    #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
+    #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
 
-    let input_ref = create_node_ref::<html::Input>();
-    input_ref.on_load(move |input| {
-        input.on(ev::input, move |ev| {
-            value.set(event_target_value(&ev));
-        });
-    });
+    let on_input = move |ev| {
+        let input_value = event_target_value(&ev);
+        if let Some(allow_value) = allow_value.as_ref() {
+            if !allow_value.call(input_value.clone()) {
+                return;
+            }
+        }
+        value.set(input_value);
+    };
+    let on_internal_focus = move |ev| {
+        if let Some(on_focus) = on_focus.as_ref() {
+            on_focus.call(ev);
+        }
+    };
+    let on_internal_blur = move |ev| {
+        if let Some(on_blur) = on_blur.as_ref() {
+            on_blur.call(ev);
+        }
+    };
 
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
@@ -52,8 +69,11 @@ pub fn Input(
             <input
                 type=move || variant.get().as_str()
                 prop:value=move || value.get()
-                ref=input_ref
+                on:input=on_input
+                on:focus=on_internal_focus
+                on:blur=on_internal_blur
                 class="melt-input__input-el"
+                placeholder=move || placeholder.get()
             />
         </div>
     }

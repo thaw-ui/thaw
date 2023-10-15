@@ -1,4 +1,5 @@
 mod alert;
+mod auto_complete;
 mod button;
 mod checkbox;
 mod color_picker;
@@ -20,6 +21,7 @@ mod tabs;
 mod toast;
 
 pub use alert::*;
+pub use auto_complete::*;
 pub use button::*;
 pub use checkbox::*;
 pub use color_picker::*;
