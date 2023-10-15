@@ -30,30 +30,9 @@ pub fn ComponentsPage() -> impl IntoView {
             <Layout has_sider=true position=LayoutPosition::ABSOLUTE style="top: 54px;">
                 <LayoutSider>
                     <Menu value=selected>
-                        <MenuGroup label="Common Components">
-                            <MenuItem key="menu" label="Menu"/>
-                            <MenuItem key="image" label="Image"/>
-                            <MenuItem key="modal" label="Modal"/>
-                            <MenuItem key="button" label="Button"/>
-                            <MenuItem key="tabs" label="Tabs"/>
-                            <MenuItem key="space" label="Space"/>
-                            <MenuItem key="table" label="Table"/>
-                            <MenuItem key="alert" label="Alert"/>
-                            <MenuItem key="grid" label="Grid"/>
-                        </MenuGroup>
-                        <MenuGroup label="Data Input Components">
-                            <MenuItem key="auto-complete" label="Auto Complete"/>
-                            <MenuItem key="color-picker" label="Color Picker"/>
-                            <MenuItem key="checkbox" label="Checkbox"/>
-                            <MenuItem key="input" label="Input"/>
-                            <MenuItem key="select" label="Select"/>
-                            <MenuItem key="slider" label="Slider"/>
-                        </MenuGroup>
-                        <MenuGroup label="Mobile Components">
-                            <MenuItem key="tabbar" label="Tabbar"/>
-                            <MenuItem key="nav-bar" label="Nav Bar"/>
-                            <MenuItem key="toast" label="Toast"/>
-                        </MenuGroup>
+                        {
+                            gen_menu_data().into_view()
+                        }
                     </Menu>
                 </LayoutSider>
                 <Layout style="padding: 8px 12px 28px; overflow-y: auto;">
@@ -62,4 +41,146 @@ pub fn ComponentsPage() -> impl IntoView {
             </Layout>
         </Layout>
     }
+}
+
+struct MenuGroupOption {
+    label: String,
+    children: Vec<MenuItemOption>,
+}
+
+impl IntoView for MenuGroupOption {
+    fn into_view(self) -> View {
+        let Self { label, children } = self;
+        view! {
+            <MenuGroup label>
+                {
+                    children.into_iter().map(|v| v.into_view()).collect_view()
+                }
+            </MenuGroup>
+        }
+    }
+}
+
+struct MenuItemOption {
+    label: String,
+    value: String,
+}
+
+impl IntoView for MenuItemOption {
+    fn into_view(self) -> View {
+        let Self { label, value } = self;
+        view! {
+            <MenuItem key=value label/>
+        }
+    }
+}
+
+fn gen_menu_data() -> Vec<MenuGroupOption> {
+    vec![
+        MenuGroupOption {
+            label: "Common Components".into(),
+            children: vec![MenuItemOption {
+                value: "button".into(),
+                label: "Button".into(),
+            }],
+        },
+        MenuGroupOption {
+            label: "Data Input Components".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "auto-complete".into(),
+                    label: "Auto Complete".into(),
+                },
+                MenuItemOption {
+                    value: "color-picker".into(),
+                    label: "Color Picker".into(),
+                },
+                MenuItemOption {
+                    value: "checkbox".into(),
+                    label: "Checkbox".into(),
+                },
+                MenuItemOption {
+                    value: "input".into(),
+                    label: "Input".into(),
+                },
+                MenuItemOption {
+                    value: "select".into(),
+                    label: "Select".into(),
+                },
+                MenuItemOption {
+                    value: "slider".into(),
+                    label: "Slider".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
+            label: "Data Display Components".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "image".into(),
+                    label: "Image".into(),
+                },
+                MenuItemOption {
+                    value: "table".into(),
+                    label: "Table".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
+            label: "Navigation Components".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "menu".into(),
+                    label: "Menu".into(),
+                },
+                MenuItemOption {
+                    value: "tabs".into(),
+                    label: "Tabs".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
+            label: "Feedback Components".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "alert".into(),
+                    label: "Alert".into(),
+                },
+                MenuItemOption {
+                    value: "modal".into(),
+                    label: "Modal".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
+            label: "Layout Components".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "grid".into(),
+                    label: "Grid".into(),
+                },
+                MenuItemOption {
+                    value: "space".into(),
+                    label: "Space".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
+            label: "Mobile Components".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "nav-bar".into(),
+                    label: "Nav Bar".into(),
+                },
+                MenuItemOption {
+                    value: "tabbar".into(),
+                    label: "Tabbar".into(),
+                },
+                MenuItemOption {
+                    value: "toast".into(),
+                    label: "Toast".into(),
+                },
+            ],
+        },
+    ]
 }

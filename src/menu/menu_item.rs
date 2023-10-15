@@ -4,14 +4,15 @@ use leptos::*;
 
 #[component]
 pub fn MenuItem(
-    #[prop(into)] key: MaybeSignal<&'static str>,
+    #[prop(into)] key: MaybeSignal<String>,
     #[prop(into)] label: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("menu-item", include_str!("./menu-item.css"));
     let theme = use_theme(Theme::light);
     let menu = use_menu();
-    let onclick_select = move |_| {
-        menu.set(MenuInjectionKey::new(key.get().to_string()));
+    let click_key = key.clone();
+    let on_click = move |_| {
+        menu.set(MenuInjectionKey::new(click_key.get()));
     };
 
     let css_vars = create_memo(move |_| {
@@ -32,7 +33,7 @@ pub fn MenuItem(
             <div
                 class="melt-menu-item__content"
                 class=("melt-menu-item__content--selected", move || menu.get().value == key.get())
-                on:click=onclick_select
+                on:click=on_click
                 style=move || css_vars.get()
             >
                 {move || label.get()}

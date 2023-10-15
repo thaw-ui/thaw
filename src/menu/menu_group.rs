@@ -2,7 +2,7 @@ use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 
 #[component]
-pub fn MenuGroup(label: &'static str, children: Children) -> impl IntoView {
+pub fn MenuGroup(#[prop(into)] label: String, children: Children) -> impl IntoView {
     mount_style("menu-group", include_str!("./menu-group.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
