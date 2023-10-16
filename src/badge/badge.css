@@ -1,0 +1,27 @@
+.melt-badge {
+    position: relative;
+    display: inline-block;
+}
+.melt-badge__sup {
+    position: absolute;
+    color: var(--font-color);
+    background-color: var(--background-color);
+}
+.melt-badge__sup--value {
+    top: -9px;
+    right: -9px;
+    font-size: 12px;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 9px;
+    padding: 0 6px;
+    text-align: center;
+}
+
+.melt-badge__sup--dot {
+    top: -5px;
+    right: -5px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+}
