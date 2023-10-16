@@ -1,5 +1,6 @@
 mod alert;
 mod auto_complete;
+mod avatar;
 mod button;
 mod card;
 mod checkbox;
@@ -27,6 +28,7 @@ mod wave;
 
 pub use alert::*;
 pub use auto_complete::*;
+pub use avatar::*;
 pub use button::*;
 pub use card::*;
 pub use checkbox::*;

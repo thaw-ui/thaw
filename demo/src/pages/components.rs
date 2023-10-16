@@ -79,10 +79,16 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
     vec![
         MenuGroupOption {
             label: "Common Components".into(),
-            children: vec![MenuItemOption {
-                value: "button".into(),
-                label: "Button".into(),
-            }],
+            children: vec![
+                MenuItemOption {
+                    value: "avatar".into(),
+                    label: "Avatar".into(),
+                },
+                MenuItemOption {
+                    value: "button".into(),
+                    label: "Button".into(),
+                },
+            ],
         },
         MenuGroupOption {
             label: "Data Input Components".into(),
