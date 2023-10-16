@@ -1,12 +1,13 @@
 use crate::{components::*, utils::mount_style::mount_style};
 use leptos::*;
-use std::rc::Rc;
 
+#[derive(Clone)]
 #[slot]
 pub struct CardHeader {
     children: ChildrenFn,
 }
 
+#[derive(Clone)]
 #[slot]
 pub struct CardHeaderExtra {
     children: ChildrenFn,
@@ -21,7 +22,7 @@ pub struct CardFooter {
 
 #[component]
 pub fn Card(
-    #[prop(optional, into)] title: MaybeSignal<&'static str>,
+    #[prop(optional, into)] title: MaybeSignal<String>,
     #[prop(optional)] card_header: Option<CardHeader>,
     #[prop(optional)] card_header_extra: Option<CardHeaderExtra>,
     children: Children,
@@ -29,23 +30,24 @@ pub fn Card(
 ) -> impl IntoView {
     mount_style("card", include_str!("./card.css"));
 
+    let title = store_value(title);
     let is_header = card_header.is_some();
-    let header = card_header.map_or(None, |v| Some(Rc::new(v)));
-    let header_extra = card_header_extra.map_or(None, |v| Some(Rc::new(v)));
-    // let footer = card_footer.map_or(None, |v| Some(Rc::new(v)));
+    let is_header = MaybeSignal::derive(move || is_header || !title.get_value().get().is_empty());
+    let header = store_value(card_header);
+    let header_extra = store_value(card_header_extra);
 
     view! {
         <div class="melt-card">
-            <If cond=MaybeSignal::derive(move || is_header || !title.get().is_empty())>
+            <If cond=is_header>
                 <Then slot>
                     <div class="melt-card__header">
                         <div class="melt-card__header-content">
-                            <OptionComp value=header.clone() let:header>
-                                <Fallback slot>{title.get()}</Fallback>
+                            <OptionComp value=header.get_value() let:header>
+                                <Fallback slot>{move || title.get_value().get()}</Fallback>
                                 {(header.children)()}
                             </OptionComp>
                         </div>
-                        <OptionComp value=header_extra.clone() let:header_extra>
+                        <OptionComp value=header_extra.get_value() let:header_extra>
                             <div class="melt-card__header-extra">{(header_extra.children)()}</div>
                         </OptionComp>
                     </div>
