@@ -3,12 +3,13 @@ use leptos::*;
 
 #[derive(Default)]
 pub enum SpaceGap {
-    SMALL,
+    Small,
     #[default]
-    MEDIUM,
-    LARGE,
-    NUMBER(u16),
-    TUPLE(u16, u16),
+    Medium,
+    Large,
+    Size(u16),
+    /// width and height
+    WH(u16, u16),
 }
 
 #[component]
@@ -19,11 +20,11 @@ pub fn Space(
 ) -> impl IntoView {
     mount_style("space", include_str!("./space.css"));
     let gap = match gap {
-        SpaceGap::SMALL => "4px 8px".into(),
-        SpaceGap::MEDIUM => "8px 12px".into(),
-        SpaceGap::LARGE => "12px 16px".into(),
-        SpaceGap::NUMBER(size) => format!("{size}px {size}px"),
-        SpaceGap::TUPLE(x, y) => format!("{x}px {y}px"),
+        SpaceGap::Small => "4px 8px".into(),
+        SpaceGap::Medium => "8px 12px".into(),
+        SpaceGap::Large => "12px 16px".into(),
+        SpaceGap::Size(size) => format!("{size}px {size}px"),
+        SpaceGap::WH(width, height) => format!("{width}px {height}px"),
     };
 
     view! {

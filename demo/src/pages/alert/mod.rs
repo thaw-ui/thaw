@@ -10,13 +10,13 @@ pub fn AlertPage() -> impl IntoView {
             <h1>"Alert"</h1>
             <Demo>
                 <Space vertical=true>
-                    <Alert variant=AlertVariant::SUCCESS title="title">
+                    <Alert variant=AlertVariant::Success title="title">
                         "success"
                     </Alert>
-                    <Alert variant=AlertVariant::WARNING title="title">
+                    <Alert variant=AlertVariant::Warning title="title">
                         "warning"
                     </Alert>
-                    <Alert variant=AlertVariant::ERROR title="title">
+                    <Alert variant=AlertVariant::Error title="title">
                         "error"
                     </Alert>
                 </Space>
@@ -24,9 +24,9 @@ pub fn AlertPage() -> impl IntoView {
                     slot
                     html=highlight_str!(
                         r#"
-                        <Alert variant=AlertVariant::SUCCESS title="title">"success"</Alert>
-                        <Alert variant=AlertVariant::WARNING title="title">"warning"</Alert>
-                        <Alert variant=AlertVariant::ERROR title="title">"error"</Alert>
+                        <Alert variant=AlertVariant::Success title="title">"success"</Alert>
+                        <Alert variant=AlertVariant::Warning title="title">"warning"</Alert>
+                        <Alert variant=AlertVariant::Error title="title">"error"</Alert>
                 "#,
                         "rust"
                     )

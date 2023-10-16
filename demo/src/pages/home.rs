@@ -11,7 +11,7 @@ pub fn Home() -> impl IntoView {
     }
     view! {
         <Layout
-            position=LayoutPosition::ABSOLUTE
+            position=LayoutPosition::Absolute
             style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
         >
             <h1 style="font-size: 80px; line-height: 1;margin: 0 0 18px;">"Melt UI"</h1>
@@ -22,7 +22,7 @@ pub fn Home() -> impl IntoView {
                     navigate("/components/menu", Default::default());
                 }>"Read the docs"</Button>
                 <Button
-                    variant=ButtonVariant::TEXT
+                    variant=ButtonVariant::Text
                     on:click=move |_| {
                         _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
                     }

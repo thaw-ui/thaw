@@ -9,15 +9,15 @@ use leptos::*;
 #[derive(Default, PartialEq)]
 pub enum LayoutPosition {
     #[default]
-    STATIC,
-    ABSOLUTE,
+    Static,
+    Absolute,
 }
 
 impl LayoutPosition {
     pub fn as_str(&self) -> &str {
         match self {
-            LayoutPosition::STATIC => "static",
-            LayoutPosition::ABSOLUTE => "absolute",
+            LayoutPosition::Static => "static",
+            LayoutPosition::Absolute => "absolute",
         }
     }
 }
@@ -41,7 +41,7 @@ pub fn Layout(
     view! {
         <div
             class="melt-layout"
-            class=("melt-layout--absolute-positioned", position == LayoutPosition::ABSOLUTE)
+            class=("melt-layout--absolute-positioned", position == LayoutPosition::Absolute)
             style=move || style.get()
         >
             {children()}

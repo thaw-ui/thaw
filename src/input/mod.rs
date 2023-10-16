@@ -10,15 +10,15 @@ pub use theme::InputTheme;
 #[derive(Default, Clone)]
 pub enum InputVariant {
     #[default]
-    TEXT,
-    PASSWORD,
+    Text,
+    Password,
 }
 
 impl InputVariant {
     pub fn as_str(&self) -> &'static str {
         match self {
-            InputVariant::TEXT => "text",
-            InputVariant::PASSWORD => "password",
+            InputVariant::Text => "text",
+            InputVariant::Password => "password",
         }
     }
 }

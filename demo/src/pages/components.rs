@@ -25,9 +25,9 @@ pub fn ComponentsPage() -> impl IntoView {
         selected
     });
     view! {
-        <Layout position=LayoutPosition::ABSOLUTE>
+        <Layout position=LayoutPosition::Absolute>
             <SiteHeader/>
-            <Layout has_sider=true position=LayoutPosition::ABSOLUTE style="top: 54px;">
+            <Layout has_sider=true position=LayoutPosition::Absolute style="top: 54px;">
                 <LayoutSider>
                     <Menu value=selected>
                         {

@@ -7,45 +7,45 @@ pub use theme::ButtonTheme;
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonVariant {
     #[default]
-    PRIMARY,
-    SOLID,
-    TEXT,
-    LINK,
+    Primary,
+    Solid,
+    Text,
+    Link,
 }
 
 #[derive(Default, Clone)]
 pub enum ButtonColor {
     #[default]
-    PRIMARY,
-    SUCCESS,
-    WARNING,
-    ERROR,
+    Primary,
+    Success,
+    Warning,
+    Error,
 }
 
 impl ButtonColor {
     pub fn theme_color(&self, theme: &Theme) -> String {
         match self {
-            ButtonColor::PRIMARY => theme.common.color_primary.clone(),
-            ButtonColor::SUCCESS => theme.common.color_success.clone(),
-            ButtonColor::WARNING => theme.common.color_warning.clone(),
-            ButtonColor::ERROR => theme.common.color_error.clone(),
+            ButtonColor::Primary => theme.common.color_primary.clone(),
+            ButtonColor::Success => theme.common.color_success.clone(),
+            ButtonColor::Warning => theme.common.color_warning.clone(),
+            ButtonColor::Error => theme.common.color_error.clone(),
         }
     }
     pub fn theme_color_hover(&self, theme: &Theme) -> String {
         match self {
-            ButtonColor::PRIMARY => theme.common.color_primary_hover.clone(),
-            ButtonColor::SUCCESS => theme.common.color_success_hover.clone(),
-            ButtonColor::WARNING => theme.common.color_warning_hover.clone(),
-            ButtonColor::ERROR => theme.common.color_error_hover.clone(),
+            ButtonColor::Primary => theme.common.color_primary_hover.clone(),
+            ButtonColor::Success => theme.common.color_success_hover.clone(),
+            ButtonColor::Warning => theme.common.color_warning_hover.clone(),
+            ButtonColor::Error => theme.common.color_error_hover.clone(),
         }
     }
 
     pub fn theme_color_active(&self, theme: &Theme) -> String {
         match self {
-            ButtonColor::PRIMARY => theme.common.color_primary_active.clone(),
-            ButtonColor::SUCCESS => theme.common.color_success_active.clone(),
-            ButtonColor::WARNING => theme.common.color_warning_active.clone(),
-            ButtonColor::ERROR => theme.common.color_error_active.clone(),
+            ButtonColor::Primary => theme.common.color_primary_active.clone(),
+            ButtonColor::Success => theme.common.color_success_active.clone(),
+            ButtonColor::Warning => theme.common.color_warning_active.clone(),
+            ButtonColor::Error => theme.common.color_error_active.clone(),
         }
     }
 }
@@ -69,7 +69,7 @@ pub fn Button(
         let bg_color = color.get().theme_color(&theme);
         let bg_color_hover = color.get().theme_color_hover(&theme);
         let bg_color_active = color.get().theme_color_active(&theme);
-        if variant.get() == ButtonVariant::PRIMARY {
+        if variant.get() == ButtonVariant::Primary {
             css_vars.push_str(&format!("--background-color: {bg_color};"));
             css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
             css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));
@@ -113,8 +113,8 @@ pub fn Button(
     view! {
         <button
             class:melt-button=true
-            class=("melt-button--text", move || variant.get() == ButtonVariant::TEXT)
-            class=("melt-button--link", move || variant.get() == ButtonVariant::LINK)
+            class=("melt-button--text", move || variant.get() == ButtonVariant::Text)
+            class=("melt-button--link", move || variant.get() == ButtonVariant::Link)
             class=("melt-button--round", move || round.get())
             class=("melt-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())

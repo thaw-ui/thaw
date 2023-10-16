@@ -7,31 +7,31 @@ pub use theme::AlertTheme;
 
 #[derive(Clone)]
 pub enum AlertVariant {
-    SUCCESS,
-    WARNING,
-    ERROR,
+    Success,
+    Warning,
+    Error,
 }
 
 impl AlertVariant {
     pub fn theme_icon_color(&self, theme: &Theme) -> String {
         match self {
-            AlertVariant::SUCCESS => theme.common.color_success.clone(),
-            AlertVariant::WARNING => theme.common.color_warning.clone(),
-            AlertVariant::ERROR => theme.common.color_error.clone(),
+            AlertVariant::Success => theme.common.color_success.clone(),
+            AlertVariant::Warning => theme.common.color_warning.clone(),
+            AlertVariant::Error => theme.common.color_error.clone(),
         }
     }
     pub fn theme_background_color(&self, theme: &Theme) -> String {
         match self {
-            AlertVariant::SUCCESS => theme.alert.success_background_color.clone(),
-            AlertVariant::WARNING => theme.alert.warning_background_color.clone(),
-            AlertVariant::ERROR => theme.alert.error_background_color.clone(),
+            AlertVariant::Success => theme.alert.success_background_color.clone(),
+            AlertVariant::Warning => theme.alert.warning_background_color.clone(),
+            AlertVariant::Error => theme.alert.error_background_color.clone(),
         }
     }
     pub fn theme_border_color(&self, theme: &Theme) -> String {
         match self {
-            AlertVariant::SUCCESS => theme.alert.success_border_color.clone(),
-            AlertVariant::WARNING => theme.alert.warning_border_color.clone(),
-            AlertVariant::ERROR => theme.alert.error_border_color.clone(),
+            AlertVariant::Success => theme.alert.success_border_color.clone(),
+            AlertVariant::Warning => theme.alert.warning_border_color.clone(),
+            AlertVariant::Error => theme.alert.error_border_color.clone(),
         }
     }
 }
@@ -72,9 +72,9 @@ pub fn Alert(
     });
     let icon = create_memo(move |_| {
         match variant.get() {
-            AlertVariant::SUCCESS => AiIcon::AiCheckCircleFilled,
-            AlertVariant::WARNING => AiIcon::AiExclamationCircleFilled,
-            AlertVariant::ERROR => AiIcon::AiCloseCircleFilled,
+            AlertVariant::Success => AiIcon::AiCheckCircleFilled,
+            AlertVariant::Warning => AiIcon::AiExclamationCircleFilled,
+            AlertVariant::Error => AiIcon::AiCloseCircleFilled,
         }
         .into()
     });

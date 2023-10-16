@@ -57,12 +57,12 @@ pub fn SpacePage() -> impl IntoView {
             </Demo>
             <h3>"gap"</h3>
             <Demo>
-                <Space gap=SpaceGap::LARGE>
+                <Space gap=SpaceGap::Large>
                     <Button>"1"</Button>
                     <Button>"2"</Button>
                     <Button>"3"</Button>
                 </Space>
-                <Space gap=SpaceGap::TUPLE(36, 36)>
+                <Space gap=SpaceGap::WH(36, 36)>
                     <Button>"1"</Button>
                     <Button>"2"</Button>
                     <Button>"3"</Button>
@@ -71,12 +71,12 @@ pub fn SpacePage() -> impl IntoView {
                     slot
                     html=highlight_str!(
                         r#"
-                    <Space gap=SpaceGap::LARGE>
+                    <Space gap=SpaceGap::Large>
                         <Button>"1"</Button>
                         <Button>"2"</Button>
                         <Button>"3"</Button>
                     </Space>
-                    <Space gap=SpaceGap::TUPLE(36, 36)>
+                    <Space gap=SpaceGap::WH(36, 36)>
                         <Button>"1"</Button>
                         <Button>"2"</Button>
                         <Button>"3"</Button>

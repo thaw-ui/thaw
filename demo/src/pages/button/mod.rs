@@ -10,26 +10,26 @@ pub fn ButtonPage() -> impl IntoView {
             <h1>"Button"</h1>
             <Demo>
                 <Space>
-                    <Button variant=ButtonVariant::PRIMARY>"PRIMARY"</Button>
-                    <Button variant=ButtonVariant::SOLID>"SOLID"</Button>
-                    <Button variant=ButtonVariant::TEXT>"TEXT"</Button>
-                    <Button variant=ButtonVariant::LINK>"LINK"</Button>
+                    <Button variant=ButtonVariant::Primary>"Primary"</Button>
+                    <Button variant=ButtonVariant::Solid>"Solid"</Button>
+                    <Button variant=ButtonVariant::Text>"Text"</Button>
+                    <Button variant=ButtonVariant::Link>"Link"</Button>
                 </Space>
                 <DemoCode
                     slot
                     html=highlight_str!(
                         r#"
-                    <Button variant=ButtonVariant::PRIMARY>
-                        "PRIMARY"
+                    <Button variant=ButtonVariant::Primary>
+                        "Primary"
                     </Button>
-                    <Button variant=ButtonVariant::SOLID>
-                        "SOLID"
+                    <Button variant=ButtonVariant::Solid>
+                        "Solid"
                     </Button>
-                    <Button variant=ButtonVariant::TEXT>
-                        "TEXT"
+                    <Button variant=ButtonVariant::Text>
+                        "Text"
                     </Button>
-                    <Button variant=ButtonVariant::LINK>
-                        "LINK"
+                    <Button variant=ButtonVariant::Link>
+                        "Link"
                     </Button>
                 "#,
                         "rust"
@@ -42,26 +42,26 @@ pub fn ButtonPage() -> impl IntoView {
             <h3>"color"</h3>
             <Demo>
                 <Space>
-                    <Button color=ButtonColor::PRIMARY>"PRIMARY Color"</Button>
-                    <Button color=ButtonColor::SUCCESS>"SUCCESS Color"</Button>
-                    <Button color=ButtonColor::WARNING>"WARNING Color"</Button>
-                    <Button color=ButtonColor::ERROR>"ERROR Color"</Button>
+                    <Button color=ButtonColor::Primary>"Primary Color"</Button>
+                    <Button color=ButtonColor::Success>"Success Color"</Button>
+                    <Button color=ButtonColor::Warning>"Warning Color"</Button>
+                    <Button color=ButtonColor::Error>"Error Color"</Button>
                 </Space>
                 <DemoCode
                     slot
                     html=highlight_str!(
                         r#"
-                    <Button color=ButtonColor::PRIMARY>
-                        "PRIMARY Color"
+                    <Button color=ButtonColor::Primary>
+                        "Primary Color"
                     </Button>
-                    <Button color=ButtonColor::SUCCESS>
-                        "SUCCESS Color"
+                    <Button color=ButtonColor::Success>
+                        "Success Color"
                     </Button>
-                    <Button color=ButtonColor::WARNING>
-                        "WARNING Color"
+                    <Button color=ButtonColor::Warning>
+                        "Warning Color"
                     </Button>
-                    <Button color=ButtonColor::ERROR>
-                        "ERROR Color"
+                    <Button color=ButtonColor::Error>
+                        "Error Color"
                     </Button>
                 "#,
                         "rust"
@@ -74,11 +74,11 @@ pub fn ButtonPage() -> impl IntoView {
             <h3>"icon"</h3>
             <Demo>
                 <Space>
-                    <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined>
-                        "ERROR Color Icon"
+                    <Button color=ButtonColor::Error icon=icondata::AiIcon::AiCloseOutlined>
+                        "Error Color Icon"
                     </Button>
                     <Button
-                        color=ButtonColor::ERROR
+                        color=ButtonColor::Error
                         icon=icondata::AiIcon::AiCloseOutlined
                         round=true
                     />
@@ -87,10 +87,10 @@ pub fn ButtonPage() -> impl IntoView {
                     slot
                     html=highlight_str!(
                         r#"
-                    <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined>
-                        "ERROR Color Icon"
+                    <Button color=ButtonColor::Error icon=icondata::AiIcon::AiCloseOutlined>
+                        "Error Color Icon"
                     </Button>
-                    <Button color=ButtonColor::ERROR icon=icondata::AiIcon::AiCloseOutlined round=true>
+                    <Button color=ButtonColor::Error icon=icondata::AiIcon::AiCloseOutlined round=true>
                     </Button>
                 "#,
                         "rust"
