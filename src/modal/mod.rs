@@ -3,6 +3,7 @@ use crate::components::OptionComp;
 use crate::icon::*;
 use crate::teleport::*;
 use crate::utils::mount_style::mount_style;
+use crate::utils::StoredMaybeSignal;
 use leptos::*;
 
 #[slot]
@@ -13,11 +14,12 @@ pub struct ModalFooter {
 #[component]
 pub fn Modal(
     #[prop(into)] show: RwSignal<bool>,
-    #[prop(optional, into)] title: MaybeSignal<&'static str>,
+    #[prop(optional, into)] title: MaybeSignal<String>,
     children: Children,
     #[prop(optional)] modal_footer: Option<ModalFooter>,
 ) -> impl IntoView {
     mount_style("modal", include_str!("./modal.css"));
+    let title: StoredMaybeSignal<_> = title.into();
 
     view! {
         <Teleport>
@@ -29,7 +31,7 @@ pub fn Modal(
                 <div class="melt-modal-body">
                     <Card>
                         <CardHeader slot>
-                            <span class="melt-model-title">{title.get()}</span>
+                            <span class="melt-model-title">{move || title.get()}</span>
                         </CardHeader>
                         <CardHeaderExtra slot>
                             <span style="cursor: pointer;" on:click=move |_| show.set(false)>

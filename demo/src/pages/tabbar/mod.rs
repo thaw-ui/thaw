@@ -53,9 +53,9 @@ pub fn TabbarDemoPage() -> impl IntoView {
     view! {
         <div style="height: 100vh; background: #f5f5f5">
             {move || value.get()} <Tabbar value>
-                <TabbarItem name="a">"and"</TabbarItem>
-                <TabbarItem name="i">"if"</TabbarItem>
-                <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>
+                <TabbarItem key="a">"and"</TabbarItem>
+                <TabbarItem key="i">"if"</TabbarItem>
+                <TabbarItem key="o" icon=icondata::AiIcon::AiCloseOutlined>
                     "or"
                 </TabbarItem>
             </Tabbar>

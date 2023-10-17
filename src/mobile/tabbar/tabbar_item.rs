@@ -1,19 +1,21 @@
 use super::{use_tabbar, TabbarInjectionKey};
 use crate::components::*;
+use crate::utils::StoredMaybeSignal;
 use crate::{icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 
 #[component]
 pub fn TabbarItem(
-    #[prop(into)] name: MaybeSignal<&'static str>,
+    #[prop(into)] key: MaybeSignal<String>,
     #[prop(optional, into)] icon: Option<Icon>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabbar-item", include_str!("./tabbar-item.css"));
     let theme = use_theme(Theme::light);
     let tabbar = use_tabbar();
-    let onclick_select = move |_| {
-        tabbar.set(TabbarInjectionKey::new(name.get().to_string()));
+    let key: StoredMaybeSignal<_> = key.into();
+    let on_click = move |_| {
+        tabbar.set(TabbarInjectionKey::new(key.get()));
     };
 
     let css_vars = create_memo(move |_| {
@@ -27,8 +29,8 @@ pub fn TabbarItem(
     view! {
         <div
             class="melt-tabbar-item"
-            class=("melt-tabbar-item--selected", move || tabbar.get().value == name.get())
-            on:click=onclick_select
+            class=("melt-tabbar-item--selected", move || tabbar.get().value == key.get())
+            on:click=on_click
             style=move || css_vars.get()
         >
             <OptionComp value=icon let:icon>

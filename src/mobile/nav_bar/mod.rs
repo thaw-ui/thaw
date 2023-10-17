@@ -1,25 +1,32 @@
-use crate::{components::*, icon::*, utils::mount_style::mount_style};
+use crate::{
+    components::*,
+    icon::*,
+    utils::{mount_style::mount_style, StoredMaybeSignal},
+};
 use leptos::*;
 
 #[component]
 pub fn NavBar(
-    #[prop(optional, into)] title: MaybeSignal<&'static str>,
+    #[prop(optional, into)] title: MaybeSignal<String>,
     #[prop(optional, into)] left_arrow: MaybeSignal<bool>,
-    #[prop(optional, into)] left_text: MaybeSignal<&'static str>,
-    #[prop(optional, into)] click_left: Option<Callback<ev::MouseEvent>>,
-    #[prop(optional, into)] right_text: MaybeSignal<&'static str>,
-    #[prop(optional, into)] click_right: Option<Callback<ev::MouseEvent>>,
+    #[prop(optional, into)] left_text: MaybeSignal<String>,
+    #[prop(optional, into)] on_click_left: Option<Callback<ev::MouseEvent>>,
+    #[prop(optional, into)] right_text: MaybeSignal<String>,
+    #[prop(optional, into)] on_click_right: Option<Callback<ev::MouseEvent>>,
 ) -> impl IntoView {
     mount_style("nav-bar", include_str!("./nav-bar.css"));
+    let title: StoredMaybeSignal<_> = title.into();
+    let left_text: StoredMaybeSignal<_> = left_text.into();
+    let right_text: StoredMaybeSignal<_> = right_text.into();
 
     let on_click_left = move |ev| {
-        if let Some(click_left) = click_left.as_ref() {
+        if let Some(click_left) = on_click_left.as_ref() {
             click_left.call(ev);
         }
     };
 
     let on_click_right = move |ev| {
-        if let Some(click_right) = click_right.as_ref() {
+        if let Some(click_right) = on_click_right.as_ref() {
             click_right.call(ev);
         }
     };

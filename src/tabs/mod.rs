@@ -12,7 +12,7 @@ pub use tab::*;
 
 #[component]
 pub fn Tabs(
-    #[prop(optional, into)] value: MaybeRwSignal<&'static str>,
+    #[prop(optional, into)] value: MaybeRwSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
@@ -47,28 +47,32 @@ pub fn Tabs(
             <div class="melt-tabs__label-list" ref=label_list_ref>
                 <For
                     each=move || tab_options_vec.get()
-                    key=move |v| v.key
-                    children=move |options| {
+                    key=move |v| v.key.clone()
+                    children=move |option| {
                         let label_ref = create_node_ref::<html::Span>();
-                        create_effect(move |_| {
-                            let Some(label) = label_ref.get() else {
-                                return;
-                            };
-                            let Some(label_list) = label_list_ref.get() else {
-                                return;
-                            };
-                            if options.key == value.get() {
-                                request_animation_frame(move || {
-                                    let list_rect = label_list.get_bounding_client_rect();
-                                    let rect = label.get_bounding_client_rect();
-                                    label_line
-                                        .set(
-                                            Some(TabsLabelLine {
-                                                width: rect.width(),
-                                                left: rect.left() - list_rect.left(),
-                                            }),
-                                        );
-                                });
+                        let TabOption { key, label } = option;
+                        create_effect({
+                            let key = key.clone();
+                            move |_| {
+                                let Some(label) = label_ref.get() else {
+                                    return;
+                                };
+                                let Some(label_list) = label_list_ref.get() else {
+                                    return;
+                                };
+                                if key.clone() == value.get() {
+                                    request_animation_frame(move || {
+                                        let list_rect = label_list.get_bounding_client_rect();
+                                        let rect = label.get_bounding_client_rect();
+                                        label_line
+                                            .set(
+                                                Some(TabsLabelLine {
+                                                    width: rect.width(),
+                                                    left: rect.left() - list_rect.left(),
+                                                }),
+                                            );
+                                    });
+                                }
                             }
                         });
                         view! {
@@ -76,13 +80,19 @@ pub fn Tabs(
                                 class="melt-tabs__label"
                                 class=(
                                     "melt-tabs__label--active",
-                                    move || options.key == value.get(),
+                                    {
+                                        let key = key.clone();
+                                        move || key == value.get()
+                                    },
                                 )
 
-                                on:click=move |_| value.set(options.key)
+                                on:click={
+                                    let key = key.clone();
+                                    move |_| value.set(key.clone())
+                                }
                                 ref=label_ref
                             >
-                                {options.label}
+                                {label}
                             </span>
                         }
                     }
@@ -103,16 +113,16 @@ pub(crate) struct TabsLabelLine {
 
 #[derive(Clone)]
 pub struct TabsInjectionKey {
-    active_key: RwSignal<&'static str>,
-    tab_options_vec: RwSignal<Vec<TabOptions>>,
+    active_key: RwSignal<String>,
+    tab_options_vec: RwSignal<Vec<TabOption>>,
 }
 
 impl TabsInjectionKey {
-    pub fn get_key(&self) -> &str {
+    pub fn get_key(&self) -> String {
         self.active_key.get()
     }
 
-    pub(crate) fn push_tab_options(&self, options: TabOptions) {
+    pub(crate) fn push_tab_options(&self, options: TabOption) {
         self.tab_options_vec.update(|v| {
             v.push(options);
         });

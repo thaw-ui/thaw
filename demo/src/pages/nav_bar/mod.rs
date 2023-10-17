@@ -29,8 +29,8 @@ pub fn NavBarPage() -> impl IntoView {
                                         left_arrow=true
                                         left_text="back"
                                         right_text="add"
-                                        click_left=on_click_left
-                                        click_right=on_click_right
+                                        on_click_left=on_click_left
+                                        on_click_right=on_click_right
                                     />
                                     <div style="padding-top: 50px">{move || click_text.get()}</div>
                                 </div>
@@ -64,8 +64,8 @@ pub fn NavBarDemoPage() -> impl IntoView {
                 left_arrow=true
                 left_text="back"
                 right_text="add"
-                click_left=on_click_left
-                click_right=on_click_right
+                on_click_left=on_click_left
+                on_click_right=on_click_right
             />
             <div style="padding-top: 50px">{move || click_text.get()}</div>
         </div>
