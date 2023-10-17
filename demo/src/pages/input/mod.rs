@@ -13,6 +13,11 @@ pub fn InputPage() -> impl IntoView {
                 <Space vertical=true>
                     <Input value/>
                     <Input value variant=InputVariant::Password/>
+                    <Input value>
+                        <InputSuffix slot>
+                            "$"
+                        </InputSuffix>
+                    </Input>
                 </Space>
                 <DemoCode
                     slot
@@ -23,6 +28,11 @@ pub fn InputPage() -> impl IntoView {
                         view! {
                             <Input value/>
                             <Input value variant=InputVariant::Password />
+                            <Input value>
+                                <InputSuffix slot>
+                                    "$"
+                                </InputSuffix>
+                            </Input>
                         }
                     "#,
                         "rust"

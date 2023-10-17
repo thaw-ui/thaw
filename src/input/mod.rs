@@ -23,6 +23,11 @@ impl InputVariant {
     }
 }
 
+#[slot]
+pub struct InputSuffix {
+    children: Children,
+}
+
 #[component]
 pub fn Input(
     #[prop(optional, into)] value: MaybeRwSignal<String>,
@@ -31,6 +36,7 @@ pub fn Input(
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
+    #[prop(optional)] input_suffix: Option<InputSuffix>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
@@ -65,7 +71,7 @@ pub fn Input(
         css_vars
     });
     view! {
-        <div class:melt-input=true style=move || css_vars.get()>
+        <div class="melt-input" style=move || css_vars.get()>
             <input
                 type=move || variant.get().as_str()
                 prop:value=move || value.get()
@@ -75,6 +81,17 @@ pub fn Input(
                 class="melt-input__input-el"
                 placeholder=move || placeholder.get()
             />
+            {
+                if let Some(suffix) = input_suffix {
+                    view! {
+                        <div class="melt-input__suffix">
+                            {(suffix.children)()}
+                        </div>
+                    }.into()
+                } else {
+                    None
+                }
+            }
         </div>
     }
 }

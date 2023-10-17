@@ -25,3 +25,10 @@
     border: none;
     outline: none;
 }
+
+.melt-input__suffix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+}
