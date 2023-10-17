@@ -7,7 +7,7 @@ use prisms::highlight_str;
 pub fn CardPage() -> impl IntoView {
     view! {
         <div style="width: 896px; margin: 0 auto;">
-            <h1>"Badge"</h1>
+            <h1>"Card"</h1>
             <Demo>
                 <Space vertical=true>
                     <Card title="title">
