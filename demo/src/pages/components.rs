@@ -96,6 +96,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "divider".into(),
                     label: "Divider".into(),
                 },
+                MenuItemOption {
+                    value: "icon".into(),
+                    label: "Icon".into(),
+                },
             ],
         },
         MenuGroupOption {

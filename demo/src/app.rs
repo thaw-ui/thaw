@@ -32,6 +32,7 @@ pub fn App() -> impl IntoView {
                     <Route path="/card" view=CardPage/>
                     <Route path="/divider" view=DividerPage/>
                     <Route path="/input-number" view=InputNumberPage/>
+                    <Route path="/icon" view=IconPage/>
                 </Route>
                 <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                 <Route path="/mobile/nav-bar" view=NavBarDemoPage/>

@@ -16,7 +16,7 @@ license = "MIT"
 leptos = { version = "0.5.1", features = ["csr"] }
 web-sys = { version = "0.3.62", features = ["DomRect"] }
 wasm-bindgen = "0.2.85"
-icondata = { version = "0.0.7", features = [
+icondata = { version = "0.1.0", features = [
     "AiCloseOutlined",
     "AiCheckOutlined",
     "AiLeftOutlined",
@@ -28,6 +28,7 @@ icondata = { version = "0.0.7", features = [
     "AiPlusOutlined",
     "AiMinusOutlined",
 ] }
+icondata_core = "0.0.2"
 
 [workspace]
 members = ["demo"]
