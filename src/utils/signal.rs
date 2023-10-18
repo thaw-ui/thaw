@@ -29,7 +29,7 @@ impl<T> SignalWatch for RwSignal<T> {
     /// count.set(2); // nothing happens
     /// ```
     fn watch(&self, f: impl Fn(&Self::Value) + 'static) -> Box<dyn FnOnce()> {
-        let signal = self.clone();
+        let signal = *self;
 
         let effect = create_effect(move |prev| {
             signal.with(|value| {

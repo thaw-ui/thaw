@@ -95,7 +95,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
                 class="melt-color-picker-popover"
                 ref=popover_ref
                 style=move || {
-                    if !is_show_popover.get() { format!("display: none").into() } else { None }
+                    if !is_show_popover.get() { Some("display: none") } else { None }
                 }
             >
 
@@ -143,7 +143,7 @@ fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
         let on_mouse_move = window_event_listener(ev::mousemove, cb);
         let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
             mouse.update_value(|value| {
-                for handle in value.drain(..).into_iter() {
+                for handle in value.drain(..) {
                     handle.remove();
                 }
             });
@@ -205,7 +205,7 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
         let on_mouse_move = window_event_listener(ev::mousemove, cb);
         let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
             mouse.update_value(|value| {
-                for handle in value.drain(..).into_iter() {
+                for handle in value.drain(..) {
                     handle.remove();
                 }
             });

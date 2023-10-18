@@ -5,7 +5,7 @@ pub struct MaybeRwSignal<T: Default + 'static>(RwSignal<T>);
 
 impl<T: Default> MaybeRwSignal<T> {
     pub fn clone_into(&self) -> RwSignal<T> {
-        self.0.clone()
+        self.0
     }
 }
 

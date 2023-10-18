@@ -13,7 +13,7 @@ pub fn Teleport(#[prop(optional)] to: Option<&'static str>, children: Children) 
         Element::from(document().body().expect("body element not to exist"))
     };
 
-    #[cfg(all(target_arch = "wasm32"))]
+    #[cfg(target_arch = "wasm32")]
     {
         use leptos::leptos_dom::Mountable;
         let node = children().into_view();

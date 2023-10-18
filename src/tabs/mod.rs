@@ -18,8 +18,8 @@ pub fn Tabs(
     mount_style("tabs", include_str!("./tabs.css"));
     let tab_options_vec = create_rw_signal(vec![]);
     provide_context(TabsInjectionKey {
-        active_key: value.deref().clone(),
-        tab_options_vec: tab_options_vec.clone(),
+        active_key: *value.deref(),
+        tab_options_vec,
     });
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {

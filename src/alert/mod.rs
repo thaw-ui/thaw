@@ -55,15 +55,15 @@ pub fn Alert(
                 let variant = variant.get();
                 css_vars.push_str(&format!(
                     "--icon-color: {};",
-                    variant.theme_icon_color(&theme)
+                    variant.theme_icon_color(theme)
                 ));
                 css_vars.push_str(&format!(
                     "--background-color: {};",
-                    variant.theme_background_color(&theme)
+                    variant.theme_background_color(theme)
                 ));
                 css_vars.push_str(&format!(
                     "--border-color: {};",
-                    variant.theme_border_color(&theme)
+                    variant.theme_border_color(theme)
                 ));
             });
 

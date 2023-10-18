@@ -15,7 +15,7 @@ pub fn show_toast(options: ToastOptions) {
     let children = view! { <div class="melt-toast">{options.message}</div> };
     let node = children.into_view();
 
-    #[cfg(all(target_arch = "wasm32"))]
+    #[cfg(target_arch = "wasm32")]
     {
         use leptos::leptos_dom::Mountable;
         let node = node.get_mountable_node();

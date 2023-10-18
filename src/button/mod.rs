@@ -73,13 +73,13 @@ pub fn Button(
             css_vars.push_str(&format!("--background-color: {bg_color};"));
             css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
             css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));
-            css_vars.push_str(&format!("--font-color: #fff;"));
+            css_vars.push_str("--font-color: #fff;");
             css_vars.push_str(&format!("--border-color: {bg_color};"));
             css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
         } else {
             css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
-            css_vars.push_str(&format!("--border-color: #555a;"));
-            css_vars.push_str(&format!("--border-color-hover: #555;"));
+            css_vars.push_str("--border-color: #555a;");
+            css_vars.push_str("--border-color-hover: #555;");
         }
 
         css_vars

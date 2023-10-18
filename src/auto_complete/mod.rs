@@ -58,7 +58,7 @@ pub fn AutoComplete(
             <div
                 class="melt-auto-complete__menu"
                 style=move || {
-                    if is_show_menu.get() { String::new() } else { format!("display: none;") }
+                    if is_show_menu.get() { None } else { Some("display: none;") }
                 }
 
                 ref=auto_complete_menu_ref
