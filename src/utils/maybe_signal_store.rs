@@ -1,4 +1,4 @@
-use leptos::{MaybeSignal, Signal, SignalGet, SignalWith, StoredValue};
+use leptos::{MaybeSignal, Signal, SignalGet, SignalGetUntracked, SignalWith, StoredValue};
 
 #[derive(Clone)]
 pub enum StoredMaybeSignal<T>
@@ -25,6 +25,24 @@ impl<T: Clone> SignalGet for StoredMaybeSignal<T> {
         match self {
             StoredMaybeSignal::StoredValue(value) => value.try_get_value(),
             StoredMaybeSignal::Signal(signal) => signal.try_get(),
+        }
+    }
+}
+
+impl<T: Clone> SignalGetUntracked for StoredMaybeSignal<T> {
+    type Value = T;
+
+    fn get_untracked(&self) -> Self::Value {
+        match self {
+            StoredMaybeSignal::StoredValue(value) => value.get_value(),
+            StoredMaybeSignal::Signal(signal) => signal.get_untracked(),
+        }
+    }
+
+    fn try_get_untracked(&self) -> Option<Self::Value> {
+        match self {
+            StoredMaybeSignal::StoredValue(value) => value.try_get_value(),
+            StoredMaybeSignal::Signal(signal) => signal.try_get_untracked(),
         }
     }
 }

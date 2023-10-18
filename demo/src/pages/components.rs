@@ -118,6 +118,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Input".into(),
                 },
                 MenuItemOption {
+                    value: "input-number".into(),
+                    label: "InputNumber".into(),
+                },
+                MenuItemOption {
                     value: "select".into(),
                     label: "Select".into(),
                 },

@@ -41,10 +41,12 @@ pub fn Input(
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
 
+    let value_trigger = create_trigger();
     let on_input = move |ev| {
         let input_value = event_target_value(&ev);
         if let Some(allow_value) = allow_value.as_ref() {
             if !allow_value.call(input_value.clone()) {
+                value_trigger.notify();
                 return;
             }
         }
@@ -74,7 +76,10 @@ pub fn Input(
         <div class="melt-input" style=move || css_vars.get()>
             <input
                 type=move || variant.get().as_str()
-                prop:value=move || value.get()
+                prop:value=move || {
+                    value_trigger.track();
+                    value.get()
+                }
                 on:input=on_input
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur

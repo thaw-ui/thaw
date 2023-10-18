@@ -36,6 +36,11 @@
     background-color: #f2f2f2;
 }
 
+.melt-button--link {
+    height: auto;
+    padding: inherit;
+}
+
 .melt-button--link:hover {
     color: var(--font-color-hover);
 }
