@@ -173,6 +173,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Badge".into(),
                 },
                 MenuItemOption {
+                    value: "message".into(),
+                    label: "Message".into(),
+                },
+                MenuItemOption {
                     value: "modal".into(),
                     label: "Modal".into(),
                 },

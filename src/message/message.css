@@ -1,0 +1,44 @@
+.melt-message-container {
+    z-index: 6000;
+    position: fixed;
+    top: 12px;
+    left: 0;
+    right: 0;
+    height: 0;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.melt-message-wrapper {
+    margin-bottom: 8px;
+}
+
+.melt-message {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+
+    padding: 10px 20px;
+    max-width: 75vh;
+    background: #fff;
+
+    font-size: 14px;
+    border-radius: 3px;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.melt-message__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.melt-message__content {
+    line-height: 1.6;
+}

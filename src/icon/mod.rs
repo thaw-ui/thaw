@@ -1,6 +1,6 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
-pub use icondata::*;
+pub(crate) use icondata::*;
 use leptos::*;
 
 /// The Icon component.
