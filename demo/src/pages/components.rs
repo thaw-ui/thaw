@@ -126,6 +126,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "InputNumber".into(),
                 },
                 MenuItemOption {
+                    value: "radio".into(),
+                    label: "Radio".into(),
+                },
+                MenuItemOption {
                     value: "select".into(),
                     label: "Select".into(),
                 },

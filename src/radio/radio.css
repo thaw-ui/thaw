@@ -1,0 +1,42 @@
+.melt-radio {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.melt-radio__input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.melt-radio__dot {
+    display: inline-block;
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+}
+
+.melt-radio:hover .melt-radio__dot,
+.melt-radio--checked .melt-radio__dot {
+    border-color: var(--background-color-checked);
+}
+
+.melt-radio--checked .melt-radio__dot::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    right: 3px;
+    background-color: var(--background-color-checked);
+    border-radius: 50%;
+}
+
+.melt-radio__label {
+    display: inline-block;
+    padding: 0 6px;
+    user-select: none;
+}

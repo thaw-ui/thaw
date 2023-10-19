@@ -36,6 +36,7 @@ pub fn App() -> impl IntoView {
                         <Route path="/input-number" view=InputNumberPage/>
                         <Route path="/icon" view=IconPage/>
                         <Route path="/message" view=MessagePage/>
+                        <Route path="/radio" view=RadioPage/>
                     </Route>
                     <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                     <Route path="/mobile/nav-bar" view=NavBarDemoPage/>
