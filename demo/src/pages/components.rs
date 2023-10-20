@@ -137,6 +137,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "slider".into(),
                     label: "Slider".into(),
                 },
+                MenuItemOption {
+                    value: "switch".into(),
+                    label: "Switch".into(),
+                },
             ],
         },
         MenuGroupOption {
@@ -183,6 +187,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "modal".into(),
                     label: "Modal".into(),
+                },
+                MenuItemOption {
+                    value: "skeleton".into(),
+                    label: "Skeleton".into(),
                 },
             ],
         },

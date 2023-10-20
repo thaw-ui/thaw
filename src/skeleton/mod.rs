@@ -1,6 +1,6 @@
 mod theme;
 
-use crate::{theme::use_theme, Theme};
+use crate::{mount_style, theme::use_theme, Theme};
 use leptos::*;
 pub use theme::SkeletionTheme;
 
@@ -11,6 +11,7 @@ pub fn Skeleton(
     #[prop(optional, into)] width: Option<MaybeSignal<String>>,
     #[prop(optional, into)] height: Option<MaybeSignal<String>>,
 ) -> impl IntoView {
+    mount_style("skeleton", include_str!("./skeleton.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
