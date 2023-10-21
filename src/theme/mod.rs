@@ -1,8 +1,8 @@
 mod common;
-use leptos::*;
 
 use self::common::CommonTheme;
-use crate::{AlertTheme, ButtonTheme, InputTheme, MenuTheme, SkeletionTheme, TableTheme};
+use crate::{AlertTheme, ButtonTheme, InputTheme, MenuTheme, SkeletionTheme, TableTheme, TagTheme};
+use leptos::*;
 
 pub trait ThemeMethod {
     fn light() -> Self;
@@ -18,6 +18,7 @@ pub struct Theme {
     pub table: TableTheme,
     pub alert: AlertTheme,
     pub skeletion: SkeletionTheme,
+    pub tag: TagTheme,
 }
 
 impl Theme {
@@ -30,6 +31,7 @@ impl Theme {
             table: TableTheme::light(),
             alert: AlertTheme::light(),
             skeletion: SkeletionTheme::light(),
+            tag: TagTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -41,6 +43,7 @@ impl Theme {
             table: TableTheme::dark(),
             alert: AlertTheme::dark(),
             skeletion: SkeletionTheme::dark(),
+            tag: TagTheme::dark(),
         }
     }
 }
@@ -55,6 +58,7 @@ impl ThemeMethod for Theme {
             table: TableTheme::light(),
             alert: AlertTheme::light(),
             skeletion: SkeletionTheme::light(),
+            tag: TagTheme::light(),
         }
     }
     fn dark() -> Self {
@@ -66,6 +70,7 @@ impl ThemeMethod for Theme {
             table: TableTheme::dark(),
             alert: AlertTheme::dark(),
             skeletion: SkeletionTheme::dark(),
+            tag: TagTheme::dark(),
         }
     }
 }

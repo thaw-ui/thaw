@@ -100,6 +100,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "icon".into(),
                     label: "Icon".into(),
                 },
+                MenuItemOption {
+                    value: "tag".into(),
+                    label: "Tag".into(),
+                },
             ],
         },
         MenuGroupOption {

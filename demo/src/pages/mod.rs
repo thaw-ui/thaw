@@ -28,6 +28,7 @@ mod switch;
 mod tabbar;
 mod table;
 mod tabs;
+mod tag;
 mod toast;
 
 pub use alert::*;
@@ -60,4 +61,5 @@ pub use switch::*;
 pub use tabbar::*;
 pub use table::*;
 pub use tabs::*;
+pub use tag::*;
 pub use toast::*;
