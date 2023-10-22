@@ -40,6 +40,7 @@ pub fn App() -> impl IntoView {
                         <Route path="/skeleton" view=SkeletonPage/>
                         <Route path="/switch" view=SwitchPage/>
                         <Route path="/tag" view=TagPage/>
+                        <Route path="/upload" view=UploadPage/>
                     </Route>
                     <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                     <Route path="/mobile/nav-bar" view=NavBarDemoPage/>

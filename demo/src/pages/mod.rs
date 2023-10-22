@@ -30,6 +30,7 @@ mod table;
 mod tabs;
 mod tag;
 mod toast;
+mod upload;
 
 pub use alert::*;
 pub use auto_complete::*;
@@ -63,3 +64,4 @@ pub use table::*;
 pub use tabs::*;
 pub use tag::*;
 pub use toast::*;
+pub use upload::*;

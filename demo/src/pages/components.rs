@@ -145,6 +145,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "switch".into(),
                     label: "Switch".into(),
                 },
+                MenuItemOption {
+                    value: "upload".into(),
+                    label: "Upload".into(),
+                },
             ],
         },
         MenuGroupOption {

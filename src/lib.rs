@@ -31,6 +31,7 @@ mod tabs;
 mod tag;
 mod teleport;
 mod theme;
+mod upload;
 mod utils;
 mod wave;
 
@@ -64,5 +65,6 @@ pub use table::*;
 pub use tabs::*;
 pub use tag::*;
 pub use theme::Theme;
+pub use upload::*;
 pub use utils::{mount_style::mount_style, signal::SignalWatch};
 pub use wave::*;
