@@ -40,7 +40,6 @@ pub fn Skeleton(
         css_vars
     });
     (0..repeat.get())
-        .into_iter()
         .map(|_| {
             view! { <div class="melt-skeleton" style=move || css_vars.get()></div> }
         })
