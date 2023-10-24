@@ -5,8 +5,10 @@ use melt_ui::*;
 
 #[component]
 pub fn App() -> impl IntoView {
+    let theme = create_rw_signal(Theme::light());
+    provide_context(theme);
     view! {
-        <MessageProvider>
+        <Provider theme=theme.split().0>
             <Router base="/melt-ui">
                 <Routes base="/melt-ui".to_string()>
                     <Route path="/" view=Home/>
@@ -47,6 +49,21 @@ pub fn App() -> impl IntoView {
                     <Route path="/mobile/toast" view=ToastDemoPage/>
                 </Routes>
             </Router>
-        </MessageProvider>
+        </Provider>
     }
+}
+
+#[component]
+fn Provider(theme: ReadSignal<Theme>, children: Children) -> impl IntoView {
+    view! {
+        <ThemeProvider theme>
+            <MessageProvider>
+                {children()}
+            </MessageProvider>
+        </ThemeProvider>
+    }
+}
+
+pub fn use_rw_theme() -> RwSignal<Theme> {
+    expect_context::<RwSignal<Theme>>()
 }

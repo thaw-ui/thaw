@@ -11,6 +11,7 @@ pub trait ThemeMethod {
 
 #[derive(Clone)]
 pub struct Theme {
+    pub name: String,
     pub common: CommonTheme,
     pub button: ButtonTheme,
     pub input: InputTheme,
@@ -24,6 +25,7 @@ pub struct Theme {
 impl Theme {
     pub fn light() -> Self {
         Self {
+            name: "Light".into(),
             common: CommonTheme::light(),
             button: ButtonTheme::light(),
             input: InputTheme::light(),
@@ -36,6 +38,7 @@ impl Theme {
     }
     pub fn dark() -> Self {
         Self {
+            name: "Dark".into(),
             common: CommonTheme::dark(),
             button: ButtonTheme::dark(),
             input: InputTheme::dark(),
@@ -51,6 +54,7 @@ impl Theme {
 impl ThemeMethod for Theme {
     fn light() -> Self {
         Self {
+            name: "Light".into(),
             common: CommonTheme::light(),
             button: ButtonTheme::light(),
             input: InputTheme::light(),
@@ -63,6 +67,7 @@ impl ThemeMethod for Theme {
     }
     fn dark() -> Self {
         Self {
+            name: "Dark".into(),
             common: CommonTheme::dark(),
             button: ButtonTheme::dark(),
             input: InputTheme::dark(),
@@ -73,6 +78,20 @@ impl ThemeMethod for Theme {
             tag: TagTheme::dark(),
         }
     }
+}
+
+#[component]
+pub fn ThemeProvider(
+    #[prop(optional, into)] theme: Option<ReadSignal<Theme>>,
+    children: Children,
+) -> impl IntoView {
+    let theme = if let Some(theme) = theme {
+        theme
+    } else {
+        create_signal(Theme::light()).0
+    };
+    provide_context(theme);
+    children()
 }
 
 pub fn use_theme(default: impl Fn() -> Theme) -> ReadSignal<Theme> {

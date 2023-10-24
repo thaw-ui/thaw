@@ -15,7 +15,7 @@ icondata = { version = "0.1.0", features = [
 ] }
 leptos_router = { version = "0.5.1", features = ["csr"] }
 leptos_devtools = "0.0.1"
-prisms = { git = "https://github.com/luoxiaozero/prisms" }
+prisms = { git = "https://github.com/luoxiaozero/prisms", rev = "16d4d34b93fc20578ebf03137d54ecc7eafa4d4b" }
 
 [features]
 tracing = ["leptos/tracing"]
