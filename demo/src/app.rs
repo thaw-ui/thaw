@@ -8,7 +8,7 @@ pub fn App() -> impl IntoView {
     let theme = create_rw_signal(Theme::light());
     provide_context(theme);
     view! {
-        <Provider theme=theme.split().0>
+        <Provider theme>
             <Router base="/melt-ui">
                 <Routes base="/melt-ui".to_string()>
                     <Route path="/" view=Home/>
@@ -54,16 +54,13 @@ pub fn App() -> impl IntoView {
 }
 
 #[component]
-fn Provider(theme: ReadSignal<Theme>, children: Children) -> impl IntoView {
+fn Provider(theme: RwSignal<Theme>, children: Children) -> impl IntoView {
     view! {
         <ThemeProvider theme>
+            <GlobalStyle />
             <MessageProvider>
                 {children()}
             </MessageProvider>
         </ThemeProvider>
     }
-}
-
-pub fn use_rw_theme() -> RwSignal<Theme> {
-    expect_context::<RwSignal<Theme>>()
 }
