@@ -66,10 +66,10 @@ pub fn Button(
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
-            let bg_color = color.get().theme_color(&theme);
+            let bg_color = color.get().theme_color(theme);
             if variant.get() == ButtonVariant::Primary {
-                let bg_color_hover = color.get().theme_color_hover(&theme);
-                let bg_color_active = color.get().theme_color_active(&theme);
+                let bg_color_hover = color.get().theme_color_hover(theme);
+                let bg_color_active = color.get().theme_color_active(theme);
                 css_vars.push_str(&format!("--background-color: {bg_color};"));
                 css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
                 css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));

@@ -5,9 +5,17 @@ use melt_ui::*;
 #[component]
 pub fn SiteHeader() -> impl IntoView {
     let theme = use_rw_theme();
-    let theme_name = create_memo(move |_| theme.with(|theme| theme.name.clone()));
+    let theme_name = create_memo(move |_| {
+        theme.with(|theme| {
+            if theme.name == "light".to_string() {
+                "Dark"
+            } else {
+                "Light"
+            }
+        })
+    });
     let on_theme = move |_| {
-        if theme_name.get_untracked() != "Light".to_string() {
+        if theme_name.get_untracked() == "Light" {
             theme.set(Theme::light())
         } else {
             theme.set(Theme::dark())

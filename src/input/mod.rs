@@ -65,11 +65,25 @@ pub fn Input(
 
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        let theme = theme.get();
-        let border_color_hover = theme.common.color_primary.clone();
-        css_vars.push_str(&format!("--border-color-hover: {border_color_hover};"));
-        let border_radius = theme.common.border_radius.clone();
-        css_vars.push_str(&format!("--border-radius: {border_radius};"));
+        theme.with(|theme| {
+            let border_color_hover = theme.common.color_primary.clone();
+            css_vars.push_str(&format!("--melt-border-color-hover: {border_color_hover};"));
+            let border_radius = theme.common.border_radius.clone();
+            css_vars.push_str(&format!("--melt-border-radius: {border_radius};"));
+            css_vars.push_str(&format!(
+                "--melt-background-color: {};",
+                theme.input.background_color
+            ));
+            css_vars.push_str(&format!("--melt-font-color: {};", theme.input.font_color));
+            css_vars.push_str(&format!(
+                "--melt-border-color: {};",
+                theme.input.border_color
+            ));
+            css_vars.push_str(&format!(
+                "--melt-placeholder-color: {};",
+                theme.input.placeholder_color
+            ));
+        });
         css_vars
     });
     view! {

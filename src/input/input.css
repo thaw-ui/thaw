@@ -3,27 +3,31 @@
     width: 100%;
     box-sizing: border-box;
     padding: 0 10px;
-    background-color: #fafbfc;
-    color: #24292e;
+    background-color: var(--melt-background-color);
     font-size: 14px;
-    border: 1px solid #e0e0e6;
-    border-radius: var(--border-radius);
+    color: var(--melt-font-color);
+    border: 1px solid var(--melt-border-color);
+    border-radius: var(--melt-border-radius);
     cursor: text;
     transition: all 0.3s;
 }
 
 .melt-input:hover {
-    border-color: var(--border-color-hover);
+    border-color: var(--melt-border-color-hover);
 }
 .melt-input__input-el {
     width: 100%;
     height: 30px;
     background-color: transparent;
-    color: #24292e;
+    color: var(--melt-font-color);
     line-height: 30px;
     font-size: inherit;
     border: none;
     outline: none;
+}
+
+.melt-input__input-el::placeholder {
+    color: var(--melt-placeholder-color);
 }
 
 .melt-input__suffix {

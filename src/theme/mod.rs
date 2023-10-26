@@ -25,7 +25,7 @@ pub struct Theme {
 impl Theme {
     pub fn light() -> Self {
         Self {
-            name: "Light".into(),
+            name: "light".into(),
             common: CommonTheme::light(),
             button: ButtonTheme::light(),
             input: InputTheme::light(),
@@ -38,7 +38,7 @@ impl Theme {
     }
     pub fn dark() -> Self {
         Self {
-            name: "Dark".into(),
+            name: "dark".into(),
             common: CommonTheme::dark(),
             button: ButtonTheme::dark(),
             input: InputTheme::dark(),
