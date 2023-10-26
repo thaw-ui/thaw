@@ -17,6 +17,9 @@ pub fn GlobalStyle() -> impl IntoView {
                 _ = body
                     .style()
                     .set_property("font-size", &theme.common.font_size);
+                _ = body
+                    .style()
+                    .set_property("color-scheme", &theme.common.color_scheme);
             }
         });
     });

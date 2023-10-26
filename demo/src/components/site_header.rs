@@ -13,8 +13,13 @@ pub fn SiteHeader() -> impl IntoView {
             theme.set(Theme::dark())
         }
     };
+    let style = create_memo(move |_| {
+        theme.with(|theme| {
+            format!("height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid {}", theme.common.border_color)
+        })
+    });
     view! {
-        <LayoutHeader style="height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid #e5e8eb">
+        <LayoutHeader style>
             <span
                 style="cursor: pointer"
                 on:click=move |_| {

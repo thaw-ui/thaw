@@ -5,6 +5,8 @@ pub struct CommonTheme {
     pub font_family: String,
     pub font_color: String,
     pub background_color: String,
+    pub border_color: String,
+    pub color_scheme: String,
 
     pub color_primary: String,
     pub color_primary_hover: String,
@@ -43,6 +45,8 @@ impl CommonTheme {
             font_family: r#"Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji""#.into(),
             font_color: "".into(),
             background_color: "".into(),
+            border_color: "".into(),
+            color_scheme: "".into(),
             color_primary: "".into(),
             color_primary_hover: "".into(),
             color_primary_active: "".into(),
@@ -78,6 +82,7 @@ impl ThemeMethod for CommonTheme {
         Self {
             font_color: "#11181c".into(),
             background_color: "#fff".into(),
+            color_scheme: "light".into(),
             color_primary: "#f5222d".into(),
             color_primary_hover: "#ff4d4f".into(),
             color_primary_active: "#cf1322".into(),
@@ -90,6 +95,7 @@ impl ThemeMethod for CommonTheme {
             color_error: "#d03050".into(),
             color_error_hover: "#de576d".into(),
             color_error_active: "#ab1f3f".into(),
+            border_color: "#e5e8eb".into(),
             ..CommonTheme::common()
         }
     }
@@ -97,11 +103,14 @@ impl ThemeMethod for CommonTheme {
         Self {
             font_color: "#ecedee".into(),
             background_color: "#1a1d1e".into(),
+            color_scheme: "dark".into(),
             color_primary: "#d32029".into(),
             color_primary_hover: "#e04648".into(),
             color_primary_active: "#ad111e".into(),
-            color_success: "#63e2b7".into(),
-            color_success_hover: "#7fe7c4".into(),
+            // color_success: "#63e2b7".into(),
+            // color_success_hover: "#7fe7c4".into(),
+            color_success: "#18a058".into(),
+            color_success_hover: "#36ad6a".into(),
             color_success_active: "#5acea7".into(),
             color_warning: "#f0a020".into(),
             color_warning_hover: "#fcb040".into(),
@@ -109,6 +118,7 @@ impl ThemeMethod for CommonTheme {
             color_error: "#d03050".into(),
             color_error_hover: "#de576d".into(),
             color_error_active: "#e57272".into(),
+            border_color: "#1f2537".into(),
             ..CommonTheme::common()
         }
     }
