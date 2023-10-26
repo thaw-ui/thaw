@@ -1,25 +1,23 @@
-use crate::{mount_style, utils::AsyncCallback};
+mod upload_dragger;
+
+use crate::mount_style;
 use leptos::*;
-use web_sys::FileList;
+pub use upload_dragger::UploadDragger;
+pub use web_sys::FileList;
 
 #[component]
 pub fn Upload(
     #[prop(optional, into)] accept: MaybeSignal<String>,
     #[prop(optional, into)] multiple: MaybeSignal<bool>,
-    #[prop(optional, into)] on_before_upload: Option<AsyncCallback<FileList, bool>>,
+    #[prop(optional, into)] custom_request: Option<Callback<FileList, ()>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));
 
     let on_file_addition = move |files: FileList| {
-        spawn_local(async move {
-            if let Some(on_before_upload) = on_before_upload {
-                let is_allow = on_before_upload.call(files).await;
-                if is_allow {
-                    //TODO submit
-                }
-            }
-        });
+        if let Some(custom_request) = custom_request {
+            custom_request.call(files);
+        }
     };
     let input_ref = create_node_ref::<html::Input>();
     let on_change = move |_| {
