@@ -33,7 +33,6 @@
 
 .melt-button--text:hover {
     color: var(--font-color-hover);
-    background-color: #f2f2f2;
 }
 
 .melt-button--link {

@@ -65,22 +65,33 @@ pub fn Button(
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        let theme = theme.get();
-        let bg_color = color.get().theme_color(&theme);
-        let bg_color_hover = color.get().theme_color_hover(&theme);
-        let bg_color_active = color.get().theme_color_active(&theme);
-        if variant.get() == ButtonVariant::Primary {
-            css_vars.push_str(&format!("--background-color: {bg_color};"));
-            css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
-            css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));
-            css_vars.push_str("--font-color: #fff;");
-            css_vars.push_str(&format!("--border-color: {bg_color};"));
-            css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
-        } else {
-            css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
-            css_vars.push_str("--border-color: #555a;");
-            css_vars.push_str("--border-color-hover: #555;");
-        }
+        theme.with(|theme| {
+            let bg_color = color.get().theme_color(&theme);
+            if variant.get() == ButtonVariant::Primary {
+                let bg_color_hover = color.get().theme_color_hover(&theme);
+                let bg_color_active = color.get().theme_color_active(&theme);
+                css_vars.push_str(&format!("--background-color: {bg_color};"));
+                css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
+                css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));
+                css_vars.push_str("--font-color: #fff;");
+                css_vars.push_str(&format!("--border-color: {bg_color};"));
+                css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
+            } else if variant.get() == ButtonVariant::Text {
+                css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
+                css_vars.push_str(&format!(
+                    "--background-color-hover: {};",
+                    theme.button.color_text_hover
+                ));
+                css_vars.push_str(&format!(
+                    "--background-color-active: {};",
+                    theme.button.color_text_active
+                ));
+            } else {
+                css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
+                css_vars.push_str("--border-color: #555a;");
+                css_vars.push_str("--border-color-hover: #555;");
+            }
+        });
 
         css_vars
     });

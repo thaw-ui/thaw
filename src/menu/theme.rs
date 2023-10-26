@@ -18,9 +18,9 @@ impl ThemeMethod for MenuTheme {
 
     fn dark() -> Self {
         Self {
-            color: "#4b5263".into(),
-            item_color_hover: "#f3f5f6".into(),
-            group_color: "#111727".into(),
+            color: "#9ca5b0".into(),
+            item_color_hover: "#383f5233".into(),
+            group_color: "#ffffffe6".into(),
         }
     }
 }

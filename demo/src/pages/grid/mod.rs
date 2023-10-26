@@ -8,10 +8,10 @@ pub fn GridPage() -> impl IntoView {
     mount_style(
         "grid-demo",
         r#".melt-grid-item {
-        height: 130px;
+        height: 60px;
         color: white;
         text-align: center;
-        line-height: 130px;
+        line-height: 60px;
       }
       .melt-grid-item:nth-child(odd) {
         background-color: #3d8ae5dd;

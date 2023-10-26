@@ -1,7 +1,7 @@
 .melt-card {
     display: flex;
     flex-direction: column;
-    border: 1px solid #efeff5;
+    border: 1px solid var(--melt-border-color);
     border-radius: 3px;
     overflow: hidden;
 }
@@ -21,12 +21,12 @@
 .melt-card__content,
 .melt-card__footer {
     padding: 12px 28px;
-    background-color: #fff;
+    background-color: var(--melt-background-color);
 }
 .melt-card__header {
     padding: 20px 28px;
 }
-.melt-card__header+.melt-card__content,
+.melt-card__header + .melt-card__content,
 .melt-card__footer {
     padding: 0 28px 20px;
 }

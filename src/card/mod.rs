@@ -1,4 +1,4 @@
-use crate::{components::*, utils::mount_style::mount_style};
+use crate::{components::*, use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 
 #[derive(Clone)]
@@ -29,6 +29,21 @@ pub fn Card(
     #[prop(optional)] card_footer: Option<CardFooter>,
 ) -> impl IntoView {
     mount_style("card", include_str!("./card.css"));
+    let theme = use_theme(Theme::light);
+    let css_vars = create_memo(move |_| {
+        let mut css_vars = String::new();
+        theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--melt-background-color: {};",
+                theme.common.background_color
+            ));
+            css_vars.push_str(&format!(
+                "--melt-border-color: {};",
+                theme.common.border_color
+            ));
+        });
+        css_vars
+    });
 
     let title = store_value(title);
     let is_header = card_header.is_some();
@@ -37,7 +52,7 @@ pub fn Card(
     let header_extra = store_value(card_header_extra);
 
     view! {
-        <div class="melt-card">
+        <div class="melt-card" style=move || css_vars.get()>
             <If cond=is_header>
                 <Then slot>
                     <div class="melt-card__header">
