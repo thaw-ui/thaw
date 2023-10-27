@@ -30,10 +30,20 @@ impl MessageVariant {
 #[component]
 pub(crate) fn Message(variant: MessageVariant, content: String) -> impl IntoView {
     let theme = use_theme(Theme::light);
+    let css_vars = create_memo(move |_| {
+        let mut css_vars = String::new();
+        theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--melt-background-color: {}",
+                theme.message.background_color
+            ))
+        });
+        css_vars
+    });
     let style = theme.with_untracked(|theme| format!("color: {};", variant.theme_color(theme)));
     view! {
         <div class="melt-message-wrapper">
-            <div class="melt-message">
+            <div class="melt-message" style=move || css_vars.get()>
                 <div class="melt-message__icon">
                     <Icon icon=variant.icon() style/>
                 </div>
