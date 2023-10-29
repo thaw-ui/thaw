@@ -1,3 +1,5 @@
+mod theme;
+
 use crate::{
     teleport::Teleport,
     theme::use_theme,
@@ -6,6 +8,7 @@ use crate::{
 };
 use leptos::*;
 use std::hash::Hash;
+pub use theme::SelectTheme;
 use wasm_bindgen::__rt::IntoJsResult;
 
 #[derive(Clone, PartialEq, Eq, Hash)]
@@ -27,11 +30,40 @@ where
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        let theme = theme.get();
-        let bg_color = theme.common.color_primary;
-        css_vars.push_str(&format!("--font-color: {bg_color};"));
-        css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
+        theme.with(|theme| {
+            let border_color_hover = theme.common.color_primary.clone();
+            css_vars.push_str(&format!("--melt-border-color-hover: {border_color_hover};"));
+            css_vars.push_str(&format!(
+                "--melt-background-color: {};",
+                theme.select.background_color
+            ));
+            css_vars.push_str(&format!("--melt-font-color: {};", theme.select.font_color));
+            css_vars.push_str(&format!(
+                "--melt-border-color: {};",
+                theme.select.border_color
+            ));
+        });
 
+        css_vars
+    });
+
+    let popover_css_vars = create_memo(move |_| {
+        let mut css_vars = String::new();
+        theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--melt-background-color: {};",
+                theme.select.popover_background_color
+            ));
+            css_vars.push_str(&format!(
+                "--melt-background-color-hover: {};",
+                theme.select.popover_background_color_hover
+            ));
+            css_vars.push_str(&format!("--melt-font-color: {};", theme.select.font_color));
+            css_vars.push_str(&format!(
+                "--melt-font-color-selected: {};",
+                theme.common.color_primary
+            ));
+        });
         css_vars
     });
 
@@ -94,9 +126,9 @@ where
                 class="melt-select-menu"
                 style=move || {
                     if is_show_popover.get() {
-                        css_vars.get()
+                        popover_css_vars.get()
                     } else {
-                        format!("display: none; {}", css_vars.get())
+                        "display: none;".into()
                     }
                 }
 
