@@ -51,7 +51,7 @@ pub fn TabbarPage() -> impl IntoView {
 pub fn TabbarDemoPage() -> impl IntoView {
     let value = create_rw_signal(String::from("o"));
     view! {
-        <div style="height: 100vh; background: #f5f5f5">
+        <div style="height: 100vh;">
             {move || value.get()} <Tabbar value>
                 <TabbarItem key="a">"and"</TabbarItem>
                 <TabbarItem key="i">"if"</TabbarItem>

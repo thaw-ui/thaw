@@ -58,7 +58,7 @@ pub fn NavBarDemoPage() -> impl IntoView {
     let on_click_right = move |_| click_text.set("right".to_string());
 
     view! {
-        <div style="height: 100vh; background: #f5f5f5">
+        <div style="height: 100vh;">
             <NavBar
                 title="Home"
                 left_arrow=true
