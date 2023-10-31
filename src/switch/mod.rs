@@ -1,5 +1,8 @@
+mod theme;
+
 use crate::{mount_style, theme::use_theme, utils::maybe_rw_signal::MaybeRwSignal, Theme};
 use leptos::*;
+pub use theme::SwitchTheme;
 
 #[component]
 pub fn Switch(#[prop(optional, into)] value: MaybeRwSignal<bool>) -> impl IntoView {
@@ -9,8 +12,12 @@ pub fn Switch(#[prop(optional, into)] value: MaybeRwSignal<bool>) -> impl IntoVi
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--background-color: {};",
-                theme.common.color_primary.clone()
+                "--melt-background-color: {};",
+                theme.switch.background_color
+            ));
+            css_vars.push_str(&format!(
+                "--melt-background-color-active: {};",
+                theme.common.color_primary
             ));
         });
         css_vars

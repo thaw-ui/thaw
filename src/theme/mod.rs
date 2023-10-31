@@ -3,7 +3,7 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     AlertTheme, AvatarTheme, ButtonTheme, InputTheme, MenuTheme, MessageTheme, SelectTheme,
-    SkeletionTheme, TableTheme, TagTheme,
+    SkeletionTheme, SliderTheme, SwitchTheme, TableTheme, TagTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -26,6 +26,9 @@ pub struct Theme {
     pub avatar: AvatarTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
+    pub slider: SliderTheme,
+    pub switch: SwitchTheme,
+    pub upload: UploadTheme,
 }
 
 impl Theme {
@@ -43,6 +46,9 @@ impl Theme {
             avatar: AvatarTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
+            slider: SliderTheme::light(),
+            switch: SwitchTheme::light(),
+            upload: UploadTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -59,6 +65,9 @@ impl Theme {
             avatar: AvatarTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
+            slider: SliderTheme::dark(),
+            switch: SwitchTheme::dark(),
+            upload: UploadTheme::dark(),
         }
     }
 }

@@ -8,8 +8,16 @@ pub fn UploadDragger(children: Children) -> impl IntoView {
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--melt-background-color: {};",
+                theme.upload.dragger_background_color
+            ));
+            css_vars.push_str(&format!(
+                "--melt-border-color: {};",
+                theme.upload.dragger_border_color
+            ));
             let border_color_hover = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--border-color-hover: {border_color_hover};"));
+            css_vars.push_str(&format!("--melt-border-color-hover: {border_color_hover};"));
         });
         css_vars
     });

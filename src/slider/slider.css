@@ -5,13 +5,13 @@
 }
 .melt-slider-rail {
     height: 4px;
-    background-color: #e6e6e6;
+    background-color: var(--melt-background-color);
     border-radius: 2px;
 }
 .melt-slider-rail__fill {
     width: 0%;
     height: 4px;
-    background-color: var(--background-color-fill);
+    background-color: var(--melt-background-color-fill);
     border-radius: 2px;
 }
 .melt-slider-handle {

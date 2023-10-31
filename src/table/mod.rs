@@ -18,20 +18,14 @@ pub fn Table(
         theme.with(|theme| {
             css_vars.push_str(&format!(
                 "--background-color: {};",
-                theme.table.background_color.clone()
+                theme.table.background_color
             ));
             css_vars.push_str(&format!(
                 "--background-color-striped: {};",
-                theme.table.background_color_striped.clone()
+                theme.table.background_color_striped
             ));
-            css_vars.push_str(&format!(
-                "--border-color: {};",
-                theme.table.border_color.clone()
-            ));
-            css_vars.push_str(&format!(
-                "--border-radius: {};",
-                theme.common.border_radius.clone()
-            ));
+            css_vars.push_str(&format!("--border-color: {};", theme.table.border_color));
+            css_vars.push_str(&format!("--border-radius: {};", theme.common.border_radius));
         });
 
         css_vars

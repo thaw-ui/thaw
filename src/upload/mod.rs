@@ -1,7 +1,9 @@
+mod theme;
 mod upload_dragger;
 
 use crate::mount_style;
 use leptos::*;
+pub use theme::UploadTheme;
 pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
