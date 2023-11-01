@@ -1,14 +1,28 @@
 mod color;
+mod theme;
 
-use crate::{mount_style, teleport::Teleport, utils::maybe_rw_signal::MaybeRwSignal};
+use crate::{
+    mount_style, teleport::Teleport, use_theme, utils::maybe_rw_signal::MaybeRwSignal, Theme,
+};
 pub use color::*;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
+pub use theme::ColorPickerTheme;
 use wasm_bindgen::__rt::IntoJsResult;
 
 #[component]
 pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
+    let theme = use_theme(Theme::light);
+    let popover_css_vars = create_memo(move |_| {
+        theme.with(|theme| {
+            format!(
+                "--melt-background-color: {};",
+                theme.color_picker.popover_background_color
+            )
+        })
+    });
+
     let hue = create_rw_signal(0);
     let sv = create_rw_signal((0.0, 0.0));
     let label = create_rw_signal(String::new());
@@ -95,7 +109,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
                 class="melt-color-picker-popover"
                 ref=popover_ref
                 style=move || {
-                    if !is_show_popover.get() { Some("display: none") } else { None }
+                    if is_show_popover.get() { popover_css_vars.get() } else { "display: none".to_string() }
                 }
             >
 

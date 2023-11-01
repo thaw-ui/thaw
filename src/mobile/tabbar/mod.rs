@@ -1,9 +1,14 @@
 mod tabbar_item;
+mod theme;
 
-use crate::utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style};
+use crate::{
+    use_theme,
+    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
+    Theme,
+};
 use leptos::*;
-
 pub use tabbar_item::*;
+pub use theme::TabbarTheme;
 
 #[component]
 pub fn Tabbar(
@@ -11,6 +16,15 @@ pub fn Tabbar(
     children: Children,
 ) -> impl IntoView {
     mount_style("tabbar", include_str!("./tabbar.css"));
+    let theme = use_theme(Theme::light);
+    let css_vars = create_memo(move |_| {
+        theme.with(|theme| {
+            format!(
+                "--melt-background-color: {};",
+                theme.tabbar.background_color
+            )
+        })
+    });
 
     let tabbar_injection_key = create_rw_signal(TabbarInjectionKey::new(value.get()));
     create_effect(move |_| {
@@ -29,7 +43,7 @@ pub fn Tabbar(
         }
     });
     provide_context(tabbar_injection_key);
-    view! { <div class="melt-tabbar">{children()}</div> }
+    view! { <div class="melt-tabbar" style=move || css_vars.get()>{children()}</div> }
 }
 
 #[derive(Clone)]

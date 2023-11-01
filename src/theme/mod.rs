@@ -2,8 +2,10 @@ mod common;
 
 use self::common::CommonTheme;
 use crate::{
-    AlertTheme, AvatarTheme, ButtonTheme, InputTheme, MenuTheme, MessageTheme, SelectTheme,
-    SkeletionTheme, SliderTheme, SwitchTheme, TableTheme, TagTheme, UploadTheme,
+    mobile::{NavBarTheme, TabbarTheme},
+    AlertTheme, AutoCompleteTheme, AvatarTheme, ButtonTheme, ColorPickerTheme, InputTheme,
+    MenuTheme, MessageTheme, SelectTheme, SkeletionTheme, SliderTheme, SwitchTheme, TableTheme,
+    TagTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -29,6 +31,10 @@ pub struct Theme {
     pub slider: SliderTheme,
     pub switch: SwitchTheme,
     pub upload: UploadTheme,
+    pub nav_bar: NavBarTheme,
+    pub tabbar: TabbarTheme,
+    pub auto_complete: AutoCompleteTheme,
+    pub color_picker: ColorPickerTheme,
 }
 
 impl Theme {
@@ -49,6 +55,10 @@ impl Theme {
             slider: SliderTheme::light(),
             switch: SwitchTheme::light(),
             upload: UploadTheme::light(),
+            nav_bar: NavBarTheme::light(),
+            tabbar: TabbarTheme::light(),
+            auto_complete: AutoCompleteTheme::light(),
+            color_picker: ColorPickerTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -68,6 +78,10 @@ impl Theme {
             slider: SliderTheme::dark(),
             switch: SwitchTheme::dark(),
             upload: UploadTheme::dark(),
+            nav_bar: NavBarTheme::dark(),
+            tabbar: TabbarTheme::dark(),
+            auto_complete: AutoCompleteTheme::dark(),
+            color_picker: ColorPickerTheme::dark(),
         }
     }
 }

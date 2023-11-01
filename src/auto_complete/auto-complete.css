@@ -3,7 +3,7 @@
     display: inline-block;
     max-height: 200px;
     padding: 5px;
-    background-color: #fff;
+    background-color: var(--melt-background-color);
     border-radius: 3px;
     box-sizing: border-box;
     box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
@@ -16,5 +16,5 @@
     cursor: pointer;
 }
 .melt-auto-complete__menu-item:hover {
-    background-color: #f6f6f7;
+    background-color: var(--melt-background-color-hover);
 }

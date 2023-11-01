@@ -24,7 +24,7 @@
     right: 0;
     width: 240px;
     padding: 12px;
-    background-color: #fff;
+    background-color: var(--melt-background-color);
     border-radius: 3px;
     box-sizing: border-box;
     box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
@@ -65,7 +65,7 @@
     border-radius: 6px;
     box-sizing: border-box;
     border: 2px solid white;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, .45);
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.45);
 }
 
 .melt-color-picker-slider {

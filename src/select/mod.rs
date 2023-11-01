@@ -47,16 +47,16 @@ where
         css_vars
     });
 
-    let popover_css_vars = create_memo(move |_| {
+    let menu_css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
                 "--melt-background-color: {};",
-                theme.select.popover_background_color
+                theme.select.menu_background_color
             ));
             css_vars.push_str(&format!(
                 "--melt-background-color-hover: {};",
-                theme.select.popover_background_color_hover
+                theme.select.menu_background_color_hover
             ));
             css_vars.push_str(&format!("--melt-font-color: {};", theme.select.font_color));
             css_vars.push_str(&format!(
@@ -67,14 +67,14 @@ where
         css_vars
     });
 
-    let is_show_popover = create_rw_signal(false);
+    let is_show_menu = create_rw_signal(false);
     let trigger_ref = create_node_ref::<html::Div>();
-    let popover_ref = create_node_ref::<html::Div>();
-    let show_popover = move |_| {
+    let menu_ref = create_node_ref::<html::Div>();
+    let show_menu = move |_| {
         let rect = trigger_ref.get().unwrap().get_bounding_client_rect();
-        is_show_popover.set(true);
-        if let Some(popover_ref) = popover_ref.get() {
-            popover_ref
+        is_show_menu.set(true);
+        if let Some(menu_ref) = menu_ref.get() {
+            menu_ref
                 .style("width", format!("{}px", rect.width()))
                 .style(
                     "transform",
@@ -95,14 +95,14 @@ where
             if current_el == *body {
                 break;
             };
-            if current_el == ***popover_ref.get().unwrap()
+            if current_el == ***menu_ref.get().unwrap()
                 || current_el == ***trigger_ref.get().unwrap()
             {
                 return;
             }
             el = current_el.parent_element();
         }
-        is_show_popover.set(false);
+        is_show_menu.set(false);
     });
     on_cleanup(move || timer.remove());
 
@@ -116,7 +116,7 @@ where
         None => String::new(),
     });
     view! {
-        <div class="melt-select" ref=trigger_ref on:click=show_popover style=move || css_vars.get()>
+        <div class="melt-select" ref=trigger_ref on:click=show_menu style=move || css_vars.get()>
 
             {move || select_option_label.get()}
 
@@ -125,14 +125,14 @@ where
             <div
                 class="melt-select-menu"
                 style=move || {
-                    if is_show_popover.get() {
-                        popover_css_vars.get()
+                    if is_show_menu.get() {
+                        menu_css_vars.get()
                     } else {
                         "display: none;".into()
                     }
                 }
 
-                ref=popover_ref
+                ref=menu_ref
             >
                 <For
                     each=move || options.get()
@@ -142,7 +142,7 @@ where
                         let onclick = move |_| {
                             let SelectOption { value: item_value, label: _ } = item.get_value();
                             value.set(Some(item_value));
-                            is_show_popover.set(false);
+                            is_show_menu.set(false);
                         };
                         view! {
                             <div

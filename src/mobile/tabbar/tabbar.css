@@ -1,5 +1,5 @@
 .melt-tabbar {
-    background-color: #fff;
+    background-color: var(--melt-background-color);
     position: fixed;
     left: 0;
     right: 0;

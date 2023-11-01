@@ -5,7 +5,7 @@
     right: 0;
     height: 46px;
     line-height: 46px;
-    background-color: #fff;
+    background-color: var(--melt-background-color);
 }
 
 .melt-nav-bar__center {

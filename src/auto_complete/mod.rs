@@ -1,5 +1,10 @@
-use crate::{mount_style, teleport::Teleport, utils::maybe_rw_signal::MaybeRwSignal, Input};
+mod theme;
+
+use crate::{
+    mount_style, teleport::Teleport, use_theme, utils::maybe_rw_signal::MaybeRwSignal, Input, Theme,
+};
 use leptos::*;
+pub use theme::AutoCompleteTheme;
 
 #[derive(Clone, PartialEq)]
 pub struct AutoCompleteOption {
@@ -14,6 +19,22 @@ pub fn AutoComplete(
     #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
+    let theme = use_theme(Theme::light);
+    let menu_css_vars = create_memo(move |_| {
+        let mut css_vars = String::new();
+        theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--melt-background-color: {};",
+                theme.select.menu_background_color
+            ));
+            css_vars.push_str(&format!(
+                "--melt-background-color-hover: {};",
+                theme.select.menu_background_color_hover
+            ));
+        });
+        css_vars
+    });
+
     let is_show_menu = create_rw_signal(false);
     let auto_complete_ref = create_node_ref::<html::Div>();
     let auto_complete_menu_ref = create_node_ref::<html::Div>();
@@ -58,7 +79,7 @@ pub fn AutoComplete(
             <div
                 class="melt-auto-complete__menu"
                 style=move || {
-                    if is_show_menu.get() { None } else { Some("display: none;") }
+                    if is_show_menu.get() { menu_css_vars.get() } else { "display: none;".to_string() }
                 }
 
                 ref=auto_complete_menu_ref

@@ -5,7 +5,22 @@ use melt_ui::*;
 
 #[component]
 pub fn App() -> impl IntoView {
-    let theme = create_rw_signal(Theme::light());
+    fn use_query_value(key: &str) -> Option<String> {
+        let href = window().location().href().ok()?;
+        let url = Url::try_from(href.as_str()).ok()?;
+        url.search_params.get(key).cloned()
+    }
+    let theme = use_query_value("theme").map_or_else(Theme::light, |name| {
+        if name == "light" {
+            Theme::light()
+        } else if name == "dark" {
+            Theme::dark()
+        } else {
+            Theme::light()
+        }
+    });
+    let theme = create_rw_signal(theme);
+
     provide_context(theme);
     view! {
         <Provider theme>
