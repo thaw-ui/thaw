@@ -68,7 +68,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
         let rect = trigger_ref.get().unwrap().get_bounding_client_rect();
         is_show_popover.set(true);
         if let Some(popover_ref) = popover_ref.get() {
-            popover_ref.style(
+            _ = popover_ref.style(
                 "transform",
                 format!(
                     "translateX({}px) translateY({}px)",

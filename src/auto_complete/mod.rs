@@ -46,7 +46,7 @@ pub fn AutoComplete(
             .get_bounding_client_rect();
 
         let auto_complete_menu = auto_complete_menu_ref.get_untracked().unwrap();
-        auto_complete_menu
+        _ = auto_complete_menu
             .style("width", format!("{}px", rect.width()))
             .style(
                 "transform",

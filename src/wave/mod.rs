@@ -7,7 +7,7 @@ pub fn Wave(children: Children) -> impl IntoView {
     let (css_vars, set_css_vars) = create_signal(String::new());
     let wave_ref = create_node_ref::<html::Div>();
     wave_ref.on_load(move |wave| {
-        wave.on(ev::mousedown, move |ev| {
+        _ = wave.on(ev::mousedown, move |ev| {
             wave_ref.on_load(move |wave| {
                 let rect = wave.get_bounding_client_rect();
                 let client_x = f64::from(ev.client_x());

@@ -74,7 +74,7 @@ where
         let rect = trigger_ref.get().unwrap().get_bounding_client_rect();
         is_show_menu.set(true);
         if let Some(menu_ref) = menu_ref.get() {
-            menu_ref
+            _ = menu_ref
                 .style("width", format!("{}px", rect.width()))
                 .style(
                     "transform",
