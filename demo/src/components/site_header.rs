@@ -23,21 +23,24 @@ pub fn SiteHeader() -> impl IntoView {
     };
     let style = create_memo(move |_| {
         theme.with(|theme| {
-            format!("height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid {}", theme.common.border_color)
+            format!("height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid {}", theme.common.border_color)
         })
     });
     view! {
         <LayoutHeader style>
-            <span
-                style="cursor: pointer"
-                on:click=move |_| {
-                    let navigate = use_navigate();
-                    navigate("/", Default::default());
-                }
-            >
+            <Space>
+                <img src="/melt-ui/logo.svg" style="width: 36px"/>
+                <div
+                    style="cursor: pointer; display: flex; align-items: center; height: 100%; font-weight: 600; font-size: 20px"
+                    on:click=move |_| {
+                        let navigate = use_navigate();
+                        navigate("/", Default::default());
+                    }
+                >
 
-                "Melt UI"
-            </span>
+                    "Melt UI"
+                </div>
+            </Space>
             <Space>
                 <Button
                     variant=ButtonVariant::Text
