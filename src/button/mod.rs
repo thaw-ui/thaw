@@ -1,6 +1,12 @@
 mod theme;
 
-use crate::{components::*, icon::*, theme::*, utils::mount_style::mount_style};
+use crate::{
+    components::*,
+    icon::*,
+    theme::*,
+    utils::{mount_style::mount_style, ComponentRef},
+    wave::{Wave, WaveRef},
+};
 use leptos::*;
 pub use theme::ButtonTheme;
 
@@ -76,6 +82,7 @@ pub fn Button(
                 css_vars.push_str("--font-color: #fff;");
                 css_vars.push_str(&format!("--border-color: {bg_color};"));
                 css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
+                css_vars.push_str(&format!("--melt-ripple-color: {bg_color};"));
             } else if variant.get() == ButtonVariant::Text {
                 css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
                 css_vars.push_str(&format!(
@@ -86,10 +93,12 @@ pub fn Button(
                     "--background-color-active: {};",
                     theme.button.color_text_active
                 ));
+                css_vars.push_str(&format!("--melt-ripple-color: #0000;"));
             } else {
                 css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
                 css_vars.push_str("--border-color: #555a;");
                 css_vars.push_str("--border-color-hover: #555;");
+                css_vars.push_str(&format!("--melt-ripple-color: #0000;"));
             }
         });
 
@@ -111,9 +120,14 @@ pub fn Button(
         disabled.get()
     });
 
+    let wave_ref = ComponentRef::<WaveRef>::default();
+
     let on_click = move |event| {
         if disabled.get() {
             return;
+        }
+        if let Some(wave_ref) = wave_ref.get_untracked() {
+            wave_ref.play();
         }
         let Some(callback) = on_click.as_ref() else {
             return;
@@ -131,6 +145,7 @@ pub fn Button(
             style=move || format!("{}{}", css_vars.get(), style.get())
             on:click=on_click
         >
+            <Wave comp_ref=wave_ref/>
             {move || {
                 if loading.get() {
                     view! {

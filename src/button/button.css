@@ -5,7 +5,7 @@
     color: var(--font-color);
     border: 1px solid var(--border-color);
     border-radius: 5px;
-
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -52,5 +52,36 @@
 @keyframes meltLoadingCircle {
     100% {
         transform: rotate(360deg);
+    }
+}
+
+.melt-button .melt-wave {
+    pointer-events: none;
+    animation-iteration-count: 1;
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1),
+        cubic-bezier(0, 0, 0.2, 1);
+}
+
+.melt-button .melt-wave.melt-wave--active {
+    z-index: 1;
+    animation-name: meltButtonWaveSpread, meltButtonWaveOpacity;
+}
+
+@keyframes meltButtonWaveSpread {
+    from {
+        box-shadow: 0 0 0.5px 0 var(--melt-ripple-color);
+    }
+    to {
+        box-shadow: 0 0 0.5px 6px var(--melt-ripple-color);
+    }
+}
+
+@keyframes meltButtonWaveOpacity {
+    from {
+        opacity: 0.6;
+    }
+    to {
+        opacity: 0;
     }
 }

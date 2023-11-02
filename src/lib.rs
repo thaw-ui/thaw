@@ -69,4 +69,3 @@ pub use tag::*;
 pub use theme::*;
 pub use upload::*;
 pub use utils::{mount_style::mount_style, signal::SignalWatch};
-pub use wave::*;
