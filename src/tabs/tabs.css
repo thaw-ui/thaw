@@ -13,7 +13,7 @@
 .melt-tabs-label__line {
     position: absolute;
     height: 3px;
-    background-color: var(--label-active-background-color);
+    background-color: var(--melt-label-active-background-color);
     border-radius: 3px;
     bottom: 0;
     left: 0;

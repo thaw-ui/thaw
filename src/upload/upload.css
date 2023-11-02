@@ -3,3 +3,7 @@
     height: 0;
     opacity: 0;
 }
+
+.melt-upload__trigger {
+    display: inline-block;
+}

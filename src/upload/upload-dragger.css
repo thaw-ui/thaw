@@ -1,4 +1,5 @@
 .melt-upload-dragger {
+    width: 100%;
     padding: 20px;
     background-color: var(--melt-background-color);
     border: 1px dashed var(--melt-border-color);
@@ -6,6 +7,7 @@
     text-align: center;
     cursor: pointer;
     transition: border 0.3s;
+    box-sizing: border-box;
 }
 .melt-upload-dragger:hover,
 .melt-upload--drag-over .melt-upload-dragger {

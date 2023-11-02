@@ -17,15 +17,16 @@ pub fn MenuItem(
 
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        let theme = theme.get();
-        let font_color = theme.common.color_primary.clone();
-        css_vars.push_str(&format!("--font-color-active: {font_color};"));
-        css_vars.push_str(&format!("--font-color: {};", theme.menu.color));
-        css_vars.push_str(&format!("--bg-color: {font_color}1a;"));
-        css_vars.push_str(&format!(
-            "--bg-color-hover: {};",
-            theme.menu.item_color_hover
-        ));
+        theme.with(|theme| {
+            let font_color = theme.common.color_primary.clone();
+            css_vars.push_str(&format!("--melt-font-color-active: {font_color};"));
+            css_vars.push_str(&format!("--melt-font-color: {};", theme.menu.color));
+            css_vars.push_str(&format!("--melt-background-color: {font_color}1a;"));
+            css_vars.push_str(&format!(
+                "--melt-background-color-hover: {};",
+                theme.menu.item_color_hover
+            ));
+        });
         css_vars
     });
     view! {

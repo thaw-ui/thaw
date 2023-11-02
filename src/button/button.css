@@ -1,9 +1,9 @@
 .melt-button {
     height: 34px;
     padding: 0 16px;
-    background-color: var(--background-color);
-    color: var(--font-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--melt-background-color);
+    color: var(--melt-font-color);
+    border: 1px solid var(--melt-border-color);
     border-radius: 5px;
     position: relative;
     display: inline-flex;
@@ -13,8 +13,8 @@
 }
 
 .melt-button:hover {
-    border-color: var(--border-color-hover);
-    background-color: var(--background-color-hover);
+    border-color: var(--melt-border-color-hover);
+    background-color: var(--melt-background-color-hover);
     cursor: pointer;
 
     transition: all 0.3s;
@@ -22,8 +22,8 @@
 
 .melt-button:active:not(.melt-button--disabled) {
     transition: all 0.3s;
-    border-color: var(--border-color-hover);
-    background-color: var(--background-color-active);
+    border-color: var(--melt-border-color-hover);
+    background-color: var(--melt-background-color-active);
 }
 
 .melt-button--text,
@@ -32,7 +32,7 @@
 }
 
 .melt-button--text:hover {
-    color: var(--font-color-hover);
+    color: var(--melt-font-color-hover);
 }
 
 .melt-button--link {
@@ -41,7 +41,7 @@
 }
 
 .melt-button--link:hover {
-    color: var(--font-color-hover);
+    color: var(--melt-font-color-hover);
 }
 
 .melt-button--round {

@@ -38,7 +38,13 @@ pub fn Wave(#[prop(optional)] comp_ref: ComponentRef<WaveRef>) -> impl IntoView 
     });
     comp_ref.load(WaveRef { play });
     view! {
-        <div class="melt-wave" class=("melt-wave--active", move || animation_timeout_handle.with(|handle| handle.is_some())) ref=wave_ref>
-        </div>
+        <div
+            class="melt-wave"
+            class=(
+                "melt-wave--active",
+                move || animation_timeout_handle.with(|handle| handle.is_some()),
+            )
+            ref=wave_ref
+        ></div>
     }
 }

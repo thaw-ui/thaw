@@ -108,7 +108,11 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
                 class="melt-color-picker-popover"
                 ref=popover_ref
                 style=move || {
-                    if is_show_popover.get() { popover_css_vars.get() } else { "display: none".to_string() }
+                    if is_show_popover.get() {
+                        popover_css_vars.get()
+                    } else {
+                        "display: none".to_string()
+                    }
                 }
             >
 

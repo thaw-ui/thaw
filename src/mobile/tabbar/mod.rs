@@ -43,7 +43,11 @@ pub fn Tabbar(
         }
     });
     provide_context(tabbar_injection_key);
-    view! { <div class="melt-tabbar" style=move || css_vars.get()>{children()}</div> }
+    view! {
+        <div class="melt-tabbar" style=move || css_vars.get()>
+            {children()}
+        </div>
+    }
 }
 
 #[derive(Clone)]

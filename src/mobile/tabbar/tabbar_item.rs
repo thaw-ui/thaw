@@ -20,9 +20,10 @@ pub fn TabbarItem(
 
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        let theme = theme.get();
-        let font_color = theme.common.color_primary.clone();
-        css_vars.push_str(&format!("--font-color-selected: {font_color};"));
+        theme.with(|theme| {
+            let font_color = theme.common.color_primary.clone();
+            css_vars.push_str(&format!("--melt-font-color-selected: {font_color};"));
+        });
         css_vars
     });
 

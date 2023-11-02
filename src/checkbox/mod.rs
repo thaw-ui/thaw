@@ -23,9 +23,12 @@ pub fn Checkbox(
 
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        let theme = theme.get();
-        let bg_color = theme.common.color_primary;
-        css_vars.push_str(&format!("--background-color-checked: {bg_color};"));
+        theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--melt-background-color-checked: {};",
+                theme.common.color_primary
+            ));
+        });
         css_vars
     });
 

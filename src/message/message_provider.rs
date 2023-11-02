@@ -34,6 +34,7 @@ pub fn MessageProvider(children: Children) -> impl IntoView {
                         }
                     }
                 />
+
             </div>
         </Teleport>
     }

@@ -17,15 +17,21 @@ pub fn Table(
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--background-color: {};",
+                "--melt-background-color: {};",
                 theme.table.background_color
             ));
             css_vars.push_str(&format!(
-                "--background-color-striped: {};",
+                "--melt-background-color-striped: {};",
                 theme.table.background_color_striped
             ));
-            css_vars.push_str(&format!("--border-color: {};", theme.table.border_color));
-            css_vars.push_str(&format!("--border-radius: {};", theme.common.border_radius));
+            css_vars.push_str(&format!(
+                "--melt-border-color: {};",
+                theme.table.border_color
+            ));
+            css_vars.push_str(&format!(
+                "--melt-border-radius: {};",
+                theme.common.border_radius
+            ));
         });
 
         css_vars

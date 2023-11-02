@@ -4,8 +4,8 @@
 }
 .melt-badge__sup {
     position: absolute;
-    color: var(--font-color);
-    background-color: var(--background-color);
+    color: var(--melt-font-color);
+    background-color: var(--melt-background-color);
 }
 .melt-badge__sup--value {
     top: -9px;

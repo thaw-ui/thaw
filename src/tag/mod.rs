@@ -52,15 +52,15 @@ pub fn Tag(
         theme.with(|theme| {
             let variant = variant.get();
             css_vars.push_str(&format!(
-                "--font-color: {};",
+                "--melt-font-color: {};",
                 variant.theme_font_color(theme)
             ));
             css_vars.push_str(&format!(
-                "--background-color: {};",
+                "--melt-background-color: {};",
                 variant.theme_background_color(theme)
             ));
             css_vars.push_str(&format!(
-                "--border-color: {};",
+                "--melt-border-color: {};",
                 variant.theme_border_color(theme)
             ));
         });

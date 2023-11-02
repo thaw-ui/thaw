@@ -28,11 +28,11 @@ pub fn Skeleton(
 
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--background-color-start: {};",
+                "--melt-background-color-start: {};",
                 theme.skeletion.background_color_start
             ));
             css_vars.push_str(&format!(
-                "--background-color-end: {};",
+                "--melt-background-color-end: {};",
                 theme.skeletion.background_color_end
             ));
         });

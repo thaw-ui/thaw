@@ -2,21 +2,21 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    background-color: var(--melt-background-color);
+    border: 1px solid var(--melt-border-color);
+    border-radius: var(--melt-border-radius);
 }
 
 .melt-table th {
     text-align: inherit;
-    background-color: var(--background-color-striped);
+    background-color: var(--melt-background-color-striped);
 }
 
 .melt-table td,
 .melt-table th {
     padding: 12px;
-    border-right: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--melt-border-color);
+    border-bottom: 1px solid var(--melt-border-color);
 }
 
 .melt-table.melt-table--single-row td,
@@ -35,5 +35,5 @@
     border-bottom: none;
 }
 .melt-table tr {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--melt-border-color);
 }

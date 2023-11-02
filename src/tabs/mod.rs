@@ -24,11 +24,12 @@ pub fn Tabs(
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        let theme = theme.get();
-        let color_primary = theme.common.color_primary.clone();
-        css_vars.push_str(&format!(
-            "--label-active-background-color: {color_primary};"
-        ));
+        theme.with(|theme| {
+            let color_primary = theme.common.color_primary.clone();
+            css_vars.push_str(&format!(
+                "--melt-label-active-background-color: {color_primary};"
+            ));
+        });
         css_vars
     });
 
@@ -90,6 +91,7 @@ pub fn Tabs(
                                     let key = key.clone();
                                     move |_| value.set(key.clone())
                                 }
+
                                 ref=label_ref
                             >
                                 {label}

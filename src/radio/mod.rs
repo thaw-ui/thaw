@@ -17,7 +17,7 @@ pub fn Radio(
         let mut css_vars = String::new();
         theme.with(|theme| {
             let bg_color = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--background-color-checked: {bg_color};"));
+            css_vars.push_str(&format!("--melt-background-color-checked: {bg_color};"));
         });
 
         css_vars

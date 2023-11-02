@@ -1,8 +1,8 @@
 .melt-alert {
     position: relative;
     padding: 14px 20px 14px 42px;
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
+    background-color: var(--melt-background-color);
+    border: 1px solid var(--melt-border-color);
     border-radius: 3px;
     line-height: 1.6;
 }
@@ -12,7 +12,7 @@
     top: 12px;
     left: 10px;
     font-size: 24px;
-    color: var(--icon-color);
+    color: var(--melt-icon-color);
 }
 
 .melt-alert__header {

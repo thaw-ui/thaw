@@ -94,23 +94,20 @@ pub fn Input(
                     value_trigger.track();
                     value.get()
                 }
+
                 on:input=on_input
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
                 class="melt-input__input-el"
                 placeholder=move || placeholder.get()
             />
-            {
-                if let Some(suffix) = input_suffix {
-                    view! {
-                        <div class="melt-input__suffix">
-                            {(suffix.children)()}
-                        </div>
-                    }.into()
-                } else {
-                    None
-                }
-            }
+
+            {if let Some(suffix) = input_suffix {
+                view! { <div class="melt-input__suffix">{(suffix.children)()}</div> }.into()
+            } else {
+                None
+            }}
+
         </div>
     }
 }

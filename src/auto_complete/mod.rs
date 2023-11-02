@@ -79,7 +79,11 @@ pub fn AutoComplete(
             <div
                 class="melt-auto-complete__menu"
                 style=move || {
-                    if is_show_menu.get() { menu_css_vars.get() } else { "display: none;".to_string() }
+                    if is_show_menu.get() {
+                        menu_css_vars.get()
+                    } else {
+                        "display: none;".to_string()
+                    }
                 }
 
                 ref=auto_complete_menu_ref

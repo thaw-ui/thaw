@@ -1,7 +1,7 @@
 .melt-menu-item__content {
     margin: 0.3rem 0.4rem;
     padding: 0.5rem 0.75rem;
-    color: var(--font-color);
+    color: var(--melt-font-color);
     cursor: pointer;
     border-radius: 0.25rem;
     font-size: 0.875rem;
@@ -12,10 +12,10 @@
 }
 
 .melt-menu-item__content:hover:not(.melt-menu-item__content--selected) {
-    background-color: var(--bg-color-hover);
+    background-color: var(--melt-background-color-hover);
 }
 
 .melt-menu-item__content--selected {
-    color: var(--font-color-active);
-    background-color: var(--bg-color);
+    color: var(--melt-font-color-active);
+    background-color: var(--melt-background-color);
 }

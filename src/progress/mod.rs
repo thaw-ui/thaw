@@ -15,9 +15,7 @@ pub fn Progress(
     view! {
         <div class="melt-progress">
             <span class="melt-progress__tip-left">
-                <Show when=move || left_tip.with(|v| !v.is_empty())>
-                    {move || left_tip.get()}
-                </Show>
+                <Show when=move || left_tip.with(|v| !v.is_empty())>{move || left_tip.get()}</Show>
             </span>
             <span class="melt-progress__progress">
                 <span class="melt-progress__progress-inner" style=style>
@@ -25,9 +23,9 @@ pub fn Progress(
                 </span>
             </span>
             <span class="melt-progress__tip-right">
-                <Show when=move || right_tip.with(|v| !v.is_empty())>
-                    {move || right_tip.get()}
-                </Show>
+                <Show when=move || {
+                    right_tip.with(|v| !v.is_empty())
+                }>{move || right_tip.get()}</Show>
             </span>
         </div>
     }

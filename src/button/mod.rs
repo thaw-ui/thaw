@@ -76,28 +76,30 @@ pub fn Button(
             if variant.get() == ButtonVariant::Primary {
                 let bg_color_hover = color.get().theme_color_hover(theme);
                 let bg_color_active = color.get().theme_color_active(theme);
-                css_vars.push_str(&format!("--background-color: {bg_color};"));
-                css_vars.push_str(&format!("--background-color-hover: {bg_color_hover};"));
-                css_vars.push_str(&format!("--background-color-active: {bg_color_active};"));
-                css_vars.push_str("--font-color: #fff;");
-                css_vars.push_str(&format!("--border-color: {bg_color};"));
-                css_vars.push_str(&format!("--border-color-hover: {bg_color};"));
-                css_vars.push_str(&format!("--melt-ripple-color: {bg_color};"));
-            } else if variant.get() == ButtonVariant::Text {
-                css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
+                css_vars.push_str(&format!("--melt-background-color: {bg_color};"));
+                css_vars.push_str(&format!("--melt-background-color-hover: {bg_color_hover};"));
                 css_vars.push_str(&format!(
-                    "--background-color-hover: {};",
+                    "--melt-background-color-active: {bg_color_active};"
+                ));
+                css_vars.push_str("--melt-font-color: #fff;");
+                css_vars.push_str(&format!("--melt-border-color: {bg_color};"));
+                css_vars.push_str(&format!("--melt-border-color-hover: {bg_color};"));
+                css_vars.push_str(&format!("--melt-melt-ripple-color: {bg_color};"));
+            } else if variant.get() == ButtonVariant::Text {
+                css_vars.push_str(&format!("--melt-font-color-hover: {bg_color};"));
+                css_vars.push_str(&format!(
+                    "--melt-background-color-hover: {};",
                     theme.button.color_text_hover
                 ));
                 css_vars.push_str(&format!(
-                    "--background-color-active: {};",
+                    "--melt-background-color-active: {};",
                     theme.button.color_text_active
                 ));
                 css_vars.push_str(&format!("--melt-ripple-color: #0000;"));
             } else {
-                css_vars.push_str(&format!("--font-color-hover: {bg_color};"));
-                css_vars.push_str("--border-color: #555a;");
-                css_vars.push_str("--border-color-hover: #555;");
+                css_vars.push_str(&format!("--melt-font-color-hover: {bg_color};"));
+                css_vars.push_str("--melt-border-color: #555a;");
+                css_vars.push_str("--melt-border-color-hover: #555;");
                 css_vars.push_str(&format!("--melt-ripple-color: #0000;"));
             }
         });

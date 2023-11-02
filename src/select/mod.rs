@@ -125,11 +125,7 @@ where
             <div
                 class="melt-select-menu"
                 style=move || {
-                    if is_show_menu.get() {
-                        menu_css_vars.get()
-                    } else {
-                        "display: none;".into()
-                    }
+                    if is_show_menu.get() { menu_css_vars.get() } else { "display: none;".into() }
                 }
 
                 ref=menu_ref

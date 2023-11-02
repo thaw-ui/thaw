@@ -8,7 +8,7 @@
 }
 
 .melt-tabbar-item--selected {
-    color: var(--font-color-selected)
+    color: var(--melt-font-color-selected)
 }
 
 .melt-tabbar-item__content {

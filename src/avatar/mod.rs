@@ -31,10 +31,9 @@ pub fn Avatar(
         <span class="melt-avatar" style=move || css_vars.get()>
             {move || {
                 let src = src.get();
-                (!src.is_empty()).then(|| view! {
-                    <img src=src />
-                })
+                (!src.is_empty()).then(|| view! { <img src=src/> })
             }}
+
         </span>
     }
 }

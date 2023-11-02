@@ -20,10 +20,10 @@
 }
 .melt-checkbox:hover .melt-checkbox__dot,
 .melt-checkbox--checked .melt-checkbox__dot {
-    border-color: var(--background-color-checked);
+    border-color: var(--melt-background-color-checked);
 }
 .melt-checkbox--checked .melt-checkbox__dot {
-    background-color: var(--background-color-checked);
+    background-color: var(--melt-background-color-checked);
 }
 
 .melt-checkbox__label {

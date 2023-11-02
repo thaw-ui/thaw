@@ -21,7 +21,7 @@
 
 .melt-radio:hover .melt-radio__dot,
 .melt-radio--checked .melt-radio__dot {
-    border-color: var(--background-color-checked);
+    border-color: var(--melt-background-color-checked);
 }
 
 .melt-radio--checked .melt-radio__dot::before {
@@ -31,7 +31,7 @@
     bottom: 3px;
     left: 3px;
     right: 3px;
-    background-color: var(--background-color-checked);
+    background-color: var(--melt-background-color-checked);
     border-radius: 50%;
 }
 

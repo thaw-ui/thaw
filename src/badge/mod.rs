@@ -31,10 +31,10 @@ pub fn Badge(
     mount_style("badge", include_str!("./badge.css"));
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        css_vars.push_str("--font-color: #fff;");
+        css_vars.push_str("--melt-font-color: #fff;");
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--background-color: {};",
+                "--melt-background-color: {};",
                 color.get().theme_color(theme)
             ));
         });
