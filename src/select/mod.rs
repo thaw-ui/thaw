@@ -6,10 +6,10 @@ use crate::{
     utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
     Theme,
 };
+use leptos::wasm_bindgen::__rt::IntoJsResult;
 use leptos::*;
 use std::hash::Hash;
 pub use theme::SelectTheme;
-use wasm_bindgen::__rt::IntoJsResult;
 
 #[derive(Clone, PartialEq, Eq, Hash)]
 pub struct SelectOption<T> {

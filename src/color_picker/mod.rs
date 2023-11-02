@@ -5,10 +5,9 @@ use crate::{
     mount_style, teleport::Teleport, use_theme, utils::maybe_rw_signal::MaybeRwSignal, Theme,
 };
 pub use color::*;
-use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
+use leptos::{leptos_dom::helpers::WindowListenerHandle, wasm_bindgen::__rt::IntoJsResult};
 pub use theme::ColorPickerTheme;
-use wasm_bindgen::__rt::IntoJsResult;
 
 #[component]
 pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl IntoView {
