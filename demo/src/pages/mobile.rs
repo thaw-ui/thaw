@@ -13,7 +13,7 @@ pub fn MobilePage(path: &'static str) -> impl IntoView {
         })
     });
     view! {
-        <div style="height: 100vh; width: 400px; text-align: center">
+        <div style="width: 400px; text-align: center">
             <iframe
                 src=move || src.get()
                 style=move || style.get()

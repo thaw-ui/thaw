@@ -20,6 +20,7 @@ pub fn InputNumberPage() -> impl IntoView {
                     html=highlight_str!(
                         r#"
                     let value = create_rw_signal(0);
+                    let value_f64 = create_rw_signal(0.0);
                     view! {
                         <Space vertical=true>
                             <InputNumber value step=1/>

@@ -52,12 +52,15 @@ pub fn Input(
         }
         value.set(input_value);
     };
+    let is_focus = create_rw_signal(false);
     let on_internal_focus = move |ev| {
+        is_focus.set(true);
         if let Some(on_focus) = on_focus.as_ref() {
             on_focus.call(ev);
         }
     };
     let on_internal_blur = move |ev| {
+        is_focus.set(false);
         if let Some(on_blur) = on_blur.as_ref() {
             on_blur.call(ev);
         }
@@ -68,6 +71,7 @@ pub fn Input(
         theme.with(|theme| {
             let border_color_hover = theme.common.color_primary.clone();
             css_vars.push_str(&format!("--melt-border-color-hover: {border_color_hover};"));
+            css_vars.push_str(&format!("--melt-box-shadow-color: {border_color_hover}33;"));
             let border_radius = theme.common.border_radius.clone();
             css_vars.push_str(&format!("--melt-border-radius: {border_radius};"));
             css_vars.push_str(&format!(
@@ -87,7 +91,7 @@ pub fn Input(
         css_vars
     });
     view! {
-        <div class="melt-input" style=move || css_vars.get()>
+        <div class="melt-input" class=("melt-input--focus", move || is_focus.get()) style=move || css_vars.get()>
             <input
                 type=move || variant.get().as_str()
                 prop:value=move || {
