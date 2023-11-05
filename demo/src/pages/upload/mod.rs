@@ -51,7 +51,7 @@ pub fn UploadPage() -> impl IntoView {
             </Demo>
             <h3>"Drag to upload"</h3>
             <Demo>
-                <Upload>
+                <Upload custom_request>
                     <UploadDragger>
                         "Click or drag a file to this area to upload"
                     </UploadDragger>
@@ -60,11 +60,21 @@ pub fn UploadPage() -> impl IntoView {
                     slot
                     html=highlight_str!(
                         r#"
-                    <Upload>
-                        <UploadDragger>
-                            "Click or drag a file to this area to upload"
-                        </UploadDragger>
-                    </Upload>
+                    let message = use_message();
+                    let custom_request = move |file_list: FileList| {
+                        message.create(
+                            format!("Number of uploaded files: {}", file_list.length()),
+                            MessageVariant::Success,
+                            Default::default(),
+                        );
+                    };
+                    view! {
+                        <Upload custom_request>
+                            <UploadDragger>
+                                "Click or drag a file to this area to upload"
+                            </UploadDragger>
+                        </Upload>
+                    }
                 "#,
                         "rust"
                     )
