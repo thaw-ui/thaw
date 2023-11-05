@@ -1,8 +1,8 @@
-.melt-tabs__label-list {
+.thaw-tabs__label-list {
     position: relative;
 }
 
-.melt-tabs__label {
+.thaw-tabs__label {
     padding: 0 20px;
     display: inline-block;
     height: 40px;
@@ -10,10 +10,10 @@
     cursor: pointer;
 }
 
-.melt-tabs-label__line {
+.thaw-tabs-label__line {
     position: absolute;
     height: 3px;
-    background-color: var(--melt-label-active-background-color);
+    background-color: var(--thaw-label-active-background-color);
     border-radius: 3px;
     bottom: 0;
     left: 0;

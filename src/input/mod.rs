@@ -70,28 +70,28 @@ pub fn Input(
         let mut css_vars = String::new();
         theme.with(|theme| {
             let border_color_hover = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--melt-border-color-hover: {border_color_hover};"));
-            css_vars.push_str(&format!("--melt-box-shadow-color: {border_color_hover}33;"));
+            css_vars.push_str(&format!("--thaw-border-color-hover: {border_color_hover};"));
+            css_vars.push_str(&format!("--thaw-box-shadow-color: {border_color_hover}33;"));
             let border_radius = theme.common.border_radius.clone();
-            css_vars.push_str(&format!("--melt-border-radius: {border_radius};"));
+            css_vars.push_str(&format!("--thaw-border-radius: {border_radius};"));
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.input.background_color
             ));
-            css_vars.push_str(&format!("--melt-font-color: {};", theme.input.font_color));
+            css_vars.push_str(&format!("--thaw-font-color: {};", theme.input.font_color));
             css_vars.push_str(&format!(
-                "--melt-border-color: {};",
+                "--thaw-border-color: {};",
                 theme.input.border_color
             ));
             css_vars.push_str(&format!(
-                "--melt-placeholder-color: {};",
+                "--thaw-placeholder-color: {};",
                 theme.input.placeholder_color
             ));
         });
         css_vars
     });
     view! {
-        <div class="melt-input" class=("melt-input--focus", move || is_focus.get()) style=move || css_vars.get()>
+        <div class="thaw-input" class=("thaw-input--focus", move || is_focus.get()) style=move || css_vars.get()>
             <input
                 type=move || variant.get().as_str()
                 prop:value=move || {
@@ -102,12 +102,12 @@ pub fn Input(
                 on:input=on_input
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
-                class="melt-input__input-el"
+                class="thaw-input__input-el"
                 placeholder=move || placeholder.get()
             />
 
             {if let Some(suffix) = input_suffix {
-                view! { <div class="melt-input__suffix">{(suffix.children)()}</div> }.into()
+                view! { <div class="thaw-input__suffix">{(suffix.children)()}</div> }.into()
             } else {
                 None
             }}

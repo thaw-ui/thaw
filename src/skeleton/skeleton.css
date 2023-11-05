@@ -1,19 +1,19 @@
-.melt-skeleton {
+.thaw-skeleton {
     width: 100%;
     height: 1em;
-    background-color: var(--melt-background-color-start);
+    background-color: var(--thaw-background-color-start);
 
     background: linear-gradient(
         90deg,
-        var(--melt-background-color-start) 25%,
-        var(--melt-background-color-end) 37%,
-        var(--melt-background-color-start) 63%
+        var(--thaw-background-color-start) 25%,
+        var(--thaw-background-color-end) 37%,
+        var(--thaw-background-color-start) 63%
     );
-    animation: meltSkeletonLoading 1.4s ease infinite;
+    animation: thawSkeletonLoading 1.4s ease infinite;
     background-size: 400% 100%;
 }
 
-@keyframes meltSkeletonLoading {
+@keyframes thawSkeletonLoading {
     from {
         background-position: 100% 50%;
     }

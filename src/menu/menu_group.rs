@@ -8,12 +8,12 @@ pub fn MenuGroup(#[prop(into)] label: String, children: Children) -> impl IntoVi
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
-            css_vars.push_str(&format!("--melt-font-color: {};", theme.menu.group_color));
+            css_vars.push_str(&format!("--thaw-font-color: {};", theme.menu.group_color));
         });
         css_vars
     });
     view! {
-        <div class="melt-menu-group" style=move || css_vars.get()>
+        <div class="thaw-menu-group" style=move || css_vars.get()>
             {label}
         </div>
         {children()}

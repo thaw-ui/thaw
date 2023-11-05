@@ -25,7 +25,7 @@ pub fn Checkbox(
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color-checked: {};",
+                "--thaw-background-color-checked: {};",
                 theme.common.color_primary
             ));
         });
@@ -34,20 +34,20 @@ pub fn Checkbox(
 
     view! {
         <div
-            class:melt-checkbox=true
-            class=("melt-checkbox--checked", move || value.get())
+            class:thaw-checkbox=true
+            class=("thaw-checkbox--checked", move || value.get())
             style=move || css_vars.get()
             on:click=move |_| value.set(!value.get_untracked())
         >
-            <input class="melt-checkbox__input" type="checkbox"/>
-            <div class="melt-checkbox__dot">
+            <input class="thaw-checkbox__input" type="checkbox"/>
+            <div class="thaw-checkbox__dot">
                 <If cond=value.clone_into()>
                     <Then slot>
                         <Icon icon=Icon::from(AiIcon::AiCheckOutlined) style="color: white"/>
                     </Then>
                 </If>
             </div>
-            <div class="melt-checkbox__label">{children()}</div>
+            <div class="thaw-checkbox__label">{children()}</div>
         </div>
     }
 }

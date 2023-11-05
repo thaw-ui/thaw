@@ -24,7 +24,7 @@ pub fn NavBar(
     let css_vars = create_memo(move |_| {
         theme.with(|theme| {
             format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.nav_bar.background_color
             )
         })
@@ -46,10 +46,10 @@ pub fn NavBar(
     };
 
     view! {
-        <div class="melt-nav-bar" style=move || css_vars.get()>
+        <div class="thaw-nav-bar" style=move || css_vars.get()>
             <If cond=MaybeSignal::derive(move || left_arrow.get() || !left_text.get().is_empty())>
                 <Then slot>
-                    <div class="melt-nav-bar__left" on:click=on_click_left>
+                    <div class="thaw-nav-bar__left" on:click=on_click_left>
                         <If cond=left_arrow>
                             <Then slot>
                                 <Icon icon=Icon::from(AiIcon::AiLeftOutlined)/>
@@ -59,10 +59,10 @@ pub fn NavBar(
                     </div>
                 </Then>
             </If>
-            <div class="melt-nav-bar__center">{move || title.get()}</div>
+            <div class="thaw-nav-bar__center">{move || title.get()}</div>
             <If cond=MaybeSignal::derive(move || !right_text.get().is_empty())>
                 <Then slot>
-                    <div class="melt-nav-bar__right" on:click=on_click_right>
+                    <div class="thaw-nav-bar__right" on:click=on_click_right>
                         {move || right_text.get()}
                     </div>
                 </Then>

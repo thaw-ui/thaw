@@ -1,9 +1,9 @@
-.melt-button {
+.thaw-button {
     height: 34px;
     padding: 0 16px;
-    background-color: var(--melt-background-color);
-    color: var(--melt-font-color);
-    border: 1px solid var(--melt-border-color);
+    background-color: var(--thaw-background-color);
+    color: var(--thaw-font-color);
+    border: 1px solid var(--thaw-border-color);
     border-radius: 5px;
     position: relative;
     display: inline-flex;
@@ -12,50 +12,50 @@
     user-select: none;
 }
 
-.melt-button:hover {
-    border-color: var(--melt-border-color-hover);
-    background-color: var(--melt-background-color-hover);
+.thaw-button:hover {
+    border-color: var(--thaw-border-color-hover);
+    background-color: var(--thaw-background-color-hover);
     cursor: pointer;
 
     transition: all 0.3s;
 }
 
-.melt-button:active:not(.melt-button--disabled) {
+.thaw-button:active:not(.thaw-button--disabled) {
     transition: all 0.3s;
-    border-color: var(--melt-border-color-hover);
-    background-color: var(--melt-background-color-active);
+    border-color: var(--thaw-border-color-hover);
+    background-color: var(--thaw-background-color-active);
 }
 
-.melt-button--text,
-.melt-button--link {
+.thaw-button--text,
+.thaw-button--link {
     border: none;
 }
 
-.melt-button--text:hover {
-    color: var(--melt-font-color-hover);
+.thaw-button--text:hover {
+    color: var(--thaw-font-color-hover);
 }
 
-.melt-button--link {
+.thaw-button--link {
     height: auto;
     padding: inherit;
 }
 
-.melt-button--link:hover {
-    color: var(--melt-font-color-hover);
+.thaw-button--link:hover {
+    color: var(--thaw-font-color-hover);
 }
 
-.melt-button--round {
+.thaw-button--round {
     padding: 0 10px;
     border-radius: 50%;
 }
 
-@keyframes meltLoadingCircle {
+@keyframes thawLoadingCircle {
     100% {
         transform: rotate(360deg);
     }
 }
 
-.melt-button .melt-wave {
+.thaw-button .thaw-wave {
     pointer-events: none;
     animation-iteration-count: 1;
     animation-duration: 0.6s;
@@ -63,21 +63,21 @@
         cubic-bezier(0, 0, 0.2, 1);
 }
 
-.melt-button .melt-wave.melt-wave--active {
+.thaw-button .thaw-wave.thaw-wave--active {
     z-index: 1;
-    animation-name: meltButtonWaveSpread, meltButtonWaveOpacity;
+    animation-name: thawButtonWaveSpread, thawButtonWaveOpacity;
 }
 
-@keyframes meltButtonWaveSpread {
+@keyframes thawButtonWaveSpread {
     from {
-        box-shadow: 0 0 0.5px 0 var(--melt-ripple-color);
+        box-shadow: 0 0 0.5px 0 var(--thaw-ripple-color);
     }
     to {
-        box-shadow: 0 0 0.5px 6px var(--melt-ripple-color);
+        box-shadow: 0 0 0.5px 6px var(--thaw-ripple-color);
     }
 }
 
-@keyframes meltButtonWaveOpacity {
+@keyframes thawButtonWaveOpacity {
     from {
         opacity: 0.6;
     }

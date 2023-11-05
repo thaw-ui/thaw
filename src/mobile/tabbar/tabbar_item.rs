@@ -22,22 +22,22 @@ pub fn TabbarItem(
         let mut css_vars = String::new();
         theme.with(|theme| {
             let font_color = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--melt-font-color-selected: {font_color};"));
+            css_vars.push_str(&format!("--thaw-font-color-selected: {font_color};"));
         });
         css_vars
     });
 
     view! {
         <div
-            class="melt-tabbar-item"
-            class=("melt-tabbar-item--selected", move || tabbar.get().value == key.get())
+            class="thaw-tabbar-item"
+            class=("thaw-tabbar-item--selected", move || tabbar.get().value == key.get())
             on:click=on_click
             style=move || css_vars.get()
         >
             <OptionComp value=icon let:icon>
-                <Icon icon=icon width="22px" height="22px" class="melt-tabbar-item__icon"/>
+                <Icon icon=icon width="22px" height="22px" class="thaw-tabbar-item__icon"/>
             </OptionComp>
-            <div class="melt-tabbar-item__content">{children()}</div>
+            <div class="thaw-tabbar-item__content">{children()}</div>
         </div>
     }
 }

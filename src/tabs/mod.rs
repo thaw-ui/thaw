@@ -27,7 +27,7 @@ pub fn Tabs(
         theme.with(|theme| {
             let color_primary = theme.common.color_primary.clone();
             css_vars.push_str(&format!(
-                "--melt-label-active-background-color: {color_primary};"
+                "--thaw-label-active-background-color: {color_primary};"
             ));
         });
         css_vars
@@ -44,8 +44,8 @@ pub fn Tabs(
     let label_list_ref = create_node_ref::<html::Div>();
 
     view! {
-        <div class="melt-tabs" style=move || css_vars.get()>
-            <div class="melt-tabs__label-list" ref=label_list_ref>
+        <div class="thaw-tabs" style=move || css_vars.get()>
+            <div class="thaw-tabs__label-list" ref=label_list_ref>
                 <For
                     each=move || tab_options_vec.get()
                     key=move |v| v.key.clone()
@@ -78,9 +78,9 @@ pub fn Tabs(
                         });
                         view! {
                             <span
-                                class="melt-tabs__label"
+                                class="thaw-tabs__label"
                                 class=(
-                                    "melt-tabs__label--active",
+                                    "thaw-tabs__label--active",
                                     {
                                         let key = key.clone();
                                         move || key == value.get()
@@ -100,7 +100,7 @@ pub fn Tabs(
                     }
                 />
 
-                <span class="melt-tabs-label__line" style=move || label_line_style.get()></span>
+                <span class="thaw-tabs-label__line" style=move || label_line_style.get()></span>
             </div>
             <div>{children()}</div>
         </div>

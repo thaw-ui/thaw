@@ -16,7 +16,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
     let popover_css_vars = create_memo(move |_| {
         theme.with(|theme| {
             format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.color_picker.popover_background_color
             )
         })
@@ -98,14 +98,14 @@ pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl I
     on_cleanup(move || timer.remove());
 
     view! {
-        <div class="melt-color-picker-trigger" on:click=show_popover ref=trigger_ref>
-            <div class="melt-color-picker-trigger__content" style=move || style.get()>
+        <div class="thaw-color-picker-trigger" on:click=show_popover ref=trigger_ref>
+            <div class="thaw-color-picker-trigger__content" style=move || style.get()>
                 {move || label.get()}
             </div>
         </div>
         <Teleport>
             <div
-                class="melt-color-picker-popover"
+                class="thaw-color-picker-popover"
                 ref=popover_ref
                 style=move || {
                     if is_show_popover.get() {
@@ -172,17 +172,17 @@ fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
     };
 
     view! {
-        <div class="melt-color-picker-popover__panel" ref=panel_ref on:mousedown=on_mouse_down>
+        <div class="thaw-color-picker-popover__panel" ref=panel_ref on:mousedown=on_mouse_down>
             <div
-                class="melt-color-picker-popover__layer"
+                class="thaw-color-picker-popover__layer"
                 style:background-image=move || {
                     format!("linear-gradient(90deg, white, hsl({}, 100%, 50%))", hue.get())
                 }
             >
             </div>
-            <div class="melt-color-picker-popover__layer--shadowed"></div>
+            <div class="thaw-color-picker-popover__layer--shadowed"></div>
             <div
-                class="melt-color-picker-popover__handle"
+                class="thaw-color-picker-popover__handle"
                 style=move || {
                     format!(
                         "left: calc({}% - 6px); bottom: calc({}% - 6px)",
@@ -233,9 +233,9 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
         });
     };
     view! {
-        <div class="melt-color-picker-slider" ref=rail_ref on:mousedown=on_mouse_down>
+        <div class="thaw-color-picker-slider" ref=rail_ref on:mousedown=on_mouse_down>
             <div
-                class="melt-color-picker-slider__handle"
+                class="thaw-color-picker-slider__handle"
                 style=move || format!("left: calc({}% - 6px)", f32::from(hue.get()) / 359.0 * 100.0)
             ></div>
         </div>

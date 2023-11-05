@@ -6,8 +6,8 @@ use crate::mount_style;
 pub fn Divider() -> impl IntoView {
     mount_style("divider", include_str!("./divider.css"));
     view! {
-        <div class="melt-divider">
-            <div class="melt-divider__line"></div>
+        <div class="thaw-divider">
+            <div class="thaw-divider__line"></div>
         </div>
     }
 }

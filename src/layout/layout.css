@@ -1,8 +1,8 @@
-.melt-layout {
+.thaw-layout {
     flex: auto;
 }
 
-.melt-layout--absolute-positioned {
+.thaw-layout--absolute-positioned {
     position: absolute;
     top: 0;
     right: 0;

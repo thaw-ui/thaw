@@ -1,7 +1,7 @@
 use crate::components::SiteHeader;
 use leptos::*;
 use leptos_router::{use_location, use_navigate, Outlet};
-use melt_ui::*;
+use thaw::*;
 
 #[component]
 pub fn ComponentsPage() -> impl IntoView {
@@ -10,7 +10,7 @@ pub fn ComponentsPage() -> impl IntoView {
         let loaction = use_location();
         let mut pathname = loaction.pathname.get_untracked();
 
-        if pathname.starts_with("/melt-ui/components/") {
+        if pathname.starts_with("/thaw/components/") {
             pathname.drain(20..).collect()
         } else {
             String::new()

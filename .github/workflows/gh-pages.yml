@@ -5,12 +5,12 @@ on:
         - cron: "0 23 * * *"
 
 jobs:
-    get-melt-changed:
-        uses: ./.github/workflows/get-melt-changed.yml
+    get-thaw-changed:
+        uses: ./.github/workflows/get-thaw-changed.yml
     deploy:
         runs-on: ubuntu-latest
-        needs: [get-melt-changed]
-        if: needs.get-melt-changed.outputs.melt_changed == 'true'
+        needs: [get-thaw-changed]
+        if: needs.get-thaw-changed.outputs.thaw_changed == 'true'
         permissions:
             contents: write # To push a branch
             pull-requests: write # To create a PR from that branch

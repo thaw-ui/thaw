@@ -1,6 +1,6 @@
 use leptos::*;
 use leptos_router::use_navigate;
-use melt_ui::*;
+use thaw::*;
 
 #[component]
 pub fn SiteHeader() -> impl IntoView {
@@ -29,7 +29,7 @@ pub fn SiteHeader() -> impl IntoView {
     view! {
         <LayoutHeader style>
             <Space>
-                <img src="/melt-ui/logo.svg" style="width: 36px"/>
+                <img src="/thaw/logo.svg" style="width: 36px"/>
                 <div
                     style="cursor: pointer; display: flex; align-items: center; height: 100%; font-weight: 600; font-size: 20px"
                     on:click=move |_| {
@@ -38,7 +38,7 @@ pub fn SiteHeader() -> impl IntoView {
                     }
                 >
 
-                    "Melt UI"
+                    "Thaw UI"
                 </div>
             </Space>
             <Space>
@@ -51,7 +51,7 @@ pub fn SiteHeader() -> impl IntoView {
                 <Button
                     variant=ButtonVariant::Text
                     on:click=move |_| {
-                        _ = window().open_with_url("http://github.com/luoxiaozero/melt-ui");
+                        _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                     }
                 >
 

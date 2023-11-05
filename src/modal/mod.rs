@@ -24,14 +24,14 @@ pub fn Modal(
     view! {
         <Teleport>
             <div
-                class="melt-modal-container"
+                class="thaw-modal-container"
                 style=move || if show.get() { "" } else { "display: none" }
             >
-                <div class="melt-modal-mask"></div>
-                <div class="melt-modal-body">
+                <div class="thaw-modal-mask"></div>
+                <div class="thaw-modal-body">
                     <Card>
                         <CardHeader slot>
-                            <span class="melt-model-title">{move || title.get()}</span>
+                            <span class="thaw-model-title">{move || title.get()}</span>
                         </CardHeader>
                         <CardHeaderExtra slot>
                             <span style="cursor: pointer;" on:click=move |_| show.set(false)>

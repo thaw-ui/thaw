@@ -1,22 +1,22 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use melt_ui::*;
+use thaw::*;
 use prisms::highlight_str;
 
 #[component]
 pub fn GridPage() -> impl IntoView {
     mount_style(
         "grid-demo",
-        r#".melt-grid-item {
+        r#".thaw-grid-item {
         height: 60px;
         color: white;
         text-align: center;
         line-height: 60px;
       }
-      .melt-grid-item:nth-child(odd) {
+      .thaw-grid-item:nth-child(odd) {
         background-color: #3d8ae5dd;
       }
-      .melt-grid-item:nth-child(even) {
+      .thaw-grid-item:nth-child(even) {
         background-color: #3d8ae5aa;
       }"#,
     );

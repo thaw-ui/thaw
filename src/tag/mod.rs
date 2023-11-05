@@ -52,23 +52,23 @@ pub fn Tag(
         theme.with(|theme| {
             let variant = variant.get();
             css_vars.push_str(&format!(
-                "--melt-font-color: {};",
+                "--thaw-font-color: {};",
                 variant.theme_font_color(theme)
             ));
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 variant.theme_background_color(theme)
             ));
             css_vars.push_str(&format!(
-                "--melt-border-color: {};",
+                "--thaw-border-color: {};",
                 variant.theme_border_color(theme)
             ));
         });
         css_vars
     });
     view! {
-        <div class="melt-tag" style=move || css_vars.get()>
-            <span class="melt-tag__content">{children()}</span>
+        <div class="thaw-tag" style=move || css_vars.get()>
+            <span class="thaw-tag__content">{children()}</span>
         </div>
     }
 }

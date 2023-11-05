@@ -6,7 +6,7 @@ pub fn LayoutHeader(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <div class="melt-layout-header" style=move || style.get()>
+        <div class="thaw-layout-header" style=move || style.get()>
             {children()}
         </div>
     }

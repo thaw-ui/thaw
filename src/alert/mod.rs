@@ -54,15 +54,15 @@ pub fn Alert(
             theme.with(|theme| {
                 let variant = variant.get();
                 css_vars.push_str(&format!(
-                    "--melt-icon-color: {};",
+                    "--thaw-icon-color: {};",
                     variant.theme_icon_color(theme)
                 ));
                 css_vars.push_str(&format!(
-                    "--melt-background-color: {};",
+                    "--thaw-background-color: {};",
                     variant.theme_background_color(theme)
                 ));
                 css_vars.push_str(&format!(
-                    "--melt-border-color: {};",
+                    "--thaw-border-color: {};",
                     variant.theme_border_color(theme)
                 ));
             });
@@ -79,8 +79,8 @@ pub fn Alert(
         .into()
     });
     view! {
-        <div class="melt-alert" style=move || css_vars.get()>
-            <Icon icon class="melt-alert__icon"/>
+        <div class="thaw-alert" style=move || css_vars.get()>
+            <Icon icon class="thaw-alert__icon"/>
             <div>
 
                 {move || {
@@ -88,10 +88,10 @@ pub fn Alert(
                     if title.is_empty() {
                         None
                     } else {
-                        view! { <div class="melt-alert__header">{title}</div> }.into()
+                        view! { <div class="thaw-alert__header">{title}</div> }.into()
                     }
                 }}
-                <div class="melt-alert__content">{children()}</div>
+                <div class="thaw-alert__content">{children()}</div>
             </div>
         </div>
     }

@@ -24,7 +24,7 @@ pub fn MessageProvider(children: Children) -> impl IntoView {
     view! {
         {children()}
         <Teleport>
-            <div class="melt-message-container">
+            <div class="thaw-message-container">
                 <For
                     each=move || message_list.get()
                     key=|message| message.0

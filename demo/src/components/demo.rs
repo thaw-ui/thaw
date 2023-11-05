@@ -1,5 +1,5 @@
 use leptos::*;
-use melt_ui::*;
+use thaw::*;
 
 #[slot]
 pub struct DemoCode {
@@ -13,7 +13,7 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
     mount_style("demo", prisms::prism_css!());
     let theme = use_theme(Theme::light);
     let style = create_memo(move |_| {
-        let mut style = String::from("background-image: url(/melt-ui/grid_dot.svg); background-repeat: repeat; background-size: 1.5rem; margin-top: 1rem; padding: 1rem; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;");
+        let mut style = String::from("background-image: url(/thaw/grid_dot.svg); background-repeat: repeat; background-size: 1.5rem; margin-top: 1rem; padding: 1rem; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;");
         theme.with(|theme| {
             if theme.common.color_scheme == "dark" {
                 style.push_str("border: 1px solid #383f52;");

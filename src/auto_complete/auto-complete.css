@@ -1,20 +1,20 @@
-.melt-auto-complete__menu {
+.thaw-auto-complete__menu {
     position: relative;
     display: inline-block;
     max-height: 200px;
     padding: 5px;
-    background-color: var(--melt-background-color);
+    background-color: var(--thaw-background-color);
     border-radius: 3px;
     box-sizing: border-box;
     box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
         0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
     z-index: 2000;
 }
-.melt-auto-complete__menu-item {
+.thaw-auto-complete__menu-item {
     padding: 6px 5px;
     border-radius: 2px;
     cursor: pointer;
 }
-.melt-auto-complete__menu-item:hover {
-    background-color: var(--melt-background-color-hover);
+.thaw-auto-complete__menu-item:hover {
+    background-color: var(--thaw-background-color-hover);
 }

@@ -3,7 +3,7 @@ use crate::{
     pages::MobilePage,
 };
 use leptos::*;
-use melt_ui::mobile::NavBar;
+use thaw::mobile::NavBar;
 use prisms::highlight_str;
 
 #[component]
@@ -45,7 +45,7 @@ pub fn NavBarPage() -> impl IntoView {
                 </Demo>
             </div>
             <div>
-                <MobilePage path="/melt-ui?path=/mobile/nav-bar"/>
+                <MobilePage path="/thaw?path=/mobile/nav-bar"/>
             </div>
         </div>
     }

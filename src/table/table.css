@@ -1,39 +1,39 @@
-.melt-table {
+.thaw-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    background-color: var(--melt-background-color);
-    border: 1px solid var(--melt-border-color);
-    border-radius: var(--melt-border-radius);
+    background-color: var(--thaw-background-color);
+    border: 1px solid var(--thaw-border-color);
+    border-radius: var(--thaw-border-radius);
 }
 
-.melt-table th {
+.thaw-table th {
     text-align: inherit;
-    background-color: var(--melt-background-color-striped);
+    background-color: var(--thaw-background-color-striped);
 }
 
-.melt-table td,
-.melt-table th {
+.thaw-table td,
+.thaw-table th {
     padding: 12px;
-    border-right: 1px solid var(--melt-border-color);
-    border-bottom: 1px solid var(--melt-border-color);
+    border-right: 1px solid var(--thaw-border-color);
+    border-bottom: 1px solid var(--thaw-border-color);
 }
 
-.melt-table.melt-table--single-row td,
-.melt-table.melt-table--single-row th {
+.thaw-table.thaw-table--single-row td,
+.thaw-table.thaw-table--single-row th {
     border-right: none;
 }
-.melt-table.melt-table--single-column td {
+.thaw-table.thaw-table--single-column td {
     border-bottom: none;
 }
-.melt-table td:last-child,
-.melt-table th:last-child {
+.thaw-table td:last-child,
+.thaw-table th:last-child {
     border-right: none;
 }
 
-.melt-table tbody tr:last-child td {
+.thaw-table tbody tr:last-child td {
     border-bottom: none;
 }
-.melt-table tr {
-    border-bottom: 1px solid var(--melt-border-color);
+.thaw-table tr {
+    border-bottom: 1px solid var(--thaw-border-color);
 }

@@ -40,8 +40,8 @@ pub fn Layout(
     });
     view! {
         <div
-            class="melt-layout"
-            class=("melt-layout--absolute-positioned", position == LayoutPosition::Absolute)
+            class="thaw-layout"
+            class=("thaw-layout--absolute-positioned", position == LayoutPosition::Absolute)
             style=move || style.get()
         >
             {children()}

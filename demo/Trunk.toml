@@ -1,6 +1,6 @@
 [build]
 target = "index.html"
-public_url = "/melt-ui/"
+public_url = "/thaw/"
 # release = true
 
 [watch]

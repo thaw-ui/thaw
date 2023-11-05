@@ -1,13 +1,13 @@
-.melt-avatar {
+.thaw-avatar {
     display: inline-block;
-    width: var(--melt-size);
-    height: var(--melt-size);
-    background-color: var(--melt-background-color);
-    border-radius: var(--melt-border-radius);
+    width: var(--thaw-size);
+    height: var(--thaw-size);
+    background-color: var(--thaw-background-color);
+    border-radius: var(--thaw-border-radius);
 }
 
-.melt-avatar img {
+.thaw-avatar img {
     width: 100%;
     height: 100%;
-    border-radius: var(--melt-border-radius);
+    border-radius: var(--thaw-border-radius);
 }

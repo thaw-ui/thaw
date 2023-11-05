@@ -15,7 +15,7 @@ impl<T> SignalWatch for RwSignal<T> {
     ///
     /// ```rust
     /// use leptos::*;
-    /// use melt_ui::*;
+    /// use thaw::*;
     ///
     /// let count = create_rw_signal(0);
     /// let stop = count.watch(|count| {

@@ -13,16 +13,16 @@ pub fn Progress(
     let right_tip: StoredMaybeSignal<_> = right_tip.into();
 
     view! {
-        <div class="melt-progress">
-            <span class="melt-progress__tip-left">
+        <div class="thaw-progress">
+            <span class="thaw-progress__tip-left">
                 <Show when=move || left_tip.with(|v| !v.is_empty())>{move || left_tip.get()}</Show>
             </span>
-            <span class="melt-progress__progress">
-                <span class="melt-progress__progress-inner" style=style>
-                    <span class="melt-progress__progress-circle"></span>
+            <span class="thaw-progress__progress">
+                <span class="thaw-progress__progress-inner" style=style>
+                    <span class="thaw-progress__progress-circle"></span>
                 </span>
             </span>
-            <span class="melt-progress__tip-right">
+            <span class="thaw-progress__tip-right">
                 <Show when=move || {
                     right_tip.with(|v| !v.is_empty())
                 }>{move || right_tip.get()}</Show>

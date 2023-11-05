@@ -28,11 +28,11 @@ pub fn Skeleton(
 
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color-start: {};",
+                "--thaw-background-color-start: {};",
                 theme.skeletion.background_color_start
             ));
             css_vars.push_str(&format!(
-                "--melt-background-color-end: {};",
+                "--thaw-background-color-end: {};",
                 theme.skeletion.background_color_end
             ));
         });
@@ -41,7 +41,7 @@ pub fn Skeleton(
     });
     (0..repeat.get())
         .map(|_| {
-            view! { <div class="melt-skeleton" style=move || css_vars.get()></div> }
+            view! { <div class="thaw-skeleton" style=move || css_vars.get()></div> }
         })
         .collect_view()
 }

@@ -24,11 +24,11 @@ pub fn AutoComplete(
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.select.menu_background_color
             ));
             css_vars.push_str(&format!(
-                "--melt-background-color-hover: {};",
+                "--thaw-background-color-hover: {};",
                 theme.select.menu_background_color_hover
             ));
         });
@@ -66,7 +66,7 @@ pub fn AutoComplete(
     };
 
     view! {
-        <div class="melt-auto-complete" ref=auto_complete_ref>
+        <div class="thaw-auto-complete" ref=auto_complete_ref>
             <Input
                 value
                 placeholder
@@ -77,7 +77,7 @@ pub fn AutoComplete(
         </div>
         <Teleport>
             <div
-                class="melt-auto-complete__menu"
+                class="thaw-auto-complete__menu"
                 style=move || {
                     if is_show_menu.get() {
                         menu_css_vars.get()
@@ -104,7 +104,7 @@ pub fn AutoComplete(
                             };
                             view! {
                                 <div
-                                    class="melt-auto-complete__menu-item"
+                                    class="thaw-auto-complete__menu-item"
                                     on:click=on_click
                                     on:mousedown=on_mousedown
                                 >

@@ -1,4 +1,4 @@
-.melt-color-picker-trigger {
+.thaw-color-picker-trigger {
     display: inline-block;
     padding: 4px;
     width: 100%;
@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-.melt-color-picker-trigger__content {
+.thaw-color-picker-trigger__content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,14 +17,14 @@
     font-size: 14px;
 }
 
-.melt-color-picker-popover {
+.thaw-color-picker-popover {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     width: 240px;
     padding: 12px;
-    background-color: var(--melt-background-color);
+    background-color: var(--thaw-background-color);
     border-radius: 3px;
     box-sizing: border-box;
     box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
@@ -32,14 +32,14 @@
     z-index: 1000;
 }
 
-.melt-color-picker-popover__panel {
+.thaw-color-picker-popover__panel {
     position: relative;
     height: 180px;
     margin-bottom: 8px;
     cursor: crosshair;
 }
 
-.melt-color-picker-popover__layer {
+.thaw-color-picker-popover__layer {
     position: absolute;
     left: 0;
     right: 0;
@@ -47,7 +47,7 @@
     bottom: 0;
 }
 
-.melt-color-picker-popover__layer--shadowed {
+.thaw-color-picker-popover__layer--shadowed {
     position: absolute;
     left: 0;
     right: 0;
@@ -56,7 +56,7 @@
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
 }
 
-.melt-color-picker-popover__handle {
+.thaw-color-picker-popover__handle {
     position: absolute;
     left: -6px;
     bottom: -6px;
@@ -68,7 +68,7 @@
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.45);
 }
 
-.melt-color-picker-slider {
+.thaw-color-picker-slider {
     height: 12px;
     padding: 0 6px;
     background-image: linear-gradient(
@@ -84,7 +84,7 @@
     border-radius: 6px;
 }
 
-.melt-color-picker-slider__handle {
+.thaw-color-picker-slider__handle {
     position: relative;
     left: 0;
     width: 12px;

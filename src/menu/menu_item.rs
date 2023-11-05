@@ -19,21 +19,21 @@ pub fn MenuItem(
         let mut css_vars = String::new();
         theme.with(|theme| {
             let font_color = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--melt-font-color-active: {font_color};"));
-            css_vars.push_str(&format!("--melt-font-color: {};", theme.menu.color));
-            css_vars.push_str(&format!("--melt-background-color: {font_color}1a;"));
+            css_vars.push_str(&format!("--thaw-font-color-active: {font_color};"));
+            css_vars.push_str(&format!("--thaw-font-color: {};", theme.menu.color));
+            css_vars.push_str(&format!("--thaw-background-color: {font_color}1a;"));
             css_vars.push_str(&format!(
-                "--melt-background-color-hover: {};",
+                "--thaw-background-color-hover: {};",
                 theme.menu.item_color_hover
             ));
         });
         css_vars
     });
     view! {
-        <div class="melt-menu-item">
+        <div class="thaw-menu-item">
             <div
-                class="melt-menu-item__content"
-                class=("melt-menu-item__content--selected", move || menu.get().value == key.get())
+                class="thaw-menu-item__content"
+                class=("thaw-menu-item__content--selected", move || menu.get().value == key.get())
                 on:click=on_click
                 style=move || css_vars.get()
             >

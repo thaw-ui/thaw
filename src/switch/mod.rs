@@ -12,11 +12,11 @@ pub fn Switch(#[prop(optional, into)] value: MaybeRwSignal<bool>) -> impl IntoVi
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.switch.background_color
             ));
             css_vars.push_str(&format!(
-                "--melt-background-color-active: {};",
+                "--thaw-background-color-active: {};",
                 theme.common.color_primary
             ));
         });
@@ -24,12 +24,12 @@ pub fn Switch(#[prop(optional, into)] value: MaybeRwSignal<bool>) -> impl IntoVi
     });
     view! {
         <div
-            class="melt-switch"
-            class=("melt-switch--active", move || value.get())
+            class="thaw-switch"
+            class=("thaw-switch--active", move || value.get())
             style=move || css_vars.get()
             on:click=move |_| value.set(!value.get_untracked())
         >
-            <div class="melt-switch__button"></div>
+            <div class="thaw-switch__button"></div>
         </div>
     }
 }

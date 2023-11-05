@@ -1,21 +1,21 @@
-.melt-nav-bar {
+.thaw-nav-bar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     height: 46px;
     line-height: 46px;
-    background-color: var(--melt-background-color);
+    background-color: var(--thaw-background-color);
 }
 
-.melt-nav-bar__center {
+.thaw-nav-bar__center {
     max-width: 60%;
     font-weight: 600;
     text-align: center;
     margin: 0 auto;
 }
 
-.melt-nav-bar__left {
+.thaw-nav-bar__left {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -27,7 +27,7 @@
     align-items: center;
 }
 
-.melt-nav-bar__right {
+.thaw-nav-bar__right {
     position: absolute;
     top: 0;
     bottom: 0;
