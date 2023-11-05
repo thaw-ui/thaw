@@ -1,6 +1,6 @@
 [package]
 name = "thaw"
-version = "0.0.6"
+version = "0.1.0-alpha"
 edition = "2021"
 keywords = ["web", "leptos", "ui", "thaw"]
 
