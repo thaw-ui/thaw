@@ -30,7 +30,7 @@ pub fn Menu(
         }
     });
     provide_context(menu_injection_key);
-    view! { <div class="melt-menu">{children()}</div> }
+    view! { <div class="thaw-menu">{children()}</div> }
 }
 
 #[derive(Clone)]

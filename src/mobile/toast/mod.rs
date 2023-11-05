@@ -12,7 +12,7 @@ pub fn show_toast(options: ToastOptions) {
     mount_style("toast", include_str!("./toast.css"));
 
     let parent = Element::from(document().body().expect("body element not to exist"));
-    let children = view! { <div class="melt-toast">{options.message}</div> };
+    let children = view! { <div class="thaw-toast">{options.message}</div> };
     let node = children.into_view();
 
     #[cfg(target_arch = "wasm32")]

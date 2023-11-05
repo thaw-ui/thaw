@@ -21,7 +21,7 @@ pub fn Tab(
         label,
     });
     view! {
-        <div class="melt-tab" class=("melt-tab--hidden", move || key != tabs.get_key())>
+        <div class="thaw-tab" class=("thaw-tab--hidden", move || key != tabs.get_key())>
             {children()}
         </div>
     }

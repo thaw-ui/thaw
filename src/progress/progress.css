@@ -1,4 +1,4 @@
-.melt-progress {
+.thaw-progress {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -7,8 +7,8 @@
     padding: 0 8px;
 }
 
-.melt-progress__tip-right,
-.melt-progress__tip-left {
+.thaw-progress__tip-right,
+.thaw-progress__tip-left {
     display: inline-block;
     margin: 0 10px;
     width: 48px;
@@ -17,7 +17,7 @@
     color: #777;
 }
 
-.melt-progress__progress {
+.thaw-progress__progress {
     flex: 1;
     height: 3px;
     background: #f2f2f2;
@@ -25,7 +25,7 @@
     /* cursor: pointer; */
 }
 
-.melt-progress__progress-inner {
+.thaw-progress__progress-inner {
     position: relative;
     top: -14px;
     display: inline-block;
@@ -34,7 +34,7 @@
     transition: width 0.1s;
 }
 
-.melt-progress__progress-circle {
+.thaw-progress__progress-circle {
     display: inline-block;
     position: absolute;
     right: -3px;

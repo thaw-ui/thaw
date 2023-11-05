@@ -29,7 +29,7 @@ pub fn Space(
 
     view! {
         <div
-            class="melt-space"
+            class="thaw-space"
             style:gap=gap
             style:flex-direction=if vertical { "column" } else { "row" }
         >
@@ -38,7 +38,7 @@ pub fn Space(
                 .nodes
                 .into_iter()
                 .map(|node| {
-                    view! { <div class="melt-space__item">{node}</div> }
+                    view! { <div class="thaw-space__item">{node}</div> }
                 })
                 .collect::<Vec<_>>()}
 

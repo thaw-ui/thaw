@@ -1,13 +1,13 @@
 [package]
-name = "melt-ui"
+name = "thaw"
 version = "0.0.5"
 edition = "2021"
-keywords = ["web", "leptos", "ui", "melt-ui"]
+keywords = ["web", "leptos", "ui", "thaw"]
 
-authors = ["luoxiaozero <luoxiaozero@163.com>"]
+authors = ["luoxiaozero"]
 description = "An easy to use leptos component library"
-homepage = "https://github.com/luoxiaozero/melt-ui"
-repository = "https://github.com/luoxiaozero/melt-ui"
+homepage = "https://github.com/thaw-ui/thaw"
+repository = "https://github.com/thaw-ui/thaw"
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

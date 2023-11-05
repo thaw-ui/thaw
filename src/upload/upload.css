@@ -1,9 +1,9 @@
-.melt-upload__input {
+.thaw-upload__input {
     width: 0;
     height: 0;
     opacity: 0;
 }
 
-.melt-upload__trigger {
+.thaw-upload__trigger {
     display: inline-block;
 }

@@ -1,24 +1,24 @@
-.melt-select {
+.thaw-select {
     position: relative;
     padding: 0 10px;
     height: 30px;
     line-height: 30px;
-    background-color: var(--melt-background-color);
-    color: var(--melt-font-color);
-    border: 1px solid var(--melt-border-color);
+    background-color: var(--thaw-background-color);
+    color: var(--thaw-font-color);
+    border: 1px solid var(--thaw-border-color);
     border-radius: 3px;
     transition: all 0.3s;
     cursor: pointer;
     box-sizing: border-box;
 }
 
-.melt-select:hover {
-    border-color: var(--melt-border-color-hover);
+.thaw-select:hover {
+    border-color: var(--thaw-border-color-hover);
 }
 
-.melt-select-menu {
-    color: var(--melt-font-color);
-    background-color: var(--melt-background-color);
+.thaw-select-menu {
+    color: var(--thaw-font-color);
+    background-color: var(--thaw-background-color);
     box-sizing: border-box;
     padding: 5px;
     position: absolute;
@@ -32,16 +32,16 @@
     z-index: 1000;
 }
 
-.melt-select-menu__item {
+.thaw-select-menu__item {
     padding: 6px 5px;
     border-radius: 2px;
     cursor: pointer;
 }
 
-.melt-select-menu__item:hover {
-    background-color: var(--melt-background-color-hover);
+.thaw-select-menu__item:hover {
+    background-color: var(--thaw-background-color-hover);
 }
 
-.melt-select-menu__item-selected {
-    color: var(--melt-font-color-selected);
+.thaw-select-menu__item-selected {
+    color: var(--thaw-font-color-selected);
 }

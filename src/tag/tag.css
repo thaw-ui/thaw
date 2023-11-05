@@ -1,11 +1,11 @@
-.melt-tag {
+.thaw-tag {
     display: inline-flex;
     height: 28px;
     align-items: center;
     font-size: 14px;
     padding: 0 10px;
-    background-color: var(--melt-background-color);
-    color: var(--melt-font-color);
-    border: 1px solid var(--melt-border-color);
+    background-color: var(--thaw-background-color);
+    color: var(--thaw-font-color);
+    border: 1px solid var(--thaw-border-color);
     border-radius: 3px;
 }

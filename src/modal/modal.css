@@ -1,7 +1,7 @@
-.melt-modal-container {
+.thaw-modal-container {
     z-index: 2001;
 }
-.melt-modal-mask {
+.thaw-modal-mask {
     position: fixed;
     top: 0;
     right: 0;
@@ -10,7 +10,7 @@
     background-color: #0007;
     z-index: 2000;
 }
-.melt-modal-body {
+.thaw-modal-body {
     position: fixed;
     top: 0;
     right: 0;
@@ -21,11 +21,11 @@
     z-index: 2002;
 }
 
-.melt-modal-body .melt-card {
+.thaw-modal-body .thaw-card {
     width: 600px;
     margin: auto;
 }
 
-.melt-model-title {
+.thaw-model-title {
     font-size: 16px;
 }

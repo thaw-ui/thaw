@@ -20,7 +20,7 @@ pub fn Tabbar(
     let css_vars = create_memo(move |_| {
         theme.with(|theme| {
             format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.tabbar.background_color
             )
         })
@@ -44,7 +44,7 @@ pub fn Tabbar(
     });
     provide_context(tabbar_injection_key);
     view! {
-        <div class="melt-tabbar" style=move || css_vars.get()>
+        <div class="thaw-tabbar" style=move || css_vars.get()>
             {children()}
         </div>
     }

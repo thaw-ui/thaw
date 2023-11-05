@@ -19,11 +19,11 @@ pub fn Slider(
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 &theme.slider.background_color
             ));
             css_vars.push_str(&format!(
-                "--melt-background-color-fill: {};",
+                "--thaw-background-color-fill: {};",
                 &theme.common.color_primary
             ));
         });
@@ -78,16 +78,16 @@ pub fn Slider(
     on_cleanup(move || on_mouse_move.remove());
 
     view! {
-        <div class="melt-slider" style=move || css_vars.get()>
-            <div class="melt-slider-rail" ref=rail_ref>
+        <div class="thaw-slider" style=move || css_vars.get()>
+            <div class="thaw-slider-rail" ref=rail_ref>
                 <div
-                    class="melt-slider-rail__fill"
+                    class="thaw-slider-rail__fill"
                     style=move || format!("width: {}%", percentage.get())
                 ></div>
             </div>
             <div
                 on:mousedown=on_mouse_down
-                class="melt-slider-handle"
+                class="thaw-slider-handle"
                 style=move || {
                     format!(
                         "left: {}%; transform: translateX(-{}%)",

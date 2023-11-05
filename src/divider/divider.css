@@ -1,12 +1,12 @@
 
-.melt-divider {
+.thaw-divider {
     position: relative;
     display: flex;
     width: 100%;
     margin: 1.5rem 0;
 }
 
-.melt-divider__line {
+.thaw-divider__line {
     background-color: #efeff5;
     height: 1px;
     width: 100%;

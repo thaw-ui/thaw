@@ -8,7 +8,7 @@ pub fn LayoutSider(
 ) -> impl IntoView {
     mount_style("layout-sider", include_str!("./layout-sider.css"));
     view! {
-        <div class="melt-layout-sider" style=move || style.get()>
+        <div class="thaw-layout-sider" style=move || style.get()>
             {children()}
         </div>
     }

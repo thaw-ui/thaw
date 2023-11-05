@@ -1,13 +1,13 @@
-.melt-badge {
+.thaw-badge {
     position: relative;
     display: inline-block;
 }
-.melt-badge__sup {
+.thaw-badge__sup {
     position: absolute;
-    color: var(--melt-font-color);
-    background-color: var(--melt-background-color);
+    color: var(--thaw-font-color);
+    background-color: var(--thaw-background-color);
 }
-.melt-badge__sup--value {
+.thaw-badge__sup--value {
     top: -9px;
     right: -9px;
     font-size: 12px;
@@ -18,7 +18,7 @@
     text-align: center;
 }
 
-.melt-badge__sup--dot {
+.thaw-badge__sup--dot {
     top: -5px;
     right: -5px;
     height: 10px;

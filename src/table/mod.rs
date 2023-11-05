@@ -17,19 +17,19 @@ pub fn Table(
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.table.background_color
             ));
             css_vars.push_str(&format!(
-                "--melt-background-color-striped: {};",
+                "--thaw-background-color-striped: {};",
                 theme.table.background_color_striped
             ));
             css_vars.push_str(&format!(
-                "--melt-border-color: {};",
+                "--thaw-border-color: {};",
                 theme.table.border_color
             ));
             css_vars.push_str(&format!(
-                "--melt-border-radius: {};",
+                "--thaw-border-radius: {};",
                 theme.common.border_radius
             ));
         });
@@ -38,9 +38,9 @@ pub fn Table(
     });
     view! {
         <table
-            class="melt-table"
-            class=("melt-table--single-row", move || single_row.get())
-            class=("melt-table--single-column", move || single_column.get())
+            class="thaw-table"
+            class=("thaw-table--single-row", move || single_row.get())
+            class=("thaw-table--single-column", move || single_column.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
         >
             {children()}

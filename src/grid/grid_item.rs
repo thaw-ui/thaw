@@ -33,7 +33,7 @@ pub fn GridItem(
         style
     });
     view! {
-        <div class="melt-grid-item" style=move || style.get()>
+        <div class="thaw-grid-item" style=move || style.get()>
             {children()}
         </div>
     }

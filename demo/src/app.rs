@@ -1,7 +1,7 @@
 use crate::pages::*;
 use leptos::*;
 use leptos_router::*;
-use melt_ui::*;
+use thaw::*;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -24,8 +24,8 @@ pub fn App() -> impl IntoView {
     provide_context(theme);
     view! {
         <Provider theme>
-            <Router base="/melt-ui">
-                <Routes base="/melt-ui".to_string()>
+            <Router base="/thaw">
+                <Routes base="/thaw".to_string()>
                     <Route path="/" view=Home/>
                     <Route path="/components" view=ComponentsPage>
                         <Route path="/menu" view=MenuPage/>

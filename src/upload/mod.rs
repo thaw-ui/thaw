@@ -35,16 +35,16 @@ pub fn Upload(
         }
     };
     view! {
-        <div class="melt-upload">
+        <div class="thaw-upload">
             <input
-                class="melt-upload__input"
+                class="thaw-upload__input"
                 ref=input_ref
                 type="file"
                 accept=move || accept.get()
                 multiple=move || multiple.get()
                 on:change=on_change
             />
-            <div class="melt-upload__trigger" on:click=on_click>
+            <div class="thaw-upload__trigger" on:click=on_click>
                 {children()}
             </div>
         </div>

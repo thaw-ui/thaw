@@ -31,10 +31,10 @@ pub fn Badge(
     mount_style("badge", include_str!("./badge.css"));
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        css_vars.push_str("--melt-font-color: #fff;");
+        css_vars.push_str("--thaw-font-color: #fff;");
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 color.get().theme_color(theme)
             ));
         });
@@ -52,11 +52,11 @@ pub fn Badge(
         }
     });
     view! {
-        <div class="melt-badge" style=move || css_vars.get()>
+        <div class="thaw-badge" style=move || css_vars.get()>
             <div
-                class="melt-badge__sup"
-                class=("melt-badge__sup--value", move || !dot.get() && !value.get().is_empty())
-                class=("melt-badge__sup--dot", move || dot.get())
+                class="thaw-badge__sup"
+                class=("thaw-badge__sup--value", move || !dot.get() && !value.get().is_empty())
+                class=("thaw-badge__sup--dot", move || dot.get())
             >
                 {move || value.get()}
             </div>

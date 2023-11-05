@@ -8,7 +8,7 @@ edition = "2021"
 
 [dependencies]
 leptos = { version = "0.5.1", features = ["csr"] }
-melt-ui = { path = "../" }
+thaw = { path = "../" }
 icondata = { version = "0.1.0", features = [
     "AiCloseOutlined",
     "AiCheckOutlined",

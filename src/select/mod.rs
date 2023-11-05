@@ -32,14 +32,14 @@ where
         let mut css_vars = String::new();
         theme.with(|theme| {
             let border_color_hover = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--melt-border-color-hover: {border_color_hover};"));
+            css_vars.push_str(&format!("--thaw-border-color-hover: {border_color_hover};"));
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.select.background_color
             ));
-            css_vars.push_str(&format!("--melt-font-color: {};", theme.select.font_color));
+            css_vars.push_str(&format!("--thaw-font-color: {};", theme.select.font_color));
             css_vars.push_str(&format!(
-                "--melt-border-color: {};",
+                "--thaw-border-color: {};",
                 theme.select.border_color
             ));
         });
@@ -51,16 +51,16 @@ where
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.select.menu_background_color
             ));
             css_vars.push_str(&format!(
-                "--melt-background-color-hover: {};",
+                "--thaw-background-color-hover: {};",
                 theme.select.menu_background_color_hover
             ));
-            css_vars.push_str(&format!("--melt-font-color: {};", theme.select.font_color));
+            css_vars.push_str(&format!("--thaw-font-color: {};", theme.select.font_color));
             css_vars.push_str(&format!(
-                "--melt-font-color-selected: {};",
+                "--thaw-font-color-selected: {};",
                 theme.common.color_primary
             ));
         });
@@ -116,14 +116,14 @@ where
         None => String::new(),
     });
     view! {
-        <div class="melt-select" ref=trigger_ref on:click=show_menu style=move || css_vars.get()>
+        <div class="thaw-select" ref=trigger_ref on:click=show_menu style=move || css_vars.get()>
 
             {move || select_option_label.get()}
 
         </div>
         <Teleport>
             <div
-                class="melt-select-menu"
+                class="thaw-select-menu"
                 style=move || {
                     if is_show_menu.get() { menu_css_vars.get() } else { "display: none;".into() }
                 }
@@ -142,9 +142,9 @@ where
                         };
                         view! {
                             <div
-                                class="melt-select-menu__item"
+                                class="thaw-select-menu__item"
                                 class=(
-                                    "melt-select-menu__item-selected",
+                                    "thaw-select-menu__item-selected",
                                     move || value.get() == Some(item.get_value().value),
                                 )
 

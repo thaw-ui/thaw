@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use melt_ui::*;
+use thaw::*;
 use prisms::highlight_str;
 
 #[component]

@@ -1,18 +1,18 @@
-name: Get Melt Changed Call
+name: Get Thaw Changed Call
 
 on:
     workflow_call:
         outputs:
-            melt_changed:
-                description: "Melt Changed"
-                value: ${{ jobs.create.outputs.melt_changed }}
+            thaw_changed:
+                description: "Thaw Changed"
+                value: ${{ jobs.create.outputs.thaw_changed }}
 
 jobs:
     create:
         name: Detect Source Change
         runs-on: ubuntu-latest
         outputs:
-            melt_changed: ${{ steps.set-source-changed.outputs.melt_changed }}
+            thaw_changed: ${{ steps.set-source-changed.outputs.thaw_changed }}
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
             - name: List source files that changed
               run: echo '${{ steps.changed-source.outputs.all_changed_files }}'
 
-            - name: Set melt_changed
+            - name: Set thaw_changed
               id: set-source-changed
               run: |
-                  echo "melt_changed=${{ steps.changed-source.outputs.any_changed }}" >> "$GITHUB_OUTPUT"
+                  echo "thaw_changed=${{ steps.changed-source.outputs.any_changed }}" >> "$GITHUB_OUTPUT"

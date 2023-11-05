@@ -1,27 +1,27 @@
-.melt-alert {
+.thaw-alert {
     position: relative;
     padding: 14px 20px 14px 42px;
-    background-color: var(--melt-background-color);
-    border: 1px solid var(--melt-border-color);
+    background-color: var(--thaw-background-color);
+    border: 1px solid var(--thaw-border-color);
     border-radius: 3px;
     line-height: 1.6;
 }
 
-.melt-alert__icon {
+.thaw-alert__icon {
     position: absolute;
     top: 12px;
     left: 10px;
     font-size: 24px;
-    color: var(--melt-icon-color);
+    color: var(--thaw-icon-color);
 }
 
-.melt-alert__header {
+.thaw-alert__header {
     font-size: 16px;
     line-height: 19px;
     font-weight: 500;
 }
 
-.melt-alert__header + .melt-alert__content {
+.thaw-alert__header + .thaw-alert__content {
     margin-top: 8px;
     font-size: 14px;
 }

@@ -24,7 +24,7 @@ pub fn Grid(
     });
 
     view! {
-        <div class="melt-grid" style=move || style.get()>
+        <div class="thaw-grid" style=move || style.get()>
             {children()}
         </div>
     }

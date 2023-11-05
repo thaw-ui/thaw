@@ -3,7 +3,7 @@ use crate::{
     pages::MobilePage,
 };
 use leptos::*;
-use melt_ui::mobile::*;
+use thaw::mobile::*;
 use prisms::highlight_str;
 
 #[component]
@@ -41,7 +41,7 @@ pub fn TabbarPage() -> impl IntoView {
                 </Demo>
             </div>
             <div>
-                <MobilePage path="/melt-ui?path=/mobile/tabbar"/>
+                <MobilePage path="/thaw?path=/mobile/tabbar"/>
             </div>
         </div>
     }

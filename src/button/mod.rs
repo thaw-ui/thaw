@@ -76,31 +76,31 @@ pub fn Button(
             if variant.get() == ButtonVariant::Primary {
                 let bg_color_hover = color.get().theme_color_hover(theme);
                 let bg_color_active = color.get().theme_color_active(theme);
-                css_vars.push_str(&format!("--melt-background-color: {bg_color};"));
-                css_vars.push_str(&format!("--melt-background-color-hover: {bg_color_hover};"));
+                css_vars.push_str(&format!("--thaw-background-color: {bg_color};"));
+                css_vars.push_str(&format!("--thaw-background-color-hover: {bg_color_hover};"));
                 css_vars.push_str(&format!(
-                    "--melt-background-color-active: {bg_color_active};"
+                    "--thaw-background-color-active: {bg_color_active};"
                 ));
-                css_vars.push_str("--melt-font-color: #fff;");
-                css_vars.push_str(&format!("--melt-border-color: {bg_color};"));
-                css_vars.push_str(&format!("--melt-border-color-hover: {bg_color};"));
-                css_vars.push_str(&format!("--melt-melt-ripple-color: {bg_color};"));
+                css_vars.push_str("--thaw-font-color: #fff;");
+                css_vars.push_str(&format!("--thaw-border-color: {bg_color};"));
+                css_vars.push_str(&format!("--thaw-border-color-hover: {bg_color};"));
+                css_vars.push_str(&format!("--thaw-ripple-color: {bg_color};"));
             } else if variant.get() == ButtonVariant::Text {
-                css_vars.push_str(&format!("--melt-font-color-hover: {bg_color};"));
+                css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
                 css_vars.push_str(&format!(
-                    "--melt-background-color-hover: {};",
+                    "--thaw-background-color-hover: {};",
                     theme.button.color_text_hover
                 ));
                 css_vars.push_str(&format!(
-                    "--melt-background-color-active: {};",
+                    "--thaw-background-color-active: {};",
                     theme.button.color_text_active
                 ));
-                css_vars.push_str(&format!("--melt-ripple-color: #0000;"));
+                css_vars.push_str(&format!("--thaw-ripple-color: #0000;"));
             } else {
-                css_vars.push_str(&format!("--melt-font-color-hover: {bg_color};"));
-                css_vars.push_str("--melt-border-color: #555a;");
-                css_vars.push_str("--melt-border-color-hover: #555;");
-                css_vars.push_str(&format!("--melt-ripple-color: #0000;"));
+                css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
+                css_vars.push_str("--thaw-border-color: #555a;");
+                css_vars.push_str("--thaw-border-color-hover: #555;");
+                css_vars.push_str(&format!("--thaw-ripple-color: #0000;"));
             }
         });
 
@@ -139,11 +139,11 @@ pub fn Button(
 
     view! {
         <button
-            class:melt-button=true
-            class=("melt-button--text", move || variant.get() == ButtonVariant::Text)
-            class=("melt-button--link", move || variant.get() == ButtonVariant::Link)
-            class=("melt-button--round", move || round.get())
-            class=("melt-button--disabled", move || disabled.get())
+            class:thaw-button=true
+            class=("thaw-button--text", move || variant.get() == ButtonVariant::Text)
+            class=("thaw-button--link", move || variant.get() == ButtonVariant::Link)
+            class=("thaw-button--round", move || round.get())
+            class=("thaw-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
             on:click=on_click
         >
@@ -154,7 +154,7 @@ pub fn Button(
                         <Icon
                             icon=Icon::from(AiIcon::AiLoadingOutlined)
                             style=format!(
-                                "animation: meltLoadingCircle 1s infinite linear;{icon_style}",
+                                "animation: thawLoadingCircle 1s infinite linear;{icon_style}",
                             )
                         />
                     }

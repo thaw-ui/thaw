@@ -1,42 +1,42 @@
-.melt-input {
+.thaw-input {
     display: inline-flex;
     width: 100%;
     box-sizing: border-box;
     padding: 0 10px;
-    background-color: var(--melt-background-color);
+    background-color: var(--thaw-background-color);
     font-size: 14px;
-    color: var(--melt-font-color);
-    border: 1px solid var(--melt-border-color);
-    border-radius: var(--melt-border-radius);
+    color: var(--thaw-font-color);
+    border: 1px solid var(--thaw-border-color);
+    border-radius: var(--thaw-border-radius);
     cursor: text;
     transition: all 0.3s;
 }
 
-.melt-input--focus,
-.melt-input:hover {
-    border-color: var(--melt-border-color-hover);
+.thaw-input--focus,
+.thaw-input:hover {
+    border-color: var(--thaw-border-color-hover);
 }
 
-.melt-input--focus {
-    box-shadow: 0 0 0 2px var(--melt-box-shadow-color);
+.thaw-input--focus {
+    box-shadow: 0 0 0 2px var(--thaw-box-shadow-color);
 }
 
-.melt-input__input-el {
+.thaw-input__input-el {
     width: 100%;
     height: 30px;
     background-color: transparent;
-    color: var(--melt-font-color);
+    color: var(--thaw-font-color);
     line-height: 30px;
     font-size: inherit;
     border: none;
     outline: none;
 }
 
-.melt-input__input-el::placeholder {
-    color: var(--melt-placeholder-color);
+.thaw-input__input-el::placeholder {
+    color: var(--thaw-placeholder-color);
 }
 
-.melt-input__suffix {
+.thaw-input__suffix {
     display: inline-flex;
     align-items: center;
     justify-content: center;

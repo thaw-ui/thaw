@@ -1,5 +1,5 @@
 use leptos::*;
-use melt_ui::{use_theme, Theme};
+use thaw::{use_theme, Theme};
 
 #[component]
 pub fn MobilePage(path: &'static str) -> impl IntoView {

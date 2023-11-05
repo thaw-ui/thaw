@@ -3,8 +3,8 @@ use crate::{
     pages::MobilePage,
 };
 use leptos::*;
-use melt_ui::mobile::*;
-use melt_ui::*;
+use thaw::mobile::*;
+use thaw::*;
 use prisms::highlight_str;
 use std::time::Duration;
 
@@ -38,7 +38,7 @@ pub fn ToastPage() -> impl IntoView {
                 </Demo>
             </div>
             <div>
-                <MobilePage path="/melt-ui?path=/mobile/toast"/>
+                <MobilePage path="/thaw?path=/mobile/toast"/>
             </div>
         </div>
     }

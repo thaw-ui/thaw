@@ -1,20 +1,20 @@
-.melt-slider {
+.thaw-slider {
     position: relative;
     padding: 6px 0;
     cursor: pointer;
 }
-.melt-slider-rail {
+.thaw-slider-rail {
     height: 4px;
-    background-color: var(--melt-background-color);
+    background-color: var(--thaw-background-color);
     border-radius: 2px;
 }
-.melt-slider-rail__fill {
+.thaw-slider-rail__fill {
     width: 0%;
     height: 4px;
-    background-color: var(--melt-background-color-fill);
+    background-color: var(--thaw-background-color-fill);
     border-radius: 2px;
 }
-.melt-slider-handle {
+.thaw-slider-handle {
     position: absolute;
     top: 0px;
     width: 16px;

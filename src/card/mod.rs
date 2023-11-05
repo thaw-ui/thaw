@@ -34,11 +34,11 @@ pub fn Card(
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
-                "--melt-background-color: {};",
+                "--thaw-background-color: {};",
                 theme.common.background_color
             ));
             css_vars.push_str(&format!(
-                "--melt-border-color: {};",
+                "--thaw-border-color: {};",
                 theme.common.border_color
             ));
         });
@@ -52,27 +52,27 @@ pub fn Card(
     let header_extra = store_value(card_header_extra);
 
     view! {
-        <div class="melt-card" style=move || css_vars.get()>
+        <div class="thaw-card" style=move || css_vars.get()>
             <If cond=is_header>
                 <Then slot>
-                    <div class="melt-card__header">
-                        <div class="melt-card__header-content">
+                    <div class="thaw-card__header">
+                        <div class="thaw-card__header-content">
                             <OptionComp value=header.get_value() let:header>
                                 <Fallback slot>{move || title.get_value().get()}</Fallback>
                                 {(header.children)()}
                             </OptionComp>
                         </div>
                         <OptionComp value=header_extra.get_value() let:header_extra>
-                            <div class="melt-card__header-extra">{(header_extra.children)()}</div>
+                            <div class="thaw-card__header-extra">{(header_extra.children)()}</div>
                         </OptionComp>
                     </div>
                 </Then>
             </If>
-            <div class="melt-card__content">{children()}</div>
+            <div class="thaw-card__content">{children()}</div>
             <OptionComp value=card_footer let:footer>
                 <If cond=footer.if_>
                     <Then slot>
-                        <div class="melt-card__footer">{(footer.children)()}</div>
+                        <div class="thaw-card__footer">{(footer.children)()}</div>
                     </Then>
                 </If>
             </OptionComp>

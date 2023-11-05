@@ -1,4 +1,4 @@
-.melt-message-container {
+.thaw-message-container {
     z-index: 6000;
     position: fixed;
     top: 12px;
@@ -11,11 +11,11 @@
     align-items: center;
 }
 
-.melt-message-wrapper {
+.thaw-message-wrapper {
     margin-bottom: 8px;
 }
 
-.melt-message {
+.thaw-message {
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -24,7 +24,7 @@
 
     padding: 10px 20px;
     max-width: 75vh;
-    background: var(--melt-background-color);
+    background: var(--thaw-background-color);
 
     font-size: 14px;
     border-radius: 3px;
@@ -32,13 +32,13 @@
         0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
 }
 
-.melt-message__icon {
+.thaw-message__icon {
     width: 20px;
     height: 20px;
     margin-right: 10px;
     font-size: 20px;
 }
 
-.melt-message__content {
+.thaw-message__content {
     line-height: 1.6;
 }
