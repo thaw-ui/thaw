@@ -4,10 +4,6 @@
 <h1 align="center">Thaw UI</h1>
 <p align="center">An easy to use leptos component library</p>
 
-**melt was renamed [thaw](https://github.com/thaw-ui/thaw)**
-
-**The 0.0.x release does not consider API compatibility at this time**
-
 ## Resources
 
 [Pigment](https://github.com/kobaltedev/pigment)
