@@ -14,7 +14,12 @@ license = "MIT"
 
 [dependencies]
 leptos = { version = "0.5.1", features = ["csr"] }
-web-sys = { version = "0.3.62", features = ["DomRect", "File", "FileList"] }
+web-sys = { version = "0.3.62", features = [
+    "DomRect",
+    "File",
+    "FileList",
+    "DataTransfer",
+] }
 icondata = { version = "0.1.0", features = [
     "AiCloseOutlined",
     "AiCheckOutlined",

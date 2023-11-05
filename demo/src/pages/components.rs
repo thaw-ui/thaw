@@ -11,7 +11,7 @@ pub fn ComponentsPage() -> impl IntoView {
         let mut pathname = loaction.pathname.get_untracked();
 
         if pathname.starts_with("/thaw/components/") {
-            pathname.drain(20..).collect()
+            pathname.drain(17..).collect()
         } else {
             String::new()
         }
