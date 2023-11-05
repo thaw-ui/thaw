@@ -1,0 +1,42 @@
+name: Deploy demo
+on:
+    push:
+        paths: ["demo/**", "src/**", "Cargo.toml"]
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Setup Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  target: wasm32-unknown-unknown
+                  override: true
+            - name: Install Trunk
+              uses: jetli/trunk-action@v0.4.0
+              with:
+                  version: "latest"
+            - name: Deploy GitHub Pages
+              run: |
+                  cd demo
+                  trunk build --release
+                  git worktree add gh-pages
+                  git config user.name "Deploy demo from CI"
+                  git config user.email ""
+                  cd gh-pages
+                  # Delete the ref to avoid keeping history.
+                  git update-ref -d refs/heads/gh-pages
+                  rm -rf *
+                  mv ../dist/* .
+                  git add .
+                  git commit -m "Deploy demo $GITHUB_SHA to gh-pages"
+                  git push --force --set-upstream origin gh-pages
