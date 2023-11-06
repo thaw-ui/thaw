@@ -1,0 +1,11 @@
+.thaw-loading-bar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+.thaw-loading-bar {
+    height: 2px;
+    max-width: 0;
+}
