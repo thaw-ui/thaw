@@ -35,7 +35,7 @@ pub fn Upload(
         }
     };
 
-    let is_trigger_dargover = create_rw_signal(false);
+    let is_trigger_dragover = create_rw_signal(false);
     let on_trigger_drop = move |event: ev::DragEvent| {
         event.prevent_default();
         if let Some(data) = event.data_transfer() {
@@ -43,25 +43,27 @@ pub fn Upload(
                 on_file_addition(files);
             }
         }
-        is_trigger_dargover.set(false);
+        is_trigger_dragover.set(false);
     };
     let on_trigger_dragover = move |event: ev::DragEvent| {
         event.prevent_default();
-        is_trigger_dargover.set(true);
+        is_trigger_dragover.set(true);
     };
     let on_trigger_dragenter = move |event: ev::DragEvent| {
         event.prevent_default();
     };
     let on_trigger_dragleave = move |event: ev::DragEvent| {
         event.prevent_default();
-        is_trigger_dargover.set(false);
+        is_trigger_dragover.set(false);
     };
 
     view! {
-        <div class="thaw-upload">
+        <div
+            class="thaw-upload"
+            class=("thaw-upload--drag-over", move || is_trigger_dragover.get())
+        >
             <input
                 class="thaw-upload__input"
-                class=("thaw-upload--drag-over", move || is_trigger_dargover.get())
                 ref=input_ref
                 type="file"
                 accept=move || accept.get()
