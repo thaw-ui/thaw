@@ -75,6 +75,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path="/tag" view=TagPage/>
                     <Route path="/upload" view=UploadPage/>
                     <Route path="/loading-bar" view=LoadingBarPage/>
+                    <Route path="/breadcrumb" view=BreadcrumbPage/>
                 </Route>
                 <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                 <Route path="/mobile/nav-bar" view=NavBarDemoPage/>

@@ -52,7 +52,7 @@ impl IntoView for MenuGroupOption {
     fn into_view(self) -> View {
         let Self { label, children } = self;
         view! {
-            <MenuGroup label>
+            <MenuGroup label=format!("{label} ({})", children.len())>
                 {
                     children.into_iter().map(|v| v.into_view()).collect_view()
                 }
@@ -167,6 +167,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
         MenuGroupOption {
             label: "Navigation Components".into(),
             children: vec![
+                MenuItemOption {
+                    value: "breadcrumb".into(),
+                    label: "Breadcrumb".into(),
+                },
                 MenuItemOption {
                     value: "loading-bar".into(),
                     label: "Loading Bar".into(),

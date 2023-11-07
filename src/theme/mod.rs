@@ -3,9 +3,9 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AutoCompleteTheme, AvatarTheme, ButtonTheme, ColorPickerTheme, InputTheme,
-    MenuTheme, MessageTheme, SelectTheme, SkeletionTheme, SliderTheme, SwitchTheme, TableTheme,
-    TagTheme, UploadTheme,
+    AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, ColorPickerTheme,
+    InputTheme, MenuTheme, MessageTheme, SelectTheme, SkeletionTheme, SliderTheme, SwitchTheme,
+    TableTheme, TagTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -35,6 +35,7 @@ pub struct Theme {
     pub tabbar: TabbarTheme,
     pub auto_complete: AutoCompleteTheme,
     pub color_picker: ColorPickerTheme,
+    pub breadcrumb: BreadcrumbTheme,
 }
 
 impl Theme {
@@ -59,6 +60,7 @@ impl Theme {
             tabbar: TabbarTheme::light(),
             auto_complete: AutoCompleteTheme::light(),
             color_picker: ColorPickerTheme::light(),
+            breadcrumb: BreadcrumbTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -82,6 +84,7 @@ impl Theme {
             tabbar: TabbarTheme::dark(),
             auto_complete: AutoCompleteTheme::dark(),
             color_picker: ColorPickerTheme::dark(),
+            breadcrumb: BreadcrumbTheme::dark(),
         }
     }
 }
