@@ -10,18 +10,9 @@ pub fn BreadcrumbPage() -> impl IntoView {
             <h1>"Breadcrumb"</h1>
             <Demo>
                 <Breadcrumb>
-                    <BreadcrumbItem>
-                        "Rust"
-                    </BreadcrumbItem>
-                    <BreadcrumbItem>
-                        "Leptos"
-                    </BreadcrumbItem>
-                    <BreadcrumbItem>
-                        "UI"
-                    </BreadcrumbItem>
-                    <BreadcrumbItem>
-                        "Thaw"
-                    </BreadcrumbItem>
+                    <BreadcrumbItem>"Leptos"</BreadcrumbItem>
+                    <BreadcrumbItem>"UI"</BreadcrumbItem>
+                    <BreadcrumbItem>"Thaw"</BreadcrumbItem>
                 </Breadcrumb>
                 <DemoCode
                     slot
@@ -29,8 +20,35 @@ pub fn BreadcrumbPage() -> impl IntoView {
                         r#"
                     <Breadcrumb>
                         <BreadcrumbItem>
-                            "Rust"
+                            "Leptos"
                         </BreadcrumbItem>
+                        <BreadcrumbItem>
+                            "UI"
+                        </BreadcrumbItem>
+                        <BreadcrumbItem>
+                            "Thaw"
+                        </BreadcrumbItem>
+                    </Breadcrumb>
+                "#,
+                        "rust"
+                    )
+                >
+
+                    ""
+                </DemoCode>
+            </Demo>
+            <h3>"Separator"</h3>
+            <Demo>
+                <Breadcrumb separator=">">
+                    <BreadcrumbItem>"Leptos"</BreadcrumbItem>
+                    <BreadcrumbItem>"UI"</BreadcrumbItem>
+                    <BreadcrumbItem>"Thaw"</BreadcrumbItem>
+                </Breadcrumb>
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
+                    <Breadcrumb separator=">">
                         <BreadcrumbItem>
                             "Leptos"
                         </BreadcrumbItem>
