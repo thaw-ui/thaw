@@ -1,0 +1,18 @@
+.thaw-breadcrumb > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.thaw-breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+}
+
+.thaw-breadcrumb-item__separator {
+    margin: 0 8px;
+}
+
+.thaw-breadcrumb-item__separator:last-child {
+    display: none;
+}
