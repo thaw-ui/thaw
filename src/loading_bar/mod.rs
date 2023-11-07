@@ -5,7 +5,7 @@ use leptos::*;
 pub use loading_bar_provider::{use_loading_bar, LoadingBarProvider};
 
 #[derive(Clone)]
-pub struct LoadingBarRef {
+pub(crate) struct LoadingBarRef {
     start: Callback<()>,
     finish: Callback<()>,
     error: Callback<()>,
@@ -24,7 +24,7 @@ impl LoadingBarRef {
 }
 
 #[component]
-pub fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl IntoView {
+pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl IntoView {
     mount_style("loading-bar", include_str!("./loading-bar.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -57,15 +57,20 @@ pub fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> im
                 .style("max-width", "80%");
         }
     });
+    let is_on_transitionend = store_value(false);
+    let on_transitionend = move |_| {
+        if is_on_transitionend.get_value() {
+            is_on_transitionend.set_value(false);
+            loading.set(false);
+        }
+    };
     let finish = Callback::new(move |_| {
         if let Some(loading_bar_ref) = loading_bar_ref.get_untracked() {
-            let loading_bar_ref = loading_bar_ref
+            loading_bar_ref
                 .style("background-color", "var(--thaw-background-color)")
                 .style("transition", "max-width 0.5s linear")
-                .style("max-width", "1000%");
-            loading_bar_ref.on(ev::transitionend, move |_| {
-                loading.set(false);
-            });
+                .style("max-width", "100%");
+            is_on_transitionend.set_value(true);
         }
     });
     let error = Callback::new(move |_| {
@@ -78,13 +83,11 @@ pub fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> im
                     .style("max-width", "0");
                 _ = loading_bar_ref.offset_width();
             }
-            let loading_bar_ref = loading_bar_ref
+            loading_bar_ref
                 .style("background-color", "var(--thaw-background-color-error)")
                 .style("transition", "max-width 0.5s linear")
                 .style("max-width", "100%");
-            loading_bar_ref.on(ev::transitionend, move |_| {
-                loading.set(false);
-            });
+            is_on_transitionend.set_value(true);
         }
     });
 
@@ -94,9 +97,16 @@ pub fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> im
         error,
     });
     view! {
-        <div class="thaw-loading-bar-container">
-            <div class="thaw-loading-bar" ref=loading_bar_ref style=move || css_vars.get()>
-            </div>
+        <div
+            class="thaw-loading-bar-container"
+            style=move || (!loading.get()).then(|| "display: none;")
+        >
+            <div
+                class="thaw-loading-bar"
+                ref=loading_bar_ref
+                style=move || css_vars.get()
+                on:transitionend=on_transitionend
+            ></div>
         </div>
     }
 }

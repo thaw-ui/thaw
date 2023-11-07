@@ -31,8 +31,16 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn TheRouter() -> impl IntoView {
+    let loading_bar = use_loading_bar();
+    let set_is_routing = SignalSetter::map(move |is_routing| {
+        if is_routing {
+            loading_bar.start();
+        } else {
+            loading_bar.finish();
+        }
+    });
     view! {
-        <Router base="/thaw">
+        <Router base="/thaw" set_is_routing>
             <Routes base="/thaw".to_string()>
                 <Route path="/" view=Home/>
                 <Route path="/components" view=ComponentsPage>
@@ -66,6 +74,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path="/switch" view=SwitchPage/>
                     <Route path="/tag" view=TagPage/>
                     <Route path="/upload" view=UploadPage/>
+                    <Route path="/loading-bar" view=LoadingBarPage/>
                 </Route>
                 <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                 <Route path="/mobile/nav-bar" view=NavBarDemoPage/>
@@ -81,7 +90,9 @@ fn Provider(theme: RwSignal<Theme>, children: Children) -> impl IntoView {
         <ThemeProvider theme>
             <GlobalStyle />
             <MessageProvider>
-                {children()}
+                <LoadingBarProvider>
+                    {children()}
+                </LoadingBarProvider>
             </MessageProvider>
         </ThemeProvider>
     }

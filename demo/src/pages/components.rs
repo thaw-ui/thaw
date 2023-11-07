@@ -168,6 +168,10 @@ fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Navigation Components".into(),
             children: vec![
                 MenuItemOption {
+                    value: "loading-bar".into(),
+                    label: "Loading Bar".into(),
+                },
+                MenuItemOption {
                     value: "menu".into(),
                     label: "Menu".into(),
                 },
