@@ -43,6 +43,10 @@ fn TheRouter() -> impl IntoView {
         <Router base="/thaw" set_is_routing>
             <Routes base="/thaw".to_string()>
                 <Route path="/" view=Home/>
+                <Route path="/guide" view=GuidePage>
+                    <Route path="/installation" view=InstallationPage/>
+                    <Route path="/usage" view=UsagePage/>
+                </Route>
                 <Route path="/components" view=ComponentsPage>
                     <Route path="/menu" view=MenuPage/>
                     <Route path="/slider" view=SliderPage/>

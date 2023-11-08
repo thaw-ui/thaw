@@ -44,18 +44,37 @@ pub fn SiteHeader() -> impl IntoView {
             <Space>
                 <Button
                     variant=ButtonVariant::Text
+                    on:click=move |_| {
+                        let navigate = use_navigate();
+                        navigate("/guide/installation", Default::default());
+                    }
+                >
+                    "Guide"
+                </Button>
+                <Button
+                    variant=ButtonVariant::Text
+                    on:click=move |_| {
+                        let navigate = use_navigate();
+                        navigate("/components/button", Default::default());
+                    }
+                >
+                    "Components"
+                </Button>
+                <Button
+                    variant=ButtonVariant::Text
                     on:click=on_theme
                 >
                     {move || theme_name.get()}
                 </Button>
                 <Button
                     variant=ButtonVariant::Text
+                    icon=icondata::AiIcon::AiGithubOutlined
+                    round=true
+                    style="font-size: 22px; padding: 0px 6px;"
                     on:click=move |_| {
                         _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                     }
                 >
-
-                    "Github"
                 </Button>
             </Space>
 
