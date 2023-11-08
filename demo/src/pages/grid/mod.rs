@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn GridPage() -> impl IntoView {
@@ -9,15 +9,14 @@ pub fn GridPage() -> impl IntoView {
         "grid-demo",
         r#".thaw-grid-item {
         height: 60px;
-        color: white;
         text-align: center;
         line-height: 60px;
       }
       .thaw-grid-item:nth-child(odd) {
-        background-color: #3d8ae5dd;
+        background-color: #0078ff88;
       }
       .thaw-grid-item:nth-child(even) {
-        background-color: #3d8ae5aa;
+        background-color: #0078ffaa;
       }"#,
     );
     view! {

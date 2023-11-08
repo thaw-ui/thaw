@@ -80,6 +80,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path="/upload" view=UploadPage/>
                     <Route path="/loading-bar" view=LoadingBarPage/>
                     <Route path="/breadcrumb" view=BreadcrumbPage/>
+                    <Route path="/layout" view=LayoutPage/>
                 </Route>
                 <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                 <Route path="/mobile/nav-bar" view=NavBarDemoPage/>
