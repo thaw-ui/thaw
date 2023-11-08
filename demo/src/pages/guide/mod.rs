@@ -36,7 +36,7 @@ pub fn GuidePage() -> impl IntoView {
                 <LayoutSider>
                     <Menu value=selected>
                         {
-                            gen_menu_data().into_view()
+                            gen_guide_menu_data().into_view()
                         }
                     </Menu>
                 </LayoutSider>
@@ -48,9 +48,9 @@ pub fn GuidePage() -> impl IntoView {
     }
 }
 
-struct MenuGroupOption {
-    label: String,
-    children: Vec<MenuItemOption>,
+pub(crate) struct MenuGroupOption {
+    pub label: String,
+    pub children: Vec<MenuItemOption>,
 }
 
 impl IntoView for MenuGroupOption {
@@ -66,9 +66,9 @@ impl IntoView for MenuGroupOption {
     }
 }
 
-struct MenuItemOption {
-    label: String,
-    value: String,
+pub(crate) struct MenuItemOption {
+    pub label: String,
+    pub value: String,
 }
 
 impl IntoView for MenuItemOption {
@@ -80,7 +80,7 @@ impl IntoView for MenuItemOption {
     }
 }
 
-fn gen_menu_data() -> Vec<MenuGroupOption> {
+pub(crate) fn gen_guide_menu_data() -> Vec<MenuGroupOption> {
     vec![MenuGroupOption {
         label: "Getting Started".into(),
         children: vec![

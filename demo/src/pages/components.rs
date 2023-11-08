@@ -43,9 +43,9 @@ pub fn ComponentsPage() -> impl IntoView {
     }
 }
 
-struct MenuGroupOption {
-    label: String,
-    children: Vec<MenuItemOption>,
+pub(crate) struct MenuGroupOption {
+    pub label: String,
+    pub children: Vec<MenuItemOption>,
 }
 
 impl IntoView for MenuGroupOption {
@@ -61,9 +61,9 @@ impl IntoView for MenuGroupOption {
     }
 }
 
-struct MenuItemOption {
-    label: String,
-    value: String,
+pub(crate) struct MenuItemOption {
+    pub label: String,
+    pub value: String,
 }
 
 impl IntoView for MenuItemOption {
@@ -75,7 +75,7 @@ impl IntoView for MenuItemOption {
     }
 }
 
-fn gen_menu_data() -> Vec<MenuGroupOption> {
+pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
     vec![
         MenuGroupOption {
             label: "Common Components".into(),
