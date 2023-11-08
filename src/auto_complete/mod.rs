@@ -1,7 +1,11 @@
 mod theme;
 
 use crate::{
-    mount_style, teleport::Teleport, use_theme, utils::maybe_rw_signal::MaybeRwSignal, Input, Theme,
+    mount_style,
+    teleport::Teleport,
+    use_theme,
+    utils::{maybe_rw_signal::MaybeRwSignal, StoredMaybeSignal},
+    Input, Theme,
 };
 use leptos::*;
 pub use theme::AutoCompleteTheme;
@@ -17,6 +21,8 @@ pub fn AutoComplete(
     #[prop(optional, into)] value: MaybeRwSignal<String>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
+    #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
+    #[prop(optional, into)] on_select: Option<Callback<String>>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let theme = use_theme(Theme::light);
@@ -38,6 +44,7 @@ pub fn AutoComplete(
     let is_show_menu = create_rw_signal(false);
     let auto_complete_ref = create_node_ref::<html::Div>();
     let auto_complete_menu_ref = create_node_ref::<html::Div>();
+    let options = StoredMaybeSignal::from(options);
     let show_menu = move || {
         is_show_menu.set(true);
         let rect = auto_complete_ref
@@ -96,7 +103,14 @@ pub fn AutoComplete(
                         .map(|v| {
                             let AutoCompleteOption { value: option_value, label } = v;
                             let on_click = move |_| {
-                                value.set(option_value.clone());
+                                if clear_after_select.get_untracked() {
+                                    value.set(String::new());
+                                } else {
+                                    value.set(option_value.clone());
+                                }
+                                if let Some(on_select) = on_select {
+                                    on_select.call(option_value.clone());
+                                }
                                 is_show_menu.set(false);
                             };
                             let on_mousedown = move |ev: ev::MouseEvent| {

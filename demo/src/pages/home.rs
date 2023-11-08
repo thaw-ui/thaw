@@ -20,7 +20,7 @@ pub fn Home() -> impl IntoView {
             <Space>
                 <Button on_click=move |_| {
                     let navigate = use_navigate();
-                    navigate("/components/menu", Default::default());
+                    navigate("/components/button", Default::default());
                 }>"Read the docs"</Button>
                 <Button
                     variant=ButtonVariant::Text
