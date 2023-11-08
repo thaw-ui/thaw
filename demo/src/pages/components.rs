@@ -6,30 +6,31 @@ use thaw::*;
 #[component]
 pub fn ComponentsPage() -> impl IntoView {
     let navigate = use_navigate();
-    let selected = create_rw_signal({
-        let loaction = use_location();
-        let mut pathname = loaction.pathname.get_untracked();
+    let loaction = use_location();
 
-        if pathname.starts_with("/thaw/components/") {
+    let select_name = create_rw_signal(String::new());
+    create_effect(move |_| {
+        let mut pathname = loaction.pathname.get();
+        let name = if pathname.starts_with("/thaw/components/") {
             pathname.drain(17..).collect()
         } else {
             String::new()
-        }
+        };
+        select_name.set(name);
     });
 
-    create_effect(move |value| {
-        let selected = selected.get();
-        if value.is_some() {
-            navigate(&format!("/components/{selected}"), Default::default());
+    _ = select_name.watch(move |name| {
+        let pathname = loaction.pathname.get_untracked();
+        if !pathname.starts_with(&format!("/thaw/components/{name}")) {
+            navigate(&format!("/components/{name}"), Default::default());
         }
-        selected
     });
     view! {
         <Layout position=LayoutPosition::Absolute>
             <SiteHeader/>
             <Layout has_sider=true position=LayoutPosition::Absolute style="top: 64px;">
                 <LayoutSider>
-                    <Menu value=selected>
+                    <Menu value=select_name>
                         {
                             gen_menu_data().into_view()
                         }

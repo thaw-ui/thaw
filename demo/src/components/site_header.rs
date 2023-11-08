@@ -69,6 +69,10 @@ pub fn SiteHeader() -> impl IntoView {
                 .collect()
         })
     });
+    let on_search_select = move |path: String| {
+        let navigate = use_navigate();
+        navigate(&path, Default::default());
+    };
     view! {
         <LayoutHeader style>
             <Space>
@@ -85,7 +89,13 @@ pub fn SiteHeader() -> impl IntoView {
                 </div>
             </Space>
             <Space>
-                <AutoComplete value=search_value placeholder="Search" options=search_options/>
+                <AutoComplete
+                    value=search_value
+                    placeholder="Search"
+                    options=search_options
+                    clear_after_select=true
+                    on_select=on_search_select
+                />
                 <Button
                     variant=ButtonVariant::Text
                     on:click=move |_| {
