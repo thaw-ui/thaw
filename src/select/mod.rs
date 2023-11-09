@@ -1,11 +1,6 @@
 mod theme;
 
-use crate::{
-    teleport::Teleport,
-    theme::use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
-    Theme,
-};
+use crate::{teleport::Teleport, theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::wasm_bindgen::__rt::IntoJsResult;
 use leptos::*;
 use std::hash::Hash;
@@ -19,7 +14,7 @@ pub struct SelectOption<T> {
 
 #[component]
 pub fn Select<T>(
-    #[prop(optional, into)] value: MaybeRwSignal<Option<T>>,
+    #[prop(optional, into)] value: RwSignal<Option<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
 ) -> impl IntoView
 where

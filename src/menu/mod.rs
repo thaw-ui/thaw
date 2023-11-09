@@ -2,17 +2,13 @@ mod menu_group;
 mod menu_item;
 mod theme;
 
-use crate::utils::maybe_rw_signal::MaybeRwSignal;
 use leptos::*;
 pub use menu_group::MenuGroup;
 pub use menu_item::*;
 pub use theme::MenuTheme;
 
 #[component]
-pub fn Menu(
-    #[prop(optional, into)] value: MaybeRwSignal<String>,
-    children: Children,
-) -> impl IntoView {
+pub fn Menu(#[prop(optional, into)] value: RwSignal<String>, children: Children) -> impl IntoView {
     let menu_injection_key = create_rw_signal(MenuInjectionKey::new(value.get_untracked()));
     create_effect(move |_| {
         let selected_key = value.get();

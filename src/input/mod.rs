@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::{use_theme, Theme},
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
+    utils::mount_style::mount_style,
 };
 use leptos::*;
 pub use theme::InputTheme;
@@ -30,7 +30,7 @@ pub struct InputSuffix {
 
 #[component]
 pub fn Input(
-    #[prop(optional, into)] value: MaybeRwSignal<String>,
+    #[prop(optional, into)] value: RwSignal<String>,
     #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
     #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,

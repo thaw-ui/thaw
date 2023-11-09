@@ -1,16 +1,14 @@
 mod color;
 mod theme;
 
-use crate::{
-    mount_style, teleport::Teleport, use_theme, utils::maybe_rw_signal::MaybeRwSignal, Theme,
-};
+use crate::{mount_style, teleport::Teleport, use_theme, Theme};
 pub use color::*;
 use leptos::*;
 use leptos::{leptos_dom::helpers::WindowListenerHandle, wasm_bindgen::__rt::IntoJsResult};
 pub use theme::ColorPickerTheme;
 
 #[component]
-pub fn ColorPicker(#[prop(optional, into)] value: MaybeRwSignal<RGBA>) -> impl IntoView {
+pub fn ColorPicker(#[prop(optional, into)] value: RwSignal<RGBA>) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let theme = use_theme(Theme::light);
     let popover_css_vars = create_memo(move |_| {

@@ -1,18 +1,14 @@
 mod tabbar_item;
 mod theme;
 
-use crate::{
-    use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
-    Theme,
-};
+use crate::{use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 pub use tabbar_item::*;
 pub use theme::TabbarTheme;
 
 #[component]
 pub fn Tabbar(
-    #[prop(optional, into)] value: MaybeRwSignal<String>,
+    #[prop(optional, into)] value: RwSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabbar", include_str!("./tabbar.css"));

@@ -1,13 +1,7 @@
 mod checkbox_group;
 mod checkbox_item;
 
-use crate::{
-    components::*,
-    icon::*,
-    theme::use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
-    Theme,
-};
+use crate::{components::*, icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
 pub use checkbox_group::CheckboxGroup;
 pub use checkbox_item::CheckboxItem;
 use icondata::AiIcon;
@@ -15,7 +9,7 @@ use leptos::*;
 
 #[component]
 pub fn Checkbox(
-    #[prop(optional, into)] value: MaybeRwSignal<bool>,
+    #[prop(optional, into)] value: RwSignal<bool>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -41,7 +35,7 @@ pub fn Checkbox(
         >
             <input class="thaw-checkbox__input" type="checkbox"/>
             <div class="thaw-checkbox__dot">
-                <If cond=value.clone_into()>
+                <If cond=value>
                     <Then slot>
                         <Icon icon=Icon::from(AiIcon::AiCheckOutlined) style="color: white"/>
                     </Then>

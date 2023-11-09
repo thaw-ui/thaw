@@ -1,24 +1,16 @@
 mod tab;
-use std::ops::Deref;
 
-use crate::{
-    theme::use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
-    Theme,
-};
+use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 
 pub use tab::*;
 
 #[component]
-pub fn Tabs(
-    #[prop(optional, into)] value: MaybeRwSignal<String>,
-    children: Children,
-) -> impl IntoView {
+pub fn Tabs(#[prop(optional, into)] value: RwSignal<String>, children: Children) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
     let tab_options_vec = create_rw_signal(vec![]);
     provide_context(TabsInjectionKey {
-        active_key: *value.deref(),
+        active_key: value,
         tab_options_vec,
     });
     let theme = use_theme(Theme::light);

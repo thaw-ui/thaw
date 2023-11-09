@@ -1,12 +1,6 @@
 mod theme;
 
-use crate::{
-    mount_style,
-    teleport::Teleport,
-    use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, StoredMaybeSignal},
-    Input, Theme,
-};
+use crate::{mount_style, teleport::Teleport, use_theme, utils::StoredMaybeSignal, Input, Theme};
 use leptos::*;
 pub use theme::AutoCompleteTheme;
 
@@ -18,7 +12,7 @@ pub struct AutoCompleteOption {
 
 #[component]
 pub fn AutoComplete(
-    #[prop(optional, into)] value: MaybeRwSignal<String>,
+    #[prop(optional, into)] value: RwSignal<String>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
