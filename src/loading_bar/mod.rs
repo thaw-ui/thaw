@@ -52,7 +52,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
                 .style("transition", "none")
                 .style("max-width", "0");
             _ = loading_bar_ref.offset_width();
-            loading_bar_ref
+            _ = loading_bar_ref
                 .style("transition", "max-width 4s linear")
                 .style("max-width", "80%");
         }
@@ -66,7 +66,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
     };
     let finish = Callback::new(move |_| {
         if let Some(loading_bar_ref) = loading_bar_ref.get_untracked() {
-            loading_bar_ref
+            _ = loading_bar_ref
                 .style("background-color", "var(--thaw-background-color)")
                 .style("transition", "max-width 0.5s linear")
                 .style("max-width", "100%");
@@ -83,7 +83,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
                     .style("max-width", "0");
                 _ = loading_bar_ref.offset_width();
             }
-            loading_bar_ref
+            _ = loading_bar_ref
                 .style("background-color", "var(--thaw-background-color-error)")
                 .style("transition", "max-width 0.5s linear")
                 .style("max-width", "100%");
@@ -99,7 +99,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
     view! {
         <div
             class="thaw-loading-bar-container"
-            style=move || (!loading.get()).then(|| "display: none;")
+            style=move || (!loading.get()).then_some("display: none;")
         >
             <div
                 class="thaw-loading-bar"

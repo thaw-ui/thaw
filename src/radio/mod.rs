@@ -1,15 +1,8 @@
-use crate::{
-    theme::use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
-    Theme,
-};
+use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 
 #[component]
-pub fn Radio(
-    #[prop(optional, into)] value: MaybeRwSignal<bool>,
-    children: Children,
-) -> impl IntoView {
+pub fn Radio(#[prop(optional, into)] value: RwSignal<bool>, children: Children) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("radio", include_str!("./radio.css"));
 

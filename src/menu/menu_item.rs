@@ -1,4 +1,4 @@
-use super::{use_menu, MenuInjectionKey};
+use super::use_menu;
 use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 
@@ -12,7 +12,10 @@ pub fn MenuItem(
     let menu = use_menu();
     let click_key = key.clone();
     let on_click = move |_| {
-        menu.set(MenuInjectionKey::new(click_key.get()));
+        let click_key = click_key.get();
+        if menu.0.with(|key| key != &click_key) {
+            menu.0.set(click_key);
+        }
     };
 
     let css_vars = create_memo(move |_| {
@@ -33,7 +36,7 @@ pub fn MenuItem(
         <div class="thaw-menu-item">
             <div
                 class="thaw-menu-item__content"
-                class=("thaw-menu-item__content--selected", move || menu.get().value == key.get())
+                class=("thaw-menu-item__content--selected", move || menu.0.get() == key.get())
                 on:click=on_click
                 style=move || css_vars.get()
             >

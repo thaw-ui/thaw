@@ -1,18 +1,14 @@
 mod tabbar_item;
 mod theme;
 
-use crate::{
-    use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
-    Theme,
-};
+use crate::{use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 pub use tabbar_item::*;
 pub use theme::TabbarTheme;
 
 #[component]
 pub fn Tabbar(
-    #[prop(optional, into)] value: MaybeRwSignal<String>,
+    #[prop(optional, into)] value: RwSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabbar", include_str!("./tabbar.css"));
@@ -25,24 +21,7 @@ pub fn Tabbar(
             )
         })
     });
-
-    let tabbar_injection_key = create_rw_signal(TabbarInjectionKey::new(value.get()));
-    create_effect(move |_| {
-        let selected_key = value.get();
-        let key = tabbar_injection_key.get_untracked();
-        if selected_key != key.value {
-            tabbar_injection_key.set(TabbarInjectionKey::new(selected_key));
-        }
-    });
-
-    create_effect(move |_| {
-        let selected_key = value.get_untracked();
-        let key = tabbar_injection_key.get();
-        if selected_key != key.value {
-            value.set(key.value);
-        }
-    });
-    provide_context(tabbar_injection_key);
+    provide_context(TabbarInjection(value));
     view! {
         <div class="thaw-tabbar" style=move || css_vars.get()>
             {children()}
@@ -51,16 +30,8 @@ pub fn Tabbar(
 }
 
 #[derive(Clone)]
-pub struct TabbarInjectionKey {
-    value: String,
-}
+pub(crate) struct TabbarInjection(pub RwSignal<String>);
 
-impl TabbarInjectionKey {
-    pub fn new(value: String) -> Self {
-        Self { value }
-    }
-}
-
-pub fn use_tabbar() -> RwSignal<TabbarInjectionKey> {
-    use_context::<RwSignal<TabbarInjectionKey>>().expect("TabbarInjectionKey not exist")
+pub(crate) fn use_tabbar() -> TabbarInjection {
+    expect_context()
 }

@@ -19,6 +19,7 @@ pub fn LoadingBarProvider(children: Children) -> impl IntoView {
 pub struct LoadingBarInjection {
     loading_bar_ref: ComponentRef<LoadingBarRef>,
 }
+
 impl Copy for LoadingBarInjection {}
 
 impl LoadingBarInjection {

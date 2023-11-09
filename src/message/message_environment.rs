@@ -1,4 +1,4 @@
-use super::{message::Message, message_provider::MessageType};
+use super::{message_provider::MessageType, Message};
 use leptos::*;
 use uuid::Uuid;
 

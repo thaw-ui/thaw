@@ -37,6 +37,12 @@ pub fn Wave(#[prop(optional)] comp_ref: ComponentRef<WaveRef>) -> impl IntoView 
         }
     });
     comp_ref.load(WaveRef { play });
+    on_cleanup(move || {
+        if let Some(handle) = animation_timeout_handle.get() {
+            handle.clear();
+            animation_timeout_handle.set(None);
+        }
+    });
     view! {
         <div
             class="thaw-wave"

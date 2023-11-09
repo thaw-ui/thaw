@@ -1,14 +1,12 @@
 use crate::utils::StoredMaybeSignal;
-use crate::{
-    utils::maybe_rw_signal::MaybeRwSignal, AiIcon, Button, ButtonVariant, Icon, Input, InputSuffix,
-};
+use crate::{AiIcon, Button, ButtonVariant, Icon, Input, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
 
 #[component]
 pub fn InputNumber<T>(
-    #[prop(optional, into)] value: MaybeRwSignal<T>,
+    #[prop(optional, into)] value: RwSignal<T>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(into)] step: MaybeSignal<T>,
 ) -> impl IntoView

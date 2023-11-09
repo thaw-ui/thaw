@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use super::{message::MessageVariant, message_environment::MessageEnvironment};
+use super::{message_environment::MessageEnvironment, MessageVariant};
 use crate::{mount_style, teleport::Teleport};
 use leptos::*;
 use uuid::Uuid;
