@@ -10,7 +10,7 @@ pub fn Grid(
     #[prop(optional, into)] y_gap: MaybeSignal<i32>,
     children: Children,
 ) -> impl IntoView {
-    let grid_injection_key = GridInjectionKey::new(x_gap);
+    let grid_injection_key = GridInjection::new(x_gap);
     provide_context(grid_injection_key);
 
     let style = create_memo(move |_| {
@@ -31,16 +31,16 @@ pub fn Grid(
 }
 
 #[derive(Clone)]
-pub struct GridInjectionKey {
+pub(crate) struct GridInjection {
     x_gap: MaybeSignal<i32>,
 }
 
-impl GridInjectionKey {
+impl GridInjection {
     pub fn new(x_gap: MaybeSignal<i32>) -> Self {
         Self { x_gap }
     }
 }
 
-pub fn use_grid() -> GridInjectionKey {
-    expect_context::<GridInjectionKey>()
+pub(crate) fn use_grid() -> GridInjection {
+    expect_context()
 }

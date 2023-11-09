@@ -9,37 +9,13 @@ pub use theme::MenuTheme;
 
 #[component]
 pub fn Menu(#[prop(optional, into)] value: RwSignal<String>, children: Children) -> impl IntoView {
-    let menu_injection_key = create_rw_signal(MenuInjectionKey::new(value.get_untracked()));
-    create_effect(move |_| {
-        let selected_key = value.get();
-        let key = menu_injection_key.get_untracked();
-        if selected_key != key.value {
-            menu_injection_key.set(MenuInjectionKey::new(selected_key));
-        }
-    });
-
-    create_effect(move |_| {
-        let selected_key = value.get_untracked();
-        let key = menu_injection_key.get();
-        if selected_key != key.value {
-            value.set(key.value);
-        }
-    });
-    provide_context(menu_injection_key);
+    provide_context(MenuInjection(value));
     view! { <div class="thaw-menu">{children()}</div> }
 }
 
 #[derive(Clone)]
-pub struct MenuInjectionKey {
-    value: String,
-}
+pub(crate) struct MenuInjection(pub RwSignal<String>);
 
-impl MenuInjectionKey {
-    pub fn new(value: String) -> Self {
-        Self { value }
-    }
-}
-
-pub fn use_menu() -> RwSignal<MenuInjectionKey> {
-    expect_context::<RwSignal<MenuInjectionKey>>()
+pub(crate) fn use_menu() -> MenuInjection {
+    expect_context()
 }

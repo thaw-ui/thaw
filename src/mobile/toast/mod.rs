@@ -1,7 +1,6 @@
 use crate::utils::mount_style::mount_style;
-use leptos::*;
+use cfg_if::cfg_if;
 use std::time::Duration;
-use web_sys::Element;
 
 pub struct ToastOptions {
     pub message: String,
@@ -10,26 +9,20 @@ pub struct ToastOptions {
 
 pub fn show_toast(options: ToastOptions) {
     mount_style("toast", include_str!("./toast.css"));
-
-    let parent = Element::from(document().body().expect("body element not to exist"));
-    let children = view! { <div class="thaw-toast">{options.message}</div> };
-    let node = children.into_view();
-
-    #[cfg(target_arch = "wasm32")]
-    {
-        use leptos::leptos_dom::Mountable;
+    cfg_if! { if #[cfg(target_arch = "wasm32")] {
+        use leptos::{leptos_dom::Mountable, *};
+        let mount = document().body().expect("body element not to exist");
+        let children = view! { <div class="thaw-toast">{options.message}</div> };
+        let node = children.into_view();
         let node = node.get_mountable_node();
-        parent.append_child(&node).unwrap();
+        _  = mount.append_child(&node);
         set_timeout(
             move || {
-                _ = parent.remove_child(&node);
+                _ = mount.remove_child(&node);
             },
             options.duration,
         );
-    }
-    #[cfg(not(target_arch = "wasm32"))]
-    {
-        _ = parent;
-        _ = node;
-    }
+    } else {
+        _ = options;
+    }}
 }

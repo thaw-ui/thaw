@@ -1,4 +1,4 @@
-use super::{use_tabbar, TabbarInjectionKey};
+use super::use_tabbar;
 use crate::components::*;
 use crate::utils::StoredMaybeSignal;
 use crate::{icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
@@ -15,7 +15,10 @@ pub fn TabbarItem(
     let tabbar = use_tabbar();
     let key: StoredMaybeSignal<_> = key.into();
     let on_click = move |_| {
-        tabbar.set(TabbarInjectionKey::new(key.get()));
+        let click_key = key.get();
+        if tabbar.0.with(|key| key != &click_key) {
+            tabbar.0.set(click_key);
+        }
     };
 
     let css_vars = create_memo(move |_| {
@@ -30,7 +33,7 @@ pub fn TabbarItem(
     view! {
         <div
             class="thaw-tabbar-item"
-            class=("thaw-tabbar-item--selected", move || tabbar.get().value == key.get())
+            class=("thaw-tabbar-item--selected", move || tabbar.0.get() == key.get())
             on:click=on_click
             style=move || css_vars.get()
         >

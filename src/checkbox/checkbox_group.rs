@@ -6,23 +6,14 @@ pub fn CheckboxGroup(
     #[prop(optional, into)] value: RwSignal<HashSet<String>>,
     children: Children,
 ) -> impl IntoView {
-    let injection_key = CheckboxGroupInjectionKey::new(value.into());
-    provide_context(injection_key);
+    provide_context(CheckboxGroupInjection(value));
 
     children()
 }
 
 #[derive(Clone)]
-pub struct CheckboxGroupInjectionKey {
-    pub value: RwSignal<HashSet<String>>,
-}
+pub(crate) struct CheckboxGroupInjection(pub RwSignal<HashSet<String>>);
 
-impl CheckboxGroupInjectionKey {
-    pub fn new(value: RwSignal<HashSet<String>>) -> Self {
-        Self { value }
-    }
-}
-
-pub fn use_checkbox_group() -> CheckboxGroupInjectionKey {
-    expect_context::<CheckboxGroupInjectionKey>()
+pub(crate) fn use_checkbox_group() -> CheckboxGroupInjection {
+    expect_context()
 }

@@ -95,12 +95,12 @@ pub fn Button(
                     "--thaw-background-color-active: {};",
                     theme.button.color_text_active
                 ));
-                css_vars.push_str(&format!("--thaw-ripple-color: #0000;"));
+                css_vars.push_str("--thaw-ripple-color: #0000;");
             } else {
                 css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
                 css_vars.push_str("--thaw-border-color: #555a;");
                 css_vars.push_str("--thaw-border-color-hover: #555;");
-                css_vars.push_str(&format!("--thaw-ripple-color: #0000;"));
+                css_vars.push_str("--thaw-ripple-color: #0000;");
             }
         });
 
