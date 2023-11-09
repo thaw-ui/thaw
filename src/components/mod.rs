@@ -1,3 +1,4 @@
+mod binder;
 mod if_comp;
 mod option_comp;
 
