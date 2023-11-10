@@ -1,16 +1,12 @@
 mod theme;
 
-use crate::{
-    theme::use_theme,
-    utils::{maybe_rw_signal::MaybeRwSignal, mount_style::mount_style},
-    Theme,
-};
+use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
 use leptos::*;
 pub use theme::SliderTheme;
 
 #[component]
 pub fn Slider(
-    #[prop(optional, into)] value: MaybeRwSignal<f64>,
+    #[prop(optional, into)] value: RwSignal<f64>,
     #[prop(default = MaybeSignal::Static(100f64), into)] max: MaybeSignal<f64>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));

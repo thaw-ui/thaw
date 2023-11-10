@@ -1,11 +1,11 @@
 mod theme;
 
-use crate::{mount_style, theme::use_theme, utils::maybe_rw_signal::MaybeRwSignal, Theme};
+use crate::{mount_style, theme::use_theme, Theme};
 use leptos::*;
 pub use theme::SwitchTheme;
 
 #[component]
-pub fn Switch(#[prop(optional, into)] value: MaybeRwSignal<bool>) -> impl IntoView {
+pub fn Switch(#[prop(optional, into)] value: RwSignal<bool>) -> impl IntoView {
     mount_style("switch", include_str!("./switch.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {

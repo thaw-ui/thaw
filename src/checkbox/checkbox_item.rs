@@ -11,13 +11,13 @@ pub fn CheckboxItem(
 ) -> impl IntoView {
     let checkbox_group = use_checkbox_group();
     let checked = checkbox_group
-        .value
+        .0
         .with_untracked(|checkbox_group| checkbox_group.contains(&key));
     let checked = create_rw_signal(checked);
     let item_key = store_value(key);
 
     _ = checked.watch(move |checked| {
-        checkbox_group.value.update(move |checkbox_group| {
+        checkbox_group.0.update(move |checkbox_group| {
             if *checked {
                 checkbox_group.insert(item_key.get_value());
             } else {

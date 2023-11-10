@@ -99,7 +99,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
     view! {
         <div
             class="thaw-loading-bar-container"
-            style=move || (!loading.get()).then(|| "display: none;")
+            style=move || (!loading.get()).then_some("display: none;")
         >
             <div
                 class="thaw-loading-bar"
