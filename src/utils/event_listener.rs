@@ -1,8 +1,8 @@
-use leptos::*;
+use leptos::{html::AnyElement, *};
 use wasm_bindgen::{prelude::Closure, JsCast};
 
 pub fn add_event_listener<E: ev::EventDescriptor + 'static>(
-    target: &web_sys::Element,
+    target: HtmlElement<AnyElement>,
     event: E,
     cb: impl Fn(E::EventType) + 'static,
 ) -> EventListenerHandle
@@ -29,19 +29,18 @@ impl EventListenerHandle {
 }
 
 fn add_event_listener_untyped(
-    target: &web_sys::Element,
+    target: HtmlElement<AnyElement>,
     event_name: &str,
     cb: impl Fn(web_sys::Event) + 'static,
 ) -> EventListenerHandle {
     fn wel(
-        target: &web_sys::Element,
+        target: HtmlElement<AnyElement>,
         cb: Box<dyn FnMut(web_sys::Event)>,
         event_name: &str,
     ) -> EventListenerHandle {
         let cb = Closure::wrap(cb).into_js_value();
         _ = target.add_event_listener_with_callback(event_name, cb.unchecked_ref());
         let event_name = event_name.to_string();
-        let target = target.clone();
         EventListenerHandle(Box::new(move || {
             _ = target.remove_event_listener_with_callback(&event_name, cb.unchecked_ref());
         }))

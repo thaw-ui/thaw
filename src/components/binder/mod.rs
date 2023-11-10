@@ -5,6 +5,7 @@ use crate::{
 };
 use leptos::{
     html::{AnyElement, ElementDescriptor, ToHtmlElement},
+    leptos_dom::helpers::WindowListenerHandle,
     *,
 };
 
@@ -26,32 +27,37 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
         show: follower_show,
         children: follower_children,
     } = follower;
-    let follower_scroll_listener = store_value(None::<Callback<()>>);
-    let scrollable_element_and_handle_vec =
-        store_value::<Vec<(HtmlElement<AnyElement>, Option<EventListenerHandle>)>>(vec![]);
+
+    let scroll_listener = store_value(None::<Callback<()>>);
+    let scrollable_element_handle_vec = store_value::<Vec<EventListenerHandle>>(vec![]);
+    let resize_handle = store_value(None::<WindowListenerHandle>);
+
     let ensure_scroll_listener = move || {
         let mut cursor = target_ref.get_untracked().map(|target| target.into_any());
+        let mut scrollable_element_vec = vec![];
         loop {
             cursor = get_scroll_parent(cursor);
             if let Some(cursor) = cursor.take() {
-                scrollable_element_and_handle_vec.update_value(|vec| vec.push((cursor, None)));
+                scrollable_element_vec.push(cursor);
             } else {
                 break;
             }
         }
-        scrollable_element_and_handle_vec.update_value(|vec| {
-            vec.iter_mut().for_each(|ele| {
-                ele.1 = Some(add_event_listener(&ele.0, ev::scroll, move |_| {
-                    if let Some(follower_scroll_listener) = follower_scroll_listener.get_value() {
-                        follower_scroll_listener.call(());
+        let handle_vec = scrollable_element_vec
+            .into_iter()
+            .map(|ele| {
+                add_event_listener(ele, ev::scroll, move |_| {
+                    if let Some(scroll_listener) = scroll_listener.get_value() {
+                        scroll_listener.call(());
                     }
-                }));
+                })
             })
-        });
+            .collect();
+        scrollable_element_handle_vec.set_value(handle_vec);
     };
 
     let add_scroll_listener = move |listener: Callback<()>| {
-        follower_scroll_listener.update_value(|scroll_listener| {
+        scroll_listener.update_value(|scroll_listener| {
             if scroll_listener.is_none() {
                 ensure_scroll_listener();
             }
@@ -60,22 +66,47 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
     };
 
     let remove_scroll_listener = move |_| {
-        scrollable_element_and_handle_vec.update_value(|vec| {
-            let vec: Vec<_> = vec.drain(..).collect();
-            for item in vec {
-                if let Some(handle) = item.1 {
-                    handle.remove();
-                }
+        scrollable_element_handle_vec.update_value(|vec| {
+            vec.drain(..).into_iter().for_each(|handle| handle.remove());
+        });
+        scroll_listener.set_value(None);
+    };
+
+    let add_resize_listener = move |listener: Callback<()>| {
+        resize_handle.update_value(move |resize_handle| {
+            if let Some(handle) = resize_handle.take() {
+                handle.remove();
+            }
+            let handle = window_event_listener(ev::resize, move |_| {
+                listener.call(());
+            });
+
+            *resize_handle = Some(handle);
+        });
+    };
+
+    let remove_resize_listener = move |_| {
+        resize_handle.update_value(move |handle| {
+            if let Some(handle) = handle.take() {
+                handle.remove();
             }
         });
     };
 
     on_cleanup(move || {
         remove_scroll_listener(());
+        remove_resize_listener(());
     });
     view! {
         {children()}
-        <FollowerContainer show=follower_show target_ref add_scroll_listener remove_scroll_listener>
+        <FollowerContainer
+            show=follower_show
+            target_ref
+            add_scroll_listener
+            remove_scroll_listener
+            add_resize_listener
+            remove_resize_listener
+        >
             {follower_children()}
         </FollowerContainer>
     }
@@ -87,27 +118,26 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     target_ref: NodeRef<El>,
     #[prop(into)] add_scroll_listener: Callback<Callback<()>>,
     #[prop(into)] remove_scroll_listener: Callback<()>,
+    #[prop(into)] add_resize_listener: Callback<Callback<()>>,
+    #[prop(into)] remove_resize_listener: Callback<()>,
     children: Children,
 ) -> impl IntoView {
     let content_ref = create_node_ref::<html::Div>();
+    let content_style = create_rw_signal(String::new());
     let sync_position: Callback<()> = Callback::new(move |_| {
-        let Some(content_ref) = content_ref.get() else {
-            return;
-        };
         let Some(target_ref) = target_ref.get().map(|target| target.into_any()) else {
             return;
         };
         let target_rect = target_ref.get_bounding_client_rect();
-        _ = content_ref
-            .style("width", format!("{}px", target_rect.width()))
-            .style(
-                "transform",
-                format!(
-                    "translateX({}px) translateY({}px)",
-                    target_rect.x(),
-                    target_rect.y() + target_rect.height()
-                ),
-            );
+
+        let mut style = String::new();
+        style.push_str(&format!("width: {}px;", target_rect.width()));
+        style.push_str(&format!(
+            "transform: translateX({}px) translateY({}px);",
+            target_rect.x(),
+            target_rect.y() + target_rect.height()
+        ));
+        content_style.set(style);
     });
 
     let is_show = create_memo(move |_| {
@@ -121,8 +151,10 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         if is_show {
             sync_position.call(());
             add_scroll_listener.call(sync_position);
+            add_resize_listener.call(sync_position);
         } else {
             remove_scroll_listener.call(());
+            remove_resize_listener.call(());
         }
         is_show
     });
@@ -135,7 +167,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
                     "display: none;"
                 }
             }>
-                <div class="thaw-binder-follower-content" ref=content_ref>
+                <div class="thaw-binder-follower-content" ref=content_ref style=move || content_style.get()>
                     {children()}
                 </div>
             </div>
