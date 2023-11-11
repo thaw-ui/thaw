@@ -158,20 +158,19 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         }
         is_show
     });
+
+    let children = html::div()
+        .classes("thaw-binder-follower-container")
+        .style("display", move || (!is_show.get()).then_some("none"))
+        .child(
+            html::div()
+                .classes("thaw-binder-follower-content")
+                .node_ref(content_ref)
+                .attr("style", move || content_style.get())
+                .child(children()),
+        );
     view! {
-        <Teleport>
-            <div class="thaw-binder-follower-container" style=move || {
-                if is_show.get() {
-                    ""
-                } else {
-                    "display: none;"
-                }
-            }>
-                <div class="thaw-binder-follower-content" ref=content_ref style=move || content_style.get()>
-                    {children()}
-                </div>
-            </div>
-        </Teleport>
+        <Teleport element=children />
     }
 }
 
