@@ -1,6 +1,11 @@
 mod theme;
 
-use crate::{teleport::Teleport, theme::use_theme, utils::mount_style::mount_style, Theme};
+use crate::{
+    components::{Binder, Follower, FollowerPlacement, FollowerWidth},
+    theme::use_theme,
+    utils::mount_style::mount_style,
+    Theme,
+};
 use leptos::wasm_bindgen::__rt::IntoJsResult;
 use leptos::*;
 use std::hash::Hash;
@@ -66,20 +71,7 @@ where
     let trigger_ref = create_node_ref::<html::Div>();
     let menu_ref = create_node_ref::<html::Div>();
     let show_menu = move |_| {
-        let rect = trigger_ref.get().unwrap().get_bounding_client_rect();
         is_show_menu.set(true);
-        if let Some(menu_ref) = menu_ref.get() {
-            _ = menu_ref
-                .style("width", format!("{}px", rect.width()))
-                .style(
-                    "transform",
-                    format!(
-                        "translateX({}px) translateY({}px) translateX(-50%)",
-                        rect.x() + rect.width() / 2.0,
-                        rect.y() + rect.height()
-                    ),
-                );
-        }
     };
     let timer = window_event_listener(ev::click, move |ev| {
         let el = ev.target();
@@ -111,47 +103,46 @@ where
         None => String::new(),
     });
     view! {
-        <div class="thaw-select" ref=trigger_ref on:click=show_menu style=move || css_vars.get()>
+        <Binder target_ref=trigger_ref>
+            <div class="thaw-select" ref=trigger_ref on:click=show_menu style=move || css_vars.get()>
 
-            {move || select_option_label.get()}
-
-        </div>
-        <Teleport>
-            <div
-                class="thaw-select-menu"
-                style=move || {
-                    if is_show_menu.get() { menu_css_vars.get() } else { "display: none;".into() }
-                }
-
-                ref=menu_ref
-            >
-                <For
-                    each=move || options.get()
-                    key=move |item| item.value.clone()
-                    children=move |item| {
-                        let item = store_value(item);
-                        let onclick = move |_| {
-                            let SelectOption { value: item_value, label: _ } = item.get_value();
-                            value.set(Some(item_value));
-                            is_show_menu.set(false);
-                        };
-                        view! {
-                            <div
-                                class="thaw-select-menu__item"
-                                class=(
-                                    "thaw-select-menu__item-selected",
-                                    move || value.get() == Some(item.get_value().value),
-                                )
-
-                                on:click=onclick
-                            >
-                                {item.get_value().label}
-                            </div>
-                        }
-                    }
-                />
+                {move || select_option_label.get()}
 
             </div>
-        </Teleport>
+            <Follower slot show=is_show_menu placement=FollowerPlacement::BottomStart width=FollowerWidth::Target>
+                <div
+                    class="thaw-select-menu"
+                    style=move || menu_css_vars.get()
+                    ref=menu_ref
+                >
+                    <For
+                        each=move || options.get()
+                        key=move |item| item.value.clone()
+                        children=move |item| {
+                            let item = store_value(item);
+                            let onclick = move |_| {
+                                let SelectOption { value: item_value, label: _ } = item.get_value();
+                                value.set(Some(item_value));
+                                is_show_menu.set(false);
+                            };
+                            view! {
+                                <div
+                                    class="thaw-select-menu__item"
+                                    class=(
+                                        "thaw-select-menu__item-selected",
+                                        move || value.get() == Some(item.get_value().value),
+                                    )
+
+                                    on:click=onclick
+                                >
+                                    {item.get_value().label}
+                                </div>
+                            }
+                        }
+                    />
+
+                </div>
+            </Follower>
+        </Binder>
     }
 }
