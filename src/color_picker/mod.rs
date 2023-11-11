@@ -1,7 +1,8 @@
 mod color;
 mod theme;
 
-use crate::{mount_style, teleport::Teleport, use_theme, Theme};
+use crate::components::{Binder, Follower, FollowerPlacement};
+use crate::{mount_style, use_theme, Theme};
 pub use color::*;
 use leptos::*;
 use leptos::{leptos_dom::helpers::WindowListenerHandle, wasm_bindgen::__rt::IntoJsResult};
@@ -62,18 +63,7 @@ pub fn ColorPicker(#[prop(optional, into)] value: RwSignal<RGBA>) -> impl IntoVi
     let trigger_ref = create_node_ref::<html::Div>();
     let popover_ref = create_node_ref::<html::Div>();
     let show_popover = move |_| {
-        let rect = trigger_ref.get().unwrap().get_bounding_client_rect();
         is_show_popover.set(true);
-        if let Some(popover_ref) = popover_ref.get() {
-            _ = popover_ref.style(
-                "transform",
-                format!(
-                    "translateX({}px) translateY({}px)",
-                    rect.x(),
-                    rect.y() + rect.height()
-                ),
-            );
-        }
     };
     let timer = window_event_listener(ev::click, move |ev| {
         let el = ev.target();
@@ -96,28 +86,24 @@ pub fn ColorPicker(#[prop(optional, into)] value: RwSignal<RGBA>) -> impl IntoVi
     on_cleanup(move || timer.remove());
 
     view! {
-        <div class="thaw-color-picker-trigger" on:click=show_popover ref=trigger_ref>
-            <div class="thaw-color-picker-trigger__content" style=move || style.get()>
-                {move || label.get()}
+        <Binder target_ref=trigger_ref>
+            <div class="thaw-color-picker-trigger" on:click=show_popover ref=trigger_ref>
+                <div class="thaw-color-picker-trigger__content" style=move || style.get()>
+                    {move || label.get()}
+                </div>
             </div>
-        </div>
-        <Teleport>
-            <div
-                class="thaw-color-picker-popover"
-                ref=popover_ref
-                style=move || {
-                    if is_show_popover.get() {
-                        popover_css_vars.get()
-                    } else {
-                        "display: none".to_string()
-                    }
-                }
-            >
+            <Follower slot show=is_show_popover placement=FollowerPlacement::BottomStart>
+                <div
+                    class="thaw-color-picker-popover"
+                    ref=popover_ref
+                    style=move || popover_css_vars.get()
+                >
 
-                <ColorPanel hue=hue.read_only() sv/>
-                <HueSlider hue/>
-            </div>
-        </Teleport>
+                    <ColorPanel hue=hue.read_only() sv/>
+                    <HueSlider hue/>
+                </div>
+            </Follower>
+        </Binder>
     }
 }
 

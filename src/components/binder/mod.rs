@@ -17,9 +17,19 @@ use leptos::{
 pub struct Follower {
     #[prop(into)]
     show: MaybeSignal<bool>,
+    #[prop(optional)]
+    width: Option<FollowerWidth>,
     placement: FollowerPlacement,
     children: Children,
 }
+
+#[derive(Clone)]
+pub enum FollowerWidth {
+    Target,
+    Px(u32),
+}
+
+impl Copy for FollowerWidth {}
 
 #[component]
 pub fn Binder<El: ElementDescriptor + Clone + 'static>(
@@ -30,6 +40,7 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
     mount_style("binder", include_str!("./binder.css"));
     let Follower {
         show: follower_show,
+        width: follower_width,
         placement: follower_placement,
         children: follower_children,
     } = follower;
@@ -73,7 +84,7 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
 
     let remove_scroll_listener = move |_| {
         scrollable_element_handle_vec.update_value(|vec| {
-            vec.drain(..).into_iter().for_each(|handle| handle.remove());
+            vec.drain(..).for_each(|handle| handle.remove());
         });
         scroll_listener.set_value(None);
     };
@@ -108,6 +119,7 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
         <FollowerContainer
             show=follower_show
             target_ref
+            width=follower_width
             placement=follower_placement
             add_scroll_listener
             remove_scroll_listener
@@ -123,6 +135,7 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
 fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     show: MaybeSignal<bool>,
     target_ref: NodeRef<El>,
+    width: Option<FollowerWidth>,
     placement: FollowerPlacement,
     #[prop(into)] add_scroll_listener: Callback<Callback<()>>,
     #[prop(into)] remove_scroll_listener: Callback<()>,
@@ -142,7 +155,13 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         let target_rect = target_ref.get_bounding_client_rect();
         let content_rect = content_ref.get_bounding_client_rect();
         let mut style = String::new();
-        style.push_str(&format!("width: {}px;", target_rect.width()));
+        if let Some(width) = width {
+            let width = match width {
+                FollowerWidth::Target => format!("width: {}px;", target_rect.width()),
+                FollowerWidth::Px(width) => format!("width: {width}px;"),
+            };
+            style.push_str(&width);
+        }
         if let Some(placement_style) =
             get_follower_placement_style(placement, target_rect, content_rect)
         {

@@ -32,19 +32,17 @@ pub fn get_follower_placement_style(
         let follower_height = follower_rect.height();
         let target_y = target_rect.y();
         let target_height = target_rect.height();
-        let mut top = target_y + target_height;
+        let top = target_y + target_height;
 
         let Some(inner_height) = window_inner_height() else {
             return None;
         };
 
-        if top + follower_height > inner_height {
-            if target_y - follower_height >= 0.0 {
-                top = target_y - follower_height
-            }
+        if top + follower_height > inner_height && target_y - follower_height >= 0.0 {
+            target_y - follower_height
+        } else {
+            top
         }
-
-        top
     };
 
     style.push_str(&format!(

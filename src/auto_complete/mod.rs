@@ -1,7 +1,7 @@
 mod theme;
 
 use crate::{
-    components::{Binder, Follower, FollowerPlacement},
+    components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     mount_style, use_theme,
     utils::StoredMaybeSignal,
     Input, Theme,
@@ -61,7 +61,7 @@ pub fn AutoComplete(
                     allow_value
                 />
             </div>
-            <Follower slot show=is_show_menu placement=FollowerPlacement::BottomStart>
+            <Follower slot show=is_show_menu placement=FollowerPlacement::BottomStart width=FollowerWidth::Target>
                 <div
                     class="thaw-auto-complete__menu"
                     style=move || menu_css_vars.get()
