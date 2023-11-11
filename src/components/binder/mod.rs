@@ -1,8 +1,12 @@
+mod get_placement_style;
+
 use crate::{
     mount_style,
     teleport::Teleport,
     utils::{add_event_listener, EventListenerHandle},
 };
+use get_placement_style::get_follower_placement_style;
+pub use get_placement_style::FollowerPlacement;
 use leptos::{
     html::{AnyElement, ElementDescriptor, ToHtmlElement},
     leptos_dom::helpers::WindowListenerHandle,
@@ -13,6 +17,7 @@ use leptos::{
 pub struct Follower {
     #[prop(into)]
     show: MaybeSignal<bool>,
+    placement: FollowerPlacement,
     children: Children,
 }
 
@@ -25,6 +30,7 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
     mount_style("binder", include_str!("./binder.css"));
     let Follower {
         show: follower_show,
+        placement: follower_placement,
         children: follower_children,
     } = follower;
 
@@ -102,6 +108,7 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
         <FollowerContainer
             show=follower_show
             target_ref
+            placement=follower_placement
             add_scroll_listener
             remove_scroll_listener
             add_resize_listener
@@ -116,6 +123,7 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
 fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     show: MaybeSignal<bool>,
     target_ref: NodeRef<El>,
+    placement: FollowerPlacement,
     #[prop(into)] add_scroll_listener: Callback<Callback<()>>,
     #[prop(into)] remove_scroll_listener: Callback<()>,
     #[prop(into)] add_resize_listener: Callback<Callback<()>>,
@@ -125,18 +133,24 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     let content_ref = create_node_ref::<html::Div>();
     let content_style = create_rw_signal(String::new());
     let sync_position: Callback<()> = Callback::new(move |_| {
-        let Some(target_ref) = target_ref.get().map(|target| target.into_any()) else {
+        let Some(content_ref) = content_ref.get_untracked() else {
+            return;
+        };
+        let Some(target_ref) = target_ref.get_untracked().map(|target| target.into_any()) else {
             return;
         };
         let target_rect = target_ref.get_bounding_client_rect();
-
+        let content_rect = content_ref.get_bounding_client_rect();
         let mut style = String::new();
         style.push_str(&format!("width: {}px;", target_rect.width()));
-        style.push_str(&format!(
-            "transform: translateX({}px) translateY({}px);",
-            target_rect.x(),
-            target_rect.y() + target_rect.height()
-        ));
+        if let Some(placement_style) =
+            get_follower_placement_style(placement, target_rect, content_rect)
+        {
+            style.push_str(&placement_style);
+        } else {
+            logging::error!("Thaw-Binder: get_follower_placement_style return None");
+        }
+
         content_style.set(style);
     });
 
@@ -149,7 +163,9 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         }
         let is_show = show.get();
         if is_show {
-            sync_position.call(());
+            request_animation_frame(move || {
+                sync_position.call(());
+            });
             add_scroll_listener.call(sync_position);
             add_resize_listener.call(sync_position);
         } else {
