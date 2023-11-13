@@ -1,8 +1,8 @@
 mod get_placement_style;
 
 use crate::{
-    mount_style,
-    teleport::Teleport,
+    components::Teleport,
+    utils::mount_style,
     utils::{add_event_listener, EventListenerHandle},
 };
 use get_placement_style::get_follower_placement_style;

@@ -1,11 +1,10 @@
 mod theme;
 
 use crate::{
-    components::*,
+    components::{OptionComp, Wave, WaveRef},
     icon::*,
     theme::*,
-    utils::{mount_style::mount_style, ComponentRef},
-    wave::{Wave, WaveRef},
+    utils::{mount_style, ComponentRef},
 };
 use leptos::*;
 pub use theme::ButtonTheme;

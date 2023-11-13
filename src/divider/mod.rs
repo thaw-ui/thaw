@@ -1,6 +1,6 @@
 use leptos::*;
 
-use crate::mount_style;
+use crate::utils::mount_style;
 
 #[component]
 pub fn Divider() -> impl IntoView {

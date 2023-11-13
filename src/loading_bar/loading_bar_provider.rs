@@ -1,5 +1,5 @@
 use super::{LoadingBar, LoadingBarRef};
-use crate::{teleport::Teleport, utils::ComponentRef};
+use crate::{components::Teleport, utils::ComponentRef};
 use leptos::*;
 
 #[component]

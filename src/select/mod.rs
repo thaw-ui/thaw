@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     theme::use_theme,
-    utils::mount_style::mount_style,
+    utils::mount_style,
     Theme,
 };
 use leptos::wasm_bindgen::__rt::IntoJsResult;

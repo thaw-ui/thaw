@@ -1,4 +1,4 @@
-use crate::utils::mount_style::mount_style;
+use crate::utils::mount_style;
 use leptos::*;
 
 #[component]

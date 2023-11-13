@@ -4,7 +4,7 @@ use crate::{
     components::*,
     icon::*,
     use_theme,
-    utils::{mount_style::mount_style, StoredMaybeSignal},
+    utils::{mount_style, StoredMaybeSignal},
     Theme,
 };
 use leptos::*;

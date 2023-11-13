@@ -1,6 +1,6 @@
 mod loading_bar_provider;
 
-use crate::{mount_style, use_theme, utils::ComponentRef, Theme};
+use crate::{use_theme, utils::mount_style, utils::ComponentRef, Theme};
 use leptos::*;
 pub use loading_bar_provider::{use_loading_bar, LoadingBarProvider};
 

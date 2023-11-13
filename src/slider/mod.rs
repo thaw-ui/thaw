@@ -1,6 +1,6 @@
 mod theme;
 
-use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
+use crate::{theme::use_theme, utils::mount_style, Theme};
 use leptos::*;
 pub use theme::SliderTheme;
 

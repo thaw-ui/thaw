@@ -1,9 +1,9 @@
-use crate::card::*;
-use crate::components::OptionComp;
 use crate::icon::*;
-use crate::teleport::*;
-use crate::utils::mount_style::mount_style;
-use crate::utils::StoredMaybeSignal;
+use crate::{
+    components::{OptionComp, Teleport},
+    utils::{mount_style, StoredMaybeSignal},
+    Card, CardFooter, CardHeader, CardHeaderExtra,
+};
 use leptos::*;
 
 #[slot]

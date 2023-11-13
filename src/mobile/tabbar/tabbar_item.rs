@@ -1,7 +1,7 @@
 use super::use_tabbar;
 use crate::components::*;
 use crate::utils::StoredMaybeSignal;
-use crate::{icon::*, theme::use_theme, utils::mount_style::mount_style, Theme};
+use crate::{icon::*, theme::use_theme, utils::mount_style, Theme};
 use leptos::*;
 
 #[component]

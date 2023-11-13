@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::{use_theme, Theme},
-    utils::mount_style::mount_style,
+    utils::mount_style,
 };
 use leptos::*;
 pub use theme::InputTheme;

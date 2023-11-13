@@ -1,11 +1,13 @@
 // mod callback;
 mod component_ref;
 mod event_listener;
-pub mod mount_style;
-pub mod signal;
+mod mount_style;
+mod signal;
 mod stored_maybe_signal;
 
 // pub use callback::AsyncCallback;
-pub use component_ref::ComponentRef;
-pub use event_listener::*;
-pub use stored_maybe_signal::*;
+pub(crate) use component_ref::ComponentRef;
+pub(crate) use event_listener::*;
+pub(crate) use mount_style::mount_style;
+pub use signal::SignalWatch;
+pub(crate) use stored_maybe_signal::*;

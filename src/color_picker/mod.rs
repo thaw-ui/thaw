@@ -2,7 +2,7 @@ mod color;
 mod theme;
 
 use crate::components::{Binder, Follower, FollowerPlacement};
-use crate::{mount_style, use_theme, Theme};
+use crate::{use_theme, utils::mount_style, Theme};
 pub use color::*;
 use leptos::*;
 use leptos::{leptos_dom::helpers::WindowListenerHandle, wasm_bindgen::__rt::IntoJsResult};
