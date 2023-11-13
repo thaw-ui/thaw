@@ -1,7 +1,7 @@
 mod theme;
 mod upload_dragger;
 
-use crate::mount_style;
+use crate::{mount_style, utils::add_event_listener};
 use leptos::*;
 pub use theme::UploadTheme;
 pub use upload_dragger::UploadDragger;
@@ -16,22 +16,32 @@ pub fn Upload(
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));
 
+    let input_ref = create_node_ref::<html::Input>();
+    let trigger_ref = create_node_ref::<html::Div>();
+
+    trigger_ref.on_load(move |trigger_ref| {
+        let handle = add_event_listener(trigger_ref.into_any(), ev::click, move |_| {
+            if let Some(input_ref) = input_ref.get_untracked() {
+                input_ref.click();
+            }
+        });
+        on_cleanup(move || {
+            handle.remove();
+        });
+    });
+
     let on_file_addition = move |files: FileList| {
         if let Some(custom_request) = custom_request {
             custom_request.call(files);
         }
     };
-    let input_ref = create_node_ref::<html::Input>();
+
     let on_change = move |_| {
         if let Some(input_ref) = input_ref.get_untracked() {
             if let Some(files) = input_ref.files() {
                 on_file_addition(files);
             }
-        }
-    };
-    let on_click = move |_| {
-        if let Some(input_ref) = input_ref.get_untracked() {
-            input_ref.click();
+            input_ref.set_value("");
         }
     };
 
@@ -72,7 +82,7 @@ pub fn Upload(
             />
             <div
                 class="thaw-upload__trigger"
-                on:click=on_click
+                ref=trigger_ref
                 on:drop=on_trigger_drop
                 on:dragover=on_trigger_dragover
                 on:dragenter=on_trigger_dragenter

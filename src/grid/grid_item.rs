@@ -3,7 +3,7 @@ use leptos::*;
 
 #[component]
 pub fn GridItem(
-    #[prop(default = MaybeSignal::Static(1u16), into)] span: MaybeSignal<u16>,
+    #[prop(default = MaybeSignal::Static(1u16), into)] column: MaybeSignal<u16>,
     #[prop(optional, into)] offset: MaybeSignal<i32>,
     children: Children,
 ) -> impl IntoView {
@@ -12,22 +12,22 @@ pub fn GridItem(
     let style = create_memo(move |_| {
         let mut style = String::new();
         let offset = offset.get();
-        let span = i32::from(span.get());
+        let column = i32::from(column.get());
         let x_gap = grid.x_gap.get();
 
         if offset > 0 {
             style.push_str(&format!(
                 "margin-left: calc((100% - {}px) / {} * {} + {}px);",
-                (span + offset - 1) * x_gap,
-                span + offset,
+                (column + offset - 1) * x_gap,
+                column + offset,
                 offset,
                 offset * x_gap
             ));
         }
         style.push_str(&format!(
             "grid-column: span {} / span {};",
-            span + offset,
-            span + offset
+            column + offset,
+            column + offset
         ));
 
         style

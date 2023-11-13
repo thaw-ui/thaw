@@ -69,7 +69,7 @@ pub fn GridPage() -> impl IntoView {
                     <GridItem>"7"</GridItem>
                     <GridItem>"123"</GridItem>
                     <GridItem>"123"</GridItem>
-                    <GridItem span=2>"1234"</GridItem>
+                    <GridItem column=2>"1234"</GridItem>
                     <GridItem>"567"</GridItem>
                     <GridItem>"567"</GridItem>
                 </Grid>
@@ -85,7 +85,7 @@ pub fn GridPage() -> impl IntoView {
                             <GridItem>"7"</GridItem>
                             <GridItem>"123"</GridItem>
                             <GridItem>"123"</GridItem>
-                            <GridItem span=2>"1234"</GridItem>
+                            <GridItem column=2>"1234"</GridItem>
                             <GridItem >"567"</GridItem>
                             <GridItem >"567"</GridItem>
                         </Grid>
