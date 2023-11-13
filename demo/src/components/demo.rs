@@ -1,4 +1,5 @@
 use leptos::*;
+use leptos_meta::Style;
 use thaw::*;
 
 #[slot]
@@ -10,7 +11,6 @@ pub struct DemoCode {
 
 #[component]
 pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
-    mount_style("demo", prisms::prism_css!());
     let theme = use_theme(Theme::light);
     let style = create_memo(move |_| {
         let mut style = String::from("background-image: url(/thaw/grid_dot.svg); background-repeat: repeat; background-size: 1.5rem; margin-top: 1rem; padding: 1rem; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;");
@@ -40,6 +40,9 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         style
     });
     view! {
+        <Style>
+            {prisms::prism_css!()}
+        </Style>
         <div style=move || style.get()>
             {children()}
         </div>

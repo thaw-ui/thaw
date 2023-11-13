@@ -1,5 +1,6 @@
 use crate::pages::*;
 use leptos::*;
+use leptos_meta::provide_meta_context;
 use leptos_router::*;
 use thaw::*;
 
@@ -22,6 +23,7 @@ pub fn App() -> impl IntoView {
     let theme = create_rw_signal(theme);
 
     provide_context(theme);
+    provide_meta_context();
     view! {
         <Provider theme>
             <TheRouter />

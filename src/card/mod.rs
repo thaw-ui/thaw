@@ -1,4 +1,4 @@
-use crate::{components::*, use_theme, utils::mount_style::mount_style, Theme};
+use crate::{components::*, use_theme, utils::mount_style, Theme};
 use leptos::*;
 
 #[derive(Clone)]

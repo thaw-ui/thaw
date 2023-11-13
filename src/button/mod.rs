@@ -4,7 +4,7 @@ use crate::{
     components::{OptionComp, Wave, WaveRef},
     icon::*,
     theme::*,
-    utils::{mount_style::mount_style, ComponentRef},
+    utils::{mount_style, ComponentRef},
 };
 use leptos::*;
 pub use theme::ButtonTheme;

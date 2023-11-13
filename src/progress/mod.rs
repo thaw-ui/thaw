@@ -1,4 +1,4 @@
-use crate::utils::{mount_style::mount_style, StoredMaybeSignal};
+use crate::utils::{mount_style, StoredMaybeSignal};
 use leptos::*;
 
 #[component]

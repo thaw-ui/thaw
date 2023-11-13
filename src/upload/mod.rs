@@ -1,7 +1,7 @@
 mod theme;
 mod upload_dragger;
 
-use crate::{mount_style, utils::add_event_listener};
+use crate::{utils::add_event_listener, utils::mount_style};
 use leptos::*;
 pub use theme::UploadTheme;
 pub use upload_dragger::UploadDragger;

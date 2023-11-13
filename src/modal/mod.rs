@@ -1,7 +1,7 @@
 use crate::icon::*;
 use crate::{
     components::{OptionComp, Teleport},
-    utils::{mount_style::mount_style, StoredMaybeSignal},
+    utils::{mount_style, StoredMaybeSignal},
     Card, CardFooter, CardHeader, CardHeaderExtra,
 };
 use leptos::*;

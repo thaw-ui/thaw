@@ -1,6 +1,6 @@
 mod theme;
 
-use crate::{mount_style, use_theme, Theme};
+use crate::{use_theme, utils::mount_style, Theme};
 use leptos::*;
 pub use theme::AvatarTheme;
 

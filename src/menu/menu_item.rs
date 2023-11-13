@@ -1,5 +1,5 @@
 use super::use_menu;
-use crate::{theme::use_theme, utils::mount_style::mount_style, Theme};
+use crate::{theme::use_theme, utils::mount_style, Theme};
 use leptos::*;
 
 #[component]

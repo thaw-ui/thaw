@@ -2,8 +2,8 @@ mod theme;
 
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
-    mount_style, use_theme,
-    utils::StoredMaybeSignal,
+    use_theme,
+    utils::{mount_style, StoredMaybeSignal},
     Input, Theme,
 };
 use leptos::*;

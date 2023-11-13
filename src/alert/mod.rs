@@ -1,6 +1,6 @@
 mod theme;
 
-use crate::{theme::use_theme, utils::mount_style::mount_style, Icon, Theme};
+use crate::{theme::use_theme, utils::mount_style, Icon, Theme};
 use icondata::AiIcon;
 use leptos::*;
 pub use theme::AlertTheme;

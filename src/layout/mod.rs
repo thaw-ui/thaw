@@ -1,7 +1,7 @@
 mod layout_header;
 mod layout_sider;
 
-use crate::utils::mount_style::mount_style;
+use crate::utils::mount_style;
 pub use layout_header::*;
 pub use layout_sider::*;
 use leptos::*;
