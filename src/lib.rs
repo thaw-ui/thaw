@@ -32,11 +32,9 @@ mod switch;
 mod table;
 mod tabs;
 mod tag;
-mod teleport;
 mod theme;
 mod upload;
 mod utils;
-mod wave;
 
 pub use alert::*;
 pub use auto_complete::*;

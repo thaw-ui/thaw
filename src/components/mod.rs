@@ -1,11 +1,15 @@
 mod binder;
 mod if_comp;
 mod option_comp;
+mod teleport;
+mod wave;
 
-pub use binder::*;
-pub use if_comp::*;
+pub(crate) use binder::*;
+pub(crate) use if_comp::*;
 use leptos::*;
-pub use option_comp::*;
+pub(crate) use option_comp::*;
+pub(crate) use teleport::*;
+pub(crate) use wave::*;
 
 #[slot]
 pub struct Fallback {
