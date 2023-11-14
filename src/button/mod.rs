@@ -28,7 +28,7 @@ pub enum ButtonColor {
 }
 
 impl ButtonColor {
-    pub fn theme_color(&self, theme: &Theme) -> String {
+    fn theme_color(&self, theme: &Theme) -> String {
         match self {
             ButtonColor::Primary => theme.common.color_primary.clone(),
             ButtonColor::Success => theme.common.color_success.clone(),
@@ -36,7 +36,7 @@ impl ButtonColor {
             ButtonColor::Error => theme.common.color_error.clone(),
         }
     }
-    pub fn theme_color_hover(&self, theme: &Theme) -> String {
+    fn theme_color_hover(&self, theme: &Theme) -> String {
         match self {
             ButtonColor::Primary => theme.common.color_primary_hover.clone(),
             ButtonColor::Success => theme.common.color_success_hover.clone(),
@@ -45,7 +45,7 @@ impl ButtonColor {
         }
     }
 
-    pub fn theme_color_active(&self, theme: &Theme) -> String {
+    fn theme_color_active(&self, theme: &Theme) -> String {
         match self {
             ButtonColor::Primary => theme.common.color_primary_active.clone(),
             ButtonColor::Success => theme.common.color_success_active.clone(),
@@ -65,7 +65,7 @@ pub fn Button(
     #[prop(optional, into)] loading: MaybeSignal<bool>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] on_click: Option<Callback<ev::MouseEvent>>,
-    #[prop(optional)] children: Option<ChildrenFn>,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {

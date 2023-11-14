@@ -7,7 +7,7 @@ pub use theme::AvatarTheme;
 #[component]
 pub fn Avatar(
     #[prop(optional, into)] src: MaybeSignal<String>,
-    #[prop(optional, into)] circle: MaybeSignal<bool>,
+    #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(default = MaybeSignal::Static(30), into)] size: MaybeSignal<u16>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -16,7 +16,7 @@ pub fn Avatar(
         css_vars.push_str(&format!("--thaw-size: {}px;", size.get()));
         css_vars.push_str(&format!(
             "--thaw-border-radius: {};",
-            if circle.get() { "50%" } else { "3px" }
+            if round.get() { "50%" } else { "3px" }
         ));
         theme.with(|theme| {
             css_vars.push_str(&format!(
