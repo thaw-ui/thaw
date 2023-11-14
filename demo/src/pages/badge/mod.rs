@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn BadgePage() -> impl IntoView {
@@ -11,16 +11,16 @@ pub fn BadgePage() -> impl IntoView {
             <h1>"Badge"</h1>
             <Demo>
                 <Space>
-                    <Badge value=value max_value=10>
+                    <Badge value=value max=10>
                         <Avatar/>
                     </Badge>
-                    <Badge color=BadgeColor::Success value=value max_value=10>
+                    <Badge variant=BadgeVariant::Success value=value max=10>
                         <Avatar/>
                     </Badge>
-                    <Badge color=BadgeColor::Warning value=value max_value=10>
+                    <Badge variant=BadgeVariant::Warning value=value max=10>
                         <Avatar/>
                     </Badge>
-                    <Badge color=BadgeColor::Warning dot=true>
+                    <Badge variant=BadgeVariant::Warning dot=true>
                         <Avatar/>
                     </Badge>
                     <Button on_click=move |_| value.update(|v| *v += 1)>"+1"</Button>
@@ -42,16 +42,16 @@ pub fn BadgePage() -> impl IntoView {
                     let value = create_rw_signal(0);
                     view! {
                         <Space>
-                            <Badge value=value max_value=10>
+                            <Badge value=value max=10>
                                 <Avatar />
                             </Badge>
-                            <Badge color=BadgeColor::Success value=value max_value=10>
+                            <Badge variant=BadgeVariant::Success value=value max=10>
                                 <Avatar />
                             </Badge>
-                            <Badge color=BadgeColor::Warning value=value max_value=10>
+                            <Badge variant=BadgeVariant::Warning value=value max=10>
                                 <Avatar />
                             </Badge>
-                            <Badge color=BadgeColor::Warning dot=true>
+                            <Badge variant=BadgeVariant::Warning dot=true>
                                 <Avatar />
                             </Badge>
                             <Button on_click=move |_| value.update(|v| *v += 1)>"+1"</Button>
@@ -68,6 +68,43 @@ pub fn BadgePage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Badge Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"value"</td>
+                        <td>"MaybeSignal<u32>"</td>
+                        <td>"0"</td>
+                        <td>"Badge's value."</td>
+                    </tr>
+                    <tr>
+                        <td>"max"</td>
+                        <td>"MaybeSignal<u32>"</td>
+                        <td>"u32::MAX"</td>
+                        <td>"The maximum number of the badge when its value overflows."</td>
+                    </tr>
+                    <tr>
+                        <td>"variant"</td>
+                        <td>"MaybeSignal<BadgeVariant>"</td>
+                        <td>"BadgeVariant::"</td>
+                        <td>"Badge variant."</td>
+                    </tr>
+                    <tr>
+                        <td>"dot"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Show badge as dot."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }
