@@ -94,7 +94,7 @@ pub fn BadgePage() -> impl IntoView {
                     <tr>
                         <td>"variant"</td>
                         <td>"MaybeSignal<BadgeVariant>"</td>
-                        <td>"BadgeVariant::"</td>
+                        <td>"BadgeVariant::Error"</td>
                         <td>"Badge variant."</td>
                     </tr>
                     <tr>
@@ -102,6 +102,12 @@ pub fn BadgePage() -> impl IntoView {
                         <td>"MaybeSignal<bool>"</td>
                         <td>"false"</td>
                         <td>"Show badge as dot."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"Badge's content."</td>
                     </tr>
                 </tbody>
             </Table>

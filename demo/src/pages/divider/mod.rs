@@ -1,13 +1,13 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn DividerPage() -> impl IntoView {
     view! {
         <div style="width: 896px; margin: 0 auto;">
-            <h1>"Checkbox"</h1>
+            <h1>"Divider"</h1>
             <Demo>
                 "top"
                 <Divider />

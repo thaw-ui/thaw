@@ -67,6 +67,50 @@ pub fn BreadcrumbPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Breadcrumb Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"separator"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""/""#</td>
+                        <td>"Breadcrumb separator."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"Breadcrumb's content."</td>
+                    </tr>
+                </tbody>
+            </Table>
+            <h3>"BreadcrumbItem Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"BreadcrumbItem's content."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }
