@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn ImagePage() -> impl IntoView {
@@ -25,6 +25,55 @@ pub fn ImagePage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Image Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"src"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Image source."</td>
+                    </tr>
+                    <tr>
+                        <td>"alt"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Image alt information."</td>
+                    </tr>
+                    <tr>
+                        <td>"width"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Image width."</td>
+                    </tr>
+                    <tr>
+                        <td>"height"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Image height."</td>
+                    </tr>
+                    <tr>
+                        <td>"border_radius"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Image border radius."</td>
+                    </tr>
+                    <tr>
+                        <td>"object_fit"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Object-fit type of the image in the container."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

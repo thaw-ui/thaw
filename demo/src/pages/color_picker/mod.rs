@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn ColorPickerPage() -> impl IntoView {
@@ -29,6 +29,25 @@ pub fn ColorPickerPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"ColorPicker Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"value"</td>
+                        <td>"RwSignal<RGBA>"</td>
+                        <td>"RwSignal<RGBA>"</td>
+                        <td>"Value of the picker."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

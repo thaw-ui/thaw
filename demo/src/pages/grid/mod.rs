@@ -119,6 +119,37 @@ pub fn GridPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Grid Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"cols"</td>
+                        <td>"MaybeSignal<u16>"</td>
+                        <td>"1"</td>
+                        <td>"Number of grids displayed."</td>
+                    </tr>
+                    <tr>
+                        <td>"x_gap"</td>
+                        <td>"MaybeSignal<u16>"</td>
+                        <td>"0"</td>
+                        <td>"Horizontal gap."</td>
+                    </tr>
+                    <tr>
+                        <td>"y_gap"</td>
+                        <td>"MaybeSignal<u16>"</td>
+                        <td>"0"</td>
+                        <td>"Vertical gap."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }
