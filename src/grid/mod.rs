@@ -6,8 +6,8 @@ use leptos::*;
 #[component]
 pub fn Grid(
     #[prop(default = MaybeSignal::Static(1u16), into)] cols: MaybeSignal<u16>,
-    #[prop(optional, into)] x_gap: MaybeSignal<i32>,
-    #[prop(optional, into)] y_gap: MaybeSignal<i32>,
+    #[prop(optional, into)] x_gap: MaybeSignal<u16>,
+    #[prop(optional, into)] y_gap: MaybeSignal<u16>,
     children: Children,
 ) -> impl IntoView {
     let grid_injection_key = GridInjection::new(x_gap);
@@ -32,11 +32,11 @@ pub fn Grid(
 
 #[derive(Clone)]
 pub(crate) struct GridInjection {
-    x_gap: MaybeSignal<i32>,
+    x_gap: MaybeSignal<u16>,
 }
 
 impl GridInjection {
-    pub fn new(x_gap: MaybeSignal<i32>) -> Self {
+    pub fn new(x_gap: MaybeSignal<u16>) -> Self {
         Self { x_gap }
     }
 }
