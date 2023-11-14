@@ -8,7 +8,7 @@ pub use theme::AvatarTheme;
 pub fn Avatar(
     #[prop(optional, into)] src: MaybeSignal<String>,
     #[prop(optional, into)] circle: MaybeSignal<bool>,
-    #[prop(default = MaybeSignal::Static(30), into)] size: MaybeSignal<i32>,
+    #[prop(default = MaybeSignal::Static(30), into)] size: MaybeSignal<u16>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
