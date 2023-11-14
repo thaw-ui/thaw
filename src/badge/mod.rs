@@ -2,19 +2,19 @@ use crate::{theme::use_theme, utils::mount_style, Theme};
 use leptos::*;
 
 #[derive(Default, Clone)]
-pub enum BadgeColor {
+pub enum BadgeVariant {
     Success,
     Warning,
     #[default]
     Error,
 }
 
-impl BadgeColor {
-    pub fn theme_color(&self, theme: &Theme) -> String {
+impl BadgeVariant {
+    fn theme_color(&self, theme: &Theme) -> String {
         match self {
-            BadgeColor::Success => theme.common.color_success.clone(),
-            BadgeColor::Warning => theme.common.color_warning.clone(),
-            BadgeColor::Error => theme.common.color_error.clone(),
+            BadgeVariant::Success => theme.common.color_success.clone(),
+            BadgeVariant::Warning => theme.common.color_warning.clone(),
+            BadgeVariant::Error => theme.common.color_error.clone(),
         }
     }
 }
@@ -22,8 +22,8 @@ impl BadgeColor {
 #[component]
 pub fn Badge(
     #[prop(optional, into)] value: MaybeSignal<u32>,
-    #[prop(default = MaybeSignal::Static(u32::MAX), into)] max_value: MaybeSignal<u32>,
-    #[prop(optional, into)] color: MaybeSignal<BadgeColor>,
+    #[prop(default = MaybeSignal::Static(u32::MAX), into)] max: MaybeSignal<u32>,
+    #[prop(optional, into)] variant: MaybeSignal<BadgeVariant>,
     #[prop(optional, into)] dot: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {
@@ -35,14 +35,14 @@ pub fn Badge(
         theme.with(|theme| {
             css_vars.push_str(&format!(
                 "--thaw-background-color: {};",
-                color.get().theme_color(theme)
+                variant.get().theme_color(theme)
             ));
         });
         css_vars
     });
     let value = create_memo(move |_| {
         let value = value.get();
-        let max_value = max_value.get();
+        let max_value = max.get();
         if value == 0 {
             String::new()
         } else if max_value < value {

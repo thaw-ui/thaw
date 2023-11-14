@@ -14,7 +14,7 @@ pub enum TagVariant {
 }
 
 impl TagVariant {
-    pub fn theme_font_color(&self, theme: &Theme) -> String {
+    fn theme_font_color(&self, theme: &Theme) -> String {
         match self {
             TagVariant::Default => theme.tag.default_font_color.clone(),
             TagVariant::Success => theme.common.color_success.clone(),
@@ -22,7 +22,7 @@ impl TagVariant {
             TagVariant::Error => theme.common.color_error.clone(),
         }
     }
-    pub fn theme_background_color(&self, theme: &Theme) -> String {
+    fn theme_background_color(&self, theme: &Theme) -> String {
         match self {
             TagVariant::Default => theme.tag.default_background_color.clone(),
             TagVariant::Success => theme.tag.success_background_color.clone(),
@@ -30,7 +30,7 @@ impl TagVariant {
             TagVariant::Error => theme.tag.error_background_color.clone(),
         }
     }
-    pub fn theme_border_color(&self, theme: &Theme) -> String {
+    fn theme_border_color(&self, theme: &Theme) -> String {
         match self {
             TagVariant::Default => theme.tag.default_border_color.clone(),
             TagVariant::Success => theme.tag.success_border_color.clone(),

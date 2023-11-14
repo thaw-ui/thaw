@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn ButtonPage() -> impl IntoView {
@@ -121,6 +121,73 @@ pub fn ButtonPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Button Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"style"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Button's style."</td>
+                    </tr>
+                    <tr>
+                        <td>"variant"</td>
+                        <td>"MaybeSignal<ButtonVariant>"</td>
+                        <td>"ButtonVariant::Primary"</td>
+                        <td>"Button's variant."</td>
+                    </tr>
+                    <tr>
+                        <td>"color"</td>
+                        <td>"MaybeSignal<ButtonColor>"</td>
+                        <td>"ButtonColor::Primary"</td>
+                        <td>"Button's color."</td>
+                    </tr>
+                    <tr>
+                        <td>"round"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the button shows rounded corners."</td>
+                    </tr>
+                    <tr>
+                        <td>"icon"</td>
+                        <td>"Option<Icon>"</td>
+                        <td>"None"</td>
+                        <td>"The icon of the button."</td>
+                    </tr>
+                    <tr>
+                        <td>"loading"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the button shows the loading status."</td>
+                    </tr>
+                    <tr>
+                        <td>"disabled"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the button is disabled."</td>
+                    </tr>
+                    <tr>
+                        <td>"on_click"</td>
+                        <td>"Option<Callback<ev::MouseEvent>>"</td>
+                        <td>"None"</td>
+                        <td>"Listen for button click events."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"Button's content."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

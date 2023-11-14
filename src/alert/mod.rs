@@ -13,21 +13,21 @@ pub enum AlertVariant {
 }
 
 impl AlertVariant {
-    pub fn theme_icon_color(&self, theme: &Theme) -> String {
+    fn theme_icon_color(&self, theme: &Theme) -> String {
         match self {
             AlertVariant::Success => theme.common.color_success.clone(),
             AlertVariant::Warning => theme.common.color_warning.clone(),
             AlertVariant::Error => theme.common.color_error.clone(),
         }
     }
-    pub fn theme_background_color(&self, theme: &Theme) -> String {
+    fn theme_background_color(&self, theme: &Theme) -> String {
         match self {
             AlertVariant::Success => theme.alert.success_background_color.clone(),
             AlertVariant::Warning => theme.alert.warning_background_color.clone(),
             AlertVariant::Error => theme.alert.error_background_color.clone(),
         }
     }
-    pub fn theme_border_color(&self, theme: &Theme) -> String {
+    fn theme_border_color(&self, theme: &Theme) -> String {
         match self {
             AlertVariant::Success => theme.alert.success_border_color.clone(),
             AlertVariant::Warning => theme.alert.warning_border_color.clone(),

@@ -2,8 +2,8 @@ use std::collections::HashSet;
 
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn CheckboxPage() -> impl IntoView {
@@ -62,6 +62,81 @@ pub fn CheckboxPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Checkbox Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"value"</td>
+                        <td>"RwSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the checkbox is being checked."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"Checkbox's content."</td>
+                    </tr>
+                </tbody>
+            </Table>
+            <h3>"CheckboxGroup Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"value"</td>
+                        <td>"RwSignal<HashSet<String>>,"</td>
+                        <td>"false"</td>
+                        <td>"Sets the value of the checkbox group."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"CheckboxGroup's content."</td>
+                    </tr>
+                </tbody>
+            </Table>
+            <h3>"CheckboxItem Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"key"</td>
+                        <td>"String"</td>
+                        <td></td>
+                        <td>"The key of the checkbox to be used in a checkbox group."</td>
+                    </tr>
+                    <tr>
+                        <td>"label"</td>
+                        <td>"Option<String>"</td>
+                        <td>"None"</td>
+                        <td>"Checkbox's label."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }
