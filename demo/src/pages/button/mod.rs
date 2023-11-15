@@ -193,7 +193,7 @@ pub fn ButtonPage() -> impl IntoView {
 }
 
 #[component]
-pub fn LoadingButton() -> impl IntoView {
+fn LoadingButton() -> impl IntoView {
     let loading = create_rw_signal(false);
     let on_click = move |_| {
         loading.set(true);

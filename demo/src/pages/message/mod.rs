@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn MessagePage() -> impl IntoView {
@@ -72,6 +72,23 @@ pub fn MessagePage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"MessageProvider Injection Methods"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"create"</td>
+                        <td>"fn(&self, content: String, variant: MessageVariant, options: MessageOptions)"</td>
+                        <td>"The label of the menu item."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

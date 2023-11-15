@@ -57,6 +57,33 @@ pub fn LoadingBarPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"LoadingBar Injection Methods"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"start"</td>
+                        <th>"fn(&self)"</th>
+                        <td>"Callback function for loading bar to start loading."</td>
+                    </tr>
+                    <tr>
+                        <td>"finish"</td>
+                        <th>"fn(&self)"</th>
+                        <td>"The callback function when the loading bar finishes loading."</td>
+                    </tr>
+                    <tr>
+                        <td>"error"</td>
+                        <th>"fn(&self)"</th>
+                        <td>"Callback function for loading bar error."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }
