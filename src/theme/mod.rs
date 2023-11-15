@@ -4,8 +4,8 @@ use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, ColorPickerTheme,
-    InputTheme, MenuTheme, MessageTheme, SelectTheme, SkeletionTheme, SliderTheme, SwitchTheme,
-    TableTheme, TagTheme, UploadTheme,
+    InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme, SkeletionTheme, SliderTheme,
+    SwitchTheme, TableTheme, TagTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -36,6 +36,7 @@ pub struct Theme {
     pub auto_complete: AutoCompleteTheme,
     pub color_picker: ColorPickerTheme,
     pub breadcrumb: BreadcrumbTheme,
+    pub progress: ProgressTheme,
 }
 
 impl Theme {
@@ -61,6 +62,7 @@ impl Theme {
             auto_complete: AutoCompleteTheme::light(),
             color_picker: ColorPickerTheme::light(),
             breadcrumb: BreadcrumbTheme::light(),
+            progress: ProgressTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -85,6 +87,7 @@ impl Theme {
             auto_complete: AutoCompleteTheme::dark(),
             color_picker: ColorPickerTheme::dark(),
             breadcrumb: BreadcrumbTheme::dark(),
+            progress: ProgressTheme::dark(),
         }
     }
 }

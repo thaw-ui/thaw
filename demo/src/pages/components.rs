@@ -206,6 +206,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Modal".into(),
                 },
                 MenuItemOption {
+                    value: "progress".into(),
+                    label: "Progress".into(),
+                },
+                MenuItemOption {
                     value: "skeleton".into(),
                     label: "Skeleton".into(),
                 },

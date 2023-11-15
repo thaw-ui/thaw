@@ -3,8 +3,9 @@ use crate::{
     pages::MobilePage,
 };
 use leptos::*;
-use thaw::mobile::NavBar;
 use prisms::highlight_str;
+use thaw::mobile::NavBar;
+use thaw::Table;
 
 #[component]
 pub fn NavBarPage() -> impl IntoView {
@@ -43,6 +44,55 @@ pub fn NavBarPage() -> impl IntoView {
                         ""
                     </DemoCode>
                 </Demo>
+                <h3>"NavBar Props"</h3>
+                <Table single_column=true>
+                    <thead>
+                        <tr>
+                            <th>"Name"</th>
+                            <th>"Type"</th>
+                            <th>"Default"</th>
+                            <th>"Description"</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>"title"</td>
+                            <td>"MaybeSignal<String>"</td>
+                            <td>r#""""#</td>
+                            <td>"NavBar title."</td>
+                        </tr>
+                        <tr>
+                            <td>"left_arrow"</td>
+                            <td>"MaybeSignal<bool>"</td>
+                            <td></td>
+                            <td>"Whether to show left arrow."</td>
+                        </tr>
+                        <tr>
+                            <td>"left_text"</td>
+                            <td>"MaybeSignal<String>"</td>
+                            <td>r#""""#</td>
+                            <td>"NavBar left text."</td>
+                        </tr>
+                        <tr>
+                            <td>"on_click_left"</td>
+                            <td>"MaybeSignal<String>"</td>
+                            <td>r#""""#</td>
+                            <td>"NavBar left click."</td>
+                        </tr>
+                        <tr>
+                            <td>"right_text"</td>
+                            <td>"MaybeSignal<String>"</td>
+                            <td>r#""""#</td>
+                            <td>"NavBar right text."</td>
+                        </tr>
+                        <tr>
+                            <td>"on_click_right"</td>
+                            <td>"MaybeSignal<String>"</td>
+                            <td>r#""""#</td>
+                            <td>"NavBar right click."</td>
+                        </tr>
+                    </tbody>
+                </Table>
             </div>
             <div>
                 <MobilePage path="/thaw?path=/mobile/nav-bar"/>

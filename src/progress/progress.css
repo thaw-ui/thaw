@@ -3,45 +3,37 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 24px;
-    padding: 0 8px;
-}
-
-.thaw-progress__tip-right,
-.thaw-progress__tip-left {
-    display: inline-block;
-    margin: 0 10px;
-    width: 48px;
-    text-align: center;
-    font-size: 12px;
-    color: #777;
 }
 
 .thaw-progress__progress {
     flex: 1;
-    height: 3px;
-    background: #f2f2f2;
-    border-radius: 2px;
-    /* cursor: pointer; */
+    position: relative;
+    height: 8px;
+    line-height: 8px;
+    background: var(--thaw-background-color);
+    border-radius: 4px;
+}
+
+.thaw-progress__progress--indicator-inside {
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    border-radius: 8px;
 }
 
 .thaw-progress__progress-inner {
-    position: relative;
-    top: -14px;
-    display: inline-block;
-    background: red;
+    position: absolute;
+    background: var(--thaw-inner-background-color);
     height: 100%;
+    border-radius: inherit;
     transition: width 0.1s;
 }
 
-.thaw-progress__progress-circle {
-    display: inline-block;
-    position: absolute;
-    right: -3px;
-    top: -4px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 3px 2px #4443;
+.thaw-progress__indicator--outside {
+    padding: 0 8px;
+}
+
+.thaw-progress__indicator--inside {
+    text-align: right;
+    margin: 0 12px;
 }
