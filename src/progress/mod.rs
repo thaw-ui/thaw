@@ -1,32 +1,87 @@
-use crate::utils::{mount_style, StoredMaybeSignal};
+use crate::{use_theme, utils::mount_style, Theme};
 use leptos::*;
+
+#[derive(Default, Clone, PartialEq)]
+pub enum ProgressIndicatorPlacement {
+    #[default]
+    Outside,
+    Inside,
+}
+
+impl Copy for ProgressIndicatorPlacement {}
+
+impl ProgressIndicatorPlacement {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            ProgressIndicatorPlacement::Outside => "outside",
+            ProgressIndicatorPlacement::Inside => "inside",
+        }
+    }
+}
 
 #[component]
 pub fn Progress(
-    #[prop(optional, into)] left_tip: MaybeSignal<String>,
-    #[prop(optional, into)] right_tip: MaybeSignal<String>,
-    percentage: ReadSignal<f64>,
+    #[prop(into, optional)] percentage: MaybeSignal<f32>,
+    #[prop(into, default = MaybeSignal::Static(true))] show_indicator: MaybeSignal<bool>,
+    #[prop(into, optional)] indicator_placement: MaybeSignal<ProgressIndicatorPlacement>,
 ) -> impl IntoView {
     mount_style("progress", include_str!("./progress.css"));
-    let style = move || format!("width: {}%", percentage.get());
-    let left_tip: StoredMaybeSignal<_> = left_tip.into();
-    let right_tip: StoredMaybeSignal<_> = right_tip.into();
+    let theme = use_theme(Theme::light);
+    let style = move || {
+        let mut style = String::new();
+        let percentage = percentage.get();
+        let percentage = if percentage < 0.0 {
+            0.0
+        } else if percentage > 100.0 {
+            100.0
+        } else {
+            percentage
+        };
+        style.push_str(&format!("width: {}%;", percentage));
+        theme.with(|theme| {
+            style.push_str(&format!(
+                "--thaw-background-color: {};",
+                theme.common.color_primary
+            ));
+        });
+        style
+    };
+
+    let class = move || {
+        let mut class = String::from("thaw-progress__progress");
+
+        class.push_str(&format!(
+            " thaw-progress__progress--indicator-{}",
+            indicator_placement.get().as_str()
+        ));
+
+        class
+    };
 
     view! {
         <div class="thaw-progress">
-            <span class="thaw-progress__tip-left">
-                <Show when=move || left_tip.with(|v| !v.is_empty())>{move || left_tip.get()}</Show>
-            </span>
-            <span class="thaw-progress__progress">
-                <span class="thaw-progress__progress-inner" style=style>
-                    <span class="thaw-progress__progress-circle"></span>
-                </span>
-            </span>
-            <span class="thaw-progress__tip-right">
-                <Show when=move || {
-                    right_tip.with(|v| !v.is_empty())
-                }>{move || right_tip.get()}</Show>
-            </span>
+            <div class=class>
+                <div class="thaw-progress__progress-inner" style=style>
+                    <Show when=move || show_indicator.get() && indicator_placement.get() == ProgressIndicatorPlacement::Inside>
+                        <div class="thaw-progress__indicator--inside">
+                            {
+                                move || {
+                                    format!("{}%", percentage.get())
+                                }
+                            }
+                        </div>
+                    </Show>
+                </div>
+            </div>
+            <Show when=move || show_indicator.get() && indicator_placement.get() == ProgressIndicatorPlacement::Outside>
+                <div class="thaw-progress__indicator--outside">
+                    {
+                        move || {
+                            format!("{}%", percentage.get())
+                        }
+                    }
+                </div>
+            </Show>
         </div>
     }
 }
