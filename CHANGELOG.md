@@ -1,3 +1,7 @@
+## [0.1.0-beta3](https://github.com/thaw-ui/thaw/compare/v0.1.0-beta2...v0.1.0-beta3) (2023-11-15)
+
+**rewrite:** Rewrite the progress component.
+
 ## [0.1.0-beta2](https://github.com/thaw-ui/thaw/compare/v0.1.0-beta...v0.1.0-beta2) (2023-11-14)
 
 **private**: AlertVariant, ButtonColor, TagVariant theme related methods cancel pub.
