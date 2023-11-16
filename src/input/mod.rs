@@ -24,6 +24,11 @@ impl InputVariant {
 }
 
 #[slot]
+pub struct InputPrefix {
+    children: Children,
+}
+
+#[slot]
 pub struct InputSuffix {
     children: Children,
 }
@@ -36,6 +41,7 @@ pub fn Input(
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
+    #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -92,6 +98,11 @@ pub fn Input(
     });
     view! {
         <div class="thaw-input" class=("thaw-input--focus", move || is_focus.get()) style=move || css_vars.get()>
+            {if let Some(prefix) = input_prefix {
+                view! { <div class="thaw-input__prefix">{(prefix.children)()}</div> }.into()
+            } else {
+                None
+            }}
             <input
                 type=move || variant.get().as_str()
                 prop:value=move || {
