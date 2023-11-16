@@ -23,7 +23,7 @@ impl ProgressIndicatorPlacement {
 }
 
 #[derive(Default, Clone)]
-pub enum ProgressVariant {
+pub enum ProgressColor {
     #[default]
     Primary,
     Success,
@@ -31,7 +31,7 @@ pub enum ProgressVariant {
     Error,
 }
 
-impl ProgressVariant {
+impl ProgressColor {
     fn theme_background_color(&self, theme: &Theme) -> String {
         match self {
             Self::Primary => theme.common.color_primary.clone(),
@@ -45,7 +45,7 @@ impl ProgressVariant {
 #[component]
 pub fn Progress(
     #[prop(into, optional)] percentage: MaybeSignal<f32>,
-    #[prop(into, optional)] variant: MaybeSignal<ProgressVariant>,
+    #[prop(into, optional)] color: MaybeSignal<ProgressColor>,
     #[prop(into, default = MaybeSignal::Static(true))] show_indicator: MaybeSignal<bool>,
     #[prop(into, optional)] indicator_placement: MaybeSignal<ProgressIndicatorPlacement>,
 ) -> impl IntoView {
@@ -60,7 +60,7 @@ pub fn Progress(
             ));
             css_vars.push_str(&format!(
                 "--thaw-inner-background-color: {};",
-                variant.get().theme_background_color(theme)
+                color.get().theme_background_color(theme)
             ));
         });
         css_vars
