@@ -2,12 +2,10 @@
 target = "index.html"
 public_url = "/thaw/"
 # release = true
+filehash = false
 
 [watch]
-watch = [
-    "../src",
-    "./src"
-]
+watch = ["../src", "./src"]
 
 [serve]
 address = "127.0.0.1"
