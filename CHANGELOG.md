@@ -1,3 +1,8 @@
+## [0.1.0-beta4](https://github.com/thaw-ui/thaw/compare/v0.1.0-beta3...v0.1.0-beta4) (2023-11-16)
+
+* **input:** Input component add prefix slot.
+* **progress:** The variant property of the progress component is changed to color.
+
 ## [0.1.0-beta3](https://github.com/thaw-ui/thaw/compare/v0.1.0-beta2...v0.1.0-beta3) (2023-11-15)
 
 **rewrite:** Rewrite the progress component.
