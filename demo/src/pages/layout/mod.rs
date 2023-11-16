@@ -94,43 +94,6 @@ pub fn LayoutPage() -> impl IntoView {
                     </tr>
                 </tbody>
             </Table>
-            <h3>"Layout Props"</h3>
-            <Table single_column=true>
-                <thead>
-                    <tr>
-                        <th>"Name"</th>
-                        <th>"Type"</th>
-                        <th>"Default"</th>
-                        <th>"Description"</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>"style"</td>
-                        <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
-                        <td>"Layout's style."</td>
-                    </tr>
-                    <tr>
-                        <td>"position"</td>
-                        <td>"LayoutPosition"</td>
-                        <td>"LayoutPosition::Static"</td>
-                        <td>"static position will make it css position set to static. absolute position will make it css position set to absolute and left, right, top, bottom to 0. absolute position is very useful when you want to make content scroll in a fixed container or make the whole page's layout in a fixed position. You may need to change the style of the component to make it display as you expect."</td>
-                    </tr>
-                    <tr>
-                        <td>"has_sider"</td>
-                        <td>"MaybeSignal<bool>"</td>
-                        <td>"false"</td>
-                        <td>"Whether the component has sider inside. If so it must be true."</td>
-                    </tr>
-                    <tr>
-                        <td>"children"</td>
-                        <td>"Children"</td>
-                        <td></td>
-                        <td>"Layout's content."</td>
-                    </tr>
-                </tbody>
-            </Table>
             <h3>"LayoutHeader, LayoutSider Props"</h3>
             <Table single_column=true>
                 <thead>

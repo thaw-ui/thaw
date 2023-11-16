@@ -3,10 +3,10 @@ use crate::{
     pages::MobilePage,
 };
 use leptos::*;
-use thaw::mobile::*;
-use thaw::*;
 use prisms::highlight_str;
 use std::time::Duration;
+use thaw::mobile::*;
+use thaw::*;
 
 #[component]
 pub fn ToastPage() -> impl IntoView {
@@ -36,6 +36,45 @@ pub fn ToastPage() -> impl IntoView {
                         ""
                     </DemoCode>
                 </Demo>
+                <h3>"Toast Methods"</h3>
+                <Table single_column=true>
+                    <thead>
+                        <tr>
+                            <th>"Name"</th>
+                            <th>"Type"</th>
+                            <th>"Description"</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>"show_toast"</td>
+                            <td>"fn(options: ToastOptions))"</td>
+                            <td>"Show toast."</td>
+                        </tr>
+                    </tbody>
+                </Table>
+                <h3>"ToastOptions Properties"</h3>
+                <Table single_column=true>
+                    <thead>
+                        <tr>
+                            <th>"Name"</th>
+                            <th>"Type"</th>
+                            <th>"Description"</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>"message"</td>
+                            <td>"String"</td>
+                            <td>"message."</td>
+                        </tr>
+                        <tr>
+                            <td>"duration"</td>
+                            <td>"std::time::Duration"</td>
+                            <td>"show duration."</td>
+                        </tr>
+                    </tbody>
+                </Table>
             </div>
             <div>
                 <MobilePage path="/thaw?path=/mobile/toast"/>

@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn TablePage() -> impl IntoView {
@@ -85,6 +85,18 @@ pub fn TablePage() -> impl IntoView {
                         <td>"MaybeSignal<bool>"</td>
                         <td>"false"</td>
                         <td>""</td>
+                    </tr>
+                    <tr>
+                        <td>"style"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>r#""""#</td>
+                        <td>"Table's style."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"Table's content."</td>
                     </tr>
                 </tbody>
             </Table>

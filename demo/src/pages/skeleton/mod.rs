@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn SkeletonPage() -> impl IntoView {
@@ -25,6 +25,43 @@ pub fn SkeletonPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Skeleton Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"repeat"</td>
+                        <td>"MaybeSignal<u32>"</td>
+                        <td>"1"</td>
+                        <td>"Repeat frequency."</td>
+                    </tr>
+                    <tr>
+                        <td>"text"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Text skeleton."</td>
+                    </tr>
+                    <tr>
+                        <td>"width"</td>
+                        <td>"Option<MaybeSignal<String>>"</td>
+                        <td>"None"</td>
+                        <td>"Skeleton width."</td>
+                    </tr>
+                    <tr>
+                        <td>"height"</td>
+                        <td>"Option<MaybeSignal<String>>"</td>
+                        <td>"None"</td>
+                        <td>"Text skeleton."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

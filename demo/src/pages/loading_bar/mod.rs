@@ -69,17 +69,17 @@ pub fn LoadingBarPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"start"</td>
-                        <th>"fn(&self)"</th>
+                        <td>"fn(&self)"</td>
                         <td>"Callback function for loading bar to start loading."</td>
                     </tr>
                     <tr>
                         <td>"finish"</td>
-                        <th>"fn(&self)"</th>
+                        <td>"fn(&self)"</td>
                         <td>"The callback function when the loading bar finishes loading."</td>
                     </tr>
                     <tr>
                         <td>"error"</td>
-                        <th>"fn(&self)"</th>
+                        <td>"fn(&self)"</td>
                         <td>"Callback function for loading bar error."</td>
                     </tr>
                 </tbody>
