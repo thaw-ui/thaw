@@ -7,7 +7,7 @@ pub fn SiteHeader() -> impl IntoView {
     let theme = use_rw_theme();
     let theme_name = create_memo(move |_| {
         theme.with(|theme| {
-            if theme.name == "light".to_string() {
+            if theme.name == *"light" {
                 "Dark"
             } else {
                 "Light"
@@ -46,10 +46,7 @@ pub fn SiteHeader() -> impl IntoView {
             match_value(pattern, value.split_at(1).1.to_string())
         }
         search_all_options.with_value(|options| {
-            let search_value = search_value
-                .to_lowercase()
-                .replace(" ", "")
-                .replace("-", "");
+            let search_value = search_value.to_lowercase().replace([' ', '-'], "");
             let search_value = if search_value.len() > 20 {
                 search_value.split_at(20).0
             } else {
@@ -58,11 +55,7 @@ pub fn SiteHeader() -> impl IntoView {
             options
                 .iter()
                 .filter(|option| {
-                    let label = option
-                        .label
-                        .to_lowercase()
-                        .replace(" ", "")
-                        .replace("-", "");
+                    let label = option.label.to_lowercase().replace([' ', '-'], "");
                     match_value(search_value, label)
                 })
                 .cloned()
@@ -140,24 +133,18 @@ fn gen_search_all_options() -> Vec<AutoCompleteOption> {
     use crate::pages::{gen_guide_menu_data, gen_menu_data};
     let mut options: Vec<_> = gen_menu_data()
         .into_iter()
-        .map(|group| {
+        .flat_map(|group| {
             group.children.into_iter().map(|item| AutoCompleteOption {
                 value: format!("/components/{}", item.value),
                 label: item.label,
             })
         })
-        .flatten()
         .collect();
-    options.extend(
-        gen_guide_menu_data()
-            .into_iter()
-            .map(|group| {
-                group.children.into_iter().map(|item| AutoCompleteOption {
-                    value: format!("/guide/{}", item.value),
-                    label: item.label,
-                })
-            })
-            .flatten(),
-    );
+    options.extend(gen_guide_menu_data().into_iter().flat_map(|group| {
+        group.children.into_iter().map(|item| AutoCompleteOption {
+            value: format!("/guide/{}", item.value),
+            label: item.label,
+        })
+    }));
     options
 }

@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn AutoCompletePage() -> impl IntoView {
