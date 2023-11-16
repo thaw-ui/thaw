@@ -13,9 +13,44 @@ pub fn InputPage() -> impl IntoView {
                 <Space vertical=true>
                     <Input value/>
                     <Input value variant=InputVariant::Password placeholder="Password"/>
+                </Space>
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
+                        let value = create_rw_signal(String::from("o"));
+
+                        view! {
+                            <Space vertical=true>
+                                <Input value/>
+                                <Input value variant=InputVariant::Password placeholder="Password"/>
+                            </Space>
+                        }
+                    "#,
+                        "rust"
+                    )
+                >
+
+                    ""
+                    ""
+                </DemoCode>
+            </Demo>
+            <h1>"Prefix & Suffix"</h1>
+            <Demo>
+                <Space vertical=true>
+                    <Input value>
+                        <InputPrefix slot>
+                            <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
+                        </InputPrefix>
+                    </Input>
                     <Input value>
                         <InputSuffix slot>
                             "$"
+                        </InputSuffix>
+                    </Input>
+                    <Input value>
+                        <InputSuffix slot>
+                            <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
                         </InputSuffix>
                     </Input>
                 </Space>
@@ -26,13 +61,23 @@ pub fn InputPage() -> impl IntoView {
                         let value = create_rw_signal(String::from("o"));
 
                         view! {
-                            <Input value/>
-                            <Input value variant=InputVariant::Password placeholder="Password"/>
-                            <Input value>
-                                <InputSuffix slot>
-                                    "$"
-                                </InputSuffix>
-                            </Input>
+                            <Space vertical=true>
+                                <Input value>
+                                    <InputPrefix slot>
+                                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
+                                    </InputPrefix>
+                                </Input>
+                                <Input value>
+                                    <InputSuffix slot>
+                                        "$"
+                                    </InputSuffix>
+                                </Input>
+                                <Input value>
+                                    <InputSuffix slot>
+                                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
+                                    </InputSuffix>
+                                </Input>
+                            </Space>
                         }
                     "#,
                         "rust"
@@ -103,9 +148,14 @@ pub fn InputPage() -> impl IntoView {
                 </thead>
                 <tbody>
                     <tr>
+                        <td>"InputPrefix"</td>
+                        <td>"None"</td>
+                        <td>"InputPrefix content."</td>
+                    </tr>
+                    <tr>
                         <td>"InputSuffix"</td>
                         <td>"None"</td>
-                        <td>"Input content."</td>
+                        <td>"InputSuffix content."</td>
                     </tr>
                 </tbody>
             </Table>

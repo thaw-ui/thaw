@@ -36,6 +36,13 @@
     color: var(--thaw-placeholder-color);
 }
 
+.thaw-input__prefix {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+}
+
 .thaw-input__suffix {
     display: inline-flex;
     align-items: center;

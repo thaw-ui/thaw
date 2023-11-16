@@ -16,6 +16,7 @@ icondata = { version = "0.1.0", features = [
     "AiCloseOutlined",
     "AiCheckOutlined",
     "AiGithubOutlined",
+    "AiUserOutlined",
 ] }
 prisms = { git = "https://github.com/luoxiaozero/prisms", rev = "16d4d34b93fc20578ebf03137d54ecc7eafa4d4b" }
 
