@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn SelectPage() -> impl IntoView {
@@ -35,6 +35,31 @@ pub fn SelectPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Select Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"value"</td>
+                        <td>"RwSignal<Option<T>>"</td>
+                        <td>"None"</td>
+                        <td>"Checked value."</td>
+                    </tr>
+                    <tr>
+                        <td>"options"</td>
+                        <td>"MaybeSignal<Vec<SelectOption<T>>>"</td>
+                        <td>"vec![]"</td>
+                        <td>"Options that can be selected."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

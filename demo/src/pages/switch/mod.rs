@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn SwitchPage() -> impl IntoView {
@@ -27,6 +27,25 @@ pub fn SwitchPage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Swith Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"value"</td>
+                        <td>"RwSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Swith's value."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

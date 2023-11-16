@@ -14,9 +14,9 @@ pub fn ProgressPage() -> impl IntoView {
                     <Progress percentage show_indicator=false/>
                     <Progress percentage />
                     <Progress percentage indicator_placement=ProgressIndicatorPlacement::Inside/>
-                    <Progress percentage variant=ProgressVariant::Success/>
-                    <Progress percentage variant=ProgressVariant::Warning/>
-                    <Progress percentage variant=ProgressVariant::Error/>
+                    <Progress percentage color=ProgressColor::Success/>
+                    <Progress percentage color=ProgressColor::Warning/>
+                    <Progress percentage color=ProgressColor::Error/>
                     <Space>
                         <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>
                             "-10%"
@@ -37,9 +37,9 @@ pub fn ProgressPage() -> impl IntoView {
                             <Progress percentage show_indicator=false/>
                             <Progress percentage />
                             <Progress percentage indicator_placement=ProgressIndicatorPlacement::Inside/>
-                            <Progress percentage variant=ProgressVariant::Success/>
-                            <Progress percentage variant=ProgressVariant::Warning/>
-                            <Progress percentage variant=ProgressVariant::Error/>
+                            <Progress percentage color=ProgressColor::Success/>
+                            <Progress percentage color=ProgressColor::Warning/>
+                            <Progress percentage color=ProgressColor::Error/>
                             <Space>
                                 <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>
                                     "-10%"
@@ -76,10 +76,10 @@ pub fn ProgressPage() -> impl IntoView {
                         <td>"Percentage value."</td>
                     </tr>
                     <tr>
-                        <td>"variant"</td>
-                        <td>"MaybeSignal<ProgressVariant>"</td>
-                        <td>"ProgressVariant::Primary"</td>
-                        <td>"Progress variant."</td>
+                        <td>"color"</td>
+                        <td>"MaybeSignal<ProgressColor>"</td>
+                        <td>"ProgressColor::Primary"</td>
+                        <td>"Progress color."</td>
                     </tr>
                     <tr>
                         <td>"show_indicator"</td>

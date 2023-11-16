@@ -1,7 +1,7 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
-use thaw::*;
 use prisms::highlight_str;
+use thaw::*;
 
 #[component]
 pub fn SpacePage() -> impl IntoView {
@@ -89,6 +89,37 @@ pub fn SpacePage() -> impl IntoView {
                     ""
                 </DemoCode>
             </Demo>
+            <h3>"Space Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"gap"</td>
+                        <td>"SpaceGap"</td>
+                        <td>"SpaceGap::Medium"</td>
+                        <td>"Space's gap."</td>
+                    </tr>
+                    <tr>
+                        <td>"vertical"</td>
+                        <td>"MaybeSignal<f64>"</td>
+                        <td>"false"</td>
+                        <td>"Whether to lay out vertically."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"Space's content."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

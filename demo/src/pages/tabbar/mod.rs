@@ -3,8 +3,8 @@ use crate::{
     pages::MobilePage,
 };
 use leptos::*;
-use thaw::mobile::*;
 use prisms::highlight_str;
+use thaw::{mobile::*, Table};
 
 #[component]
 pub fn TabbarPage() -> impl IntoView {
@@ -39,6 +39,62 @@ pub fn TabbarPage() -> impl IntoView {
                         ""
                     </DemoCode>
                 </Demo>
+                <h3>"Tabbar Props"</h3>
+                <Table single_column=true>
+                    <thead>
+                        <tr>
+                            <th>"Name"</th>
+                            <th>"Type"</th>
+                            <th>"Default"</th>
+                            <th>"Description"</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>"value"</td>
+                            <td>"RwSignal<String>"</td>
+                            <td>r#""""#</td>
+                            <td>"Tabbar's value."</td>
+                        </tr>
+                        <tr>
+                            <td>"children"</td>
+                            <td>"Children"</td>
+                            <td></td>
+                            <td>"Tabbar's content."</td>
+                        </tr>
+                    </tbody>
+                </Table>
+                <h3>"TabbarItem Props"</h3>
+                <Table single_column=true>
+                    <thead>
+                        <tr>
+                            <th>"Name"</th>
+                            <th>"Type"</th>
+                            <th>"Default"</th>
+                            <th>"Description"</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>"key"</td>
+                            <td>"MaybeSignal<String>"</td>
+                            <td>r#""""#</td>
+                            <td>"The indentifier of the tabbar item."</td>
+                        </tr>
+                        <tr>
+                            <td>"icon"</td>
+                            <td>"Option<Icon>"</td>
+                            <td>"None"</td>
+                            <td>"TabbarItem's icon."</td>
+                        </tr>
+                        <tr>
+                            <td>"children"</td>
+                            <td>"Children"</td>
+                            <td></td>
+                            <td>"TabbarItem's content."</td>
+                        </tr>
+                    </tbody>
+                </Table>
             </div>
             <div>
                 <MobilePage path="/thaw?path=/mobile/tabbar"/>
