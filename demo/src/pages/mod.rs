@@ -34,6 +34,7 @@ mod tabbar;
 mod table;
 mod tabs;
 mod tag;
+mod theme;
 mod toast;
 mod upload;
 
@@ -73,5 +74,6 @@ pub use tabbar::*;
 pub use table::*;
 pub use tabs::*;
 pub use tag::*;
+pub use theme::*;
 pub use toast::*;
 pub use upload::*;

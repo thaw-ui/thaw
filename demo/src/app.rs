@@ -22,7 +22,6 @@ pub fn App() -> impl IntoView {
     });
     let theme = create_rw_signal(theme);
 
-    provide_context(theme);
     provide_meta_context();
     view! {
         <Provider theme>
@@ -84,6 +83,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path="/breadcrumb" view=BreadcrumbPage/>
                     <Route path="/layout" view=LayoutPage/>
                     <Route path="/progress" view=ProgressPage/>
+                    <Route path="/theme" view=ThemePage/>
                 </Route>
                 <Route path="/mobile/tabbar" view=TabbarDemoPage/>
                 <Route path="/mobile/nav-bar" view=NavBarDemoPage/>

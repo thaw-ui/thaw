@@ -8,7 +8,7 @@ pub fn TabsPage() -> impl IntoView {
     let value = create_rw_signal(String::from("apple"));
     view! {
         <div style="width: 896px; margin: 0 auto;">
-            <h1>"Tabs2"</h1>
+            <h1>"Tabs"</h1>
             <Demo>
                 <Tabs value>
                     <Tab key="apple" label="Apple">
