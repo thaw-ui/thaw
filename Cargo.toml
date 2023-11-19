@@ -13,7 +13,7 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.5.2", features = ["csr"] }
+leptos = { version = "0.5.2" }
 web-sys = { version = "0.3.63", features = [
     "DomRect",
     "File",
@@ -36,5 +36,10 @@ icondata_core = "0.0.2"
 uuid = { version = "1.5.0", features = ["v4"] }
 cfg-if = "1.0.0"
 
+[features]
+default = ["csr"]
+csr = ["leptos/csr"]
+ssr = ["leptos/ssr"]
+
 [workspace]
-members = ["demo"]
+members = ["demo", "examples/*"]

@@ -1,8 +1,4 @@
-mod app;
-mod components;
-mod pages;
-
-use app::*;
+use demo::App;
 use leptos::*;
 
 fn main() {
