@@ -1,3 +1,9 @@
+## [0.1.0](https://github.com/thaw-ui/thaw/compare/v0.1.0-beta4...v0.1.0) (2023-11-19)
+
+### Bug Fixs
+
+* **provide_context:** Use the Provider component. Specific reasons see https://github.com/leptos-rs/leptos/issues/2038.
+
 ## [0.1.0-beta4](https://github.com/thaw-ui/thaw/compare/v0.1.0-beta3...v0.1.0-beta4) (2023-11-16)
 
 * **input:** Input component add prefix slot.
