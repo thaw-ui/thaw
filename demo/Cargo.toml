@@ -23,5 +23,5 @@ prisms = { git = "https://github.com/luoxiaozero/prisms", rev = "16d4d34b93fc205
 [features]
 default = ["csr"]
 tracing = ["leptos/tracing"]
-csr = ["leptos/csr", "leptos_meta/csr", "leptos_router/csr"]
-ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr"]
+csr = ["leptos/csr", "leptos_meta/csr", "leptos_router/csr", "thaw/csr"]
+ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "thaw/ssr"]
