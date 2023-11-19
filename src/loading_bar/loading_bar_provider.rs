@@ -1,17 +1,22 @@
 use super::{LoadingBar, LoadingBarRef};
-use crate::{components::Teleport, utils::ComponentRef};
+use crate::{
+    components::Teleport,
+    utils::{ComponentRef, Provider},
+};
 use leptos::*;
 
 #[component]
 pub fn LoadingBarProvider(children: Children) -> impl IntoView {
     let loading_bar_ref = ComponentRef::<LoadingBarRef>::default();
-    provide_context(LoadingBarInjection { loading_bar_ref });
 
     view! {
-        {children()}
-        <Teleport>
-            <LoadingBar comp_ref=loading_bar_ref/>
-        </Teleport>
+        <Provider value=LoadingBarInjection {
+            loading_bar_ref,
+        }>
+            {children()} <Teleport>
+                <LoadingBar comp_ref=loading_bar_ref/>
+            </Teleport>
+        </Provider>
     }
 }
 

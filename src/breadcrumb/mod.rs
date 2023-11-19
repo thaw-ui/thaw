@@ -1,7 +1,11 @@
 mod breadcrumb_item;
 mod theme;
 
-use crate::{use_theme, utils::mount_style, Theme};
+use crate::{
+    use_theme,
+    utils::{mount_style, Provider},
+    Theme,
+};
 pub use breadcrumb_item::BreadcrumbItem;
 use leptos::*;
 pub use theme::BreadcrumbTheme;
@@ -31,11 +35,12 @@ pub fn Breadcrumb(
         });
         css_vars
     });
-    provide_context(BreadcrumbSeparatorInjection(separator));
     view! {
-        <nav class="thaw-breadcrumb" style=move || css_vars.get()>
-            <ul>{children()}</ul>
-        </nav>
+        <Provider value=BreadcrumbSeparatorInjection(separator)>
+            <nav class="thaw-breadcrumb" style=move || css_vars.get()>
+                <ul>{children()}</ul>
+            </nav>
+        </Provider>
     }
 }
 

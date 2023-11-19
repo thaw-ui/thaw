@@ -97,12 +97,17 @@ pub fn Input(
         css_vars
     });
     view! {
-        <div class="thaw-input" class=("thaw-input--focus", move || is_focus.get()) style=move || css_vars.get()>
+        <div
+            class="thaw-input"
+            class=("thaw-input--focus", move || is_focus.get())
+            style=move || css_vars.get()
+        >
             {if let Some(prefix) = input_prefix {
                 view! { <div class="thaw-input__prefix">{(prefix.children)()}</div> }.into()
             } else {
                 None
             }}
+
             <input
                 type=move || variant.get().as_str()
                 prop:value=move || {

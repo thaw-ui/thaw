@@ -89,27 +89,29 @@ pub fn Progress(
     };
 
     view! {
-        <div class="thaw-progress" style=move || css_vars.get() >
+        <div class="thaw-progress" style=move || css_vars.get()>
             <div class=class>
                 <div class="thaw-progress__progress-inner" style=style>
-                    <Show when=move || show_indicator.get() && indicator_placement.get() == ProgressIndicatorPlacement::Inside>
+                    <Show when=move || {
+                        show_indicator.get()
+                            && indicator_placement.get() == ProgressIndicatorPlacement::Inside
+                    }>
                         <div class="thaw-progress__indicator--inside">
-                            {
-                                move || {
-                                    format!("{}%", percentage.get())
-                                }
-                            }
+
+                            {move || { format!("{}%", percentage.get()) }}
+
                         </div>
                     </Show>
                 </div>
             </div>
-            <Show when=move || show_indicator.get() && indicator_placement.get() == ProgressIndicatorPlacement::Outside>
+            <Show when=move || {
+                show_indicator.get()
+                    && indicator_placement.get() == ProgressIndicatorPlacement::Outside
+            }>
                 <div class="thaw-progress__indicator--outside">
-                    {
-                        move || {
-                            format!("{}%", percentage.get())
-                        }
-                    }
+
+                    {move || { format!("{}%", percentage.get()) }}
+
                 </div>
             </Show>
         </div>

@@ -3,6 +3,7 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
+    utils::Provider,
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, ColorPickerTheme,
     InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme, SkeletionTheme, SliderTheme,
     SwitchTheme, TableTheme, TagTheme, UploadTheme,
@@ -111,8 +112,8 @@ pub fn ThemeProvider(
     } else {
         create_rw_signal(Theme::light())
     };
-    provide_context(theme);
-    children()
+
+    view! { <Provider value=theme children/> }
 }
 
 pub fn use_theme(default: impl Fn() -> Theme) -> ReadSignal<Theme> {

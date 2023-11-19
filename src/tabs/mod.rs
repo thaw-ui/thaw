@@ -1,6 +1,10 @@
 mod tab;
 
-use crate::{theme::use_theme, utils::mount_style, Theme};
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, Provider},
+    Theme,
+};
 use leptos::*;
 
 pub use tab::*;
@@ -9,10 +13,6 @@ pub use tab::*;
 pub fn Tabs(#[prop(optional, into)] value: RwSignal<String>, children: Children) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
     let tab_options_vec = create_rw_signal(vec![]);
-    provide_context(TabsInjection {
-        active_key: value,
-        tab_options_vec,
-    });
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
@@ -36,66 +36,71 @@ pub fn Tabs(#[prop(optional, into)] value: RwSignal<String>, children: Children)
     let label_list_ref = create_node_ref::<html::Div>();
 
     view! {
-        <div class="thaw-tabs" style=move || css_vars.get()>
-            <div class="thaw-tabs__label-list" ref=label_list_ref>
-                <For
-                    each=move || tab_options_vec.get()
-                    key=move |v| v.key.clone()
-                    children=move |option| {
-                        let label_ref = create_node_ref::<html::Span>();
-                        let TabOption { key, label } = option;
-                        create_effect({
-                            let key = key.clone();
-                            move |_| {
-                                let Some(label) = label_ref.get() else {
-                                    return;
-                                };
-                                let Some(label_list) = label_list_ref.get() else {
-                                    return;
-                                };
-                                if key.clone() == value.get() {
-                                    request_animation_frame(move || {
-                                        let list_rect = label_list.get_bounding_client_rect();
-                                        let rect = label.get_bounding_client_rect();
-                                        label_line
-                                            .set(
-                                                Some(TabsLabelLine {
-                                                    width: rect.width(),
-                                                    left: rect.left() - list_rect.left(),
-                                                }),
-                                            );
-                                    });
+        <Provider value=TabsInjection {
+            active_key: value,
+            tab_options_vec,
+        }>
+            <div class="thaw-tabs" style=move || css_vars.get()>
+                <div class="thaw-tabs__label-list" ref=label_list_ref>
+                    <For
+                        each=move || tab_options_vec.get()
+                        key=move |v| v.key.clone()
+                        children=move |option| {
+                            let label_ref = create_node_ref::<html::Span>();
+                            let TabOption { key, label } = option;
+                            create_effect({
+                                let key = key.clone();
+                                move |_| {
+                                    let Some(label) = label_ref.get() else {
+                                        return;
+                                    };
+                                    let Some(label_list) = label_list_ref.get() else {
+                                        return;
+                                    };
+                                    if key.clone() == value.get() {
+                                        request_animation_frame(move || {
+                                            let list_rect = label_list.get_bounding_client_rect();
+                                            let rect = label.get_bounding_client_rect();
+                                            label_line
+                                                .set(
+                                                    Some(TabsLabelLine {
+                                                        width: rect.width(),
+                                                        left: rect.left() - list_rect.left(),
+                                                    }),
+                                                );
+                                        });
+                                    }
                                 }
-                            }
-                        });
-                        view! {
-                            <span
-                                class="thaw-tabs__label"
-                                class=(
-                                    "thaw-tabs__label--active",
-                                    {
+                            });
+                            view! {
+                                <span
+                                    class="thaw-tabs__label"
+                                    class=(
+                                        "thaw-tabs__label--active",
+                                        {
+                                            let key = key.clone();
+                                            move || key == value.get()
+                                        },
+                                    )
+
+                                    on:click={
                                         let key = key.clone();
-                                        move || key == value.get()
-                                    },
-                                )
+                                        move |_| value.set(key.clone())
+                                    }
 
-                                on:click={
-                                    let key = key.clone();
-                                    move |_| value.set(key.clone())
-                                }
-
-                                ref=label_ref
-                            >
-                                {label}
-                            </span>
+                                    ref=label_ref
+                                >
+                                    {label}
+                                </span>
+                            }
                         }
-                    }
-                />
+                    />
 
-                <span class="thaw-tabs-label__line" style=move || label_line_style.get()></span>
+                    <span class="thaw-tabs-label__line" style=move || label_line_style.get()></span>
+                </div>
+                <div>{children()}</div>
             </div>
-            <div>{children()}</div>
-        </div>
+        </Provider>
     }
 }
 

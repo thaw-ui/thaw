@@ -1,7 +1,10 @@
 use std::time::Duration;
 
 use super::{message_environment::MessageEnvironment, MessageVariant};
-use crate::{components::Teleport, utils::mount_style};
+use crate::{
+    components::Teleport,
+    utils::{mount_style, Provider},
+};
 use leptos::*;
 use uuid::Uuid;
 
@@ -10,7 +13,6 @@ pub fn MessageProvider(children: Children) -> impl IntoView {
     mount_style("message", include_str!("./message.css"));
 
     let message_list = create_rw_signal::<Vec<MessageType>>(vec![]);
-    provide_context(MessageInjection::new(message_list));
 
     let handle_after_leave = move |id| {
         message_list.update(move |message_list| {
@@ -22,21 +24,28 @@ pub fn MessageProvider(children: Children) -> impl IntoView {
     };
 
     view! {
-        {children()}
-        <Teleport>
-            <div class="thaw-message-container">
-                <For
-                    each=move || message_list.get()
-                    key=|message| message.0
-                    children=move |message| {
-                        view! {
-                            <MessageEnvironment message on_internal_after_leave=handle_after_leave/>
+        <Provider value=MessageInjection::new(
+            message_list,
+        )>
+            {children()}
+            <Teleport>
+                <div class="thaw-message-container">
+                    <For
+                        each=move || message_list.get()
+                        key=|message| message.0
+                        children=move |message| {
+                            view! {
+                                <MessageEnvironment
+                                    message
+                                    on_internal_after_leave=handle_after_leave
+                                />
+                            }
                         }
-                    }
-                />
+                    />
 
-            </div>
-        </Teleport>
+                </div>
+            </Teleport>
+        </Provider>
     }
 }
 
