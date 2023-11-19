@@ -1,3 +1,4 @@
+use crate::utils::Provider;
 use leptos::*;
 use std::collections::HashSet;
 
@@ -6,9 +7,7 @@ pub fn CheckboxGroup(
     #[prop(optional, into)] value: RwSignal<HashSet<String>>,
     children: Children,
 ) -> impl IntoView {
-    provide_context(CheckboxGroupInjection(value));
-
-    children()
+    view! { <Provider value=CheckboxGroupInjection(value) children/> }
 }
 
 #[derive(Clone)]

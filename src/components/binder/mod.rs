@@ -204,9 +204,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
                 .attr("style", move || content_style.get())
                 .child(children()),
         );
-    view! {
-        <Teleport element=children />
-    }
+    view! { <Teleport element=children/> }
 }
 
 fn get_scroll_parent(element: Option<HtmlElement<AnyElement>>) -> Option<HtmlElement<AnyElement>> {

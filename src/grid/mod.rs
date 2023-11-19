@@ -1,5 +1,6 @@
 mod grid_item;
 
+use crate::utils::Provider;
 pub use grid_item::*;
 use leptos::*;
 
@@ -10,9 +11,6 @@ pub fn Grid(
     #[prop(optional, into)] y_gap: MaybeSignal<u16>,
     children: Children,
 ) -> impl IntoView {
-    let grid_injection_key = GridInjection::new(x_gap);
-    provide_context(grid_injection_key);
-
     let style = create_memo(move |_| {
         let mut style = String::from("display: grid;");
         style.push_str(&format!(
@@ -24,9 +22,11 @@ pub fn Grid(
     });
 
     view! {
-        <div class="thaw-grid" style=move || style.get()>
-            {children()}
-        </div>
+        <Provider value=GridInjection::new(x_gap)>
+            <div class="thaw-grid" style=move || style.get()>
+                {children()}
+            </div>
+        </Provider>
     }
 }
 

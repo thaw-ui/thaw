@@ -104,17 +104,23 @@ where
     });
     view! {
         <Binder target_ref=trigger_ref>
-            <div class="thaw-select" ref=trigger_ref on:click=show_menu style=move || css_vars.get()>
+            <div
+                class="thaw-select"
+                ref=trigger_ref
+                on:click=show_menu
+                style=move || css_vars.get()
+            >
 
                 {move || select_option_label.get()}
 
             </div>
-            <Follower slot show=is_show_menu placement=FollowerPlacement::BottomStart width=FollowerWidth::Target>
-                <div
-                    class="thaw-select-menu"
-                    style=move || menu_css_vars.get()
-                    ref=menu_ref
-                >
+            <Follower
+                slot
+                show=is_show_menu
+                placement=FollowerPlacement::BottomStart
+                width=FollowerWidth::Target
+            >
+                <div class="thaw-select-menu" style=move || menu_css_vars.get() ref=menu_ref>
                     <For
                         each=move || options.get()
                         key=move |item| item.value.clone()

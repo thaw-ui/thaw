@@ -5,6 +5,7 @@ use thaw::*;
 
 #[component]
 pub fn ThemePage() -> impl IntoView {
+    let theme = create_rw_signal(Theme::light());
     let customize_theme = create_rw_signal(Theme::light());
     let on_customize_theme = move |_| {
         customize_theme.update(|theme| {
@@ -16,7 +17,40 @@ pub fn ThemePage() -> impl IntoView {
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Theme"</h1>
-            <ThemeProviderPage/>
+            <h3>"ThemeProvider"</h3>
+            <Demo>
+                <ThemeProvider theme>
+                    <Card>
+                        <Space>
+                            <Button on_click=move |_| theme.set(Theme::light())>"Light"</Button>
+                            <Button on_click=move |_| theme.set(Theme::dark())>"Dark"</Button>
+                        </Space>
+                    </Card>
+                </ThemeProvider>
+                <DemoCode
+                    slot
+                    html=highlight_str!(
+                        r#"
+                    let theme = create_rw_signal(Theme::light());
+
+                    view! {
+                        <ThemeProvider theme>
+                            <Card>
+                                <Space>
+                                    <Button on_click=move |_| theme.set(Theme::light())>"Light"</Button>
+                                    <Button on_click=move |_| theme.set(Theme::dark())>"Dark"</Button>
+                                </Space>
+                            </Card>
+                        </ThemeProvider>
+                    }
+                "#,
+                        "rust"
+                    )
+                >
+
+                    ""
+                </DemoCode>
+            </Demo>
             <h3>"GlobalStyle"</h3>
             <p>"You can use GlobalStyle to sync common global style to the body element."</p>
             <Demo>
@@ -104,38 +138,5 @@ pub fn ThemePage() -> impl IntoView {
                 </tbody>
             </Table>
         </div>
-    }
-}
-
-#[component]
-fn ThemeProviderPage() -> impl IntoView {
-    view! {
-        <h3>"ThemeProvider"</h3>
-        <Demo>
-            ""
-            <DemoCode
-                slot
-                html=highlight_str!(
-                    r#"
-                        let theme = create_rw_signal(Theme::light());
-
-                        view! {
-                            <ThemeProvider theme>
-                                <Card>
-                                    <Space>
-                                        <Button on_click=move |_| theme.set(Theme::light())>"Light"</Button>
-                                        <Button on_click=move |_| theme.set(Theme::dark())>"Dark"</Button>
-                                    </Space>
-                                </Card>
-                            </ThemeProvider>
-                        }
-                    "#,
-                    "rust"
-                )
-            >
-
-                ""
-            </DemoCode>
-        </Demo>
     }
 }

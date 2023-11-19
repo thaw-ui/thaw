@@ -61,11 +61,13 @@ pub fn AutoComplete(
                     allow_value
                 />
             </div>
-            <Follower slot show=is_show_menu placement=FollowerPlacement::BottomStart width=FollowerWidth::Target>
-                <div
-                    class="thaw-auto-complete__menu"
-                    style=move || menu_css_vars.get()
-                >
+            <Follower
+                slot
+                show=is_show_menu
+                placement=FollowerPlacement::BottomStart
+                width=FollowerWidth::Target
+            >
+                <div class="thaw-auto-complete__menu" style=move || menu_css_vars.get()>
 
                     {move || {
                         options

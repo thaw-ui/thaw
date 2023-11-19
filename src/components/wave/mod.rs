@@ -50,6 +50,7 @@ pub fn Wave(#[prop(optional)] comp_ref: ComponentRef<WaveRef>) -> impl IntoView 
                 "thaw-wave--active",
                 move || animation_timeout_handle.with(|handle| handle.is_some()),
             )
+
             ref=wave_ref
         ></div>
     }
