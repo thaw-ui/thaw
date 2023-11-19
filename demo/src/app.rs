@@ -86,9 +86,8 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
 #[component]
 fn TheProvider(children: Children) -> impl IntoView {
     fn use_query_value(key: &str) -> Option<String> {
-        let href = window().location().href().ok()?;
-        let url = Url::try_from(href.as_str()).ok()?;
-        url.search_params.get(key).cloned()
+        let query_map = use_query_map();
+        query_map.with_untracked(|query| query.get(key).cloned())
     }
     let theme = use_query_value("theme").map_or_else(Theme::light, |name| {
         if name == "light" {
