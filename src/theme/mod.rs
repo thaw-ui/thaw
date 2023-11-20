@@ -6,7 +6,7 @@ use crate::{
     utils::Provider,
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, ColorPickerTheme,
     InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme, SkeletionTheme, SliderTheme,
-    SwitchTheme, TableTheme, TagTheme, UploadTheme,
+    SwitchTheme, TableTheme, TagTheme, TypographyTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -38,6 +38,7 @@ pub struct Theme {
     pub color_picker: ColorPickerTheme,
     pub breadcrumb: BreadcrumbTheme,
     pub progress: ProgressTheme,
+    pub typograph: TypographyTheme,
 }
 
 impl Theme {
@@ -64,6 +65,7 @@ impl Theme {
             color_picker: ColorPickerTheme::light(),
             breadcrumb: BreadcrumbTheme::light(),
             progress: ProgressTheme::light(),
+            typograph: TypographyTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -89,6 +91,7 @@ impl Theme {
             color_picker: ColorPickerTheme::dark(),
             breadcrumb: BreadcrumbTheme::dark(),
             progress: ProgressTheme::dark(),
+            typograph: TypographyTheme::dark(),
         }
     }
 }
