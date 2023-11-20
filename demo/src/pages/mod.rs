@@ -36,6 +36,7 @@ mod tabs;
 mod tag;
 mod theme;
 mod toast;
+mod typography;
 mod upload;
 
 pub use alert::*;
@@ -76,4 +77,5 @@ pub use tabs::*;
 pub use tag::*;
 pub use theme::*;
 pub use toast::*;
+pub use typography::*;
 pub use upload::*;

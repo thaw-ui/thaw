@@ -33,6 +33,7 @@ mod table;
 mod tabs;
 mod tag;
 mod theme;
+mod typography;
 mod upload;
 mod utils;
 
@@ -69,5 +70,6 @@ pub use table::*;
 pub use tabs::*;
 pub use tag::*;
 pub use theme::*;
+pub use typography::*;
 pub use upload::*;
 pub use utils::SignalWatch;
