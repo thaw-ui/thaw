@@ -27,7 +27,12 @@ http = "0.2.8"
 demo = { path = "../../demo", default-features = false }
 
 [features]
-hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+hydrate = [
+    "leptos/hydrate",
+    "leptos_meta/hydrate",
+    "leptos_router/hydrate",
+    "demo/hydrate",
+]
 ssr = [
     "dep:axum",
     "dep:tokio",

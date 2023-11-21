@@ -25,3 +25,9 @@ default = ["csr"]
 tracing = ["leptos/tracing"]
 csr = ["leptos/csr", "leptos_meta/csr", "leptos_router/csr", "thaw/csr"]
 ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "thaw/ssr"]
+hydrate = [
+    "leptos/hydrate",
+    "leptos_meta/hydrate",
+    "leptos_router/hydrate",
+    "thaw/hydrate",
+]

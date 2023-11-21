@@ -15,6 +15,9 @@ pub fn mount_style(id: &str, content: &'static str) {
                 .query_selector(&format!("style[csr-id=\"thaw-{id}\"]"))
                 .expect("query style element error");
 
+            #[cfg(feature = "hydrate")]
+            let _ = leptos::leptos_dom::HydrationCtx::id();
+
             if style.is_some() {
                 return;
             }

@@ -42,6 +42,7 @@ cfg-if = "1.0.0"
 default = ["csr"]
 csr = ["leptos/csr"]
 ssr = ["leptos/ssr", "leptos_meta/ssr"]
+hydrate = ["leptos/hydrate"]
 
 [workspace]
 members = ["demo", "examples/*"]
