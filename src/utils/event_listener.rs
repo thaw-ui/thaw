@@ -1,5 +1,5 @@
+use ::wasm_bindgen::{prelude::Closure, JsCast};
 use leptos::{html::AnyElement, *};
-use wasm_bindgen::{prelude::Closure, JsCast};
 
 pub fn add_event_listener<E: ev::EventDescriptor + 'static>(
     target: HtmlElement<AnyElement>,

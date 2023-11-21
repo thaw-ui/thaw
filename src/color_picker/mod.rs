@@ -4,8 +4,8 @@ mod theme;
 use crate::components::{Binder, Follower, FollowerPlacement};
 use crate::{use_theme, utils::mount_style, Theme};
 pub use color::*;
+use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
-use leptos::{leptos_dom::helpers::WindowListenerHandle, wasm_bindgen::__rt::IntoJsResult};
 pub use theme::ColorPickerTheme;
 
 #[component]
@@ -65,25 +65,30 @@ pub fn ColorPicker(#[prop(optional, into)] value: RwSignal<RGBA>) -> impl IntoVi
     let show_popover = move |_| {
         is_show_popover.set(true);
     };
-    let timer = window_event_listener(ev::click, move |ev| {
-        let el = ev.target();
-        let mut el: Option<web_sys::Element> =
-            el.into_js_result().map_or(None, |el| Some(el.into()));
-        let body = document().body().unwrap();
-        while let Some(current_el) = el {
-            if current_el == *body {
-                break;
-            };
-            if current_el == ***popover_ref.get().unwrap()
-                || current_el == ***trigger_ref.get().unwrap()
-            {
-                return;
+
+    #[cfg(feature = "csr")]
+    {
+        use leptos::wasm_bindgen::__rt::IntoJsResult;
+        let timer = window_event_listener(ev::click, move |ev| {
+            let el = ev.target();
+            let mut el: Option<web_sys::Element> =
+                el.into_js_result().map_or(None, |el| Some(el.into()));
+            let body = document().body().unwrap();
+            while let Some(current_el) = el {
+                if current_el == *body {
+                    break;
+                };
+                if current_el == ***popover_ref.get().unwrap()
+                    || current_el == ***trigger_ref.get().unwrap()
+                {
+                    return;
+                }
+                el = current_el.parent_element();
             }
-            el = current_el.parent_element();
-        }
-        is_show_popover.set(false);
-    });
-    on_cleanup(move || timer.remove());
+            is_show_popover.set(false);
+        });
+        on_cleanup(move || timer.remove());
+    }
 
     view! {
         <Binder target_ref=trigger_ref>
