@@ -30,37 +30,35 @@ pub fn TablePage() -> impl IntoView {
                         </tr>
                     </tbody>
                 </Table>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th>"tag"</th>
-                                    <th>"count"</th>
-                                    <th>"date"</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>"div"</td>
-                                    <td>"2"</td>
-                                    <td>"2023-10-08"</td>
-                                </tr>
-                                <tr>
-                                    <td>"span"</td>
-                                    <td>"2"</td>
-                                    <td>"2023-10-08"</td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                        "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>"tag"</th>
+                                        <th>"count"</th>
+                                        <th>"date"</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>"div"</td>
+                                        <td>"2"</td>
+                                        <td>"2023-10-08"</td>
+                                    </tr>
+                                    <tr>
+                                        <td>"span"</td>
+                                        <td>"2"</td>
+                                        <td>"2023-10-08"</td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                            "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Table Props"</h3>
@@ -78,18 +76,18 @@ pub fn TablePage() -> impl IntoView {
                         <td>"single_row"</td>
                         <td>"MaybeSignal<bool>"</td>
                         <td>"true"</td>
-                        <td>""</td>
+                        <td>"Default::default()"</td>
                     </tr>
                     <tr>
                         <td>"single_column"</td>
                         <td>"MaybeSignal<bool>"</td>
                         <td>"false"</td>
-                        <td>""</td>
+                        <td>"Default::default()"</td>
                     </tr>
                     <tr>
                         <td>"style"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Table's style."</td>
                     </tr>
                     <tr>

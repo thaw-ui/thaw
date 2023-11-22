@@ -14,25 +14,22 @@ pub fn InputPage() -> impl IntoView {
                     <Input value/>
                     <Input value variant=InputVariant::Password placeholder="Password"/>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                        let value = create_rw_signal(String::from("o"));
-
-                        view! {
-                            <Space vertical=true>
-                                <Input value/>
-                                <Input value variant=InputVariant::Password placeholder="Password"/>
-                            </Space>
-                        }
-                    "#,
+                            let value = create_rw_signal(String::from("o"));
+    
+                            view! {
+                                <Space vertical=true>
+                                    <Input value/>
+                                    <Input value variant=InputVariant::Password placeholder="Password"/>
+                                </Space>
+                            }
+                        "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
-                    ""
                 </DemoCode>
             </Demo>
             <h1>"Prefix & Suffix"</h1>
@@ -44,9 +41,7 @@ pub fn InputPage() -> impl IntoView {
                         </InputPrefix>
                     </Input>
                     <Input value>
-                        <InputSuffix slot>
-                            "$"
-                        </InputSuffix>
+                        <InputSuffix slot>"$"</InputSuffix>
                     </Input>
                     <Input value>
                         <InputSuffix slot>
@@ -54,38 +49,35 @@ pub fn InputPage() -> impl IntoView {
                         </InputSuffix>
                     </Input>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                        let value = create_rw_signal(String::from("o"));
-
-                        view! {
-                            <Space vertical=true>
-                                <Input value>
-                                    <InputPrefix slot>
-                                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
-                                    </InputPrefix>
-                                </Input>
-                                <Input value>
-                                    <InputSuffix slot>
-                                        "$"
-                                    </InputSuffix>
-                                </Input>
-                                <Input value>
-                                    <InputSuffix slot>
-                                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
-                                    </InputSuffix>
-                                </Input>
-                            </Space>
-                        }
-                    "#,
+                            let value = create_rw_signal(String::from("o"));
+    
+                            view! {
+                                <Space vertical=true>
+                                    <Input value>
+                                        <InputPrefix slot>
+                                            <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
+                                        </InputPrefix>
+                                    </Input>
+                                    <Input value>
+                                        <InputSuffix slot>
+                                            "$"
+                                        </InputSuffix>
+                                    </Input>
+                                    <Input value>
+                                        <InputSuffix slot>
+                                            <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
+                                        </InputSuffix>
+                                    </Input>
+                                </Space>
+                            }
+                        "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"Input Props"</h3>
@@ -102,7 +94,7 @@ pub fn InputPage() -> impl IntoView {
                     <tr>
                         <td>"value"</td>
                         <td>"RwSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Set the input value"</td>
                     </tr>
                     <tr>
@@ -114,14 +106,16 @@ pub fn InputPage() -> impl IntoView {
                     <tr>
                         <td>"placeholder"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Placeholder of input."</td>
                     </tr>
                     <tr>
                         <td>"allow_value"</td>
                         <td>"Option<Callback<String, bool>>"</td>
                         <td>"None"</td>
-                        <td>"Check the incoming value, if it returns false, input will not be accepted."</td>
+                        <td>
+                            "Check the incoming value, if it returns false, input will not be accepted."
+                        </td>
                     </tr>
                     <tr>
                         <td>"on_focus"</td>

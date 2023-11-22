@@ -10,21 +10,19 @@ pub fn SwitchPage() -> impl IntoView {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Switch"</h1>
             <Demo>
-                <Switch value />
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    let value = create_rw_signal(false);
-                    view! {
-                        <Switch value />
-                    }
-                "#,
-                        "rust"
-                    )
-                >
+                <Switch value/>
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal(false);
+                        view! {
+                            <Switch value />
+                        }
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Swith Props"</h3>

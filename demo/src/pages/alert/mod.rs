@@ -20,19 +20,17 @@ pub fn AlertPage() -> impl IntoView {
                         "error"
                     </Alert>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
                         <Alert variant=AlertVariant::Success title="title">"success"</Alert>
                         <Alert variant=AlertVariant::Warning title="title">"warning"</Alert>
                         <Alert variant=AlertVariant::Error title="title">"error"</Alert>
                 "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"Alert Props"</h3>
@@ -49,7 +47,7 @@ pub fn AlertPage() -> impl IntoView {
                     <tr>
                         <td>"title"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Title of the alert."</td>
                     </tr>
                     <tr>

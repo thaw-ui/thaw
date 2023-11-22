@@ -11,23 +11,21 @@ pub fn RadioPage() -> impl IntoView {
             <h1>"Radio"</h1>
             <Demo>
                 <Radio value=checked>"Click"</Radio>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                    let value = create_rw_signal(false);
-
-                    view! {
-                        <Radio value>
-                            "Click"
-                        </Radio>
-                    }
-                "#,
+                        let value = create_rw_signal(false);
+    
+                        view! {
+                            <Radio value>
+                                "Click"
+                            </Radio>
+                        }
+                    "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"Radio Props"</h3>

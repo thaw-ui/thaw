@@ -25,9 +25,9 @@ pub fn AutoCompletePage() -> impl IntoView {
             <h1>"AutoComplete"</h1>
             <Demo>
                 <AutoComplete value options placeholder="Email"/>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
                         let value = create_rw_signal(String::new());
                         let options =create_memo(|_| {
@@ -48,10 +48,8 @@ pub fn AutoCompletePage() -> impl IntoView {
                         }
                 "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"AutoComplete Props"</h3>
@@ -68,13 +66,13 @@ pub fn AutoCompletePage() -> impl IntoView {
                     <tr>
                         <td>"value"</td>
                         <td>"RwSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Input of autocomplete."</td>
                     </tr>
                     <tr>
                         <td>"placeholder"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Autocomplete's placeholder."</td>
                     </tr>
                     <tr>

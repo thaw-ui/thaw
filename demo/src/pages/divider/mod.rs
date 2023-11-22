@@ -9,22 +9,18 @@ pub fn DividerPage() -> impl IntoView {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Divider"</h1>
             <Demo>
-                "top"
-                <Divider />
-                "bottom"
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    "top"
-                    <Divider />
-                    "bottom"
-                "#,
-                        "rust"
-                    )
-                >
+                "top" <Divider/> "bottom"
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        "top"
+                        <Divider />
+                        "bottom"
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
         </div>

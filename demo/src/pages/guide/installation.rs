@@ -8,15 +8,12 @@ pub fn InstallationPage() -> impl IntoView {
             <h1>"Installation"</h1>
             <p>"Installation thaw"</p>
             <Demo>
-            ""
-            <DemoCode
-                slot
-                html="cargo add thaw"
-            >
-
                 ""
-            </DemoCode>
-        </Demo>
+                <DemoCode slot>
+
+                    "cargo add thaw"
+                </DemoCode>
+            </Demo>
         </div>
     }
 }

@@ -15,33 +15,31 @@ pub fn NavBarPage() -> impl IntoView {
                 <h1>"Navbar"</h1>
                 <Demo>
                     ""
-                    <DemoCode
-                        slot
-                        html=highlight_str!(
-                            r#"
-                            let click_text = create_rw_signal(String::from("none"));
-                            let on_click_left = move |_| click_text.set("left".to_string());
-                            let on_click_right = move |_| click_text.set("right".to_string());
-                        
-                            view! {
-                                <div style="height: 100vh; background: #f5f5f5">
-                                    <NavBar
-                                        title="Home"
-                                        left_arrow=true
-                                        left_text="back"
-                                        right_text="add"
-                                        on_click_left=on_click_left
-                                        on_click_right=on_click_right
-                                    />
-                                    <div style="padding-top: 50px">{move || click_text.get()}</div>
-                                </div>
-                            }
-                    "#,
-                            "rust"
-                        )
-                    >
+                    <DemoCode slot>
 
-                        ""
+                        {highlight_str!(
+                            r#"
+                                let click_text = create_rw_signal(String::from("none"));
+                                let on_click_left = move |_| click_text.set("left".to_string());
+                                let on_click_right = move |_| click_text.set("right".to_string());
+                            
+                                view! {
+                                    <div style="height: 100vh; background: #f5f5f5">
+                                        <NavBar
+                                            title="Home"
+                                            left_arrow=true
+                                            left_text="back"
+                                            right_text="add"
+                                            on_click_left=on_click_left
+                                            on_click_right=on_click_right
+                                        />
+                                        <div style="padding-top: 50px">{move || click_text.get()}</div>
+                                    </div>
+                                }
+                        "#,
+                            "rust"
+                        )}
+
                     </DemoCode>
                 </Demo>
                 <h3>"NavBar Props"</h3>
@@ -58,7 +56,7 @@ pub fn NavBarPage() -> impl IntoView {
                         <tr>
                             <td>"title"</td>
                             <td>"MaybeSignal<String>"</td>
-                            <td>r#""""#</td>
+                            <td>"Default::default()"</td>
                             <td>"NavBar title."</td>
                         </tr>
                         <tr>
@@ -70,25 +68,25 @@ pub fn NavBarPage() -> impl IntoView {
                         <tr>
                             <td>"left_text"</td>
                             <td>"MaybeSignal<String>"</td>
-                            <td>r#""""#</td>
+                            <td>"Default::default()"</td>
                             <td>"NavBar left text."</td>
                         </tr>
                         <tr>
                             <td>"on_click_left"</td>
                             <td>"MaybeSignal<String>"</td>
-                            <td>r#""""#</td>
+                            <td>"Default::default()"</td>
                             <td>"NavBar left click."</td>
                         </tr>
                         <tr>
                             <td>"right_text"</td>
                             <td>"MaybeSignal<String>"</td>
-                            <td>r#""""#</td>
+                            <td>"Default::default()"</td>
                             <td>"NavBar right text."</td>
                         </tr>
                         <tr>
                             <td>"on_click_right"</td>
                             <td>"MaybeSignal<String>"</td>
-                            <td>r#""""#</td>
+                            <td>"Default::default()"</td>
                             <td>"NavBar right click."</td>
                         </tr>
                     </tbody>

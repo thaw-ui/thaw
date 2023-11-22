@@ -12,19 +12,17 @@ pub fn SliderPage() -> impl IntoView {
             <h1>"Slider"</h1>
             <Demo>
                 <Slider value/>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    let value = create_rw_signal(0.0);
-                        
-                    <Slider value/>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal(0.0);
+                            
+                        <Slider value/>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Slider Props"</h3>

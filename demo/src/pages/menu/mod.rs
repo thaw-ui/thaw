@@ -14,22 +14,20 @@ pub fn MenuPage() -> impl IntoView {
                     <MenuItem key="a" label="and"/>
                     <MenuItem key="o" label="or"/>
                 </Menu>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    let value = create_rw_signal(String::from("o"));
-                            
-                    <Menu value>
-                        <MenuItem key="a" label="and"/>
-                        <MenuItem key="o" label="or"/>
-                    </Menu>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal(String::from("o"));
+                                
+                        <Menu value>
+                            <MenuItem key="a" label="and"/>
+                            <MenuItem key="o" label="or"/>
+                        </Menu>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Menu Props"</h3>
@@ -46,7 +44,7 @@ pub fn MenuPage() -> impl IntoView {
                     <tr>
                         <td>"value"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"The selected item key of the menu."</td>
                     </tr>
                     <tr>
@@ -96,13 +94,13 @@ pub fn MenuPage() -> impl IntoView {
                     <tr>
                         <td>"label"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"The label of the menu item."</td>
                     </tr>
                     <tr>
                         <td>"key"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"The indentifier of the menu item."</td>
                     </tr>
                 </tbody>

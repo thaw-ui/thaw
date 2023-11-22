@@ -15,25 +15,22 @@ pub fn InputNumberPage() -> impl IntoView {
                     <InputNumber value step=1/>
                     <InputNumber value=value_f64 step=1.0/>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    let value = create_rw_signal(0);
-                    let value_f64 = create_rw_signal(0.0);
-                    view! {
-                        <Space vertical=true>
-                            <InputNumber value step=1/>
-                            <InputNumber value=value_f64 step=1.0/>
-                        </Space>
-                    }
-                    "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
-                    ""
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal(0);
+                        let value_f64 = create_rw_signal(0.0);
+                        view! {
+                            <Space vertical=true>
+                                <InputNumber value step=1/>
+                                <InputNumber value=value_f64 step=1.0/>
+                            </Space>
+                        }
+                        "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"InputNumber Props"</h3>
@@ -56,14 +53,16 @@ pub fn InputNumberPage() -> impl IntoView {
                     <tr>
                         <td>"placeholder"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Placeholder of input number."</td>
                     </tr>
                     <tr>
                         <td>"step"</td>
                         <td>"MaybeSignal<T>"</td>
                         <td></td>
-                        <td>"The number which the current value is increased or decreased on key or button press."</td>
+                        <td>
+                            "The number which the current value is increased or decreased on key or button press."
+                        </td>
                     </tr>
                 </tbody>
             </Table>

@@ -14,24 +14,22 @@ pub fn ModalPage() -> impl IntoView {
                 <Modal title="title" show>
                     "hello"
                 </Modal>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                    let show = create_rw_signal(false);
-
-                    <Button on:click=move |_| show.set(true)>
-                        "open modal"
-                    </Button>
-                    <Modal title="title" show>
-                        "hello"
-                    </Modal>
-                "#,
+                        let show = create_rw_signal(false);
+    
+                        <Button on:click=move |_| show.set(true)>
+                            "open modal"
+                        </Button>
+                        <Modal title="title" show>
+                            "hello"
+                        </Modal>
+                    "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"Modal Props"</h3>
@@ -54,7 +52,7 @@ pub fn ModalPage() -> impl IntoView {
                     <tr>
                         <td>"title"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Modal title."</td>
                     </tr>
                     <tr>

@@ -4,8 +4,6 @@ use thaw::*;
 
 #[slot]
 pub struct DemoCode {
-    #[prop(optional)]
-    html: &'static str,
     children: Children,
 }
 
@@ -39,18 +37,22 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         });
         style
     });
+
+    let frag = (demo_code.children)();
+    let mut html = String::new();
+    for node in frag.nodes {
+        match node {
+            View::Text(text) => html.push_str(&text.content),
+            _ => leptos::logging::warn!("Only text nodes are supported as children of <DemoCode />."),
+        }
+    }
+
     view! {
-        <Style>
-            {prisms::prism_css!()}
-        </Style>
-        <div style=move || style.get()>
-            {children()}
-        </div>
+        <Style>{prisms::prism_css!()}</Style>
+        <div style=move || style.get()>{children()}</div>
         <div style=move || code_style.get()>
             <Code>
-                <pre style="margin: 0" inner_html=demo_code.html>
-                    {(demo_code.children)()}
-                </pre>
+                <pre style="margin: 0" inner_html=html></pre>
             </Code>
         </div>
     }

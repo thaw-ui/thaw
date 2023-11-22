@@ -14,21 +14,19 @@ pub fn SpacePage() -> impl IntoView {
                     <Button>"2"</Button>
                     <Button>"3"</Button>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Space>
-                        <Button>"1"</Button>
-                        <Button>"2"</Button>
-                        <Button>"3"</Button>
-                    </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Space>
+                            <Button>"1"</Button>
+                            <Button>"2"</Button>
+                            <Button>"3"</Button>
+                        </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"vertical"</h3>
@@ -38,21 +36,19 @@ pub fn SpacePage() -> impl IntoView {
                     <Button>"2"</Button>
                     <Button>"3"</Button>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Space vertical=true>
-                        <Button>"1"</Button>
-                        <Button>"2"</Button>
-                        <Button>"3"</Button>
-                    </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Space vertical=true>
+                            <Button>"1"</Button>
+                            <Button>"2"</Button>
+                            <Button>"3"</Button>
+                        </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"gap"</h3>
@@ -67,26 +63,24 @@ pub fn SpacePage() -> impl IntoView {
                     <Button>"2"</Button>
                     <Button>"3"</Button>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Space gap=SpaceGap::Large>
-                        <Button>"1"</Button>
-                        <Button>"2"</Button>
-                        <Button>"3"</Button>
-                    </Space>
-                    <Space gap=SpaceGap::WH(36, 36)>
-                        <Button>"1"</Button>
-                        <Button>"2"</Button>
-                        <Button>"3"</Button>
-                    </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Space gap=SpaceGap::Large>
+                            <Button>"1"</Button>
+                            <Button>"2"</Button>
+                            <Button>"3"</Button>
+                        </Space>
+                        <Space gap=SpaceGap::WH(36, 36)>
+                            <Button>"1"</Button>
+                            <Button>"2"</Button>
+                            <Button>"3"</Button>
+                        </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Space Props"</h3>

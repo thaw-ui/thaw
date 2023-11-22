@@ -14,10 +14,7 @@ pub fn MobilePage(path: &'static str) -> impl IntoView {
     });
     view! {
         <div style="width: 400px; text-align: center">
-            <iframe
-                src=move || src.get()
-                style=move || style.get()
-            ></iframe>
+            <iframe src=move || src.get() style=move || style.get()></iframe>
         </div>
     }
 }

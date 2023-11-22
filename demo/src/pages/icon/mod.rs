@@ -10,23 +10,21 @@ pub fn IconPage() -> impl IntoView {
             <h1>"Icon"</h1>
             <Demo>
                 <Space>
-                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined) />
-                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCheckOutlined) />
+                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined)/>
+                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCheckOutlined)/>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                <Space>
-                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined) />
-                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCheckOutlined) />
-                </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                    <Space>
+                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined) />
+                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCheckOutlined) />
+                    </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Icon Props"</h3>
@@ -49,13 +47,13 @@ pub fn IconPage() -> impl IntoView {
                     <tr>
                         <td>"width"</td>
                         <td>"Option<MaybeSignal<String>>"</td>
-                        <td>r#""1em""#</td>
+                        <td>"1em"</td>
                         <td>"The width of the icon."</td>
                     </tr>
                     <tr>
                         <td>"height"</td>
                         <td>"Option<MaybeSignal<String>>"</td>
-                        <td>r#""1em""#</td>
+                        <td>"1em"</td>
                         <td>"The height of the icon."</td>
                     </tr>
                     <tr>

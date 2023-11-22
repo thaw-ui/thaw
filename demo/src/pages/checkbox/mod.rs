@@ -14,9 +14,9 @@ pub fn CheckboxPage() -> impl IntoView {
             <h1>"Checkbox"</h1>
             <Demo>
                 <Checkbox value=checked>"Click"</Checkbox>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
                     let value = create_rw_signal(false);
 
@@ -27,10 +27,8 @@ pub fn CheckboxPage() -> impl IntoView {
                     }
                 "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"group"</h3>
@@ -41,25 +39,23 @@ pub fn CheckboxPage() -> impl IntoView {
                     <CheckboxItem label="c" key="c"/>
                 </CheckboxGroup>
                 <div style="margin-top: 1rem">"value: " {move || format!("{:?}", value.get())}</div>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                    let value = create_rw_signal(HashSet::new());
-
-                    view! {
-                        <CheckboxGroup value>
-                            <CheckboxItem label="apple" key="a" />
-                            <CheckboxItem label="b" key="b" />
-                            <CheckboxItem label="c" key="c" />
-                        </CheckboxGroup>
-                    }
-                "#,
+                        let value = create_rw_signal(HashSet::new());
+    
+                        view! {
+                            <CheckboxGroup value>
+                                <CheckboxItem label="apple" key="a" />
+                                <CheckboxItem label="b" key="b" />
+                                <CheckboxItem label="c" key="c" />
+                            </CheckboxGroup>
+                        }
+                    "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"Checkbox Props"</h3>
