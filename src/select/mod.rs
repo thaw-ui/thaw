@@ -73,7 +73,7 @@ where
         is_show_menu.set(true);
     };
 
-    #[cfg(feature = "csr")]
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
         let timer = window_event_listener(ev::click, move |ev| {
