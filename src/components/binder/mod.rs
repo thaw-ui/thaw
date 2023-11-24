@@ -2,8 +2,8 @@ mod get_placement_style;
 
 use crate::{
     components::Teleport,
-    utils::mount_style,
     utils::{add_event_listener, EventListenerHandle},
+    utils::{mount_style, with_hydration_off},
 };
 use get_placement_style::get_follower_placement_style;
 pub use get_placement_style::FollowerPlacement;
@@ -194,16 +194,19 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         is_show
     });
 
-    let children = html::div()
-        .classes("thaw-binder-follower-container")
-        .style("display", move || (!is_show.get()).then_some("none"))
-        .child(
-            html::div()
-                .classes("thaw-binder-follower-content")
-                .node_ref(content_ref)
-                .attr("style", move || content_style.get())
-                .child(children()),
-        );
+    let children = with_hydration_off(|| {
+        html::div()
+            .classes("thaw-binder-follower-container")
+            .style("display", move || (!is_show.get()).then_some("none"))
+            .child(
+                html::div()
+                    .classes("thaw-binder-follower-content")
+                    .node_ref(content_ref)
+                    .attr("style", move || content_style.get())
+                    .child(children()),
+            )
+    });
+
     view! { <Teleport element=children/> }
 }
 

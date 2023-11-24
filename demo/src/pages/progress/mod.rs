@@ -12,50 +12,44 @@ pub fn ProgressPage() -> impl IntoView {
             <Demo>
                 <Space vertical=true>
                     <Progress percentage show_indicator=false/>
-                    <Progress percentage />
+                    <Progress percentage/>
                     <Progress percentage indicator_placement=ProgressIndicatorPlacement::Inside/>
                     <Progress percentage color=ProgressColor::Success/>
                     <Progress percentage color=ProgressColor::Warning/>
                     <Progress percentage color=ProgressColor::Error/>
                     <Space>
-                        <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>
-                            "-10%"
-                        </Button>
-                        <Button on_click=move |_| percentage.update(|v| *v += 10.0)>
-                            "+10%"
-                        </Button>
+                        <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>"-10%"</Button>
+                        <Button on_click=move |_| percentage.update(|v| *v += 10.0)>"+10%"</Button>
                     </Space>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                    let percentage = create_rw_signal(0.0f32);
-
-                    view! {
-                        <Space vertical=true>
-                            <Progress percentage show_indicator=false/>
-                            <Progress percentage />
-                            <Progress percentage indicator_placement=ProgressIndicatorPlacement::Inside/>
-                            <Progress percentage color=ProgressColor::Success/>
-                            <Progress percentage color=ProgressColor::Warning/>
-                            <Progress percentage color=ProgressColor::Error/>
-                            <Space>
-                                <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>
-                                    "-10%"
-                                </Button>
-                                <Button on_click=move |_| percentage.update(|v| *v += 10.0)>
-                                    "+10%"
-                                </Button>
+                        let percentage = create_rw_signal(0.0f32);
+    
+                        view! {
+                            <Space vertical=true>
+                                <Progress percentage show_indicator=false/>
+                                <Progress percentage />
+                                <Progress percentage indicator_placement=ProgressIndicatorPlacement::Inside/>
+                                <Progress percentage color=ProgressColor::Success/>
+                                <Progress percentage color=ProgressColor::Warning/>
+                                <Progress percentage color=ProgressColor::Error/>
+                                <Space>
+                                    <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>
+                                        "-10%"
+                                    </Button>
+                                    <Button on_click=move |_| percentage.update(|v| *v += 10.0)>
+                                        "+10%"
+                                    </Button>
+                                </Space>
                             </Space>
-                        </Space>
-                    }
-                "#,
+                        }
+                    "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"Progress Props"</h3>

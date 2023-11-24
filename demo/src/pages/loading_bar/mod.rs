@@ -27,34 +27,31 @@ pub fn LoadingBarPage() -> impl IntoView {
                     <Button on_click=finish>"finish"</Button>
                     <Button on_click=error>"error"</Button>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    let loading_bar = use_loading_bar();
-                    let start = move |_| {
-                        loading_bar.start();
-                    };
-                    let finish = move |_| {
-                        loading_bar.finish();
-                    };
-                    let error = move |_| {
-                        loading_bar.error();
-                    };
-                    view! {
-                        <Space>
-                            <Button on_click=start>"start"</Button>
-                            <Button on_click=finish>"finish"</Button>
-                            <Button on_click=error>"error"</Button>
-                        </Space>
-                    }
-                    "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
-                    ""
+                    {highlight_str!(
+                        r#"
+                        let loading_bar = use_loading_bar();
+                        let start = move |_| {
+                            loading_bar.start();
+                        };
+                        let finish = move |_| {
+                            loading_bar.finish();
+                        };
+                        let error = move |_| {
+                            loading_bar.error();
+                        };
+                        view! {
+                            <Space>
+                                <Button on_click=start>"start"</Button>
+                                <Button on_click=finish>"finish"</Button>
+                                <Button on_click=error>"error"</Button>
+                            </Space>
+                        }
+                        "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"LoadingBar Injection Methods"</h3>

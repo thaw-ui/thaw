@@ -35,9 +35,9 @@ pub fn GuidePage() -> impl IntoView {
             <Layout has_sider=true position=LayoutPosition::Absolute style="top: 64px;">
                 <LayoutSider>
                     <Menu value=selected>
-                        {
-                            gen_guide_menu_data().into_view()
-                        }
+
+                        {gen_guide_menu_data().into_view()}
+
                     </Menu>
                 </LayoutSider>
                 <Layout style="padding: 8px 12px 28px; overflow-y: auto;">
@@ -58,9 +58,9 @@ impl IntoView for MenuGroupOption {
         let Self { label, children } = self;
         view! {
             <MenuGroup label=label>
-                {
-                    children.into_iter().map(|v| v.into_view()).collect_view()
-                }
+
+                {children.into_iter().map(|v| v.into_view()).collect_view()}
+
             </MenuGroup>
         }
     }
@@ -74,9 +74,7 @@ pub(crate) struct MenuItemOption {
 impl IntoView for MenuItemOption {
     fn into_view(self) -> View {
         let Self { label, value } = self;
-        view! {
-            <MenuItem key=value label/>
-        }
+        view! { <MenuItem key=value label/> }
     }
 }
 

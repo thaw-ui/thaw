@@ -91,26 +91,25 @@ pub fn SiteHeader() -> impl IntoView {
                 />
                 <Button
                     variant=ButtonVariant::Text
-                    on:click=move |_| {
+                    on_click=move |_| {
                         let navigate = use_navigate();
                         navigate("/guide/installation", Default::default());
                     }
                 >
+
                     "Guide"
                 </Button>
                 <Button
                     variant=ButtonVariant::Text
-                    on:click=move |_| {
+                    on_click=move |_| {
                         let navigate = use_navigate();
                         navigate("/components/button", Default::default());
                     }
                 >
+
                     "Components"
                 </Button>
-                <Button
-                    variant=ButtonVariant::Text
-                    on:click=on_theme
-                >
+                <Button variant=ButtonVariant::Text on_click=on_theme>
                     {move || theme_name.get()}
                 </Button>
                 <Button
@@ -121,8 +120,8 @@ pub fn SiteHeader() -> impl IntoView {
                     on:click=move |_| {
                         _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                     }
-                >
-                </Button>
+                />
+
             </Space>
 
         </LayoutHeader>

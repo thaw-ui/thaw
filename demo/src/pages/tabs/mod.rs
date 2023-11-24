@@ -18,25 +18,23 @@ pub fn TabsPage() -> impl IntoView {
                         "pear"
                     </Tab>
                 </Tabs>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    let value = create_rw_signal("apple");
-                    <Tabs value>
-                        <Tab key="apple" label="Apple">
-                            "apple"
-                        </Tab>
-                        <Tab key="pear" label="Pear">
-                            "pear"
-                        </Tab>
-                    </Tabs>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal("apple");
+                        <Tabs value>
+                            <Tab key="apple" label="Apple">
+                                "apple"
+                            </Tab>
+                            <Tab key="pear" label="Pear">
+                                "pear"
+                            </Tab>
+                        </Tabs>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Tabs Props"</h3>
@@ -53,7 +51,7 @@ pub fn TabsPage() -> impl IntoView {
                     <tr>
                         <td>"value"</td>
                         <td>"RwSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Tabs value."</td>
                     </tr>
                     <tr>

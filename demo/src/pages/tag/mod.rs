@@ -10,43 +10,33 @@ pub fn TagPage() -> impl IntoView {
             <h1>"Tag"</h1>
             <Demo>
                 <Space>
-                    <Tag>
-                        "default"
-                    </Tag>
-                    <Tag variant=TagVariant::Success>
-                        "success"
-                    </Tag>
-                    <Tag variant=TagVariant::Warning>
-                        "warning"
-                    </Tag>
-                    <Tag variant=TagVariant::Error>
-                        "error"
-                    </Tag>
+                    <Tag>"default"</Tag>
+                    <Tag variant=TagVariant::Success>"success"</Tag>
+                    <Tag variant=TagVariant::Warning>"warning"</Tag>
+                    <Tag variant=TagVariant::Error>"error"</Tag>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Space>
-                        <Tag>
-                            "default"
-                        </Tag>
-                        <Tag variant=TagVariant::Success>
-                            "success"
-                        </Tag>
-                        <Tag variant=TagVariant::Warning>
-                            "warning"
-                        </Tag>
-                        <Tag variant=TagVariant::Error>
-                            "error"
-                        </Tag>
-                    </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Space>
+                            <Tag>
+                                "default"
+                            </Tag>
+                            <Tag variant=TagVariant::Success>
+                                "success"
+                            </Tag>
+                            <Tag variant=TagVariant::Warning>
+                                "warning"
+                            </Tag>
+                            <Tag variant=TagVariant::Error>
+                                "error"
+                            </Tag>
+                        </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Tag Props"</h3>

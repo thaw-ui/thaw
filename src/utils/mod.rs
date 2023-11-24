@@ -13,3 +13,15 @@ pub(crate) use mount_style::mount_style;
 pub(crate) use provider::Provider;
 pub use signal::SignalWatch;
 pub(crate) use stored_maybe_signal::*;
+
+pub(crate) fn with_hydration_off<T>(f: impl FnOnce() -> T) -> T {
+    #[cfg(feature = "hydrate")]
+    {
+        use leptos::leptos_dom::HydrationCtx;
+        HydrationCtx::with_hydration_off(f)
+    }
+    #[cfg(not(feature = "hydrate"))]
+    {
+        f()
+    }
+}

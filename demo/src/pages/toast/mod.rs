@@ -16,24 +16,22 @@ pub fn ToastPage() -> impl IntoView {
                 <h1>"Toast"</h1>
                 <Demo>
                     ""
-                    <DemoCode
-                        slot
-                        html=highlight_str!(
-                            r#"
-                        let count = create_rw_signal(0u32);
-                        let onclick = move |_| {
-                            show_toast(ToastOptions {
-                                message: format!("Hello {}", count.get_untracked()),
-                                duration: Duration::from_millis(2000),
-                            });
-                            count.set(count.get_untracked() + 1);
-                        };
-                    "#,
-                            "rust"
-                        )
-                    >
+                    <DemoCode slot>
 
-                        ""
+                        {highlight_str!(
+                            r#"
+                            let count = create_rw_signal(0u32);
+                            let onclick = move |_| {
+                                show_toast(ToastOptions {
+                                    message: format!("Hello {}", count.get_untracked()),
+                                    duration: Duration::from_millis(2000),
+                                });
+                                count.set(count.get_untracked() + 1);
+                            };
+                        "#,
+                            "rust"
+                        )}
+
                     </DemoCode>
                 </Demo>
                 <h3>"Toast Methods"</h3>

@@ -10,67 +10,55 @@ pub fn CardPage() -> impl IntoView {
             <h1>"Card"</h1>
             <Demo>
                 <Space vertical=true>
+                    <Card title="title">"content"</Card>
                     <Card title="title">
+                        <CardHeaderExtra slot>"header-extra"</CardHeaderExtra>
                         "content"
                     </Card>
                     <Card title="title">
-                        <CardHeaderExtra slot>
-                            "header-extra"
-                        </CardHeaderExtra>
+                        <CardHeader slot>"header"</CardHeader>
                         "content"
                     </Card>
                     <Card title="title">
-                        <CardHeader slot>
-                            "header"
-                        </CardHeader>
+                        <CardHeaderExtra slot>"header-extra"</CardHeaderExtra>
                         "content"
-                    </Card>
-                    <Card title="title">
-                        <CardHeaderExtra slot>
-                            "header-extra"
-                        </CardHeaderExtra>
-                        "content"
-                        <CardFooter slot>
-                            "footer"
-                        </CardFooter>
+                        <CardFooter slot>"footer"</CardFooter>
                     </Card>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Space vertical=true> 
-                        <Card title="title">
-                            "content"
-                        </Card>
-                        <Card title="title">
-                            <CardHeaderExtra slot>
-                                "header-extra"
-                            </CardHeaderExtra>
-                            "content"
-                        </Card>
-                        <Card title="title">
-                            <CardHeader slot>
-                                "header"
-                            </CardHeader>
-                            "content"
-                        </Card>
-                        <Card title="title">
-                            <CardHeaderExtra slot>
-                                "header-extra"
-                            </CardHeaderExtra>
-                            "content"
-                            <CardFooter slot>
-                                "footer"
-                            </CardFooter>
-                        </Card>
-                    </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Space vertical=true> 
+                            <Card title="title">
+                                "content"
+                            </Card>
+                            <Card title="title">
+                                <CardHeaderExtra slot>
+                                    "header-extra"
+                                </CardHeaderExtra>
+                                "content"
+                            </Card>
+                            <Card title="title">
+                                <CardHeader slot>
+                                    "header"
+                                </CardHeader>
+                                "content"
+                            </Card>
+                            <Card title="title">
+                                <CardHeaderExtra slot>
+                                    "header-extra"
+                                </CardHeaderExtra>
+                                "content"
+                                <CardFooter slot>
+                                    "footer"
+                                </CardFooter>
+                            </Card>
+                        </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Card Props"</h3>
@@ -87,7 +75,7 @@ pub fn CardPage() -> impl IntoView {
                     <tr>
                         <td>"title"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Card title."</td>
                     </tr>
                     <tr>

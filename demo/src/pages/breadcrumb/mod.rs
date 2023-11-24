@@ -14,27 +14,25 @@ pub fn BreadcrumbPage() -> impl IntoView {
                     <BreadcrumbItem>"UI"</BreadcrumbItem>
                     <BreadcrumbItem>"Thaw"</BreadcrumbItem>
                 </Breadcrumb>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Breadcrumb>
-                        <BreadcrumbItem>
-                            "Leptos"
-                        </BreadcrumbItem>
-                        <BreadcrumbItem>
-                            "UI"
-                        </BreadcrumbItem>
-                        <BreadcrumbItem>
-                            "Thaw"
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Breadcrumb>
+                            <BreadcrumbItem>
+                                "Leptos"
+                            </BreadcrumbItem>
+                            <BreadcrumbItem>
+                                "UI"
+                            </BreadcrumbItem>
+                            <BreadcrumbItem>
+                                "Thaw"
+                            </BreadcrumbItem>
+                        </Breadcrumb>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Separator"</h3>
@@ -44,27 +42,25 @@ pub fn BreadcrumbPage() -> impl IntoView {
                     <BreadcrumbItem>"UI"</BreadcrumbItem>
                     <BreadcrumbItem>"Thaw"</BreadcrumbItem>
                 </Breadcrumb>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Breadcrumb separator=">">
-                        <BreadcrumbItem>
-                            "Leptos"
-                        </BreadcrumbItem>
-                        <BreadcrumbItem>
-                            "UI"
-                        </BreadcrumbItem>
-                        <BreadcrumbItem>
-                            "Thaw"
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Breadcrumb separator=">">
+                            <BreadcrumbItem>
+                                "Leptos"
+                            </BreadcrumbItem>
+                            <BreadcrumbItem>
+                                "UI"
+                            </BreadcrumbItem>
+                            <BreadcrumbItem>
+                                "Thaw"
+                            </BreadcrumbItem>
+                        </Breadcrumb>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Breadcrumb Props"</h3>
@@ -81,7 +77,7 @@ pub fn BreadcrumbPage() -> impl IntoView {
                     <tr>
                         <td>"separator"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""/""#</td>
+                        <td>"/"</td>
                         <td>"Breadcrumb separator."</td>
                     </tr>
                     <tr>

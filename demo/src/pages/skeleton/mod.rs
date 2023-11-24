@@ -9,20 +9,18 @@ pub fn SkeletonPage() -> impl IntoView {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Skeleton"</h1>
             <Demo>
-                <Skeleton repeat=2 text=true />
-                <Skeleton width="60%" text=true />
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                        <Skeleton repeat=2 text=true />
-                        <Skeleton width="60%" text=true />
-                "#,
-                        "rust"
-                    )
-                >
+                <Skeleton repeat=2 text=true/>
+                <Skeleton width="60%" text=true/>
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                            <Skeleton repeat=2 text=true />
+                            <Skeleton width="60%" text=true />
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Skeleton Props"</h3>

@@ -12,21 +12,19 @@ pub fn ColorPickerPage() -> impl IntoView {
             <h1>"Color Picker"</h1>
             <Demo>
                 <ColorPicker value/>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                    let value = RGBA::default();
-
-                    view! {
-                        <ColorPicker value/>
-                    }
-                    "#,
+                        let value = RGBA::default();
+    
+                        view! {
+                            <ColorPicker value/>
+                        }
+                        "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"ColorPicker Props"</h3>

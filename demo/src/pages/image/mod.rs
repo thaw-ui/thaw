@@ -11,18 +11,16 @@ pub fn ImagePage() -> impl IntoView {
             <Demo>
                 <Image src="https://s3.bmp.ovh/imgs/2021/10/2c3b013418d55659.jpg" width="500px"/>
                 <Image width="200px" height="200px"/>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Image src="https://s3.bmp.ovh/imgs/2021/10/2c3b013418d55659.jpg" width="500px"/>
-                    <Image width="200px" height="200px"/>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Image src="https://s3.bmp.ovh/imgs/2021/10/2c3b013418d55659.jpg" width="500px"/>
+                        <Image width="200px" height="200px"/>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Image Props"</h3>
@@ -39,37 +37,37 @@ pub fn ImagePage() -> impl IntoView {
                     <tr>
                         <td>"src"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Image source."</td>
                     </tr>
                     <tr>
                         <td>"alt"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Image alt information."</td>
                     </tr>
                     <tr>
                         <td>"width"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Image width."</td>
                     </tr>
                     <tr>
                         <td>"height"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Image height."</td>
                     </tr>
                     <tr>
                         <td>"border_radius"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Image border radius."</td>
                     </tr>
                     <tr>
                         <td>"object_fit"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Object-fit type of the image in the container."</td>
                     </tr>
                 </tbody>

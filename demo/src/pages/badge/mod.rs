@@ -35,37 +35,35 @@ pub fn BadgePage() -> impl IntoView {
                     "value:"
                     {move || value.get()}
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    let value = create_rw_signal(0);
-                    view! {
-                        <Space>
-                            <Badge value=value max=10>
-                                <Avatar />
-                            </Badge>
-                            <Badge variant=BadgeVariant::Success value=value max=10>
-                                <Avatar />
-                            </Badge>
-                            <Badge variant=BadgeVariant::Warning value=value max=10>
-                                <Avatar />
-                            </Badge>
-                            <Badge variant=BadgeVariant::Warning dot=true>
-                                <Avatar />
-                            </Badge>
-                            <Button on_click=move |_| value.update(|v| *v += 1)>"+1"</Button>
-                            <Button on_click=move |_| value.update(|v| if *v != 0 { *v -= 1 })>"-1"</Button>
-                            "value:"
-                            {move || value.get()}
-                        </Space>
-                    }
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal(0);
+                        view! {
+                            <Space>
+                                <Badge value=value max=10>
+                                    <Avatar />
+                                </Badge>
+                                <Badge variant=BadgeVariant::Success value=value max=10>
+                                    <Avatar />
+                                </Badge>
+                                <Badge variant=BadgeVariant::Warning value=value max=10>
+                                    <Avatar />
+                                </Badge>
+                                <Badge variant=BadgeVariant::Warning dot=true>
+                                    <Avatar />
+                                </Badge>
+                                <Button on_click=move |_| value.update(|v| *v += 1)>"+1"</Button>
+                                <Button on_click=move |_| value.update(|v| if *v != 0 { *v -= 1 })>"-1"</Button>
+                                "value:"
+                                {move || value.get()}
+                            </Space>
+                        }
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Badge Props"</h3>

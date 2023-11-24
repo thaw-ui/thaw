@@ -54,8 +54,7 @@ impl IntoView for MenuGroupOption {
         let Self { label, children } = self;
         view! {
             <MenuGroup label=format!(
-                "{label} ({})",
-                children.len(),
+                "{label} ({})", children.len()
             )>
 
                 {children.into_iter().map(|v| v.into_view()).collect_view()}

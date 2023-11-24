@@ -35,41 +35,39 @@ pub fn MessagePage() -> impl IntoView {
                     <Button on:click=warning>"Warning"</Button>
                     <Button on:click=error>"Error"</Button>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                        let message = use_message();
-                        let success = move |_| {
-                            message.create(
-                                "Success".into(),
-                                MessageVariant::Success,
-                                Default::default(),
-                            );
-                        };
-                        let warning = move |_| {
-                            message.create(
-                                "Warning".into(),
-                                MessageVariant::Warning,
-                                Default::default(),
-                            );
-                        };
-                        let error = move |_| {
-                            message.create("Error".into(), MessageVariant::Error, Default::default());
-                        };
-                        view! {
-                            <Space>
-                                <Button on:click=success>"Success"</Button>
-                                <Button on:click=warning>"Warning"</Button>
-                                <Button on:click=error>"Error"</Button>
-                            </Space>
-                        }
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                            let message = use_message();
+                            let success = move |_| {
+                                message.create(
+                                    "Success".into(),
+                                    MessageVariant::Success,
+                                    Default::default(),
+                                );
+                            };
+                            let warning = move |_| {
+                                message.create(
+                                    "Warning".into(),
+                                    MessageVariant::Warning,
+                                    Default::default(),
+                                );
+                            };
+                            let error = move |_| {
+                                message.create("Error".into(), MessageVariant::Error, Default::default());
+                            };
+                            view! {
+                                <Space>
+                                    <Button on:click=success>"Success"</Button>
+                                    <Button on:click=warning>"Warning"</Button>
+                                    <Button on:click=error>"Error"</Button>
+                                </Space>
+                            }
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"MessageProvider Injection Methods"</h3>
@@ -84,7 +82,9 @@ pub fn MessagePage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"create"</td>
-                        <td>"fn(&self, content: String, variant: MessageVariant, options: MessageOptions)"</td>
+                        <td>
+                            "fn(&self, content: String, variant: MessageVariant, options: MessageOptions)"
+                        </td>
                         <td>"The label of the menu item."</td>
                     </tr>
                 </tbody>

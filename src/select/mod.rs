@@ -6,7 +6,6 @@ use crate::{
     utils::mount_style,
     Theme,
 };
-use leptos::wasm_bindgen::__rt::IntoJsResult;
 use leptos::*;
 use std::hash::Hash;
 pub use theme::SelectTheme;
@@ -73,25 +72,30 @@ where
     let show_menu = move |_| {
         is_show_menu.set(true);
     };
-    let timer = window_event_listener(ev::click, move |ev| {
-        let el = ev.target();
-        let mut el: Option<web_sys::Element> =
-            el.into_js_result().map_or(None, |el| Some(el.into()));
-        let body = document().body().unwrap();
-        while let Some(current_el) = el {
-            if current_el == *body {
-                break;
-            };
-            if current_el == ***menu_ref.get().unwrap()
-                || current_el == ***trigger_ref.get().unwrap()
-            {
-                return;
+
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
+    {
+        use leptos::wasm_bindgen::__rt::IntoJsResult;
+        let timer = window_event_listener(ev::click, move |ev| {
+            let el = ev.target();
+            let mut el: Option<web_sys::Element> =
+                el.into_js_result().map_or(None, |el| Some(el.into()));
+            let body = document().body().unwrap();
+            while let Some(current_el) = el {
+                if current_el == *body {
+                    break;
+                };
+                if current_el == ***menu_ref.get().unwrap()
+                    || current_el == ***trigger_ref.get().unwrap()
+                {
+                    return;
+                }
+                el = current_el.parent_element();
             }
-            el = current_el.parent_element();
-        }
-        is_show_menu.set(false);
-    });
-    on_cleanup(move || timer.remove());
+            is_show_menu.set(false);
+        });
+        on_cleanup(move || timer.remove());
+    }
 
     let temp_options = options.clone();
     let select_option_label = create_memo(move |_| match value.get() {

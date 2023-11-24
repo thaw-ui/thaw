@@ -14,29 +14,27 @@ pub fn TabbarPage() -> impl IntoView {
                 <h1>"Tabbar"</h1>
                 <Demo>
                     ""
-                    <DemoCode
-                        slot
-                        html=highlight_str!(
-                            r#"
-                        let value = create_rw_signal(String::from("o"));
-                                
-                        <Tabbar value>
-                            <TabbarItem name="a">
-                                "and"
-                            </TabbarItem>
-                            <TabbarItem name="i">
-                                "if"
-                            </TabbarItem>
-                            <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>
-                                "or"
-                            </TabbarItem>
-                        </Tabbar>
-                    "#,
-                            "rust"
-                        )
-                    >
+                    <DemoCode slot>
 
-                        ""
+                        {highlight_str!(
+                            r#"
+                            let value = create_rw_signal(String::from("o"));
+                                    
+                            <Tabbar value>
+                                <TabbarItem name="a">
+                                    "and"
+                                </TabbarItem>
+                                <TabbarItem name="i">
+                                    "if"
+                                </TabbarItem>
+                                <TabbarItem name="o" icon=icondata::AiIcon::AiCloseOutlined>
+                                    "or"
+                                </TabbarItem>
+                            </Tabbar>
+                        "#,
+                            "rust"
+                        )}
+
                     </DemoCode>
                 </Demo>
                 <h3>"Tabbar Props"</h3>
@@ -53,7 +51,7 @@ pub fn TabbarPage() -> impl IntoView {
                         <tr>
                             <td>"value"</td>
                             <td>"RwSignal<String>"</td>
-                            <td>r#""""#</td>
+                            <td>"Default::default()"</td>
                             <td>"Tabbar's value."</td>
                         </tr>
                         <tr>
@@ -78,7 +76,7 @@ pub fn TabbarPage() -> impl IntoView {
                         <tr>
                             <td>"key"</td>
                             <td>"MaybeSignal<String>"</td>
-                            <td>r#""""#</td>
+                            <td>"Default::default()"</td>
                             <td>"The indentifier of the tabbar item."</td>
                         </tr>
                         <tr>

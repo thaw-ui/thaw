@@ -20,6 +20,7 @@ pub fn GlobalStyle() -> impl IntoView {
                 _ = body
                     .style()
                     .set_property("color-scheme", &theme.common.color_scheme);
+                _ = body.style().set_property("margin", "0");
             }
         });
     });

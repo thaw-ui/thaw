@@ -14,21 +14,19 @@ pub fn AvatarPage() -> impl IntoView {
                     <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg" round=true/>
                     <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg" size=50/>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Space>
-                        <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg"/>
-                        <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg" round=true/>
-                        <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg" size=50/>
-                    </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Space>
+                            <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg"/>
+                            <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg" round=true/>
+                            <Avatar src="https://s3.bmp.ovh/imgs/2021/10/723d457d627fe706.jpg" size=50/>
+                        </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Avatar Props"</h3>
@@ -45,7 +43,7 @@ pub fn AvatarPage() -> impl IntoView {
                     <tr>
                         <td>"src"</td>
                         <td>"MaybeSignal<String>"</td>
-                        <td>r#""""#</td>
+                        <td>"Default::default()"</td>
                         <td>"Avatar's image source."</td>
                     </tr>
                     <tr>

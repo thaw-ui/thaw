@@ -16,23 +16,21 @@ pub fn SelectPage() -> impl IntoView {
             <h1>"Select"</h1>
             <Demo>
                 <Select value=selected_value options/>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
+                <DemoCode slot>
+
+                    {highlight_str!(
                         r#"
-                    let selected_value = create_rw_signal(Some(String::from("apple")));
-                    let options = vec![SelectOption {
-                        label: String::from("apple"),
-                        value: String::from("apple"),
-                    }];
-
-                    <Select value=selected_value options/>
-                "#,
+                        let selected_value = create_rw_signal(Some(String::from("apple")));
+                        let options = vec![SelectOption {
+                            label: String::from("apple"),
+                            value: String::from("apple"),
+                        }];
+    
+                        <Select value=selected_value options/>
+                    "#,
                         "rust"
-                    )
-                >
+                    )}
 
-                    ""
                 </DemoCode>
             </Demo>
             <h3>"Select Props"</h3>

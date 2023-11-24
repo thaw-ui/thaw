@@ -7,11 +7,11 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.5.2", features = ["csr"] }
-leptos_meta = { version = "0.5.2", features = ["csr"] }
-leptos_router = { version = "0.5.2", features = ["csr"] }
+leptos = { version = "0.5.2" }
+leptos_meta = { version = "0.5.2" }
+leptos_router = { version = "0.5.2" }
 leptos_devtools = "0.0.1"
-thaw = { path = "../" }
+thaw = { path = "../", default-features = false }
 icondata = { version = "0.1.0", features = [
     "AiCloseOutlined",
     "AiCheckOutlined",
@@ -21,4 +21,13 @@ icondata = { version = "0.1.0", features = [
 prisms = { git = "https://github.com/luoxiaozero/prisms", rev = "16d4d34b93fc20578ebf03137d54ecc7eafa4d4b" }
 
 [features]
+default = ["csr"]
 tracing = ["leptos/tracing"]
+csr = ["leptos/csr", "leptos_meta/csr", "leptos_router/csr", "thaw/csr"]
+ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "thaw/ssr"]
+hydrate = [
+    "leptos/hydrate",
+    "leptos_meta/hydrate",
+    "leptos_router/hydrate",
+    "thaw/hydrate",
+]
