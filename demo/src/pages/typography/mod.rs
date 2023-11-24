@@ -13,24 +13,22 @@ pub fn TypographyPage() -> impl IntoView {
                     <Text>"text"</Text>
                     <Text code=true>"code"</Text>
                 </Space>
-                <DemoCode
-                    slot
-                    html=highlight_str!(
-                        r#"
-                    <Space>
-                        <Text>
-                            "text"
-                        </Text>
-                        <Text code=true>
-                            "code"
-                        </Text>
-                    </Space>
-                "#,
-                        "rust"
-                    )
-                >
+                <DemoCode slot>
 
-                    ""
+                    {highlight_str!(
+                        r#"
+                        <Space>
+                            <Text>
+                                "text"
+                            </Text>
+                            <Text code=true>
+                                "code"
+                            </Text>
+                        </Space>
+                    "#,
+                        "rust"
+                    )}
+
                 </DemoCode>
             </Demo>
             <h3>"Text Props"</h3>
