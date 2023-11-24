@@ -105,6 +105,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "tag".into(),
                     label: "Tag".into(),
                 },
+                MenuItemOption {
+                    value: "typography".into(),
+                    label: "Typography".into(),
+                },
             ],
         },
         MenuGroupOption {
