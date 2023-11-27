@@ -1,3 +1,11 @@
+## [0.1.1](https://github.com/thaw-ui/thaw/compare/v0.1.0...v0.1.1) (2023-11-27)
+
+### Features
+
+* **ssr:** Add ssr and hydrate
+* **style:** GlobalStyle component margin style
+* **component:** add `Text` component
+
 ## [0.1.0](https://github.com/thaw-ui/thaw/compare/v0.1.0-beta4...v0.1.0) (2023-11-19)
 
 ### Bug Fixs
