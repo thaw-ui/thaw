@@ -1,11 +1,7 @@
 mod breadcrumb_item;
 mod theme;
 
-use crate::{
-    use_theme,
-    utils::{mount_style, Provider},
-    Theme,
-};
+use crate::{use_theme, utils::mount_style, Theme};
 pub use breadcrumb_item::BreadcrumbItem;
 use leptos::*;
 pub use theme::BreadcrumbTheme;

@@ -2,7 +2,6 @@ mod menu_group;
 mod menu_item;
 mod theme;
 
-use crate::utils::Provider;
 use leptos::*;
 pub use menu_group::MenuGroup;
 pub use menu_item::*;

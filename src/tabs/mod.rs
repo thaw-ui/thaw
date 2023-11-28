@@ -1,10 +1,6 @@
 mod tab;
 
-use crate::{
-    theme::use_theme,
-    utils::{mount_style, Provider},
-    Theme,
-};
+use crate::{theme::use_theme, utils::mount_style, Theme};
 use leptos::*;
 
 pub use tab::*;

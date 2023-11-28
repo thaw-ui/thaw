@@ -1,6 +1,5 @@
 mod grid_item;
 
-use crate::utils::Provider;
 pub use grid_item::*;
 use leptos::*;
 
