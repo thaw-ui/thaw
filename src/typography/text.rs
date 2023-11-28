@@ -24,7 +24,6 @@ pub fn Text(#[prop(optional)] code: bool, children: Children) -> impl IntoView {
         }
         .into_any();
     } else {
-        view! { <span class="thaw-text">{children()}</span> }
-        .into_any()
+        view! { <span class="thaw-text">{children()}</span> }.into_any()
     }
 }

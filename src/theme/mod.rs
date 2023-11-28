@@ -3,7 +3,6 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    utils::Provider,
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, ColorPickerTheme,
     InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme, SkeletionTheme, SliderTheme,
     SwitchTheme, TableTheme, TagTheme, TypographyTheme, UploadTheme,

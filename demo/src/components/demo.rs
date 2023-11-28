@@ -43,7 +43,9 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
     for node in frag.nodes {
         match node {
             View::Text(text) => html.push_str(&text.content),
-            _ => leptos::logging::warn!("Only text nodes are supported as children of <DemoCode />."),
+            _ => {
+                leptos::logging::warn!("Only text nodes are supported as children of <DemoCode />.")
+            }
         }
     }
 
