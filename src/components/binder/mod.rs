@@ -73,23 +73,23 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
         scrollable_element_handle_vec.set_value(handle_vec);
     };
 
-    let add_scroll_listener = move |listener: Callback<()>| {
+    let add_scroll_listener = Callback::new(move |listener: Callback<()>| {
         scroll_listener.update_value(|scroll_listener| {
             if scroll_listener.is_none() {
                 ensure_scroll_listener();
             }
             *scroll_listener = Some(listener);
         })
-    };
+    });
 
-    let remove_scroll_listener = move |_| {
+    let remove_scroll_listener = Callback::new(move |_| {
         scrollable_element_handle_vec.update_value(|vec| {
             vec.drain(..).for_each(|handle| handle.remove());
         });
         scroll_listener.set_value(None);
-    };
+    });
 
-    let add_resize_listener = move |listener: Callback<()>| {
+    let add_resize_listener = Callback::new(move |listener: Callback<()>| {
         resize_handle.update_value(move |resize_handle| {
             if let Some(handle) = resize_handle.take() {
                 handle.remove();
@@ -100,19 +100,19 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
 
             *resize_handle = Some(handle);
         });
-    };
+    });
 
-    let remove_resize_listener = move |_| {
+    let remove_resize_listener = Callback::new(move |_| {
         resize_handle.update_value(move |handle| {
             if let Some(handle) = handle.take() {
                 handle.remove();
             }
         });
-    };
+    });
 
     on_cleanup(move || {
-        remove_scroll_listener(());
-        remove_resize_listener(());
+        remove_scroll_listener.call(());
+        remove_resize_listener.call(());
     });
     view! {
         {children()}

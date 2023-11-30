@@ -28,19 +28,19 @@ where
         })
     });
 
-    let allow_value = move |v: String| {
+    let allow_value = Callback::<String, bool>::new(move |v: String| {
         let Ok(v) = v.parse::<T>() else { return false };
         value.set(v);
         true
-    };
+    });
     let step: StoredMaybeSignal<_> = step.into();
 
-    let add = move |_| {
+    let add = Callback::<ev::MouseEvent>::new(move |_| {
         value.set(value.get_untracked() + step.get_untracked());
-    };
-    let sub = move |_| {
+    });
+    let sub = Callback::<ev::MouseEvent>::new(move |_| {
         value.set(value.get_untracked() - step.get_untracked());
-    };
+    });
     view! {
         <Input value=input_value allow_value placeholder>
             <InputSuffix slot>
