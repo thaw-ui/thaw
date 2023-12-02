@@ -21,9 +21,6 @@
 }
 
 .thaw-button--disabled:not(.thaw-button--text) {
-    border-color: var(--thaw-border-color-hover);
-    background-color: var(--thaw-background-color-hover);
-    color: var(--thaw-font-color-hover);
     cursor: not-allowed;
 }
 
@@ -43,7 +40,6 @@
 }
 
 .thaw-button--text.thaw-button--disabled {
-    color: var(--thaw-font-color-hover);
     cursor: not-allowed;
 }
 
