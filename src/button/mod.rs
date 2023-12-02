@@ -81,6 +81,7 @@ pub fn Button(
                     "--thaw-background-color-active: {bg_color_active};"
                 ));
                 css_vars.push_str("--thaw-font-color: #fff;");
+                css_vars.push_str(&format!("--thaw-font-color-hover: #fff;"));
                 css_vars.push_str(&format!("--thaw-border-color: {bg_color};"));
                 css_vars.push_str(&format!("--thaw-border-color-hover: {bg_color};"));
                 css_vars.push_str(&format!("--thaw-ripple-color: {bg_color};"));
@@ -144,6 +145,7 @@ pub fn Button(
             class=("thaw-button--round", move || round.get())
             class=("thaw-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
+            disabled=move || disabled.get()
             on:click=on_click
         >
             <Wave comp_ref=wave_ref/>
