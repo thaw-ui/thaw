@@ -144,6 +144,7 @@ pub fn Button(
             class=("thaw-button--round", move || round.get())
             class=("thaw-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
+            disabled=move || disabled.get()
             on:click=on_click
         >
             <Wave comp_ref=wave_ref/>
