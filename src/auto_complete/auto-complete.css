@@ -14,6 +14,7 @@
     border-radius: 2px;
     cursor: pointer;
 }
-.thaw-auto-complete__menu-item:hover {
+
+.thaw-auto-complete__menu-item--selected {
     background-color: var(--thaw-background-color-hover);
 }
