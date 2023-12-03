@@ -41,6 +41,8 @@ pub fn Input(
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
+    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
 ) -> impl IntoView {
@@ -90,8 +92,20 @@ pub fn Input(
                 theme.input.border_color
             ));
             css_vars.push_str(&format!(
+                "--thaw-border-color-error: {};",
+                theme.common.color_error
+            ));
+            css_vars.push_str(&format!(
                 "--thaw-placeholder-color: {};",
                 theme.input.placeholder_color
+            ));
+            css_vars.push_str(&format!(
+                "--thaw-background-color-disabled: {};",
+                theme.input.background_color_disabled
+            ));
+            css_vars.push_str(&format!(
+                "--thaw-font-color-disabled: {};",
+                theme.input.font_color_disabled
             ));
         });
         css_vars
@@ -100,6 +114,8 @@ pub fn Input(
         <div
             class="thaw-input"
             class=("thaw-input--focus", move || is_focus.get())
+            class=("thaw-input--disabled", move || disabled.get())
+            class=("thaw-input--invalid", move || invalid.get())
             style=move || css_vars.get()
         >
             {if let Some(prefix) = input_prefix {
@@ -119,6 +135,7 @@ pub fn Input(
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
                 class="thaw-input__input-el"
+                disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
             />
 

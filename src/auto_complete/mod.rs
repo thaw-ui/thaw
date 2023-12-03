@@ -22,6 +22,8 @@ pub fn AutoComplete(
     #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] on_select: Option<Callback<String>>,
+    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] invalid: MaybeSignal<bool>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let theme = use_theme(Theme::light);
@@ -111,6 +113,8 @@ pub fn AutoComplete(
                 <Input
                     value
                     placeholder
+                    disabled
+                    invalid
                     on_focus=move |_| open_menu()
                     on_blur=move |_| is_show_menu.set(false)
                     allow_value

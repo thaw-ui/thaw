@@ -6,6 +6,8 @@ pub struct InputTheme {
     pub placeholder_color: String,
     pub border_color: String,
     pub background_color: String,
+    pub font_color_disabled: String,
+    pub background_color_disabled: String,
 }
 
 impl ThemeMethod for InputTheme {
@@ -15,6 +17,8 @@ impl ThemeMethod for InputTheme {
             placeholder_color: "#c2c2c2".into(),
             border_color: "#e0e0e6".into(),
             background_color: "#fff".into(),
+            font_color_disabled: "#8f8f8f".into(),
+            background_color_disabled: "#f2f2f2".into(),
         }
     }
 
@@ -24,6 +28,8 @@ impl ThemeMethod for InputTheme {
             placeholder_color: "#c2c2c2".into(),
             border_color: "#0000".into(),
             background_color: "#ffffff1a".into(),
+            font_color_disabled: "#4c5155".into(),
+            background_color_disabled: "#2b2f31".into(),
         }
     }
 }
