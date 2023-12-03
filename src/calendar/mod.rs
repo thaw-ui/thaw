@@ -1,11 +1,25 @@
-use crate::utils::mount_style;
+mod theme;
+
+use crate::{use_theme, utils::mount_style, Theme};
 use leptos::*;
+pub use theme::CalendarTheme;
 use time::Date;
 pub use time::OffsetDateTime;
 
 #[component]
 pub fn Calendar(value: RwSignal<OffsetDateTime>) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
+    let theme = use_theme(Theme::light);
+    let css_vars = create_memo(move |_| {
+        let mut css_vars = String::new();
+        theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--thaw-border-color: {};",
+                theme.calendar.border_color
+            ));
+        });
+        css_vars
+    });
     let dates = create_memo(move |_| {
         let date = value.get().date();
         let weekday_number = date.weekday().number_days_from_sunday();
@@ -40,7 +54,7 @@ pub fn Calendar(value: RwSignal<OffsetDateTime>) -> impl IntoView {
         dates
     });
     view! {
-        <div class="thaw-calendar">
+        <div class="thaw-calendar" style=move || css_vars.get()>
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">
 
