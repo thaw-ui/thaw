@@ -14,9 +14,9 @@ impl ThemeMethod for ButtonTheme {
         Self {
             color_text_hover: "#f1f3f5".into(),
             color_text_active: "#eceef0".into(),
-            color_text_disabled: "#737373".into(),
-            color_background_disabled: "#ceced1".into(),
-            color_border_disabled: "#909090".into(),
+            color_text_disabled: "#00000040".into(),
+            color_background_disabled: "#0000000a".into(),
+            color_border_disabled: "#d9d9d9".into(),
         }
     }
 
@@ -24,9 +24,9 @@ impl ThemeMethod for ButtonTheme {
         Self {
             color_text_hover: "#ffffff1a".into(),
             color_text_active: "#ffffff26".into(),
-            color_text_disabled: "#ceced1".into(),
-            color_background_disabled: "#737373".into(),
-            color_border_disabled: "#ceced1".into(),
+            color_text_disabled: "#4c5155".into(),
+            color_background_disabled: "#2b2f31".into(),
+            color_border_disabled: "#2b2f31".into(),
         }
     }
 }
