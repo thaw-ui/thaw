@@ -1,0 +1,25 @@
+.thaw-calendar {
+    display: flex;
+    flex-direction: column;
+    height: 720px;
+}
+
+.thaw-calendar__header {
+    padding-bottom: 16px;
+}
+
+.thaw-calendar__header-title {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.thaw-calendar__dates {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+.thaw-calendar__dates-item {
+    padding: 10px;
+}
