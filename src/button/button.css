@@ -21,6 +21,12 @@
 }
 
 .thaw-button--disabled:not(.thaw-button--text) {
+    border-color: var(--thaw-border-color-disabled);
+    background-color: var(--thaw-background-color-disabled);
+}
+
+.thaw-button--disabled {
+    color: var(--thaw-font-color-disabled);
     cursor: not-allowed;
 }
 
@@ -37,10 +43,6 @@
 
 .thaw-button--text:hover:not(.thaw-button--disabled) {
     color: var(--thaw-font-color-hover);
-}
-
-.thaw-button--text.thaw-button--disabled {
-    cursor: not-allowed;
 }
 
 .thaw-button--link {
