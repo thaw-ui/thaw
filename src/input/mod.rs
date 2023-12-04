@@ -107,6 +107,10 @@ pub fn Input(
                 "--thaw-font-color-disabled: {};",
                 theme.input.font_color_disabled
             ));
+            css_vars.push_str(&format!(
+                "--thaw-box-shadow-color-invalid: {}33;",
+                theme.common.color_error
+            ));
         });
         css_vars
     });
