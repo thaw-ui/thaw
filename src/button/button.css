@@ -20,12 +20,12 @@
     transition: all 0.3s;
 }
 
-.thaw-button--disabled:not(.thaw-button--text) {
+.thaw-button--disabled:not(.thaw-button--text, .thaw-button--link) {
     border-color: var(--thaw-border-color-disabled);
     background-color: var(--thaw-background-color-disabled);
 }
 
-.thaw-button--disabled {
+.thaw-button.thaw-button--disabled {
     color: var(--thaw-font-color-disabled);
     cursor: not-allowed;
 }
@@ -46,6 +46,8 @@
 }
 
 .thaw-button--link {
+    background-color: transparent;
+    color: inherit;
     height: auto;
     padding: inherit;
 }
