@@ -269,7 +269,7 @@ fn LoadingButton() -> impl IntoView {
         );
     };
     view! {
-        <h3>"Loading"</h3>
+        <h3>"loading"</h3>
         <Demo>
             <Space>
                 <Button loading on_click icon=icondata::AiIcon::AiCloseOutlined>

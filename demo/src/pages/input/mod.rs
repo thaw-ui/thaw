@@ -32,6 +32,38 @@ pub fn InputPage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
+            <h3>disabled</h3>
+            <Demo>
+                <Space vertical=true>
+                    <Input value disabled=true/>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        <Input value disabled=true/>
+                        "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
+            <h3>invalid</h3>
+            <Demo>
+                <Space vertical=true>
+                    <Input value invalid=true/>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        <Input value invalid=true/>
+                        "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h1>"Prefix & Suffix"</h1>
             <Demo>
                 <Space vertical=true>
@@ -101,13 +133,25 @@ pub fn InputPage() -> impl IntoView {
                         <td>"variant"</td>
                         <td>"MaybeSignal<InputVariant>"</td>
                         <td>"InputVariant::Text"</td>
-                        <td>"Button's variant."</td>
+                        <td>"Input's variant."</td>
                     </tr>
                     <tr>
                         <td>"placeholder"</td>
                         <td>"MaybeSignal<String>"</td>
                         <td>"Default::default()"</td>
                         <td>"Placeholder of input."</td>
+                    </tr>
+                    <tr>
+                        <td>"disabled"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the input is disabled."</td>
+                    </tr>
+                    <tr>
+                        <td>"invalid"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the input is invalid."</td>
                     </tr>
                     <tr>
                         <td>"allow_value"</td>

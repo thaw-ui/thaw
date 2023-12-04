@@ -21,7 +21,7 @@ pub fn ComponentsPage() -> impl IntoView {
 
     _ = select_name.watch(move |name| {
         let pathname = loaction.pathname.get_untracked();
-        if !pathname.starts_with(&format!("/thaw/components/{name}")) {
+        if !pathname.eq(&format!("/thaw/components/{name}")) {
             navigate(&format!("/components/{name}"), Default::default());
         }
     });

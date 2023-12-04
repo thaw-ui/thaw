@@ -13,18 +13,33 @@
 }
 
 .thaw-input--focus,
-.thaw-input:hover {
+.thaw-input:hover:not(.thaw-input--disabled, .thaw-input--invalid) {
     border-color: var(--thaw-border-color-hover);
 }
 
-.thaw-input--focus {
+.thaw-input--disabled,
+.thaw-input--disabled .thaw-input__input-el {
+    cursor: not-allowed;
+    background-color: var(--thaw-background-color-disabled);
+    color: var(--thaw-font-color-disabled);
+}
+
+.thaw-input--invalid {
+    border-color: var(--thaw-border-color-error);
+}
+
+.thaw-input--focus:not(.thaw-input--invalid) {
     box-shadow: 0 0 0 2px var(--thaw-box-shadow-color);
+}
+
+.thaw-input--focus.thaw-input--invalid {
+    box-shadow: 0 0 0 2px var(--thaw-box-shadow-color-invalid);
 }
 
 .thaw-input__input-el {
     width: 100%;
     height: 30px;
-    background-color: transparent;
+    background-color: transparent !important;
     color: var(--thaw-font-color);
     line-height: 30px;
     font-size: inherit;
