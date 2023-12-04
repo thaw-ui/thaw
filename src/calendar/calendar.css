@@ -23,9 +23,46 @@
     border-color: var(--thaw-border-color);
 }
 
-.thaw-calendar__dates-item {
+.thaw-calendar-item {
+    position: relative;
     padding: 8px 12px;
     border-right: 1px solid;
     border-bottom: 1px solid;
     border-color: var(--thaw-border-color);
+    cursor: pointer;
+}
+
+.thaw-calendar-item:hover {
+    background-color: var(--thaw-background-color-hover);
+}
+
+.thaw-calendar-item--other-month {
+    color: var(--thaw-font-color-other-month);
+}
+
+.thaw-calendar-item__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.thaw-calendar-item--today .thaw-calendar-item__header-day {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: var(--thaw-background-color-today);
+    border-radius: 50%;
+    margin-left: -0.4em;
+    margin-top: -0.3em;
+    width: 1.8em;
+    height: 1.8em;
+}
+
+.thaw-calendar-item--selected .thaw-calendar-item__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--thaw-background-color-today);
+    height: 3px;
 }

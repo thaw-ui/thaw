@@ -5,7 +5,7 @@ use thaw::*;
 
 #[component]
 pub fn CalendarPage() -> impl IntoView {
-    let value = create_rw_signal(OffsetDateTime::now_utc());
+    let value = create_rw_signal(OffsetDateTime::now_utc().date());
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Calendar"</h1>
@@ -15,7 +15,7 @@ pub fn CalendarPage() -> impl IntoView {
 
                     {highlight_str!(
                         r#"
-                        let value = create_rw_singal(OffsetDateTime::now_utc());
+                        let value = create_rw_singal(OffsetDateTime::now_utc().date());
 
                         view! {
                             <Calendar value />
@@ -39,7 +39,7 @@ pub fn CalendarPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"value"</td>
-                        <td>"RwSignal<OffsetDateTime>"</td>
+                        <td>"RwSignal<Date>"</td>
                         <td></td>
                         <td></td>
                     </tr>
