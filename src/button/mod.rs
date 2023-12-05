@@ -76,48 +76,59 @@ pub fn Button(
                 "--thaw-font-color-disabled: {};",
                 theme.button.color_text_disabled
             ));
-            if variant.get() == ButtonVariant::Primary {
-                let bg_color_hover = color.get().theme_color_hover(theme);
-                let bg_color_active = color.get().theme_color_active(theme);
-                css_vars.push_str(&format!("--thaw-background-color: {bg_color};"));
-                css_vars.push_str(&format!("--thaw-background-color-hover: {bg_color_hover};"));
-                css_vars.push_str(&format!(
-                    "--thaw-background-color-active: {bg_color_active};"
-                ));
-                css_vars.push_str("--thaw-font-color: #fff;");
-                css_vars.push_str(&format!("--thaw-border-color: {bg_color};"));
-                css_vars.push_str(&format!("--thaw-border-color-hover: {bg_color};"));
-                css_vars.push_str(&format!("--thaw-ripple-color: {bg_color};"));
 
-                css_vars.push_str(&format!(
-                    "--thaw-background-color-disabled: {};",
-                    theme.button.color_background_disabled
-                ));
-                css_vars.push_str(&format!(
-                    "--thaw-border-color-disabled: {};",
-                    theme.button.color_border_disabled
-                ));
+            match variant.get() {
+                ButtonVariant::Primary => {
+                    let bg_color_hover = color.get().theme_color_hover(theme);
+                    let bg_color_active = color.get().theme_color_active(theme);
+                    css_vars.push_str(&format!("--thaw-background-color: {bg_color};"));
+                    css_vars.push_str(&format!("--thaw-background-color-hover: {bg_color_hover};"));
+                    css_vars.push_str(&format!(
+                        "--thaw-background-color-active: {bg_color_active};"
+                    ));
+                    css_vars.push_str("--thaw-font-color: #fff;");
+                    css_vars.push_str(&format!("--thaw-border-color: {bg_color};"));
+                    css_vars.push_str(&format!("--thaw-border-color-hover: {bg_color};"));
+                    css_vars.push_str(&format!("--thaw-ripple-color: {bg_color};"));
 
-            } else if variant.get() == ButtonVariant::Text {
-                css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
-                css_vars.push_str(&format!(
-                    "--thaw-background-color-hover: {};",
-                    theme.button.color_text_hover
-                ));
-                css_vars.push_str(&format!(
-                    "--thaw-background-color-active: {};",
-                    theme.button.color_text_active
-                ));
-                css_vars.push_str("--thaw-ripple-color: #0000;");
-            } else {
-                css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
-                css_vars.push_str("--thaw-border-color: #555a;");
-                css_vars.push_str("--thaw-border-color-hover: #555;");
-                css_vars.push_str("--thaw-ripple-color: #0000;");
-                css_vars.push_str(&format!(
-                    "--thaw-border-color-disabled: {};",
-                    theme.button.color_border_disabled
-                ));
+                    css_vars.push_str(&format!(
+                        "--thaw-background-color-disabled: {};",
+                        theme.button.color_background_disabled
+                    ));
+                    css_vars.push_str(&format!(
+                        "--thaw-border-color-disabled: {};",
+                        theme.button.color_border_disabled
+                    ));
+                }
+                ButtonVariant::Solid => {
+                    css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
+                    css_vars.push_str(&format!(
+                        "--thaw-border-color: {};",
+                        theme.button.border_color_solid
+                    ));
+                    css_vars.push_str(&format!("--thaw-border-color-hover: {bg_color};"));
+                    css_vars.push_str(&format!("--thaw-ripple-color: {bg_color};"));
+                    css_vars.push_str(&format!(
+                        "--thaw-border-color-disabled: {};",
+                        theme.button.color_border_disabled
+                    ));
+                }
+                ButtonVariant::Text => {
+                    css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
+                    css_vars.push_str(&format!(
+                        "--thaw-background-color-hover: {};",
+                        theme.button.color_text_hover
+                    ));
+                    css_vars.push_str(&format!(
+                        "--thaw-background-color-active: {};",
+                        theme.button.color_text_active
+                    ));
+                    css_vars.push_str("--thaw-ripple-color: #0000;");
+                }
+                ButtonVariant::Link => {
+                    css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
+                    css_vars.push_str("--thaw-ripple-color: #0000;");
+                }
             }
         });
 
@@ -157,6 +168,7 @@ pub fn Button(
     view! {
         <button
             class:thaw-button=true
+            class=("thaw-button--solid", move || variant.get() == ButtonVariant::Solid)
             class=("thaw-button--text", move || variant.get() == ButtonVariant::Text)
             class=("thaw-button--link", move || variant.get() == ButtonVariant::Link)
             class=("thaw-button--round", move || round.get())
