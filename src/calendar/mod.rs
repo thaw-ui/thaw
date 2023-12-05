@@ -34,6 +34,15 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
         css_vars
     });
     let show_date = create_rw_signal(value.get_untracked());
+    create_effect(move |_| {
+        let selected_date = value.get();
+        let show_date_data = show_date.get_untracked();
+        if selected_date.year() != show_date_data.year()
+            || selected_date.month() != show_date_data.month()
+        {
+            show_date.set(selected_date);
+        }
+    });
 
     let dates = create_memo(move |_| {
         let show_date = show_date.get();
@@ -93,18 +102,24 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
                 <span class="thaw-calendar__header-title">
 
                     {move || {
-                        show_date
-                            .with(|date| {
-                                format!("{} {}", date.month(), date.year())
-                            })
+                        show_date.with(|date| { format!("{} {}", date.month(), date.year()) })
                     }}
 
                 </span>
             </div>
             <div class="thaw-calendar__dates">
-                <For each=move || dates.get().into_iter().enumerate() key=|index_and_date| index_and_date.1.to_calendar_date() let:index_and_date>
-                    <CalendarItem value index=index_and_date.0 date=index_and_date.1 />
-                </For>
+
+                {move || {
+                    dates
+                        .get()
+                        .into_iter()
+                        .enumerate()
+                        .map(|(index, date)| {
+                            view! { <CalendarItem value index=index date=date/> }
+                        })
+                        .collect_view()
+                }}
+
             </div>
         </div>
     }
@@ -136,15 +151,16 @@ fn CalendarItem(value: RwSignal<Date>, index: usize, date: CalendarItemDate) -> 
         >
             <div class="thaw-calendar-item__header">
                 <span class="thaw-calendar-item__header-day">{date.day()}</span>
-                {
-                    if index < 7 {
-                        view! {
-                            <span class="thaw-calendar-item__header-title">{weekday_str[index]}</span>
-                        }.into()
-                    } else {
-                        None
+
+                {if index < 7 {
+                    view! {
+                        <span class="thaw-calendar-item__header-title">{weekday_str[index]}</span>
                     }
-                }
+                        .into()
+                } else {
+                    None
+                }}
+
             </div>
             <div class="thaw-calendar-item__bar"></div>
         </div>
