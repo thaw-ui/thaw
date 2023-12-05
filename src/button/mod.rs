@@ -1,3 +1,4 @@
+mod button_group;
 mod theme;
 
 use crate::{
@@ -6,6 +7,7 @@ use crate::{
     theme::*,
     utils::{mount_style, ComponentRef},
 };
+pub use button_group::ButtonGroup;
 use leptos::*;
 pub use theme::ButtonTheme;
 

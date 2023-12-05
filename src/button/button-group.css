@@ -1,0 +1,25 @@
+.thaw-button-group--vertical {
+    display: inline-flex;
+    flex-direction: column;
+}
+.thaw-button-group--vertical .thaw-button:first-child {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.thaw-button-group--vertical .thaw-button:last-child {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+.thaw-button-group--vertical .thaw-button:not(:first-child):not(:last-child),
+.thaw-button-group:not(.thaw-button-group--vertical)
+    .thaw-button:not(:first-child):not(:last-child) {
+    border-radius: 0 !important;
+}
+.thaw-button-group:not(.thaw-button-group--vertical) .thaw-button:first-child {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.thaw-button-group:not(.thaw-button-group--vertical) .thaw-button:last-child {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
