@@ -12,7 +12,7 @@
     user-select: none;
 }
 
-.thaw-button:hover:not(.thaw-button--disabled) {
+.thaw-button:hover:not(.thaw-button--disabled, .thaw-button--solid) {
     border-color: var(--thaw-border-color-hover);
     background-color: var(--thaw-background-color-hover);
     cursor: pointer;
@@ -36,13 +36,21 @@
     background-color: var(--thaw-background-color-active);
 }
 
+.thaw-button--solid {
+    background-color: transparent;
+    color: inherit;
+    transition: all 0.3s;
+}
+
+.thaw-button--solid:hover:not(.thaw-button--disabled) {
+    cursor: pointer;
+    color: var(--thaw-font-color-hover);
+    border-color: var(--thaw-border-color-hover);
+}
+
 .thaw-button--text,
 .thaw-button--link {
     border: none;
-}
-
-.thaw-button--text:hover:not(.thaw-button--disabled) {
-    color: var(--thaw-font-color-hover);
 }
 
 .thaw-button--link {
@@ -51,7 +59,7 @@
     height: auto;
     padding: inherit;
 }
-
+.thaw-button--text:hover:not(.thaw-button--disabled),
 .thaw-button--link:hover:not(.thaw-button--disabled) {
     color: var(--thaw-font-color-hover);
 }
