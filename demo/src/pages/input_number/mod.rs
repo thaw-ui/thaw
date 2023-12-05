@@ -33,6 +33,38 @@ pub fn InputNumberPage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
+            <h3>"disabled"</h3>
+            <Demo>
+                <Space vertical=true>
+                    <InputNumber value step=1 disabled=true/>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        <InputNumber value step=1 disabled=true/>
+                        "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
+            <h3>"invalid"</h3>
+            <Demo>
+                <Space vertical=true>
+                    <InputNumber value step=1 invalid=true/>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        <InputNumber value step=1 invalid=true/>
+                        "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h3>"InputNumber Props"</h3>
             <Table single_column=true>
                 <thead>
@@ -63,6 +95,18 @@ pub fn InputNumberPage() -> impl IntoView {
                         <td>
                             "The number which the current value is increased or decreased on key or button press."
                         </td>
+                    </tr>
+                    <tr>
+                        <td>"disabled"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the input is disabled."</td>
+                    </tr>
+                    <tr>
+                        <td>"invalid"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the input is invalid."</td>
                     </tr>
                 </tbody>
             </Table>

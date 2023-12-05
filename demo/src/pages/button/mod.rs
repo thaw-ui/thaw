@@ -95,6 +95,104 @@ pub fn ButtonPage() -> impl IntoView {
                 </DemoCode>
             </Demo>
             <LoadingButton/>
+            <h3>"disabled"</h3>
+            <Demo>
+                <Space>
+                    <Button variant=ButtonVariant::Primary disabled=true>
+                        "Primary"
+                    </Button>
+                    <Button variant=ButtonVariant::Solid disabled=true>
+                        "Solid"
+                    </Button>
+                    <Button variant=ButtonVariant::Text disabled=true>
+                        "Text"
+                    </Button>
+                    <Button variant=ButtonVariant::Link disabled=true>
+                        "Link"
+                    </Button>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        <Button variant=ButtonVariant::Primary disabled=true>
+                            "Primary"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid disabled=true>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Text disabled=true>
+                            "Text"
+                        </Button>
+                        <Button variant=ButtonVariant::Link disabled=true>
+                            "Link"
+                        </Button>
+                    "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
+            <h3>"Button group"</h3>
+            <Demo>
+                <Space>
+                    <ButtonGroup>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                    </ButtonGroup>
+                    <ButtonGroup vertical=true>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                    </ButtonGroup>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                <Space>
+                    <ButtonGroup>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                    </ButtonGroup>
+                    <ButtonGroup vertical=true>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                        <Button variant=ButtonVariant::Solid>
+                            "Solid"
+                        </Button>
+                    </ButtonGroup>
+                </Space>
+                    "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h3>"style"</h3>
             <Demo>
                 <Space>
@@ -126,55 +224,89 @@ pub fn ButtonPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"style"</td>
-                        <td>"MaybeSignal<String>"</td>
-                        <td>"Default::default()"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
                         <td>"Button's style."</td>
                     </tr>
                     <tr>
                         <td>"variant"</td>
-                        <td>"MaybeSignal<ButtonVariant>"</td>
-                        <td>"ButtonVariant::Primary"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<ButtonVariant>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"ButtonVariant::Primary"</Text>
+                        </td>
                         <td>"Button's variant."</td>
                     </tr>
                     <tr>
                         <td>"color"</td>
-                        <td>"MaybeSignal<ButtonColor>"</td>
-                        <td>"ButtonColor::Primary"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<ButtonColor>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"ButtonColor::Primary"</Text>
+                        </td>
                         <td>"Button's color."</td>
                     </tr>
                     <tr>
                         <td>"round"</td>
-                        <td>"MaybeSignal<bool>"</td>
-                        <td>"false"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<bool>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"false"</Text>
+                        </td>
                         <td>"Whether the button shows rounded corners."</td>
                     </tr>
                     <tr>
                         <td>"icon"</td>
-                        <td>"Option<Icon>"</td>
-                        <td>"None"</td>
+                        <td>
+                            <Text code=true>"Option<Icon>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"None"</Text>
+                        </td>
                         <td>"The icon of the button."</td>
                     </tr>
                     <tr>
                         <td>"loading"</td>
-                        <td>"MaybeSignal<bool>"</td>
-                        <td>"false"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<bool>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"false"</Text>
+                        </td>
                         <td>"Whether the button shows the loading status."</td>
                     </tr>
                     <tr>
                         <td>"disabled"</td>
-                        <td>"MaybeSignal<bool>"</td>
-                        <td>"false"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<bool>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"false"</Text>
+                        </td>
                         <td>"Whether the button is disabled."</td>
                     </tr>
                     <tr>
                         <td>"on_click"</td>
-                        <td>"Option<Callback<ev::MouseEvent>>"</td>
-                        <td>"None"</td>
+                        <td>
+                            <Text code=true>"Option<Callback<ev::MouseEvent>>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"None"</Text>
+                        </td>
                         <td>"Listen for button click events."</td>
                     </tr>
                     <tr>
                         <td>"children"</td>
-                        <td>"Children"</td>
+                        <td>
+                            <Text code=true>"Children"</Text>
+                        </td>
                         <td></td>
                         <td>"Button's content."</td>
                     </tr>
@@ -197,7 +329,7 @@ fn LoadingButton() -> impl IntoView {
         );
     };
     view! {
-        <h3>"Loading"</h3>
+        <h3>"loading"</h3>
         <Demo>
             <Space>
                 <Button loading on_click icon=icondata::AiIcon::AiCloseOutlined>

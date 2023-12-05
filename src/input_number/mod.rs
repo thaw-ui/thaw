@@ -9,6 +9,8 @@ pub fn InputNumber<T>(
     #[prop(optional, into)] value: RwSignal<T>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(into)] step: MaybeSignal<T>,
+    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] invalid: MaybeSignal<bool>,
 ) -> impl IntoView
 where
     T: Add<Output = T> + Sub<Output = T>,
@@ -35,19 +37,21 @@ where
     });
     let step: StoredMaybeSignal<_> = step.into();
 
-    let add = Callback::<ev::MouseEvent>::new(move |_| {
+    let add = Callback::<ev::MouseEvent>::new(move |e: ev::MouseEvent| {
+        e.prevent_default();
         value.set(value.get_untracked() + step.get_untracked());
     });
-    let sub = Callback::<ev::MouseEvent>::new(move |_| {
+    let sub = Callback::<ev::MouseEvent>::new(move |e: ev::MouseEvent| {
+        e.prevent_default();
         value.set(value.get_untracked() - step.get_untracked());
     });
     view! {
-        <Input value=input_value allow_value placeholder>
+        <Input value=input_value allow_value placeholder disabled invalid>
             <InputSuffix slot>
-                <Button variant=ButtonVariant::Link on_click=sub>
+                <Button disabled variant=ButtonVariant::Link on_click=sub>
                     <Icon icon=Icon::from(AiIcon::AiMinusOutlined) style="font-size: 18px"/>
                 </Button>
-                <Button variant=ButtonVariant::Link on_click=add>
+                <Button disabled variant=ButtonVariant::Link on_click=add>
                     <Icon icon=Icon::from(AiIcon::AiPlusOutlined) style="font-size: 18px"/>
                 </Button>
             </InputSuffix>

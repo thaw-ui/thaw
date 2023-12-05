@@ -52,6 +52,32 @@ pub fn AutoCompletePage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
+            <h3>"disabled"</h3>
+            <Demo>
+                <AutoComplete value options placeholder="Email" disabled=true/>
+                <DemoCode slot>
+                    {highlight_str!(
+                        r#"
+                        <AutoComplete value options placeholder="Email" disabled=true/>
+                "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
+            <h3>"invalid"</h3>
+            <Demo>
+                <AutoComplete value options placeholder="Email" invalid=true/>
+                <DemoCode slot>
+                    {highlight_str!(
+                        r#"
+                        <AutoComplete value options placeholder="Email" invalid=true/>
+                "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h3>"AutoComplete Props"</h3>
             <Table single_column=true>
                 <thead>
@@ -80,6 +106,18 @@ pub fn AutoCompletePage() -> impl IntoView {
                         <td>"MaybeSignal<Vec<AutoCompleteOption>>"</td>
                         <td>"Vec::new()"</td>
                         <td>"Options to autocomplete from."</td>
+                    </tr>
+                    <tr>
+                        <td>"disabled"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the input is disabled."</td>
+                    </tr>
+                    <tr>
+                        <td>"invalid"</td>
+                        <td>"MaybeSignal<bool>"</td>
+                        <td>"false"</td>
+                        <td>"Whether the input is invalid."</td>
                     </tr>
                     <tr>
                         <td>"clear_after_select"</td>

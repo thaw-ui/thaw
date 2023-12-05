@@ -1,3 +1,17 @@
+## [0.1.2](https://github.com/thaw-ui/thaw/compare/v0.1.1...v0.1.2) (2023-12-04)
+
+### Features
+
+* **leptos:** Update leptos to v0.5.4
+* **auto complete:** Auto complete component add keyboard event
+* **menu:** Menu item add line height
+* **button:** Button add disabled style
+* **disabled and invalid:** Add disabled and invalid statuses to input
+
+### Bug Fixs
+
+* **callback:** Nightly Callback conversion problem
+
 ## [0.1.1](https://github.com/thaw-ui/thaw/compare/v0.1.0...v0.1.1) (2023-11-27)
 
 ### Features
