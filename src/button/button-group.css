@@ -1,3 +1,7 @@
+.thaw-button-group {
+    display: inline-flex;
+}
+
 .thaw-button-group--vertical {
     display: inline-flex;
     flex-direction: column;

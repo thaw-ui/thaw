@@ -160,6 +160,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Data Display Components".into(),
             children: vec![
                 MenuItemOption {
+                    value: "calendar".into(),
+                    label: "Calendar".into(),
+                },
+                MenuItemOption {
                     value: "image".into(),
                     label: "Image".into(),
                 },

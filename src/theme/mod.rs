@@ -3,9 +3,9 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, ColorPickerTheme,
-    InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme, SkeletionTheme, SliderTheme,
-    SwitchTheme, TableTheme, TagTheme, TypographyTheme, UploadTheme,
+    AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, CalendarTheme,
+    ColorPickerTheme, InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme,
+    SkeletionTheme, SliderTheme, SwitchTheme, TableTheme, TagTheme, TypographyTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -38,6 +38,7 @@ pub struct Theme {
     pub breadcrumb: BreadcrumbTheme,
     pub progress: ProgressTheme,
     pub typograph: TypographyTheme,
+    pub calendar: CalendarTheme,
 }
 
 impl Theme {
@@ -65,6 +66,7 @@ impl Theme {
             breadcrumb: BreadcrumbTheme::light(),
             progress: ProgressTheme::light(),
             typograph: TypographyTheme::light(),
+            calendar: CalendarTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -91,6 +93,7 @@ impl Theme {
             breadcrumb: BreadcrumbTheme::dark(),
             progress: ProgressTheme::dark(),
             typograph: TypographyTheme::dark(),
+            calendar: CalendarTheme::dark(),
         }
     }
 }
