@@ -60,6 +60,7 @@ impl ButtonColor {
 #[component]
 pub fn Button(
     #[prop(optional, into)] style: MaybeSignal<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(optional, into)] variant: MaybeSignal<ButtonVariant>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
@@ -169,6 +170,7 @@ pub fn Button(
 
     view! {
         <button
+            class=move || class.get()
             class:thaw-button=true
             class=("thaw-button--solid", move || variant.get() == ButtonVariant::Solid)
             class=("thaw-button--text", move || variant.get() == ButtonVariant::Text)

@@ -131,6 +131,12 @@ pub fn AutoCompletePage() -> impl IntoView {
                         <td>"None"</td>
                         <td>"On select callback function."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Additional classes for the autocomplete element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"AutoCompleteOption Properties"</h3>

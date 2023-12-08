@@ -24,6 +24,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] on_select: Option<Callback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let theme = use_theme(Theme::light);
@@ -71,6 +72,8 @@ pub fn AutoComplete(
     };
 
     let on_keydown = move |event: ev::KeyboardEvent| {
+        event.prevent_default();
+
         if !is_show_menu.get_untracked() {
             return;
         }
@@ -109,7 +112,7 @@ pub fn AutoComplete(
 
     view! {
         <Binder target_ref=auto_complete_ref>
-            <div class="thaw-auto-complete" ref=auto_complete_ref on:keydown=on_keydown>
+            <div class=move || class.get() class:thaw-auto-complete=true ref=auto_complete_ref on:keydown=on_keydown>
                 <Input
                     value
                     placeholder
@@ -175,6 +178,7 @@ pub fn AutoComplete(
                                             "thaw-auto-complete__menu-item--selected",
                                             move || index == select_option_index.get(),
                                         )
+
                                         on:click=on_click
                                         on:mousedown=on_mousedown
                                         on:mouseenter=on_mouseenter
@@ -192,3 +196,5 @@ pub fn AutoComplete(
         </Binder>
     }
 }
+
+

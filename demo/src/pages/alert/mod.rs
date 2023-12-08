@@ -45,6 +45,12 @@ pub fn AlertPage() -> impl IntoView {
                 </thead>
                 <tbody>
                     <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Additional classes for the alert element."</td>
+                    </tr>
+                    <tr>
                         <td>"title"</td>
                         <td>"MaybeSignal<String>"</td>
                         <td>"Default::default()"</td>

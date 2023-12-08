@@ -38,6 +38,7 @@ impl AlertVariant {
 
 #[component]
 pub fn Alert(
+    #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(optional, into)] title: MaybeSignal<String>,
     #[prop(into)] variant: MaybeSignal<AlertVariant>,
     children: Children,
@@ -79,7 +80,10 @@ pub fn Alert(
         .into()
     });
     view! {
-        <div class="thaw-alert" style=move || css_vars.get()>
+        <div 
+            class=move || class.get()
+            class:thaw-alert=true
+            style=move || css_vars.get()>
             <Icon icon class="thaw-alert__icon"/>
             <div>
 
