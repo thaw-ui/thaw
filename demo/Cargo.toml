@@ -31,3 +31,4 @@ hydrate = [
     "leptos_router/hydrate",
     "thaw/hydrate",
 ]
+nightly = ["leptos/nightly", "leptos_meta/nightly", "leptos_router/nightly"]

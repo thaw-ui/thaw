@@ -1,0 +1,48 @@
+name: CI
+on:
+    pull_request:
+        paths: ["demo/**", "src/**", "Cargo.toml"]
+        branches:
+            - main
+
+jobs:
+    stable:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Setup Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  target: wasm32-unknown-unknown
+                  override: true
+            - name: Install Trunk
+              uses: jetli/trunk-action@v0.4.0
+              with:
+                  version: "latest"
+            - name: Build
+              run: |
+                  cd demo
+                  trunk build --release
+    nightly:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Setup Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: nightly
+                  target: wasm32-unknown-unknown
+                  override: true
+            - name: Install Trunk
+              uses: jetli/trunk-action@v0.4.0
+              with:
+                  version: "latest"
+            - name: Build
+              run: |
+                  cd demo
+                  trunk build --release --features nightly
