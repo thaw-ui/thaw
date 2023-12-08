@@ -6,6 +6,7 @@ use thaw::*;
 #[component]
 pub fn SliderPage() -> impl IntoView {
     let value = create_rw_signal(0.0);
+    let stepped_value = create_rw_signal(0.0);
 
     view! {
         <div style="width: 896px; margin: 0 auto;">
@@ -19,6 +20,42 @@ pub fn SliderPage() -> impl IntoView {
                         let value = create_rw_signal(0.0);
                             
                         <Slider value/>
+                    "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
+            <h2>"SliderLabel"</h2>
+            <Demo>
+                <Slider value=stepped_value max=10.0 step=1>
+                    <SliderLabel value=0>
+                        "0"
+                    </SliderLabel>
+                    <SliderLabel value=5>
+                        "5"
+                    </SliderLabel>
+                    <SliderLabel value=10>
+                        "10"
+                    </SliderLabel>
+                </Slider>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal(0.0);
+                            
+                        <Slider value max=10.0 step=1>
+                            <SliderLabel value=0>
+                                "0"
+                            </SliderLabel>
+                            <SliderLabel value=5>
+                                "5"
+                            </SliderLabel>
+                            <SliderLabel value=10>
+                                "10"
+                            </SliderLabel>
+                        </Slider>
                     "#,
                         "rust"
                     )}
@@ -47,6 +84,43 @@ pub fn SliderPage() -> impl IntoView {
                         <td>"MaybeSignal<f64>"</td>
                         <td>"100"</td>
                         <td>"Max value of the slider."</td>
+                    </tr>
+                    <tr>
+                        <td>"step"</td>
+                        <td>"MaybeSignal<u32>"</td>
+                        <td></td>
+                        <td>"The step in which value is incremented."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Option<Children>"</td>
+                        <td></td>
+                        <td>"Slider labels."</td>
+                    </tr>
+                </tbody>
+            </Table>
+            <h3>"SliderLabel Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"value"</td>
+                        <td>"f64"</td>
+                        <td></td>
+                        <td>"Value at which label will be placed."</td>
+                    </tr>
+                    <tr>
+                        <td>"children"</td>
+                        <td>"Children"</td>
+                        <td></td>
+                        <td>"Content of the lable."</td>
                     </tr>
                 </tbody>
             </Table>
