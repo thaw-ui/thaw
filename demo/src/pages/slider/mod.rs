@@ -7,7 +7,8 @@ use thaw::*;
 pub fn SliderPage() -> impl IntoView {
     let value = create_rw_signal(0.0);
     let stepped_value = create_rw_signal(0.0);
-
+    let labeled_value = create_rw_signal(0.0);
+    
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Slider"</h1>
@@ -26,16 +27,32 @@ pub fn SliderPage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
+            <h3>"step"</h3>
+            <Demo>
+                <Slider step=10 value=stepped_value/>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        let value = create_rw_signal(0.0);
+                            
+                        <Slider step=10 value/>
+                    "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h2>"SliderLabel"</h2>
             <Demo>
-                <Slider value=stepped_value max=10.0 step=1>
-                    <SliderLabel value=0>
+                <Slider value=labeled_value max=10.0 step=1>
+                    <SliderLabel value=0.0>
                         "0"
                     </SliderLabel>
-                    <SliderLabel value=5>
+                    <SliderLabel value=5.0>
                         "5"
                     </SliderLabel>
-                    <SliderLabel value=10>
+                    <SliderLabel value=10.0>
                         "10"
                     </SliderLabel>
                 </Slider>
@@ -112,7 +129,7 @@ pub fn SliderPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"value"</td>
-                        <td>"f64"</td>
+                        <td>"ReadSignal<f64>"</td>
                         <td></td>
                         <td>"Value at which label will be placed."</td>
                     </tr>

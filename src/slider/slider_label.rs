@@ -4,7 +4,7 @@ use crate::utils::mount_style;
 
 #[component]
 pub fn SliderLabel(
-    #[prop(into)] value: f64,
+    #[prop(into)] value: MaybeSignal<f64>,
     children: Children,
 ) -> impl IntoView {
 
@@ -14,7 +14,7 @@ pub fn SliderLabel(
         <div
             class:thaw-slider-label=true
             style=move || {
-            format!("left: calc(calc({} / var(--thaw-slider-max)) * 100%)", value)
+            format!("left: calc(calc({} / var(--thaw-slider-max)) * 100%)", value.get())
         }>
             {children()}
         </div>
