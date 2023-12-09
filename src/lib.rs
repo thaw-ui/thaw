@@ -47,6 +47,7 @@ pub use button::*;
 pub use calendar::*;
 pub use card::*;
 pub use checkbox::*;
+pub use chrono;
 pub use code::*;
 pub use color_picker::*;
 pub use divider::*;
