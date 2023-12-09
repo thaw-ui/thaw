@@ -18,7 +18,7 @@ pub fn CalendarPage() -> impl IntoView {
                         r#"
                         use thaw::chrono::prelude::*;
 
-                        let value = create_rw_signal(Local::now().date_naive());
+                        let value = create_rw_signal(Some(Local::now().date_naive()));
 
                         view! {
                             <Calendar value />
