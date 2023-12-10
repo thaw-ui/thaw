@@ -133,6 +133,46 @@ pub fn ButtonPage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
+            <h3>"Size"</h3>
+            <Demo>
+                <Space>
+                    <Button size=ButtonSize::Tiny>
+                        "Primary"
+                    </Button>
+                    <Button size=ButtonSize::Small>
+                        "Primary"
+                    </Button>
+                    <Button size=ButtonSize::Medium>
+                        "Primary"
+                    </Button>
+                    <Button size=ButtonSize::Large>
+                        "Primary"
+                    </Button>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                <Space>
+                    <Button size=ButtonSize::Tiny>
+                        "Primary"
+                    </Button>
+                    <Button size=ButtonSize::Small>
+                        "Primary"
+                    </Button>
+                    <Button size=ButtonSize::Medium>
+                        "Primary"
+                    </Button>
+                    <Button size=ButtonSize::Large>
+                        "Primary"
+                    </Button>
+                </Space>
+                    "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h3>"Button group"</h3>
             <Demo>
                 <Space>
@@ -293,6 +333,16 @@ pub fn ButtonPage() -> impl IntoView {
                         <td>"Whether the button is disabled."</td>
                     </tr>
                     <tr>
+                        <td>"size"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<ButtonSize>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"ButtonSize::Medium"</Text>
+                        </td>
+                        <td>"Button size."</td>
+                    </tr>
+                    <tr>
                         <td>"on_click"</td>
                         <td>
                             <Text code=true>"Option<Callback<ev::MouseEvent>>"</Text>
@@ -305,9 +355,11 @@ pub fn ButtonPage() -> impl IntoView {
                     <tr>
                         <td>"children"</td>
                         <td>
-                            <Text code=true>"Children"</Text>
+                            <Text code=true>"Option<Children>"</Text>
                         </td>
-                        <td></td>
+                        <td>
+                            <Text code=true>"None"</Text>
+                        </td>
                         <td>"Button's content."</td>
                     </tr>
                 </tbody>
