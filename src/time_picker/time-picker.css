@@ -30,6 +30,10 @@
     border-radius: 3px;
 }
 
+.thaw-time-picker-panel__time-padding {
+    height: 184px;
+}
+
 .thaw-time-picker-panel__time-item--slected,
 .thaw-time-picker-panel__time-item:hover {
     background-color: var(--thaw-item-background-color-hover);
