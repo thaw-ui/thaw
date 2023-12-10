@@ -1,0 +1,35 @@
+.thaw-time-picker-panel {
+    width: 160px;
+    height: 280px;
+    padding: 4px;
+    background-color: var(--thaw-background-color);
+    border-radius: 3px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.thaw-time-picker-panel__time {
+    display: flex;
+    height: 100%;
+}
+
+.thaw-time-picker-panel__time-hour,
+.thaw-time-picker-panel__time-minute,
+.thaw-time-picker-panel__time-second {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.thaw-time-picker-panel__time-item {
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.thaw-time-picker-panel__time-item:hover {
+    background-color: var(--thaw-item-background-color-hover);
+}
