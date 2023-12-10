@@ -1,6 +1,7 @@
 .thaw-button {
-    height: 34px;
-    padding: 0 16px;
+    height: var(--thaw-height);
+    padding: var(--thaw-padding);
+    font-size: var(--thaw-font-color);
     background-color: var(--thaw-background-color);
     color: var(--thaw-font-color);
     border: 1px solid var(--thaw-border-color);
@@ -65,8 +66,7 @@
 }
 
 .thaw-button--round {
-    padding: 0 10px;
-    border-radius: 50%;
+    border-radius: var(--thaw-height);
 }
 
 @keyframes thawLoadingCircle {

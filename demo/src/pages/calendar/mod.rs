@@ -1,21 +1,24 @@
 use crate::components::{Demo, DemoCode};
 use leptos::*;
 use prisms::highlight_str;
+use thaw::chrono::prelude::*;
 use thaw::*;
 
 #[component]
 pub fn CalendarPage() -> impl IntoView {
-    let value = create_rw_signal(OffsetDateTime::now_utc().date());
+    let value = create_rw_signal(Some(Local::now().date_naive()));
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Calendar"</h1>
             <Demo>
-                <Calendar value />
+                <Calendar value/>
                 <DemoCode slot>
 
                     {highlight_str!(
                         r#"
-                        let value = create_rw_singal(OffsetDateTime::now_utc().date());
+                        use thaw::chrono::prelude::*;
+
+                        let value = create_rw_signal(Some(Local::now().date_naive()));
 
                         view! {
                             <Calendar value />
@@ -39,8 +42,12 @@ pub fn CalendarPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"value"</td>
-                        <td>"RwSignal<Date>"</td>
-                        <td></td>
+                        <td>
+                            <Text code=true>"RwSignal<Option<NaiveDate>>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::deafult()"</Text>
+                        </td>
                         <td></td>
                     </tr>
                 </tbody>
