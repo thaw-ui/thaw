@@ -1,11 +1,11 @@
 mod theme;
 
 use crate::{
-    chrono::NaiveTime,
-    components::{Binder, Follower, FollowerPlacement, FollowerWidth},
+    chrono::{Local, NaiveTime, Timelike},
+    components::{Binder, Follower, FollowerPlacement},
     use_theme,
     utils::mount_style,
-    AiIcon, Icon, Input, InputSuffix, Theme,
+    AiIcon, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
 };
 use leptos::*;
 pub use theme::TimePickerTheme;
@@ -26,9 +26,15 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
         });
     };
     update_show_time_text();
+    let panel_selected_time = create_rw_signal(None::<NaiveTime>);
+    _ = panel_selected_time.watch(move |time| {
+        let text = time.as_ref().map_or(String::new(), |time| {
+            time.format(show_time_format).to_string()
+        });
+        show_time_text.set(text);
+    });
 
     let on_input_blur = Callback::new(move |_| {
-        is_show_panel.set(false);
         if let Ok(time) =
             NaiveTime::parse_from_str(&show_time_text.get_untracked(), show_time_format)
         {
@@ -40,13 +46,27 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
             update_show_time_text();
         }
     });
+    let close_panel = Callback::new(move |time: Option<NaiveTime>| {
+        if value.get_untracked() != time {
+            if time.is_some() {
+                value.set(time);
+            }
+            update_show_time_text();
+        }
+        is_show_panel.set(false);
+    });
+
+    let open_panel = Callback::new(move |_| {
+        panel_selected_time.set(value.get_untracked());
+        is_show_panel.set(true);
+    });
 
     view! {
         <Binder target_ref=time_picker_ref>
             <div ref=time_picker_ref>
                 <Input
                     value=show_time_text
-                    on_focus=move |_| is_show_panel.set(true)
+                    on_focus=open_panel
                     on_blur=on_input_blur
                 >
                     <InputSuffix slot>
@@ -61,20 +81,27 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
                 slot
                 show=is_show_panel
                 placement=FollowerPlacement::BottomStart
-                width=FollowerWidth::Target
             >
-                <Panel/>
+                <Panel selected_time=panel_selected_time close_panel time_picker_ref />
             </Follower>
         </Binder>
     }
 }
 
 #[component]
-fn Panel() -> impl IntoView {
+fn Panel(
+    selected_time: RwSignal<Option<NaiveTime>>,
+    time_picker_ref: NodeRef<html::Div>,
+    close_panel: Callback<Option<NaiveTime>>,
+) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
+            css_vars.push_str(&format!(
+                "--thaw-item-font-color: {};",
+                theme.common.color_primary
+            ));
             css_vars.push_str(&format!(
                 "--thaw-background-color: {};",
                 theme.time_picker.panel_background_color
@@ -83,19 +110,73 @@ fn Panel() -> impl IntoView {
                 "--thaw-item-background-color-hover: {};",
                 theme.time_picker.panel_time_item_background_color_hover
             ));
+            css_vars.push_str(&format!(
+                "--thaw-item-border-color: {};",
+                theme.time_picker.panel_border_color
+            ));
         });
         css_vars
     });
+    let now = move |_| {
+        close_panel.call(Some(now_time()));
+    };
+    let ok = move |_| {
+        close_panel.call(selected_time.get_untracked());
+    };
+
+    let panel_ref = create_node_ref::<html::Div>();
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
+    {
+        use leptos::wasm_bindgen::__rt::IntoJsResult;
+        let handle = window_event_listener(ev::click, move |ev| {
+            let el = ev.target();
+            let mut el: Option<web_sys::Element> =
+                el.into_js_result().map_or(None, |el| Some(el.into()));
+            let body = document().body().unwrap();
+            while let Some(current_el) = el {
+                if current_el == *body {
+                    break;
+                };
+                if panel_ref.get().is_none() {
+                    return;
+                }
+                if current_el == ***panel_ref.get_untracked().unwrap()
+                    || current_el == ***time_picker_ref.get_untracked().unwrap()
+                {
+                    return;
+                }
+                el = current_el.parent_element();
+            }
+            close_panel.call(None);
+        });
+        on_cleanup(move || handle.remove());
+    }
+    #[cfg(not(any(feature = "csr", feature = "hydrate")))]
+    {
+        _ = time_picker_ref;
+    }
 
     view! {
-        <div class="thaw-time-picker-panel" style=move || css_vars.get()>
+        <div class="thaw-time-picker-panel" style=move || css_vars.get() ref=panel_ref>
             <div class="thaw-time-picker-panel__time">
                 <div class="thaw-time-picker-panel__time-hour">
 
                     {(0..24)
                         .into_iter()
-                        .map(|value| {
-                            view! { <PanelTimeItem value/> }
+                        .map(|hour| {
+                            let on_click = move |_| {
+                                selected_time.update(move |time| {
+                                    *time = if let Some(time) = time {
+                                        time.with_hour(hour)
+                                    } else {
+                                        NaiveTime::from_hms_opt(hour, 0, 0)
+                                    }
+                                });
+                            };
+                            let is_selected = Memo::new(move |_| {
+                                selected_time.get().map_or(false, |v| v.hour() == hour)
+                            });
+                            view! { <PanelTimeItem value=hour on:click=on_click is_selected /> }
                         })
                         .collect_view()}
 
@@ -104,8 +185,20 @@ fn Panel() -> impl IntoView {
 
                     {(0..60)
                         .into_iter()
-                        .map(|value| {
-                            view! { <PanelTimeItem value/> }
+                        .map(|minute| {
+                            let on_click = move |_| {
+                                selected_time.update(move |time| {
+                                    *time = if let Some(time) = time {
+                                        time.with_minute(minute)
+                                    } else {
+                                        NaiveTime::from_hms_opt(now_time().hour(), minute, 0)
+                                    }
+                                });
+                            };
+                            let is_selected = Memo::new(move |_| {
+                                selected_time.get().map_or(false, |v| v.minute() == minute)
+                            });
+                            view! { <PanelTimeItem value=minute on:click=on_click is_selected/> }
                         })
                         .collect_view()}
 
@@ -114,26 +207,48 @@ fn Panel() -> impl IntoView {
 
                     {(0..60)
                         .into_iter()
-                        .map(|value| {
-                            view! { <PanelTimeItem value/> }
+                        .map(|second| {
+                            let on_click = move |_| {
+                                selected_time.update(move |time| {
+                                    *time = if let Some(time) = time {
+                                        time.with_second(second)
+                                    } else {
+                                        now_time().with_second(second)
+                                    }
+                                });
+                            };
+                            let is_selected = Memo::new(move |_| {
+                                selected_time.get().map_or(false, |v| v.second() == second)
+                            });
+                            view! { <PanelTimeItem value=second on:click=on_click is_selected/> }
                         })
                         .collect_view()}
 
                 </div>
             </div>
             <div class="thaw-time-picker-panel__footer">
+                <Button variant=ButtonVariant::Solid size=ButtonSize::Tiny on_click=now>
+                    "Now"
+                </Button>
+                <Button size=ButtonSize::Tiny on_click=ok>
+                    "OK"
+                </Button>
             </div>
         </div>
     }
 }
 
 #[component]
-fn PanelTimeItem(value: u8) -> impl IntoView {
+fn PanelTimeItem(value: u32, is_selected: Memo<bool>) -> impl IntoView {
     view! {
-        <div class="thaw-time-picker-panel__time-item">
+        <div class="thaw-time-picker-panel__time-item" class=("thaw-time-picker-panel__time-item--slected", move || is_selected.get())>
 
             {format!("{value:02}")}
 
         </div>
     }
+}
+
+fn now_time() -> NaiveTime {
+    Local::now().time()
 }

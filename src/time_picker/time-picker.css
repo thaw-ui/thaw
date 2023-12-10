@@ -1,7 +1,6 @@
 .thaw-time-picker-panel {
     width: 160px;
-    height: 280px;
-    padding: 4px;
+    height: 260px;
     background-color: var(--thaw-background-color);
     border-radius: 3px;
     box-sizing: border-box;
@@ -11,7 +10,7 @@
 
 .thaw-time-picker-panel__time {
     display: flex;
-    height: 100%;
+    height: calc(100% - 40px);
 }
 
 .thaw-time-picker-panel__time-hour,
@@ -23,6 +22,7 @@
 
 .thaw-time-picker-panel__time-item {
     height: 34px;
+    margin: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,6 +30,20 @@
     border-radius: 3px;
 }
 
+.thaw-time-picker-panel__time-item--slected,
 .thaw-time-picker-panel__time-item:hover {
     background-color: var(--thaw-item-background-color-hover);
+}
+
+.thaw-time-picker-panel__time-item--slected {
+    color: var(--thaw-item-font-color);
+}
+
+.thaw-time-picker-panel__footer {
+    display: flex;
+    padding: 0 2px 2px;
+    height: 38px;
+    justify-content: space-evenly;
+    align-items: center;
+    border-top: 1px solid var(--thaw-item-border-color);
 }
