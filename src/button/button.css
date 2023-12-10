@@ -66,8 +66,7 @@
 }
 
 .thaw-button--round {
-    padding: 0 10px;
-    border-radius: 50%;
+    border-radius: var(--thaw-height);
 }
 
 @keyframes thawLoadingCircle {
