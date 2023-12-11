@@ -14,6 +14,7 @@ pub use theme::TimePickerTheme;
 pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
     let time_picker_ref = create_node_ref::<html::Div>();
+    let panel_ref = ComponentRef::<PanelRef>::default();
     let is_show_panel = create_rw_signal(false);
     let show_time_format = "%H:%M:%S";
     let show_time_text = create_rw_signal(String::new());
@@ -59,6 +60,11 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
     let open_panel = Callback::new(move |_| {
         panel_selected_time.set(value.get_untracked());
         is_show_panel.set(true);
+        request_animation_frame(move || {
+            if let Some(panel_ref) = panel_ref.get_untracked() {
+                panel_ref.scroll_into_view();
+            }
+        });
     });
 
     view! {
@@ -74,7 +80,7 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
                 </Input>
             </div>
             <Follower slot show=is_show_panel placement=FollowerPlacement::BottomStart>
-                <Panel selected_time=panel_selected_time close_panel time_picker_ref/>
+                <Panel selected_time=panel_selected_time close_panel time_picker_ref comp_ref=panel_ref/>
             </Follower>
         </Binder>
     }
@@ -85,6 +91,7 @@ fn Panel(
     selected_time: RwSignal<Option<NaiveTime>>,
     time_picker_ref: NodeRef<html::Div>,
     close_panel: Callback<Option<NaiveTime>>,
+    comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -148,10 +155,19 @@ fn Panel(
         _ = time_picker_ref;
     }
 
+    let hour_ref = create_node_ref::<html::Div>();
+    let minute_ref = create_node_ref::<html::Div>();
+    let second_ref = create_node_ref::<html::Div>();
+    comp_ref.load(PanelRef {
+        hour_ref,
+        minute_ref,
+        second_ref,
+    });
+
     view! {
         <div class="thaw-time-picker-panel" style=move || css_vars.get() ref=panel_ref>
             <div class="thaw-time-picker-panel__time">
-                <div class="thaw-time-picker-panel__time-hour">
+                <div class="thaw-time-picker-panel__time-hour" ref=hour_ref>
 
                     {(0..24)
                         .into_iter()
@@ -177,7 +193,7 @@ fn Panel(
                         })
                         .collect_view()} <div class="thaw-time-picker-panel__time-padding"></div>
                 </div>
-                <div class="thaw-time-picker-panel__time-minute">
+                <div class="thaw-time-picker-panel__time-minute" ref=minute_ref>
 
                     {(0..60)
                         .into_iter()
@@ -203,7 +219,7 @@ fn Panel(
                         })
                         .collect_view()} <div class="thaw-time-picker-panel__time-padding"></div>
                 </div>
-                <div class="thaw-time-picker-panel__time-second">
+                <div class="thaw-time-picker-panel__time-second" ref=second_ref>
 
                     {(0..60)
                         .into_iter()
@@ -239,6 +255,38 @@ fn Panel(
                 </Button>
             </div>
         </div>
+    }
+}
+
+#[derive(Clone)]
+struct PanelRef {
+    hour_ref: NodeRef<html::Div>,
+    minute_ref: NodeRef<html::Div>,
+    second_ref: NodeRef<html::Div>,
+}
+
+impl PanelRef {
+    fn scroll_top(el: HtmlElement<html::Div>) {
+        if let Ok(Some(slected_el)) =
+            el.query_selector(".thaw-time-picker-panel__time-item--slected")
+        {
+            use wasm_bindgen::JsCast;
+            if let Ok(slected_el) = slected_el.dyn_into::<web_sys::HtmlElement>() {
+                el.set_scroll_top(slected_el.offset_top());
+            }
+        }
+    }
+
+    fn scroll_into_view(&self) {
+        if let Some(hour_el) = self.hour_ref.get_untracked() {
+            Self::scroll_top(hour_el);
+        }
+        if let Some(minute_el) = self.minute_ref.get_untracked() {
+            Self::scroll_top(minute_el);
+        }
+        if let Some(second_el) = self.second_ref.get_untracked() {
+            Self::scroll_top(second_el);
+        }
     }
 }
 
