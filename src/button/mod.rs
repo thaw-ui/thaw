@@ -102,6 +102,7 @@ pub fn Button(
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
+    #[prop(optional, into)] circle: MaybeSignal<bool>,
     #[prop(optional, into)] icon: Option<Icon>,
     #[prop(optional, into)] loading: MaybeSignal<bool>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
@@ -225,6 +226,7 @@ pub fn Button(
             class=("thaw-button--text", move || variant.get() == ButtonVariant::Text)
             class=("thaw-button--link", move || variant.get() == ButtonVariant::Link)
             class=("thaw-button--round", move || round.get())
+            class=("thaw-button--circle", move || circle.get())
             class=("thaw-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
             disabled=move || disabled.get()

@@ -67,7 +67,7 @@ pub fn ButtonPage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
-            <h3>"icon"</h3>
+            <h3>"Icon"</h3>
             <Demo>
                 <Space>
                     <Button color=ButtonColor::Error icon=icondata::AiIcon::AiCloseOutlined>
@@ -77,6 +77,11 @@ pub fn ButtonPage() -> impl IntoView {
                         color=ButtonColor::Error
                         icon=icondata::AiIcon::AiCloseOutlined
                         round=true
+                    />
+                    <Button
+                        color=ButtonColor::Error
+                        icon=icondata::AiIcon::AiCloseOutlined
+                        circle=true
                     />
                 </Space>
                 <DemoCode slot>
@@ -88,6 +93,11 @@ pub fn ButtonPage() -> impl IntoView {
                 </Button>
                 <Button color=ButtonColor::Error icon=icondata::AiIcon::AiCloseOutlined round=true>
                 </Button>
+                <Button
+                    color=ButtonColor::Error
+                    icon=icondata::AiIcon::AiCloseOutlined
+                    circle=true
+                />
             "#,
                         "rust"
                     )}
@@ -281,6 +291,16 @@ pub fn ButtonPage() -> impl IntoView {
                             <Text code=true>"false"</Text>
                         </td>
                         <td>"Whether the button shows rounded corners."</td>
+                    </tr>
+                    <tr>
+                        <td>"circle"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<bool>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"false"</Text>
+                        </td>
+                        <td>"Whether the button is round."</td>
                     </tr>
                     <tr>
                         <td>"icon"</td>
