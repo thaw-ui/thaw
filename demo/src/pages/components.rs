@@ -151,6 +151,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Switch".into(),
                 },
                 MenuItemOption {
+                    value: "time-picker".into(),
+                    label: "Time Picker".into(),
+                },
+                MenuItemOption {
                     value: "upload".into(),
                     label: "Upload".into(),
                 },
