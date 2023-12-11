@@ -31,9 +31,9 @@ pub fn MessagePage() -> impl IntoView {
             </Alert>
             <Demo>
                 <Space>
-                    <Button on:click=success>"Success"</Button>
-                    <Button on:click=warning>"Warning"</Button>
-                    <Button on:click=error>"Error"</Button>
+                    <Button on_click=success>"Success"</Button>
+                    <Button on_click=warning>"Warning"</Button>
+                    <Button on_click=error>"Error"</Button>
                 </Space>
                 <DemoCode slot>
 
@@ -59,9 +59,9 @@ pub fn MessagePage() -> impl IntoView {
                             };
                             view! {
                                 <Space>
-                                    <Button on:click=success>"Success"</Button>
-                                    <Button on:click=warning>"Warning"</Button>
-                                    <Button on:click=error>"Error"</Button>
+                                    <Button on_click=success>"Success"</Button>
+                                    <Button on_click=warning>"Warning"</Button>
+                                    <Button on_click=error>"Error"</Button>
                                 </Space>
                             }
                     "#,

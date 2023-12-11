@@ -24,7 +24,7 @@ pub fn Home() -> impl IntoView {
                 }>"Read the docs"</Button>
                 <Button
                     variant=ButtonVariant::Text
-                    on:click=move |_| {
+                    on_click=move |_| {
                         _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                     }
                 >
