@@ -11,7 +11,7 @@ pub fn TimePickerPage() -> impl IntoView {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Time Picker"</h1>
             <Demo>
-                <TimePicker value />
+                <TimePicker value/>
                 <DemoCode slot>
 
                     {highlight_str!(
@@ -41,7 +41,9 @@ pub fn TimePickerPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"value"</td>
-                        <td><Text code=true>"RwSignal<Time>"</Text></td>
+                        <td>
+                            <Text code=true>"RwSignal<Time>"</Text>
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>

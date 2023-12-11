@@ -17,12 +17,12 @@ pub fn Text(#[prop(optional)] code: bool, children: Children) -> impl IntoView {
     });
 
     if code {
-        return view! {
+        view! {
             <code class="thaw-text thaw-text--code" style=move || css_vars.get()>
                 {children()}
             </code>
         }
-        .into_any();
+        .into_any()
     } else {
         view! { <span class="thaw-text">{children()}</span> }.into_any()
     }

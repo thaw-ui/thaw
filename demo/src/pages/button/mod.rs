@@ -136,18 +136,10 @@ pub fn ButtonPage() -> impl IntoView {
             <h3>"Size"</h3>
             <Demo>
                 <Space>
-                    <Button size=ButtonSize::Tiny>
-                        "Primary"
-                    </Button>
-                    <Button size=ButtonSize::Small>
-                        "Primary"
-                    </Button>
-                    <Button size=ButtonSize::Medium>
-                        "Primary"
-                    </Button>
-                    <Button size=ButtonSize::Large>
-                        "Primary"
-                    </Button>
+                    <Button size=ButtonSize::Tiny>"Primary"</Button>
+                    <Button size=ButtonSize::Small>"Primary"</Button>
+                    <Button size=ButtonSize::Medium>"Primary"</Button>
+                    <Button size=ButtonSize::Large>"Primary"</Button>
                 </Space>
                 <DemoCode slot>
 
@@ -177,26 +169,14 @@ pub fn ButtonPage() -> impl IntoView {
             <Demo>
                 <Space>
                     <ButtonGroup>
-                        <Button variant=ButtonVariant::Solid>
-                            "Solid"
-                        </Button>
-                        <Button variant=ButtonVariant::Solid>
-                            "Solid"
-                        </Button>
-                        <Button variant=ButtonVariant::Solid>
-                            "Solid"
-                        </Button>
+                        <Button variant=ButtonVariant::Solid>"Solid"</Button>
+                        <Button variant=ButtonVariant::Solid>"Solid"</Button>
+                        <Button variant=ButtonVariant::Solid>"Solid"</Button>
                     </ButtonGroup>
                     <ButtonGroup vertical=true>
-                        <Button variant=ButtonVariant::Solid>
-                            "Solid"
-                        </Button>
-                        <Button variant=ButtonVariant::Solid>
-                            "Solid"
-                        </Button>
-                        <Button variant=ButtonVariant::Solid>
-                            "Solid"
-                        </Button>
+                        <Button variant=ButtonVariant::Solid>"Solid"</Button>
+                        <Button variant=ButtonVariant::Solid>"Solid"</Button>
+                        <Button variant=ButtonVariant::Solid>"Solid"</Button>
                     </ButtonGroup>
                 </Space>
                 <DemoCode slot>

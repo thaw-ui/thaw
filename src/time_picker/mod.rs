@@ -80,7 +80,12 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
                 </Input>
             </div>
             <Follower slot show=is_show_panel placement=FollowerPlacement::BottomStart>
-                <Panel selected_time=panel_selected_time close_panel time_picker_ref comp_ref=panel_ref/>
+                <Panel
+                    selected_time=panel_selected_time
+                    close_panel
+                    time_picker_ref
+                    comp_ref=panel_ref
+                />
             </Follower>
         </Binder>
     }
@@ -170,7 +175,6 @@ fn Panel(
                 <div class="thaw-time-picker-panel__time-hour" ref=hour_ref>
 
                     {(0..24)
-                        .into_iter()
                         .map(|hour| {
                             let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
                             let on_click = move |_| {
@@ -191,12 +195,12 @@ fn Panel(
                                 <PanelTimeItem value=hour on:click=on_click is_selected comp_ref/>
                             }
                         })
-                        .collect_view()} <div class="thaw-time-picker-panel__time-padding"></div>
+                        .collect_view()}
+                    <div class="thaw-time-picker-panel__time-padding"></div>
                 </div>
                 <div class="thaw-time-picker-panel__time-minute" ref=minute_ref>
 
                     {(0..60)
-                        .into_iter()
                         .map(|minute| {
                             let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
                             let on_click = move |_| {
@@ -217,12 +221,12 @@ fn Panel(
                                 <PanelTimeItem value=minute on:click=on_click is_selected comp_ref/>
                             }
                         })
-                        .collect_view()} <div class="thaw-time-picker-panel__time-padding"></div>
+                        .collect_view()}
+                    <div class="thaw-time-picker-panel__time-padding"></div>
                 </div>
                 <div class="thaw-time-picker-panel__time-second" ref=second_ref>
 
                     {(0..60)
-                        .into_iter()
                         .map(|second| {
                             let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
                             let on_click = move |_| {
@@ -243,7 +247,8 @@ fn Panel(
                                 <PanelTimeItem value=second on:click=on_click is_selected comp_ref/>
                             }
                         })
-                        .collect_view()} <div class="thaw-time-picker-panel__time-padding"></div>
+                        .collect_view()}
+                    <div class="thaw-time-picker-panel__time-padding"></div>
                 </div>
             </div>
             <div class="thaw-time-picker-panel__footer">

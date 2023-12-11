@@ -86,9 +86,8 @@ pub fn Slider(
                 class="thaw-slider-handle"
                 style=move || {
                     format!(
-                        "left: {}%; transform: translateX(-{}%)",
-                        percentage.get(),
-                        percentage.get(),
+                        "left: {}%; transform: translateX(-{}%)", percentage.get(), percentage
+                        .get(),
                     )
                 }
             >
