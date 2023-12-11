@@ -24,6 +24,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] on_select: Option<Callback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let theme = use_theme(Theme::light);
@@ -75,7 +76,7 @@ pub fn AutoComplete(
             return;
         }
         let key = event.key();
-        if key == "ArrowDown".to_string() {
+        if key == *"ArrowDown" {
             select_option_index.update(|index| {
                 if *index == options.with_untracked(|options| options.len()) - 1 {
                     *index = 0
@@ -83,7 +84,7 @@ pub fn AutoComplete(
                     *index += 1
                 }
             });
-        } else if key == "ArrowUp".to_string() {
+        } else if key == *"ArrowUp" {
             select_option_index.update(|index| {
                 if *index == 0 {
                     *index = options.with_untracked(|options| options.len()) - 1;
@@ -91,7 +92,7 @@ pub fn AutoComplete(
                     *index -= 1
                 }
             });
-        } else if key == "Enter".to_string() {
+        } else if key == *"Enter" {
             let option_value = options.with_untracked(|options| {
                 let index = select_option_index.get_untracked();
                 if options.len() > index {
@@ -109,7 +110,7 @@ pub fn AutoComplete(
 
     view! {
         <Binder target_ref=auto_complete_ref>
-            <div class="thaw-auto-complete" ref=auto_complete_ref on:keydown=on_keydown>
+            <div class=move || class.get() class:thaw-auto-complete=true ref=auto_complete_ref on:keydown=on_keydown>
                 <Input
                     value
                     placeholder
@@ -175,6 +176,7 @@ pub fn AutoComplete(
                                             "thaw-auto-complete__menu-item--selected",
                                             move || index == select_option_index.get(),
                                         )
+
                                         on:click=on_click
                                         on:mousedown=on_mousedown
                                         on:mouseenter=on_mouseenter
@@ -192,3 +194,5 @@ pub fn AutoComplete(
         </Binder>
     }
 }
+
+

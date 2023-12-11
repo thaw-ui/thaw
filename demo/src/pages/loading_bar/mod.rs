@@ -6,15 +6,15 @@ use thaw::*;
 #[component]
 pub fn LoadingBarPage() -> impl IntoView {
     let loading_bar = use_loading_bar();
-    let start = move |_| {
+    let start = Callback::new(move |_| {
         loading_bar.start();
-    };
-    let finish = move |_| {
+    });
+    let finish = Callback::new(move |_| {
         loading_bar.finish();
-    };
-    let error = move |_| {
+    });
+    let error = Callback::new(move |_| {
         loading_bar.error();
-    };
+    });
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Loading Bar"</h1>

@@ -5,7 +5,8 @@ use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, CalendarTheme,
     ColorPickerTheme, InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme,
-    SkeletionTheme, SliderTheme, SwitchTheme, TableTheme, TagTheme, TypographyTheme, UploadTheme,
+    SkeletionTheme, SliderTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
+    TypographyTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -39,6 +40,7 @@ pub struct Theme {
     pub progress: ProgressTheme,
     pub typograph: TypographyTheme,
     pub calendar: CalendarTheme,
+    pub time_picker: TimePickerTheme,
 }
 
 impl Theme {
@@ -67,6 +69,7 @@ impl Theme {
             progress: ProgressTheme::light(),
             typograph: TypographyTheme::light(),
             calendar: CalendarTheme::light(),
+            time_picker: TimePickerTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -94,6 +97,7 @@ impl Theme {
             progress: ProgressTheme::dark(),
             typograph: TypographyTheme::dark(),
             calendar: CalendarTheme::dark(),
+            time_picker: TimePickerTheme::dark(),
         }
     }
 }

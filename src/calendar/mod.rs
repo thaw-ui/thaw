@@ -1,16 +1,19 @@
 mod theme;
 
-use crate::{use_theme, utils::mount_style, Button, ButtonGroup, ButtonVariant, Theme};
+use crate::{
+    chrono::{Datelike, Days, Local, NaiveDate},
+    use_theme,
+    utils::mount_style,
+    Button, ButtonGroup, ButtonVariant, Theme,
+};
+use chrono::{Month, Months};
 use icondata::AiIcon;
 use leptos::*;
 use std::ops::Deref;
 pub use theme::CalendarTheme;
-pub use time::Date;
-use time::Month;
-pub use time::OffsetDateTime;
 
 #[component]
-pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
+pub fn Calendar(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -35,14 +38,15 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
         });
         css_vars
     });
-    let show_date = create_rw_signal(value.get_untracked());
+    let show_date = create_rw_signal(value.get_untracked().unwrap_or(now_date()));
     create_effect(move |_| {
-        let selected_date = value.get();
-        let show_date_data = show_date.get_untracked();
-        if selected_date.year() != show_date_data.year()
-            || selected_date.month() != show_date_data.month()
-        {
-            show_date.set(selected_date);
+        if let Some(selected_date) = value.get() {
+            let show_date_data = show_date.get_untracked();
+            if selected_date.year() != show_date_data.year()
+                || selected_date.month() != show_date_data.month()
+            {
+                show_date.set(selected_date);
+            }
         }
     });
 
@@ -52,14 +56,12 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
         let mut dates = vec![];
 
         let mut current_date = show_date;
-        let mut current_weekday_number = None::<u8>;
+        let mut current_weekday_number = None::<u32>;
         loop {
-            let Some(date) = current_date.previous_day() else {
-                break;
-            };
+            let date = current_date - Days::new(1);
             if date.month() != show_date_month {
                 if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().number_days_from_sunday());
+                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
                 }
                 let weekday_number = current_weekday_number.unwrap();
                 if weekday_number == 0 {
@@ -78,12 +80,10 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
         current_date = show_date;
         current_weekday_number = None;
         loop {
-            let Some(date) = current_date.next_day() else {
-                break;
-            };
+            let date = current_date + Days::new(1);
             if date.month() != show_date_month {
                 if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().number_days_from_sunday());
+                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
                 }
                 let weekday_number = current_weekday_number.unwrap();
                 if weekday_number == 6 {
@@ -101,15 +101,15 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
 
     let previous_month = move |_| {
         show_date.update(|date| {
-            *date = date.previous_month();
+            *date = *date - Months::new(1);
         });
     };
     let today = move |_| {
-        show_date.set(OffsetDateTime::now_utc().date());
+        show_date.set(Local::now().date_naive());
     };
     let next_month = move |_| {
         show_date.update(|date| {
-            *date = date.next_month();
+            *date = *date + Months::new(1);
         });
     };
     view! {
@@ -118,19 +118,31 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
                 <span class="thaw-calendar__header-title">
 
                     {move || {
-                        show_date.with(|date| { format!("{} {}", date.month(), date.year()) })
+                        show_date
+                            .with(|date| {
+                                format!(
+                                    "{} {}", Month::try_from(date.month() as u8).unwrap().name(),
+                                    date.year(),
+                                )
+                            })
                     }}
 
                 </span>
                 <span>
                     <ButtonGroup>
-                        <Button variant=ButtonVariant::Solid icon=AiIcon::AiLeftOutlined on_click=previous_month>
-                        </Button>
+                        <Button
+                            variant=ButtonVariant::Solid
+                            icon=AiIcon::AiLeftOutlined
+                            on_click=previous_month
+                        />
                         <Button variant=ButtonVariant::Solid on_click=today>
                             "Today"
                         </Button>
-                        <Button variant=ButtonVariant::Solid icon=AiIcon::AiRightOutlined on_click=next_month>
-                        </Button>
+                        <Button
+                            variant=ButtonVariant::Solid
+                            icon=AiIcon::AiRightOutlined
+                            on_click=next_month
+                        />
                     </ButtonGroup>
                 </span>
             </div>
@@ -153,19 +165,20 @@ pub fn Calendar(#[prop(into)] value: RwSignal<Date>) -> impl IntoView {
 }
 
 #[component]
-fn CalendarItem(value: RwSignal<Date>, index: usize, date: CalendarItemDate) -> impl IntoView {
+fn CalendarItem(
+    value: RwSignal<Option<NaiveDate>>,
+    index: usize,
+    date: CalendarItemDate,
+) -> impl IntoView {
     let is_selected = create_memo({
         let date = date.clone();
-        move |_| {
-            let value_date = value.get();
-            value_date.to_calendar_date() == date.to_calendar_date()
-        }
+        move |_| value.with(|value_date| value_date.as_ref() == Some(date.deref()))
     });
-    let weekday_str = vec!["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    let weekday_str = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let on_click = {
         let date = date.clone();
         move |_| {
-            value.set(date.deref().clone());
+            value.set(Some(*date.deref()));
         }
     };
     view! {
@@ -196,9 +209,9 @@ fn CalendarItem(value: RwSignal<Date>, index: usize, date: CalendarItemDate) -> 
 
 #[derive(Clone, PartialEq)]
 enum CalendarItemDate {
-    Previous(Date),
-    Current(Date),
-    Next(Date),
+    Previous(NaiveDate),
+    Current(NaiveDate),
+    Next(NaiveDate),
 }
 
 impl CalendarItemDate {
@@ -211,13 +224,13 @@ impl CalendarItemDate {
 
     fn is_today(&self) -> bool {
         let date = self.deref();
-        let now_date = OffsetDateTime::now_utc().date();
-        now_date.to_calendar_date() == date.to_calendar_date()
+        let now_date = now_date();
+        &now_date == date
     }
 }
 
 impl Deref for CalendarItemDate {
-    type Target = Date;
+    type Target = NaiveDate;
 
     fn deref(&self) -> &Self::Target {
         match self {
@@ -228,25 +241,6 @@ impl Deref for CalendarItemDate {
     }
 }
 
-trait DateMonth {
-    fn previous_month(&self) -> Self;
-    fn next_month(&self) -> Self;
-}
-
-impl DateMonth for Date {
-    fn previous_month(&self) -> Self {
-        let mut year = self.year();
-        if self.month() == Month::January {
-            year -= 1
-        }
-        Date::from_calendar_date(year, self.month().previous(), 1).unwrap()
-    }
-
-    fn next_month(&self) -> Self {
-        let mut year = self.year();
-        if self.month() == Month::December {
-            year += 1
-        }
-        Date::from_calendar_date(year, self.month().next(), 1).unwrap()
-    }
+fn now_date() -> NaiveDate {
+    Local::now().date_naive()
 }

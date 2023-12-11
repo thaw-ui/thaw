@@ -5,23 +5,22 @@ use thaw::chrono::prelude::*;
 use thaw::*;
 
 #[component]
-pub fn CalendarPage() -> impl IntoView {
-    let value = create_rw_signal(Some(Local::now().date_naive()));
+pub fn TimePickerPage() -> impl IntoView {
+    let value = create_rw_signal(Some(Local::now().time()));
     view! {
         <div style="width: 896px; margin: 0 auto;">
-            <h1>"Calendar"</h1>
+            <h1>"Time Picker"</h1>
             <Demo>
-                <Calendar value/>
+                <TimePicker value/>
                 <DemoCode slot>
 
                     {highlight_str!(
                         r#"
                         use thaw::chrono::prelude::*;
 
-                        let value = create_rw_signal(Some(Local::now().date_naive()));
-
+                        let value = create_rw_signal(Local::now().time());
                         view! {
-                            <Calendar value />
+                            <TimePicker value />
                         }
                     "#,
                         "rust"
@@ -29,7 +28,7 @@ pub fn CalendarPage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
-            <h3>"Calendar Props"</h3>
+            <h3>"TimePicker Props"</h3>
             <Table single_column=true>
                 <thead>
                     <tr>
@@ -43,11 +42,9 @@ pub fn CalendarPage() -> impl IntoView {
                     <tr>
                         <td>"value"</td>
                         <td>
-                            <Text code=true>"RwSignal<Option<NaiveDate>>"</Text>
+                            <Text code=true>"RwSignal<Time>"</Text>
                         </td>
-                        <td>
-                            <Text code=true>"Default::deafult()"</Text>
-                        </td>
+                        <td></td>
                         <td></td>
                     </tr>
                 </tbody>

@@ -27,8 +27,7 @@ pub fn mount_style(id: &str, content: &'static str) {
                 .expect("create style element error");
             _ = style.set_attribute("csr-id", &format!("thaw-{id}"));
             style.set_text_content(Some(content));
-
-            _ = head.append_child(&style);
+            _ = head.prepend_with_node_1(&style);
         }
     }
 }

@@ -9,6 +9,7 @@ pub fn Avatar(
     #[prop(optional, into)] src: MaybeSignal<String>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(default = MaybeSignal::Static(30), into)] size: MaybeSignal<u16>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -28,7 +29,7 @@ pub fn Avatar(
     });
     mount_style("avatar", include_str!("./avatar.css"));
     view! {
-        <span class="thaw-avatar" style=move || css_vars.get()>
+        <span class=move || class.get() class:thaw-avatar=true style=move || css_vars.get()>
             {move || {
                 let src = src.get();
                 (!src.is_empty()).then(|| view! { <img src=src/> })

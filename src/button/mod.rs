@@ -57,12 +57,53 @@ impl ButtonColor {
     }
 }
 
+#[derive(Default, Clone)]
+pub enum ButtonSize {
+    Tiny,
+    Small,
+    #[default]
+    Medium,
+    Large,
+}
+
+impl ButtonSize {
+    fn theme_font_size(&self, theme: &Theme) -> String {
+        match self {
+            ButtonSize::Tiny => theme.common.font_size_tiny.clone(),
+            ButtonSize::Small => theme.common.font_size_small.clone(),
+            ButtonSize::Medium => theme.common.font_size_medium.clone(),
+            ButtonSize::Large => theme.common.font_size_large.clone(),
+        }
+    }
+
+    fn theme_height(&self, theme: &Theme) -> String {
+        match self {
+            ButtonSize::Tiny => theme.common.height_tiny.clone(),
+            ButtonSize::Small => theme.common.height_small.clone(),
+            ButtonSize::Medium => theme.common.height_medium.clone(),
+            ButtonSize::Large => theme.common.height_large.clone(),
+        }
+    }
+
+    fn theme_padding(&self, theme: &Theme) -> String {
+        match self {
+            ButtonSize::Tiny => theme.button.padding_tiny.clone(),
+            ButtonSize::Small => theme.button.padding_small.clone(),
+            ButtonSize::Medium => theme.button.padding_medium.clone(),
+            ButtonSize::Large => theme.button.padding_large.clone(),
+        }
+    }
+}
+
 #[component]
 pub fn Button(
     #[prop(optional, into)] style: MaybeSignal<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(optional, into)] variant: MaybeSignal<ButtonVariant>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
+    #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
+    #[prop(optional, into)] circle: MaybeSignal<bool>,
     #[prop(optional, into)] icon: Option<Icon>,
     #[prop(optional, into)] loading: MaybeSignal<bool>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
@@ -77,6 +118,18 @@ pub fn Button(
             css_vars.push_str(&format!(
                 "--thaw-font-color-disabled: {};",
                 theme.button.color_text_disabled
+            ));
+            css_vars.push_str(&format!(
+                "--thaw-font-size: {};",
+                size.get().theme_font_size(theme)
+            ));
+            css_vars.push_str(&format!(
+                "--thaw-height: {};",
+                size.get().theme_height(theme)
+            ));
+            css_vars.push_str(&format!(
+                "--thaw-padding: {};",
+                size.get().theme_padding(theme)
             ));
 
             match variant.get() {
@@ -169,11 +222,13 @@ pub fn Button(
 
     view! {
         <button
+            class=move || class.get()
             class:thaw-button=true
             class=("thaw-button--solid", move || variant.get() == ButtonVariant::Solid)
             class=("thaw-button--text", move || variant.get() == ButtonVariant::Text)
             class=("thaw-button--link", move || variant.get() == ButtonVariant::Link)
             class=("thaw-button--round", move || round.get())
+            class=("thaw-button--circle", move || circle.get())
             class=("thaw-button--disabled", move || disabled.get())
             style=move || format!("{}{}", css_vars.get(), style.get())
             disabled=move || disabled.get()
