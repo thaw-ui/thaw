@@ -121,8 +121,7 @@ pub fn Calendar(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) -> i
                         show_date
                             .with(|date| {
                                 format!(
-                                    "{} {}",
-                                    Month::try_from(date.month() as u8).unwrap().name(),
+                                    "{} {}", Month::try_from(date.month() as u8).unwrap().name(),
                                     date.year(),
                                 )
                             })
@@ -175,11 +174,11 @@ fn CalendarItem(
         let date = date.clone();
         move |_| value.with(|value_date| value_date.as_ref() == Some(date.deref()))
     });
-    let weekday_str = vec!["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    let weekday_str = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let on_click = {
         let date = date.clone();
         move |_| {
-            value.set(Some(date.deref().clone()));
+            value.set(Some(*date.deref()));
         }
     };
     view! {

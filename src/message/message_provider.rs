@@ -24,8 +24,7 @@ pub fn MessageProvider(children: Children) -> impl IntoView {
         <Provider value=MessageInjection::new(
             message_list,
         )>
-            {children()}
-            <Teleport>
+            {children()} <Teleport>
                 <div class="thaw-message-container">
                     <For
                         each=move || message_list.get()

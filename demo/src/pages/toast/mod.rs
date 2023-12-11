@@ -93,7 +93,7 @@ pub fn ToastDemoPage() -> impl IntoView {
     };
     view! {
         <div style="margin: 20px">
-            <Button on:click=onclick>"hi"</Button>
+            <Button on_click=onclick>"hi"</Button>
         </div>
     }
 }
