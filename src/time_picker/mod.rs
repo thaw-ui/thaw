@@ -116,12 +116,12 @@ fn Panel(
         });
         css_vars
     });
-    let now = move |_| {
+    let now = Callback::new(move |_| {
         close_panel.call(Some(now_time()));
-    };
-    let ok = move |_| {
+    });
+    let ok = Callback::new(move |_| {
         close_panel.call(selected_time.get_untracked());
-    };
+    });
 
     let panel_ref = create_node_ref::<html::Div>();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
