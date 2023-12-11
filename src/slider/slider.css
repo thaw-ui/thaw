@@ -2,17 +2,20 @@
     position: relative;
     padding: 6px 0;
     cursor: pointer;
+    user-select: none;
 }
 .thaw-slider-rail {
     height: 4px;
     background-color: var(--thaw-background-color);
     border-radius: 2px;
+    cursor: pointer;
 }
 .thaw-slider-rail__fill {
     width: 0%;
     height: 4px;
     background-color: var(--thaw-background-color-fill);
     border-radius: 2px;
+    cursor: pointer;
 }
 .thaw-slider-handle {
     position: absolute;
@@ -22,4 +25,5 @@
     border-radius: 50%;
     background-color: white;
     box-shadow: 0px 0px 4px #2224;
+    transform: translateX(-50%);
 }
