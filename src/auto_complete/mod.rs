@@ -72,8 +72,6 @@ pub fn AutoComplete(
     };
 
     let on_keydown = move |event: ev::KeyboardEvent| {
-        event.prevent_default();
-
         if !is_show_menu.get_untracked() {
             return;
         }

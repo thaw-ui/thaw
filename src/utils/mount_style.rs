@@ -1,7 +1,5 @@
 use cfg_if::cfg_if;
 
-use web_sys::js_sys::Array;
-
 pub fn mount_style(id: &str, content: &'static str) {
     cfg_if! {
         if #[cfg(feature = "ssr")] {
