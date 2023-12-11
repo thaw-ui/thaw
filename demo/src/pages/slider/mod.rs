@@ -29,14 +29,14 @@ pub fn SliderPage() -> impl IntoView {
             </Demo>
             <h3>"step"</h3>
             <Demo>
-                <Slider step=10 value=stepped_value/>
+                <Slider step=10.0 value=stepped_value/>
                 <DemoCode slot>
 
                     {highlight_str!(
                         r#"
                         let value = create_rw_signal(0.0);
                             
-                        <Slider step=10 value/>
+                        <Slider step=10.0 value/>
                     "#,
                         "rust"
                     )}
@@ -45,7 +45,7 @@ pub fn SliderPage() -> impl IntoView {
             </Demo>
             <h2>"SliderLabel"</h2>
             <Demo>
-                <Slider value=labeled_value max=10.0 step=1>
+                <Slider value=labeled_value max=10.0 step=1.0>
                     <SliderLabel value=0.0>
                         "0"
                     </SliderLabel>
@@ -62,7 +62,7 @@ pub fn SliderPage() -> impl IntoView {
                         r#"
                         let value = create_rw_signal(0.0);
                             
-                        <Slider value max=10.0 step=1>
+                        <Slider value max=10.0 step=1.0>
                             <SliderLabel value=0>
                                 "0"
                             </SliderLabel>
@@ -104,7 +104,7 @@ pub fn SliderPage() -> impl IntoView {
                     </tr>
                     <tr>
                         <td>"step"</td>
-                        <td>"MaybeSignal<u32>"</td>
+                        <td>"MaybeSignal<f64>"</td>
                         <td></td>
                         <td>"The step in which value is incremented."</td>
                     </tr>
