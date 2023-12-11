@@ -58,6 +58,12 @@ pub fn AvatarPage() -> impl IntoView {
                         <td>"30"</td>
                         <td>"Avatar's size."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the avatar element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

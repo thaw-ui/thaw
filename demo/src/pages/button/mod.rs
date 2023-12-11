@@ -263,6 +263,16 @@ pub fn ButtonPage() -> impl IntoView {
                         <td>"Button's style."</td>
                     </tr>
                     <tr>
+                        <td>"class"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
+                        <td>"Additional classes for the button element."</td>
+                    </tr>
+                    <tr>
                         <td>"variant"</td>
                         <td>
                             <Text code=true>"MaybeSignal<ButtonVariant>"</Text>

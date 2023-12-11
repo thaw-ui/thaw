@@ -24,6 +24,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] on_select: Option<Callback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let theme = use_theme(Theme::light);
@@ -109,7 +110,7 @@ pub fn AutoComplete(
 
     view! {
         <Binder target_ref=auto_complete_ref>
-            <div class="thaw-auto-complete" ref=auto_complete_ref on:keydown=on_keydown>
+            <div class=move || class.get() class:thaw-auto-complete=true ref=auto_complete_ref on:keydown=on_keydown>
                 <Input
                     value
                     placeholder
@@ -193,3 +194,5 @@ pub fn AutoComplete(
         </Binder>
     }
 }
+
+
