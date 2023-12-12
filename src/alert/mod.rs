@@ -1,5 +1,7 @@
 mod theme;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
 use crate::{theme::use_theme, utils::mount_style, Icon, Theme};
 use icondata::AiIcon;
 use leptos::*;
@@ -80,8 +82,8 @@ pub fn Alert(
         .into()
     });
     view! {
-        <div 
-            class=move || class.get()
+        <div
+            use:dyn_classes=class
             class:thaw-alert=true
             style=move || css_vars.get()>
             <Icon icon class="thaw-alert__icon"/>

@@ -1,5 +1,7 @@
 mod theme;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
 use crate::{use_theme, utils::mount_style, Theme};
 use leptos::*;
 pub use theme::AvatarTheme;
@@ -29,7 +31,7 @@ pub fn Avatar(
     });
     mount_style("avatar", include_str!("./avatar.css"));
     view! {
-        <span class=move || class.get() class:thaw-avatar=true style=move || css_vars.get()>
+        <span use:dyn_classes=class class:thaw-avatar=true style=move || css_vars.get()>
             {move || {
                 let src = src.get();
                 (!src.is_empty()).then(|| view! { <img src=src/> })

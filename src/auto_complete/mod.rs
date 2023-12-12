@@ -1,5 +1,6 @@
 mod theme;
 
+use crate::utils::dyn_classes;
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     use_theme,
@@ -110,7 +111,7 @@ pub fn AutoComplete(
 
     view! {
         <Binder target_ref=auto_complete_ref>
-            <div class=move || class.get() class:thaw-auto-complete=true ref=auto_complete_ref on:keydown=on_keydown>
+            <div use:dyn_classes=class class:thaw-auto-complete=true ref=auto_complete_ref on:keydown=on_keydown>
                 <Input
                     value
                     placeholder
@@ -194,5 +195,3 @@ pub fn AutoComplete(
         </Binder>
     }
 }
-
-
