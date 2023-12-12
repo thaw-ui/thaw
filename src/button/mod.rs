@@ -7,7 +7,7 @@ use crate::{
     components::{OptionComp, Wave, WaveRef},
     icon::*,
     theme::*,
-    utils::{mount_style, ComponentRef},
+    utils::{mount_style, ssr_class, ComponentRef},
 };
 pub use button_group::ButtonGroup;
 use leptos::*;
@@ -221,9 +221,11 @@ pub fn Button(
         };
         callback.call(event);
     };
-
+    
+    let ssr_class = ssr_class(&class);
     view! {
         <button
+            class=ssr_class
             use:dyn_classes=class
             class:thaw-button=true
             class=("thaw-button--solid", move || variant.get() == ButtonVariant::Solid)
