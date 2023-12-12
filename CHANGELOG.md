@@ -1,3 +1,20 @@
+## [0.1.3](https://github.com/thaw-ui/thaw/compare/v0.1.2...v0.1.3) (2023-12-12)
+
+### Features
+
+* **button:** Add button group component
+* **button:** Add size property
+* **button:** Add circle property
+* **calendar:** Add calendar component
+* **time picker:** Add time picker component
+* **class:** Add class param to first components
+* **slider:** Add step property
+* **slider:** Add slider label component
+ 
+### Bug Fixs
+
+* **button:** The round property shows the problem
+
 ## [0.1.2](https://github.com/thaw-ui/thaw/compare/v0.1.1...v0.1.2) (2023-12-04)
 
 ### Features
