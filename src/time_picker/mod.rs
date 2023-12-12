@@ -158,6 +158,7 @@ fn Panel(
     #[cfg(not(any(feature = "csr", feature = "hydrate")))]
     {
         _ = time_picker_ref;
+        _ = panel_ref;
     }
 
     let hour_ref = create_node_ref::<html::Div>();
