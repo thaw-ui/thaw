@@ -127,12 +127,16 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Checkbox".into(),
                 },
                 MenuItemOption {
+                    value: "date-picker".into(),
+                    label: "Date Picker".into(),
+                },
+                MenuItemOption {
                     value: "input".into(),
                     label: "Input".into(),
                 },
                 MenuItemOption {
                     value: "input-number".into(),
-                    label: "InputNumber".into(),
+                    label: "Input Number".into(),
                 },
                 MenuItemOption {
                     value: "radio".into(),
