@@ -7,7 +7,7 @@ mod signal;
 mod stored_maybe_signal;
 
 // pub use callback::AsyncCallback;
-pub(crate) use component_ref::ComponentRef;
+pub use component_ref::{create_component_ref, ComponentRef};
 pub(crate) use dyn_classes::*;
 pub(crate) use event_listener::*;
 pub(crate) use mount_style::mount_style;

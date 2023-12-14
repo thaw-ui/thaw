@@ -66,6 +66,17 @@ pub fn SiteHeader() -> impl IntoView {
         let navigate = use_navigate();
         navigate(&path, Default::default());
     };
+    let auto_complete_ref = create_component_ref::<AutoCompleteRef>();
+    let handle = window_event_listener(ev::keydown, move |event| {
+        let key = event.key();
+        if key == *"/" {
+            if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
+                event.prevent_default();
+                auto_complete_ref.focus();
+            }
+        }
+    });
+    on_cleanup(move || handle.remove());
     view! {
         <LayoutHeader style>
             <Space>
@@ -84,11 +95,16 @@ pub fn SiteHeader() -> impl IntoView {
             <Space>
                 <AutoComplete
                     value=search_value
-                    placeholder="Search"
+                    placeholder="Type '/' to search"
                     options=search_options
                     clear_after_select=true
                     on_select=on_search_select
-                />
+                    comp_ref=auto_complete_ref
+                >
+                    <AutoCompletePrefix slot>
+                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiSearchOutlined) style="font-size: 18px; color: var(--thaw-placeholder-color);"/>
+                    </AutoCompletePrefix>
+                </AutoComplete>
                 <Button
                     variant=ButtonVariant::Text
                     on_click=move |_| {

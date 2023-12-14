@@ -77,4 +77,4 @@ pub use theme::*;
 pub use time_picker::*;
 pub use typography::*;
 pub use upload::*;
-pub use utils::SignalWatch;
+pub use utils::{create_component_ref, ComponentRef, SignalWatch};
