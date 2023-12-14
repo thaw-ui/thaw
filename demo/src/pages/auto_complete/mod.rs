@@ -161,6 +161,32 @@ pub fn AutoCompletePage() -> impl IntoView {
                     </tr>
                 </tbody>
             </Table>
+            <h3>"AutoComplete Ref"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"focus"</td>
+                        <td>
+                            <Text code=true>"Fn(&self)"</Text>
+                        </td>
+                        <td>"Focus the input element."</td>
+                    </tr>
+                    <tr>
+                        <td>"blur"</td>
+                        <td>
+                            <Text code=true>"Fn(&self)"</Text>
+                        </td>
+                        <td>"Blur the input element."</td>
+                    </tr>
+                </tbody>
+            </Table>
         </div>
     }
 }

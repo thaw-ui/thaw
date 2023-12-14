@@ -7,6 +7,7 @@ use crate::{
     utils::{mount_style, StoredMaybeSignal},
     Input, Theme,
 };
+use crate::{ComponentRef, InputRef};
 use leptos::*;
 pub use theme::AutoCompleteTheme;
 
@@ -26,6 +27,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let theme = use_theme(Theme::light);
@@ -108,6 +110,10 @@ pub fn AutoComplete(
             }
         }
     };
+    let input_ref = ComponentRef::<InputRef>::new();
+    input_ref.on_load(move |_| {
+        comp_ref.load(AutoCompleteRef { input_ref });
+    });
 
     let ssr_class = ssr_class(&class);
     view! {
@@ -121,6 +127,7 @@ pub fn AutoComplete(
                     on_focus=move |_| open_menu()
                     on_blur=move |_| is_show_menu.set(false)
                     allow_value
+                    comp_ref=input_ref
                 />
             </div>
             <Follower
@@ -194,5 +201,24 @@ pub fn AutoComplete(
                 </div>
             </Follower>
         </Binder>
+    }
+}
+
+#[derive(Clone)]
+pub struct AutoCompleteRef {
+    input_ref: ComponentRef<InputRef>,
+}
+
+impl AutoCompleteRef {
+    pub fn focus(&self) {
+        if let Some(input_ref) = self.input_ref.get_untracked() {
+            input_ref.focus();
+        }
+    }
+
+    pub fn blur(&self) {
+        if let Some(input_ref) = self.input_ref.get_untracked() {
+            input_ref.blur();
+        }
     }
 }
