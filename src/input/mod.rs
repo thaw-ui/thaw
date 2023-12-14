@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::{use_theme, Theme},
-    utils::mount_style,
+    utils::{mount_style, ComponentRef},
 };
 use leptos::*;
 pub use theme::InputTheme;
@@ -45,6 +45,7 @@ pub fn Input(
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
+    #[prop(optional)] comp_ref: ComponentRef<InputRef>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
@@ -114,6 +115,10 @@ pub fn Input(
         });
         css_vars
     });
+    let input_ref = create_node_ref::<html::Input>();
+    input_ref.on_load(move |_| {
+        comp_ref.load(InputRef { input_ref });
+    });
     view! {
         <div
             class="thaw-input"
@@ -141,6 +146,7 @@ pub fn Input(
                 class="thaw-input__input-el"
                 disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
+                ref=input_ref
             />
 
             {if let Some(suffix) = input_suffix {
@@ -150,5 +156,24 @@ pub fn Input(
             }}
 
         </div>
+    }
+}
+
+#[derive(Clone)]
+pub struct InputRef {
+    input_ref: NodeRef<html::Input>,
+}
+
+impl InputRef {
+    pub fn focus(&self) {
+        if let Some(input_el) = self.input_ref.get_untracked() {
+            _ = input_el.focus();
+        }
+    }
+
+    pub fn blur(&self) {
+        if let Some(input_el) = self.input_ref.get_untracked() {
+            _ = input_el.blur();
+        }
     }
 }
