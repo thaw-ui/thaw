@@ -30,6 +30,7 @@ mod select;
 mod skeleton;
 mod slider;
 mod space;
+mod spinner;
 mod switch;
 mod tabbar;
 mod table;
@@ -73,6 +74,7 @@ pub use select::*;
 pub use skeleton::*;
 pub use slider::*;
 pub use space::*;
+pub use spinner::*;
 pub use switch::*;
 pub use tabbar::*;
 pub use table::*;
@@ -83,3 +85,5 @@ pub use time_picker::*;
 pub use toast::*;
 pub use typography::*;
 pub use upload::*;
+
+
