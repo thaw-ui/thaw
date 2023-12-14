@@ -25,11 +25,15 @@ impl InputVariant {
 
 #[slot]
 pub struct InputPrefix {
+    #[prop(default = true)]
+    if_: bool,
     children: Children,
 }
 
 #[slot]
 pub struct InputSuffix {
+    #[prop(default = true)]
+    if_: bool,
     children: Children,
 }
 
@@ -127,7 +131,7 @@ pub fn Input(
             class=("thaw-input--invalid", move || invalid.get())
             style=move || css_vars.get()
         >
-            {if let Some(prefix) = input_prefix {
+            {if let Some(prefix) = input_prefix.map(|prefix| prefix.if_.then(|| prefix)).flatten() {
                 view! { <div class="thaw-input__prefix">{(prefix.children)()}</div> }.into()
             } else {
                 None
@@ -149,7 +153,7 @@ pub fn Input(
                 ref=input_ref
             />
 
-            {if let Some(suffix) = input_suffix {
+            {if let Some(suffix) = input_suffix.map(|suffix| suffix.if_.then(|| suffix)).flatten() {
                 view! { <div class="thaw-input__suffix">{(suffix.children)()}</div> }.into()
             } else {
                 None
