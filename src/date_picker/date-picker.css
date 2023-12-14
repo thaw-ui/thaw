@@ -1,9 +1,99 @@
 .thaw-date-picker-panel {
     width: 300px;
-    height: 300px;
     background-color: var(--thaw-background-color);
     border-radius: 3px;
     box-sizing: border-box;
     box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
         0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.thaw-date-picker-date-panel__calendar {
+    padding: 6px 12px 4px;
+}
+
+.thaw-date-picker-date-panel__header {
+    display: grid;
+    grid-template-columns: 28px 28px 1fr 28px 28px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.thaw-date-picker-date-panel__header > button {
+    color: var(--thaw-font-color-other-month);
+}
+
+.thaw-date-picker-date-panel__header-month-year {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thaw-date-picker-date-panel__weekdays,
+.thaw-date-picker-date-panel__dates {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+}
+
+.thaw-date-picker-date-panel__weekdays {
+    border-bottom: 1px solid var(--thaw-item-border-color);
+    margin-bottom: 2px;
+    padding: 6px 4px;
+}
+
+.thaw-date-picker-date-panel__weekdays span,
+.thaw-date-picker-date-panel__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.thaw-date-picker-date-panel__item {
+    padding: 4px;
+    cursor: pointer;
+}
+
+.thaw-date-picker-date-panel__item--other-month {
+    color: var(--thaw-font-color-other-month);
+}
+
+.thaw-date-picker-date-panel__item-day {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 3px;
+}
+
+.thaw-date-picker-date-panel__item-sup {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    height: 4px;
+    width: 4px;
+    border-radius: 2px;
+    background-color: var(--thaw-background-color-today);
+}
+
+.thaw-date-picker-date-panel__item:hover
+    .thaw-date-picker-date-panel__item-day {
+    background-color: var(--thaw-item-background-color-hover);
+}
+
+.thaw-date-picker-date-panel__item--selected
+    .thaw-date-picker-date-panel__item-day {
+    background-color: var(--thaw-background-color-today) !important;
+    color: white;
+}
+
+.thaw-date-picker-date-panel__footer {
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--thaw-item-border-color);
 }

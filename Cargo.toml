@@ -35,7 +35,9 @@ icondata = { version = "0.1.0", features = [
     "AiMinusOutlined",
     "AiRightOutlined",
     "AiClockCircleOutlined",
-    "AiCalendarOutlined"
+    "AiCalendarOutlined",
+    "AiArrowLeftOutlined",
+    "AiArrowRightOutlined",
 ] }
 icondata_core = "0.0.2"
 uuid = { version = "1.5.0", features = ["v4"] }
