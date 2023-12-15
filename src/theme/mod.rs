@@ -5,7 +5,7 @@ use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, CalendarTheme,
     ColorPickerTheme, InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme,
-    SkeletionTheme, SliderTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
+    SkeletionTheme, SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
     TypographyTheme, UploadTheme,
 };
 use leptos::*;
@@ -31,6 +31,7 @@ pub struct Theme {
     pub select: SelectTheme,
     pub slider: SliderTheme,
     pub switch: SwitchTheme,
+    pub spinner: SpinnerTheme,
     pub upload: UploadTheme,
     pub nav_bar: NavBarTheme,
     pub tabbar: TabbarTheme,
@@ -60,6 +61,7 @@ impl Theme {
             select: SelectTheme::light(),
             slider: SliderTheme::light(),
             switch: SwitchTheme::light(),
+            spinner: SpinnerTheme::light(),
             upload: UploadTheme::light(),
             nav_bar: NavBarTheme::light(),
             tabbar: TabbarTheme::light(),
@@ -88,6 +90,7 @@ impl Theme {
             select: SelectTheme::dark(),
             slider: SliderTheme::dark(),
             switch: SwitchTheme::dark(),
+            spinner: SpinnerTheme::dark(),
             upload: UploadTheme::dark(),
             nav_bar: NavBarTheme::dark(),
             tabbar: TabbarTheme::dark(),
