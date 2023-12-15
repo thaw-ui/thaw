@@ -4,6 +4,7 @@
     border: 1px solid var(--thaw-border-color);
     border-radius: 3px;
     overflow: hidden;
+    background-color: var(--thaw-background-color); /* moving here so that applying padding to card element works correctly */
 }
 .thaw-card__header {
     font-weight: 600;
@@ -21,7 +22,6 @@
 .thaw-card__content,
 .thaw-card__footer {
     padding: 12px 28px;
-    background-color: var(--thaw-background-color);
 }
 .thaw-card__header {
     padding: 20px 28px;

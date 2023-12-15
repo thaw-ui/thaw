@@ -50,6 +50,12 @@ pub fn CalendarPage() -> impl IntoView {
                         </td>
                         <td></td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the calendar element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

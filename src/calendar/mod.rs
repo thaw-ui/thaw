@@ -1,9 +1,11 @@
 mod theme;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
 use crate::{
     chrono::{Datelike, Days, Local, NaiveDate},
     use_theme,
-    utils::mount_style,
+    utils::{mount_style, ssr_class},
     Button, ButtonGroup, ButtonVariant, Theme,
 };
 use chrono::{Month, Months};
@@ -13,7 +15,10 @@ use std::ops::Deref;
 pub use theme::CalendarTheme;
 
 #[component]
-pub fn Calendar(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) -> impl IntoView {
+pub fn Calendar(
+    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] value: RwSignal<Option<NaiveDate>>,
+) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -112,8 +117,14 @@ pub fn Calendar(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) -> i
             *date = *date + Months::new(1);
         });
     };
+    let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-calendar" style=move || css_vars.get()>
+        <div
+            class=ssr_class
+            use:dyn_classes=class
+            class="thaw-calendar"
+            style=move || css_vars.get()
+        >
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">
 
@@ -121,7 +132,8 @@ pub fn Calendar(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) -> i
                         show_date
                             .with(|date| {
                                 format!(
-                                    "{} {}", Month::try_from(date.month() as u8).unwrap().name(),
+                                    "{} {}",
+                                    Month::try_from(date.month() as u8).unwrap().name(),
                                     date.year(),
                                 )
                             })
@@ -244,3 +256,4 @@ impl Deref for CalendarItemDate {
 fn now_date() -> NaiveDate {
     Local::now().date_naive()
 }
+

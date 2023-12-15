@@ -84,6 +84,12 @@ pub fn CardPage() -> impl IntoView {
                         <td></td>
                         <td>"Card's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the card element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"Card Slots"</h3>

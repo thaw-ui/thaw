@@ -1,4 +1,11 @@
-use crate::{theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 
 #[derive(Default, Clone)]
@@ -25,6 +32,7 @@ pub fn Badge(
     #[prop(default = MaybeSignal::Static(u32::MAX), into)] max: MaybeSignal<u32>,
     #[prop(optional, into)] variant: MaybeSignal<BadgeVariant>,
     #[prop(optional, into)] dot: MaybeSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -51,9 +59,10 @@ pub fn Badge(
             value.to_string()
         }
     });
+    let ssr_class = ssr_class(&class);
     view! {
         <div class="thaw-badge" style=move || css_vars.get()>
-            <div
+            <div class=ssr_class use:dyn_classes=class
                 class="thaw-badge__sup"
                 class=("thaw-badge__sup--value", move || !dot.get() && !value.get().is_empty())
                 class=("thaw-badge__sup--dot", move || dot.get())
@@ -64,3 +73,4 @@ pub fn Badge(
         </div>
     }
 }
+

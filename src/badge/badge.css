@@ -6,6 +6,7 @@
     position: absolute;
     color: var(--thaw-font-color);
     background-color: var(--thaw-background-color);
+    z-index: 10;
 }
 .thaw-badge__sup--value {
     top: -9px;

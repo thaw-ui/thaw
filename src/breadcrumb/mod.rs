@@ -1,7 +1,13 @@
 mod breadcrumb_item;
 mod theme;
 
-use crate::{use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 pub use breadcrumb_item::BreadcrumbItem;
 use leptos::*;
 pub use theme::BreadcrumbTheme;
@@ -9,6 +15,7 @@ pub use theme::BreadcrumbTheme;
 #[component]
 pub fn Breadcrumb(
     #[prop(default = MaybeSignal::Static("/".to_string()),into)] separator: MaybeSignal<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("breadcrumb", include_str!("./breadcrumb.css"));
@@ -31,9 +38,15 @@ pub fn Breadcrumb(
         });
         css_vars
     });
+    let ssr_class = ssr_class(&class);
     view! {
         <Provider value=BreadcrumbSeparatorInjection(separator)>
-            <nav class="thaw-breadcrumb" style=move || css_vars.get()>
+            <nav
+                class=ssr_class
+                use:dyn_classes=class
+                class="thaw-breadcrumb"
+                style=move || css_vars.get()
+            >
                 <ul>{children()}</ul>
             </nav>
         </Provider>
@@ -46,3 +59,5 @@ pub(crate) struct BreadcrumbSeparatorInjection(MaybeSignal<String>);
 pub(crate) fn use_breadcrumb_separator() -> BreadcrumbSeparatorInjection {
     expect_context()
 }
+
+
