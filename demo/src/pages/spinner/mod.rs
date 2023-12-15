@@ -58,14 +58,22 @@ pub fn SpinnerPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"class"</td>
-                        <td>"MaybeSignal<String>"</td>
-                        <td>"Default::default()"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
                         <td>"Additional classes for the spinner element."</td>
                     </tr>
                     <tr>
                         <td>"size"</td>
-                        <td>"MaybeSignal<SpinnerSize>"</td>
-                        <td>"SpinnerSize::Medium"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<SpinnerSize>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"SpinnerSize::Medium"</Text>
+                        </td>
                         <td>"Spinner size."</td>
                     </tr>
                 </tbody>

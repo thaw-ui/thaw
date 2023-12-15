@@ -5,8 +5,8 @@ use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, CalendarTheme,
     ColorPickerTheme, InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme,
-    SkeletionTheme, SliderTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
-    TypographyTheme, UploadTheme, SpinnerTheme
+    SkeletionTheme, SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
+    TypographyTheme, UploadTheme,
 };
 use leptos::*;
 

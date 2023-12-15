@@ -8,6 +8,7 @@
     height: var(--thaw-height);
     outline: 1px solid transparent;
     animation: 1s linear 0s infinite normal none running spin;
+    box-sizing: border-box;
 }
 
 @keyframes spin {

@@ -2,7 +2,11 @@ mod theme;
 
 #[cfg(not(feature = "ssr"))]
 use crate::utils::dyn_classes;
-use crate::{theme::use_theme, utils::{mount_style, ssr_class}, Theme};
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 
 pub use theme::SpinnerTheme;
@@ -17,7 +21,6 @@ pub enum SpinnerSize {
 }
 
 impl SpinnerSize {
-
     fn theme_height(&self, theme: &Theme) -> String {
         match self {
             SpinnerSize::Tiny => theme.common.height_tiny.clone(),
@@ -28,13 +31,12 @@ impl SpinnerSize {
     }
 }
 
-
 #[component]
 pub fn Spinner(
     #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(optional, into)] size: MaybeSignal<SpinnerSize>,
 ) -> impl IntoView {
-    mount_style("tag", include_str!("./spinner.css"));
+    mount_style("spinner", include_str!("./spinner.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
@@ -47,21 +49,18 @@ pub fn Spinner(
                 "--thaw-background-color: {};",
                 &theme.spinner.background_color
             ));
-            css_vars.push_str(&format!(
-                "--thaw-color: {};",
-                &theme.spinner.color
-            ));
+            css_vars.push_str(&format!("--thaw-color: {};", &theme.common.color_primary));
         });
         css_vars
     });
 
     let ssr_class = ssr_class(&class);
     view! {
-        <div 
+        <div
             class=ssr_class
             use:dyn_classes=class
-            class="thaw-spinner" 
-            style=move || css_vars.get()>
-        </div>
+            class="thaw-spinner"
+            style=move || css_vars.get()
+        ></div>
     }
 }
