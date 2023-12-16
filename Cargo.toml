@@ -42,7 +42,7 @@ cfg-if = "1.0.0"
 chrono = "0.4.31"
 
 [features]
-default = ["csr"]
+default = []
 csr = ["leptos/csr"]
 ssr = ["leptos/ssr", "leptos_meta/ssr"]
 hydrate = ["leptos/hydrate"]
