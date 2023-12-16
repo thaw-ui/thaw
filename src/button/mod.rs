@@ -1,7 +1,7 @@
 mod button_group;
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
+//#[cfg(not(feature = "ssr"))]
 use crate::utils::dyn_classes;
 use crate::{
     components::{OptionComp, Wave, WaveRef},
