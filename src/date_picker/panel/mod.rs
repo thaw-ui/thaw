@@ -1,8 +1,10 @@
 mod date_panel;
+mod month_panel;
 
 use crate::{chrono::NaiveDate, use_theme, Theme};
 use date_panel::DatePanel;
 use leptos::*;
+use month_panel::MonthPanel;
 
 #[component]
 pub fn Panel(
@@ -70,10 +72,34 @@ pub fn Panel(
         _ = date_picker_ref;
         _ = panel_ref;
     }
+    let panel_variant = create_rw_signal(PanelVariant::Date);
 
     view! {
         <div class="thaw-date-picker-panel" style=move || css_vars.get() ref=panel_ref>
-            <DatePanel value=selected_date close_panel />
+            {
+                move || {
+                    match panel_variant.get() {
+                        PanelVariant::Date => {
+                            view! {
+                                <DatePanel value=selected_date close_panel panel_variant/>
+                            }
+                        }
+                        PanelVariant::Month => {
+                            view! {
+                                <MonthPanel value=selected_date/>
+                            }
+                        }
+                    }
+                }
+            }
+
         </div>
     }
+}
+
+#[derive(Default, Clone)]
+pub enum PanelVariant {
+    #[default]
+    Date,
+    Month,
 }

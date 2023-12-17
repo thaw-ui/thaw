@@ -1,3 +1,4 @@
+use super::PanelVariant;
 use crate::{
     chrono::{Datelike, Days, Month, NaiveDate},
     now_date, AiIcon, Button, ButtonSize, ButtonVariant, CalendarItemDate,
@@ -10,6 +11,7 @@ use std::ops::Deref;
 pub fn DatePanel(
     value: RwSignal<Option<NaiveDate>>,
     close_panel: Callback<Option<NaiveDate>>,
+    panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
     let show_date = create_rw_signal(value.get_untracked().unwrap_or(now_date()));
     let dates = create_memo(move |_| {
@@ -85,8 +87,6 @@ pub fn DatePanel(
     };
     view! {
         <div>
-            <div>
-            </div>
             <div class="thaw-date-picker-date-panel__calendar">
                 <div class="thaw-date-picker-date-panel__header">
                     <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiArrowLeftOutlined on_click=previous_year>
@@ -94,7 +94,7 @@ pub fn DatePanel(
                     <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiLeftOutlined on_click=previous_month>
                     </Button>
                     <div class="thaw-date-picker-date-panel__header-month-year">
-                        <Button variant=ButtonVariant::Text size=ButtonSize::Small>
+                        <Button variant=ButtonVariant::Text size=ButtonSize::Small on_click=move |_| panel_variant.set(PanelVariant::Month)>
                             {move || Month::try_from(show_date.get().month() as u8).unwrap().name() }
                         </Button>
                         <Button variant=ButtonVariant::Text size=ButtonSize::Small>
