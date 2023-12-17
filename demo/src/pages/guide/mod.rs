@@ -1,10 +1,12 @@
 mod installation;
+mod server_sider_rendering;
 mod usage;
 
 use crate::components::SiteHeader;
 pub use installation::*;
 use leptos::*;
 use leptos_router::{use_location, use_navigate, Outlet};
+pub use server_sider_rendering::*;
 use thaw::*;
 pub use usage::*;
 
@@ -79,17 +81,26 @@ impl IntoView for MenuItemOption {
 }
 
 pub(crate) fn gen_guide_menu_data() -> Vec<MenuGroupOption> {
-    vec![MenuGroupOption {
-        label: "Getting Started".into(),
-        children: vec![
-            MenuItemOption {
-                value: "installation".into(),
-                label: "Installation".into(),
-            },
-            MenuItemOption {
-                value: "usage".into(),
-                label: "Usage".into(),
-            },
-        ],
-    }]
+    vec![
+        MenuGroupOption {
+            label: "Getting Started".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "installation".into(),
+                    label: "Installation".into(),
+                },
+                MenuItemOption {
+                    value: "usage".into(),
+                    label: "Usage".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
+            label: "Guides".into(),
+            children: vec![MenuItemOption {
+                value: "server-sider-rendering".into(),
+                label: "Server Sider Rendering".into(),
+            }],
+        },
+    ]
 }
