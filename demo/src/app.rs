@@ -38,6 +38,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
             <Route path="/guide" view=GuidePage>
                 <Route path="/installation" view=InstallationPage/>
                 <Route path="/usage" view=UsagePage/>
+                <Route path="/server-sider-rendering" view=ServerSiderRenderingPage/>
             </Route>
             <Route path="/components" view=ComponentsPage>
                 <Route path="/menu" view=MenuPage/>
