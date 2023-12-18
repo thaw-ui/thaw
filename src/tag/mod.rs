@@ -1,6 +1,12 @@
 mod theme;
 
-use crate::{theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 pub use theme::TagTheme;
 
@@ -43,6 +49,7 @@ impl TagVariant {
 #[component]
 pub fn Tag(
     #[prop(optional, into)] variant: MaybeSignal<TagVariant>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
@@ -66,9 +73,12 @@ pub fn Tag(
         });
         css_vars
     });
+    let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-tag" style=move || css_vars.get()>
+        <div class=ssr_class use:dyn_classes=class class="thaw-tag" style=move || css_vars.get()>
             <span class="thaw-tag__content">{children()}</span>
         </div>
     }
 }
+
+

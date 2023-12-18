@@ -1,12 +1,22 @@
 mod tab;
 
-use crate::{theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 
 pub use tab::*;
 
 #[component]
-pub fn Tabs(#[prop(optional, into)] value: RwSignal<String>, children: Children) -> impl IntoView {
+pub fn Tabs(
+    #[prop(optional, into)] value: RwSignal<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+    children: Children,
+) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
     let tab_options_vec = create_rw_signal(vec![]);
 
@@ -15,7 +25,7 @@ pub fn Tabs(#[prop(optional, into)] value: RwSignal<String>, children: Children)
             active_key: value,
             tab_options_vec,
         }>
-            <TabsInner value tab_options_vec children/>
+            <TabsInner class value tab_options_vec children/>
         </Provider>
     }
 }
@@ -24,6 +34,7 @@ pub fn Tabs(#[prop(optional, into)] value: RwSignal<String>, children: Children)
 fn TabsInner(
     value: RwSignal<String>,
     tab_options_vec: RwSignal<Vec<TabOption>>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
@@ -50,8 +61,9 @@ fn TabsInner(
     let label_list_ref = create_node_ref::<html::Div>();
 
     let children = children();
+    let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-tabs" style=move || css_vars.get()>
+        <div class=ssr_class use:dyn_classes=class class="thaw-tabs" style=move || css_vars.get()>
             <div class="thaw-tabs__label-list" ref=label_list_ref>
                 <For
                     each=move || tab_options_vec.get()
@@ -62,10 +74,12 @@ fn TabsInner(
                         create_effect({
                             let key = key.clone();
                             move |_| {
-                                let Some(label) = label_ref.get() else { return;
-                            };
-                                let Some(label_list) = label_list_ref.get() else { return;
-                            };
+                                let Some(label) = label_ref.get() else {
+                                    return;
+                                };
+                                let Some(label_list) = label_list_ref.get() else {
+                                    return;
+                                };
                                 if key.clone() == value.get() {
                                     request_animation_frame(move || {
                                         let list_rect = label_list.get_bounding_client_rect();
@@ -139,3 +153,4 @@ impl TabsInjection {
 pub(crate) fn use_tabs() -> TabsInjection {
     expect_context()
 }
+

@@ -1,5 +1,9 @@
 mod grid_item;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::utils::ssr_class;
+
 pub use grid_item::*;
 use leptos::*;
 
@@ -8,6 +12,7 @@ pub fn Grid(
     #[prop(default = MaybeSignal::Static(1u16), into)] cols: MaybeSignal<u16>,
     #[prop(optional, into)] x_gap: MaybeSignal<u16>,
     #[prop(optional, into)] y_gap: MaybeSignal<u16>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
     let style = create_memo(move |_| {
@@ -20,9 +25,10 @@ pub fn Grid(
         style
     });
 
+    let ssr_class = ssr_class(&class);
     view! {
         <Provider value=GridInjection::new(x_gap)>
-            <div class="thaw-grid" style=move || style.get()>
+            <div class=ssr_class use:dyn_classes=class class="thaw-grid" style=move || style.get()>
                 {children()}
             </div>
         </Provider>

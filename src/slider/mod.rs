@@ -1,7 +1,14 @@
 mod slider_label;
 mod theme;
 
-use crate::{components::OptionComp, theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    components::OptionComp,
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 use web_sys::DomRect;
 
@@ -13,6 +20,7 @@ pub fn Slider(
     #[prop(optional, into)] value: RwSignal<f64>,
     #[prop(default = MaybeSignal::Static(100f64), into)] max: MaybeSignal<f64>,
     #[prop(optional, into)] step: MaybeSignal<f64>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));
@@ -110,12 +118,15 @@ pub fn Slider(
     });
     on_cleanup(move || on_mouse_move.remove());
 
+    let ssr_class = ssr_class(&class);
     view! {
         <div
+            class=ssr_class
+            use:dyn_classes=class
             class="thaw-slider"
             style=move || css_vars.get()
             on:click=on_mouse_click
-            >
+        >
             <div class="thaw-slider-rail" ref=rail_ref>
                 <div
                     class="thaw-slider-rail__fill"
@@ -128,11 +139,11 @@ pub fn Slider(
             <div
                 on:mousedown=on_mouse_down
                 class="thaw-slider-handle"
-                style=move || {
-                    format!("left: {}%", percentage.get())
-                }
+                style=move || { format!("left: {}%", percentage.get()) }
             >
             </div>
         </div>
     }
 }
+
+

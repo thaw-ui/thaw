@@ -7,6 +7,7 @@ use leptos::*;
 #[component]
 pub fn CheckboxItem(
     #[prop(optional, into)] label: Option<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(into)] key: String,
 ) -> impl IntoView {
     let checkbox_group = use_checkbox_group();
@@ -32,5 +33,5 @@ pub fn CheckboxItem(
         item_key.get_value()
     };
 
-    view! { <Checkbox value=checked>{label}</Checkbox> }
+    view! { <Checkbox class value=checked>{label}</Checkbox> }
 }

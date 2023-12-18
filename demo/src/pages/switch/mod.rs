@@ -42,6 +42,12 @@ pub fn SwitchPage() -> impl IntoView {
                         <td>"false"</td>
                         <td>"Swith's value."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the switch element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

@@ -108,6 +108,12 @@ pub fn InputNumberPage() -> impl IntoView {
                         <td>"false"</td>
                         <td>"Whether the input is invalid."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the input element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"T impl"</h3>

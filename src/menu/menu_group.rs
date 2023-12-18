@@ -1,8 +1,18 @@
-use crate::{theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 
 #[component]
-pub fn MenuGroup(#[prop(into)] label: String, children: Children) -> impl IntoView {
+pub fn MenuGroup(
+    #[prop(into)] label: String,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+    children: Children,
+) -> impl IntoView {
     mount_style("menu-group", include_str!("./menu-group.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -12,10 +22,17 @@ pub fn MenuGroup(#[prop(into)] label: String, children: Children) -> impl IntoVi
         });
         css_vars
     });
+    let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-menu-group" style=move || css_vars.get()>
+        <div
+            class=ssr_class
+            use:dyn_classes=class
+            class="thaw-menu-group"
+            style=move || css_vars.get()
+        >
             {label}
         </div>
         {children()}
     }
 }
+

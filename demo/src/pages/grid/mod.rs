@@ -142,6 +142,43 @@ pub fn GridPage() -> impl IntoView {
                         <td>"0"</td>
                         <td>"Vertical gap."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the grid element."</td>
+                    </tr>
+                </tbody>
+            </Table>
+            <h3>"GridItem Props"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Type"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"column"</td>
+                        <td>"MaybeSignal<u16>"</td>
+                        <td>"1"</td>
+                        <td>"Number of columns this grid item will occupy."</td>
+                    </tr>
+                    <tr>
+                        <td>"offset"</td>
+                        <td>"MaybeSignal<u16>"</td>
+                        <td>"0"</td>
+                        <td>"Horizontal offset."</td>
+                    </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the grid item element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

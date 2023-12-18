@@ -2,14 +2,23 @@ mod color;
 mod theme;
 
 use crate::components::{Binder, Follower, FollowerPlacement};
-use crate::{use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 pub use color::*;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
 pub use theme::ColorPickerTheme;
 
 #[component]
-pub fn ColorPicker(#[prop(optional, into)] value: RwSignal<RGBA>) -> impl IntoView {
+pub fn ColorPicker(
+    #[prop(optional, into)] value: RwSignal<RGBA>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let theme = use_theme(Theme::light);
     let popover_css_vars = create_memo(move |_| {
@@ -90,9 +99,16 @@ pub fn ColorPicker(#[prop(optional, into)] value: RwSignal<RGBA>) -> impl IntoVi
         on_cleanup(move || timer.remove());
     }
 
+    let ssr_class = ssr_class(&class);
     view! {
         <Binder target_ref=trigger_ref>
-            <div class="thaw-color-picker-trigger" on:click=show_popover ref=trigger_ref>
+            <div
+                class=ssr_class
+                use:dyn_classes=class
+                class="thaw-color-picker-trigger"
+                on:click=show_popover
+                ref=trigger_ref
+            >
                 <div class="thaw-color-picker-trigger__content" style=move || style.get()>
                     {move || label.get()}
                 </div>
@@ -174,8 +190,9 @@ fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
                 class="thaw-color-picker-popover__handle"
                 style=move || {
                     format!(
-                        "left: calc({}% - 6px); bottom: calc({}% - 6px)", sv.get().0 * 100.0, sv
-                        .get().1 * 100.0,
+                        "left: calc({}% - 6px); bottom: calc({}% - 6px)",
+                        sv.get().0 * 100.0,
+                        sv.get().1 * 100.0,
                     )
                 }
             >
@@ -229,3 +246,4 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
         </div>
     }
 }
+

@@ -1,8 +1,10 @@
 mod theme;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
 use crate::{
     theme::{use_theme, Theme},
-    utils::{mount_style, ComponentRef},
+    utils::{mount_style, ssr_class, ComponentRef},
 };
 use leptos::*;
 pub use theme::InputTheme;
@@ -50,6 +52,7 @@ pub fn Input(
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
@@ -123,8 +126,12 @@ pub fn Input(
     input_ref.on_load(move |_| {
         comp_ref.load(InputRef { input_ref });
     });
+
+    let ssr_class = ssr_class(&class);
     view! {
         <div
+            class=ssr_class
+            use:dyn_classes=class
             class="thaw-input"
             class=("thaw-input--focus", move || is_focus.get())
             class=("thaw-input--disabled", move || disabled.get())
@@ -181,3 +188,5 @@ impl InputRef {
         }
     }
 }
+
+

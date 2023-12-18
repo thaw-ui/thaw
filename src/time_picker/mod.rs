@@ -1,17 +1,22 @@
 mod theme;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
 use crate::{
     chrono::{Local, NaiveTime, Timelike},
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
-    utils::{mount_style, ComponentRef},
+    utils::{mount_style, ssr_class, ComponentRef},
     AiIcon, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
 };
 use leptos::*;
 pub use theme::TimePickerTheme;
 
 #[component]
-pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) -> impl IntoView {
+pub fn TimePicker(
+    #[prop(optional, into)] value: RwSignal<Option<NaiveTime>>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
     let time_picker_ref = create_node_ref::<html::Div>();
     let panel_ref = ComponentRef::<PanelRef>::default();
@@ -67,10 +72,17 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
         });
     });
 
+    let ssr_class = ssr_class(&class);
     view! {
         <Binder target_ref=time_picker_ref>
             <div ref=time_picker_ref>
-                <Input value=show_time_text on_focus=open_panel on_blur=on_input_blur>
+                <Input
+                    class=ssr_class
+                    use:dyn_classes=class
+                    value=show_time_text
+                    on_focus=open_panel
+                    on_blur=on_input_blur
+                >
                     <InputSuffix slot>
                         <Icon
                             icon=Icon::from(AiIcon::AiClockCircleOutlined)
@@ -336,3 +348,4 @@ impl PanelTimeItemRef {
 fn now_time() -> NaiveTime {
     Local::now().time()
 }
+

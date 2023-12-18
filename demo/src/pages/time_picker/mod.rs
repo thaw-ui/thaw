@@ -47,6 +47,12 @@ pub fn TimePickerPage() -> impl IntoView {
                         <td></td>
                         <td></td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the time picker element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

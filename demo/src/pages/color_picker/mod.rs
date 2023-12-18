@@ -44,6 +44,12 @@ pub fn ColorPickerPage() -> impl IntoView {
                         <td>"RwSignal<RGBA>"</td>
                         <td>"Value of the picker."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the color picker element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

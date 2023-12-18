@@ -56,6 +56,12 @@ pub fn SelectPage() -> impl IntoView {
                         <td>"vec![]"</td>
                         <td>"Options that can be selected."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the select element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

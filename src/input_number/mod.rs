@@ -1,4 +1,6 @@
-use crate::utils::StoredMaybeSignal;
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::utils::{ssr_class, StoredMaybeSignal};
 use crate::{AiIcon, Button, ButtonVariant, Icon, Input, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
@@ -11,6 +13,7 @@ pub fn InputNumber<T>(
     #[prop(into)] step: MaybeSignal<T>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView
 where
     T: Add<Output = T> + Sub<Output = T>,
@@ -45,8 +48,17 @@ where
         e.prevent_default();
         value.set(value.get_untracked() - step.get_untracked());
     });
+    let ssr_class = ssr_class(&class);
     view! {
-        <Input value=input_value allow_value placeholder disabled invalid>
+        <Input
+            class=ssr_class
+            use:dyn_classes=class
+            value=input_value
+            allow_value
+            placeholder
+            disabled
+            invalid
+        >
             <InputSuffix slot>
                 <Button disabled variant=ButtonVariant::Link on_click=sub>
                     <Icon icon=Icon::from(AiIcon::AiMinusOutlined) style="font-size: 18px"/>
@@ -58,3 +70,5 @@ where
         </Input>
     }
 }
+
+

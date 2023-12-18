@@ -96,6 +96,12 @@ pub fn TablePage() -> impl IntoView {
                         <td></td>
                         <td>"Table's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the table element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

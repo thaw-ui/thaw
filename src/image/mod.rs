@@ -1,5 +1,9 @@
 use leptos::*;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::utils::ssr_class;
+
 #[component]
 pub fn Image(
     #[prop(optional, into)] src: MaybeSignal<String>,
@@ -8,6 +12,7 @@ pub fn Image(
     #[prop(optional, into)] height: MaybeSignal<String>,
     #[prop(optional, into)] border_radius: MaybeSignal<String>,
     #[prop(optional, into)] object_fit: MaybeSignal<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     let style = move || {
         let mut style = String::new();
@@ -29,8 +34,10 @@ pub fn Image(
 
         style
     };
+
+    let ssr_class = ssr_class(&class);
     view! {
-        <img
+        <img class=ssr_class use:dyn_classes=class
             src=move || src.get()
             alt=move || alt.get()
             style=style
@@ -38,3 +45,5 @@ pub fn Image(
         />
     }
 }
+
+

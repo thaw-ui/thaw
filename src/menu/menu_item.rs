@@ -1,11 +1,19 @@
 use super::use_menu;
-use crate::{theme::use_theme, utils::mount_style, Theme};
+
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 
 #[component]
 pub fn MenuItem(
     #[prop(into)] key: MaybeSignal<String>,
     #[prop(into)] label: MaybeSignal<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("menu-item", include_str!("./menu-item.css"));
     let theme = use_theme(Theme::light);
@@ -32,9 +40,12 @@ pub fn MenuItem(
         });
         css_vars
     });
+    let ssr_class = ssr_class(&class);
     view! {
         <div class="thaw-menu-item">
             <div
+                class=ssr_class
+                use:dyn_classes=class
                 class="thaw-menu-item__content"
                 class=("thaw-menu-item__content--selected", move || menu.0.get() == key.get())
                 on:click=on_click
@@ -45,3 +56,5 @@ pub fn MenuItem(
         </div>
     }
 }
+
+

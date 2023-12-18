@@ -1,10 +1,12 @@
 mod theme;
 
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
 use crate::{
     components::*,
     icon::*,
     use_theme,
-    utils::{mount_style, StoredMaybeSignal},
+    utils::{mount_style, ssr_class, StoredMaybeSignal},
     Theme,
 };
 use leptos::*;
@@ -18,6 +20,7 @@ pub fn NavBar(
     #[prop(optional, into)] on_click_left: Option<Callback<ev::MouseEvent>>,
     #[prop(optional, into)] right_text: MaybeSignal<String>,
     #[prop(optional, into)] on_click_right: Option<Callback<ev::MouseEvent>>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("nav-bar", include_str!("./nav-bar.css"));
     let theme = use_theme(Theme::light);
@@ -45,8 +48,14 @@ pub fn NavBar(
         }
     };
 
+    let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-nav-bar" style=move || css_vars.get()>
+        <div
+            class=ssr_class
+            use:dyn_classes=class
+            class="thaw-nav-bar"
+            style=move || css_vars.get()
+        >
             <If cond=MaybeSignal::derive(move || left_arrow.get() || !left_text.get().is_empty())>
                 <Then slot>
                     <div class="thaw-nav-bar__left" on:click=on_click_left>
@@ -70,3 +79,4 @@ pub fn NavBar(
         </div>
     }
 }
+
