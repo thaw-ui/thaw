@@ -1,7 +1,12 @@
 mod date_panel;
 mod month_panel;
 
-use crate::{chrono::NaiveDate, use_theme, Theme};
+use crate::{
+    chrono::NaiveDate,
+    use_theme,
+    utils::{now_date, ComponentRef},
+    Theme,
+};
 use date_panel::DatePanel;
 use leptos::*;
 use month_panel::MonthPanel;
@@ -11,6 +16,7 @@ pub fn Panel(
     selected_date: RwSignal<Option<NaiveDate>>,
     date_picker_ref: NodeRef<html::Div>,
     close_panel: Callback<Option<NaiveDate>>,
+    #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -49,7 +55,10 @@ pub fn Panel(
             let mut el: Option<web_sys::Element> =
                 el.into_js_result().map_or(None, |el| Some(el.into()));
             let body = document().body().unwrap();
-            while let Some(current_el) = el {
+            loop {
+                let Some(current_el) = el else {
+                    return;
+                };
                 if current_el == *body {
                     break;
                 };
@@ -73,6 +82,11 @@ pub fn Panel(
         _ = panel_ref;
     }
     let panel_variant = create_rw_signal(PanelVariant::Date);
+    let show_date = create_rw_signal(selected_date.get_untracked().unwrap_or(now_date()));
+    comp_ref.load(PanelRef {
+        show_date,
+        variant: panel_variant,
+    });
 
     view! {
         <div class="thaw-date-picker-panel" style=move || css_vars.get() ref=panel_ref>
@@ -81,12 +95,12 @@ pub fn Panel(
                     match panel_variant.get() {
                         PanelVariant::Date => {
                             view! {
-                                <DatePanel value=selected_date close_panel panel_variant/>
+                                <DatePanel value=selected_date show_date close_panel panel_variant/>
                             }
                         }
                         PanelVariant::Month => {
                             view! {
-                                <MonthPanel value=selected_date/>
+                                <MonthPanel date_panel_show_date=show_date panel_variant/>
                             }
                         }
                     }
@@ -94,6 +108,19 @@ pub fn Panel(
             }
 
         </div>
+    }
+}
+
+#[derive(Clone)]
+pub struct PanelRef {
+    show_date: RwSignal<NaiveDate>,
+    variant: RwSignal<PanelVariant>,
+}
+
+impl PanelRef {
+    pub fn init_panel(&self, show_date: NaiveDate) {
+        self.show_date.set(show_date);
+        self.variant.set(PanelVariant::Date);
     }
 }
 

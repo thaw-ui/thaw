@@ -5,6 +5,7 @@ mod event_listener;
 mod mount_style;
 mod signal;
 mod stored_maybe_signal;
+mod time;
 
 // pub use callback::AsyncCallback;
 pub(crate) use component_ref::ComponentRef;
@@ -13,6 +14,7 @@ pub(crate) use event_listener::*;
 pub(crate) use mount_style::mount_style;
 pub use signal::SignalWatch;
 pub(crate) use stored_maybe_signal::*;
+pub(crate) use time::*;
 
 pub(crate) fn with_hydration_off<T>(f: impl FnOnce() -> T) -> T {
     #[cfg(feature = "hydrate")]

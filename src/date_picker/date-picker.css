@@ -97,3 +97,57 @@
     align-items: center;
     border-top: 1px solid var(--thaw-item-border-color);
 }
+
+.thaw-date-picker-date-panel__header-year {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thaw-date-picker-month-panel__header {
+    display: grid;
+    grid-template-columns: 28px 1fr 28px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--thaw-item-border-color);
+    padding: 4px 6px;
+}
+
+.thaw-date-picker-month-panel__header > button {
+    color: var(--thaw-font-color-other-month);
+}
+
+.thaw-date-picker-month-panel__months {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    padding: 4px 0 6px;
+}
+
+.thaw-date-picker-month-panel__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.thaw-date-picker-month-panel__item--selected
+    .thaw-date-picker-month-panel__item-month {
+    background-color: var(--thaw-background-color-today) !important;
+    color: white;
+}
+
+.thaw-date-picker-month-panel__item:hover
+    .thaw-date-picker-month-panel__item-month {
+    background-color: var(--thaw-item-background-color-hover);
+}
+
+.thaw-date-picker-month-panel__item-month {
+    width: 52px;
+    line-height: 24px;
+    height: 24px;
+    text-align: center;
+    border-radius: 3px;
+}

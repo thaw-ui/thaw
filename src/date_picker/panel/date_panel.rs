@@ -1,19 +1,19 @@
 use super::PanelVariant;
 use crate::{
-    chrono::{Datelike, Days, Month, NaiveDate},
-    now_date, AiIcon, Button, ButtonSize, ButtonVariant, CalendarItemDate,
+    chrono::{Datelike, Days, Month, Months, NaiveDate},
+    utils::now_date,
+    AiIcon, Button, ButtonSize, ButtonVariant, CalendarItemDate,
 };
-use chrono::Months;
 use leptos::*;
 use std::ops::Deref;
 
 #[component]
 pub fn DatePanel(
     value: RwSignal<Option<NaiveDate>>,
+    show_date: RwSignal<NaiveDate>,
     close_panel: Callback<Option<NaiveDate>>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
-    let show_date = create_rw_signal(value.get_untracked().unwrap_or(now_date()));
     let dates = create_memo(move |_| {
         let show_date = show_date.get();
         let show_date_month = show_date.month();

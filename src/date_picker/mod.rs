@@ -4,11 +4,11 @@ mod theme;
 use crate::{
     chrono::NaiveDate,
     components::{Binder, Follower, FollowerPlacement},
-    utils::mount_style,
-    AiIcon, Icon, Input, InputSuffix,
+    utils::{mount_style, now_date, ComponentRef},
+    AiIcon, Icon, Input, InputSuffix, SignalWatch,
 };
 use leptos::*;
-use panel::Panel;
+use panel::{Panel, PanelRef};
 pub use theme::DatePickerTheme;
 
 #[component]
@@ -27,7 +27,14 @@ pub fn DatePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) ->
         });
     };
     update_show_date_text();
+    let panel_ref = ComponentRef::<PanelRef>::default();
     let panel_selected_date = create_rw_signal(None::<NaiveDate>);
+    _ = panel_selected_date.watch(move |date| {
+        let text = date.as_ref().map_or(String::new(), |date| {
+            date.format(show_date_format).to_string()
+        });
+        show_date_text.set(text);
+    });
 
     let on_input_blur = Callback::new(move |_| {
         if let Ok(date) =
@@ -54,6 +61,9 @@ pub fn DatePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) ->
 
     let open_panel = Callback::new(move |_| {
         panel_selected_date.set(value.get_untracked());
+        if let Some(panel_ref) = panel_ref.get_untracked() {
+            panel_ref.init_panel(value.get_untracked().unwrap_or(now_date()));
+        }
         is_show_panel.set(true);
     });
 
@@ -70,7 +80,7 @@ pub fn DatePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) ->
                 </Input>
             </div>
             <Follower slot show=is_show_panel placement=FollowerPlacement::BottomStart>
-                <Panel date_picker_ref close_panel selected_date=panel_selected_date/>
+                <Panel date_picker_ref close_panel selected_date=panel_selected_date comp_ref=panel_ref/>
             </Follower>
         </Binder>
     }
