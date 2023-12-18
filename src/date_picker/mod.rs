@@ -72,15 +72,17 @@ pub fn DatePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) ->
             <div ref=date_picker_ref>
                 <Input value=show_date_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
-                        <Icon
-                            icon=Icon::from(AiIcon::AiCalendarOutlined)
-                            style="font-size: 18px"
-                        />
+                        <Icon icon=Icon::from(AiIcon::AiCalendarOutlined) style="font-size: 18px"/>
                     </InputSuffix>
                 </Input>
             </div>
             <Follower slot show=is_show_panel placement=FollowerPlacement::BottomStart>
-                <Panel date_picker_ref close_panel selected_date=panel_selected_date comp_ref=panel_ref/>
+                <Panel
+                    date_picker_ref
+                    close_panel
+                    selected_date=panel_selected_date
+                    comp_ref=panel_ref
+                />
             </Follower>
         </Binder>
     }

@@ -89,45 +89,55 @@ pub fn DatePanel(
         <div>
             <div class="thaw-date-picker-date-panel__calendar">
                 <div class="thaw-date-picker-date-panel__header">
-                    <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiArrowLeftOutlined on_click=previous_year>
-                    </Button>
-                    <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiLeftOutlined on_click=previous_month>
-                    </Button>
+                    <Button
+                        variant=ButtonVariant::Link
+                        size=ButtonSize::Small
+                        icon=AiIcon::AiArrowLeftOutlined
+                        on_click=previous_year
+                    />
+                    <Button
+                        variant=ButtonVariant::Link
+                        size=ButtonSize::Small
+                        icon=AiIcon::AiLeftOutlined
+                        on_click=previous_month
+                    />
                     <div class="thaw-date-picker-date-panel__header-month-year">
-                        <Button variant=ButtonVariant::Text size=ButtonSize::Small on_click=move |_| panel_variant.set(PanelVariant::Month)>
-                            {move || Month::try_from(show_date.get().month() as u8).unwrap().name() }
+                        <Button
+                            variant=ButtonVariant::Text
+                            size=ButtonSize::Small
+                            on_click=move |_| panel_variant.set(PanelVariant::Month)
+                        >
+                            {move || Month::try_from(show_date.get().month() as u8).unwrap().name()}
                         </Button>
-                        <Button variant=ButtonVariant::Text size=ButtonSize::Small on_click=move |_| panel_variant.set(PanelVariant::Year)>
-                            {move || show_date.get().year() }
+                        <Button
+                            variant=ButtonVariant::Text
+                            size=ButtonSize::Small
+                            on_click=move |_| panel_variant.set(PanelVariant::Year)
+                        >
+                            {move || show_date.get().year()}
                         </Button>
                     </div>
-                    <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiRightOutlined on_click=next_month>
-                    </Button>
-                    <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiArrowRightOutlined on_click=next_year>
-                    </Button>
+                    <Button
+                        variant=ButtonVariant::Link
+                        size=ButtonSize::Small
+                        icon=AiIcon::AiRightOutlined
+                        on_click=next_month
+                    />
+                    <Button
+                        variant=ButtonVariant::Link
+                        size=ButtonSize::Small
+                        icon=AiIcon::AiArrowRightOutlined
+                        on_click=next_year
+                    />
                 </div>
                 <div class="thaw-date-picker-date-panel__weekdays">
-                    <span>
-                        "Su"
-                    </span>
-                    <span>
-                        "Mo"
-                    </span>
-                    <span>
-                        "Tu"
-                    </span>
-                    <span>
-                        "We"
-                    </span>
-                    <span>
-                        "Th"
-                    </span>
-                    <span>
-                        "Fr"
-                    </span>
-                    <span>
-                        "Sa"
-                    </span>
+                    <span>"Su"</span>
+                    <span>"Mo"</span>
+                    <span>"Tu"</span>
+                    <span>"We"</span>
+                    <span>"Th"</span>
+                    <span>"Fr"</span>
+                    <span>"Sa"</span>
                 </div>
                 <div class="thaw-date-picker-date-panel__dates">
                     {move || {
@@ -145,6 +155,7 @@ pub fn DatePanel(
                             })
                             .collect_view()
                     }}
+
                 </div>
             </div>
             <div class="thaw-date-picker-date-panel__footer">
@@ -171,15 +182,12 @@ fn DatePanelItem(value: RwSignal<Option<NaiveDate>>, date: CalendarItemDate) -> 
         >
             <div class="thaw-date-picker-date-panel__item-day">
                 {date.day()}
-                {
-                    if date.is_today() {
-                        view! {
-                            <div class="thaw-date-picker-date-panel__item-sup"></div>
-                        }.into()
-                    } else {
-                        None
-                    }
-                }
+                {if date.is_today() {
+                    view! { <div class="thaw-date-picker-date-panel__item-sup"></div> }.into()
+                } else {
+                    None
+                }}
+
             </div>
         </div>
     }

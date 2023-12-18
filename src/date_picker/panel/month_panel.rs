@@ -24,32 +24,49 @@ pub fn MonthPanel(
     view! {
         <div class="thaw-date-picker-month-panel">
             <div class="thaw-date-picker-month-panel__header">
-                <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiArrowLeftOutlined on_click=previous_year>
-                </Button>
+                <Button
+                    variant=ButtonVariant::Link
+                    size=ButtonSize::Small
+                    icon=AiIcon::AiArrowLeftOutlined
+                    on_click=previous_year
+                />
                 <div class="thaw-date-picker-date-panel__header-year">
-                    <Button variant=ButtonVariant::Text size=ButtonSize::Small on_click=move |_| panel_variant.set(PanelVariant::Year)>
-                        {move || show_date.get().year() }
+                    <Button
+                        variant=ButtonVariant::Text
+                        size=ButtonSize::Small
+                        on_click=move |_| panel_variant.set(PanelVariant::Year)
+                    >
+                        {move || show_date.get().year()}
                     </Button>
                 </div>
-                <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiArrowRightOutlined on_click=next_year>
-                </Button>
+                <Button
+                    variant=ButtonVariant::Link
+                    size=ButtonSize::Small
+                    icon=AiIcon::AiArrowRightOutlined
+                    on_click=next_year
+                />
             </div>
             <div class="thaw-date-picker-month-panel__months">
-                {
-                    (1..=12).map(|index| {
+
+                {(1..=12)
+                    .map(|index| {
                         let month = Month::try_from(index).unwrap();
                         let on_click = move |_| {
-                            date_panel_show_date.update(|date| {
-                                let show_date = show_date.get_untracked();
-                                *date = date.with_month(index.into()).unwrap().with_year(show_date.year()).unwrap();
-                            });
+                            date_panel_show_date
+                                .update(|date| {
+                                    let show_date = show_date.get_untracked();
+                                    *date = date
+                                        .with_month(index.into())
+                                        .unwrap()
+                                        .with_year(show_date.year())
+                                        .unwrap();
+                                });
                             panel_variant.set(PanelVariant::Date);
                         };
-                        view! {
-                            <MonthPanelItem date_panel_show_date month on:click=on_click/>
-                        }
-                    }).collect_view()
-                }
+                        view! { <MonthPanelItem date_panel_show_date month on:click=on_click/> }
+                    })
+                    .collect_view()}
+
             </div>
         </div>
     }
@@ -66,9 +83,7 @@ fn MonthPanelItem(date_panel_show_date: RwSignal<NaiveDate>, month: Month) -> im
             class="thaw-date-picker-month-panel__item"
             class=("thaw-date-picker-month-panel__item--selected", move || is_selected.get())
         >
-            <div class="thaw-date-picker-month-panel__item-month">
-                {month.name().split_at(3).0}
-            </div>
+            <div class="thaw-date-picker-month-panel__item-month">{month.name().split_at(3).0}</div>
         </div>
     }
 }

@@ -92,27 +92,22 @@ pub fn Panel(
 
     view! {
         <div class="thaw-date-picker-panel" style=move || css_vars.get() ref=panel_ref>
-            {
-                move || {
-                    match panel_variant.get() {
-                        PanelVariant::Date => {
-                            view! {
-                                <DatePanel value=selected_date show_date close_panel panel_variant/>
-                            }
-                        }
-                        PanelVariant::Month => {
-                            view! {
-                                <MonthPanel date_panel_show_date=show_date panel_variant/>
-                            }
-                        }
-                        PanelVariant::Year => {
-                            view! {
-                                <YearPanel date_panel_show_date=show_date panel_variant/>
-                            }
+
+            {move || {
+                match panel_variant.get() {
+                    PanelVariant::Date => {
+                        view! {
+                            <DatePanel value=selected_date show_date close_panel panel_variant/>
                         }
                     }
+                    PanelVariant::Month => {
+                        view! { <MonthPanel date_panel_show_date=show_date panel_variant/> }
+                    }
+                    PanelVariant::Year => {
+                        view! { <YearPanel date_panel_show_date=show_date panel_variant/> }
+                    }
                 }
-            }
+            }}
 
         </div>
     }
