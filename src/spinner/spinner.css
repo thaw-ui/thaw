@@ -1,0 +1,17 @@
+.thaw-spinner {
+    border-color: var(--thaw-color);
+    border-left-color: var(--thaw-background-color);
+    border-style: solid;
+    border-radius: 100px;
+    border-width: 2px;
+    width: var(--thaw-height);
+    height: var(--thaw-height);
+    outline: 1px solid transparent;
+    animation: 1s linear 0s infinite normal none running spin;
+    box-sizing: border-box;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

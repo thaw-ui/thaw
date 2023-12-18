@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::{use_theme, Theme},
-    utils::mount_style,
+    utils::{mount_style, ComponentRef},
 };
 use leptos::*;
 pub use theme::InputTheme;
@@ -25,11 +25,15 @@ impl InputVariant {
 
 #[slot]
 pub struct InputPrefix {
+    #[prop(default = true)]
+    if_: bool,
     children: Children,
 }
 
 #[slot]
 pub struct InputSuffix {
+    #[prop(default = true)]
+    if_: bool,
     children: Children,
 }
 
@@ -45,6 +49,7 @@ pub fn Input(
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
+    #[prop(optional)] comp_ref: ComponentRef<InputRef>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
@@ -114,6 +119,10 @@ pub fn Input(
         });
         css_vars
     });
+    let input_ref = create_node_ref::<html::Input>();
+    input_ref.on_load(move |_| {
+        comp_ref.load(InputRef { input_ref });
+    });
     view! {
         <div
             class="thaw-input"
@@ -122,7 +131,7 @@ pub fn Input(
             class=("thaw-input--invalid", move || invalid.get())
             style=move || css_vars.get()
         >
-            {if let Some(prefix) = input_prefix {
+            {if let Some(prefix) = input_prefix.map(|prefix| prefix.if_.then(|| prefix)).flatten() {
                 view! { <div class="thaw-input__prefix">{(prefix.children)()}</div> }.into()
             } else {
                 None
@@ -141,14 +150,34 @@ pub fn Input(
                 class="thaw-input__input-el"
                 disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
+                ref=input_ref
             />
 
-            {if let Some(suffix) = input_suffix {
+            {if let Some(suffix) = input_suffix.map(|suffix| suffix.if_.then(|| suffix)).flatten() {
                 view! { <div class="thaw-input__suffix">{(suffix.children)()}</div> }.into()
             } else {
                 None
             }}
 
         </div>
+    }
+}
+
+#[derive(Clone)]
+pub struct InputRef {
+    input_ref: NodeRef<html::Input>,
+}
+
+impl InputRef {
+    pub fn focus(&self) {
+        if let Some(input_el) = self.input_ref.get_untracked() {
+            _ = input_el.focus();
+        }
+    }
+
+    pub fn blur(&self) {
+        if let Some(input_el) = self.input_ref.get_untracked() {
+            _ = input_el.blur();
+        }
     }
 }
