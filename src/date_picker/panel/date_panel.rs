@@ -97,7 +97,7 @@ pub fn DatePanel(
                         <Button variant=ButtonVariant::Text size=ButtonSize::Small on_click=move |_| panel_variant.set(PanelVariant::Month)>
                             {move || Month::try_from(show_date.get().month() as u8).unwrap().name() }
                         </Button>
-                        <Button variant=ButtonVariant::Text size=ButtonSize::Small>
+                        <Button variant=ButtonVariant::Text size=ButtonSize::Small on_click=move |_| panel_variant.set(PanelVariant::Year)>
                             {move || show_date.get().year() }
                         </Button>
                     </div>

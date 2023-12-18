@@ -1,5 +1,6 @@
 mod date_panel;
 mod month_panel;
+mod year_panel;
 
 use crate::{
     chrono::NaiveDate,
@@ -10,6 +11,7 @@ use crate::{
 use date_panel::DatePanel;
 use leptos::*;
 use month_panel::MonthPanel;
+use year_panel::YearPanel;
 
 #[component]
 pub fn Panel(
@@ -103,6 +105,11 @@ pub fn Panel(
                                 <MonthPanel date_panel_show_date=show_date panel_variant/>
                             }
                         }
+                        PanelVariant::Year => {
+                            view! {
+                                <YearPanel date_panel_show_date=show_date panel_variant/>
+                            }
+                        }
                     }
                 }
             }
@@ -129,4 +136,5 @@ pub enum PanelVariant {
     #[default]
     Date,
     Month,
+    Year,
 }

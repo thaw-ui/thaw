@@ -27,7 +27,7 @@ pub fn MonthPanel(
                 <Button variant=ButtonVariant::Link size=ButtonSize::Small icon=AiIcon::AiArrowLeftOutlined on_click=previous_year>
                 </Button>
                 <div class="thaw-date-picker-date-panel__header-year">
-                    <Button variant=ButtonVariant::Text size=ButtonSize::Small>
+                    <Button variant=ButtonVariant::Text size=ButtonSize::Small on_click=move |_| panel_variant.set(PanelVariant::Year)>
                         {move || show_date.get().year() }
                     </Button>
                 </div>
