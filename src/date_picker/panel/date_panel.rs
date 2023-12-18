@@ -82,9 +82,9 @@ pub fn DatePanel(
             *date = *date + Months::new(1);
         });
     };
-    let now = move |_| {
+    let now = Callback::new(move |_| {
         close_panel.call(Some(now_date()));
-    };
+    });
     view! {
         <div>
             <div class="thaw-date-picker-date-panel__calendar">
