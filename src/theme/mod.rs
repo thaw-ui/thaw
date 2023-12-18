@@ -4,9 +4,9 @@ use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, CalendarTheme,
-    ColorPickerTheme, InputTheme, MenuTheme, MessageTheme, ProgressTheme, SelectTheme,
-    SkeletionTheme, SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
-    TypographyTheme, UploadTheme,
+    ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme, MessageTheme, ProgressTheme,
+    SelectTheme, SkeletionTheme, SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme,
+    TimePickerTheme, TypographyTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -42,6 +42,7 @@ pub struct Theme {
     pub typograph: TypographyTheme,
     pub calendar: CalendarTheme,
     pub time_picker: TimePickerTheme,
+    pub date_picker: DatePickerTheme,
 }
 
 impl Theme {
@@ -72,6 +73,7 @@ impl Theme {
             typograph: TypographyTheme::light(),
             calendar: CalendarTheme::light(),
             time_picker: TimePickerTheme::light(),
+            date_picker: DatePickerTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -101,6 +103,7 @@ impl Theme {
             typograph: TypographyTheme::dark(),
             calendar: CalendarTheme::dark(),
             time_picker: TimePickerTheme::dark(),
+            date_picker: DatePickerTheme::dark(),
         }
     }
 }
