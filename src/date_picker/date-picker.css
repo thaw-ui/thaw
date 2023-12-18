@@ -111,7 +111,7 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--thaw-item-border-color);
-    padding: 4px 6px;
+    padding: 2px 6px;
 }
 
 .thaw-date-picker-year-panel__header {
@@ -119,7 +119,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--thaw-item-border-color);
-    padding: 2px 6px;
+    padding: 4px 6px;
 }
 
 .thaw-date-picker-year-panel__header > button,
@@ -133,6 +133,11 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-auto-rows: 1fr;
     padding: 4px 0 6px;
+}
+
+.thaw-date-picker-year-panel__item:first-child,
+.thaw-date-picker-year-panel__item:last-child {
+    color: var(--thaw-font-color-other-month);
 }
 
 .thaw-date-picker-year-panel__item,
