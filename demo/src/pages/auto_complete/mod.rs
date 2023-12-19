@@ -78,6 +78,42 @@ pub fn AutoCompletePage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
+            <h2>"Prefix & Suffix"</h2>
+            <Demo>
+                <Space vertical=true>
+                    <AutoComplete value options>
+                        <AutoCompletePrefix slot>
+                            <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
+                        </AutoCompletePrefix>
+                    </AutoComplete>
+                    <AutoComplete value options>
+                        <AutoCompleteSuffix slot>
+                            <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
+                        </AutoCompleteSuffix>
+                    </AutoComplete>
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        <Space vertical=true>
+                            <AutoComplete value options>
+                                <AutoCompletePrefix slot>
+                                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
+                                </AutoCompletePrefix>
+                            </AutoComplete>
+                            <AutoComplete value options>
+                                <AutoCompleteSuffix slot>
+                                    <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
+                                </AutoCompleteSuffix>
+                            </AutoComplete>
+                        </Space>
+                        "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h3>"AutoComplete Props"</h3>
             <Table single_column=true>
                 <thead>
@@ -158,6 +194,32 @@ pub fn AutoCompletePage() -> impl IntoView {
                         <td>"label"</td>
                         <td>"String"</td>
                         <td>"Option label value."</td>
+                    </tr>
+                </tbody>
+            </Table>
+            <h3>"AutoComplete Slots"</h3>
+            <Table single_column=true>
+                <thead>
+                    <tr>
+                        <th>"Name"</th>
+                        <th>"Default"</th>
+                        <th>"Description"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"AutoCompletePrefix"</td>
+                        <td>
+                            <Text code=true>"None"</Text>
+                        </td>
+                        <td>"AutoCompletePrefix content."</td>
+                    </tr>
+                    <tr>
+                        <td>"AutoCompleteSuffix"</td>
+                        <td>
+                            <Text code=true>"None"</Text>
+                        </td>
+                        <td>"AutoCompleteSuffix content."</td>
                     </tr>
                 </tbody>
             </Table>

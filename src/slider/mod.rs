@@ -142,6 +142,7 @@ pub fn Slider(
                 style=move || { format!("left: {}%", percentage.get()) }
             >
             </div>
+
         </div>
     }
 }

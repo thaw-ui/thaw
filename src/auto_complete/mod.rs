@@ -129,7 +129,13 @@ pub fn AutoComplete(
     let ssr_class = ssr_class(&class);
     view! {
         <Binder target_ref=auto_complete_ref>
-            <div class=ssr_class use:dyn_classes=class class:thaw-auto-complete=true ref=auto_complete_ref on:keydown=on_keydown>
+            <div
+                class=ssr_class
+                use:dyn_classes=class
+                class:thaw-auto-complete=true
+                ref=auto_complete_ref
+                on:keydown=on_keydown
+            >
                 <Input
                     value
                     placeholder
@@ -141,22 +147,22 @@ pub fn AutoComplete(
                     comp_ref=input_ref
                 >
                     <InputPrefix if_=auto_complete_prefix.is_some() slot>
-                        {
-                            if let Some(auto_complete_prefix) = auto_complete_prefix {
-                                Some((auto_complete_prefix.children)())
-                            } else {
-                                None
-                            }
-                        }
+
+                        {if let Some(auto_complete_prefix) = auto_complete_prefix {
+                            Some((auto_complete_prefix.children)())
+                        } else {
+                            None
+                        }}
+
                     </InputPrefix>
                     <InputSuffix if_=auto_complete_suffix.is_some() slot>
-                        {
-                            if let Some(auto_complete_suffix) = auto_complete_suffix {
-                                Some((auto_complete_suffix.children)())
-                            } else {
-                                None
-                            }
-                        }
+
+                        {if let Some(auto_complete_suffix) = auto_complete_suffix {
+                            Some((auto_complete_suffix.children)())
+                        } else {
+                            None
+                        }}
+
                     </InputSuffix>
                 </Input>
             </div>

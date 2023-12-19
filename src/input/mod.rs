@@ -138,7 +138,7 @@ pub fn Input(
             class=("thaw-input--invalid", move || invalid.get())
             style=move || css_vars.get()
         >
-            {if let Some(prefix) = input_prefix.map(|prefix| prefix.if_.then(|| prefix)).flatten() {
+            {if let Some(prefix) = input_prefix.and_then(|prefix| prefix.if_.then_some(prefix)) {
                 view! { <div class="thaw-input__prefix">{(prefix.children)()}</div> }.into()
             } else {
                 None
@@ -160,7 +160,7 @@ pub fn Input(
                 ref=input_ref
             />
 
-            {if let Some(suffix) = input_suffix.map(|suffix| suffix.if_.then(|| suffix)).flatten() {
+            {if let Some(suffix) = input_suffix.and_then(|suffix| suffix.if_.then_some(suffix)) {
                 view! { <div class="thaw-input__suffix">{(suffix.children)()}</div> }.into()
             } else {
                 None

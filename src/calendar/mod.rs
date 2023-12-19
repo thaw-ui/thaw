@@ -220,21 +220,21 @@ fn CalendarItem(
 }
 
 #[derive(Clone, PartialEq)]
-enum CalendarItemDate {
+pub(crate) enum CalendarItemDate {
     Previous(NaiveDate),
     Current(NaiveDate),
     Next(NaiveDate),
 }
 
 impl CalendarItemDate {
-    fn is_other_month(&self) -> bool {
+    pub fn is_other_month(&self) -> bool {
         match self {
             CalendarItemDate::Previous(_) | CalendarItemDate::Next(_) => true,
             CalendarItemDate::Current(_) => false,
         }
     }
 
-    fn is_today(&self) -> bool {
+    pub fn is_today(&self) -> bool {
         let date = self.deref();
         let now_date = now_date();
         &now_date == date
@@ -253,7 +253,7 @@ impl Deref for CalendarItemDate {
     }
 }
 
-fn now_date() -> NaiveDate {
+pub(crate) fn now_date() -> NaiveDate {
     Local::now().date_naive()
 }
 

@@ -22,15 +22,18 @@ pub fn TabsPage() -> impl IntoView {
 
                     {highlight_str!(
                         r#"
-                        let value = create_rw_signal("apple");
-                        <Tabs value>
-                            <Tab key="apple" label="Apple">
-                                "apple"
-                            </Tab>
-                            <Tab key="pear" label="Pear">
-                                "pear"
-                            </Tab>
-                        </Tabs>
+                        let value = create_rw_signal(String::from("apple"));
+
+                        view! {
+                            <Tabs value>
+                                <Tab key="apple" label="Apple">
+                                    "apple"
+                                </Tab>
+                                <Tab key="pear" label="Pear">
+                                    "pear"
+                                </Tab>
+                            </Tabs>
+                        }
                     "#,
                         "rust"
                     )}
@@ -50,13 +53,19 @@ pub fn TabsPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"value"</td>
-                        <td>"RwSignal<String>"</td>
-                        <td>"Default::default()"</td>
+                        <td>
+                            <Text code=true>"RwSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
                         <td>"Tabs value."</td>
                     </tr>
                     <tr>
                         <td>"children"</td>
-                        <td>"Children"</td>
+                        <td>
+                            <Text code=true>"Children"</Text>
+                        </td>
                         <td></td>
                         <td>"Tabs content."</td>
                     </tr>
@@ -81,19 +90,25 @@ pub fn TabsPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"key"</td>
-                        <td>"String"</td>
+                        <td>
+                            <Text code=true>"String"</Text>
+                        </td>
                         <td></td>
                         <td>"The indentifier of the tab."</td>
                     </tr>
                     <tr>
                         <td>"label"</td>
-                        <td>"String"</td>
+                        <td>
+                            <Text code=true>"String"</Text>
+                        </td>
                         <td></td>
                         <td>"The label of the tab."</td>
                     </tr>
                     <tr>
                         <td>"children"</td>
-                        <td>"Children"</td>
+                        <td>
+                            <Text code=true>"Children"</Text>
+                        </td>
                         <td></td>
                         <td>"Tab's content."</td>
                     </tr>
