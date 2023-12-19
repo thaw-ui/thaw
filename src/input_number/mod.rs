@@ -1,6 +1,4 @@
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
-use crate::utils::{ssr_class, StoredMaybeSignal};
+use crate::utils::StoredMaybeSignal;
 use crate::{AiIcon, Button, ButtonVariant, Icon, Input, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
@@ -48,11 +46,9 @@ where
         e.prevent_default();
         value.set(value.get_untracked() - step.get_untracked());
     });
-    let ssr_class = ssr_class(&class);
     view! {
         <Input
-            class=ssr_class
-            use:dyn_classes=class
+            class
             value=input_value
             allow_value
             placeholder
