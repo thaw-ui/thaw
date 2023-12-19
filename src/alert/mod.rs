@@ -92,7 +92,8 @@ pub fn Alert(
             class=ssr_class
             use:dyn_classes=class
             class:thaw-alert=true
-            style=move || css_vars.get()>
+            style=move || css_vars.get()
+        >
             <Icon icon class="thaw-alert__icon"/>
             <div>
 

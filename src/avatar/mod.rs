@@ -37,7 +37,12 @@ pub fn Avatar(
 
     let ssr_class = ssr_class(&class);
     view! {
-        <span class=ssr_class use:dyn_classes=class class:thaw-avatar=true style=move || css_vars.get()>
+        <span
+            class=ssr_class
+            use:dyn_classes=class
+            class:thaw-avatar=true
+            style=move || css_vars.get()
+        >
             {move || {
                 let src = src.get();
                 (!src.is_empty()).then(|| view! { <img src=src/> })

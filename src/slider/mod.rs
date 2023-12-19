@@ -111,11 +111,7 @@ pub fn Slider(
     on_cleanup(move || on_mouse_move.remove());
 
     view! {
-        <div
-            class="thaw-slider"
-            style=move || css_vars.get()
-            on:click=on_mouse_click
-            >
+        <div class="thaw-slider" style=move || css_vars.get() on:click=on_mouse_click>
             <div class="thaw-slider-rail" ref=rail_ref>
                 <div
                     class="thaw-slider-rail__fill"
@@ -128,11 +124,8 @@ pub fn Slider(
             <div
                 on:mousedown=on_mouse_down
                 class="thaw-slider-handle"
-                style=move || {
-                    format!("left: {}%", percentage.get())
-                }
-            >
-            </div>
+                style=move || { format!("left: {}%", percentage.get()) }
+            ></div>
         </div>
     }
 }

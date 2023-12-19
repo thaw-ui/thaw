@@ -8,7 +8,7 @@ pub fn SliderPage() -> impl IntoView {
     let value = create_rw_signal(0.0);
     let stepped_value = create_rw_signal(0.0);
     let labeled_value = create_rw_signal(0.0);
-    
+
     view! {
         <div style="width: 896px; margin: 0 auto;">
             <h1>"Slider"</h1>
