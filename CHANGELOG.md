@@ -1,3 +1,12 @@
+## [0.1.4](https://github.com/thaw-ui/thaw/compare/v0.1.3...v0.1.4) (2023-12-19)
+
+### Features
+
+* `Input` and `AutoComplete` adds ComponentRef.
+* `AutoComplete` adds `AutoCompletePrefix` and `AutoCompleteSuffix` slot.
+* Adds `Spinner` component.
+* Adds `DatePicker` component.
+
 ## [0.1.3](https://github.com/thaw-ui/thaw/compare/v0.1.2...v0.1.3) (2023-12-12)
 
 ### Features

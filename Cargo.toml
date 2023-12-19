@@ -1,8 +1,8 @@
 [package]
 name = "thaw"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
-keywords = ["web", "leptos", "ui", "thaw"]
+keywords = ["web", "leptos", "ui", "thaw", "component"]
 
 authors = ["luoxiaozero"]
 description = "An easy to use leptos component library"
