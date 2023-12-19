@@ -221,7 +221,7 @@ pub fn Button(
         };
         callback.call(event);
     };
-    
+
     let ssr_class = ssr_class(&class);
     view! {
         <button

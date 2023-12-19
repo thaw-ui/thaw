@@ -23,15 +23,13 @@ pub fn dyn_classes(el: HtmlElement<AnyElement>, classes_signal: MaybeSignal<Stri
 }
 
 pub fn ssr_class(class: &MaybeSignal<String>) -> String {
-    let ssr_class;
     cfg_if! {
         if #[cfg(feature = "ssr")] {
             use leptos::SignalGetUntracked;
-            ssr_class = class.get_untracked();
+            class.get_untracked()
         } else {
             let _ = class;
-            ssr_class = String::new();
+            String::new()
         }
-    };
-    ssr_class
+    }
 }
