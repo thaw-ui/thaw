@@ -4,9 +4,9 @@ use web_sys::DomRect;
 #[derive(Clone)]
 pub enum FollowerPlacement {
     Top,
-    // Bottom,
-    // Left,
-    // Right,
+    Bottom,
+    Left,
+    Right,
     // TopStart,
     // TopEnd,
     // LeftStart,
@@ -32,7 +32,31 @@ pub fn get_follower_placement_offset(
 ) -> Option<FollowerPlacementOffset> {
     match placement {
         FollowerPlacement::Top => {
-            let left = target_rect.x();
+            let left = target_rect.x() + target_rect.width() / 2.0;
+            let top = {
+                let follower_height = follower_rect.height();
+                let target_y = target_rect.y();
+                let target_height = target_rect.height();
+                let top = target_y - follower_height;
+
+                let Some(inner_height) = window_inner_height() else {
+                    return None;
+                };
+
+                if top < 0.0 && target_y + target_height + follower_height <= inner_height {
+                    target_y + target_height
+                } else {
+                    top
+                }
+            };
+            Some(FollowerPlacementOffset {
+                top,
+                left,
+                transform: String::from("translateX(-50%)"),
+            })
+        }
+        FollowerPlacement::Bottom => {
+            let left = target_rect.x() + target_rect.width() / 2.0;
             let top = {
                 let follower_height = follower_rect.height();
                 let target_y = target_rect.y();
@@ -52,7 +76,55 @@ pub fn get_follower_placement_offset(
             Some(FollowerPlacementOffset {
                 top,
                 left,
-                transform: String::new(),
+                transform: String::from("translateX(-50%)"),
+            })
+        }
+        FollowerPlacement::Left => {
+            let top = target_rect.x() + target_rect.height() / 2.0;
+            let left = {
+                let follower_width = follower_rect.width();
+                let target_y = target_rect.y();
+                let target_width = target_rect.width();
+                let left = target_y - follower_width;
+
+                let Some(inner_width) = window_inner_width() else {
+                    return None;
+                };
+
+                if left < 0.0 && target_y + target_width + follower_width > inner_width {
+                    target_y + follower_width
+                } else {
+                    left
+                }
+            };
+            Some(FollowerPlacementOffset {
+                top,
+                left,
+                transform: String::from("translateY(-50%)"),
+            })
+        }
+        FollowerPlacement::Right => {
+            let top = target_rect.x() + target_rect.height() / 2.0;
+            let left = {
+                let follower_width = follower_rect.width();
+                let target_y = target_rect.y();
+                let target_width = target_rect.width();
+                let left = target_y + target_width;
+
+                let Some(inner_width) = window_inner_width() else {
+                    return None;
+                };
+
+                if left + follower_width > inner_width && target_y - follower_width >= 0.0 {
+                    target_y - follower_width
+                } else {
+                    left
+                }
+            };
+            Some(FollowerPlacementOffset {
+                top,
+                left,
+                transform: String::from("translateY(-50%)"),
             })
         }
         FollowerPlacement::BottomStart => {
@@ -80,6 +152,16 @@ pub fn get_follower_placement_offset(
             })
         }
     }
+}
+
+fn window_inner_width() -> Option<f64> {
+    let Ok(inner_width) = window().inner_width() else {
+        return None;
+    };
+    let Some(inner_width) = inner_width.as_f64() else {
+        return None;
+    };
+    Some(inner_width)
 }
 
 fn window_inner_height() -> Option<f64> {

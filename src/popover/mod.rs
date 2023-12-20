@@ -38,9 +38,9 @@ pub fn Popover(
 pub enum PopoverPlacement {
     #[default]
     Top,
-    // Bottom,
-    // Left,
-    // Right,
+    Bottom,
+    Left,
+    Right,
     // TopStart,
     // TopEnd,
     // LeftStart,
@@ -55,6 +55,9 @@ impl From<PopoverPlacement> for FollowerPlacement {
     fn from(value: PopoverPlacement) -> Self {
         match value {
             PopoverPlacement::Top => Self::Top,
+            PopoverPlacement::Bottom => Self::Bottom,
+            PopoverPlacement::Left => Self::Left,
+            PopoverPlacement::Right => Self::Right,
             PopoverPlacement::BottomStart => Self::BottomStart,
         }
     }
