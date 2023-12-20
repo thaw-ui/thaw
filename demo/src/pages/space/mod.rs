@@ -112,6 +112,12 @@ pub fn SpacePage() -> impl IntoView {
                         <td></td>
                         <td>"Space's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the space element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

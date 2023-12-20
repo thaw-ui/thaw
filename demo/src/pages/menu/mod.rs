@@ -15,9 +15,7 @@ pub fn MenuPage() -> impl IntoView {
                     <MenuItem key="o" label="or"/>
                 </Menu>
                 <DemoCode slot>
-
-                    {highlight_str!(
-                        r#"
+{highlight_str!( r#"
                         let value = create_rw_signal(String::from("o"));
                                 
                         <Menu value>
@@ -53,6 +51,12 @@ pub fn MenuPage() -> impl IntoView {
                         <td></td>
                         <td>"Menu's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the menu element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"MenuGroup Props"</h3>
@@ -78,6 +82,12 @@ pub fn MenuPage() -> impl IntoView {
                         <td></td>
                         <td>"MenuGroup's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the menu group element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"MenuItem Props"</h3>
@@ -102,6 +112,12 @@ pub fn MenuPage() -> impl IntoView {
                         <td>"MaybeSignal<String>"</td>
                         <td>"Default::default()"</td>
                         <td>"The indentifier of the menu item."</td>
+                    </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the menu item element."</td>
                     </tr>
                 </tbody>
             </Table>

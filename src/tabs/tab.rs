@@ -1,5 +1,7 @@
 use super::use_tabs;
-use crate::utils::mount_style;
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::utils::{mount_style, ssr_class};
 use leptos::*;
 
 #[derive(Clone)]
@@ -12,6 +14,7 @@ pub(crate) struct TabOption {
 pub fn Tab(
     #[prop(into)] key: String,
     #[prop(into)] label: String,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tab", include_str!("./tab.css"));
@@ -20,8 +23,14 @@ pub fn Tab(
         key: key.clone(),
         label,
     });
+    let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-tab" class=("thaw-tab--hidden", move || key != tabs.get_key())>
+        <div
+            class=ssr_class
+            use:dyn_classes=class
+            class="thaw-tab"
+            class=("thaw-tab--hidden", move || key != tabs.get_key())
+        >
             {children()}
         </div>
     }

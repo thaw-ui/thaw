@@ -86,6 +86,12 @@ pub fn BreadcrumbPage() -> impl IntoView {
                         <td></td>
                         <td>"Breadcrumb's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the breadcrumb element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"BreadcrumbItem Props"</h3>
@@ -104,6 +110,12 @@ pub fn BreadcrumbPage() -> impl IntoView {
                         <td>"Children"</td>
                         <td></td>
                         <td>"BreadcrumbItem's content."</td>
+                    </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the breadcrumb link element."</td>
                     </tr>
                 </tbody>
             </Table>

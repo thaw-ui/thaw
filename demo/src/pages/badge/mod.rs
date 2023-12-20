@@ -107,6 +107,12 @@ pub fn BadgePage() -> impl IntoView {
                         <td></td>
                         <td>"Badge's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the badge element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

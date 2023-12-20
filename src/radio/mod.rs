@@ -1,8 +1,18 @@
-use crate::{theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 
 #[component]
-pub fn Radio(#[prop(optional, into)] value: RwSignal<bool>, children: Children) -> impl IntoView {
+pub fn Radio(
+    #[prop(optional, into)] value: RwSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+    children: Children,
+) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("radio", include_str!("./radio.css"));
 
@@ -16,8 +26,11 @@ pub fn Radio(#[prop(optional, into)] value: RwSignal<bool>, children: Children) 
         css_vars
     });
 
+    let ssr_class = ssr_class(&class);
     view! {
         <div
+            class=ssr_class
+            use:dyn_classes=class
             class="thaw-radio"
             class=("thaw-radio--checked", move || value.get())
             style=move || css_vars.get()

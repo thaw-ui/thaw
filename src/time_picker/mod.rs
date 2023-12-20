@@ -11,7 +11,10 @@ use leptos::*;
 pub use theme::TimePickerTheme;
 
 #[component]
-pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) -> impl IntoView {
+pub fn TimePicker(
+    #[prop(optional, into)] value: RwSignal<Option<NaiveTime>>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
     let time_picker_ref = create_node_ref::<html::Div>();
     let panel_ref = ComponentRef::<PanelRef>::default();
@@ -70,7 +73,7 @@ pub fn TimePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveTime>>) ->
     view! {
         <Binder target_ref=time_picker_ref>
             <div ref=time_picker_ref>
-                <Input value=show_time_text on_focus=open_panel on_blur=on_input_blur>
+                <Input class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon
                             icon=Icon::from(AiIcon::AiClockCircleOutlined)

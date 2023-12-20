@@ -1,11 +1,20 @@
 mod theme;
 
-use crate::{theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 pub use theme::SwitchTheme;
 
 #[component]
-pub fn Switch(#[prop(optional, into)] value: RwSignal<bool>) -> impl IntoView {
+pub fn Switch(
+    #[prop(optional, into)] value: RwSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+) -> impl IntoView {
     mount_style("switch", include_str!("./switch.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -22,8 +31,11 @@ pub fn Switch(#[prop(optional, into)] value: RwSignal<bool>) -> impl IntoView {
         });
         css_vars
     });
+    let ssr_class = ssr_class(&class);
     view! {
         <div
+            class=ssr_class
+            use:dyn_classes=class
             class="thaw-switch"
             class=("thaw-switch--active", move || value.get())
             style=move || css_vars.get()

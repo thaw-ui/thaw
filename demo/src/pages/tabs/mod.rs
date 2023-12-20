@@ -69,6 +69,12 @@ pub fn TabsPage() -> impl IntoView {
                         <td></td>
                         <td>"Tabs content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the tabs element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"Tab Props"</h3>
@@ -105,6 +111,12 @@ pub fn TabsPage() -> impl IntoView {
                         </td>
                         <td></td>
                         <td>"Tab's content."</td>
+                    </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the tab element."</td>
                     </tr>
                 </tbody>
             </Table>

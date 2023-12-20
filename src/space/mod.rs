@@ -1,4 +1,6 @@
-use crate::utils::mount_style;
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::utils::{mount_style, ssr_class};
 use leptos::*;
 
 #[derive(Default)]
@@ -16,6 +18,7 @@ pub enum SpaceGap {
 pub fn Space(
     #[prop(optional)] gap: SpaceGap,
     #[prop(optional)] vertical: bool,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("space", include_str!("./space.css"));
@@ -27,8 +30,11 @@ pub fn Space(
         SpaceGap::WH(width, height) => format!("{width}px {height}px"),
     };
 
+    let ssr_class = ssr_class(&class);
     view! {
         <div
+            class=ssr_class
+            use:dyn_classes=class
             class="thaw-space"
             style:gap=gap
             style:flex-direction=if vertical { "column" } else { "row" }

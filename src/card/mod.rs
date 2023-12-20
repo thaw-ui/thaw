@@ -1,4 +1,11 @@
-use crate::{components::*, use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    components::*,
+    use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 
 #[derive(Clone)]
@@ -25,6 +32,7 @@ pub fn Card(
     #[prop(optional, into)] title: MaybeSignal<String>,
     #[prop(optional)] card_header: Option<CardHeader>,
     #[prop(optional)] card_header_extra: Option<CardHeaderExtra>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
     #[prop(optional)] card_footer: Option<CardFooter>,
 ) -> impl IntoView {
@@ -51,8 +59,9 @@ pub fn Card(
     let header = store_value(card_header);
     let header_extra = store_value(card_header_extra);
 
+    let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-card" style=move || css_vars.get()>
+        <div class=ssr_class use:dyn_classes=class class="thaw-card" style=move || css_vars.get()>
             <If cond=is_header>
                 <Then slot>
                     <div class="thaw-card__header">

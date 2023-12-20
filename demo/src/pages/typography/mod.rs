@@ -60,6 +60,12 @@ pub fn TypographyPage() -> impl IntoView {
                         <td></td>
                         <td>"Text's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the text element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

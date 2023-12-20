@@ -51,6 +51,12 @@ pub fn RadioPage() -> impl IntoView {
                         <td></td>
                         <td>"Radio's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the radio element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>

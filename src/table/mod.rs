@@ -1,6 +1,12 @@
 mod theme;
 
-use crate::{theme::use_theme, utils::mount_style, Theme};
+#[cfg(not(feature = "ssr"))]
+use crate::utils::dyn_classes;
+use crate::{
+    theme::use_theme,
+    utils::{mount_style, ssr_class},
+    Theme,
+};
 use leptos::*;
 pub use theme::TableTheme;
 
@@ -8,6 +14,7 @@ pub use theme::TableTheme;
 pub fn Table(
     #[prop(optional, into)] style: MaybeSignal<String>,
     #[prop(default=true.into(), into)] single_row: MaybeSignal<bool>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(optional, into)] single_column: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {
@@ -36,8 +43,11 @@ pub fn Table(
 
         css_vars
     });
+    let ssr_class = ssr_class(&class);
     view! {
         <table
+            class=ssr_class
+            use:dyn_classes=class
             class="thaw-table"
             class=("thaw-table--single-row", move || single_row.get())
             class=("thaw-table--single-column", move || single_column.get())

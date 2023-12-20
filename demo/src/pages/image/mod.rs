@@ -70,6 +70,12 @@ pub fn ImagePage() -> impl IntoView {
                         <td>"Default::default()"</td>
                         <td>"Object-fit type of the image in the container."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the image element."</td>
+                    </tr>
                 </tbody>
             </Table>
         </div>
