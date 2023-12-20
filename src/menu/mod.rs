@@ -32,4 +32,3 @@ pub(crate) struct MenuInjection(pub RwSignal<String>);
 pub(crate) fn use_menu() -> MenuInjection {
     expect_context()
 }
-

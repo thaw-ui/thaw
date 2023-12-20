@@ -47,14 +47,7 @@ where
         value.set(value.get_untracked() - step.get_untracked());
     });
     view! {
-        <Input
-            class
-            value=input_value
-            allow_value
-            placeholder
-            disabled
-            invalid
-        >
+        <Input class value=input_value allow_value placeholder disabled invalid>
             <InputSuffix slot>
                 <Button disabled variant=ButtonVariant::Link on_click=sub>
                     <Icon icon=Icon::from(AiIcon::AiMinusOutlined) style="font-size: 18px"/>
@@ -66,5 +59,3 @@ where
         </Input>
     }
 }
-
-

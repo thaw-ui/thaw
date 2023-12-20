@@ -14,4 +14,3 @@ pub fn Divider(#[prop(optional, into)] class: MaybeSignal<String>) -> impl IntoV
         </div>
     }
 }
-

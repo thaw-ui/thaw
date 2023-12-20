@@ -45,5 +45,3 @@ pub fn Switch(
         </div>
     }
 }
-
-

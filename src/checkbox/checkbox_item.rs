@@ -33,5 +33,9 @@ pub fn CheckboxItem(
         item_key.get_value()
     };
 
-    view! { <Checkbox class value=checked>{label}</Checkbox> }
+    view! {
+        <Checkbox class value=checked>
+            {label}
+        </Checkbox>
+    }
 }

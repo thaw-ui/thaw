@@ -35,4 +35,3 @@ pub fn MenuGroup(
         {children()}
     }
 }
-

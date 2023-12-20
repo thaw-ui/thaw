@@ -57,5 +57,3 @@ pub fn Table(
         </table>
     }
 }
-
-

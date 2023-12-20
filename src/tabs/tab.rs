@@ -35,5 +35,3 @@ pub fn Tab(
         </div>
     }
 }
-
-

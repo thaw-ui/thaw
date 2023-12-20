@@ -189,9 +189,8 @@ fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
                 class="thaw-color-picker-popover__handle"
                 style=move || {
                     format!(
-                        "left: calc({}% - 6px); bottom: calc({}% - 6px)",
-                        sv.get().0 * 100.0,
-                        sv.get().1 * 100.0,
+                        "left: calc({}% - 6px); bottom: calc({}% - 6px)", sv.get().0 * 100.0, sv
+                        .get().1 * 100.0,
                     )
                 }
             >
@@ -245,4 +244,3 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
         </div>
     }
 }
-

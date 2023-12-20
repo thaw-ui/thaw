@@ -37,7 +37,9 @@ pub fn Image(
 
     let ssr_class = ssr_class(&class);
     view! {
-        <img class=ssr_class use:dyn_classes=class
+        <img
+            class=ssr_class
+            use:dyn_classes=class
             src=move || src.get()
             alt=move || alt.get()
             style=style
@@ -45,5 +47,3 @@ pub fn Image(
         />
     }
 }
-
-

@@ -56,5 +56,3 @@ pub fn MenuItem(
         </div>
     }
 }
-
-

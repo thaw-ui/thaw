@@ -132,8 +132,7 @@ pub fn Calendar(
                         show_date
                             .with(|date| {
                                 format!(
-                                    "{} {}",
-                                    Month::try_from(date.month() as u8).unwrap().name(),
+                                    "{} {}", Month::try_from(date.month() as u8).unwrap().name(),
                                     date.year(),
                                 )
                             })
@@ -256,4 +255,3 @@ impl Deref for CalendarItemDate {
 pub(crate) fn now_date() -> NaiveDate {
     Local::now().date_naive()
 }
-

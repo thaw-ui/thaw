@@ -48,4 +48,3 @@ pub fn Text(
         .into_any()
     }
 }
-

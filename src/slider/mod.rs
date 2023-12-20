@@ -140,11 +140,8 @@ pub fn Slider(
                 on:mousedown=on_mouse_down
                 class="thaw-slider-handle"
                 style=move || { format!("left: {}%", percentage.get()) }
-            >
-            </div>
+            ></div>
 
         </div>
     }
 }
-
-

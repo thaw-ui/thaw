@@ -188,5 +188,3 @@ impl InputRef {
         }
     }
 }
-
-

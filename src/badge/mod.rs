@@ -62,7 +62,9 @@ pub fn Badge(
     let ssr_class = ssr_class(&class);
     view! {
         <div class="thaw-badge" style=move || css_vars.get()>
-            <div class=ssr_class use:dyn_classes=class
+            <div
+                class=ssr_class
+                use:dyn_classes=class
                 class="thaw-badge__sup"
                 class=("thaw-badge__sup--value", move || !dot.get() && !value.get().is_empty())
                 class=("thaw-badge__sup--dot", move || dot.get())
@@ -73,4 +75,3 @@ pub fn Badge(
         </div>
     }
 }
-

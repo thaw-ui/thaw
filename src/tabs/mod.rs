@@ -74,12 +74,10 @@ fn TabsInner(
                         create_effect({
                             let key = key.clone();
                             move |_| {
-                                let Some(label) = label_ref.get() else {
-                                    return;
-                                };
-                                let Some(label_list) = label_list_ref.get() else {
-                                    return;
-                                };
+                                let Some(label) = label_ref.get() else { return;
+                            };
+                                let Some(label_list) = label_list_ref.get() else { return;
+                            };
                                 if key.clone() == value.get() {
                                     request_animation_frame(move || {
                                         let list_rect = label_list.get_bounding_client_rect();
@@ -153,4 +151,3 @@ impl TabsInjection {
 pub(crate) fn use_tabs() -> TabsInjection {
     expect_context()
 }
-

@@ -23,4 +23,3 @@ pub fn BreadcrumbItem(
         </li>
     }
 }
-
