@@ -5,75 +5,14 @@
     border-radius: 3px;
 }
 
-.thaw-popover--top-start,
-.thaw-popover--top-end,
-.thaw-popover--top {
-    margin-bottom: 10px;
-    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
-        0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
-}
-
-.thaw-popover--bottom-start,
-.thaw-popover--bottom-end,
-.thaw-popover--bottom {
-    margin-top: 10px;
-    box-shadow: 0 -3px 6px -4px rgba(0, 0, 0, 0.12),
-        0 -6px 16px 0 rgba(0, 0, 0, 0.08), 0 -9px 28px 8px rgba(0, 0, 0, 0.05);
-}
-.thaw-popover--left-start,
-.thaw-popover--left-end,
-.thaw-popover--left {
-    margin-right: 10px;
-    box-shadow: 3px 0 6px -4px rgba(0, 0, 0, 0.12),
-        6px 0 16px 0 rgba(0, 0, 0, 0.08), 9px 0 28px 8px rgba(0, 0, 0, 0.05);
-}
-.thaw-popover--right-start,
-.thaw-popover--right-end,
-.thaw-popover--right {
-    margin-left: 10px;
-    box-shadow: -3px 0 6px -4px rgba(0, 0, 0, 0.12),
-        -6px 0 16px 0 rgba(0, 0, 0, 0.08), -9px 0 28px 8px rgba(0, 0, 0, 0.05);
+.thaw-popover-trigger {
+    display: inline-block;
 }
 
 .thaw-popover__angle-container {
     position: absolute;
 }
-.thaw-popover--top-start .thaw-popover__angle-container,
-.thaw-popover--top-end .thaw-popover__angle-container,
-.thaw-popover--top .thaw-popover__angle-container {
-    width: 100%;
-    height: 10px;
-    bottom: -10px;
-    left: 0;
-    right: 0;
-}
-.thaw-popover--bottom-start .thaw-popover__angle-container,
-.thaw-popover--bottom-end .thaw-popover__angle-container,
-.thaw-popover--bottom .thaw-popover__angle-container {
-    width: 100%;
-    height: 10px;
-    top: -10px;
-    left: 0;
-    right: 0;
-}
-.thaw-popover--left-start .thaw-popover__angle-container,
-.thaw-popover--left-end .thaw-popover__angle-container,
-.thaw-popover--left .thaw-popover__angle-container {
-    width: 10px;
-    height: 100%;
-    right: -10px;
-    top: 0;
-    bottom: 0;
-}
-.thaw-popover--right-start .thaw-popover__angle-container,
-.thaw-popover--right-end .thaw-popover__angle-container,
-.thaw-popover--right .thaw-popover__angle-container {
-    width: 10px;
-    height: 100%;
-    left: -10px;
-    top: 0;
-    bottom: 0;
-}
+
 .thaw-popover__angle {
     position: absolute;
     background: var(--thaw-background-color);
@@ -81,49 +20,121 @@
     height: 10px;
 }
 
-.thaw-popover--top-start .thaw-popover__angle,
-.thaw-popover--top-end .thaw-popover__angle,
-.thaw-popover--top .thaw-popover__angle {
+[data-thaw-placement="top-start"] > .thaw-popover,
+[data-thaw-placement="top-end"] > .thaw-popover,
+[data-thaw-placement="top"] > .thaw-popover {
+    margin-bottom: 10px;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-thaw-placement="top-start"] .thaw-popover__angle-container,
+[data-thaw-placement="top-end"] .thaw-popover__angle-container,
+[data-thaw-placement="top"] .thaw-popover__angle-container {
+    width: 100%;
+    height: 10px;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+}
+
+[data-thaw-placement="top-start"] .thaw-popover__angle,
+[data-thaw-placement="top-end"] .thaw-popover__angle,
+[data-thaw-placement="top"] .thaw-popover__angle {
     left: 50%;
     transform: rotate(45deg) translateX(-7px);
 }
 
-.thaw-popover--bottom-start .thaw-popover__angle,
-.thaw-popover--bottom-end .thaw-popover__angle,
-.thaw-popover--bottom .thaw-popover__angle {
+[data-thaw-placement="bottom-start"] > .thaw-popover,
+[data-thaw-placement="bottom-end"] > .thaw-popover,
+[data-thaw-placement="bottom"] > .thaw-popover {
+    margin-top: 10px;
+    box-shadow: 0 -3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 -6px 16px 0 rgba(0, 0, 0, 0.08), 0 -9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-thaw-placement="bottom-start"] .thaw-popover__angle-container,
+[data-thaw-placement="bottom-end"] .thaw-popover__angle-container,
+[data-thaw-placement="bottom"] .thaw-popover__angle-container {
+    width: 100%;
+    height: 10px;
+    top: -10px;
+    left: 0;
+    right: 0;
+}
+
+[data-thaw-placement="bottom-start"] .thaw-popover__angle,
+[data-thaw-placement="bottom-end"] .thaw-popover__angle,
+[data-thaw-placement="bottom"] .thaw-popover__angle {
     left: 50%;
     transform: rotate(45deg) translateY(7px);
 }
 
-.thaw-popover--left-start .thaw-popover__angle,
-.thaw-popover--left-end .thaw-popover__angle,
-.thaw-popover--left .thaw-popover__angle {
+[data-thaw-placement="left-start"] > .thaw-popover,
+[data-thaw-placement="left-end"] > .thaw-popover,
+[data-thaw-placement="left"] > .thaw-popover {
+    margin-right: 10px;
+    box-shadow: 3px 0 6px -4px rgba(0, 0, 0, 0.12),
+        6px 0 16px 0 rgba(0, 0, 0, 0.08), 9px 0 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-thaw-placement="left-start"] .thaw-popover__angle-container,
+[data-thaw-placement="left-end"] .thaw-popover__angle-container,
+[data-thaw-placement="left"] .thaw-popover__angle-container {
+    width: 10px;
+    height: 100%;
+    right: -10px;
+    top: 0;
+    bottom: 0;
+}
+
+[data-thaw-placement="left-start"] .thaw-popover__angle,
+[data-thaw-placement="left-end"] .thaw-popover__angle,
+[data-thaw-placement="left"] .thaw-popover__angle {
     top: 50%;
     transform: rotate(45deg) translateX(-7px);
 }
 
-.thaw-popover--right-start .thaw-popover__angle,
-.thaw-popover--right-end .thaw-popover__angle,
-.thaw-popover--right .thaw-popover__angle {
+[data-thaw-placement="right-start"] > .thaw-popover,
+[data-thaw-placement="right-end"] > .thaw-popover,
+[data-thaw-placement="right"] > .thaw-popover {
+    margin-left: 10px;
+    box-shadow: -3px 0 6px -4px rgba(0, 0, 0, 0.12),
+        -6px 0 16px 0 rgba(0, 0, 0, 0.08), -9px 0 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-thaw-placement="right-start"] .thaw-popover__angle-container,
+[data-thaw-placement="right-end"] .thaw-popover__angle-container,
+[data-thaw-placement="right"] .thaw-popover__angle-container {
+    width: 10px;
+    height: 100%;
+    left: -10px;
+    top: 0;
+    bottom: 0;
+}
+
+[data-thaw-placement="right-start"] .thaw-popover__angle,
+[data-thaw-placement="right-end"] .thaw-popover__angle,
+[data-thaw-placement="right"] .thaw-popover__angle {
     top: 50%;
     transform: rotate(45deg) translateY(-7px);
 }
 
-.thaw-popover--bottom-start .thaw-popover__angle,
-.thaw-popover--top-start .thaw-popover__angle {
+[data-thaw-placement="bottom-start"] .thaw-popover__angle,
+[data-thaw-placement="top-start"] .thaw-popover__angle {
     left: 16px;
 }
-.thaw-popover--bottom-end .thaw-popover__angle,
-.thaw-popover--top-end .thaw-popover__angle {
+[data-thaw-placement="bottom-end"] .thaw-popover__angle,
+[data-thaw-placement="top-end"] .thaw-popover__angle {
     left: initial;
     right: 7px;
 }
-.thaw-popover--right-start .thaw-popover__angle,
-.thaw-popover--left-start .thaw-popover__angle {
+[data-thaw-placement="right-start"] .thaw-popover__angle,
+[data-thaw-placement="left-start"] .thaw-popover__angle {
     top: 16px;
 }
-.thaw-popover--right-end .thaw-popover__angle,
-.thaw-popover--left-end .thaw-popover__angle {
+[data-thaw-placement="right-end"] .thaw-popover__angle,
+[data-thaw-placement="left-end"] .thaw-popover__angle {
     top: initial;
     bottom: 7px;
 }

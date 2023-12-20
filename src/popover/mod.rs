@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
-    utils::mount_style,
+    utils::{dyn_classes, mount_style, ssr_class},
     Theme,
 };
 use leptos::*;
@@ -16,6 +16,8 @@ pub struct PopoverTrigger {
 
 #[component]
 pub fn Popover(
+    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] content_class: MaybeSignal<String>,
     popover_trigger: PopoverTrigger,
     #[prop(optional)] placement: PopoverPlacement,
     children: Children,
@@ -40,15 +42,25 @@ pub fn Popover(
     let on_mouse_leave = move |_| {
         is_show_popover.set(false);
     };
-    let placement_str = placement.as_str();
+    let ssr_class = ssr_class(&class);
     view! {
         <Binder target_ref>
-            <div ref=target_ref on:mouseenter=on_mouse_enter on:mouseleave=on_mouse_leave class="thaw-popover-trigger">
+            <div
+                class=ssr_class
+                use:dyn_classes=class
+                ref=target_ref
+                on:mouseenter=on_mouse_enter
+                on:mouseleave=on_mouse_leave
+                class="thaw-popover-trigger"
+            >
                 {(popover_trigger.children)()}
             </div>
             <Follower slot show=is_show_popover placement>
-                <div class=format!("thaw-popover thaw-popover--{placement_str}") style=move || css_vars.get()>
-                    {children()}
+                <div
+                    class="thaw-popover"
+                    style=move || css_vars.get()
+                >
+                    <div class=move || content_class.get()>{children()}</div>
                     <div class="thaw-popover__angle-container">
                         <div class="thaw-popover__angle"></div>
                     </div>
@@ -65,26 +77,14 @@ pub enum PopoverPlacement {
     Bottom,
     Left,
     Right,
-    // TopStart,
-    // TopEnd,
-    // LeftStart,
-    // LeftEnd,
-    // RightStart,
-    // RightEnd,
+    TopStart,
+    TopEnd,
+    LeftStart,
+    LeftEnd,
+    RightStart,
+    RightEnd,
     BottomStart,
-    // BottomEnd,
-}
-
-impl PopoverPlacement {
-    fn as_str(&self) -> &'static str {
-        match self {
-            PopoverPlacement::Top => "top",
-            PopoverPlacement::Bottom => "bottom",
-            PopoverPlacement::Left => "left",
-            PopoverPlacement::Right => "right",
-            PopoverPlacement::BottomStart => "bottom-start",
-        }
-    }
+    BottomEnd,
 }
 
 impl From<PopoverPlacement> for FollowerPlacement {
@@ -94,7 +94,14 @@ impl From<PopoverPlacement> for FollowerPlacement {
             PopoverPlacement::Bottom => Self::Bottom,
             PopoverPlacement::Left => Self::Left,
             PopoverPlacement::Right => Self::Right,
+            PopoverPlacement::TopStart => Self::TopStart,
+            PopoverPlacement::TopEnd => Self::TopEnd,
+            PopoverPlacement::LeftStart => Self::LeftStart,
+            PopoverPlacement::LeftEnd => Self::LeftEnd,
+            PopoverPlacement::RightStart => Self::RightStart,
+            PopoverPlacement::RightEnd => Self::RightEnd,
             PopoverPlacement::BottomStart => Self::BottomStart,
+            PopoverPlacement::BottomEnd => Self::BottomEnd,
         }
     }
 }

@@ -146,6 +146,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
 ) -> impl IntoView {
     let content_ref = create_node_ref::<html::Div>();
     let content_style = create_rw_signal(String::new());
+    let placement_str = create_rw_signal(placement.as_str());
     let sync_position: Callback<()> = Callback::new(move |_| {
         let Some(content_ref) = content_ref.get_untracked() else {
             return;
@@ -167,8 +168,10 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
             top,
             left,
             transform,
+            placement,
         }) = get_follower_placement_offset(placement, target_rect, content_rect)
         {
+            placement_str.set(placement.as_str());
             style.push_str(&format!(
                 "transform: translateX({left}px) translateY({top}px) {transform};"
             ));
@@ -207,6 +210,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
             .child(
                 html::div()
                     .classes("thaw-binder-follower-content")
+                    .attr("data-thaw-placement", move || placement_str.get())
                     .node_ref(content_ref)
                     .attr("style", move || content_style.get())
                     .child(children()),
