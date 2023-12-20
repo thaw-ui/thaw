@@ -5,8 +5,8 @@ use crate::{
     utils::{add_event_listener, EventListenerHandle},
     utils::{mount_style, with_hydration_off},
 };
-use get_placement_style::get_follower_placement_style;
 pub use get_placement_style::FollowerPlacement;
+use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
 use leptos::{
     html::{AnyElement, ElementDescriptor, ToHtmlElement},
     leptos_dom::helpers::WindowListenerHandle,
@@ -19,6 +19,7 @@ pub struct Follower {
     show: MaybeSignal<bool>,
     #[prop(optional)]
     width: Option<FollowerWidth>,
+    #[prop(into)]
     placement: FollowerPlacement,
     children: Children,
 }
@@ -162,10 +163,15 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
             };
             style.push_str(&width);
         }
-        if let Some(placement_style) =
-            get_follower_placement_style(placement, target_rect, content_rect)
+        if let Some(FollowerPlacementOffset {
+            top,
+            left,
+            transform,
+        }) = get_follower_placement_offset(placement, target_rect, content_rect)
         {
-            style.push_str(&placement_style);
+            style.push_str(&format!(
+                "transform: translateX({left}px) translateY({top}px) {transform};"
+            ));
         } else {
             logging::error!("Thaw-Binder: get_follower_placement_style return None");
         }
