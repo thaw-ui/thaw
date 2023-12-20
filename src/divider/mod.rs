@@ -9,7 +9,7 @@ pub fn Divider(#[prop(optional, into)] class: MaybeSignal<String>) -> impl IntoV
     mount_style("divider", include_str!("./divider.css"));
     let ssr_class = ssr_class(&class);
     view! {
-        <div class="thaw-divider" class=ssr_class use:dyn_classes=class>
+        <div class=ssr_class use:dyn_classes=class class="thaw-divider">
             <div class="thaw-divider__line"></div>
         </div>
     }

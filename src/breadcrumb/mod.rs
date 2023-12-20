@@ -1,7 +1,6 @@
 mod breadcrumb_item;
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
 use crate::utils::dyn_classes;
 use crate::{
     use_theme,
@@ -59,5 +58,3 @@ pub(crate) struct BreadcrumbSeparatorInjection(MaybeSignal<String>);
 pub(crate) fn use_breadcrumb_separator() -> BreadcrumbSeparatorInjection {
     expect_context()
 }
-
-

@@ -2,7 +2,6 @@ mod color;
 mod theme;
 
 use crate::components::{Binder, Follower, FollowerPlacement};
-#[cfg(not(feature = "ssr"))]
 use crate::utils::dyn_classes;
 use crate::{
     use_theme,
