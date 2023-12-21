@@ -12,7 +12,10 @@ use panel::{Panel, PanelRef};
 pub use theme::DatePickerTheme;
 
 #[component]
-pub fn DatePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) -> impl IntoView {
+pub fn DatePicker(
+    #[prop(optional, into)] value: RwSignal<Option<NaiveDate>>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
+) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));
     let date_picker_ref = create_node_ref::<html::Div>();
     let is_show_panel = create_rw_signal(false);
@@ -70,7 +73,7 @@ pub fn DatePicker(#[prop(optional, into)] value: RwSignal<Option<NaiveDate>>) ->
     view! {
         <Binder target_ref=date_picker_ref>
             <div ref=date_picker_ref>
-                <Input value=show_date_text on_focus=open_panel on_blur=on_input_blur>
+                <Input class value=show_date_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon icon=Icon::from(AiIcon::AiCalendarOutlined) style="font-size: 18px"/>
                     </InputSuffix>

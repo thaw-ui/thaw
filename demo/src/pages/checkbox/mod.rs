@@ -81,6 +81,12 @@ pub fn CheckboxPage() -> impl IntoView {
                         <td></td>
                         <td>"Checkbox's content."</td>
                     </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the checkbox element."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"CheckboxGroup Props"</h3>
@@ -106,12 +112,6 @@ pub fn CheckboxPage() -> impl IntoView {
                         <td></td>
                         <td>"CheckboxGroup's content."</td>
                     </tr>
-                    <tr>
-                        <td>"class"</td>
-                        <td>"MaybeSignal<String>"</td>
-                        <td>"Default::default()"</td>
-                        <td>"Addtional classes for the checkbox element."</td>
-                    </tr>
                 </tbody>
             </Table>
             <h3>"CheckboxItem Props"</h3>
@@ -136,6 +136,12 @@ pub fn CheckboxPage() -> impl IntoView {
                         <td>"Option<String>"</td>
                         <td>"None"</td>
                         <td>"Checkbox's label."</td>
+                    </tr>
+                    <tr>
+                        <td>"class"</td>
+                        <td>"MaybeSignal<String>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"Addtional classes for the checkbox element."</td>
                     </tr>
                 </tbody>
             </Table>
