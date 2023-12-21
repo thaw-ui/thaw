@@ -17,6 +17,12 @@ pub fn PopoverPage() -> impl IntoView {
                         </PopoverTrigger>
                         "Content"
                     </Popover>
+                    <Popover trigger_type=PopoverTriggerType::Click>
+                        <PopoverTrigger slot>
+                            <Button>"Click"</Button>
+                        </PopoverTrigger>
+                        "Content"
+                    </Popover>
                 </Space>
                 <DemoCode slot>
 
@@ -39,7 +45,7 @@ pub fn PopoverPage() -> impl IntoView {
                 </DemoCode>
             </Demo>
             <h3>"Placement"</h3>
-            <Style>".demo-popover .thaw-button { width: 100% }"</Style>
+            <Style>".demo-popover .thaw-button { width: 100% } .demo-popover .thaw-popover-trigger { display: block }"</Style>
             <Demo>
                 <Grid x_gap=8 y_gap=8 cols=3 class="demo-popover">
                     <GridItem>
