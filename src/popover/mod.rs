@@ -1,14 +1,13 @@
 mod theme;
 
-use std::time::Duration;
-
 use crate::{
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
-    utils::{add_event_listener, dyn_classes, mount_style, ssr_class},
+    utils::{add_event_listener, class_list::class_list, mount_style},
     Theme,
 };
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
+use std::time::Duration;
 pub use theme::PopoverTheme;
 
 #[slot]
@@ -108,13 +107,10 @@ pub fn Popover(
         });
     });
 
-    let ssr_class = ssr_class(&class);
     view! {
         <Binder target_ref>
             <div
-                class=ssr_class
-                use:dyn_classes=class
-                class="thaw-popover-trigger"
+                class=class_list!["thaw-popover-trigger", move || class.get()]
                 ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave

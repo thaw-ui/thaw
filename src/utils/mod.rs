@@ -1,4 +1,5 @@
 // mod callback;
+pub(crate) mod class_list;
 mod component_ref;
 mod dyn_classes;
 mod event_listener;
