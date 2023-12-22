@@ -1,6 +1,6 @@
-use leptos::{
-    create_render_effect, Attribute, IntoAttribute, Oco, RwSignal, SignalUpdate, SignalWith,
-};
+#[cfg(not(feature = "ssr"))]
+use leptos::create_render_effect;
+use leptos::{Attribute, IntoAttribute, Oco, RwSignal, SignalUpdate, SignalWith};
 use std::{collections::HashSet, rc::Rc};
 
 pub struct ClassList(RwSignal<HashSet<Oco<'static, str>>>);
@@ -19,6 +19,14 @@ impl ClassList {
                 });
             }
             Class::FnString(f) => {
+                #[cfg(feature = "ssr")]
+                {
+                    let name = f();
+                    self.0.update(|set| {
+                        set.insert(name);
+                    });
+                }
+                #[cfg(not(feature = "ssr"))]
                 create_render_effect(move |old_name| {
                     let name = f();
                     if let Some(old_name) = old_name {
@@ -37,6 +45,16 @@ impl ClassList {
                 });
             }
             Class::Fn(name, f) => {
+                #[cfg(feature = "ssr")]
+                {
+                    let new = f();
+                    self.0.update(|set| {
+                        if new {
+                            set.insert(name);
+                        }
+                    });
+                }
+                #[cfg(not(feature = "ssr"))]
                 create_render_effect(move |old| {
                     let name = name.clone();
                     let new = f();
@@ -70,6 +88,9 @@ impl IntoAttribute for ClassList {
             self.0.with(|set| {
                 let mut class = String::new();
                 set.iter().enumerate().for_each(|(index, name)| {
+                    if name.is_empty() {
+                        return;
+                    }
                     if index != 0 {
                         class.push(' ');
                     }
