@@ -12,13 +12,14 @@ pub use theme::PopoverTheme;
 
 #[slot]
 pub struct PopoverTrigger {
+    #[prop(optional, into)]
+    class: MaybeSignal<String>,
     children: Children,
 }
 
 #[component]
 pub fn Popover(
     #[prop(optional, into)] class: MaybeSignal<String>,
-    #[prop(optional, into)] content_class: MaybeSignal<String>,
     #[prop(optional)] trigger_type: PopoverTriggerType,
     popover_trigger: PopoverTrigger,
     #[prop(optional)] placement: PopoverPlacement,
@@ -106,16 +107,20 @@ pub fn Popover(
             is_show_popover.update(|show| *show = !*show);
         });
     });
+    let PopoverTrigger {
+        class: trigger_class,
+        children: trigger_children,
+    } = popover_trigger;
 
     view! {
         <Binder target_ref>
             <div
-                class=class_list!["thaw-popover-trigger", move || class.get()]
+                class=class_list!["thaw-popover-trigger", move || trigger_class.get()]
                 ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
             >
-                {(popover_trigger.children)()}
+                {trigger_children()}
             </div>
             <Follower slot show=is_show_popover placement>
                 <div
@@ -125,7 +130,7 @@ pub fn Popover(
                     on:mouseenter=on_mouse_enter
                     on:mouseleave=on_mouse_leave
                 >
-                    <div class=move || content_class.get()>{children()}</div>
+                    <div class=move || class.get()>{children()}</div>
                     <div class="thaw-popover__angle-container">
                         <div class="thaw-popover__angle"></div>
                     </div>
