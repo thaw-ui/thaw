@@ -1,10 +1,8 @@
 mod tab;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -61,9 +59,9 @@ fn TabsInner(
     let label_list_ref = create_node_ref::<html::Div>();
 
     let children = children();
-    let ssr_class = ssr_class(&class);
+
     view! {
-        <div class=ssr_class use:dyn_classes=class class="thaw-tabs" style=move || css_vars.get()>
+        <div class=class_list!["thaw-tabs", move || class.get()] style=move || css_vars.get()>
             <div class="thaw-tabs__label-list" ref=label_list_ref>
                 <For
                     each=move || tab_options_vec.get()
@@ -74,10 +72,12 @@ fn TabsInner(
                         create_effect({
                             let key = key.clone();
                             move |_| {
-                                let Some(label) = label_ref.get() else { return;
-                            };
-                                let Some(label_list) = label_list_ref.get() else { return;
-                            };
+                                let Some(label) = label_ref.get() else {
+                                    return;
+                                };
+                                let Some(label_list) = label_list_ref.get() else {
+                                    return;
+                                };
                                 if key.clone() == value.get() {
                                     request_animation_frame(move || {
                                         let list_rect = label_list.get_bounding_client_rect();

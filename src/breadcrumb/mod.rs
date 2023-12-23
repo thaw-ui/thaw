@@ -1,10 +1,9 @@
 mod breadcrumb_item;
 mod theme;
 
-use crate::utils::dyn_classes;
 use crate::{
     use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 pub use breadcrumb_item::BreadcrumbItem;
@@ -37,13 +36,11 @@ pub fn Breadcrumb(
         });
         css_vars
     });
-    let ssr_class = ssr_class(&class);
+
     view! {
         <Provider value=BreadcrumbSeparatorInjection(separator)>
             <nav
-                class=ssr_class
-                use:dyn_classes=class
-                class="thaw-breadcrumb"
+                class=class_list!["thaw-breadcrumb", move || class.get()]
                 style=move || css_vars.get()
             >
                 <ul>{children()}</ul>

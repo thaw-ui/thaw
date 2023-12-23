@@ -1,8 +1,6 @@
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -22,14 +20,9 @@ pub fn MenuGroup(
         });
         css_vars
     });
-    let ssr_class = ssr_class(&class);
+
     view! {
-        <div
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-menu-group"
-            style=move || css_vars.get()
-        >
+        <div class=class_list!["thaw-menu-group", move || class.get()] style=move || css_vars.get()>
             {label}
         </div>
         {children()}

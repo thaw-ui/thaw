@@ -1,13 +1,11 @@
 mod checkbox_group;
 mod checkbox_item;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     components::*,
     icon::*,
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 pub use checkbox_group::CheckboxGroup;
@@ -35,13 +33,13 @@ pub fn Checkbox(
         css_vars
     });
 
-    let ssr_class = ssr_class(&class);
     view! {
         <div
-            class=ssr_class
-            use:dyn_classes=class
-            class:thaw-checkbox=true
-            class=("thaw-checkbox--checked", move || value.get())
+            class=class_list![
+                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get()), move || class
+                .get()
+            ]
+
             style=move || css_vars.get()
             on:click=move |_| value.set(!value.get_untracked())
         >

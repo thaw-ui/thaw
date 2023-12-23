@@ -1,6 +1,4 @@
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
-use crate::utils::{mount_style, ssr_class};
+use crate::utils::{class_list::class_list, mount_style};
 use leptos::*;
 
 #[derive(Default)]
@@ -30,12 +28,9 @@ pub fn Space(
         SpaceGap::WH(width, height) => format!("{width}px {height}px"),
     };
 
-    let ssr_class = ssr_class(&class);
     view! {
         <div
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-space"
+            class=class_list!["thaw-space", move || class.get()]
             style:gap=gap
             style:flex-direction=if vertical { "column" } else { "row" }
         >

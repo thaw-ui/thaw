@@ -1,13 +1,11 @@
 mod button_group;
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     components::{OptionComp, Wave, WaveRef},
     icon::*,
     theme::*,
-    utils::{mount_style, ssr_class, ComponentRef},
+    utils::{class_list::class_list, mount_style, ComponentRef},
 };
 pub use button_group::ButtonGroup;
 use leptos::*;
@@ -222,18 +220,17 @@ pub fn Button(
         callback.call(event);
     };
 
-    let ssr_class = ssr_class(&class);
     view! {
         <button
-            class=ssr_class
-            use:dyn_classes=class
-            class:thaw-button=true
-            class=("thaw-button--solid", move || variant.get() == ButtonVariant::Solid)
-            class=("thaw-button--text", move || variant.get() == ButtonVariant::Text)
-            class=("thaw-button--link", move || variant.get() == ButtonVariant::Link)
-            class=("thaw-button--round", move || round.get())
-            class=("thaw-button--circle", move || circle.get())
-            class=("thaw-button--disabled", move || disabled.get())
+            class=class_list![
+                "thaw-button", ("thaw-button--solid", move || variant.get() ==
+                ButtonVariant::Solid), ("thaw-button--text", move || variant.get() ==
+                ButtonVariant::Text), ("thaw-button--link", move || variant.get() ==
+                ButtonVariant::Link), ("thaw-button--round", move || round.get()),
+                ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||
+                disabled.get()), move || class.get()
+            ]
+
             style=move || format!("{}{}", css_vars.get(), style.get())
             disabled=move || disabled.get()
             on:click=on_click

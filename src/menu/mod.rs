@@ -2,9 +2,7 @@ mod menu_group;
 mod menu_item;
 mod theme;
 
-use crate::utils::dyn_classes;
-use crate::utils::ssr_class;
-
+use crate::utils::class_list::class_list;
 use leptos::*;
 pub use menu_group::MenuGroup;
 pub use menu_item::*;
@@ -16,12 +14,9 @@ pub fn Menu(
     #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
-    let ssr_class = ssr_class(&class);
     view! {
         <Provider value=MenuInjection(value)>
-            <div class=ssr_class use:dyn_classes=class class="thaw-menu">
-                {children()}
-            </div>
+            <div class=class_list!["thaw-menu", move || class.get()]>{children()}</div>
         </Provider>
     }
 }

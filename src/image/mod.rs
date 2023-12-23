@@ -1,9 +1,5 @@
 use leptos::*;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
-use crate::utils::ssr_class;
-
 #[component]
 pub fn Image(
     #[prop(optional, into)] src: MaybeSignal<String>,
@@ -35,11 +31,9 @@ pub fn Image(
         style
     };
 
-    let ssr_class = ssr_class(&class);
     view! {
         <img
-            class=ssr_class
-            use:dyn_classes=class
+            class=move || class.get()
             src=move || src.get()
             alt=move || alt.get()
             style=style

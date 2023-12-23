@@ -1,12 +1,10 @@
 mod slider_label;
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     components::OptionComp,
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -118,12 +116,9 @@ pub fn Slider(
     });
     on_cleanup(move || on_mouse_move.remove());
 
-    let ssr_class = ssr_class(&class);
     view! {
         <div
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-slider"
+            class=class_list!["thaw-slider", move || class.get()]
             style=move || css_vars.get()
             on:click=on_mouse_click
         >

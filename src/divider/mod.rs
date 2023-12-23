@@ -1,15 +1,13 @@
 use leptos::*;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
-use crate::utils::{mount_style, ssr_class};
+use crate::utils::{class_list::class_list, mount_style};
 
 #[component]
 pub fn Divider(#[prop(optional, into)] class: MaybeSignal<String>) -> impl IntoView {
     mount_style("divider", include_str!("./divider.css"));
-    let ssr_class = ssr_class(&class);
+
     view! {
-        <div class=ssr_class use:dyn_classes=class class="thaw-divider">
+        <div class=class_list!["thaw-divider", move || class.get()]>
             <div class="thaw-divider__line"></div>
         </div>
     }

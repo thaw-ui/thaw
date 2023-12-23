@@ -1,9 +1,7 @@
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     components::*,
     use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -59,9 +57,8 @@ pub fn Card(
     let header = store_value(card_header);
     let header_extra = store_value(card_header_extra);
 
-    let ssr_class = ssr_class(&class);
     view! {
-        <div class=ssr_class use:dyn_classes=class class="thaw-card" style=move || css_vars.get()>
+        <div class=class_list!["thaw-card", move || class.get()] style=move || css_vars.get()>
             <If cond=is_header>
                 <Then slot>
                     <div class="thaw-card__header">

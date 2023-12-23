@@ -1,10 +1,8 @@
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -43,14 +41,14 @@ pub fn Table(
 
         css_vars
     });
-    let ssr_class = ssr_class(&class);
+
     view! {
         <table
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-table"
-            class=("thaw-table--single-row", move || single_row.get())
-            class=("thaw-table--single-column", move || single_column.get())
+            class=class_list![
+                "thaw-table", ("thaw-table--single-row", move || single_row.get()),
+                ("thaw-table--single-column", move || single_column.get()), move || class.get()
+            ]
+
             style=move || format!("{}{}", css_vars.get(), style.get())
         >
             {children()}

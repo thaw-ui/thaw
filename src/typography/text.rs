@@ -1,8 +1,6 @@
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -26,13 +24,10 @@ pub fn Text(
         css_vars
     });
 
-    let ssr_class = ssr_class(&class);
     if code {
         view! {
             <code
-                class=ssr_class
-                use:dyn_classes=class
-                class="thaw-text thaw-text--code"
+                class=class_list!["thaw-text thaw-text--code", move || class.get()]
                 style=move || css_vars.get()
             >
                 {children()}
@@ -40,11 +35,7 @@ pub fn Text(
         }
         .into_any()
     } else {
-        view! {
-            <span class=ssr_class use:dyn_classes=class class="thaw-text">
-                {children()}
-            </span>
-        }
+        view! { <span class=class_list!["thaw-text", move || class.get()]>{children()}</span> }
         .into_any()
     }
 }
