@@ -272,16 +272,6 @@ pub fn PopoverPage() -> impl IntoView {
                         <td>
                             <Text code=true>"Default::default()"</Text>
                         </td>
-                        <td>"Addtional classes for the trigger element."</td>
-                    </tr>
-                    <tr>
-                        <td>"content_class"</td>
-                        <td>
-                            <Text code=true>"MaybeSignal<String>"</Text>
-                        </td>
-                        <td>
-                            <Text code=true>"Default::default()"</Text>
-                        </td>
                         <td>"Content class of the popover."</td>
                     </tr>
                     <tr>
