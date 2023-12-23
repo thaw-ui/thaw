@@ -1,0 +1,3 @@
+max_width = 100
+tab_spaces = 4
+attr_value_brace_style = "WhenRequired" # "Always", "AlwaysUnlessLit", "WhenRequired" or "Preserve"
