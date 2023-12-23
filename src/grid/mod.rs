@@ -1,8 +1,6 @@
 mod grid_item;
 
-use crate::utils::dyn_classes;
-use crate::utils::ssr_class;
-
+use crate::utils::class_list::class_list;
 pub use grid_item::*;
 use leptos::*;
 
@@ -24,10 +22,9 @@ pub fn Grid(
         style
     });
 
-    let ssr_class = ssr_class(&class);
     view! {
         <Provider value=GridInjection::new(x_gap)>
-            <div class=ssr_class use:dyn_classes=class class="thaw-grid" style=move || style.get()>
+            <div class=class_list!["thaw-grid", move || class.get()] style=move || style.get()>
                 {children()}
             </div>
         </Provider>

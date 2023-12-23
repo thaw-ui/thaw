@@ -1,10 +1,9 @@
 mod theme;
 
-use crate::utils::dyn_classes;
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -108,13 +107,11 @@ where
             .map_or(String::new(), |v| v.label.clone()),
         None => String::new(),
     });
-    let ssr_class = ssr_class(&class);
+
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=ssr_class
-                use:dyn_classes=class
-                class="thaw-select"
+                class=class_list!["thaw-select", move || class.get()]
                 ref=trigger_ref
                 on:click=show_menu
                 style=move || css_vars.get()

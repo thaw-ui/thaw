@@ -1,9 +1,6 @@
 use super::use_grid;
+use crate::utils::class_list::class_list;
 use leptos::*;
-
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
-use crate::utils::ssr_class;
 
 #[component]
 pub fn GridItem(
@@ -37,9 +34,9 @@ pub fn GridItem(
 
         style
     });
-    let ssr_class = ssr_class(&class);
+
     view! {
-        <div class=ssr_class use:dyn_classes=class class="thaw-grid-item" style=move || style.get()>
+        <div class=class_list!["thaw-grid-item", move || class.get()] style=move || style.get()>
             {children()}
         </div>
     }

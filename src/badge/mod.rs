@@ -1,9 +1,6 @@
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
-
 use crate::{
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
@@ -59,18 +56,13 @@ pub fn Badge(
             value.to_string()
         }
     });
-    let ssr_class = ssr_class(&class);
+
     view! {
         <div class="thaw-badge" style=move || css_vars.get()>
-            <div
-                class=ssr_class
-                use:dyn_classes=class
-                class="thaw-badge__sup"
-                class=("thaw-badge__sup--value", move || !dot.get() && !value.get().is_empty())
-                class=("thaw-badge__sup--dot", move || dot.get())
-            >
-                {move || value.get()}
-            </div>
+            <div class=class_list![
+                "thaw-badge__sup", ("thaw-badge__sup--value", move || ! dot.get() && ! value.get()
+                .is_empty()), ("thaw-badge__sup--dot", move || dot.get()), move || class.get()
+            ]>{move || value.get()}</div>
             {children()}
         </div>
     }

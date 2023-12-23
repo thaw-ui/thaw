@@ -1,10 +1,9 @@
 mod theme;
 
-use crate::utils::{dyn_classes, ssr_class};
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     use_theme,
-    utils::{mount_style, StoredMaybeSignal},
+    utils::{class_list::class_list, mount_style, StoredMaybeSignal},
     ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme,
 };
 use leptos::*;
@@ -126,13 +125,10 @@ pub fn AutoComplete(
         comp_ref.load(AutoCompleteRef { input_ref });
     });
 
-    let ssr_class = ssr_class(&class);
     view! {
         <Binder target_ref=auto_complete_ref>
             <div
-                class=ssr_class
-                use:dyn_classes=class
-                class:thaw-auto-complete=true
+                class=class_list!["thaw-auto-complete", move || class.get()]
                 ref=auto_complete_ref
                 on:keydown=on_keydown
             >

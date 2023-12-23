@@ -1,7 +1,5 @@
 use super::use_tabs;
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
-use crate::utils::{mount_style, ssr_class};
+use crate::utils::{class_list::class_list, mount_style};
 use leptos::*;
 
 #[derive(Clone)]
@@ -23,15 +21,10 @@ pub fn Tab(
         key: key.clone(),
         label,
     });
-    let ssr_class = ssr_class(&class);
+
     view! {
-        <div
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-tab"
-            class=("thaw-tab--hidden", move || key != tabs.get_key())
-        >
-            {children()}
-        </div>
+        <div class=class_list![
+            "thaw-tab", ("thaw-tab--hidden", move || key != tabs.get_key()), move || class.get()
+        ]>{children()}</div>
     }
 }

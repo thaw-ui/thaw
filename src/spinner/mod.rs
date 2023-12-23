@@ -1,14 +1,11 @@
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     theme::use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 use leptos::*;
-
 pub use theme::SpinnerTheme;
 
 #[derive(Default, Clone)]
@@ -54,12 +51,9 @@ pub fn Spinner(
         css_vars
     });
 
-    let ssr_class = ssr_class(&class);
     view! {
         <div
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-spinner"
+            class=class_list!["thaw-spinner", move || class.get()]
             style=move || css_vars.get()
         ></div>
     }

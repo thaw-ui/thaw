@@ -1,11 +1,10 @@
 mod color;
 mod theme;
 
-use crate::components::{Binder, Follower, FollowerPlacement};
-use crate::utils::dyn_classes;
 use crate::{
+    components::{Binder, Follower, FollowerPlacement},
     use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Theme,
 };
 pub use color::*;
@@ -98,13 +97,10 @@ pub fn ColorPicker(
         on_cleanup(move || timer.remove());
     }
 
-    let ssr_class = ssr_class(&class);
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=ssr_class
-                use:dyn_classes=class
-                class="thaw-color-picker-trigger"
+                class=class_list!["thaw-color-picker-trigger", move || class.get()]
                 on:click=show_popover
                 ref=trigger_ref
             >
@@ -189,8 +185,9 @@ fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
                 class="thaw-color-picker-popover__handle"
                 style=move || {
                     format!(
-                        "left: calc({}% - 6px); bottom: calc({}% - 6px)", sv.get().0 * 100.0, sv
-                        .get().1 * 100.0,
+                        "left: calc({}% - 6px); bottom: calc({}% - 6px)",
+                        sv.get().0 * 100.0,
+                        sv.get().1 * 100.0,
                     )
                 }
             >

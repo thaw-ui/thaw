@@ -1,10 +1,8 @@
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     theme::{use_theme, Theme},
-    utils::{mount_style, ssr_class, ComponentRef},
+    utils::{class_list::class_list, mount_style, ComponentRef},
 };
 use leptos::*;
 pub use theme::InputTheme;
@@ -127,15 +125,14 @@ pub fn Input(
         comp_ref.load(InputRef { input_ref });
     });
 
-    let ssr_class = ssr_class(&class);
     view! {
         <div
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-input"
-            class=("thaw-input--focus", move || is_focus.get())
-            class=("thaw-input--disabled", move || disabled.get())
-            class=("thaw-input--invalid", move || invalid.get())
+            class=class_list![
+                "thaw-input", ("thaw-input--focus", move || is_focus.get()),
+                ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
+                invalid.get()), move || class.get()
+            ]
+
             style=move || css_vars.get()
         >
             {if let Some(prefix) = input_prefix.and_then(|prefix| prefix.if_.then_some(prefix)) {

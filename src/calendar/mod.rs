@@ -1,11 +1,9 @@
 mod theme;
 
-#[cfg(not(feature = "ssr"))]
-use crate::utils::dyn_classes;
 use crate::{
     chrono::{Datelike, Days, Local, NaiveDate},
     use_theme,
-    utils::{mount_style, ssr_class},
+    utils::{class_list::class_list, mount_style},
     Button, ButtonGroup, ButtonVariant, Theme,
 };
 use chrono::{Month, Months};
@@ -117,14 +115,9 @@ pub fn Calendar(
             *date = *date + Months::new(1);
         });
     };
-    let ssr_class = ssr_class(&class);
+
     view! {
-        <div
-            class=ssr_class
-            use:dyn_classes=class
-            class="thaw-calendar"
-            style=move || css_vars.get()
-        >
+        <div class=class_list!["thaw-calendar", move || class.get()] style=move || css_vars.get()>
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">
 
@@ -132,7 +125,8 @@ pub fn Calendar(
                         show_date
                             .with(|date| {
                                 format!(
-                                    "{} {}", Month::try_from(date.month() as u8).unwrap().name(),
+                                    "{} {}",
+                                    Month::try_from(date.month() as u8).unwrap().name(),
                                     date.year(),
                                 )
                             })
