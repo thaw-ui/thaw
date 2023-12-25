@@ -52,7 +52,7 @@ pub fn Layout(
 fn gen_class(position: LayoutPosition) -> String {
     let mut class = String::from("thaw-layout");
     if position == LayoutPosition::Absolute {
-        class.push_str("thaw-layout--absolute-positioned");
+        class.push_str(" thaw-layout--absolute-positioned");
     }
     class
 }
