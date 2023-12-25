@@ -74,27 +74,51 @@ pub fn LayoutPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"style"</td>
-                        <td>"MaybeSignal<String>"</td>
-                        <td>"Default::default()"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
                         <td>"Layout's style."</td>
                     </tr>
                     <tr>
                         <td>"position"</td>
-                        <td>"LayoutPosition"</td>
-                        <td>"LayoutPosition::Static"</td>
+                        <td>
+                            <Text code=true>"LayoutPosition"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"LayoutPosition::Static"</Text>
+                        </td>
                         <td>
                             "static position will make it css position set to static. absolute position will make it css position set to absolute and left, right, top, bottom to 0. absolute position is very useful when you want to make content scroll in a fixed container or make the whole page's layout in a fixed position. You may need to change the style of the component to make it display as you expect."
                         </td>
                     </tr>
                     <tr>
                         <td>"has_sider"</td>
-                        <td>"MaybeSignal<bool>"</td>
-                        <td>"false"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<bool>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"false"</Text>
+                        </td>
                         <td>"Whether the component has sider inside. If so it must be true."</td>
                     </tr>
                     <tr>
+                        <td>"class"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
+                        <td>"Addtional classes for the layout element."</td>
+                    </tr>
+                    <tr>
                         <td>"children"</td>
-                        <td>"Children"</td>
+                        <td>
+                            <Text code=true>"Children"</Text>
+                        </td>
                         <td></td>
                         <td>"Layout's content."</td>
                     </tr>
@@ -113,13 +137,29 @@ pub fn LayoutPage() -> impl IntoView {
                 <tbody>
                     <tr>
                         <td>"style"</td>
-                        <td>"MaybeSignal<String>"</td>
-                        <td>"Default::default()"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
                         <td>"LayoutHeader's style."</td>
                     </tr>
                     <tr>
+                        <td>"class"</td>
+                        <td>
+                            <Text code=true>"MaybeSignal<String>"</Text>
+                        </td>
+                        <td>
+                            <Text code=true>"Default::default()"</Text>
+                        </td>
+                        <td>"Addtional classes for the layout header element."</td>
+                    </tr>
+                    <tr>
                         <td>"children"</td>
-                        <td>"Children"</td>
+                        <td>
+                            <Text code=true>"Children"</Text>
+                        </td>
                         <td></td>
                         <td>"LayoutHeader's content."</td>
                     </tr>

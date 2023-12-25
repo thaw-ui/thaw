@@ -1,7 +1,7 @@
 mod layout_header;
 mod layout_sider;
 
-use crate::utils::mount_style;
+use crate::utils::{class_list::class_list, mount_style};
 pub use layout_header::*;
 pub use layout_sider::*;
 use leptos::*;
@@ -24,6 +24,7 @@ impl LayoutPosition {
 
 #[component]
 pub fn Layout(
+    #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(optional, into)] style: MaybeSignal<String>,
     #[prop(optional)] position: LayoutPosition,
     #[prop(optional, into)] has_sider: MaybeSignal<bool>,
@@ -40,11 +41,18 @@ pub fn Layout(
     });
     view! {
         <div
-            class="thaw-layout"
-            class=("thaw-layout--absolute-positioned", position == LayoutPosition::Absolute)
+            class=class_list![gen_class(position), move || class.get()]
             style=move || style.get()
         >
             {children()}
         </div>
     }
+}
+
+fn gen_class(position: LayoutPosition) -> String {
+    let mut class = String::from("thaw-layout");
+    if position == LayoutPosition::Absolute {
+        class.push_str("thaw-layout--absolute-positioned");
+    }
+    class
 }
