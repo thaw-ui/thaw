@@ -1,9 +1,14 @@
 [package]
 publish = false
-name = "demo-markdown"
+name = "demo_markdown"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+proc_macro = true
+
 [dependencies]
+quote = "1.0.33"
+comrak = "0.20.0"
