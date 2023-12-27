@@ -20,6 +20,7 @@ mod input;
 mod input_number;
 mod layout;
 mod loading_bar;
+mod markdown;
 mod menu;
 mod message;
 mod mobile;
