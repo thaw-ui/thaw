@@ -13,4 +13,4 @@ proc-macro = true
 quote = "1.0.33"
 comrak = "0.20.0"
 proc-macro2 = "1.0.71"
-litrs = "0.4.1"
+syn = "2.0.43"

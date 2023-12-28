@@ -1,5 +1,6 @@
 use demo_markdown::include_md;
+use leptos::*;
 
-fn bb() {
-    include_md!("demo/index.html", "IndexPage");
+include_md! {
+    UploadMdPage => "demo/src/pages/upload/mod.md"
 }

@@ -67,6 +67,7 @@ pub use input::*;
 pub use input_number::*;
 pub use layout::*;
 pub use loading_bar::*;
+pub use markdown::*;
 pub use menu::*;
 pub use message::*;
 pub use mobile::*;
