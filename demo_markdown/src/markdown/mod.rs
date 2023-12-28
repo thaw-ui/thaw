@@ -1,26 +1,29 @@
+mod code_block;
+
 use comrak::{
     nodes::{AstNode, NodeValue},
     parse_document, Arena,
 };
-use proc_macro2::TokenStream;
+use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
 
-pub fn parse_markdown(file_path: String) -> Result<TokenStream, String> {
+pub fn parse_markdown(file_path: String) -> Result<(TokenStream, Vec<String>), String> {
     let md_text = std::fs::read_to_string(file_path.clone()).map_err(|err| err.to_string())?;
+    let mut demos: Vec<String> = vec![];
 
     let arena = Arena::new();
     let root = parse_document(&arena, &md_text, &comrak::Options::default());
-
-    Ok(iter_nodes(root))
+    let body = iter_nodes(root, &mut demos);
+    Ok((body, demos))
 }
 
-fn iter_nodes<'a>(node: &'a AstNode<'a>) -> TokenStream {
+fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream {
     let mut children = vec![];
     for c in node.children() {
-        children.push(iter_nodes(c));
+        children.push(iter_nodes(c, demos));
     }
     match &node.data.borrow().value {
-        NodeValue::Document => quote!("Document todo!!!"),
+        NodeValue::Document => quote!(#(#children)*),
         NodeValue::FrontMatter(_) => quote!("FrontMatter todo!!!"),
         NodeValue::BlockQuote => quote!("BlockQuote todo!!!"),
         NodeValue::List(_) => quote!("List todo!!!"),
@@ -29,15 +32,15 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>) -> TokenStream {
         NodeValue::DescriptionItem(_) => quote!("DescriptionItem todo!!!"),
         NodeValue::DescriptionTerm => quote!("DescriptionTerm todo!!!"),
         NodeValue::DescriptionDetails => quote!("DescriptionDetails todo!!!"),
-        NodeValue::CodeBlock(_) => quote!("CodeBlock todo!!!"),
+        NodeValue::CodeBlock(node_code_block) => code_block::to_tokens(node_code_block, demos),
         NodeValue::HtmlBlock(_) => quote!("HtmlBlock todo!!!"),
         NodeValue::Paragraph => quote!(
             <p>
                 #(#children)*
-            </p>
+            </p >
         ),
-        NodeValue::Heading(h) => {
-            let h = format!("h{}", h.level);
+        NodeValue::Heading(node_h) => {
+            let h = Ident::new(&format!("h{}", node_h.level), Span::call_site());
             quote!(
                 <#h>
                     #(#children)*

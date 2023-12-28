@@ -1,9 +1,12 @@
 mod key_value;
 mod markdown;
 
-use crate::{key_value::KeyValue, markdown::parse_markdown};
-use key_value::KeyValueList;
+use crate::{
+    key_value::{KeyValue, KeyValueList},
+    markdown::parse_markdown,
+};
 use quote::quote;
+use syn::ItemFn;
 
 #[proc_macro]
 pub fn include_md(token_stream: proc_macro::TokenStream) -> proc_macro::TokenStream {
@@ -22,18 +25,35 @@ pub fn include_md(token_stream: proc_macro::TokenStream) -> proc_macro::TokenStr
             value: file_path,
         } = key_value;
 
-        let body = match parse_markdown(file_path) {
+        let (body, demos) = match parse_markdown(file_path) {
             Ok(body) => body,
             Err(err) => {
                 return quote!(compile_error!(#err)).into();
             }
         };
 
+        let demos: Vec<ItemFn> = demos
+            .into_iter()
+            .enumerate()
+            .map(|(index, demo)| {
+                format!(
+                    "#[component] fn Demo{}() -> impl IntoView {{ {} }}",
+                    index + 1,
+                    demo
+                )
+            })
+            .map(|demo| syn::parse_str::<ItemFn>(&demo).unwrap())
+            .collect();
+
         fn_list.push(quote! {
             #[component]
             pub fn #fn_name() -> impl IntoView {
+                #(#demos)*
+
                 view! {
-                    #body
+                    <div style="width: 896px; margin: 0 auto;">
+                        #body
+                    </div>
                 }
             }
         });
