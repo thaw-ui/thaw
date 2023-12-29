@@ -39,6 +39,14 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         });
         style
     });
+    let content_class = create_memo(move |_| {
+        theme.with(|theme| {
+            format!(
+                "thaw-demo__content color-scheme--{}",
+                theme.common.color_scheme
+            )
+        })
+    });
 
     let is_highlight = demo_code.is_highlight;
     let frag = (demo_code.children)();
@@ -54,13 +62,16 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
 
     view! {
         <Style id="leptos-thaw-prism-css">{prisms::prism_css!()}</Style>
+        <Style id="leptos-thaw-syntect-css">
+            {include_str!("./syntect-css.css")}
+        </Style>
         <Style id="leptos-thaw-prism-css-fix">
             ".token.operator {
                 background: hsla(0, 0%, 100%, 0) !important;
             }"
         </Style>
         <div style=move || style.get()>{children()}</div>
-        <div style=move || code_style.get()>
+        <div style=move || code_style.get() class=move || content_class.get()>
             <Code>
                 {
                     if is_highlight {
