@@ -1,6 +1,6 @@
 # Upload
 
-```Rust demo
+```rust demo
 let message = use_message();
 let custom_request = move |file_list: FileList| {
     message.create(

@@ -4,6 +4,8 @@ use thaw::*;
 
 #[slot]
 pub struct DemoCode {
+    #[prop(default = true)]
+    is_highlight: bool,
     children: Children,
 }
 
@@ -38,6 +40,7 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         style
     });
 
+    let is_highlight = demo_code.is_highlight;
     let frag = (demo_code.children)();
     let mut html = String::new();
     for node in frag.nodes {
@@ -59,7 +62,19 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         <div style=move || style.get()>{children()}</div>
         <div style=move || code_style.get()>
             <Code>
-                <pre style="margin: 0" inner_html=html></pre>
+                {
+                    if is_highlight {
+                        view! {
+                            <pre style="margin: 0" inner_html=html></pre>
+                        }
+                    } else {
+                        view! {
+                            <pre style="margin: 0">
+                                {html}
+                            </pre>
+                        }
+                    }
+                }
             </Code>
         </div>
     }
