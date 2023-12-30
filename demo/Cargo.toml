@@ -11,7 +11,7 @@ leptos = { version = "0.5.4" }
 leptos_meta = { version = "0.5.4" }
 leptos_router = { version = "0.5.4" }
 leptos_devtools = "0.0.1"
-thaw = { path = "../", default-features = false }
+thaw = { path = "../thaw", default-features = false }
 icondata = { version = "0.1.0", features = [
     "AiCloseOutlined",
     "AiCheckOutlined",
