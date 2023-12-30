@@ -51,4 +51,4 @@ ssr = ["leptos/ssr", "leptos_meta/ssr"]
 hydrate = ["leptos/hydrate"]
 
 [workspace]
-members = ["demo", "examples/*"]
+members = ["demo", "demo_markdown", "examples/*"]

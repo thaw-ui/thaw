@@ -1,0 +1,60 @@
+.thaw-demo__content pre {
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
+        Liberation Mono, monospace;
+}
+
+/** https://github.com/AmjadHD/sublime_one_theme */
+
+/** light */
+
+.color-scheme--light .syntect-storage {
+    color: hsl(301, 63%, 40%);
+}
+
+.color-scheme--light .syntect-keyword.syntect-operator {
+    color: hsl(335, 95%, 62%);
+}
+
+.color-scheme--light .syntect-function,
+.color-scheme--light .syntect-macro {
+    color: hsl(221, 87%, 60%);
+}
+
+.color-scheme--light .syntect-support.syntect-type {
+    color: hsl(198, 99%, 37%);
+}
+
+.color-scheme--light .syntect-string {
+    color: hsl(119, 34%, 47%);
+}
+
+.color-scheme--light .syntect-placeholder {
+    color: hsl(41, 99%, 30%);
+}
+
+/** dark */
+
+.color-scheme--dark .syntect-storage {
+    color: hsl(286, 60%, 67%);
+}
+
+.color-scheme--dark .syntect-keyword.syntect-operator {
+    color: hsl(335, 95%, 62%);
+}
+
+.color-scheme--dark .syntect-function,
+.color-scheme--dark .syntect-macro {
+    color: hsl(207, 82%, 66%);
+}
+
+.color-scheme--dark .syntect-support.syntect-type {
+    color: hsl(187, 47%, 55%);
+}
+
+.color-scheme--dark .syntect-string {
+    color: hsl(95, 38%, 62%);
+}
+
+.color-scheme--dark .syntect-placeholder {
+    color: hsl(29, 54%, 61%);
+}
