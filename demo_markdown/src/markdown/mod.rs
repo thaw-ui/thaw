@@ -7,12 +7,14 @@ use comrak::{
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
 
-pub fn parse_markdown(file_path: String) -> Result<(TokenStream, Vec<String>), String> {
-    let md_text = std::fs::read_to_string(file_path.clone()).map_err(|err| err.to_string())?;
+pub fn parse_markdown(md_text: &str) -> Result<(TokenStream, Vec<String>), String> {
     let mut demos: Vec<String> = vec![];
 
     let arena = Arena::new();
-    let root = parse_document(&arena, &md_text, &comrak::Options::default());
+    let mut options = comrak::Options::default();
+    options.extension.table = true;
+
+    let root = parse_document(&arena, &md_text, &options);
     let body = iter_nodes(root, &mut demos);
     Ok((body, demos))
 }
