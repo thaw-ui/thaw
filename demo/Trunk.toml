@@ -5,7 +5,7 @@ public_url = "/thaw/"
 filehash = false
 
 [watch]
-watch = ["../src", "./src", "../demo_markdown"]
+watch = ["../thaw", "./src", "../demo_markdown"]
 
 [serve]
 address = "127.0.0.1"
