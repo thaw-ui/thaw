@@ -39,3 +39,16 @@ view! {
 ```
 
 ### Upload Props
+
+| Name           | Type                             | Default              | Description                          |
+| -------------- | -------------------------------- | -------------------- | ------------------------------------ |
+| accept         | `MaybeSignal<String>`            | `Default::default()` | The accept type of upload.           |
+| multiple       | `MaybeSignal<bool>`              | `false`              | Allow multiple files to be selected. |
+| custom_request | `Option<Callback<FileList, ()>>` | `Default::default()` | Customize upload request.            |
+| children       | `Children`                       |                      | Upload's content.                    |
+
+### UploadDragger Props
+
+| Name     | Type       | Default | Description              |
+| -------- | ---------- | ------- | ------------------------ |
+| children | `Children` |         | UploadDragger's content. |

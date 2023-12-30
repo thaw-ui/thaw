@@ -51,9 +51,62 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream
         }
         NodeValue::ThematicBreak => quote!("ThematicBreak todo!!!"),
         NodeValue::FootnoteDefinition(_) => quote!("FootnoteDefinition todo!!!"),
-        NodeValue::Table(_) => quote!("Table todo!!!"),
-        NodeValue::TableRow(_) => quote!("TableRow todo!!!"),
-        NodeValue::TableCell => quote!("TableCell todo!!!"),
+        NodeValue::Table(_) => {
+            let header_index = {
+                let mut header_index = 0;
+                for (index, c) in node.children().enumerate() {
+                    let row = &c.data.borrow().value;
+                    let is_header = match *row {
+                        NodeValue::TableRow(header) => header,
+                        _ => panic!(),
+                    };
+                    if !is_header {
+                        header_index = index;
+                        break;
+                    }
+                }
+                header_index
+            };
+            let header_children: Vec<TokenStream> = children.drain(0..header_index).collect();
+
+            quote!(
+                <Table single_column=true>
+                    <thead>
+                        #(#header_children)*
+                    </thead>
+                    <tbody>
+                        #(#children)*
+                    </tbody>
+                </Table>
+            )
+        }
+        NodeValue::TableRow(_) => {
+            quote!(
+                <tr>
+                    #(#children)*
+                </tr>
+            )
+        }
+        NodeValue::TableCell => {
+            let row = &node.parent().unwrap().data.borrow().value;
+            let is_header = match *row {
+                NodeValue::TableRow(header) => header,
+                _ => panic!(),
+            };
+            if is_header {
+                quote!(
+                    <th>
+                        #(#children)*
+                    </th>
+                )
+            } else {
+                quote!(
+                    <td>
+                        #(#children)*
+                    </td>
+                )
+            }
+        }
         NodeValue::Text(text) => {
             let text = text.clone();
             quote!(#text)
@@ -61,7 +114,14 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream
         NodeValue::TaskItem(_) => quote!("TaskItem todo!!!"),
         NodeValue::SoftBreak => quote!("\n"),
         NodeValue::LineBreak => quote!(<br />),
-        NodeValue::Code(_) => quote!("Code todo!!!"),
+        NodeValue::Code(node_code) => {
+            let code = node_code.literal.clone();
+            quote!(
+                <Text code=true>
+                    #code
+                </Text>
+            )
+        }
         NodeValue::HtmlInline(_) => quote!("HtmlInline todo!!!"),
         NodeValue::Emph => quote!("Emph todo!!!"),
         NodeValue::Strong => quote!("Strong todo!!!"),
