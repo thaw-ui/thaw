@@ -41,21 +41,13 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/server-sider-rendering" view=ServerSiderRenderingPage/>
             </Route>
             <Route path="/components" view=ComponentsPage>
-                <Route path="/menu" view=MenuPage/>
-                <Route path="/slider" view=SliderPage/>
                 <Route path="/tabbar" view=TabbarPage/>
                 <Route path="/nav-bar" view=NavBarPage/>
                 <Route path="/input" view=InputPage/>
                 <Route path="/image" view=ImagePage/>
-                <Route path="/modal" view=ModalPage/>
                 <Route path="/button" view=ButtonPage/>
                 <Route path="/checkbox" view=CheckboxPage/>
                 <Route path="/toast" view=ToastPage/>
-                <Route path="/tabs" view=TabsPage/>
-                <Route path="/select" view=SelectPage/>
-                <Route path="/space" view=SpacePage/>
-                <Route path="/spinner" view=SpinnerPage/>
-                <Route path="/table" view=TablePage/>
                 <Route path="/color-picker" view=ColorPickerPage/>
                 <Route path="/alert" view=AlertPage/>
                 <Route path="/grid" view=GridPage/>
@@ -66,23 +58,30 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/divider" view=DividerPage/>
                 <Route path="/input-number" view=InputNumberPage/>
                 <Route path="/icon" view=IconPage/>
-                <Route path="/message" view=MessagePage/>
-                <Route path="/radio" view=RadioPage/>
-                <Route path="/skeleton" view=SkeletonPage/>
-                <Route path="/switch" view=SwitchPage/>
-                <Route path="/tag" view=TagPage/>
-                <Route path="/upload" view=UploadPage/>
-                <Route path="/upload-md" view=UploadMdPage/>
-                <Route path="/loading-bar" view=LoadingBarPage/>
                 <Route path="/breadcrumb" view=BreadcrumbPage/>
                 <Route path="/layout" view=LayoutPage/>
-                <Route path="/progress" view=ProgressPage/>
-                <Route path="/theme" view=ThemePage/>
-                <Route path="/typography" view=TypographyPage/>
                 <Route path="/calendar" view=CalendarPage/>
-                <Route path="/time-picker" view=TimePickerPage/>
                 <Route path="/date-picker" view=DatePickerPage/>
-                <Route path="/popover" view=PopoverPage/>
+                <Route path="/loading-bar" view=LoadingBarMdPage/>
+                <Route path="/menu" view=MenuMdPage/>
+                <Route path="/message" view=MessageMdPage/>
+                <Route path="/modal" view=ModalMdPage/>
+                <Route path="/popover" view=PopoverMdPage/>
+                <Route path="/progress" view=ProgressMdPage/>
+                <Route path="/radio" view=RadioMdPage/>
+                <Route path="/select" view=SelectMdPage/>
+                <Route path="/skeleton" view=SkeletonMdPage/>
+                <Route path="/slider" view=SliderMdPage/>
+                <Route path="/space" view=SpaceMdPage/>
+                <Route path="/spinner" view=SpinnerMdPage/>
+                <Route path="/switch" view=SwitchMdPage/>
+                <Route path="/table" view=TableMdPage/>
+                <Route path="/tabs" view=TabsMdPage/>
+                <Route path="/tag" view=TagMdPage/>
+                <Route path="/theme" view=ThemeMdPage/>
+                <Route path="/time-picker" view=TimePickerMdPage/>
+                <Route path="/typography" view=TypographyMdPage/>
+                <Route path="/upload" view=UploadMdPage/>
             </Route>
             <Route path="/mobile/tabbar" view=TabbarDemoPage/>
             <Route path="/mobile/nav-bar" view=NavBarDemoPage/>

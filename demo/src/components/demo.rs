@@ -24,7 +24,7 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         style
     });
     let code_style = create_memo(move |_| {
-        let mut style = String::from("font-weight: 400; font-size: 0.875em; line-height: 1.7142857;margin-bottom: 1rem; padding: 1rem; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem;");
+        let mut style = String::from("font-weight: 400; font-size: 0.875em; line-height: 1.7142857;margin-bottom: 1rem; padding: 1rem; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; overflow: auto;");
         theme.with(|theme| {
             if theme.common.color_scheme == "dark" {
                 style.push_str("border: 1px solid #383f52; border-top-width: 0;");

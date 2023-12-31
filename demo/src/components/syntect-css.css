@@ -7,6 +7,7 @@
 
 /** light */
 
+.color-scheme--light .syntect-keyword,
 .color-scheme--light .syntect-storage {
     color: hsl(301, 63%, 40%);
 }
@@ -28,12 +29,14 @@
     color: hsl(119, 34%, 47%);
 }
 
+.color-scheme--light .syntect-constant,
 .color-scheme--light .syntect-placeholder {
     color: hsl(41, 99%, 30%);
 }
 
 /** dark */
 
+.color-scheme--dark .syntect-keyword,
 .color-scheme--dark .syntect-storage {
     color: hsl(286, 60%, 67%);
 }
@@ -55,6 +58,7 @@
     color: hsl(95, 38%, 62%);
 }
 
+.color-scheme--dark .syntect-constant,
 .color-scheme--dark .syntect-placeholder {
     color: hsl(29, 54%, 61%);
 }
