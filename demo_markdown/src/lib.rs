@@ -8,6 +8,9 @@ use syn::ItemFn;
 #[proc_macro]
 pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let file_list = vec![
+        ("LoadingBarMdPage", include_str!("../docs/loading_bar/mod.md")),
+        ("MenuMdPage", include_str!("../docs/menu/mod.md")),
+        ("MessageMdPage", include_str!("../docs/message/mod.md")),
         ("ModalMdPage", include_str!("../docs/modal/mod.md")),
         ("PopoverMdPage", include_str!("../docs/popover/mod.md")),
         ("ProgressMdPage", include_str!("../docs/progress/mod.md")),

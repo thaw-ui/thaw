@@ -6,6 +6,7 @@ use comrak::{
 };
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
+use syn::ItemMacro;
 
 pub fn parse_markdown(md_text: &str) -> Result<(TokenStream, Vec<String>), String> {
     let mut demos: Vec<String> = vec![];
@@ -35,7 +36,19 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream
         NodeValue::DescriptionTerm => quote!("DescriptionTerm todo!!!"),
         NodeValue::DescriptionDetails => quote!("DescriptionDetails todo!!!"),
         NodeValue::CodeBlock(node_code_block) => code_block::to_tokens(node_code_block, demos),
-        NodeValue::HtmlBlock(_) => quote!("HtmlBlock todo!!!"),
+        NodeValue::HtmlBlock(node_html_block) => {
+            let html =
+                syn::parse_str::<ItemMacro>(&format!("view! {{ {} }}", node_html_block.literal))
+                    .expect(&format!(
+                        "Cannot be resolved as a macro: \n {}",
+                        node_html_block.literal
+                    ));
+            quote!(
+                {
+                    #html
+                }
+            )
+        }
         NodeValue::Paragraph => quote!(
             <p>
                 #(#children)*
