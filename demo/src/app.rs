@@ -51,11 +51,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/button" view=ButtonPage/>
                 <Route path="/checkbox" view=CheckboxPage/>
                 <Route path="/toast" view=ToastPage/>
-                <Route path="/tabs" view=TabsPage/>
                 <Route path="/select" view=SelectPage/>
-                <Route path="/space" view=SpacePage/>
-                <Route path="/spinner" view=SpinnerPage/>
-                <Route path="/table" view=TablePage/>
                 <Route path="/color-picker" view=ColorPickerPage/>
                 <Route path="/alert" view=AlertPage/>
                 <Route path="/grid" view=GridPage/>
@@ -69,8 +65,6 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/message" view=MessagePage/>
                 <Route path="/radio" view=RadioPage/>
                 <Route path="/skeleton" view=SkeletonPage/>
-                <Route path="/switch" view=SwitchPage/>
-                <Route path="/tag" view=TagPage/>
                 <Route path="/loading-bar" view=LoadingBarPage/>
                 <Route path="/breadcrumb" view=BreadcrumbPage/>
                 <Route path="/layout" view=LayoutPage/>
@@ -78,6 +72,12 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/calendar" view=CalendarPage/>
                 <Route path="/date-picker" view=DatePickerPage/>
                 <Route path="/popover" view=PopoverPage/>
+                <Route path="/space" view=SpaceMdPage/>
+                <Route path="/spinner" view=SpinnerMdPage/>
+                <Route path="/switch" view=SwitchMdPage/>
+                <Route path="/table" view=TableMdPage/>
+                <Route path="/tabs" view=TabsMdPage/>
+                <Route path="/tag" view=TagMdPage/>
                 <Route path="/theme" view=ThemeMdPage/>
                 <Route path="/time-picker" view=TimePickerMdPage/>
                 <Route path="/typography" view=TypographyMdPage/>
