@@ -42,16 +42,13 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
             </Route>
             <Route path="/components" view=ComponentsPage>
                 <Route path="/menu" view=MenuPage/>
-                <Route path="/slider" view=SliderPage/>
                 <Route path="/tabbar" view=TabbarPage/>
                 <Route path="/nav-bar" view=NavBarPage/>
                 <Route path="/input" view=InputPage/>
                 <Route path="/image" view=ImagePage/>
-                <Route path="/modal" view=ModalPage/>
                 <Route path="/button" view=ButtonPage/>
                 <Route path="/checkbox" view=CheckboxPage/>
                 <Route path="/toast" view=ToastPage/>
-                <Route path="/select" view=SelectPage/>
                 <Route path="/color-picker" view=ColorPickerPage/>
                 <Route path="/alert" view=AlertPage/>
                 <Route path="/grid" view=GridPage/>
@@ -63,15 +60,18 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/input-number" view=InputNumberPage/>
                 <Route path="/icon" view=IconPage/>
                 <Route path="/message" view=MessagePage/>
-                <Route path="/radio" view=RadioPage/>
-                <Route path="/skeleton" view=SkeletonPage/>
                 <Route path="/loading-bar" view=LoadingBarPage/>
                 <Route path="/breadcrumb" view=BreadcrumbPage/>
                 <Route path="/layout" view=LayoutPage/>
-                <Route path="/progress" view=ProgressPage/>
                 <Route path="/calendar" view=CalendarPage/>
                 <Route path="/date-picker" view=DatePickerPage/>
-                <Route path="/popover" view=PopoverPage/>
+                <Route path="/modal" view=ModalMdPage/>
+                <Route path="/popover" view=PopoverMdPage/>
+                <Route path="/progress" view=ProgressMdPage/>
+                <Route path="/radio" view=RadioMdPage/>
+                <Route path="/select" view=SelectMdPage/>
+                <Route path="/skeleton" view=SkeletonMdPage/>
+                <Route path="/slider" view=SliderMdPage/>
                 <Route path="/space" view=SpaceMdPage/>
                 <Route path="/spinner" view=SpinnerMdPage/>
                 <Route path="/switch" view=SwitchMdPage/>
