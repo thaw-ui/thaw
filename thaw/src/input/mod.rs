@@ -51,6 +51,7 @@ pub fn Input(
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
@@ -125,6 +126,19 @@ pub fn Input(
         comp_ref.load(InputRef { input_ref });
     });
 
+    #[cfg(debug_assertions)]
+    {
+        const INNER_ATTRS: [&'static str; 4] = ["type", "class", "disabled", "placeholder"];
+        attrs.iter().for_each(|attr| {
+            if INNER_ATTRS.contains(&attr.0) {
+                logging::warn!(
+                    "Thaw: The '{}' attribute already exists on elements inside the Input component, which may cause conflicts.",
+                    attr.0
+                );
+            }
+        });
+    }
+
     view! {
         <div
             class=class_list![
@@ -142,6 +156,7 @@ pub fn Input(
             }}
 
             <input
+                {..attrs}
                 type=move || variant.get().as_str()
                 prop:value=move || {
                     value_trigger.track();

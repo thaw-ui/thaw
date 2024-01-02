@@ -12,7 +12,8 @@ view! {
 
 ## TimePicker Props
 
-| Name  | Type                          | Default              | Description                                    |
-| ----- | ----------------------------- | -------------------- | ---------------------------------------------- |
-| class | `MaybeSignal<String>`         | `Default::default()` | Addtional classes for the time picker element. |
-| value | `RwSignal<Option<NaiveTime>>` | `Default::default()` | Set the TimePicker value.                      |
+| Name  | Type                             | Default              | Description                                              |
+| ----- | -------------------------------- | -------------------- | -------------------------------------------------------- |
+| class | `MaybeSignal<String>`            | `Default::default()` | Addtional classes for the time picker element.           |
+| value | `RwSignal<Option<NaiveTime>>`    | `Default::default()` | Set the TimePicker value.                                |
+| attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |

@@ -104,6 +104,26 @@ pub fn InputPage() -> impl IntoView {
 
                 </DemoCode>
             </Demo>
+            <h3>"Input attrs"</h3>
+            <Demo>
+                <Space>
+                    <label for="demo-input-attrs">"Do you like cheese?"</label>
+                    <Input attr:id="demo-input-attrs" />
+                </Space>
+                <DemoCode slot>
+
+                    {highlight_str!(
+                        r#"
+                        view! {
+                            <label for="demo-input-attrs">"Do you like cheese?"</label>
+                            <Input attr:id="demo-input-attrs"/>
+                        }
+                        "#,
+                        "rust"
+                    )}
+
+                </DemoCode>
+            </Demo>
             <h2>"Prefix & Suffix"</h2>
             <Demo>
                 <Space vertical=true>
@@ -218,6 +238,12 @@ pub fn InputPage() -> impl IntoView {
                         <td>"MaybeSignal<String>"</td>
                         <td>"Default::default()"</td>
                         <td>"Addtional classes for the input element."</td>
+                    </tr>
+                    <tr>
+                        <td>"attr:"</td>
+                        <td>"Vec<(&'static str, Attribute)>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"The dom attrs of the input element inside the component."</td>
                     </tr>
                 </tbody>
             </Table>
