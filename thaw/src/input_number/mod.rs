@@ -12,6 +12,7 @@ pub fn InputNumber<T>(
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView
 where
     T: Add<Output = T> + Sub<Output = T>,
@@ -47,7 +48,7 @@ where
         value.set(value.get_untracked() - step.get_untracked());
     });
     view! {
-        <Input class value=input_value allow_value placeholder disabled invalid>
+        <Input attrs class value=input_value allow_value placeholder disabled invalid>
             <InputSuffix slot>
                 <Button disabled variant=ButtonVariant::Link on_click=sub>
                     <Icon icon=Icon::from(AiIcon::AiMinusOutlined) style="font-size: 18px"/>

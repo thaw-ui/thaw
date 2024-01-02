@@ -14,6 +14,7 @@ pub use theme::TimePickerTheme;
 pub fn TimePicker(
     #[prop(optional, into)] value: RwSignal<Option<NaiveTime>>,
     #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
     let time_picker_ref = create_node_ref::<html::Div>();
@@ -73,7 +74,7 @@ pub fn TimePicker(
     view! {
         <Binder target_ref=time_picker_ref>
             <div ref=time_picker_ref>
-                <Input class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
+                <Input attrs class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon
                             icon=Icon::from(AiIcon::AiClockCircleOutlined)

@@ -114,6 +114,12 @@ pub fn InputNumberPage() -> impl IntoView {
                         <td>"Default::default()"</td>
                         <td>"Addtional classes for the input element."</td>
                     </tr>
+                    <tr>
+                        <td>"attr:"</td>
+                        <td>"Vec<(&'static str, Attribute)>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"The dom attrs of the input element inside the component."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"T impl"</h3>

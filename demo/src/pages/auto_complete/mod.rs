@@ -173,6 +173,12 @@ pub fn AutoCompletePage() -> impl IntoView {
                         <td>"Default::default()"</td>
                         <td>"Additional classes for the autocomplete element."</td>
                     </tr>
+                    <tr>
+                        <td>"attr:"</td>
+                        <td>"Vec<(&'static str, Attribute)>"</td>
+                        <td>"Default::default()"</td>
+                        <td>"The dom attrs of the input element inside the component."</td>
+                    </tr>
                 </tbody>
             </Table>
             <h3>"AutoCompleteOption Properties"</h3>
