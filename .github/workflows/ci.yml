@@ -1,7 +1,7 @@
 name: CI
 on:
     pull_request:
-        paths: ["demo/**", "src/**", "Cargo.toml"]
+        paths: ["demo/**", "thaw/**"]
         branches:
             - main
 
