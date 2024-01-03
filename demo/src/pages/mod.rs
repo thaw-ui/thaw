@@ -1,11 +1,3 @@
-mod alert;
-mod auto_complete;
-mod avatar;
-mod badge;
-mod breadcrumb;
-mod button;
-mod calendar;
-mod card;
 mod components;
 mod guide;
 mod home;
@@ -15,14 +7,6 @@ mod nav_bar;
 mod tabbar;
 mod toast;
 
-pub use alert::*;
-pub use auto_complete::*;
-pub use avatar::*;
-pub use badge::*;
-pub use breadcrumb::*;
-pub use button::*;
-pub use calendar::*;
-pub use card::*;
 pub use components::*;
 pub use guide::*;
 pub use home::*;
