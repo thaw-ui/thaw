@@ -1,14 +1,7 @@
-mod installation;
-mod server_sider_rendering;
-mod usage;
-
 use crate::components::SiteHeader;
-pub use installation::*;
 use leptos::*;
 use leptos_router::{use_location, use_navigate, Outlet};
-pub use server_sider_rendering::*;
 use thaw::*;
-pub use usage::*;
 
 #[component]
 pub fn GuidePage() -> impl IntoView {
