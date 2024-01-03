@@ -43,22 +43,22 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
             <Route path="/components" view=ComponentsPage>
                 <Route path="/tabbar" view=TabbarPage/>
                 <Route path="/nav-bar" view=NavBarPage/>
-                <Route path="/image" view=ImagePage/>
                 <Route path="/button" view=ButtonPage/>
-                <Route path="/checkbox" view=CheckboxPage/>
                 <Route path="/toast" view=ToastPage/>
-                <Route path="/color-picker" view=ColorPickerPage/>
                 <Route path="/alert" view=AlertPage/>
-                <Route path="/grid" view=GridPage/>
                 <Route path="/auto-complete" view=AutoCompletePage/>
                 <Route path="/avatar" view=AvatarPage/>
                 <Route path="/badge" view=BadgePage/>
                 <Route path="/card" view=CardPage/>
-                <Route path="/divider" view=DividerPage/>
-                <Route path="/icon" view=IconPage/>
                 <Route path="/breadcrumb" view=BreadcrumbPage/>
                 <Route path="/calendar" view=CalendarPage/>
-                <Route path="/date-picker" view=DatePickerPage/>
+                <Route path="/checkbox" view=CheckboxMdPage/>
+                <Route path="/color-picker" view=ColorPickerMdPage/>
+                <Route path="/date-picker" view=DatePickerMdPage/>
+                <Route path="/divider" view=DividerMdPage/>
+                <Route path="/grid" view=GridMdPage/>
+                <Route path="/icon" view=IconMdPage/>
+                <Route path="/image" view=ImageMdPage/>
                 <Route path="/input" view=InputMdPage/>
                 <Route path="/input-number" view=InputNumberMdPage/>
                 <Route path="/layout" view=LayoutMdPage/>
