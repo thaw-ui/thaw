@@ -1,7 +1,7 @@
 name: Deploy demo
 on:
     push:
-        paths: ["demo/**", "thaw/**"]
+        paths: ["demo/**", "demo_markdown/**", "thaw/**"]
         branches:
             - main
 
