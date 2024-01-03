@@ -17,6 +17,15 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
             include_str!("../docs/_guide/server_sider_rendering.md"),
         ),
         ("UsageMdPage", include_str!("../docs/_guide/usage.md")),
+        (
+            "NavBarMdPage",
+            include_str!("../docs/_mobile/nav_bar/mod.md"),
+        ),
+        (
+            "TabbarMdPage",
+            include_str!("../docs/_mobile/tabbar/mod.md"),
+        ),
+        ("ToastMdPage", include_str!("../docs/_mobile/toast/mod.md")),
         ("AlertMdPage", include_str!("../docs/alert/mod.md")),
         (
             "AutoCompleteMdPage",

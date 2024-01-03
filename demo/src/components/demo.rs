@@ -61,14 +61,8 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
     }
 
     view! {
-        <Style id="leptos-thaw-prism-css">{prisms::prism_css!()}</Style>
         <Style id="leptos-thaw-syntect-css">
             {include_str!("./syntect-css.css")}
-        </Style>
-        <Style id="leptos-thaw-prism-css-fix">
-            ".token.operator {
-                background: hsla(0, 0%, 100%, 0) !important;
-            }"
         </Style>
         <div style=move || style.get()>{children()}</div>
         <div style=move || code_style.get() class=move || content_class.get()>
