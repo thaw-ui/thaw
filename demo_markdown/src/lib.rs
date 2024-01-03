@@ -8,10 +8,61 @@ use syn::ItemFn;
 #[proc_macro]
 pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let file_list = vec![
+        (
+            "InstallationMdPage",
+            include_str!("../docs/_guide/installation.md"),
+        ),
+        (
+            "ServerSiderRenderingMdPage",
+            include_str!("../docs/_guide/server_sider_rendering.md"),
+        ),
+        ("UsageMdPage", include_str!("../docs/_guide/usage.md")),
+        (
+            "NavBarMdPage",
+            include_str!("../docs/_mobile/nav_bar/mod.md"),
+        ),
+        (
+            "TabbarMdPage",
+            include_str!("../docs/_mobile/tabbar/mod.md"),
+        ),
+        ("ToastMdPage", include_str!("../docs/_mobile/toast/mod.md")),
+        ("AlertMdPage", include_str!("../docs/alert/mod.md")),
+        (
+            "AutoCompleteMdPage",
+            include_str!("../docs/auto_complete/mod.md"),
+        ),
+        ("AvatarMdPage", include_str!("../docs/avatar/mod.md")),
+        ("BadgeMdPage", include_str!("../docs/badge/mod.md")),
+        (
+            "BreadcrumbMdPage",
+            include_str!("../docs/breadcrumb/mod.md"),
+        ),
+        ("ButtonMdPage", include_str!("../docs/button/mod.md")),
+        ("CalendarMdPage", include_str!("../docs/calendar/mod.md")),
+        ("CardMdPage", include_str!("../docs/card/mod.md")),
+        ("CheckboxMdPage", include_str!("../docs/checkbox/mod.md")),
+        (
+            "ColorPickerMdPage",
+            include_str!("../docs/color_picker/mod.md"),
+        ),
+        (
+            "DatePickerMdPage",
+            include_str!("../docs/date_picker/mod.md"),
+        ),
+        ("DividerMdPage", include_str!("../docs/divider/mod.md")),
+        ("GridMdPage", include_str!("../docs/grid/mod.md")),
+        ("IconMdPage", include_str!("../docs/icon/mod.md")),
+        ("ImageMdPage", include_str!("../docs/image/mod.md")),
         ("InputMdPage", include_str!("../docs/input/mod.md")),
-        ("InputNumberMdPage", include_str!("../docs/input_number/mod.md")),
+        (
+            "InputNumberMdPage",
+            include_str!("../docs/input_number/mod.md"),
+        ),
         ("LayoutMdPage", include_str!("../docs/layout/mod.md")),
-        ("LoadingBarMdPage", include_str!("../docs/loading_bar/mod.md")),
+        (
+            "LoadingBarMdPage",
+            include_str!("../docs/loading_bar/mod.md"),
+        ),
         ("MenuMdPage", include_str!("../docs/menu/mod.md")),
         ("MessageMdPage", include_str!("../docs/message/mod.md")),
         ("ModalMdPage", include_str!("../docs/modal/mod.md")),

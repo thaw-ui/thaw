@@ -7,18 +7,21 @@
 
 /** light */
 
+.color-scheme--light .syntect-support.syntect-function,
+.color-scheme--light .syntect-entity.syntect-name.syntect-function,
+.color-scheme--light .syntect-variable.syntect-annotation,
+.color-scheme--light .syntect-macro {
+    color: hsl(221, 87%, 60%);
+}
+
 .color-scheme--light .syntect-keyword,
 .color-scheme--light .syntect-storage {
     color: hsl(301, 63%, 40%);
 }
 
+.color-scheme--light .syntect-punctuation.syntect-accessor,
 .color-scheme--light .syntect-keyword.syntect-operator {
     color: hsl(335, 95%, 62%);
-}
-
-.color-scheme--light .syntect-function,
-.color-scheme--light .syntect-macro {
-    color: hsl(221, 87%, 60%);
 }
 
 .color-scheme--light .syntect-support.syntect-type {
@@ -35,19 +38,21 @@
 }
 
 /** dark */
+.color-scheme--dark .syntect-support.syntect-function,
+.color-scheme--dark .syntect-entity.syntect-name.syntect-function,
+.color-scheme--dark .syntect-variable.syntect-annotation,
+.color-scheme--dark .syntect-macro {
+    color: hsl(207, 82%, 66%);
+}
 
 .color-scheme--dark .syntect-keyword,
 .color-scheme--dark .syntect-storage {
     color: hsl(286, 60%, 67%);
 }
 
+.color-scheme--dark .syntect-punctuation.syntect-accessor,
 .color-scheme--dark .syntect-keyword.syntect-operator {
     color: hsl(335, 95%, 62%);
-}
-
-.color-scheme--dark .syntect-function,
-.color-scheme--dark .syntect-macro {
-    color: hsl(207, 82%, 66%);
 }
 
 .color-scheme--dark .syntect-support.syntect-type {
