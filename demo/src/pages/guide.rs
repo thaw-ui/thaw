@@ -1,5 +1,6 @@
 use crate::components::SiteHeader;
 use leptos::*;
+use leptos_meta::Style;
 use leptos_router::{use_location, use_navigate, Outlet};
 use thaw::*;
 
@@ -25,10 +26,29 @@ pub fn GuidePage() -> impl IntoView {
         selected
     });
     view! {
+        <Style>
+            "
+            .demo-components__component {
+                width: 896px;
+                margin: 0 auto;
+            }
+            .demo-md-table-box {
+                overflow: auto;
+            }
+            @media screen and (max-width: 1200px) {
+                .demo-guide__sider {
+                    display: none;
+                }
+                .demo-components__component {
+                    width: 100%;
+                }
+            }
+            "
+        </Style>
         <Layout position=LayoutPosition::Absolute>
             <SiteHeader/>
             <Layout has_sider=true position=LayoutPosition::Absolute style="top: 64px;">
-                <LayoutSider>
+                <LayoutSider class="demo-guide__sider">
                     <Menu value=selected>
 
                         {gen_guide_menu_data().into_view()}
