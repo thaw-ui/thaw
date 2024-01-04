@@ -83,14 +83,16 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream
             let header_children: Vec<TokenStream> = children.drain(0..header_index).collect();
 
             quote!(
-                <Table single_column=true>
-                    <thead>
-                        #(#header_children)*
-                    </thead>
-                    <tbody>
-                        #(#children)*
-                    </tbody>
-                </Table>
+                <div class="demo-md-table-box">
+                    <Table single_column=true>
+                        <thead>
+                            #(#header_children)*
+                        </thead>
+                        <tbody>
+                            #(#children)*
+                        </tbody>
+                    </Table>
+                </div>
             )
         }
         NodeValue::TableRow(_) => {

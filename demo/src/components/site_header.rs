@@ -1,5 +1,6 @@
 use leptos::*;
-use leptos_router::use_navigate;
+use leptos_meta::Style;
+use leptos_router::{use_location, use_navigate};
 use thaw::*;
 
 #[component]
@@ -8,23 +9,21 @@ pub fn SiteHeader() -> impl IntoView {
     let theme_name = create_memo(move |_| {
         theme.with(|theme| {
             if theme.name == *"light" {
-                "Dark"
+                "Dark".to_string()
             } else {
-                "Light"
+                "Light".to_string()
             }
         })
     });
-    let on_theme = move |_| {
+    let change_theme = Callback::new(move |_| {
         if theme_name.get_untracked() == "Light" {
-            theme.set(Theme::light())
+            theme.set(Theme::light());
         } else {
-            theme.set(Theme::dark())
+            theme.set(Theme::dark());
         }
-    };
+    });
     let style = create_memo(move |_| {
-        theme.with(|theme| {
-            format!("height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; border-bottom: 1px solid {}", theme.common.border_color)
-        })
+        theme.with(|theme| format!("border-bottom: 1px solid {}", theme.common.border_color))
     });
     let search_value = create_rw_signal(String::new());
     let search_all_options = store_value(gen_search_all_options());
@@ -77,18 +76,58 @@ pub fn SiteHeader() -> impl IntoView {
         }
     });
     on_cleanup(move || handle.remove());
-    view! {
-        <LayoutHeader style>
-            <Space>
-                <img src="/thaw/logo.svg" style="width: 36px"/>
-                <div
-                    style="cursor: pointer; display: flex; align-items: center; height: 100%; font-weight: 600; font-size: 20px"
-                    on:click=move |_| {
-                        let navigate = use_navigate();
-                        navigate("/", Default::default());
-                    }
-                >
 
+    let menu_value = use_menu_value(change_theme);
+    view! {
+        <Style id="demo-header">
+            "
+                .demo-header {
+                    height: 64px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 20px;
+                }
+                .demo-name {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                    font-weight: 600;
+                    font-size: 20px;
+                }
+                .demo-header__menu-mobile {
+                    display: none;
+                }
+                .demo-header__menu-popover-mobile {
+                    padding: 0;
+                }
+                @media screen and (max-width: 600px) {
+                    .demo-header {
+                        padding: 0 8px;
+                    }
+                    .demo-name {
+                        display: none;
+                    }
+                }
+                @media screen and (max-width: 1200px) {
+                    .demo-header__right-btn {
+                        display: none;
+                    }
+                    .demo-header__menu-mobile {
+                        display: block;
+                    }
+                }
+            "
+        </Style>
+        <LayoutHeader class="demo-header" style>
+            <Space
+                on:click=move |_| {
+                let navigate = use_navigate();
+                navigate("/", Default::default());
+            }>
+                <img src="/thaw/logo.svg" style="width: 36px"/>
+                <div class="demo-name">
                     "Thaw UI"
                 </div>
             </Space>
@@ -105,39 +144,62 @@ pub fn SiteHeader() -> impl IntoView {
                         <Icon icon=icondata::Icon::from(icondata::AiIcon::AiSearchOutlined) style="font-size: 18px; color: var(--thaw-placeholder-color);"/>
                     </AutoCompletePrefix>
                 </AutoComplete>
-                <Button
-                    variant=ButtonVariant::Text
-                    on_click=move |_| {
-                        let navigate = use_navigate();
-                        navigate("/guide/installation", Default::default());
-                    }
-                >
+                <Popover placement=PopoverPlacement::BottomEnd class="demo-header__menu-popover-mobile">
+                    <PopoverTrigger slot class="demo-header__menu-mobile">
+                        <Button
+                            variant=ButtonVariant::Text
+                            icon=icondata::AiIcon::AiUnorderedListOutlined
+                            style="font-size: 22px; padding: 0px 6px;"
+                        />
+                    </PopoverTrigger>
+                    <div style="height: 70vh; overflow: auto;">
+                        <Menu value=menu_value>
+                            <MenuItem key=theme_name label=theme_name />
+                            <MenuItem key="github" label="Github" />
+                            {
+                                use crate::pages::{gen_guide_menu_data, gen_menu_data};
+                                vec![
+                                    gen_guide_menu_data().into_view(),
+                                    gen_menu_data().into_view(),
+                                ]
+                            }
+                        </Menu>
+                    </div>
+                </Popover>
+                <Space class="demo-header__right-btn">
+                    <Button
+                        variant=ButtonVariant::Text
+                        on_click=move |_| {
+                            let navigate = use_navigate();
+                            navigate("/guide/installation", Default::default());
+                        }
+                    >
 
-                    "Guide"
-                </Button>
-                <Button
-                    variant=ButtonVariant::Text
-                    on_click=move |_| {
-                        let navigate = use_navigate();
-                        navigate("/components/button", Default::default());
-                    }
-                >
+                        "Guide"
+                    </Button>
+                    <Button
+                        variant=ButtonVariant::Text
+                        on_click=move |_| {
+                            let navigate = use_navigate();
+                            navigate("/components/button", Default::default());
+                        }
+                    >
 
-                    "Components"
-                </Button>
-                <Button variant=ButtonVariant::Text on_click=on_theme>
-                    {move || theme_name.get()}
-                </Button>
-                <Button
-                    variant=ButtonVariant::Text
-                    icon=icondata::AiIcon::AiGithubOutlined
-                    round=true
-                    style="font-size: 22px; padding: 0px 6px;"
-                    on_click=move |_| {
-                        _ = window().open_with_url("http://github.com/thaw-ui/thaw");
-                    }
-                />
-
+                        "Components"
+                    </Button>
+                    <Button variant=ButtonVariant::Text on_click=move |_| change_theme.call(())>
+                        {move || theme_name.get()}
+                    </Button>
+                    <Button
+                        variant=ButtonVariant::Text
+                        icon=icondata::AiIcon::AiGithubOutlined
+                        round=true
+                        style="font-size: 22px; padding: 0px 6px;"
+                        on_click=move |_| {
+                            _ = window().open_with_url("http://github.com/thaw-ui/thaw");
+                        }
+                    />
+                </Space>
             </Space>
 
         </LayoutHeader>
@@ -162,4 +224,45 @@ fn gen_search_all_options() -> Vec<AutoCompleteOption> {
         })
     }));
     options
+}
+
+fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
+    use crate::pages::gen_guide_menu_data;
+    let guide = store_value(gen_guide_menu_data());
+    let navigate = use_navigate();
+    let loaction = use_location();
+
+    let menu_value = create_rw_signal({
+        let mut pathname = loaction.pathname.get_untracked();
+        if pathname.starts_with("/thaw/components/") {
+            pathname.drain(17..).collect()
+        } else if pathname.starts_with("/thaw/guide/") {
+            pathname.drain(12..).collect()
+        } else {
+            String::new()
+        }
+    });
+
+    _ = menu_value.watch(move |name| {
+        if name == "Dark" || name == "Light" {
+            change_theme.call(());
+            return;
+        } else if name == "github" {
+            _ = window().open_with_url("http://github.com/thaw-ui/thaw");
+            return;
+        }
+        let pathname = loaction.pathname.get_untracked();
+        if guide.with_value(|menu| {
+            menu.iter()
+                .any(|group| group.children.iter().any(|item| &item.value == name))
+        }) {
+            if !pathname.eq(&format!("/thaw/guide/{name}")) {
+                navigate(&format!("/guide/{name}"), Default::default());
+            }
+        } else if !pathname.eq(&format!("/thaw/components/{name}")) {
+            navigate(&format!("/components/{name}"), Default::default());
+        }
+    });
+
+    menu_value
 }

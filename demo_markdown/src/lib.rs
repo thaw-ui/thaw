@@ -124,7 +124,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
                 #(#demos)*
 
                 view! {
-                    <div style="width: 896px; margin: 0 auto;">
+                    <div class="demo-components__component">
                         #body
                     </div>
                 }
