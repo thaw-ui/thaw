@@ -187,7 +187,7 @@ pub fn SiteHeader() -> impl IntoView {
 
                         "Components"
                     </Button>
-                    <Button variant=ButtonVariant::Text on_click=move |_| change_theme.call(())>
+                    <Button variant=ButtonVariant::Text on_click=Callback::new(move |_| change_theme.call(()))>
                         {move || theme_name.get()}
                     </Button>
                     <Button
