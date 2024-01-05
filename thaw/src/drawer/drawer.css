@@ -1,0 +1,46 @@
+.thaw-drawer-container {
+    z-index: 2001;
+}
+
+.thaw-drawer-mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #0007;
+    z-index: 2000;
+}
+
+.thaw-drawer {
+    position: absolute;
+    z-index: 2002;
+}
+
+.thaw-drawer > .thaw-card {
+    border-radius: 0;
+}
+
+.thaw-drawer--placement-top {
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.thaw-drawer--placement-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.thaw-drawer--placement-left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.thaw-drawer--placement-right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+}

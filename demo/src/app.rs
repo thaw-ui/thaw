@@ -56,6 +56,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/color-picker" view=ColorPickerMdPage/>
                 <Route path="/date-picker" view=DatePickerMdPage/>
                 <Route path="/divider" view=DividerMdPage/>
+                <Route path="/drawer" view=DrawerMdPage/>
                 <Route path="/grid" view=GridMdPage/>
                 <Route path="/icon" view=IconMdPage/>
                 <Route path="/image" view=ImageMdPage/>

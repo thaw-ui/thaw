@@ -234,6 +234,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Badge".into(),
                 },
                 MenuItemOption {
+                    value: "drawer".into(),
+                    label: "Drawer".into(),
+                },
+                MenuItemOption {
                     value: "message".into(),
                     label: "Message".into(),
                 },
