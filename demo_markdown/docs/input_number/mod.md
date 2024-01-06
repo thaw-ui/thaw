@@ -47,3 +47,10 @@ view! {
 #### T impl
 
 `T: Add<Output = T> + Sub<Output = T> + Default + Clone + FromStr + ToString + 'static`
+
+### InputNumber Ref
+
+| Name  | Type        | Description              |
+| ----- | ----------- | ------------------------ |
+| focus | `Fn(&self)` | Focus the input element. |
+| blur  | `Fn(&self)` | Blur the input element.  |

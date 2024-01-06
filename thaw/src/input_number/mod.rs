@@ -1,5 +1,5 @@
 use crate::utils::StoredMaybeSignal;
-use crate::{AiIcon, Button, ButtonVariant, Icon, Input, InputSuffix};
+use crate::{AiIcon, Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
@@ -12,6 +12,7 @@ pub fn InputNumber<T>(
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional)] comp_ref: ComponentRef<InputNumberRef>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView
 where
@@ -47,8 +48,23 @@ where
         e.prevent_default();
         value.set(value.get_untracked() - step.get_untracked());
     });
+
+    let input_ref = ComponentRef::<InputRef>::new();
+    input_ref.on_load(move |_| {
+        comp_ref.load(InputNumberRef { input_ref });
+    });
+
     view! {
-        <Input attrs class value=input_value allow_value placeholder disabled invalid>
+        <Input
+            attrs
+            class
+            value=input_value
+            allow_value
+            placeholder
+            disabled
+            invalid
+            comp_ref=input_ref
+        >
             <InputSuffix slot>
                 <Button disabled variant=ButtonVariant::Link on_click=sub>
                     <Icon icon=Icon::from(AiIcon::AiMinusOutlined) style="font-size: 18px"/>
@@ -58,5 +74,24 @@ where
                 </Button>
             </InputSuffix>
         </Input>
+    }
+}
+
+#[derive(Clone)]
+pub struct InputNumberRef {
+    input_ref: ComponentRef<InputRef>,
+}
+
+impl InputNumberRef {
+    pub fn focus(&self) {
+        if let Some(input_ref) = self.input_ref.get_untracked() {
+            input_ref.focus();
+        }
+    }
+
+    pub fn blur(&self) {
+        if let Some(input_ref) = self.input_ref.get_untracked() {
+            input_ref.blur();
+        }
     }
 }
