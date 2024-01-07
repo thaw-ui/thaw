@@ -30,10 +30,14 @@ pub fn Drawer(
                 style=move || if show.get() { "" } else { "display: none" }
             >
                 <div class="thaw-drawer-mask" on:click=move |_| show.set(false)></div>
-                <div class=class_list!["thaw-drawer", move || format!("thaw-drawer--placement-{}", placement.get().as_str()), move || class.get()] style=move || css_vars.get()>
-                    <Card title>
-                        {children()}
-                    </Card>
+                <div
+                    class=class_list![
+                        "thaw-drawer", move || format!("thaw-drawer--placement-{}", placement.get()
+                        .as_str()), move || class.get()
+                    ]
+                    style=move || css_vars.get()
+                >
+                    <Card title>{children()}</Card>
                 </div>
             </div>
         </Teleport>
