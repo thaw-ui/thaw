@@ -50,6 +50,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
             include_str!("../docs/date_picker/mod.md"),
         ),
         ("DividerMdPage", include_str!("../docs/divider/mod.md")),
+        ("DrawerMdPage", include_str!("../docs/drawer/mod.md")),
         ("GridMdPage", include_str!("../docs/grid/mod.md")),
         ("IconMdPage", include_str!("../docs/icon/mod.md")),
         ("ImageMdPage", include_str!("../docs/image/mod.md")),
