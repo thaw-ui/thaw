@@ -1,25 +1,27 @@
 use crate::{
-    components::{OptionComp, Teleport},
-    utils::{class_list::class_list, mount_style, StoredMaybeSignal},
-    Card, CardFooter, CardHeader,
+    components::Teleport,
+    utils::{class_list::class_list, mount_style},
+    Card,
 };
 use leptos::*;
-
-#[slot]
-pub struct DrawerFooter {
-    children: ChildrenFn,
-}
 
 #[component]
 pub fn Drawer(
     #[prop(into)] show: RwSignal<bool>,
     #[prop(optional, into)] title: MaybeSignal<String>,
-    #[prop(into)] placement: MaybeSignal<DrawerPlacement>,
+    #[prop(optional, into)] placement: MaybeSignal<DrawerPlacement>,
+    #[prop(default = MaybeSignal::Static("520px".to_string()), into)] width: MaybeSignal<String>,
+    #[prop(default = MaybeSignal::Static("260px".to_string()), into)] height: MaybeSignal<String>,
+    #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
-    #[prop(optional)] drawer_footer: Option<DrawerFooter>,
 ) -> impl IntoView {
     mount_style("drawer", include_str!("./drawer.css"));
-    let title: StoredMaybeSignal<_> = title.into();
+    let css_vars = create_memo(move |_| {
+        let mut css_vars = String::new();
+        css_vars.push_str(&format!("--thaw-width: {};", width.get()));
+        css_vars.push_str(&format!("--thaw-height: {};", height.get()));
+        css_vars
+    });
 
     view! {
         <Teleport>
@@ -27,18 +29,10 @@ pub fn Drawer(
                 class="thaw-drawer-container"
                 style=move || if show.get() { "" } else { "display: none" }
             >
-                <div class="thaw-drawer-mask"></div>
-                <div class=class_list!["thaw-drawer", move || format!("thaw-drawer--placement-{}", placement.get().as_str())]>
-                    <Card>
-                        <CardHeader slot>
-                            <span class="thaw-drawer-title">{move || title.get()}</span>
-                        </CardHeader>
+                <div class="thaw-drawer-mask" on:click=move |_| show.set(false)></div>
+                <div class=class_list!["thaw-drawer", move || format!("thaw-drawer--placement-{}", placement.get().as_str()), move || class.get()] style=move || css_vars.get()>
+                    <Card title>
                         {children()}
-                        <CardFooter slot if_=drawer_footer.is_some()>
-                            <OptionComp value=drawer_footer.as_ref() let:footer>
-                                {(footer.children)()}
-                            </OptionComp>
-                        </CardFooter>
                     </Card>
                 </div>
             </div>
@@ -46,11 +40,12 @@ pub fn Drawer(
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub enum DrawerPlacement {
     Top,
     Bottom,
     Left,
+    #[default]
     Right,
 }
 

@@ -19,27 +19,42 @@
 
 .thaw-drawer > .thaw-card {
     border-radius: 0;
+    height: 100%;
+}
+
+.thaw-drawer > .thaw-card > .thaw-card__header {
+    border-bottom: 1px solid var(--thaw-border-color);
+    font-size: 16px;
+}
+
+.thaw-drawer > .thaw-card > .thaw-card__content {
+    flex: 1;
+    padding: 20px 28px;
 }
 
 .thaw-drawer--placement-top {
+    height: var(--thaw-height);
     top: 0;
     left: 0;
     right: 0;
 }
 
 .thaw-drawer--placement-bottom {
+    height: var(--thaw-height);
     bottom: 0;
     left: 0;
     right: 0;
 }
 
 .thaw-drawer--placement-left {
+    width: var(--thaw-width);
     top: 0;
     bottom: 0;
     left: 0;
 }
 
 .thaw-drawer--placement-right {
+    width: var(--thaw-width);
     top: 0;
     bottom: 0;
     right: 0;
