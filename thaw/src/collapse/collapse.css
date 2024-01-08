@@ -1,0 +1,22 @@
+.thaw-collapse .thaw-collapse-item:not(:first-child) {
+    margin-top: 16px;
+}
+
+.thaw-collapse-item__header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.thaw-collapse-item-arrow {
+    margin-right: 4px;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-collapse-item--active .thaw-collapse-item-arrow {
+    transform: rotate(90deg);
+}
+
+.thaw-collapse-item__content {
+    padding-top: 16px;
+}

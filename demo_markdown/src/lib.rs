@@ -41,6 +41,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         ("CalendarMdPage", include_str!("../docs/calendar/mod.md")),
         ("CardMdPage", include_str!("../docs/card/mod.md")),
         ("CheckboxMdPage", include_str!("../docs/checkbox/mod.md")),
+        ("CollapseMdPage", include_str!("../docs/collapse/mod.md")),
         (
             "ColorPickerMdPage",
             include_str!("../docs/color_picker/mod.md"),
