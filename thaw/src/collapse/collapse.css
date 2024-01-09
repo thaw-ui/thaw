@@ -1,11 +1,18 @@
 .thaw-collapse .thaw-collapse-item:not(:first-child) {
     margin-top: 16px;
+    border-top: 1px solid var(--thaw-border-color);
 }
 
 .thaw-collapse-item__header {
     display: flex;
     align-items: center;
     cursor: pointer;
+}
+
+.thaw-collapse
+    .thaw-collapse-item:not(:first-child)
+    .thaw-collapse-item__header {
+    padding-top: 16px;
 }
 
 .thaw-collapse-item-arrow {

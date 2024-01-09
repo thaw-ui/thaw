@@ -28,7 +28,10 @@ view! {
             "Build fast web applications with Rust."
         </CollapseItem>
         <CollapseItem title="Thaw" key="thaw">
-            "An easy to use leptos component library"
+            "An easy to use leptos component library."
+        </CollapseItem>
+        <CollapseItem title="Naive UI" key="naive-ui">
+            "A Vue 3 Component Library. Fairly Complete. Theme Customizable. Uses TypeScript. Fast."
         </CollapseItem>
     </Collapse>
 }

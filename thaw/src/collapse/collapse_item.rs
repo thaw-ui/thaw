@@ -44,10 +44,7 @@ pub fn CollapseItem(
             "thaw-collapse-item", ("thaw-collapse-item--active", move || is_show_content.get()),
             move || class.get()
         ]>
-            <div
-                class="thaw-collapse-item__header"
-                on:click=on_click
-            >
+            <div class="thaw-collapse-item__header" on:click=on_click>
                 <Icon icon=Icon::from(AiIcon::AiRightOutlined) class="thaw-collapse-item-arrow"/>
                 {move || title.get()}
             </div>
