@@ -114,6 +114,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Card".into(),
                 },
                 MenuItemOption {
+                    value: "collapse".into(),
+                    label: "Collapse".into(),
+                },
+                MenuItemOption {
                     value: "divider".into(),
                     label: "Divider".into(),
                 },
