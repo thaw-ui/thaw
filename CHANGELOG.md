@@ -1,3 +1,11 @@
+## [0.1.7](https://github.com/thaw-ui/thaw/compare/v0.1.6...v0.1.7) (2024-01-09)
+
+### Features
+
+* `InputNumber` adds ComponentRef.
+* Adds `Drawer` component.
+* Adds `Collapse` component.
+
 ## [0.1.6](https://github.com/thaw-ui/thaw/compare/v0.1.5...v0.1.6) (2024-01-02)
 
 ### Features
@@ -9,7 +17,6 @@
 ### Features
 
 * Adds class param.
-* Adds `Popover` component.
 
 ## [0.1.4](https://github.com/thaw-ui/thaw/compare/v0.1.3...v0.1.4) (2023-12-19)
 
