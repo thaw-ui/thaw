@@ -20,6 +20,7 @@
 .thaw-drawer > .thaw-card {
     border-radius: 0;
     height: 100%;
+    box-sizing: border-box;
 }
 
 .thaw-drawer > .thaw-card > .thaw-card__header {
