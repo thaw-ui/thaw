@@ -65,4 +65,5 @@ jobs:
             - name: Build
               run: |
                   cd ./examples/ssr_axum
+                  cargo install --locked cargo-leptos
                   cargo leptos build --release
