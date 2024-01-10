@@ -9,20 +9,43 @@ pub fn CSSTransition<T: ElementDescriptor + Clone + 'static>(
     children: Children,
 ) -> impl IntoView {
     let display = store_value(None::<String>);
-    let remove_class = store_value(None::<(String, String)>);
+    let remove_class_name = store_value(None::<RemoveClassName>);
 
     node_ref.on_load(move |node_el| {
         let el = node_el.clone().into_any();
         let el = el.deref();
-        let class_list = el.class_list();
+        let style = el.style();
 
-        let _ = node_el.on(ev::transitionend, move |_| {
-            remove_class.update_value(|class| {
-                if let Some((class_1, class_2)) = class.take() {
-                    let _ = class_list.remove_2(&class_1, &class_2);
+        if !show.get_untracked() {
+            let display_value = style.get_property_value("display").ok();
+            display.set_value(display_value);
+            let _ = style.set_property("display", "none");
+        }
+
+        let class_list = el.class_list();
+        let remove_class = Callback::new(move |_| {
+            remove_class_name.update_value(|class| {
+                if let Some(class) = class.take() {
+                    match class {
+                        RemoveClassName::Enter(active, to) => {
+                            let _ = class_list.remove_2(&active, &to);
+                        }
+                        RemoveClassName::Leave(active, to) => {
+                            let _ = class_list.remove_2(&active, &to);
+                            let _ = style.set_property("display", "none");
+                        }
+                    }
                 }
             });
         });
+
+        let _ = node_el
+            .on(ev::transitionend, move |_| {
+                remove_class.call(());
+            })
+            .on(ev::animationend, move |_| {
+                remove_class.call(());
+            });
     });
 
     create_render_effect(move |prev: Option<bool>| {
@@ -50,7 +73,8 @@ pub fn CSSTransition<T: ElementDescriptor + Clone + 'static>(
                     request_animation_frame(move || {
                         let _ = class_list.remove_1(&enter_from);
                         let _ = class_list.add_1(&enter_to);
-                        remove_class.set_value(Some((enter_active, enter_to)));
+                        remove_class_name
+                            .set_value(Some(RemoveClassName::Enter(enter_active, enter_to)));
                     });
                 } else if !show && prev {
                     let display_value = style.get_property_value("display").ok();
@@ -61,11 +85,11 @@ pub fn CSSTransition<T: ElementDescriptor + Clone + 'static>(
                     let leave_to = format!("{name}-leave-to");
 
                     let _ = class_list.add_2(&leave_from, &leave_active);
-                    let _ = style.set_property("display", "none");
                     request_animation_frame(move || {
                         let _ = class_list.remove_1(&leave_from);
                         let _ = class_list.add_1(&leave_to);
-                        remove_class.set_value(Some((leave_active, leave_to)));
+                        remove_class_name
+                            .set_value(Some(RemoveClassName::Leave(leave_active, leave_to)));
                     });
                 }
             }
@@ -74,4 +98,9 @@ pub fn CSSTransition<T: ElementDescriptor + Clone + 'static>(
     });
 
     children()
+}
+
+enum RemoveClassName {
+    Enter(String, String),
+    Leave(String, String),
 }
