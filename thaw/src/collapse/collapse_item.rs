@@ -1,5 +1,6 @@
 use super::use_collapse;
 use crate::{
+    components::CSSTransition,
     utils::{class_list::class_list, StoredMaybeSignal},
     Icon,
 };
@@ -15,6 +16,8 @@ pub fn CollapseItem(
 ) -> impl IntoView {
     let collapse = use_collapse();
     let key: StoredMaybeSignal<_> = key.into();
+    let content_ref = create_node_ref::<html::Div>();
+
     let is_show_content = create_memo(move |_| {
         collapse.value.with(|keys| {
             if key.with(|key| keys.contains(key)) {
@@ -48,12 +51,14 @@ pub fn CollapseItem(
                 <Icon icon=Icon::from(AiIcon::AiRightOutlined) class="thaw-collapse-item-arrow"/>
                 {move || title.get()}
             </div>
-            <div
-                class="thaw-collapse-item__content"
-                style=move || (!is_show_content.get()).then_some("display: none;")
-            >
-                {children()}
-            </div>
+            <CSSTransition node_ref=content_ref show=is_show_content name="thaw-collapse-item">
+                <div
+                    class="thaw-collapse-item__content"
+                    ref=content_ref
+                >
+                    {children()}
+                </div>
+            </CSSTransition>
         </div>
     }
 }
