@@ -28,16 +28,28 @@
     padding-top: 16px;
 }
 
-.thaw-collapse-item-enter-active {
-    transition: all 0.3s ease-out;
+.thaw-collapse-item-enter-from,
+.thaw-collapse-item-enter-to {
+    opacity: 1;
+}
+
+.thaw-collapse-item-leave-to,
+.thaw-collapse-item-enter-from {
+    opacity: 0;
+    padding-top: 0;
+    max-height: 0;
 }
 
 .thaw-collapse-item-leave-active {
-    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+    overflow: hidden;
+    transition: max-height 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        opacity 0.15s cubic-bezier(0, 0, 0.2, 1) 0s,
+        padding-top 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
 }
 
-.thaw-collapse-item-enter-from,
-.thaw-collapse-item-leave-to {
-    transform: translateX(20px);
-    opacity: 0;
+.thaw-collapse-item-enter-active {
+    overflow: hidden;
+    transition: max-height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.15s cubic-bezier(0.4, 0, 1, 1),
+        padding-top 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
