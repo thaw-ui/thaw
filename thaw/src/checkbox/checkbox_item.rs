@@ -14,8 +14,14 @@ pub fn CheckboxItem(
     let checked = checkbox_group
         .0
         .with_untracked(|checkbox_group| checkbox_group.contains(&key));
+
     let checked = create_rw_signal(checked);
+    let initial = create_rw_signal(false);
     let item_key = store_value(key);
+
+    create_effect(move |_| {
+        initial.set(checkbox_group.0.get().contains(&item_key.get_value()));
+    });
 
     _ = checked.watch(move |checked| {
         checkbox_group.0.update(move |checkbox_group| {
@@ -32,9 +38,8 @@ pub fn CheckboxItem(
     } else {
         item_key.get_value()
     };
-
     view! {
-        <Checkbox class value=checked>
+        <Checkbox class value=checked initial>
             {label}
         </Checkbox>
     }

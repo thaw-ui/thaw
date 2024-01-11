@@ -16,6 +16,7 @@ use leptos::*;
 #[component]
 pub fn Checkbox(
     #[prop(optional, into)] value: RwSignal<bool>,
+    #[prop(optional, into)] initial: RwSignal<bool>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
@@ -33,19 +34,28 @@ pub fn Checkbox(
         css_vars
     });
 
+    let is_checked = Signal::derive(move || value.get() || initial.get());
+
     view! {
         <div
             class=class_list![
-                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get()), move || class
+                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get() || initial.get()), move || class
                 .get()
             ]
 
             style=move || css_vars.get()
-            on:click=move |_| value.set(!value.get_untracked())
+            on:click=move |_| {
+                if initial.get() {
+                    value.set(false);
+                } else {
+                    value.set(!value.get_untracked())
+                }
+                initial.set(false); 
+            }
         >
             <input class="thaw-checkbox__input" type="checkbox"/>
             <div class="thaw-checkbox__dot">
-                <If cond=value>
+                <If cond=is_checked>
                     <Then slot>
                         <Icon icon=Icon::from(AiIcon::AiCheckOutlined) style="color: white"/>
                     </Then>
