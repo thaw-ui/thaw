@@ -7,6 +7,7 @@ view! {
     <Space vertical=true>
         <Input value/>
         <Input value variant=InputVariant::Password placeholder="Password"/>
+        <TextArea value placeholder="Textarea"/>
     </Space>
 }
 ```
@@ -19,6 +20,7 @@ let value = create_rw_signal(String::from("o"));
 view! {
     <Space vertical=true>
         <Input value disabled=true/>
+        <TextArea value disabled=true/>
     </Space>
 }
 ```
@@ -31,6 +33,7 @@ let value = create_rw_signal(String::from("o"));
 view! {
     <Space vertical=true>
         <Input value invalid=true/>
+        <TextArea value invalid=true/>
     </Space>
 }
 ```
@@ -119,3 +122,7 @@ view! {
 | ----- | ----------- | ------------------------ |
 | focus | `Fn(&self)` | Focus the input element. |
 | blur  | `Fn(&self)` | Blur the input element.  |
+
+### TextArea Props
+
+Removes variant and slot from Input component.

@@ -1,63 +1,24 @@
-mod text_area;
-mod theme;
-
-pub use text_area::{TextArea, TextAreaRef};
-pub use theme::InputTheme;
-
 use crate::{
     theme::{use_theme, Theme},
     utils::{class_list::class_list, mount_style, ComponentRef},
 };
 use leptos::*;
 
-#[derive(Default, Clone)]
-pub enum InputVariant {
-    #[default]
-    Text,
-    Password,
-}
-
-impl InputVariant {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            InputVariant::Text => "text",
-            InputVariant::Password => "password",
-        }
-    }
-}
-
-#[slot]
-pub struct InputPrefix {
-    #[prop(default = true)]
-    if_: bool,
-    children: Children,
-}
-
-#[slot]
-pub struct InputSuffix {
-    #[prop(default = true)]
-    if_: bool,
-    children: Children,
-}
-
 #[component]
-pub fn Input(
+pub fn TextArea(
     #[prop(optional, into)] value: RwSignal<String>,
     #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
-    #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
-    #[prop(optional)] input_prefix: Option<InputPrefix>,
-    #[prop(optional)] input_suffix: Option<InputSuffix>,
-    #[prop(optional)] comp_ref: ComponentRef<InputRef>,
+    #[prop(optional)] comp_ref: ComponentRef<TextAreaRef>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
-    mount_style("input", include_str!("./input.css"));
+    mount_style("text-area", include_str!("./text-area.css"));
 
     let value_trigger = create_trigger();
     let on_input = move |ev| {
@@ -124,18 +85,18 @@ pub fn Input(
         });
         css_vars
     });
-    let input_ref = create_node_ref::<html::Input>();
-    input_ref.on_load(move |_| {
-        comp_ref.load(InputRef { input_ref });
+    let textarea_ref = create_node_ref::<html::Textarea>();
+    textarea_ref.on_load(move |_| {
+        comp_ref.load(TextAreaRef { textarea_ref });
     });
 
     #[cfg(debug_assertions)]
     {
-        const INNER_ATTRS: [&'static str; 4] = ["type", "class", "disabled", "placeholder"];
+        const INNER_ATTRS: [&'static str; 3] = ["class", "disabled", "placeholder"];
         attrs.iter().for_each(|attr| {
             if INNER_ATTRS.contains(&attr.0) {
                 logging::warn!(
-                    "Thaw: The '{}' attribute already exists on elements inside the Input component, which may cause conflicts.",
+                    "Thaw: The '{}' attribute already exists on elements inside the TextArea component, which may cause conflicts.",
                     attr.0
                 );
             }
@@ -145,22 +106,15 @@ pub fn Input(
     view! {
         <div
             class=class_list![
-                "thaw-input", ("thaw-input--focus", move || is_focus.get()),
-                ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
+                "thaw-textarea", ("thaw-textarea--focus", move || is_focus.get()),
+                ("thaw-textarea--disabled", move || disabled.get()), ("thaw-textarea--invalid", move ||
                 invalid.get()), move || class.get()
             ]
 
             style=move || css_vars.get()
         >
-            {if let Some(prefix) = input_prefix.and_then(|prefix| prefix.if_.then_some(prefix)) {
-                view! { <div class="thaw-input__prefix">{(prefix.children)()}</div> }.into()
-            } else {
-                None
-            }}
-
-            <input
+            <textarea
                 {..attrs}
-                type=move || variant.get().as_str()
                 prop:value=move || {
                     value_trigger.track();
                     value.get()
@@ -169,37 +123,30 @@ pub fn Input(
                 on:input=on_input
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
-                class="thaw-input__input-el"
+                class="thaw-textarea__textarea-el"
                 disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
-                ref=input_ref
+                ref=textarea_ref
             />
-
-            {if let Some(suffix) = input_suffix.and_then(|suffix| suffix.if_.then_some(suffix)) {
-                view! { <div class="thaw-input__suffix">{(suffix.children)()}</div> }.into()
-            } else {
-                None
-            }}
-
         </div>
     }
 }
 
 #[derive(Clone)]
-pub struct InputRef {
-    input_ref: NodeRef<html::Input>,
+pub struct TextAreaRef {
+    textarea_ref: NodeRef<html::Textarea>,
 }
 
-impl InputRef {
+impl TextAreaRef {
     pub fn focus(&self) {
-        if let Some(input_el) = self.input_ref.get_untracked() {
-            _ = input_el.focus();
+        if let Some(textarea_el) = self.textarea_ref.get_untracked() {
+            _ = textarea_el.focus();
         }
     }
 
     pub fn blur(&self) {
-        if let Some(input_el) = self.input_ref.get_untracked() {
-            _ = input_el.blur();
+        if let Some(textarea_el) = self.textarea_ref.get_untracked() {
+            _ = textarea_el.blur();
         }
     }
 }
