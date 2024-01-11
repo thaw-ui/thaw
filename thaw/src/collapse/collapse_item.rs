@@ -51,10 +51,11 @@ pub fn CollapseItem(
                 <Icon icon=Icon::from(AiIcon::AiRightOutlined) class="thaw-collapse-item-arrow"/>
                 {move || title.get()}
             </div>
-            <CSSTransition node_ref=content_ref show=is_show_content name="thaw-collapse-item">
+            <CSSTransition node_ref=content_ref show=is_show_content name="thaw-collapse-item" let:display>
                 <div
                     class="thaw-collapse-item__content"
                     ref=content_ref
+                    style=move || display.get()
                 >
                     {children()}
                 </div>
