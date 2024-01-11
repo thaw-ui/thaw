@@ -27,3 +27,29 @@
 .thaw-collapse-item__content {
     padding-top: 16px;
 }
+
+.thaw-collapse-item-enter-from,
+.thaw-collapse-item-enter-to {
+    opacity: 1;
+}
+
+.thaw-collapse-item-leave-to,
+.thaw-collapse-item-enter-from {
+    opacity: 0;
+    padding-top: 0;
+    max-height: 0;
+}
+
+.thaw-collapse-item-leave-active {
+    overflow: hidden;
+    transition: max-height 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        opacity 0.15s cubic-bezier(0, 0, 0.2, 1) 0s,
+        padding-top 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+}
+
+.thaw-collapse-item-enter-active {
+    overflow: hidden;
+    transition: max-height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.15s cubic-bezier(0.4, 0, 1, 1),
+        padding-top 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
