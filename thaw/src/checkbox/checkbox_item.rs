@@ -10,19 +10,31 @@ pub fn CheckboxItem(
     #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(into)] key: String,
 ) -> impl IntoView {
-    let checkbox_group = use_checkbox_group();
-    let checked = checkbox_group
-        .0
-        .with_untracked(|checkbox_group| checkbox_group.contains(&key));
-    let checked = create_rw_signal(checked);
+    let checkbox_group_value = use_checkbox_group().0;
+    let checked = create_rw_signal(false);
     let item_key = store_value(key);
 
+    create_effect(move |_| {
+        let is_checked =
+            checkbox_group_value.with(|value| item_key.with_value(|key| value.contains(key)));
+
+        if is_checked {
+            if !checked.get_untracked() {
+                checked.set(true);
+            }
+        } else {
+            if checked.get_untracked() {
+                checked.set(false);
+            }
+        }
+    });
+
     _ = checked.watch(move |checked| {
-        checkbox_group.0.update(move |checkbox_group| {
+        checkbox_group_value.update(move |value| {
             if *checked {
-                checkbox_group.insert(item_key.get_value());
+                value.insert(item_key.get_value());
             } else {
-                checkbox_group.remove(&item_key.get_value());
+                value.remove(&item_key.get_value());
             }
         });
     });
