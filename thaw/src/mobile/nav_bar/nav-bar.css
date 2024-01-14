@@ -15,6 +15,10 @@
     margin: 0 auto;
 }
 
+.thaw-nav-bar-element {
+    cursor: pointer;
+}
+
 .thaw-nav-bar__left {
     position: absolute;
     top: 0;
