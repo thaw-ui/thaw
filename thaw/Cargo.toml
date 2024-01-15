@@ -22,24 +22,8 @@ web-sys = { version = "0.3.63", features = [
     "DataTransfer",
 ] }
 wasm-bindgen = "0.2.89"
-icondata = { version = "0.1.0", features = [
-    "AiCloseOutlined",
-    "AiCheckOutlined",
-    "AiLeftOutlined",
-    "AiLoadingOutlined",
-    "AiCheckCircleFilled",
-    "AiExclamationCircleFilled",
-    "AiCloseCircleFilled",
-    "AiPlusOutlined",
-    "AiPlusOutlined",
-    "AiMinusOutlined",
-    "AiRightOutlined",
-    "AiClockCircleOutlined",
-    "AiCalendarOutlined",
-    "AiArrowLeftOutlined",
-    "AiArrowRightOutlined",
-] }
-icondata_core = "0.0.2"
+icondata = "0.3.0"
+icondata_core = "0.1.0"
 uuid = { version = "1.5.0", features = ["v4"] }
 cfg-if = "1.0.0"
 chrono = "0.4.31"

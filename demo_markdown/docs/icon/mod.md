@@ -3,8 +3,8 @@
 ```rust demo
 view! {
     <Space>
-        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined)/>
-        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCheckOutlined)/>
+        <Icon icon=icondata::AiCloseOutlined/>
+        <Icon icon=icondata::AiCheckOutlined/>
     </Space>
 }
 ```

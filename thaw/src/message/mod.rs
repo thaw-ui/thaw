@@ -3,7 +3,6 @@ mod message_provider;
 mod theme;
 
 use crate::{theme::use_theme, Icon, Theme};
-use icondata::*;
 use leptos::*;
 pub use message_provider::*;
 pub use theme::MessageTheme;
@@ -19,9 +18,9 @@ pub enum MessageVariant {
 impl MessageVariant {
     fn icon(&self) -> Icon {
         match self {
-            MessageVariant::Success => icondata::Icon::Ai(AiCloseCircleFilled),
-            MessageVariant::Warning => icondata::Icon::Ai(AiExclamationCircleFilled),
-            MessageVariant::Error => icondata::Icon::Ai(AiCheckCircleFilled),
+            MessageVariant::Success => icondata::AiCloseCircleFilled,
+            MessageVariant::Warning => icondata::AiExclamationCircleFilled,
+            MessageVariant::Error => icondata::AiCheckCircleFilled,
         }
     }
     fn theme_color(&self, theme: &Theme) -> String {

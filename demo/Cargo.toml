@@ -12,14 +12,7 @@ leptos_meta = { version = "0.5.4" }
 leptos_router = { version = "0.5.4" }
 leptos_devtools = { version = "0.0.1", optional = true}
 thaw = { path = "../thaw", default-features = false }
-icondata = { version = "0.1.0", features = [
-    "AiCloseOutlined",
-    "AiCheckOutlined",
-    "AiGithubOutlined",
-    "AiUserOutlined",
-    "AiSearchOutlined",
-    "AiUnorderedListOutlined"
-] }
+icondata = "0.3.0"
 demo_markdown = { path = "../demo_markdown" }
 
 [features]

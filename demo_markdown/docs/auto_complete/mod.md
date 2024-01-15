@@ -44,12 +44,12 @@ view! {
     <Space vertical=true>
         <AutoComplete>
             <AutoCompletePrefix slot>
-                <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
+                <Icon icon=icondata::AiUserOutlined/>
             </AutoCompletePrefix>
         </AutoComplete>
         <AutoComplete>
             <AutoCompleteSuffix slot>
-                <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
+                <Icon icon=icondata::AiGithubOutlined/>
             </AutoCompleteSuffix>
         </AutoComplete>
     </Space>

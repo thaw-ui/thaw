@@ -10,7 +10,6 @@ use crate::{
 };
 pub use checkbox_group::CheckboxGroup;
 pub use checkbox_item::CheckboxItem;
-use icondata::AiIcon;
 use leptos::*;
 
 #[component]
@@ -47,7 +46,7 @@ pub fn Checkbox(
             <div class="thaw-checkbox__dot">
                 <If cond=value>
                     <Then slot>
-                        <Icon icon=Icon::from(AiIcon::AiCheckOutlined) style="color: white"/>
+                        <Icon icon=icondata::AiCheckOutlined style="color: white"/>
                     </Then>
                 </If>
             </div>

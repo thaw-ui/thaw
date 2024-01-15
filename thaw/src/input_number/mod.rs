@@ -1,5 +1,5 @@
 use crate::utils::StoredMaybeSignal;
-use crate::{AiIcon, Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
+use crate::{Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
@@ -67,10 +67,10 @@ where
         >
             <InputSuffix slot>
                 <Button disabled variant=ButtonVariant::Link on_click=sub>
-                    <Icon icon=Icon::from(AiIcon::AiMinusOutlined) style="font-size: 18px"/>
+                    <Icon icon=icondata::AiMinusOutlined style="font-size: 18px"/>
                 </Button>
                 <Button disabled variant=ButtonVariant::Link on_click=add>
-                    <Icon icon=Icon::from(AiIcon::AiPlusOutlined) style="font-size: 18px"/>
+                    <Icon icon=icondata::AiPlusOutlined style="font-size: 18px"/>
                 </Button>
             </InputSuffix>
         </Input>

@@ -240,7 +240,7 @@ pub fn Button(
                 if loading.get() {
                     view! {
                         <Icon
-                            icon=Icon::from(AiIcon::AiLoadingOutlined)
+                            icon=icondata::AiLoadingOutlined
                             style=format!(
                                 "animation: thawLoadingCircle 1s infinite linear;{icon_style}",
                             )

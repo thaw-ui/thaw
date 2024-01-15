@@ -141,14 +141,14 @@ pub fn SiteHeader() -> impl IntoView {
                     comp_ref=auto_complete_ref
                 >
                     <AutoCompletePrefix slot>
-                        <Icon icon=icondata::Icon::from(icondata::AiIcon::AiSearchOutlined) style="font-size: 18px; color: var(--thaw-placeholder-color);"/>
+                        <Icon icon=icondata::AiSearchOutlined style="font-size: 18px; color: var(--thaw-placeholder-color);"/>
                     </AutoCompletePrefix>
                 </AutoComplete>
                 <Popover placement=PopoverPlacement::BottomEnd class="demo-header__menu-popover-mobile">
                     <PopoverTrigger slot class="demo-header__menu-mobile">
                         <Button
                             variant=ButtonVariant::Text
-                            icon=icondata::AiIcon::AiUnorderedListOutlined
+                            icon=icondata::AiUnorderedListOutlined
                             style="font-size: 22px; padding: 0px 6px;"
                         />
                     </PopoverTrigger>
@@ -192,7 +192,7 @@ pub fn SiteHeader() -> impl IntoView {
                     </Button>
                     <Button
                         variant=ButtonVariant::Text
-                        icon=icondata::AiIcon::AiGithubOutlined
+                        icon=icondata::AiGithubOutlined
                         round=true
                         style="font-size: 22px; padding: 0px 6px;"
                         on_click=move |_| {
