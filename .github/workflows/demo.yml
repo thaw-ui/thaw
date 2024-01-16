@@ -24,7 +24,7 @@ jobs:
             - name: Install Trunk
               uses: jetli/trunk-action@v0.4.0
               with:
-                  version: "latest"
+                  version: "v0.18.4"
             - name: Deploy GitHub Pages
               run: |
                   cd demo
