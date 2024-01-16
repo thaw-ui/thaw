@@ -13,10 +13,13 @@ view! {
             title="Home"
             left_arrow=true
             left_text="back"
-            right_text="add"
             on_click_left=on_click_left
             on_click_right=on_click_right
-        />
+        >
+            <NavBarRight slot>
+                 <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined)/> 
+            </NavBarRight>
+        </NavBar>
         <div style="padding-top: 50px">{move || click_text.get()}</div>
     </div>
 }
@@ -33,3 +36,9 @@ view! {
 | on_click_left | `Option<Callback<ev::MouseEvent>>` | `Default::default()` | NavBar left click. |
 | right_text | `MaybeSignal<String>` | `Default::default()` | NavBar right text. |
 | on_click_right | `Option<Callback<ev::MouseEvent>>` | `Default::default()` | NavBar right click. |
+
+### NavBarLeft and NavBarRight Props
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the element. |

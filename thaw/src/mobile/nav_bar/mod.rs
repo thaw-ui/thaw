@@ -10,13 +10,29 @@ use crate::{
 use leptos::*;
 pub use theme::NavBarTheme;
 
+#[slot]
+pub struct NavBarLeft {
+    #[prop(optional, into)]
+    class: MaybeSignal<String>,
+    children: Children,
+}
+
+#[slot]
+pub struct NavBarRight {
+    #[prop(optional, into)]
+    class: MaybeSignal<String>,
+    children: Children,
+}
+
 #[component]
 pub fn NavBar(
     #[prop(optional, into)] title: MaybeSignal<String>,
     #[prop(optional, into)] left_arrow: MaybeSignal<bool>,
     #[prop(optional, into)] left_text: MaybeSignal<String>,
+    #[prop(optional)] nav_bar_left: Option<NavBarLeft>,
     #[prop(optional, into)] on_click_left: Option<Callback<ev::MouseEvent>>,
     #[prop(optional, into)] right_text: MaybeSignal<String>,
+    #[prop(optional)] nav_bar_right: Option<NavBarRight>,
     #[prop(optional, into)] on_click_right: Option<Callback<ev::MouseEvent>>,
     #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
@@ -48,26 +64,50 @@ pub fn NavBar(
 
     view! {
         <div class=class_list!["thaw-nav-bar", move || class.get()] style=move || css_vars.get()>
-            <If cond=MaybeSignal::derive(move || left_arrow.get() || !left_text.get().is_empty())>
-                <Then slot>
-                    <div class="thaw-nav-bar__left" on:click=on_click_left>
-                        <If cond=left_arrow>
+            {
+                if let Some(NavBarLeft { class, children }) = nav_bar_left {
+                    view! {
+                        <div class=class_list!["thaw-nav-bar__left", move || class.get()] on:click=on_click_left>
+                            {children()}
+                        </div>
+                    }.into_view()
+                } else {
+                    view! {
+                        <If cond=MaybeSignal::derive(move || left_arrow.get() || !left_text.get().is_empty())>
                             <Then slot>
-                                <Icon icon=Icon::from(AiIcon::AiLeftOutlined)/>
+                                <div class="thaw-nav-bar__left" on:click=on_click_left>
+                                    <If cond=left_arrow>
+                                        <Then slot>
+                                            <Icon icon=Icon::from(AiIcon::AiLeftOutlined)/>
+                                        </Then>
+                                    </If>
+                                    {move || left_text.get()}
+                                </div>
                             </Then>
                         </If>
-                        {move || left_text.get()}
-                    </div>
-                </Then>
-            </If>
+                    }.into_view()
+                }
+            }
             <div class="thaw-nav-bar__center">{move || title.get()}</div>
-            <If cond=MaybeSignal::derive(move || !right_text.get().is_empty())>
-                <Then slot>
-                    <div class="thaw-nav-bar__right" on:click=on_click_right>
-                        {move || right_text.get()}
-                    </div>
-                </Then>
-            </If>
+            {
+                if let Some(NavBarRight { class, children }) = nav_bar_right {
+                    view! {
+                        <div class=class_list!["thaw-nav-bar__right", move || class.get()] on:click=on_click_right>
+                            {children()}
+                        </div>
+                    }.into_view()
+                } else {
+                    view! {
+                        <If cond=MaybeSignal::derive(move || !right_text.get().is_empty())>
+                            <Then slot>
+                                <div class="thaw-nav-bar__right" on:click=on_click_right>
+                                    {move || right_text.get()}
+                                </div>
+                            </Then>
+                        </If>
+                    }.into_view()
+                }
+            }
         </div>
     }
 }
