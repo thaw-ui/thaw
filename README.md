@@ -6,7 +6,7 @@
 
 ## Documentation
 
-[https://thaw-ui.github.io/thaw/](https://thaw-ui.github.io/thaw/)
+[https://thaw-ui.github.io/thaw/components/button](https://thaw-ui.github.io/thaw/components/button)
 
 ## Resources
 
