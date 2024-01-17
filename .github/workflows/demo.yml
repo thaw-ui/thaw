@@ -39,3 +39,4 @@ jobs:
                   vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
                   vercel-args: "--prod"
                   working-directory: demo/dist
+                  vercel-project-name: thaw
