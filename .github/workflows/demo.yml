@@ -5,7 +5,6 @@ on:
         paths: ["demo/**", "demo_markdown/**", "thaw/**"]
         branches:
             - main
-            
 
 jobs:
     deploy:
@@ -17,10 +16,6 @@ jobs:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 18
             - name: Setup Rust
               uses: actions-rs/toolchain@v1
               with:
@@ -36,8 +31,10 @@ jobs:
                   cd demo
                   trunk build --release
             - name: Deploy
-              run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
-              env:
-                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-                  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-                  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+              uses: amondnet/vercel-action@v20
+              with:
+                  vercel-token: ${{ secrets.VERCEL_TOKEN }}
+                  vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+                  vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+                  vercel-args: "--prod"
+                  working-directory: demo/dist
