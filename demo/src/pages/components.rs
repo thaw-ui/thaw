@@ -12,8 +12,8 @@ pub fn ComponentsPage() -> impl IntoView {
     let select_name = create_rw_signal(String::new());
     create_effect(move |_| {
         let mut pathname = loaction.pathname.get();
-        let name = if pathname.starts_with("/thaw/components/") {
-            pathname.drain(17..).collect()
+        let name = if pathname.starts_with("/components/") {
+            pathname.drain(12..).collect()
         } else {
             String::new()
         };
@@ -22,7 +22,7 @@ pub fn ComponentsPage() -> impl IntoView {
 
     _ = select_name.watch(move |name| {
         let pathname = loaction.pathname.get_untracked();
-        if !pathname.eq(&format!("/thaw/components/{name}")) {
+        if !pathname.eq(&format!("/components/{name}")) {
             navigate(&format!("/components/{name}"), Default::default());
         }
     });

@@ -11,8 +11,8 @@ pub fn GuidePage() -> impl IntoView {
         let loaction = use_location();
         let mut pathname = loaction.pathname.get_untracked();
 
-        if pathname.starts_with("/thaw/guide/") {
-            pathname.drain(12..).collect()
+        if pathname.starts_with("/guide/") {
+            pathname.drain(7..).collect()
         } else {
             String::new()
         }
