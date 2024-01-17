@@ -6,7 +6,7 @@
 
 ## Documentation
 
-[https://thaw-ui.github.io/thaw/components/button](https://thaw-ui.github.io/thaw/components/button)
+[https://thawui.vercel.app](https://thawui.vercel.app)
 
 ## Resources
 
