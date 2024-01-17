@@ -1,3 +1,16 @@
+## [0.1.8](https://github.com/thaw-ui/thaw/compare/v0.1.7...v0.1.8) (2024-01-17)
+
+### Features
+
+* `CollapseItem` add animation.
+* Adds `TextArea` component.
+* `NavBar` adds `NavBarLeft` and `NavBarRight` slot.
+* Update leptos to v0.5.6
+
+### Bug Fixs
+
+* `CheckboxItem` adds tracking value changes.
+
 ## [0.1.7](https://github.com/thaw-ui/thaw/compare/v0.1.6...v0.1.7) (2024-01-09)
 
 ### Features
