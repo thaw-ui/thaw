@@ -1,12 +1,31 @@
 use std::time::Duration;
 
 use super::{message_environment::MessageEnvironment, MessageVariant};
-use crate::{components::Teleport, utils::mount_style};
+use crate::{components::Teleport, utils::{class_list::class_list, mount_style}};
 use leptos::*;
 use uuid::Uuid;
 
+#[derive(Default, Clone)]
+pub enum MessagePosition {
+    #[default]
+    Top,
+    Bottom,
+}
+
+impl MessagePosition {
+    fn container_style(&self) -> String {
+        match self {
+            MessagePosition::Top => "thaw-message-container__top".to_owned(),
+            MessagePosition::Bottom => "thaw-message-container__bottom".to_owned(),
+        }
+    }
+}
+
 #[component]
-pub fn MessageProvider(children: Children) -> impl IntoView {
+pub fn MessageProvider(
+    #[prop(optional)] position: MessagePosition,
+    children: Children,
+) -> impl IntoView {
     mount_style("message", include_str!("./message.css"));
 
     let message_list = create_rw_signal::<Vec<MessageType>>(vec![]);
@@ -25,7 +44,7 @@ pub fn MessageProvider(children: Children) -> impl IntoView {
             message_list,
         )>
             {children()} <Teleport>
-                <div class="thaw-message-container">
+                <div class=class_list!["thaw-message-container", position.container_style()]>
                     <For
                         each=move || message_list.get()
                         key=|message| message.0
@@ -50,12 +69,14 @@ pub(crate) type MessageType = (Uuid, String, MessageVariant, MessageOptions);
 #[derive(Clone)]
 pub struct MessageOptions {
     pub duration: Duration,
+    pub can_close: bool,
 }
 
 impl Default for MessageOptions {
     fn default() -> Self {
         Self {
             duration: Duration::from_secs(3),
+            can_close: true,
         }
     }
 }
@@ -82,3 +103,5 @@ impl MessageInjection {
 pub fn use_message() -> MessageInjection {
     expect_context::<MessageInjection>()
 }
+
+
