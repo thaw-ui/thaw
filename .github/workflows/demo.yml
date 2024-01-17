@@ -9,6 +9,7 @@ on:
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        environment: demo
         permissions:
             contents: write
             pull-requests: write
