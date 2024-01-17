@@ -1,9 +1,11 @@
 name: Deploy demo
 on:
+    workflow_dispatch:
     push:
         paths: ["demo/**", "demo_markdown/**", "thaw/**"]
         branches:
             - main
+            
 
 jobs:
     deploy:
