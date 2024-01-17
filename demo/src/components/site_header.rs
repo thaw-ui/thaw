@@ -126,7 +126,7 @@ pub fn SiteHeader() -> impl IntoView {
                 let navigate = use_navigate();
                 navigate("/", Default::default());
             }>
-                <img src="/thaw/logo.svg" style="width: 36px"/>
+                <img src="/logo.svg" style="width: 36px"/>
                 <div class="demo-name">
                     "Thaw UI"
                 </div>
@@ -234,10 +234,10 @@ fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
 
     let menu_value = create_rw_signal({
         let mut pathname = loaction.pathname.get_untracked();
-        if pathname.starts_with("/thaw/components/") {
-            pathname.drain(17..).collect()
-        } else if pathname.starts_with("/thaw/guide/") {
+        if pathname.starts_with("/components/") {
             pathname.drain(12..).collect()
+        } else if pathname.starts_with("/guide/") {
+            pathname.drain(7..).collect()
         } else {
             String::new()
         }
@@ -256,10 +256,10 @@ fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
             menu.iter()
                 .any(|group| group.children.iter().any(|item| &item.value == name))
         }) {
-            if !pathname.eq(&format!("/thaw/guide/{name}")) {
+            if !pathname.eq(&format!("/guide/{name}")) {
                 navigate(&format!("/guide/{name}"), Default::default());
             }
-        } else if !pathname.eq(&format!("/thaw/components/{name}")) {
+        } else if !pathname.eq(&format!("/components/{name}")) {
             navigate(&format!("/components/{name}"), Default::default());
         }
     });

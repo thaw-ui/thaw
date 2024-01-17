@@ -9,7 +9,7 @@ pub fn TabbarPage() -> impl IntoView {
         <div style="display: flex">
             <TabbarMdPage />
             <div>
-                <MobilePage path="/thaw?path=/mobile/tabbar"/>
+                <MobilePage path="/?path=/mobile/tabbar"/>
             </div>
         </div>
     }

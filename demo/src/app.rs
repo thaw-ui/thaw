@@ -13,7 +13,7 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        <Router base="/thaw" set_is_routing>
+        <Router set_is_routing>
             <TheProvider>
                 <TheRouter is_routing/>
             </TheProvider>
@@ -33,7 +33,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
     });
 
     view! {
-        <Routes base="/thaw".to_string()>
+        <Routes>
             <Route path="/" view=Home/>
             <Route path="/guide" view=GuidePage>
                 <Route path="/installation" view=InstallationMdPage/>

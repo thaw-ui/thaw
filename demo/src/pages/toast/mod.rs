@@ -11,7 +11,7 @@ pub fn ToastPage() -> impl IntoView {
         <div style="display: flex">
            <ToastMdPage />
             <div>
-                <MobilePage path="/thaw?path=/mobile/toast"/>
+                <MobilePage path="/?path=/mobile/toast"/>
             </div>
         </div>
     }
