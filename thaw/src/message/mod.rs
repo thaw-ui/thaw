@@ -38,7 +38,7 @@ impl MessageVariant {
 pub(crate) fn Message(
     variant: MessageVariant,
     content: String,
-    can_close: bool,
+    closable: bool,
     id: Uuid,
     #[prop(into)] on_close: Callback<Uuid, ()>,
 ) -> impl IntoView {
@@ -61,10 +61,10 @@ pub(crate) fn Message(
                     <Icon icon=variant.icon() style/>
                 </div>
                 <div class="thaw-message__content">{content}</div>
-                <If cond=can_close>
+                <If cond=closable>
                     <Then slot>
                         <div class="thaw-message__close"  on:click=move |_| on_close.call(id)>
-                            <Icon icon=icondata::Icon::Ai(AiCloseCircleFilled)/>
+                            <Icon icon=icondata::Icon::Ai(AiCloseOutlined)/>
                         </div>
                     </Then>
                 </If>

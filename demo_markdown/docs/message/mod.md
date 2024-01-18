@@ -33,8 +33,21 @@ view! {
 }
 ```
 
+### MessageProvider Props
+
+| Name     | Type                          | Default                | Desciption                      |
+| -------- | ----------------------------- | ---------------------- | ------------------------------- |
+| position | `MessagePosition`             | `MessagePosition::Top` | Position to place the messages. |
+
 ### MessageProvider Injection Methods
 
 | Name   | Type                                                                           | Description              |
 | ------ | ------------------------------------------------------------------------------ | ------------------------ |
 | create | `fn(&self, content: String, variant: MessageVariant, options: MessageOptions)` | Use create type message. |
+
+### MessageOptions fields
+
+| Name     | Type              | Default                   | Description                                                     |
+| -------- | ----------------- | ------------------------- | --------------------------------------------------------------- |
+| duration | `Duration`        | `Duration::from_secs(3)` | How long the message will be displayed. 0 for permanent message |
+| closable | `bool`            | `false`                   | Can the message be manually closed.                             |

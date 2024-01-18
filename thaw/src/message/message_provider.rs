@@ -9,14 +9,22 @@ use uuid::Uuid;
 pub enum MessagePosition {
     #[default]
     Top,
+    TopLeft,
+    TopRight,
     Bottom,
+    BottomLeft,
+    BottomRight
 }
 
 impl MessagePosition {
     fn container_style(&self) -> String {
         match self {
             MessagePosition::Top => "thaw-message-container__top".to_owned(),
+            MessagePosition::TopLeft => "thaw-message-container__top-left".to_owned(),
+            MessagePosition::TopRight => "thaw-message-container__top-right".to_owned(),
             MessagePosition::Bottom => "thaw-message-container__bottom".to_owned(),
+            MessagePosition::BottomLeft => "thaw-message-container__bottom-left".to_owned(),
+            MessagePosition::BottomRight=> "thaw-message-container__bottom-right".to_owned(),
         }
     }
 }
@@ -69,14 +77,14 @@ pub(crate) type MessageType = (Uuid, String, MessageVariant, MessageOptions);
 #[derive(Clone)]
 pub struct MessageOptions {
     pub duration: Duration,
-    pub can_close: bool,
+    pub closable: bool,
 }
 
 impl Default for MessageOptions {
     fn default() -> Self {
         Self {
             duration: Duration::from_secs(3),
-            can_close: true,
+            closable: false,
         }
     }
 }

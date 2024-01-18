@@ -18,5 +18,5 @@ pub fn MessageEnvironment(
         );
     }
 
-    view! { <Message id can_close=options.can_close content variant on_close=on_internal_after_leave/> }
+    view! { <Message id closable=options.closable content variant on_close=on_internal_after_leave/> }
 }
