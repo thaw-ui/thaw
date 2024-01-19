@@ -1,7 +1,8 @@
 use super::NavBarMdPage;
 use crate::pages::MobilePage;
 use leptos::*;
-use thaw::mobile::NavBar;
+use thaw::mobile::{NavBar, NavBarRight};
+use thaw::Icon;
 
 #[component]
 pub fn NavBarPage() -> impl IntoView {
@@ -9,7 +10,7 @@ pub fn NavBarPage() -> impl IntoView {
         <div style="display: flex">
             <NavBarMdPage />
             <div>
-                <MobilePage path="/thaw?path=/mobile/nav-bar"/>
+                <MobilePage path="/?path=/mobile/nav-bar"/>
             </div>
         </div>
     }
@@ -27,10 +28,13 @@ pub fn NavBarDemoPage() -> impl IntoView {
                 title="Home"
                 left_arrow=true
                 left_text="back"
-                right_text="add"
                 on_click_left=on_click_left
                 on_click_right=on_click_right
-            />
+            >
+                <NavBarRight slot>
+                     <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined)/>
+                </NavBarRight>
+            </NavBar>
             <div style="padding-top: 50px">{move || click_text.get()}</div>
         </div>
     }

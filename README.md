@@ -6,10 +6,18 @@
 
 ## Documentation
 
-[https://thaw-ui.github.io/thaw/](https://thaw-ui.github.io/thaw/)
+[https://thawui.vercel.app](https://thawui.vercel.app)
 
 ## Resources
 
 [Pigment](https://github.com/kobaltedev/pigment)
 
 [Naive UI](https://github.com/tusen-ai/naive-ui)
+
+## Contribution
+
+Thank you to all the people who already contributed to Thaw!
+
+<a href="https://github.com/thaw-ui/thaw/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=thaw-ui/thaw" />
+</a>

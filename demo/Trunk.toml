@@ -1,8 +1,8 @@
 [build]
 target = "index.html"
-public_url = "/thaw/"
+# public_url = "/thaw/"
 # release = true
-filehash = false
+# filehash = false
 
 [watch]
 watch = ["../thaw", "./src", "../demo_markdown"]
