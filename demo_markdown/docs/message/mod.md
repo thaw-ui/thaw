@@ -10,7 +10,7 @@ let success = move |_| {
     message.create(
         "Success".into(),
         MessageVariant::Success,
-        Default::default(),
+        MessageOptions {closable: true, duration: std::time::Duration::from_secs(0)},
     );
 };
 let warning = move |_| {

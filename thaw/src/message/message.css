@@ -82,11 +82,10 @@
 
 .thaw-message__content {
     line-height: 1.6;
+    margin-right: 10px;
 }
 
 .thaw-message__close {
-    position: relative;
     cursor: pointer;
-    top: -10px;
-    right: -15px;
+    display: flex;
 }
