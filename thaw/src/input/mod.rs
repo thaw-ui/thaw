@@ -129,6 +129,19 @@ pub fn Input(
         comp_ref.load(InputRef { input_ref });
     });
 
+    let on_mousedown = move |event: ev::MouseEvent| {
+        let el: web_sys::HtmlElement = event_target(&event);
+
+        if el.tag_name() != "INPUT" {
+            event.prevent_default();
+            if !is_focus.get_untracked() {
+                if let Some(comp_ref) = comp_ref.get_untracked() {
+                    comp_ref.focus();
+                }
+            }
+        }
+    };
+
     #[cfg(debug_assertions)]
     {
         const INNER_ATTRS: [&'static str; 4] = ["type", "class", "disabled", "placeholder"];
@@ -151,6 +164,7 @@ pub fn Input(
             ]
 
             style=move || css_vars.get()
+            on:mousedown=on_mousedown
         >
             {if let Some(prefix) = input_prefix.and_then(|prefix| prefix.if_.then_some(prefix)) {
                 view! { <div class="thaw-input__prefix">{(prefix.children)()}</div> }.into()
