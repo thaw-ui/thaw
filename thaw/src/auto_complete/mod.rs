@@ -107,6 +107,7 @@ pub fn AutoComplete(
                 }
             });
         } else if key == *"Enter" {
+            event.prevent_default();
             let option_value = options.with_untracked(|options| {
                 let index = select_option_index.get_untracked();
                 if options.len() > index {

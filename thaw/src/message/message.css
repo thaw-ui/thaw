@@ -7,42 +7,42 @@
     pointer-events: none;
 }
 
-.thaw-message-container__top {
+.thaw-message-container--top {
     align-items: center;
     top: 12px;
     left: 0;
     right: 0;
 }
 
-.thaw-message-container__bottom {
+.thaw-message-container--bottom {
     align-items: center;
     bottom: 12px;
     left: 0;
     right: 0;
 }
 
-.thaw-message-container__bottom-left {
+.thaw-message-container--bottom-left {
     align-items: start;
     bottom: 12px;
     left: 12px;
     right: 0px;
 }
 
-.thaw-message-container__bottom-right {
+.thaw-message-container--bottom-right {
     align-items: end;
     bottom: 12px;
     left: 0px;
     right: 12px;
 }
 
-.thaw-message-container__top-left{
+.thaw-message-container--top-left{
     align-items: start;
     top: 12px;
     left: 12px;
     right: 0px;
 }
 
-.thaw-message-container__top-right {
+.thaw-message-container--top-right {
     align-items: end;
     top: 12px;
     left: 0px;
@@ -82,10 +82,10 @@
 
 .thaw-message__content {
     line-height: 1.6;
-    margin-right: 10px;
 }
 
 .thaw-message__close {
-    cursor: pointer;
+    margin-left: 10px;
     display: flex;
+    cursor: pointer;
 }

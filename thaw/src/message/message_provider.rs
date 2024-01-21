@@ -6,7 +6,7 @@ use leptos::*;
 use uuid::Uuid;
 
 #[derive(Default, Clone)]
-pub enum MessagePosition {
+pub enum MessagePlacement {
     #[default]
     Top,
     TopLeft,
@@ -16,22 +16,22 @@ pub enum MessagePosition {
     BottomRight
 }
 
-impl MessagePosition {
+impl MessagePlacement {
     fn container_style(&self) -> String {
         match self {
-            MessagePosition::Top => "thaw-message-container__top".to_owned(),
-            MessagePosition::TopLeft => "thaw-message-container__top-left".to_owned(),
-            MessagePosition::TopRight => "thaw-message-container__top-right".to_owned(),
-            MessagePosition::Bottom => "thaw-message-container__bottom".to_owned(),
-            MessagePosition::BottomLeft => "thaw-message-container__bottom-left".to_owned(),
-            MessagePosition::BottomRight=> "thaw-message-container__bottom-right".to_owned(),
+            MessagePlacement::Top => "thaw-message-container--top".to_owned(),
+            MessagePlacement::TopLeft => "thaw-message-container--top-left".to_owned(),
+            MessagePlacement::TopRight => "thaw-message-container--top-right".to_owned(),
+            MessagePlacement::Bottom => "thaw-message-container--bottom".to_owned(),
+            MessagePlacement::BottomLeft => "thaw-message-container--bottom-left".to_owned(),
+            MessagePlacement::BottomRight=> "thaw-message-container--bottom-right".to_owned(),
         }
     }
 }
 
 #[component]
 pub fn MessageProvider(
-    #[prop(optional)] position: MessagePosition,
+    #[prop(optional)] placement: MessagePlacement,
     children: Children,
 ) -> impl IntoView {
     mount_style("message", include_str!("./message.css"));
@@ -52,7 +52,7 @@ pub fn MessageProvider(
             message_list,
         )>
             {children()} <Teleport>
-                <div class=class_list!["thaw-message-container", position.container_style()]>
+                <div class=class_list!["thaw-message-container", placement.container_style()]>
                     <For
                         each=move || message_list.get()
                         key=|message| message.0
