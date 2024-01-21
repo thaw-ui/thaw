@@ -22,6 +22,14 @@ pub fn Tab(
         label,
     });
 
+    on_cleanup({
+        let key = key.clone();
+        let tabs = tabs.clone();
+        move || {
+            tabs.remove_tab_options(&key);
+        }
+    });
+
     view! {
         <div class=class_list![
             "thaw-tab", ("thaw-tab--hidden", move || key != tabs.get_key()), move || class.get()

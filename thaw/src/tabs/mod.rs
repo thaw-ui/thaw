@@ -146,6 +146,14 @@ impl TabsInjection {
             v.push(options);
         });
     }
+
+    pub(crate) fn remove_tab_options(&self, key: &String) {
+        self.tab_options_vec.update(|v| {
+            if let Some(index) = v.iter().position(|tab| &tab.key == key) {
+                v.remove(index);
+            }
+        });
+    }
 }
 
 pub(crate) fn use_tabs() -> TabsInjection {
