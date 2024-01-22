@@ -16,7 +16,7 @@ pub fn Teleport(
         let mount = mount.unwrap_or_else(|| {
             document()
                 .body()
-                .expect("body element not to exist")
+                .expect("body element to exist")
                 .unchecked_into()
         });
 

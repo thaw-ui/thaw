@@ -1,18 +1,57 @@
 .thaw-message-container {
     z-index: 6000;
     position: fixed;
-    top: 12px;
-    left: 0;
-    right: 0;
-    height: 0;
     overflow: visible;
     display: flex;
     flex-direction: column;
+    pointer-events: none;
+}
+
+.thaw-message-container--top {
     align-items: center;
+    top: 12px;
+    left: 0;
+    right: 0;
+}
+
+.thaw-message-container--bottom {
+    align-items: center;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+}
+
+.thaw-message-container--bottom-left {
+    align-items: start;
+    bottom: 12px;
+    left: 12px;
+    right: 0px;
+}
+
+.thaw-message-container--bottom-right {
+    align-items: end;
+    bottom: 12px;
+    left: 0px;
+    right: 12px;
+}
+
+.thaw-message-container--top-left{
+    align-items: start;
+    top: 12px;
+    left: 12px;
+    right: 0px;
+}
+
+.thaw-message-container--top-right {
+    align-items: end;
+    top: 12px;
+    left: 0px;
+    right: 12px;
 }
 
 .thaw-message-wrapper {
     margin-bottom: 8px;
+    position: relative;
 }
 
 .thaw-message {
@@ -21,8 +60,8 @@
     align-items: center;
     flex-wrap: nowrap;
     overflow: hidden;
-
     padding: 10px 20px;
+
     max-width: 75vh;
     background: var(--thaw-background-color);
 
@@ -30,6 +69,8 @@
     border-radius: 3px;
     box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
         0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+    pointer-events: all;
 }
 
 .thaw-message__icon {
@@ -41,4 +82,10 @@
 
 .thaw-message__content {
     line-height: 1.6;
+}
+
+.thaw-message__close {
+    margin-left: 10px;
+    display: flex;
+    cursor: pointer;
 }
