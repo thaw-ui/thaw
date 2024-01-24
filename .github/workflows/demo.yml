@@ -26,7 +26,7 @@ jobs:
             - name: Install Trunk
               uses: jetli/trunk-action@v0.4.0
               with:
-                  version: "v0.17.5"
+                  version: "latest"
             - name: Build
               run: |
                   cd demo
