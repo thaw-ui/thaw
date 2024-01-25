@@ -62,13 +62,13 @@ fn TabsInner(
 
     view! {
         <div class=class_list!["thaw-tabs", move || class.get()] style=move || css_vars.get()>
-            <div class="thaw-tabs__label-list" ref=label_list_ref>
+            <div class="thaw-tabs__label-list" ref=label_list_ref role="tablist">
                 <For
                     each=move || tab_options_vec.get()
                     key=move |v| v.key.clone()
                     children=move |option| {
                         let label_ref = create_node_ref::<html::Span>();
-                        let TabOption { key, label } = option;
+                        let TabOption { key, label, label_view } = option;
                         create_effect({
                             let key = key.clone();
                             move |_| {
@@ -93,26 +93,55 @@ fn TabsInner(
                                 }
                             }
                         });
-                        view! {
-                            <span
-                                class="thaw-tabs__label"
-                                class=(
-                                    "thaw-tabs__label--active",
-                                    {
+                        let is_active = create_memo({
+                            let key = key.clone();
+                            move |_| key == value.get()
+                        });
+                        if let Some(label_view) = label_view {
+                            let TabLabelView { class, children } = label_view;
+                            view! {
+                                <span
+                                    class=class_list![
+                                        "thaw-tabs__label", ("thaw-tabs__label--active", move ||
+                                        is_active.get()), move || class.get()
+                                    ]
+
+                                    on:click={
                                         let key = key.clone();
-                                        move || key == value.get()
-                                    },
-                                )
+                                        move |_| value.set(key.clone())
+                                    }
 
-                                on:click={
-                                    let key = key.clone();
-                                    move |_| value.set(key.clone())
-                                }
+                                    ref=label_ref
+                                    role="tab"
+                                    aria-selected=move || {
+                                        if is_active.get() { "true" } else { "false" }
+                                    }
+                                >
 
-                                ref=label_ref
-                            >
-                                {label}
-                            </span>
+                                    {children}
+                                </span>
+                            }
+                        } else {
+                            view! {
+                                <span
+                                    class="thaw-tabs__label"
+                                    class=("thaw-tabs__label--active", move || is_active.get())
+
+                                    on:click={
+                                        let key = key.clone();
+                                        move |_| value.set(key.clone())
+                                    }
+
+                                    ref=label_ref
+                                    role="tab"
+                                    aria-selected=move || {
+                                        if is_active.get() { "true" } else { "false" }
+                                    }
+                                >
+
+                                    {if label.is_empty() { key } else { label }}
+                                </span>
+                            }
                         }
                     }
                 />
