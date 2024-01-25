@@ -15,6 +15,33 @@ view! {
 }
 ```
 
+### Custom tab label
+
+```rust demo
+use leptos_meta::Style;
+let value = create_rw_signal(String::from("apple"));
+
+view! {
+    <Style id="demo-tab-label">
+        ".p-0 { padding: 0 }"
+    </Style>
+    <Tabs value>
+        <Tab key="apple">
+            <TabLabel slot class="p-0">
+                "🍎 Apple"
+            </TabLabel>
+            "apple"
+        </Tab>
+        <Tab key="pear">
+            <TabLabel slot>
+                "🍐 Pear"
+            </TabLabel>
+            "pear"
+        </Tab>
+    </Tabs>
+}
+```
+
 ### Tabs Props
 
 | Name     | Type                  | Default               | Description                             |
@@ -29,5 +56,11 @@ view! {
 | -------- | --------------------- | -------------------- | -------------------------------------- |
 | class    | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the tab element. |
 | key      | `String`              |                      | The indentifier of the tab.            |
-| label    | `String`              |                      | The label of the tab.                  |
+| label    | `String`              | `Default::default()` | The label of the tab.                  |
 | children | `Children`            |                      | Tabs content.                          |
+
+### Tab Slots
+
+| Name     | Default | Description    |
+| -------- | ------- | -------------- |
+| TabLabel | `None`  | label content. |
