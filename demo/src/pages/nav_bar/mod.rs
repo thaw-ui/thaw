@@ -2,7 +2,7 @@ use super::NavBarMdPage;
 use crate::pages::MobilePage;
 use leptos::*;
 use thaw::mobile::{NavBar, NavBarRight};
-use thaw::Icon;
+use thaw::{icondata, Icon};
 
 #[component]
 pub fn NavBarPage() -> impl IntoView {

@@ -17,7 +17,7 @@ pub enum MessageVariant {
 }
 
 impl MessageVariant {
-    fn icon(&self) -> Icon {
+    fn icon(&self) -> icondata::Icon {
         match self {
             MessageVariant::Success => icondata::AiCloseCircleFilled,
             MessageVariant::Warning => icondata::AiExclamationCircleFilled,
