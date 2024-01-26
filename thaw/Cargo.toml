@@ -13,19 +13,19 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.5.7" }
-leptos_meta = { version = "0.5.7", optional = true }
-web-sys = { version = "0.3.63", features = [
+leptos = { version = "0.6.0-rc1" }
+leptos_meta = { version = "0.6.0-rc1", optional = true }
+web-sys = { version = "0.3.67", features = [
     "DomRect",
     "File",
     "FileList",
     "DataTransfer",
 ] }
-wasm-bindgen = "0.2.89"
+wasm-bindgen = "0.2.90"
 icondata = "0.3.0"
-uuid = { version = "1.5.0", features = ["v4"] }
+uuid = { version = "1.7.0", features = ["v4"] }
 cfg-if = "1.0.0"
-chrono = "0.4.31"
+chrono = "0.4.33"
 
 [features]
 default = ["csr"]

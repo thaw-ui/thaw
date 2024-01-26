@@ -145,5 +145,6 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream
         NodeValue::Link(_) => quote!("Link todo!!!"),
         NodeValue::Image(_) => quote!("Image todo!!!"),
         NodeValue::FootnoteReference(_) => quote!("FootnoteReference todo!!!"),
+        NodeValue::MultilineBlockQuote(_) => quote!("FootnoteReference todo!!!"),
     }
 }
