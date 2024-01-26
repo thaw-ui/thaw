@@ -79,7 +79,7 @@ view! {
     <Space vertical=true>
         <Input value>
             <InputPrefix slot>
-                <Icon icon=icondata::Icon::from(icondata::AiIcon::AiUserOutlined)/>
+                <Icon icon=icondata::AiUserOutlined/>
             </InputPrefix>
         </Input>
         <Input value>
@@ -87,7 +87,7 @@ view! {
         </Input>
         <Input value>
             <InputSuffix slot>
-                <Icon icon=icondata::Icon::from(icondata::AiIcon::AiGithubOutlined)/>
+                <Icon icon=icondata::AiGithubOutlined/>
             </InputSuffix>
         </Input>
     </Space>

@@ -17,7 +17,7 @@ view! {
             on_click_right=on_click_right
         >
             <NavBarRight slot>
-                 <Icon icon=icondata::Icon::from(icondata::AiIcon::AiCloseOutlined)/> 
+                 <Icon icon=icondata::AiCloseOutlined/> 
             </NavBarRight>
         </NavBar>
         <div style="padding-top: 50px">{move || click_text.get()}</div>

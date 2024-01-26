@@ -5,7 +5,6 @@ use crate::{
     utils::{class_list::class_list, mount_style},
     Icon, Theme,
 };
-use icondata::AiIcon;
 use leptos::*;
 pub use theme::AlertTheme;
 
@@ -77,9 +76,9 @@ pub fn Alert(
     });
     let icon = create_memo(move |_| {
         match variant.get() {
-            AlertVariant::Success => AiIcon::AiCheckCircleFilled,
-            AlertVariant::Warning => AiIcon::AiExclamationCircleFilled,
-            AlertVariant::Error => AiIcon::AiCloseCircleFilled,
+            AlertVariant::Success => icondata::AiCheckCircleFilled,
+            AlertVariant::Warning => icondata::AiExclamationCircleFilled,
+            AlertVariant::Error => icondata::AiCloseCircleFilled,
         }
         .into()
     });

@@ -29,17 +29,17 @@ view! {
 ```rust demo
 view! {
     <Space>
-        <Button color=ButtonColor::Error icon=icondata::AiIcon::AiCloseOutlined>
+        <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
             "Error Color Icon"
         </Button>
         <Button
             color=ButtonColor::Error
-            icon=icondata::AiIcon::AiCloseOutlined
+            icon=icondata::AiCloseOutlined
             round=true
         />
         <Button
             color=ButtonColor::Error
-            icon=icondata::AiIcon::AiCloseOutlined
+            icon=icondata::AiCloseOutlined
             circle=true
         />
     </Space>
@@ -62,7 +62,7 @@ let on_click = move |_| {
 
 view! {
     <Space>
-        <Button loading on_click icon=icondata::AiIcon::AiCloseOutlined>
+        <Button loading on_click icon=icondata::AiCloseOutlined>
             "Click Me"
         </Button>
         <Button loading on_click>

@@ -11,7 +11,7 @@ view! {
         <Tabbar value>
             <TabbarItem key="a">"and"</TabbarItem>
             <TabbarItem key="i">"if"</TabbarItem>
-            <TabbarItem key="o" icon=icondata::AiIcon::AiCloseOutlined>
+            <TabbarItem key="o" icon=icondata::AiCloseOutlined>
                 "or"
             </TabbarItem>
         </Tabbar>

@@ -1,7 +1,7 @@
 use super::PanelVariant;
 use crate::{
     chrono::{Datelike, NaiveDate},
-    AiIcon, Button, ButtonSize, ButtonVariant,
+    Button, ButtonSize, ButtonVariant,
 };
 use leptos::*;
 
@@ -34,7 +34,7 @@ pub fn YearPanel(
                 <Button
                     variant=ButtonVariant::Link
                     size=ButtonSize::Small
-                    icon=AiIcon::AiArrowLeftOutlined
+                    icon=icondata::AiArrowLeftOutlined
                     on_click=previous_year_range
                 />
                 <div>
@@ -47,7 +47,7 @@ pub fn YearPanel(
                 <Button
                     variant=ButtonVariant::Link
                     size=ButtonSize::Small
-                    icon=AiIcon::AiArrowRightOutlined
+                    icon=icondata::AiArrowRightOutlined
                     on_click=next_year_range
                 />
             </div>
