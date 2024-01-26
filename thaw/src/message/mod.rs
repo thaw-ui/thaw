@@ -63,7 +63,7 @@ pub(crate) fn Message(
                 <If cond=closable>
                     <Then slot>
                         <div class="thaw-message__close"  on:click=move |_| on_close.call(id)>
-                            <Icon icon=icondata::Icon::Ai(AiCloseOutlined)/>
+                            <Icon icon=icondata::AiCloseOutlined/>
                         </div>
                     </Then>
                 </If>
