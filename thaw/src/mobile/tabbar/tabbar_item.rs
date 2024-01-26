@@ -1,13 +1,13 @@
 use super::use_tabbar;
 use crate::components::*;
 use crate::utils::StoredMaybeSignal;
-use crate::{icon::*, theme::use_theme, utils::mount_style, Theme};
+use crate::{icon::Icon, theme::use_theme, utils::mount_style, Theme};
 use leptos::*;
 
 #[component]
 pub fn TabbarItem(
     #[prop(into)] key: MaybeSignal<String>,
-    #[prop(optional, into)] icon: Option<Icon>,
+    #[prop(optional, into)] icon: Option<icondata::Icon>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabbar-item", include_str!("./tabbar-item.css"));

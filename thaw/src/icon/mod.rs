@@ -1,14 +1,13 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
-pub(crate) use icondata::Icon;
 use leptos::*;
 
 /// The Icon component.
 #[component]
 pub fn Icon(
-    /// The icon to show.
+    /// The icon to render.
     #[prop(into)]
-    icon: MaybeSignal<Icon>,
+    icon: MaybeSignal<icondata::Icon>,
     /// The width of the icon (horizontal side length of the square surrounding the icon). Defaults to "1em".
     #[prop(into, optional)]
     width: Option<MaybeSignal<String>>,
@@ -25,12 +24,12 @@ pub fn Icon(
     let svg = move || {
         let icon = icon.get();
         let mut svg = svg::svg();
-        if let Some(classes) = class.clone() {
-            svg = svg.classes(classes.get());
+        if let Some(class) = class.clone() {
+            svg = svg.attr("class", move || class.get())
         }
         let mut svg = match (style.clone(), icon.style) {
-            (Some(a), Some(b)) => svg.attr("style", format!("{b} {}", a.get())),
-            (Some(a), None) => svg.attr("style", a.get()),
+            (Some(a), Some(b)) => svg.attr("style", move || format!("{b} {}", a.get())),
+            (Some(a), None) => svg.attr("style", move || a.get()),
             (None, Some(b)) => svg.attr("style", b),
             (None, None) => svg,
         };
@@ -45,21 +44,17 @@ pub fn Icon(
         // We ignore the width and height attributes of the icon, even if the user hasn't specified any.
         svg = svg.attr(
             "width",
-            Attribute::String(match (width.clone(), icon.width) {
-                (Some(a), Some(_b)) => Oco::from(a.get()),
-                (Some(a), None) => Oco::from(a.get()),
-                (None, Some(_b)) => Oco::from("1em"),
-                (None, None) => Oco::from("1em"),
-            }),
+            match (width.clone(), icon.width) {
+                (Some(a), _) => (move || a.get()).into_attribute(),
+                _ => "1em".into_attribute(),
+            },
         );
         svg = svg.attr(
             "height",
-            Attribute::String(match (height.clone(), icon.height) {
-                (Some(a), Some(_b)) => Oco::from(a.get()),
-                (Some(a), None) => Oco::from(a.get()),
-                (None, Some(_b)) => Oco::from("1em"),
-                (None, None) => Oco::from("1em"),
-            }),
+            match (height.clone(), icon.height) {
+                (Some(a), _) => (move || a.get()).into_attribute(),
+                _ => "1em".into_attribute(),
+            },
         );
         if let Some(view_box) = icon.view_box {
             svg = svg.attr("viewBox", view_box);
