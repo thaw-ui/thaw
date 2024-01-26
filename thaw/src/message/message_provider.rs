@@ -1,12 +1,39 @@
 use std::time::Duration;
 
 use super::{message_environment::MessageEnvironment, MessageVariant};
-use crate::{components::Teleport, utils::mount_style};
+use crate::{components::Teleport, utils::{class_list::class_list, mount_style}};
 use leptos::*;
 use uuid::Uuid;
 
+#[derive(Default, Clone)]
+pub enum MessagePlacement {
+    #[default]
+    Top,
+    TopLeft,
+    TopRight,
+    Bottom,
+    BottomLeft,
+    BottomRight
+}
+
+impl MessagePlacement {
+    fn container_style(&self) -> String {
+        match self {
+            MessagePlacement::Top => "thaw-message-container--top".to_owned(),
+            MessagePlacement::TopLeft => "thaw-message-container--top-left".to_owned(),
+            MessagePlacement::TopRight => "thaw-message-container--top-right".to_owned(),
+            MessagePlacement::Bottom => "thaw-message-container--bottom".to_owned(),
+            MessagePlacement::BottomLeft => "thaw-message-container--bottom-left".to_owned(),
+            MessagePlacement::BottomRight=> "thaw-message-container--bottom-right".to_owned(),
+        }
+    }
+}
+
 #[component]
-pub fn MessageProvider(children: Children) -> impl IntoView {
+pub fn MessageProvider(
+    #[prop(optional)] placement: MessagePlacement,
+    children: Children,
+) -> impl IntoView {
     mount_style("message", include_str!("./message.css"));
 
     let message_list = create_rw_signal::<Vec<MessageType>>(vec![]);
@@ -25,7 +52,7 @@ pub fn MessageProvider(children: Children) -> impl IntoView {
             message_list,
         )>
             {children()} <Teleport>
-                <div class="thaw-message-container">
+                <div class=class_list!["thaw-message-container", placement.container_style()]>
                     <For
                         each=move || message_list.get()
                         key=|message| message.0
@@ -50,12 +77,14 @@ pub(crate) type MessageType = (Uuid, String, MessageVariant, MessageOptions);
 #[derive(Clone)]
 pub struct MessageOptions {
     pub duration: Duration,
+    pub closable: bool,
 }
 
 impl Default for MessageOptions {
     fn default() -> Self {
         Self {
             duration: Duration::from_secs(3),
+            closable: false,
         }
     }
 }
@@ -82,3 +111,5 @@ impl MessageInjection {
 pub fn use_message() -> MessageInjection {
     expect_context::<MessageInjection>()
 }
+
+

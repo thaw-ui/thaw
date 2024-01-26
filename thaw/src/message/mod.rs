@@ -2,8 +2,9 @@ mod message_environment;
 mod message_provider;
 mod theme;
 
-use crate::{theme::use_theme, Icon, Theme};
+use crate::{theme::use_theme, Icon, Theme, components::{If, Then}};
 use leptos::*;
+use uuid::Uuid;
 pub use message_provider::*;
 pub use theme::MessageTheme;
 
@@ -33,7 +34,13 @@ impl MessageVariant {
 }
 
 #[component]
-pub(crate) fn Message(variant: MessageVariant, content: String) -> impl IntoView {
+pub(crate) fn Message(
+    variant: MessageVariant,
+    content: String,
+    closable: bool,
+    id: Uuid,
+    #[prop(into)] on_close: Callback<Uuid, ()>,
+) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
@@ -53,7 +60,16 @@ pub(crate) fn Message(variant: MessageVariant, content: String) -> impl IntoView
                     <Icon icon=variant.icon() style/>
                 </div>
                 <div class="thaw-message__content">{content}</div>
+                <If cond=closable>
+                    <Then slot>
+                        <div class="thaw-message__close"  on:click=move |_| on_close.call(id)>
+                            <Icon icon=icondata::Icon::Ai(AiCloseOutlined)/>
+                        </div>
+                    </Then>
+                </If>
             </div>
         </div>
     }
 }
+
+

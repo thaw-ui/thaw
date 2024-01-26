@@ -1,3 +1,15 @@
+## [0.1.9](https://github.com/thaw-ui/thaw/compare/v0.1.8...v0.1.9) (2024-01-24)
+
+### Features
+
+* `Message` adds close button and position.
+* Update leptos to v0.5.7.
+
+### Bug Fixs
+
+* `Input` click edge does not focus.
+* Label cannot be removed correctly when `Tab` is removed.
+
 ## [0.1.8](https://github.com/thaw-ui/thaw/compare/v0.1.7...v0.1.8) (2024-01-17)
 
 ### Features
