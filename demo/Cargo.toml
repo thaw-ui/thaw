@@ -11,7 +11,7 @@ leptos = { version = "0.6.0-rc1" }
 leptos_meta = { version = "0.6.0-rc1" }
 leptos_router = { version = "0.6.0-rc1" }
 leptos_devtools = { version = "0.0.1", optional = true}
-thaw = { path = "../thaw", default-features = false }
+thaw = { path = "../thaw" }
 demo_markdown = { path = "../demo_markdown" }
 
 [features]
