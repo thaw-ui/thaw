@@ -5,7 +5,7 @@ use crate::{
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
     utils::{mount_style, ComponentRef},
-    AiIcon, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
+    Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
 };
 use leptos::*;
 pub use theme::TimePickerTheme;
@@ -77,7 +77,7 @@ pub fn TimePicker(
                 <Input attrs class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon
-                            icon=Icon::from(AiIcon::AiClockCircleOutlined)
+                            icon=icondata::AiClockCircleOutlined
                             style="font-size: 18px"
                         />
                     </InputSuffix>

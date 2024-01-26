@@ -7,7 +7,6 @@ use crate::{
     Button, ButtonGroup, ButtonVariant, Theme,
 };
 use chrono::{Month, Months};
-use icondata::AiIcon;
 use leptos::*;
 use std::ops::Deref;
 pub use theme::CalendarTheme;
@@ -137,7 +136,7 @@ pub fn Calendar(
                     <ButtonGroup>
                         <Button
                             variant=ButtonVariant::Solid
-                            icon=AiIcon::AiLeftOutlined
+                            icon=icondata::AiLeftOutlined
                             on_click=previous_month
                         />
                         <Button variant=ButtonVariant::Solid on_click=today>
@@ -145,7 +144,7 @@ pub fn Calendar(
                         </Button>
                         <Button
                             variant=ButtonVariant::Solid
-                            icon=AiIcon::AiRightOutlined
+                            icon=icondata::AiRightOutlined
                             on_click=next_month
                         />
                     </ButtonGroup>

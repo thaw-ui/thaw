@@ -4,7 +4,6 @@ use crate::{
     utils::{class_list::class_list, StoredMaybeSignal},
     Icon,
 };
-use icondata::AiIcon;
 use leptos::*;
 
 #[component]
@@ -48,7 +47,7 @@ pub fn CollapseItem(
             move || class.get()
         ]>
             <div class="thaw-collapse-item__header" on:click=on_click>
-                <Icon icon=Icon::from(AiIcon::AiRightOutlined) class="thaw-collapse-item-arrow"/>
+                <Icon icon=icondata::AiRightOutlined class="thaw-collapse-item-arrow"/>
                 {move || title.get()}
             </div>
             <CSSTransition node_ref=content_ref show=is_show_content name="thaw-collapse-item" let:display>

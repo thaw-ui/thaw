@@ -3,7 +3,6 @@ mod message_provider;
 mod theme;
 
 use crate::{theme::use_theme, Icon, Theme, components::{If, Then}};
-use icondata::*;
 use leptos::*;
 use uuid::Uuid;
 pub use message_provider::*;
@@ -20,9 +19,9 @@ pub enum MessageVariant {
 impl MessageVariant {
     fn icon(&self) -> Icon {
         match self {
-            MessageVariant::Success => icondata::Icon::Ai(AiCloseCircleFilled),
-            MessageVariant::Warning => icondata::Icon::Ai(AiExclamationCircleFilled),
-            MessageVariant::Error => icondata::Icon::Ai(AiCheckCircleFilled),
+            MessageVariant::Success => icondata::AiCloseCircleFilled,
+            MessageVariant::Warning => icondata::AiExclamationCircleFilled,
+            MessageVariant::Error => icondata::AiCheckCircleFilled,
         }
     }
     fn theme_color(&self, theme: &Theme) -> String {
@@ -64,7 +63,7 @@ pub(crate) fn Message(
                 <If cond=closable>
                     <Then slot>
                         <div class="thaw-message__close"  on:click=move |_| on_close.call(id)>
-                            <Icon icon=icondata::Icon::Ai(AiCloseOutlined)/>
+                            <Icon icon=icondata::AiCloseOutlined/>
                         </div>
                     </Then>
                 </If>

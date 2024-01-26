@@ -5,7 +5,7 @@ use crate::{
     chrono::NaiveDate,
     components::{Binder, Follower, FollowerPlacement},
     utils::{mount_style, now_date, ComponentRef},
-    AiIcon, Icon, Input, InputSuffix, SignalWatch,
+    Icon, Input, InputSuffix, SignalWatch,
 };
 use leptos::*;
 use panel::{Panel, PanelRef};
@@ -76,7 +76,7 @@ pub fn DatePicker(
             <div ref=date_picker_ref>
                 <Input attrs class value=show_date_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
-                        <Icon icon=Icon::from(AiIcon::AiCalendarOutlined) style="font-size: 18px"/>
+                        <Icon icon=icondata::AiCalendarOutlined style="font-size: 18px"/>
                     </InputSuffix>
                 </Input>
             </div>

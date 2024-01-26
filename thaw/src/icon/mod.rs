@@ -1,6 +1,6 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
-pub(crate) use icondata::*;
+pub(crate) use icondata::Icon;
 use leptos::*;
 
 /// The Icon component.
@@ -22,10 +22,8 @@ pub fn Icon(
     #[prop(into, optional)]
     style: Option<MaybeSignal<String>>,
 ) -> impl IntoView {
-    let icon = move || icondata_core::IconData::from(icon.get());
-
     let svg = move || {
-        let icon = icon();
+        let icon = icon.get();
         let mut svg = svg::svg();
         if let Some(classes) = class.clone() {
             svg = svg.classes(classes.get());
