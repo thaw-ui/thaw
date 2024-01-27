@@ -1,4 +1,4 @@
-use crate::utils::StoredMaybeSignal;
+use crate::utils::{Model, StoredMaybeSignal};
 use crate::{Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
@@ -6,7 +6,7 @@ use std::str::FromStr;
 
 #[component]
 pub fn InputNumber<T>(
-    #[prop(optional, into)] value: RwSignal<T>,
+    #[prop(optional, into)] value: Model<T>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(into)] step: MaybeSignal<T>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,

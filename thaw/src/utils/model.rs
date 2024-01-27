@@ -1,6 +1,6 @@
 use leptos::{
-    Memo, ReadSignal, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSet, SignalSetter,
-    WriteSignal,
+    Memo, ReadSignal, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSet, SignalUpdate,
+    SignalWith, SignalWithUntracked, WriteSignal,
 };
 
 pub struct Model<T>
@@ -8,8 +8,8 @@ where
     T: 'static,
 {
     read: Signal<T>,
-    write: SignalSetter<T>,
-    on_write: Option<SignalSetter<T>>,
+    write: WriteSignal<T>,
+    on_write: Option<WriteSignal<T>>,
 }
 
 impl<T: Default> Default for Model<T> {
@@ -18,10 +18,26 @@ impl<T: Default> Default for Model<T> {
     }
 }
 
+impl<T> Clone for Model<T> {
+    fn clone(&self) -> Self {
+        Self {
+            read: self.read.clone(),
+            write: self.write.clone(),
+            on_write: self.on_write.clone(),
+        }
+    }
+}
+
+impl<T> Copy for Model<T> {}
+
 impl<T> Model<T> {
     fn new(value: T) -> Self {
         let rw_signal = RwSignal::new(value);
         rw_signal.into()
+    }
+
+    pub fn signal(&self) -> Signal<T> {
+        self.read.clone()
     }
 }
 
@@ -67,6 +83,42 @@ impl<T: Clone> SignalSet for Model<T> {
     }
 }
 
+impl<T> SignalWith for Model<T> {
+    type Value = T;
+
+    fn with<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> O {
+        self.read.with(f)
+    }
+
+    fn try_with<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> Option<O> {
+        self.read.try_with(f)
+    }
+}
+
+impl<T> SignalWithUntracked for Model<T> {
+    type Value = T;
+
+    fn with_untracked<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> O {
+        self.read.with_untracked(f)
+    }
+
+    fn try_with_untracked<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> Option<O> {
+        self.read.try_with_untracked(f)
+    }
+}
+
+impl<T> SignalUpdate for Model<T> {
+    type Value = T;
+
+    fn update(&self, f: impl FnOnce(&mut Self::Value)) {
+        self.write.update(f);
+    }
+
+    fn try_update<O>(&self, f: impl FnOnce(&mut Self::Value) -> O) -> Option<O> {
+        self.write.try_update(f)
+    }
+}
+
 impl<T> From<T> for Model<T> {
     fn from(value: T) -> Self {
         Self::new(value)
@@ -78,7 +130,7 @@ impl<T> From<RwSignal<T>> for Model<T> {
         let (read, write) = rw_signal.split();
         Self {
             read: read.into(),
-            write: write.into(),
+            write,
             on_write: None,
         }
     }
@@ -88,20 +140,7 @@ impl<T> From<(ReadSignal<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (ReadSignal<T>, WriteSignal<T>)) -> Self {
         Self {
             read: read.into(),
-            write: write.into(),
-            on_write: None,
-        }
-    }
-}
-
-impl<T, F> From<(ReadSignal<T>, F)> for Model<T>
-where
-    F: Fn(T) + 'static,
-{
-    fn from((read, write): (ReadSignal<T>, F)) -> Self {
-        Self {
-            read: read.into(),
-            write: SignalSetter::map(write),
+            write,
             on_write: None,
         }
     }
@@ -111,20 +150,7 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Memo<T>, WriteSignal<T>)) -> Self {
         Self {
             read: read.into(),
-            write: write.into(),
-            on_write: None,
-        }
-    }
-}
-
-impl<T, F> From<(Memo<T>, F)> for Model<T>
-where
-    F: Fn(T) + 'static,
-{
-    fn from((read, write): (Memo<T>, F)) -> Self {
-        Self {
-            read: read.into(),
-            write: SignalSetter::map(write),
+            write,
             on_write: None,
         }
     }
@@ -134,17 +160,6 @@ impl<T: Default> From<(Option<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Option<T>, WriteSignal<T>)) -> Self {
         let mut modal = Self::new(read.unwrap_or_default());
         modal.on_write = Some(write.into());
-        modal
-    }
-}
-
-impl<T: Default, F> From<(Option<T>, F)> for Model<T>
-where
-    F: Fn(T) + 'static,
-{
-    fn from((read, write): (Option<T>, F)) -> Self {
-        let mut modal = Self::new(read.unwrap_or_default());
-        modal.on_write = Some(SignalSetter::map(write));
         modal
     }
 }
@@ -177,25 +192,6 @@ mod test {
         assert_eq!(modal.get_untracked(), 0);
         modal.set(1);
         assert_eq!(modal.get_untracked(), 1);
-
-        // Read Fn
-        let (read, _) = create_signal(0);
-        let modal: Model<i32> = (read, move |_| {}).into();
-        assert_eq!(modal.get_untracked(), 0);
-        modal.set(1);
-        assert_eq!(modal.get_untracked(), 0);
-
-        // Memo Fn
-        let modal: Model<i32> = (Memo::new(move |_| 0), move |_| {}).into();
-        assert_eq!(modal.get_untracked(), 0);
-
-        // Option<T> Fn
-        let modal: Model<i32> = (Some(1), move |_| {}).into();
-        assert_eq!(modal.get_untracked(), 1);
-
-        // Option<T> Fn
-        let modal: Model<i32> = (None, move |_| {}).into();
-        assert_eq!(modal.get_untracked(), 0);
 
         runtime.dispose();
     }

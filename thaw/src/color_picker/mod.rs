@@ -4,7 +4,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Theme,
 };
 pub use color::*;
@@ -14,7 +14,7 @@ pub use theme::ColorPickerTheme;
 
 #[component]
 pub fn ColorPicker(
-    #[prop(optional, into)] value: RwSignal<RGBA>,
+    #[prop(optional, into)] value: Model<RGBA>,
     #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
