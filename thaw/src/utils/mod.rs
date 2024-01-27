@@ -2,6 +2,7 @@
 pub(crate) mod class_list;
 mod component_ref;
 mod event_listener;
+mod model;
 mod mount_style;
 mod signal;
 mod stored_maybe_signal;
