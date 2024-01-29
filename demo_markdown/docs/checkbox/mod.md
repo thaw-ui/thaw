@@ -5,6 +5,7 @@ let value = create_rw_signal(false);
 
 view! {
     <Checkbox value>"Click"</Checkbox>
+    <Checkbox />
 }
 ```
 
