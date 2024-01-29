@@ -1,4 +1,5 @@
 use crate::icon::*;
+use crate::utils::Model;
 use crate::{
     components::{OptionComp, Teleport},
     utils::{mount_style, StoredMaybeSignal},
@@ -13,7 +14,7 @@ pub struct ModalFooter {
 
 #[component]
 pub fn Modal(
-    #[prop(into)] show: RwSignal<bool>,
+    #[prop(into)] show: Model<bool>,
     #[prop(optional, into)] title: MaybeSignal<String>,
     children: Children,
     #[prop(optional)] modal_footer: Option<ModalFooter>,

@@ -1,13 +1,13 @@
 use crate::{
     components::Teleport,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Card,
 };
 use leptos::*;
 
 #[component]
 pub fn Drawer(
-    #[prop(into)] show: RwSignal<bool>,
+    #[prop(into)] show: Model<bool>,
     #[prop(optional, into)] title: MaybeSignal<String>,
     #[prop(optional, into)] placement: MaybeSignal<DrawerPlacement>,
     #[prop(default = MaybeSignal::Static("520px".to_string()), into)] width: MaybeSignal<String>,

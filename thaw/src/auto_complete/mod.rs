@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     use_theme,
-    utils::{class_list::class_list, mount_style, StoredMaybeSignal},
+    utils::{class_list::class_list, mount_style, Model, StoredMaybeSignal},
     ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme,
 };
 use leptos::*;
@@ -27,7 +27,7 @@ pub struct AutoCompleteSuffix {
 
 #[component]
 pub fn AutoComplete(
-    #[prop(optional, into)] value: RwSignal<String>,
+    #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,

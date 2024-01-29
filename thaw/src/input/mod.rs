@@ -6,7 +6,7 @@ pub use theme::InputTheme;
 
 use crate::{
     theme::{use_theme, Theme},
-    utils::{class_list::class_list, mount_style, ComponentRef},
+    utils::{class_list::class_list, mount_style, ComponentRef, Model},
 };
 use leptos::*;
 
@@ -42,7 +42,7 @@ pub struct InputSuffix {
 
 #[component]
 pub fn Input(
-    #[prop(optional, into)] value: RwSignal<String>,
+    #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
     #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,

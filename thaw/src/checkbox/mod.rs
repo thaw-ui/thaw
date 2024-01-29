@@ -5,7 +5,7 @@ use crate::{
     components::*,
     icon::*,
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Theme,
 };
 pub use checkbox_group::CheckboxGroup;
@@ -14,7 +14,7 @@ use leptos::*;
 
 #[component]
 pub fn Checkbox(
-    #[prop(optional, into)] value: RwSignal<bool>,
+    #[prop(optional, into)] value: Model<bool>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
@@ -44,7 +44,7 @@ pub fn Checkbox(
         >
             <input class="thaw-checkbox__input" type="checkbox"/>
             <div class="thaw-checkbox__dot">
-                <If cond=value>
+                <If cond=value.signal()>
                     <Then slot>
                         <Icon icon=icondata::AiCheckOutlined style="color: white"/>
                     </Then>
