@@ -135,15 +135,15 @@ pub fn Calendar(
                 <span>
                     <ButtonGroup>
                         <Button
-                            variant=ButtonVariant::Solid
+                            variant=ButtonVariant::Outlined
                             icon=icondata::AiLeftOutlined
                             on_click=previous_month
                         />
-                        <Button variant=ButtonVariant::Solid on_click=today>
+                        <Button variant=ButtonVariant::Outlined on_click=today>
                             "Today"
                         </Button>
                         <Button
-                            variant=ButtonVariant::Solid
+                            variant=ButtonVariant::Outlined
                             icon=icondata::AiRightOutlined
                             on_click=next_month
                         />

@@ -15,7 +15,7 @@ pub use theme::ButtonTheme;
 pub enum ButtonVariant {
     #[default]
     Primary,
-    Solid,
+    Outlined,
     Text,
     Link,
 }
@@ -155,11 +155,11 @@ pub fn Button(
                         theme.button.color_border_disabled
                     ));
                 }
-                ButtonVariant::Solid => {
+                ButtonVariant::Outlined => {
                     css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
                     css_vars.push_str(&format!(
                         "--thaw-border-color: {};",
-                        theme.button.border_color_solid
+                        theme.button.border_color_outlined
                     ));
                     css_vars.push_str(&format!("--thaw-border-color-hover: {bg_color};"));
                     css_vars.push_str(&format!("--thaw-ripple-color: {bg_color};"));
@@ -223,8 +223,8 @@ pub fn Button(
     view! {
         <button
             class=class_list![
-                "thaw-button", ("thaw-button--solid", move || variant.get() ==
-                ButtonVariant::Solid), ("thaw-button--text", move || variant.get() ==
+                "thaw-button", ("thaw-button--outlined", move || variant.get() ==
+                ButtonVariant::Outlined), ("thaw-button--text", move || variant.get() ==
                 ButtonVariant::Text), ("thaw-button--link", move || variant.get() ==
                 ButtonVariant::Link), ("thaw-button--round", move || round.get()),
                 ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||

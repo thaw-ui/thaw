@@ -4,7 +4,7 @@
 view! {
     <Space>
         <Button variant=ButtonVariant::Primary>"Primary"</Button>
-        <Button variant=ButtonVariant::Solid>"Solid"</Button>
+        <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
         <Button variant=ButtonVariant::Text>"Text"</Button>
         <Button variant=ButtonVariant::Link>"Link"</Button>
     </Space>
@@ -80,8 +80,8 @@ view! {
         <Button variant=ButtonVariant::Primary disabled=true>
             "Primary"
         </Button>
-        <Button variant=ButtonVariant::Solid disabled=true>
-            "Solid"
+        <Button variant=ButtonVariant::Outlined disabled=true>
+            "Outlined"
         </Button>
         <Button variant=ButtonVariant::Text disabled=true>
             "Text"
@@ -112,14 +112,14 @@ view! {
 view! {
     <Space>
         <ButtonGroup>
-            <Button variant=ButtonVariant::Solid>"Solid"</Button>
-            <Button variant=ButtonVariant::Solid>"Solid"</Button>
-            <Button variant=ButtonVariant::Solid>"Solid"</Button>
+            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
         </ButtonGroup>
         <ButtonGroup vertical=true>
-            <Button variant=ButtonVariant::Solid>"Solid"</Button>
-            <Button variant=ButtonVariant::Solid>"Solid"</Button>
-            <Button variant=ButtonVariant::Solid>"Solid"</Button>
+            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
         </ButtonGroup>
     </Space>
 }
