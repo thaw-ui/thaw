@@ -29,7 +29,7 @@ pub fn Badge(
     #[prop(default = MaybeSignal::Static(u32::MAX), into)] max: MaybeSignal<u32>,
     #[prop(optional, into)] variant: MaybeSignal<BadgeVariant>,
     #[prop(optional, into)] dot: MaybeSignal<bool>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -61,7 +61,8 @@ pub fn Badge(
         <div class="thaw-badge" style=move || css_vars.get()>
             <div class=class_list![
                 "thaw-badge__sup", ("thaw-badge__sup--value", move || ! dot.get() && ! value.get()
-                .is_empty()), ("thaw-badge__sup--dot", move || dot.get()), move || class.get()
+                .is_empty()), ("thaw-badge__sup--dot", move || dot.get()), class.map(| c | move || c
+                .get())
             ]>{move || value.get()}</div>
             {children()}
         </div>

@@ -1,6 +1,7 @@
 mod theme;
 
 use crate::{
+    components::OptionComp,
     use_theme,
     utils::{class_list::class_list, mount_style},
     Theme,
@@ -10,10 +11,10 @@ pub use theme::AvatarTheme;
 
 #[component]
 pub fn Avatar(
-    #[prop(optional, into)] src: MaybeSignal<String>,
+    #[prop(optional, into)] src: Option<MaybeSignal<String>>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(default = MaybeSignal::Static(30), into)] size: MaybeSignal<u16>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
@@ -34,12 +35,13 @@ pub fn Avatar(
     mount_style("avatar", include_str!("./avatar.css"));
 
     view! {
-        <span class=class_list!["thaw-avatar", move || class.get()] style=move || css_vars.get()>
-            {move || {
-                let src = src.get();
-                (!src.is_empty()).then(|| view! { <img src=src/> })
-            }}
-
+        <span
+            class=class_list!["thaw-avatar", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
+            <OptionComp value=src let:src>
+                <img src=move || src.get()/>
+            </OptionComp>
         </span>
     }
 }
