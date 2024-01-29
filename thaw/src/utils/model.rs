@@ -158,9 +158,9 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
 
 impl<T: Default> From<(Option<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Option<T>, WriteSignal<T>)) -> Self {
-        let mut modal = Self::new(read.unwrap_or_default());
-        modal.on_write = Some(write.into());
-        modal
+        let mut model = Self::new(read.unwrap_or_default());
+        model.on_write = Some(write.into());
+        model
     }
 }
 
@@ -174,24 +174,24 @@ mod test {
         let runtime = create_runtime();
 
         // T
-        let modal: Model<i32> = 0.into();
-        assert_eq!(modal.get_untracked(), 0);
-        modal.set(1);
-        assert_eq!(modal.get_untracked(), 1);
+        let model: Model<i32> = 0.into();
+        assert_eq!(model.get_untracked(), 0);
+        model.set(1);
+        assert_eq!(model.get_untracked(), 1);
 
         // RwSignal
         let rw_signal = RwSignal::new(0);
-        let modal: Model<i32> = rw_signal.into();
-        assert_eq!(modal.get_untracked(), 0);
-        modal.set(1);
-        assert_eq!(modal.get_untracked(), 1);
+        let model: Model<i32> = rw_signal.into();
+        assert_eq!(model.get_untracked(), 0);
+        model.set(1);
+        assert_eq!(model.get_untracked(), 1);
 
         // Read Write
         let (read, write) = create_signal(0);
-        let modal: Model<i32> = (read, write).into();
-        assert_eq!(modal.get_untracked(), 0);
-        modal.set(1);
-        assert_eq!(modal.get_untracked(), 1);
+        let model: Model<i32> = (read, write).into();
+        assert_eq!(model.get_untracked(), 0);
+        model.set(1);
+        assert_eq!(model.get_untracked(), 1);
 
         runtime.dispose();
     }
