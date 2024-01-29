@@ -257,7 +257,7 @@ fn Panel(
                 </div>
             </div>
             <div class="thaw-time-picker-panel__footer">
-                <Button variant=ButtonVariant::Solid size=ButtonSize::Tiny on_click=now>
+                <Button variant=ButtonVariant::Outlined size=ButtonSize::Tiny on_click=now>
                     "Now"
                 </Button>
                 <Button size=ButtonSize::Tiny on_click=ok>

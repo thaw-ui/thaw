@@ -13,7 +13,7 @@
     user-select: none;
 }
 
-.thaw-button:hover:not(.thaw-button--disabled, .thaw-button--solid) {
+.thaw-button:hover:not(.thaw-button--disabled, .thaw-button--outlined) {
     border-color: var(--thaw-border-color-hover);
     background-color: var(--thaw-background-color-hover);
     cursor: pointer;
@@ -37,13 +37,13 @@
     background-color: var(--thaw-background-color-active);
 }
 
-.thaw-button--solid {
+.thaw-button--outlined {
     background-color: transparent;
     color: inherit;
     transition: all 0.3s;
 }
 
-.thaw-button--solid:hover:not(.thaw-button--disabled) {
+.thaw-button--outlined:hover:not(.thaw-button--disabled) {
     cursor: pointer;
     color: var(--thaw-font-color-hover);
     border-color: var(--thaw-border-color-hover);

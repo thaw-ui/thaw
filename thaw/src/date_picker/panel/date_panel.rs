@@ -159,7 +159,7 @@ pub fn DatePanel(
                 </div>
             </div>
             <div class="thaw-date-picker-date-panel__footer">
-                <Button variant=ButtonVariant::Solid size=ButtonSize::Tiny on_click=now>
+                <Button variant=ButtonVariant::Outlined size=ButtonSize::Tiny on_click=now>
                     "Now"
                 </Button>
             </div>

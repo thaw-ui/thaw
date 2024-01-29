@@ -7,7 +7,7 @@ pub struct ButtonTheme {
     pub padding_medium: String,
     pub padding_large: String,
 
-    pub border_color_solid: String,
+    pub border_color_outlined: String,
     pub color_text_hover: String,
     pub color_text_active: String,
     pub color_text_disabled: String,
@@ -23,7 +23,7 @@ impl ThemeMethod for ButtonTheme {
             padding_medium: "0 14px".into(),
             padding_large: "0 18px".into(),
 
-            border_color_solid: "#e0e0e6".into(),
+            border_color_outlined: "#e0e0e6".into(),
             color_text_hover: "#f1f3f5".into(),
             color_text_active: "#eceef0".into(),
             color_text_disabled: "#00000040".into(),
@@ -39,7 +39,7 @@ impl ThemeMethod for ButtonTheme {
             padding_medium: "0 14px".into(),
             padding_large: "0 18px".into(),
 
-            border_color_solid: "#ffffff3d".into(),
+            border_color_outlined: "#ffffff3d".into(),
             color_text_hover: "#ffffff1a".into(),
             color_text_active: "#ffffff26".into(),
             color_text_disabled: "#4c5155".into(),
