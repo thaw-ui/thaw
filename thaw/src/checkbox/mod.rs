@@ -16,7 +16,7 @@ use leptos::*;
 pub fn Checkbox(
     #[prop(optional, into)] value: Model<bool>,
     #[prop(optional, into)] class: MaybeSignal<String>,
-    children: Children,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("checkbox", include_str!("./checkbox.css"));
@@ -50,7 +50,9 @@ pub fn Checkbox(
                     </Then>
                 </If>
             </div>
-            <div class="thaw-checkbox__label">{children()}</div>
+            <OptionComp value=children let:children>
+                <div class="thaw-checkbox__label">{children()}</div>
+            </OptionComp>
         </div>
     }
 }
