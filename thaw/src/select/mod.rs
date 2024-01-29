@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Theme,
 };
 use leptos::*;
@@ -18,7 +18,7 @@ pub struct SelectOption<T> {
 
 #[component]
 pub fn Select<T>(
-    #[prop(optional, into)] value: RwSignal<Option<T>>,
+    #[prop(optional, into)] value: Model<Option<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
     #[prop(optional, into)] class: MaybeSignal<String>,
 ) -> impl IntoView

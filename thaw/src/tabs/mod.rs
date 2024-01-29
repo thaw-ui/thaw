@@ -2,7 +2,7 @@ mod tab;
 
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Theme,
 };
 use leptos::*;
@@ -11,7 +11,7 @@ pub use tab::*;
 
 #[component]
 pub fn Tabs(
-    #[prop(optional, into)] value: RwSignal<String>,
+    #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
@@ -30,7 +30,7 @@ pub fn Tabs(
 
 #[component]
 fn TabsInner(
-    value: RwSignal<String>,
+    value: Model<String>,
     tab_options_vec: RwSignal<Vec<TabOption>>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
@@ -161,7 +161,7 @@ pub(crate) struct TabsLabelLine {
 
 #[derive(Clone)]
 pub(crate) struct TabsInjection {
-    active_key: RwSignal<String>,
+    active_key: Model<String>,
     tab_options_vec: RwSignal<Vec<TabOption>>,
 }
 

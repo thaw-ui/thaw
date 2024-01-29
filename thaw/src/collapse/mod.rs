@@ -6,7 +6,7 @@ pub use theme::CollapseTheme;
 
 use crate::{
     use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Theme,
 };
 use leptos::*;
@@ -15,7 +15,7 @@ use std::collections::HashSet;
 #[component]
 pub fn Collapse(
     #[prop(optional, into)] class: MaybeSignal<String>,
-    #[prop(optional, into)] value: RwSignal<HashSet<String>>,
+    #[prop(optional, into)] value: Model<HashSet<String>>,
     #[prop(optional)] accordion: bool,
     children: Children,
 ) -> impl IntoView {
@@ -42,7 +42,7 @@ pub fn Collapse(
 
 #[derive(Clone)]
 pub(crate) struct CollapseInjection {
-    pub value: RwSignal<HashSet<String>>,
+    pub value: Model<HashSet<String>>,
     pub accordion: bool,
 }
 

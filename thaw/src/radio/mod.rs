@@ -1,13 +1,13 @@
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Theme,
 };
 use leptos::*;
 
 #[component]
 pub fn Radio(
-    #[prop(optional, into)] value: RwSignal<bool>,
+    #[prop(optional, into)] value: Model<bool>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {

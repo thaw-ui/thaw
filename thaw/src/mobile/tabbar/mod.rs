@@ -1,14 +1,14 @@
 mod tabbar_item;
 mod theme;
 
-use crate::{use_theme, utils::mount_style, Theme};
+use crate::{use_theme, utils::{mount_style, Model}, Theme};
 use leptos::*;
 pub use tabbar_item::*;
 pub use theme::TabbarTheme;
 
 #[component]
 pub fn Tabbar(
-    #[prop(optional, into)] value: RwSignal<String>,
+    #[prop(optional, into)] value: Model<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabbar", include_str!("./tabbar.css"));
@@ -32,7 +32,7 @@ pub fn Tabbar(
 }
 
 #[derive(Clone)]
-pub(crate) struct TabbarInjection(pub RwSignal<String>);
+pub(crate) struct TabbarInjection(pub Model<String>);
 
 pub(crate) fn use_tabbar() -> TabbarInjection {
     expect_context()

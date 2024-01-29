@@ -1,12 +1,12 @@
 use crate::{
     theme::{use_theme, Theme},
-    utils::{class_list::class_list, mount_style, ComponentRef},
+    utils::{class_list::class_list, mount_style, ComponentRef, Model},
 };
 use leptos::*;
 
 #[component]
 pub fn TextArea(
-    #[prop(optional, into)] value: RwSignal<String>,
+    #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
     #[prop(optional, into)] placeholder: MaybeSignal<String>,
     #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,

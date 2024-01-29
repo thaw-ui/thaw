@@ -4,7 +4,7 @@ use crate::{
     chrono::{Local, NaiveTime, Timelike},
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
-    utils::{mount_style, ComponentRef},
+    utils::{mount_style, ComponentRef, Model},
     Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
 };
 use leptos::*;
@@ -12,7 +12,7 @@ pub use theme::TimePickerTheme;
 
 #[component]
 pub fn TimePicker(
-    #[prop(optional, into)] value: RwSignal<Option<NaiveTime>>,
+    #[prop(optional, into)] value: Model<Option<NaiveTime>>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {

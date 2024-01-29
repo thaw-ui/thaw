@@ -4,7 +4,7 @@ mod theme;
 use crate::{
     components::OptionComp,
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, Model},
     Theme,
 };
 use leptos::*;
@@ -15,7 +15,7 @@ pub use theme::SliderTheme;
 
 #[component]
 pub fn Slider(
-    #[prop(optional, into)] value: RwSignal<f64>,
+    #[prop(optional, into)] value: Model<f64>,
     #[prop(default = MaybeSignal::Static(100f64), into)] max: MaybeSignal<f64>,
     #[prop(optional, into)] step: MaybeSignal<f64>,
     #[prop(optional, into)] class: MaybeSignal<String>,

@@ -2,7 +2,7 @@ mod menu_group;
 mod menu_item;
 mod theme;
 
-use crate::utils::class_list::class_list;
+use crate::utils::{class_list::class_list, Model};
 use leptos::*;
 pub use menu_group::MenuGroup;
 pub use menu_item::*;
@@ -10,7 +10,7 @@ pub use theme::MenuTheme;
 
 #[component]
 pub fn Menu(
-    #[prop(optional, into)] value: RwSignal<String>,
+    #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] class: MaybeSignal<String>,
     children: Children,
 ) -> impl IntoView {
@@ -22,7 +22,7 @@ pub fn Menu(
 }
 
 #[derive(Clone)]
-pub(crate) struct MenuInjection(pub RwSignal<String>);
+pub(crate) struct MenuInjection(pub Model<String>);
 
 pub(crate) fn use_menu() -> MenuInjection {
     expect_context()
