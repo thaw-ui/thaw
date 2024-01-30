@@ -4,7 +4,7 @@ use leptos::*;
 
 #[component]
 pub fn BreadcrumbItem(
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     let breadcrumb_separator = use_breadcrumb_separator();
@@ -12,7 +12,7 @@ pub fn BreadcrumbItem(
     view! {
         <li class="thaw-breadcrumb-item">
             <span class=class_list![
-                "thaw-breadcrumb-item__link", move || class.get()
+                "thaw-breadcrumb-item__link", class.map(|c| move || c.get())
             ]>{children()}</span>
             <span class="thaw-breadcrumb-item__separator">
                 {move || breadcrumb_separator.0.get()}

@@ -6,16 +6,14 @@ use crate::{
 };
 use leptos::*;
 
-#[derive(Clone)]
 #[slot]
 pub struct CardHeader {
-    children: ChildrenFn,
+    children: Children,
 }
 
-#[derive(Clone)]
 #[slot]
 pub struct CardHeaderExtra {
-    children: ChildrenFn,
+    children: Children,
 }
 
 #[slot]
@@ -27,10 +25,10 @@ pub struct CardFooter {
 
 #[component]
 pub fn Card(
-    #[prop(optional, into)] title: MaybeSignal<String>,
+    #[prop(optional, into)] title: Option<MaybeSignal<String>>,
     #[prop(optional)] card_header: Option<CardHeader>,
     #[prop(optional)] card_header_extra: Option<CardHeaderExtra>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
     children: Children,
     #[prop(optional)] card_footer: Option<CardFooter>,
 ) -> impl IntoView {
@@ -51,29 +49,32 @@ pub fn Card(
         css_vars
     });
 
-    let title = store_value(title);
-    let is_header = card_header.is_some();
-    let is_header = MaybeSignal::derive(move || is_header || !title.get_value().get().is_empty());
-    let header = store_value(card_header);
-    let header_extra = store_value(card_header_extra);
-
     view! {
-        <div class=class_list!["thaw-card", move || class.get()] style=move || css_vars.get()>
-            <If cond=is_header>
-                <Then slot>
-                    <div class="thaw-card__header">
-                        <div class="thaw-card__header-content">
-                            <OptionComp value=header.get_value() let:header>
-                                <Fallback slot>{move || title.get_value().get()}</Fallback>
-                                {(header.children)()}
+        <div class=class_list!["thaw-card", class.map(|c| move || c.get())] style=move || css_vars.get()>
+            {
+                if card_header.is_some() || title.is_some() {
+                    view! {
+                        <div class="thaw-card__header">
+                            <div class="thaw-card__header-content">
+                                {
+                                    if let Some(header) = card_header {
+                                        (header.children)().into_view()
+                                    } else if let Some(title) = title {
+                                        (move || title.get()).into_view()
+                                    } else {
+                                        unreachable!()
+                                    }
+                                }
+                            </div>
+                            <OptionComp value=card_header_extra let:header_extra>
+                                <div class="thaw-card__header-extra">{(header_extra.children)()}</div>
                             </OptionComp>
                         </div>
-                        <OptionComp value=header_extra.get_value() let:header_extra>
-                            <div class="thaw-card__header-extra">{(header_extra.children)()}</div>
-                        </OptionComp>
-                    </div>
-                </Then>
-            </If>
+                    }.into()
+                } else {
+                    None
+                }
+            }
             <div class="thaw-card__content">{children()}</div>
             <OptionComp value=card_footer let:footer>
                 <If cond=footer.if_>
