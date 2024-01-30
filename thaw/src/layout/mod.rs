@@ -1,7 +1,7 @@
 mod layout_header;
 mod layout_sider;
 
-use crate::utils::{class_list::class_list, mount_style};
+use crate::utils::{class_list::class_list, mount_style, OptionalProp};
 pub use layout_header::*;
 pub use layout_sider::*;
 use leptos::*;
@@ -24,8 +24,8 @@ impl LayoutPosition {
 
 #[component]
 pub fn Layout(
-    #[prop(optional, into)] class: MaybeSignal<String>,
-    #[prop(optional, into)] style: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] style: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] position: LayoutPosition,
     #[prop(optional, into)] has_sider: MaybeSignal<bool>,
     children: Children,
@@ -33,15 +33,21 @@ pub fn Layout(
     mount_style("layout", include_str!("./layout.css"));
 
     let style = create_memo(move |_| {
-        let mut style = style.get();
+        let mut new_style = style.as_ref().map(|s| s.get()).unwrap_or_default();
         if has_sider.get() {
-            style.push_str("display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;")
+            new_style
+                .push_str("display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;");
+
+            Some(new_style)
+        } else if style.is_some() {
+            Some(new_style)
+        } else {
+            None
         }
-        style
     });
     view! {
         <div
-            class=class_list![gen_class(position), move || class.get()]
+            class=class_list![gen_class(position), class.map(|c| move || c.get())]
             style=move || style.get()
         >
             {children()}

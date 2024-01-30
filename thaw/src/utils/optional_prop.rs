@@ -19,6 +19,10 @@ impl<T> OptionalProp<T> {
             None => None,
         }
     }
+
+    pub fn into_option(self) -> Option<T> {
+        self.0
+    }
 }
 
 impl<T> Deref for OptionalProp<T> {

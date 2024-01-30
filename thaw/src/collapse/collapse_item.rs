@@ -1,14 +1,14 @@
 use super::use_collapse;
 use crate::{
     components::CSSTransition,
-    utils::{class_list::class_list, StoredMaybeSignal},
+    utils::{class_list::class_list, OptionalProp, StoredMaybeSignal},
     Icon,
 };
 use leptos::*;
 
 #[component]
 pub fn CollapseItem(
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(into)] title: MaybeSignal<String>,
     #[prop(into)] key: MaybeSignal<String>,
     children: Children,
@@ -44,7 +44,7 @@ pub fn CollapseItem(
     view! {
         <div class=class_list![
             "thaw-collapse-item", ("thaw-collapse-item--active", move || is_show_content.get()),
-            move || class.get()
+            class.map(|c| move || c.get())
         ]>
             <div class="thaw-collapse-item__header" on:click=on_click>
                 <Icon icon=icondata::AiRightOutlined class="thaw-collapse-item-arrow"/>

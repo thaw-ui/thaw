@@ -5,7 +5,7 @@ use crate::{
     components::{OptionComp, Wave, WaveRef},
     icon::Icon,
     theme::*,
-    utils::{class_list::class_list, mount_style, ComponentRef},
+    utils::{class_list::class_list, mount_style, ComponentRef, OptionalProp},
 };
 pub use button_group::ButtonGroup;
 use leptos::*;
@@ -98,7 +98,7 @@ impl ButtonSize {
 #[component]
 pub fn Button(
     #[prop(optional, into)] style: Option<MaybeSignal<String>>,
-    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] variant: MaybeSignal<ButtonVariant>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,

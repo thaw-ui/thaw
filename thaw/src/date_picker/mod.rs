@@ -4,7 +4,7 @@ mod theme;
 use crate::{
     chrono::NaiveDate,
     components::{Binder, Follower, FollowerPlacement},
-    utils::{mount_style, now_date, ComponentRef, Model},
+    utils::{mount_style, now_date, ComponentRef, Model, OptionalProp},
     Icon, Input, InputSuffix, SignalWatch,
 };
 use leptos::*;
@@ -14,7 +14,7 @@ pub use theme::DatePickerTheme;
 #[component]
 pub fn DatePicker(
     #[prop(optional, into)] value: Model<Option<NaiveDate>>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));

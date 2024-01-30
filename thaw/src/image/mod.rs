@@ -1,14 +1,15 @@
+use crate::utils::OptionalProp;
 use leptos::*;
 
 #[component]
 pub fn Image(
-    #[prop(optional, into)] src: MaybeSignal<String>,
-    #[prop(optional, into)] alt: MaybeSignal<String>,
+    #[prop(optional, into)] src: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] alt: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] width: MaybeSignal<String>,
     #[prop(optional, into)] height: MaybeSignal<String>,
     #[prop(optional, into)] border_radius: MaybeSignal<String>,
-    #[prop(optional, into)] object_fit: MaybeSignal<String>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] object_fit: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     let style = move || {
         let mut style = String::new();
@@ -33,11 +34,11 @@ pub fn Image(
 
     view! {
         <img
-            class=move || class.get()
-            src=move || src.get()
-            alt=move || alt.get()
+            class=class.map(|c| move || c.get())
+            src=src.map(|s| move || s.get())
+            alt=alt.map(|a| move || a.get())
             style=style
-            object_fit=move || object_fit.get()
+            object_fit=object_fit.map(|o| move || o.get())
         />
     }
 }

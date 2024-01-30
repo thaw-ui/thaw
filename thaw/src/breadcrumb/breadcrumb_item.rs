@@ -1,10 +1,10 @@
 use super::use_breadcrumb_separator;
-use crate::utils::class_list::class_list;
+use crate::utils::{class_list::class_list, OptionalProp};
 use leptos::*;
 
 #[component]
 pub fn BreadcrumbItem(
-    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     let breadcrumb_separator = use_breadcrumb_separator();

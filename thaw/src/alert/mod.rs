@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::OptionComp,
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Icon, Theme,
 };
 use leptos::*;
@@ -42,7 +42,7 @@ impl AlertVariant {
 
 #[component]
 pub fn Alert(
-    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] title: Option<MaybeSignal<String>>,
     #[prop(into)] variant: MaybeSignal<AlertVariant>,
     children: Children,

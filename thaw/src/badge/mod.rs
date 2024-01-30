@@ -1,6 +1,6 @@
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -29,7 +29,7 @@ pub fn Badge(
     #[prop(default = MaybeSignal::Static(u32::MAX), into)] max: MaybeSignal<u32>,
     #[prop(optional, into)] variant: MaybeSignal<BadgeVariant>,
     #[prop(optional, into)] dot: MaybeSignal<bool>,
-    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);

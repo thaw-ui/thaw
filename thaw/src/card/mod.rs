@@ -1,7 +1,7 @@
 use crate::{
     components::*,
     use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -25,10 +25,10 @@ pub struct CardFooter {
 
 #[component]
 pub fn Card(
-    #[prop(optional, into)] title: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] title: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] card_header: Option<CardHeader>,
     #[prop(optional)] card_header_extra: Option<CardHeaderExtra>,
-    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
     #[prop(optional)] card_footer: Option<CardFooter>,
 ) -> impl IntoView {
@@ -59,7 +59,7 @@ pub fn Card(
                                 {
                                     if let Some(header) = card_header {
                                         (header.children)().into_view()
-                                    } else if let Some(title) = title {
+                                    } else if let Some(title) = title.into_option() {
                                         (move || title.get()).into_view()
                                     } else {
                                         unreachable!()

@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::OptionComp,
     use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -14,7 +14,7 @@ pub fn Avatar(
     #[prop(optional, into)] src: Option<MaybeSignal<String>>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(default = MaybeSignal::Static(30), into)] size: MaybeSignal<u16>,
-    #[prop(optional, into)] class: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {

@@ -1,6 +1,6 @@
 use crate::{
     components::Teleport,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Card,
 };
 use leptos::*;
@@ -8,11 +8,11 @@ use leptos::*;
 #[component]
 pub fn Drawer(
     #[prop(into)] show: Model<bool>,
-    #[prop(optional, into)] title: MaybeSignal<String>,
+    #[prop(optional, into)] title: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] placement: MaybeSignal<DrawerPlacement>,
     #[prop(default = MaybeSignal::Static("520px".to_string()), into)] width: MaybeSignal<String>,
     #[prop(default = MaybeSignal::Static("260px".to_string()), into)] height: MaybeSignal<String>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("drawer", include_str!("./drawer.css"));
@@ -33,7 +33,7 @@ pub fn Drawer(
                 <div
                     class=class_list![
                         "thaw-drawer", move || format!("thaw-drawer--placement-{}", placement.get()
-                        .as_str()), move || class.get()
+                        .as_str()), class.map(|c| move || c.get())
                     ]
                     style=move || css_vars.get()
                 >
