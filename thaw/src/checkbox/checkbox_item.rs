@@ -1,5 +1,6 @@
 use crate::{
     checkbox::{checkbox_group::use_checkbox_group, Checkbox},
+    utils::OptionalProp,
     SignalWatch,
 };
 use leptos::*;
@@ -7,7 +8,7 @@ use leptos::*;
 #[component]
 pub fn CheckboxItem(
     #[prop(optional, into)] label: Option<String>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(into)] key: String,
 ) -> impl IntoView {
     let checkbox_group_value = use_checkbox_group().0;

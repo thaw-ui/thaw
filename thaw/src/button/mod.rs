@@ -231,7 +231,7 @@ pub fn Button(
                 disabled.get()), class.map(|c| move || c.get())
             ]
 
-            style=move || format!("{}{:?}", css_vars.get(), style.as_ref().map(|s| s.get()))
+            style=move || format!("{}{}", css_vars.get(), style.as_ref().map(|s| s.get()).unwrap_or_default())
             disabled=move || disabled.get()
             on:click=on_click
         >
