@@ -1,3 +1,9 @@
+## [0.1.10](https://github.com/thaw-ui/thaw/compare/v0.1.9...v0.1.10) (2024-01-31)
+
+### Features
+
+* `Tab` adds `TabLabel` slot.
+
 ## [0.1.9](https://github.com/thaw-ui/thaw/compare/v0.1.8...v0.1.9) (2024-01-24)
 
 ### Features
