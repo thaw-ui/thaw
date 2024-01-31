@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -12,7 +12,7 @@ pub use theme::TableTheme;
 pub fn Table(
     #[prop(optional, into)] style: MaybeSignal<String>,
     #[prop(default=true.into(), into)] single_row: MaybeSignal<bool>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] single_column: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {
@@ -46,7 +46,7 @@ pub fn Table(
         <table
             class=class_list![
                 "thaw-table", ("thaw-table--single-row", move || single_row.get()),
-                ("thaw-table--single-column", move || single_column.get()), move || class.get()
+                ("thaw-table--single-column", move || single_column.get()), class.map(|c| move || c.get())
             ]
 
             style=move || format!("{}{}", css_vars.get(), style.get())

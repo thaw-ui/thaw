@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -11,7 +11,7 @@ pub use theme::SwitchTheme;
 #[component]
 pub fn Switch(
     #[prop(optional, into)] value: Model<bool>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("switch", include_str!("./switch.css"));
     let theme = use_theme(Theme::light);
@@ -33,7 +33,7 @@ pub fn Switch(
     view! {
         <div
             class=class_list![
-                "thaw-switch", ("thaw-switch--active", move || value.get()), move || class.get()
+                "thaw-switch", ("thaw-switch--active", move || value.get()), class.map(|c| move || c.get())
             ]
 
             style=move || css_vars.get()

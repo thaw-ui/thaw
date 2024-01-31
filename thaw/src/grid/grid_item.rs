@@ -1,12 +1,12 @@
 use super::use_grid;
-use crate::utils::class_list::class_list;
+use crate::utils::{class_list::class_list, OptionalProp};
 use leptos::*;
 
 #[component]
 pub fn GridItem(
     #[prop(default = MaybeSignal::Static(1u16), into)] column: MaybeSignal<u16>,
     #[prop(optional, into)] offset: MaybeSignal<u16>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     let grid = use_grid();
@@ -36,7 +36,7 @@ pub fn GridItem(
     });
 
     view! {
-        <div class=class_list!["thaw-grid-item", move || class.get()] style=move || style.get()>
+        <div class=class_list!["thaw-grid-item", class.map(|c| move || c.get())] style=move || style.get()>
             {children()}
         </div>
     }

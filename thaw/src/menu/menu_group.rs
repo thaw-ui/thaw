@@ -1,6 +1,6 @@
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -8,7 +8,7 @@ use leptos::*;
 #[component]
 pub fn MenuGroup(
     #[prop(into)] label: String,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("menu-group", include_str!("./menu-group.css"));
@@ -22,7 +22,7 @@ pub fn MenuGroup(
     });
 
     view! {
-        <div class=class_list!["thaw-menu-group", move || class.get()] style=move || css_vars.get()>
+        <div class=class_list!["thaw-menu-group", class.map(|c| move || c.get())] style=move || css_vars.get()>
             {label}
         </div>
         {children()}

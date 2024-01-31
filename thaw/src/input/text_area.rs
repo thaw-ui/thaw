@@ -1,6 +1,6 @@
 use crate::{
     theme::{use_theme, Theme},
-    utils::{class_list::class_list, mount_style, ComponentRef, Model},
+    utils::{class_list::class_list, mount_style, ComponentRef, Model, OptionalProp},
 };
 use leptos::*;
 
@@ -8,13 +8,13 @@ use leptos::*;
 pub fn TextArea(
     #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
-    #[prop(optional, into)] placeholder: MaybeSignal<String>,
+    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<TextAreaRef>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -108,7 +108,7 @@ pub fn TextArea(
             class=class_list![
                 "thaw-textarea", ("thaw-textarea--focus", move || is_focus.get()),
                 ("thaw-textarea--disabled", move || disabled.get()), ("thaw-textarea--invalid", move ||
-                invalid.get()), move || class.get()
+                invalid.get()), class.map(|c| move || c.get())
             ]
 
             style=move || css_vars.get()
@@ -125,7 +125,7 @@ pub fn TextArea(
                 on:blur=on_internal_blur
                 class="thaw-textarea__textarea-el"
                 disabled=move || disabled.get()
-                placeholder=move || placeholder.get()
+                placeholder=placeholder.map(|p| move || p.get())
                 ref=textarea_ref
             />
         </div>

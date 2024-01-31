@@ -2,7 +2,7 @@ mod tab;
 
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -12,7 +12,7 @@ pub use tab::*;
 #[component]
 pub fn Tabs(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
@@ -32,7 +32,7 @@ pub fn Tabs(
 fn TabsInner(
     value: Model<String>,
     tab_options_vec: RwSignal<Vec<TabOption>>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabs", include_str!("./tabs.css"));
@@ -61,7 +61,7 @@ fn TabsInner(
     let children = children();
 
     view! {
-        <div class=class_list!["thaw-tabs", move || class.get()] style=move || css_vars.get()>
+        <div class=class_list!["thaw-tabs", class.map(|c| move || c.get())] style=move || css_vars.get()>
             <div class="thaw-tabs__label-list" ref=label_list_ref role="tablist">
                 <For
                     each=move || tab_options_vec.get()
@@ -103,7 +103,7 @@ fn TabsInner(
                                 <span
                                     class=class_list![
                                         "thaw-tabs__label", ("thaw-tabs__label--active", move ||
-                                        is_active.get()), move || class.get()
+                                        is_active.get()), class.map(|c| move || c.get())
                                     ]
 
                                     on:click={

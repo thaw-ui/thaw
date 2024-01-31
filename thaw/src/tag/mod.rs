@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -47,7 +47,7 @@ impl TagVariant {
 #[component]
 pub fn Tag(
     #[prop(optional, into)] variant: MaybeSignal<TagVariant>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
@@ -73,7 +73,7 @@ pub fn Tag(
     });
 
     view! {
-        <div class=class_list!["thaw-tag", move || class.get()] style=move || css_vars.get()>
+        <div class=class_list!["thaw-tag", class.map(|c| move || c.get())] style=move || css_vars.get()>
             <span class="thaw-tag__content">{children()}</span>
         </div>
     }

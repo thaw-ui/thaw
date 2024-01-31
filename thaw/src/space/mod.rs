@@ -1,4 +1,4 @@
-use crate::utils::{class_list::class_list, mount_style};
+use crate::utils::{class_list::class_list, mount_style, OptionalProp};
 use leptos::*;
 
 #[derive(Default)]
@@ -16,7 +16,7 @@ pub enum SpaceGap {
 pub fn Space(
     #[prop(optional)] gap: SpaceGap,
     #[prop(optional)] vertical: bool,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("space", include_str!("./space.css"));
@@ -30,7 +30,7 @@ pub fn Space(
 
     view! {
         <div
-            class=class_list!["thaw-space", move || class.get()]
+            class=class_list!["thaw-space", class.map(|c| move || c.get())]
             style:gap=gap
             style:flex-direction=if vertical { "column" } else { "row" }
         >

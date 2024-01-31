@@ -4,7 +4,7 @@ mod theme;
 use crate::{
     components::OptionComp,
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -18,7 +18,7 @@ pub fn Slider(
     #[prop(optional, into)] value: Model<f64>,
     #[prop(default = MaybeSignal::Static(100f64), into)] max: MaybeSignal<f64>,
     #[prop(optional, into)] step: MaybeSignal<f64>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));
@@ -118,7 +118,7 @@ pub fn Slider(
 
     view! {
         <div
-            class=class_list!["thaw-slider", move || class.get()]
+            class=class_list!["thaw-slider", class.map(|c| move || c.get())]
             style=move || css_vars.get()
             on:click=on_mouse_click
         >

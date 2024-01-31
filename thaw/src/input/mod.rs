@@ -6,7 +6,7 @@ pub use theme::InputTheme;
 
 use crate::{
     theme::{use_theme, Theme},
-    utils::{class_list::class_list, mount_style, ComponentRef, Model},
+    utils::{class_list::class_list, mount_style, ComponentRef, Model, OptionalProp},
 };
 use leptos::*;
 
@@ -45,7 +45,7 @@ pub fn Input(
     #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
     #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
-    #[prop(optional, into)] placeholder: MaybeSignal<String>,
+    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
@@ -53,7 +53,7 @@ pub fn Input(
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -160,7 +160,7 @@ pub fn Input(
             class=class_list![
                 "thaw-input", ("thaw-input--focus", move || is_focus.get()),
                 ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
-                invalid.get()), move || class.get()
+                invalid.get()), class.map(|c| move || c.get())
             ]
 
             style=move || css_vars.get()
@@ -185,7 +185,7 @@ pub fn Input(
                 on:blur=on_internal_blur
                 class="thaw-input__input-el"
                 disabled=move || disabled.get()
-                placeholder=move || placeholder.get()
+                placeholder=placeholder.map(|p| move || p.get())
                 ref=input_ref
             />
 

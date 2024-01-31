@@ -6,7 +6,7 @@ pub use theme::CollapseTheme;
 
 use crate::{
     use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -14,7 +14,7 @@ use std::collections::HashSet;
 
 #[component]
 pub fn Collapse(
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] value: Model<HashSet<String>>,
     #[prop(optional)] accordion: bool,
     children: Children,
@@ -31,7 +31,7 @@ pub fn Collapse(
             accordion,
         }>
             <div
-                class=class_list!["thaw-collapse", move || class.get()]
+                class=class_list!["thaw-collapse", class.map(|c| move || c.get())]
                 style=move || css_vars.get()
             >
                 {children()}

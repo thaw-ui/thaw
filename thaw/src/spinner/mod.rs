@@ -2,7 +2,7 @@ mod theme;
 
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -30,7 +30,7 @@ impl SpinnerSize {
 
 #[component]
 pub fn Spinner(
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] size: MaybeSignal<SpinnerSize>,
 ) -> impl IntoView {
     mount_style("spinner", include_str!("./spinner.css"));
@@ -53,7 +53,7 @@ pub fn Spinner(
 
     view! {
         <div
-            class=class_list!["thaw-spinner", move || class.get()]
+            class=class_list!["thaw-spinner", class.map(|c| move || c.get())]
             style=move || css_vars.get()
         ></div>
     }

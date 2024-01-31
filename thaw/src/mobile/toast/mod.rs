@@ -11,7 +11,7 @@ pub fn show_toast(options: ToastOptions) {
     mount_style("toast", include_str!("./toast.css"));
     cfg_if! { if #[cfg(target_arch = "wasm32")] {
         use leptos::{leptos_dom::Mountable, *};
-        let mount = document().body().expect("body element not to exist");
+        let mount = document().body().expect("body element to exist");
         let children = view! { <div class="thaw-toast">{options.message}</div> };
         let node = children.into_view();
         let node = node.get_mountable_node();

@@ -5,7 +5,7 @@ use crate::{
     components::{OptionComp, Wave, WaveRef},
     icon::Icon,
     theme::*,
-    utils::{class_list::class_list, mount_style, ComponentRef},
+    utils::{class_list::class_list, mount_style, ComponentRef, OptionalProp},
 };
 pub use button_group::ButtonGroup;
 use leptos::*;
@@ -97,8 +97,8 @@ impl ButtonSize {
 
 #[component]
 pub fn Button(
-    #[prop(optional, into)] style: MaybeSignal<String>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] style: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] variant: MaybeSignal<ButtonVariant>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
@@ -228,10 +228,10 @@ pub fn Button(
                 ButtonVariant::Text), ("thaw-button--link", move || variant.get() ==
                 ButtonVariant::Link), ("thaw-button--round", move || round.get()),
                 ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||
-                disabled.get()), move || class.get()
+                disabled.get()), class.map(|c| move || c.get())
             ]
 
-            style=move || format!("{}{}", css_vars.get(), style.get())
+            style=move || format!("{}{}", css_vars.get(), style.as_ref().map(|s| s.get()).unwrap_or_default())
             disabled=move || disabled.get()
             on:click=on_click
         >

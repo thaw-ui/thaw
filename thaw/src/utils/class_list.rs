@@ -13,6 +13,7 @@ impl ClassList {
     pub fn add(self, value: impl IntoClass) -> Self {
         let class = value.into_class();
         match class {
+            Class::None => (),
             Class::String(name) => {
                 self.0.update(move |set| {
                     set.insert(name);
@@ -107,6 +108,7 @@ impl IntoAttribute for ClassList {
 }
 
 pub enum Class {
+    None,
     String(Oco<'static, str>),
     FnString(Box<dyn Fn() -> Oco<'static, str>>),
     Fn(Oco<'static, str>, Box<dyn Fn() -> bool>),
@@ -135,6 +137,20 @@ where
 {
     fn into_class(self) -> Class {
         Class::FnString(Box::new(move || (self)().to_string().into()))
+    }
+}
+
+impl<T, U> IntoClass for Option<T>
+where
+    T: Fn() -> U + 'static,
+    U: ToString,
+{
+    fn into_class(self) -> Class {
+        if let Some(f) = self {
+            Class::FnString(Box::new(move || f().to_string().into()))
+        } else {
+            Class::None
+        }
     }
 }
 

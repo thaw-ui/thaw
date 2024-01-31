@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     use_theme,
-    utils::{class_list::class_list, mount_style, Model, StoredMaybeSignal},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp, StoredMaybeSignal},
     ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme,
 };
 use leptos::*;
@@ -28,13 +28,13 @@ pub struct AutoCompleteSuffix {
 #[component]
 pub fn AutoComplete(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] placeholder: MaybeSignal<String>,
+    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] on_select: Option<Callback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
@@ -130,7 +130,7 @@ pub fn AutoComplete(
     view! {
         <Binder target_ref=auto_complete_ref>
             <div
-                class=class_list!["thaw-auto-complete", move || class.get()]
+                class=class_list!["thaw-auto-complete", class.map(|c| move || c.get())]
                 ref=auto_complete_ref
                 on:keydown=on_keydown
             >
