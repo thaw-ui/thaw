@@ -1,8 +1,28 @@
-use crate::utils::mount_style;
+use crate::utils::{class_list::class_list, mount_style, OptionalProp};
 use leptos::*;
 
 #[component]
-pub fn Code(children: Children) -> impl IntoView {
+pub fn Code(
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] text: Option<String>,
+    #[prop(optional, into)] inner_html: Option<String>,
+) -> impl IntoView {
     mount_style("code", include_str!("./code.css"));
-    view! { <code class="thaw-code">{children()}</code> }
+    view! {
+        <code class=class_list!["thaw-code", class.map(|c| move || c.get())]>
+            {
+                if let Some(inner_html) = inner_html {
+                    view! {
+                        <pre inner_html=inner_html></pre>
+                    }.into()
+                } else if let Some(text) = text {
+                    view! {
+                        <pre>{text}</pre>
+                    }.into()
+                } else {
+                    None
+                }
+            }
+        </code>
+    }
 }
