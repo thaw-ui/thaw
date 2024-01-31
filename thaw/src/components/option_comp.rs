@@ -8,7 +8,7 @@ pub fn OptionComp<T, CF, IV>(
     #[prop(optional)] fallback: Option<Fallback>,
 ) -> impl IntoView
 where
-    CF: Fn(T) -> IV + 'static,
+    CF: FnOnce(T) -> IV + 'static,
     IV: IntoView,
 {
     if let Some(value) = value {

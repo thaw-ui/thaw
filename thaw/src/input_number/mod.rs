@@ -1,4 +1,4 @@
-use crate::utils::{Model, StoredMaybeSignal};
+use crate::utils::{Model, OptionalProp, StoredMaybeSignal};
 use crate::{Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
@@ -7,11 +7,11 @@ use std::str::FromStr;
 #[component]
 pub fn InputNumber<T>(
     #[prop(optional, into)] value: Model<T>,
-    #[prop(optional, into)] placeholder: MaybeSignal<String>,
+    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(into)] step: MaybeSignal<T>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] comp_ref: ComponentRef<InputNumberRef>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView

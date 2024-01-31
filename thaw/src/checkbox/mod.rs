@@ -5,7 +5,7 @@ use crate::{
     components::*,
     icon::*,
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 pub use checkbox_group::CheckboxGroup;
@@ -15,7 +15,7 @@ use leptos::*;
 #[component]
 pub fn Checkbox(
     #[prop(optional, into)] value: Model<bool>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -35,8 +35,7 @@ pub fn Checkbox(
     view! {
         <div
             class=class_list![
-                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get()), move || class
-                .get()
+                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get()), class.map(|c| move || c.get())
             ]
 
             style=move || css_vars.get()

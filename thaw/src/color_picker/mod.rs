@@ -4,7 +4,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 pub use color::*;
@@ -15,7 +15,7 @@ pub use theme::ColorPickerTheme;
 #[component]
 pub fn ColorPicker(
     #[prop(optional, into)] value: Model<RGBA>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let theme = use_theme(Theme::light);
@@ -100,7 +100,7 @@ pub fn ColorPicker(
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-color-picker-trigger", move || class.get()]
+                class=class_list!["thaw-color-picker-trigger", class.map(|c| move || c.get())]
                 on:click=show_popover
                 ref=trigger_ref
             >

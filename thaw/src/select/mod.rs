@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     components::{Binder, Follower, FollowerPlacement, FollowerWidth},
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -20,7 +20,7 @@ pub struct SelectOption<T> {
 pub fn Select<T>(
     #[prop(optional, into)] value: Model<Option<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView
 where
     T: Eq + Hash + Clone + 'static,
@@ -111,7 +111,7 @@ where
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-select", move || class.get()]
+                class=class_list!["thaw-select", class.map(|c| move || c.get())]
                 ref=trigger_ref
                 on:click=show_menu
                 style=move || css_vars.get()

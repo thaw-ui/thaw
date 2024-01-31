@@ -1,6 +1,6 @@
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -8,7 +8,7 @@ use leptos::*;
 #[component]
 pub fn Radio(
     #[prop(optional, into)] value: Model<bool>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -27,7 +27,7 @@ pub fn Radio(
     view! {
         <div
             class=class_list![
-                "thaw-radio", ("thaw-radio--checked", move || value.get()), move || class.get()
+                "thaw-radio", ("thaw-radio--checked", move || value.get()), class.map(|c| move || c.get())
             ]
 
             style=move || css_vars.get()

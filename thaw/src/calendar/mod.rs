@@ -3,7 +3,7 @@ mod theme;
 use crate::{
     chrono::{Datelike, Days, Local, NaiveDate},
     use_theme,
-    utils::{class_list::class_list, mount_style, Model},
+    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Button, ButtonGroup, ButtonVariant, Theme,
 };
 use chrono::{Month, Months};
@@ -13,7 +13,7 @@ pub use theme::CalendarTheme;
 
 #[component]
 pub fn Calendar(
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] value: Model<Option<NaiveDate>>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
@@ -116,7 +116,7 @@ pub fn Calendar(
     };
 
     view! {
-        <div class=class_list!["thaw-calendar", move || class.get()] style=move || css_vars.get()>
+        <div class=class_list!["thaw-calendar", class.map(|c| move || c.get())] style=move || css_vars.get()>
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">
 

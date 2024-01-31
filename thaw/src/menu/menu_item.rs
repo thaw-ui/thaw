@@ -1,7 +1,7 @@
 use super::use_menu;
 use crate::{
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -10,7 +10,7 @@ use leptos::*;
 pub fn MenuItem(
     #[prop(into)] key: MaybeSignal<String>,
     #[prop(into)] label: MaybeSignal<String>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("menu-item", include_str!("./menu-item.css"));
     let theme = use_theme(Theme::light);
@@ -43,7 +43,7 @@ pub fn MenuItem(
             <div
                 class=class_list![
                     "thaw-menu-item__content", ("thaw-menu-item__content--selected", move || menu.0
-                    .get() == key.get()), move || class.get()
+                    .get() == key.get()), class.map(|c| move || c.get())
                 ]
 
                 on:click=on_click

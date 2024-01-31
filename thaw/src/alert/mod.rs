@@ -1,8 +1,9 @@
 mod theme;
 
 use crate::{
+    components::OptionComp,
     theme::use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Icon, Theme,
 };
 use leptos::*;
@@ -41,8 +42,8 @@ impl AlertVariant {
 
 #[component]
 pub fn Alert(
-    #[prop(optional, into)] class: MaybeSignal<String>,
-    #[prop(optional, into)] title: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] title: Option<MaybeSignal<String>>,
     #[prop(into)] variant: MaybeSignal<AlertVariant>,
     children: Children,
 ) -> impl IntoView {
@@ -84,18 +85,15 @@ pub fn Alert(
     });
 
     view! {
-        <div class=class_list!["thaw-alert", move || class.get()] style=move || css_vars.get()>
+        <div
+            class=class_list!["thaw-alert", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
             <Icon icon class="thaw-alert__icon"/>
             <div>
-
-                {move || {
-                    let title = title.get();
-                    if title.is_empty() {
-                        None
-                    } else {
-                        view! { <div class="thaw-alert__header">{title}</div> }.into()
-                    }
-                }}
+                <OptionComp value=title let:title>
+                    <div class="thaw-alert__header">{move || title.get()}</div>
+                </OptionComp>
                 <div class="thaw-alert__content">{children()}</div>
             </div>
         </div>

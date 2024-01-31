@@ -3,7 +3,7 @@ mod theme;
 
 use crate::{
     use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 pub use breadcrumb_item::BreadcrumbItem;
@@ -13,7 +13,7 @@ pub use theme::BreadcrumbTheme;
 #[component]
 pub fn Breadcrumb(
     #[prop(default = MaybeSignal::Static("/".to_string()),into)] separator: MaybeSignal<String>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("breadcrumb", include_str!("./breadcrumb.css"));
@@ -40,7 +40,7 @@ pub fn Breadcrumb(
     view! {
         <Provider value=BreadcrumbSeparatorInjection(separator)>
             <nav
-                class=class_list!["thaw-breadcrumb", move || class.get()]
+                class=class_list!["thaw-breadcrumb", class.map(|c| move || c.get())]
                 style=move || css_vars.get()
             >
                 <ul>{children()}</ul>

@@ -1,5 +1,5 @@
 use super::use_tabs;
-use crate::utils::{class_list::class_list, mount_style};
+use crate::utils::{class_list::class_list, mount_style, OptionalProp};
 use leptos::*;
 
 #[derive(Clone)]
@@ -11,7 +11,7 @@ pub(crate) struct TabOption {
 
 #[derive(Clone)]
 pub(crate) struct TabLabelView {
-    pub class: MaybeSignal<String>,
+    pub class: OptionalProp<MaybeSignal<String>>,
     pub children: Fragment,
 }
 
@@ -28,7 +28,7 @@ impl From<TabLabel> for TabLabelView {
 #[slot]
 pub struct TabLabel {
     #[prop(optional, into)]
-    class: MaybeSignal<String>,
+    class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 }
 
@@ -37,7 +37,7 @@ pub fn Tab(
     #[prop(into)] key: String,
     #[prop(optional, into)] label: String,
     #[prop(optional)] tab_label: Option<TabLabel>,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tab", include_str!("./tab.css"));
@@ -61,7 +61,7 @@ pub fn Tab(
     view! {
         <div
             class=class_list![
-                "thaw-tab", ("thaw-tab--hidden", move || ! is_active.get()), move || class.get()
+                "thaw-tab", ("thaw-tab--hidden", move || ! is_active.get()), class.map(|c| move || c.get())
             ]
 
             role="tabpanel"
