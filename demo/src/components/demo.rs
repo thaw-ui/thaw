@@ -42,7 +42,7 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
     let content_class = create_memo(move |_| {
         theme.with(|theme| {
             format!(
-                "thaw-demo__content color-scheme--{}",
+                "color-scheme--{}",
                 theme.common.color_scheme
             )
         })
@@ -66,21 +66,17 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         </Style>
         <div style=move || style.get()>{children()}</div>
         <div style=move || code_style.get() class=move || content_class.get()>
-            <Code>
                 {
                     if is_highlight {
                         view! {
-                            <pre style="margin: 0" inner_html=html></pre>
+                            <Code inner_html=html />
                         }
                     } else {
                         view! {
-                            <pre style="margin: 0">
-                                {html}
-                            </pre>
+                            <Code text=html />
                         }
                     }
                 }
-            </Code>
         </div>
     }
 }
