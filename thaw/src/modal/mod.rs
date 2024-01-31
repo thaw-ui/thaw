@@ -2,7 +2,7 @@ use crate::icon::*;
 use crate::utils::Model;
 use crate::{
     components::{OptionComp, Teleport},
-    utils::{mount_style, StoredMaybeSignal},
+    utils::mount_style,
     Card, CardFooter, CardHeader, CardHeaderExtra,
 };
 use leptos::*;
@@ -20,7 +20,6 @@ pub fn Modal(
     #[prop(optional)] modal_footer: Option<ModalFooter>,
 ) -> impl IntoView {
     mount_style("modal", include_str!("./modal.css"));
-    let title: StoredMaybeSignal<_> = title.into();
 
     view! {
         <Teleport>

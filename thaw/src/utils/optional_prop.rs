@@ -9,6 +9,12 @@ impl<T> Default for OptionalProp<T> {
     }
 }
 
+impl<T: Clone> Clone for OptionalProp<T> {
+    fn clone(&self) -> Self {
+        Self(self.0.clone())
+    }
+}
+
 impl<T> OptionalProp<T> {
     pub fn map<U, F>(self, f: F) -> Option<U>
     where

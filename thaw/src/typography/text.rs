@@ -1,6 +1,6 @@
 use crate::{
     use_theme,
-    utils::{class_list::class_list, mount_style},
+    utils::{class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::*;
@@ -8,7 +8,7 @@ use leptos::*;
 #[component]
 pub fn Text(
     #[prop(optional)] code: bool,
-    #[prop(optional, into)] class: MaybeSignal<String>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("text", include_str!("./text.css"));
@@ -27,7 +27,7 @@ pub fn Text(
     if code {
         view! {
             <code
-                class=class_list!["thaw-text thaw-text--code", move || class.get()]
+                class=class_list!["thaw-text thaw-text--code", class.map(|c| move || c.get())]
                 style=move || css_vars.get()
             >
                 {children()}
@@ -35,7 +35,7 @@ pub fn Text(
         }
         .into_any()
     } else {
-        view! { <span class=class_list!["thaw-text", move || class.get()]>{children()}</span> }
-        .into_any()
+        view! { <span class=class_list!["thaw-text", class.map(|c| move || c.get())]>{children()}</span> }
+            .into_any()
     }
 }
