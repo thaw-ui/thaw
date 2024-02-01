@@ -1,5 +1,6 @@
 name: CI
 on:
+    workflow_dispatch:
     pull_request:
         paths: ["demo/**", "demo_markdown/**", "thaw/**"]
         branches:
@@ -69,7 +70,7 @@ jobs:
             - name: Install Cargo BInstall
               uses: cargo-bins/cargo-binstall@main
             - name: Install Cargo Leptos
-              run: cargo binstall cargo-leptos
+              run: cargo binstall cargo-leptos -y
             - name: Build
               run: |
                   cd ./examples/ssr_axum
