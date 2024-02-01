@@ -4,6 +4,10 @@ on:
         paths: ["demo/**", "demo_markdown/**", "thaw/**"]
         branches:
             - main
+    push:
+        paths: ["demo/**", "demo_markdown/**", "thaw/**"]
+        branches:
+            - thaw/v0.2
 
 jobs:
     stable:
@@ -62,8 +66,11 @@ jobs:
               uses: jetli/trunk-action@v0.4.0
               with:
                   version: "latest"
+            - name: Install Cargo BInstall
+              uses: cargo-bins/cargo-binstall@main
+            - name: Install Cargo Leptos
+              run: cargo binstall cargo-leptos
             - name: Build
               run: |
                   cd ./examples/ssr_axum
-                  cargo install --locked cargo-leptos
                   cargo leptos build --release
