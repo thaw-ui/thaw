@@ -92,7 +92,7 @@ pub fn TextArea(
 
     #[cfg(debug_assertions)]
     {
-        const INNER_ATTRS: [&'static str; 3] = ["class", "disabled", "placeholder"];
+        const INNER_ATTRS: [&str; 3] = ["class", "disabled", "placeholder"];
         attrs.iter().for_each(|attr| {
             if INNER_ATTRS.contains(&attr.0) {
                 logging::warn!(

@@ -20,10 +20,7 @@ impl<T> OptionalProp<T> {
     where
         F: FnOnce(T) -> U,
     {
-        match self.0 {
-            Some(x) => Some(f(x)),
-            None => None,
-        }
+        self.0.map(f)
     }
 
     pub fn into_option(self) -> Option<T> {
