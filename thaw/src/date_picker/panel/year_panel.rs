@@ -34,7 +34,7 @@ pub fn YearPanel(
                 <Button
                     variant=ButtonVariant::Link
                     size=ButtonSize::Small
-                    icon=icondata::AiArrowLeftOutlined
+                    icon=icondata_ai::AiArrowLeftOutlined
                     on_click=previous_year_range
                 />
                 <div>
@@ -47,7 +47,7 @@ pub fn YearPanel(
                 <Button
                     variant=ButtonVariant::Link
                     size=ButtonSize::Small
-                    icon=icondata::AiArrowRightOutlined
+                    icon=icondata_ai::AiArrowRightOutlined
                     on_click=next_year_range
                 />
             </div>

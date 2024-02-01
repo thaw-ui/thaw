@@ -21,11 +21,11 @@ pub enum MessageVariant {
 }
 
 impl MessageVariant {
-    fn icon(&self) -> icondata::Icon {
+    fn icon(&self) -> icondata_core::Icon {
         match self {
-            MessageVariant::Success => icondata::AiCloseCircleFilled,
-            MessageVariant::Warning => icondata::AiExclamationCircleFilled,
-            MessageVariant::Error => icondata::AiCheckCircleFilled,
+            MessageVariant::Success => icondata_ai::AiCloseCircleFilled,
+            MessageVariant::Warning => icondata_ai::AiExclamationCircleFilled,
+            MessageVariant::Error => icondata_ai::AiCheckCircleFilled,
         }
     }
     fn theme_color(&self, theme: &Theme) -> String {
@@ -67,7 +67,7 @@ pub(crate) fn Message(
                 <If cond=closable>
                     <Then slot>
                         <div class="thaw-message__close" on:click=move |_| on_close.call(id)>
-                            <Icon icon=icondata::AiCloseOutlined/>
+                            <Icon icon=icondata_ai::AiCloseOutlined/>
                         </div>
                     </Then>
                 </If>

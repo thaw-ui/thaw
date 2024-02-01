@@ -7,7 +7,7 @@ use leptos::*;
 pub fn Icon(
     /// The icon to render.
     #[prop(into)]
-    icon: MaybeSignal<icondata::Icon>,
+    icon: MaybeSignal<icondata_core::Icon>,
     /// The width of the icon (horizontal side length of the square surrounding the icon). Defaults to "1em".
     #[prop(into, optional)]
     width: Option<MaybeSignal<String>>,

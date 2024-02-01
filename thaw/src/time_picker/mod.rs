@@ -76,7 +76,7 @@ pub fn TimePicker(
             <div ref=time_picker_ref>
                 <Input attrs class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
-                        <Icon icon=icondata::AiClockCircleOutlined style="font-size: 18px"/>
+                        <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px"/>
                     </InputSuffix>
                 </Input>
             </div>

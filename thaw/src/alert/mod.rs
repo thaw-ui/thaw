@@ -76,9 +76,9 @@ pub fn Alert(
         }
     });
     let icon = create_memo(move |_| match variant.get() {
-        AlertVariant::Success => icondata::AiCheckCircleFilled,
-        AlertVariant::Warning => icondata::AiExclamationCircleFilled,
-        AlertVariant::Error => icondata::AiCloseCircleFilled,
+        AlertVariant::Success => icondata_ai::AiCheckCircleFilled,
+        AlertVariant::Warning => icondata_ai::AiExclamationCircleFilled,
+        AlertVariant::Error => icondata_ai::AiCloseCircleFilled,
     });
 
     view! {

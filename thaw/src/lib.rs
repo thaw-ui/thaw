@@ -63,7 +63,6 @@ pub use drawer::*;
 pub use global_style::*;
 pub use grid::*;
 pub use icon::*;
-pub use icondata;
 pub use image::*;
 pub use input::*;
 pub use input_number::*;

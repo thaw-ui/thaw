@@ -139,7 +139,7 @@ pub fn Calendar(
                     <ButtonGroup>
                         <Button
                             variant=ButtonVariant::Outlined
-                            icon=icondata::AiLeftOutlined
+                            icon=icondata_ai::AiLeftOutlined
                             on_click=previous_month
                         />
                         <Button variant=ButtonVariant::Outlined on_click=today>
@@ -147,7 +147,7 @@ pub fn Calendar(
                         </Button>
                         <Button
                             variant=ButtonVariant::Outlined
-                            icon=icondata::AiRightOutlined
+                            icon=icondata_ai::AiRightOutlined
                             on_click=next_month
                         />
                     </ButtonGroup>

@@ -104,7 +104,7 @@ pub fn Button(
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(optional, into)] circle: MaybeSignal<bool>,
-    #[prop(optional, into)] icon: Option<icondata::Icon>,
+    #[prop(optional, into)] icon: Option<icondata_core::Icon>,
     #[prop(optional, into)] loading: MaybeSignal<bool>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] on_click: Option<Callback<ev::MouseEvent>>,
@@ -242,7 +242,7 @@ pub fn Button(
                 if loading.get() {
                     view! {
                         <Icon
-                            icon=icondata::AiLoadingOutlined
+                            icon=icondata_ai::AiLoadingOutlined
                             style=format!(
                                 "animation: thawLoadingCircle 1s infinite linear;{icon_style}",
                             )
