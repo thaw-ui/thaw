@@ -144,7 +144,7 @@ pub fn Input(
 
     #[cfg(debug_assertions)]
     {
-        const INNER_ATTRS: [&'static str; 4] = ["type", "class", "disabled", "placeholder"];
+        const INNER_ATTRS: [&str; 4] = ["type", "class", "disabled", "placeholder"];
         attrs.iter().for_each(|attr| {
             if INNER_ATTRS.contains(&attr.0) {
                 logging::warn!(

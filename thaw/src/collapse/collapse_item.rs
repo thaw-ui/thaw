@@ -18,13 +18,9 @@ pub fn CollapseItem(
     let content_ref = create_node_ref::<html::Div>();
 
     let is_show_content = create_memo(move |_| {
-        collapse.value.with(|keys| {
-            if key.with(|key| keys.contains(key)) {
-                true
-            } else {
-                false
-            }
-        })
+        collapse
+            .value
+            .with(|keys| key.with(|key| keys.contains(key)))
     });
 
     let on_click = move |_| {

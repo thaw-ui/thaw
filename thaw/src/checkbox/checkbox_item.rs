@@ -23,10 +23,8 @@ pub fn CheckboxItem(
             if !checked.get_untracked() {
                 checked.set(true);
             }
-        } else {
-            if checked.get_untracked() {
-                checked.set(false);
-            }
+        } else if checked.get_untracked() {
+            checked.set(false);
         }
     });
 

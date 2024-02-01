@@ -20,11 +20,7 @@ impl<T: Default> Default for Model<T> {
 
 impl<T> Clone for Model<T> {
     fn clone(&self) -> Self {
-        Self {
-            read: self.read.clone(),
-            write: self.write.clone(),
-            on_write: self.on_write.clone(),
-        }
+        *self
     }
 }
 
@@ -37,7 +33,7 @@ impl<T> Model<T> {
     }
 
     pub fn signal(&self) -> Signal<T> {
-        self.read.clone()
+        self.read
     }
 }
 
@@ -159,7 +155,7 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
 impl<T: Default> From<(Option<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Option<T>, WriteSignal<T>)) -> Self {
         let mut model = Self::new(read.unwrap_or_default());
-        model.on_write = Some(write.into());
+        model.on_write = Some(write);
         model
     }
 }

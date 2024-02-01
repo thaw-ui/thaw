@@ -75,13 +75,10 @@ pub fn Alert(
             css_vars
         }
     });
-    let icon = create_memo(move |_| {
-        match variant.get() {
-            AlertVariant::Success => icondata::AiCheckCircleFilled,
-            AlertVariant::Warning => icondata::AiExclamationCircleFilled,
-            AlertVariant::Error => icondata::AiCloseCircleFilled,
-        }
-        .into()
+    let icon = create_memo(move |_| match variant.get() {
+        AlertVariant::Success => icondata::AiCheckCircleFilled,
+        AlertVariant::Warning => icondata::AiExclamationCircleFilled,
+        AlertVariant::Error => icondata::AiCloseCircleFilled,
     });
 
     view! {
