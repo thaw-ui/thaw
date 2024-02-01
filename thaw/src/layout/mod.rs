@@ -47,7 +47,7 @@ pub fn Layout(
     });
     view! {
         <div
-            class=class_list![gen_class(position), class.map(|c| move || c.get())]
+            class=class_list![gen_class(position), class.map(| c | move || c.get())]
             style=move || style.get()
         >
             {children()}

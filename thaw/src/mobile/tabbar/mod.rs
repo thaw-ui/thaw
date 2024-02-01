@@ -1,16 +1,17 @@
 mod tabbar_item;
 mod theme;
 
-use crate::{use_theme, utils::{mount_style, Model}, Theme};
+use crate::{
+    use_theme,
+    utils::{mount_style, Model},
+    Theme,
+};
 use leptos::*;
 pub use tabbar_item::*;
 pub use theme::TabbarTheme;
 
 #[component]
-pub fn Tabbar(
-    #[prop(optional, into)] value: Model<String>,
-    children: Children,
-) -> impl IntoView {
+pub fn Tabbar(#[prop(optional, into)] value: Model<String>, children: Children) -> impl IntoView {
     mount_style("tabbar", include_str!("./tabbar.css"));
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {

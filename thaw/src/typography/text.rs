@@ -27,7 +27,7 @@ pub fn Text(
     if code {
         view! {
             <code
-                class=class_list!["thaw-text thaw-text--code", class.map(|c| move || c.get())]
+                class=class_list!["thaw-text thaw-text--code", class.map(| c | move || c.get())]
                 style=move || css_vars.get()
             >
                 {children()}
@@ -35,7 +35,7 @@ pub fn Text(
         }
         .into_any()
     } else {
-        view! { <span class=class_list!["thaw-text", class.map(|c| move || c.get())]>{children()}</span> }
+        view! { <span class=class_list!["thaw-text", class.map(| c | move || c.get())]>{children()}</span> }
             .into_any()
     }
 }

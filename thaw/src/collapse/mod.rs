@@ -31,7 +31,7 @@ pub fn Collapse(
             accordion,
         }>
             <div
-                class=class_list!["thaw-collapse", class.map(|c| move || c.get())]
+                class=class_list!["thaw-collapse", class.map(| c | move || c.get())]
                 style=move || css_vars.get()
             >
                 {children()}

@@ -61,7 +61,8 @@ pub fn Tab(
     view! {
         <div
             class=class_list![
-                "thaw-tab", ("thaw-tab--hidden", move || ! is_active.get()), class.map(|c| move || c.get())
+                "thaw-tab", ("thaw-tab--hidden", move || ! is_active.get()), class.map(| c | move ||
+                c.get())
             ]
 
             role="tabpanel"

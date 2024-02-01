@@ -50,31 +50,35 @@ pub fn Card(
     });
 
     view! {
-        <div class=class_list!["thaw-card", class.map(|c| move || c.get())] style=move || css_vars.get()>
-            {
-                if card_header.is_some() || title.is_some() {
-                    view! {
-                        <div class="thaw-card__header">
-                            <div class="thaw-card__header-content">
-                                {
-                                    if let Some(header) = card_header {
-                                        (header.children)().into_view()
-                                    } else if let Some(title) = title.into_option() {
-                                        (move || title.get()).into_view()
-                                    } else {
-                                        unreachable!()
-                                    }
-                                }
-                            </div>
-                            <OptionComp value=card_header_extra let:header_extra>
-                                <div class="thaw-card__header-extra">{(header_extra.children)()}</div>
-                            </OptionComp>
+        <div
+            class=class_list!["thaw-card", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
+
+            {if card_header.is_some() || title.is_some() {
+                view! {
+                    <div class="thaw-card__header">
+                        <div class="thaw-card__header-content">
+
+                            {if let Some(header) = card_header {
+                                (header.children)().into_view()
+                            } else if let Some(title) = title.into_option() {
+                                (move || title.get()).into_view()
+                            } else {
+                                unreachable!()
+                            }}
+
                         </div>
-                    }.into()
-                } else {
-                    None
+                        <OptionComp value=card_header_extra let:header_extra>
+                            <div class="thaw-card__header-extra">{(header_extra.children)()}</div>
+                        </OptionComp>
+                    </div>
                 }
-            }
+                    .into()
+            } else {
+                None
+            }}
+
             <div class="thaw-card__content">{children()}</div>
             <OptionComp value=card_footer let:footer>
                 <If cond=footer.if_>

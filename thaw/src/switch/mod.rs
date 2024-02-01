@@ -33,7 +33,8 @@ pub fn Switch(
     view! {
         <div
             class=class_list![
-                "thaw-switch", ("thaw-switch--active", move || value.get()), class.map(|c| move || c.get())
+                "thaw-switch", ("thaw-switch--active", move || value.get()), class.map(| c | move ||
+                c.get())
             ]
 
             style=move || css_vars.get()

@@ -60,57 +60,72 @@ pub fn NavBar(
     };
 
     view! {
-        <div class=class_list!["thaw-nav-bar", class.map(|c| move || c.get())] style=move || css_vars.get()>
-            {
-                if let Some(NavBarLeft { class, children }) = nav_bar_left {
-                    view! {
-                        <div class=class_list!["thaw-nav-bar__left", class.map(|c| move || c.get())] on:click=on_click_left>
-                            {children()}
-                        </div>
-                    }.into_view()
-                } else if let Some(left_text) = left_text.into_option() {
-                    view! {
-                        <div class="thaw-nav-bar__left" on:click=on_click_left>
-                            <If cond=left_arrow>
-                                <Then slot>
-                                    <Icon icon=icondata::AiLeftOutlined/>
-                                </Then>
-                            </If>
-                            {move || left_text.get()}
-                        </div>
-                    }.into_view()
-                } else {
-                    (move || {
-                        if left_arrow.get() {
-                            view! {
-                                <div class="thaw-nav-bar__left" on:click=on_click_left>
-                                    <Icon icon=icondata::AiLeftOutlined/>
-                                </div>
-                            }.into()
-                        } else {
-                            None
+        <div
+            class=class_list!["thaw-nav-bar", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
+
+            {if let Some(NavBarLeft { class, children }) = nav_bar_left {
+                view! {
+                    <div
+                        class=class_list!["thaw-nav-bar__left", class.map(| c | move || c.get())]
+                        on:click=on_click_left
+                    >
+                        {children()}
+                    </div>
+                }
+                    .into_view()
+            } else if let Some(left_text) = left_text.into_option() {
+                view! {
+                    <div class="thaw-nav-bar__left" on:click=on_click_left>
+                        <If cond=left_arrow>
+                            <Then slot>
+                                <Icon icon=icondata::AiLeftOutlined/>
+                            </Then>
+                        </If>
+                        {move || left_text.get()}
+                    </div>
+                }
+                    .into_view()
+            } else {
+                (move || {
+                    if left_arrow.get() {
+                        view! {
+                            <div class="thaw-nav-bar__left" on:click=on_click_left>
+                                <Icon icon=icondata::AiLeftOutlined/>
+                            </div>
                         }
-                    }).into_view()
-                }
-            }
+                            .into()
+                    } else {
+                        None
+                    }
+                })
+                    .into_view()
+            }}
+
             <div class="thaw-nav-bar__center">{move || title.get()}</div>
-            {
-                if let Some(NavBarRight { class, children }) = nav_bar_right {
-                    view! {
-                        <div class=class_list!["thaw-nav-bar__right", class.map(|c| move || c.get())] on:click=on_click_right>
-                            {children()}
-                        </div>
-                    }.into()
-                } else if let Some(right_text) = right_text.into_option() {
-                    view! {
-                        <div class="thaw-nav-bar__right" on:click=on_click_right>
-                            {move || right_text.get()}
-                        </div>
-                    }.into()
-                } else {
-                    None
+
+            {if let Some(NavBarRight { class, children }) = nav_bar_right {
+                view! {
+                    <div
+                        class=class_list!["thaw-nav-bar__right", class.map(| c | move || c.get())]
+                        on:click=on_click_right
+                    >
+                        {children()}
+                    </div>
                 }
-            }
+                    .into()
+            } else if let Some(right_text) = right_text.into_option() {
+                view! {
+                    <div class="thaw-nav-bar__right" on:click=on_click_right>
+                        {move || right_text.get()}
+                    </div>
+                }
+                    .into()
+            } else {
+                None
+            }}
+
         </div>
     }
 }

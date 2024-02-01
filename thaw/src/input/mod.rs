@@ -160,7 +160,7 @@ pub fn Input(
             class=class_list![
                 "thaw-input", ("thaw-input--focus", move || is_focus.get()),
                 ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
-                invalid.get()), class.map(|c| move || c.get())
+                invalid.get()), class.map(| c | move || c.get())
             ]
 
             style=move || css_vars.get()

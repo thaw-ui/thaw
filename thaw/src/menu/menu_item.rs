@@ -43,7 +43,7 @@ pub fn MenuItem(
             <div
                 class=class_list![
                     "thaw-menu-item__content", ("thaw-menu-item__content--selected", move || menu.0
-                    .get() == key.get()), class.map(|c| move || c.get())
+                    .get() == key.get()), class.map(| c | move || c.get())
                 ]
 
                 on:click=on_click

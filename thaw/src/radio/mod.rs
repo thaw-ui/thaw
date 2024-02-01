@@ -27,7 +27,8 @@ pub fn Radio(
     view! {
         <div
             class=class_list![
-                "thaw-radio", ("thaw-radio--checked", move || value.get()), class.map(|c| move || c.get())
+                "thaw-radio", ("thaw-radio--checked", move || value.get()), class.map(| c | move ||
+                c.get())
             ]
 
             style=move || css_vars.get()

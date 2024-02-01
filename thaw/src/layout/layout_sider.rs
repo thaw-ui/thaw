@@ -9,7 +9,10 @@ pub fn LayoutSider(
 ) -> impl IntoView {
     mount_style("layout-sider", include_str!("./layout-sider.css"));
     view! {
-        <div class=class_list!["thaw-layout-sider", class.map(|c| move || c.get())] style=style.map(|s| move || s.get())>
+        <div
+            class=class_list!["thaw-layout-sider", class.map(| c | move || c.get())]
+            style=style.map(|s| move || s.get())
+        >
             {children()}
         </div>
     }

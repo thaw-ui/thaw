@@ -130,7 +130,7 @@ pub fn AutoComplete(
     view! {
         <Binder target_ref=auto_complete_ref>
             <div
-                class=class_list!["thaw-auto-complete", class.map(|c| move || c.get())]
+                class=class_list!["thaw-auto-complete", class.map(| c | move || c.get())]
                 ref=auto_complete_ref
                 on:keydown=on_keydown
             >

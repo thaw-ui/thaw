@@ -1,7 +1,10 @@
 use std::time::Duration;
 
 use super::{message_environment::MessageEnvironment, MessageVariant};
-use crate::{components::Teleport, utils::{class_list::class_list, mount_style}};
+use crate::{
+    components::Teleport,
+    utils::{class_list::class_list, mount_style},
+};
 use leptos::*;
 use uuid::Uuid;
 
@@ -13,7 +16,7 @@ pub enum MessagePlacement {
     TopRight,
     Bottom,
     BottomLeft,
-    BottomRight
+    BottomRight,
 }
 
 impl MessagePlacement {
@@ -24,7 +27,7 @@ impl MessagePlacement {
             MessagePlacement::TopRight => "thaw-message-container--top-right".to_owned(),
             MessagePlacement::Bottom => "thaw-message-container--bottom".to_owned(),
             MessagePlacement::BottomLeft => "thaw-message-container--bottom-left".to_owned(),
-            MessagePlacement::BottomRight=> "thaw-message-container--bottom-right".to_owned(),
+            MessagePlacement::BottomRight => "thaw-message-container--bottom-right".to_owned(),
         }
     }
 }
@@ -111,5 +114,3 @@ impl MessageInjection {
 pub fn use_message() -> MessageInjection {
     expect_context::<MessageInjection>()
 }
-
-

@@ -228,10 +228,12 @@ pub fn Button(
                 ButtonVariant::Text), ("thaw-button--link", move || variant.get() ==
                 ButtonVariant::Link), ("thaw-button--round", move || round.get()),
                 ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||
-                disabled.get()), class.map(|c| move || c.get())
+                disabled.get()), class.map(| c | move || c.get())
             ]
 
-            style=move || format!("{}{}", css_vars.get(), style.as_ref().map(|s| s.get()).unwrap_or_default())
+            style=move || {
+                format!("{}{}", css_vars.get(), style.as_ref().map(|s| s.get()).unwrap_or_default())
+            }
             disabled=move || disabled.get()
             on:click=on_click
         >

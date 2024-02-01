@@ -115,7 +115,7 @@ pub fn Popover(
     view! {
         <Binder target_ref>
             <div
-                class=class_list!["thaw-popover-trigger", trigger_class.map(|c| move || c.get())]
+                class=class_list!["thaw-popover-trigger", trigger_class.map(| c | move || c.get())]
                 ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
