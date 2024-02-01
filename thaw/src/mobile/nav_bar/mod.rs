@@ -80,7 +80,7 @@ pub fn NavBar(
                     <div class="thaw-nav-bar__left" on:click=on_click_left>
                         <If cond=left_arrow>
                             <Then slot>
-                                <Icon icon=icondata::AiLeftOutlined/>
+                                <Icon icon=icondata_ai::AiLeftOutlined/>
                             </Then>
                         </If>
                         {move || left_text.get()}
@@ -92,7 +92,7 @@ pub fn NavBar(
                     if left_arrow.get() {
                         view! {
                             <div class="thaw-nav-bar__left" on:click=on_click_left>
-                                <Icon icon=icondata::AiLeftOutlined/>
+                                <Icon icon=icondata_ai::AiLeftOutlined/>
                             </div>
                         }
                             .into()

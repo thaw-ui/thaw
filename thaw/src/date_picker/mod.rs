@@ -76,7 +76,7 @@ pub fn DatePicker(
             <div ref=date_picker_ref>
                 <Input attrs class value=show_date_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
-                        <Icon icon=icondata::AiCalendarOutlined style="font-size: 18px"/>
+                        <Icon icon=icondata_ai::AiCalendarOutlined style="font-size: 18px"/>
                     </InputSuffix>
                 </Input>
             </div>

@@ -46,7 +46,7 @@ pub fn Checkbox(
             <div class="thaw-checkbox__dot">
                 <If cond=value.signal()>
                     <Then slot>
-                        <Icon icon=icondata::AiCheckOutlined style="color: white"/>
+                        <Icon icon=icondata_ai::AiCheckOutlined style="color: white"/>
                     </Then>
                 </If>
             </div>

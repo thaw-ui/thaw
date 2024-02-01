@@ -92,13 +92,13 @@ pub fn DatePanel(
                     <Button
                         variant=ButtonVariant::Link
                         size=ButtonSize::Small
-                        icon=icondata::AiArrowLeftOutlined
+                        icon=icondata_ai::AiArrowLeftOutlined
                         on_click=previous_year
                     />
                     <Button
                         variant=ButtonVariant::Link
                         size=ButtonSize::Small
-                        icon=icondata::AiLeftOutlined
+                        icon=icondata_ai::AiLeftOutlined
                         on_click=previous_month
                     />
                     <div class="thaw-date-picker-date-panel__header-month-year">
@@ -120,13 +120,13 @@ pub fn DatePanel(
                     <Button
                         variant=ButtonVariant::Link
                         size=ButtonSize::Small
-                        icon=icondata::AiRightOutlined
+                        icon=icondata_ai::AiRightOutlined
                         on_click=next_month
                     />
                     <Button
                         variant=ButtonVariant::Link
                         size=ButtonSize::Small
-                        icon=icondata::AiArrowRightOutlined
+                        icon=icondata_ai::AiArrowRightOutlined
                         on_click=next_year
                     />
                 </div>

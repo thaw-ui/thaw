@@ -35,7 +35,7 @@ pub fn Modal(
                         </CardHeader>
                         <CardHeaderExtra slot>
                             <span style="cursor: pointer;" on:click=move |_| show.set(false)>
-                                <Icon icon=icondata::AiCloseOutlined/>
+                                <Icon icon=icondata_ai::AiCloseOutlined/>
                             </span>
                         </CardHeaderExtra>
                         {children()}

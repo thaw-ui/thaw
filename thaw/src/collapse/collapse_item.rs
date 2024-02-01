@@ -43,7 +43,7 @@ pub fn CollapseItem(
             class.map(| c | move || c.get())
         ]>
             <div class="thaw-collapse-item__header" on:click=on_click>
-                <Icon icon=icondata::AiRightOutlined class="thaw-collapse-item-arrow"/>
+                <Icon icon=icondata_ai::AiRightOutlined class="thaw-collapse-item-arrow"/>
                 {move || title.get()}
             </div>
             <CSSTransition

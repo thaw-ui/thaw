@@ -7,7 +7,7 @@ use leptos::*;
 #[component]
 pub fn TabbarItem(
     #[prop(into)] key: MaybeSignal<String>,
-    #[prop(optional, into)] icon: Option<icondata::Icon>,
+    #[prop(optional, into)] icon: Option<icondata_core::Icon>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tabbar-item", include_str!("./tabbar-item.css"));

@@ -1,10 +1,7 @@
 use super::TabbarMdPage;
 use crate::pages::MobilePage;
 use leptos::*;
-use thaw::{
-    icondata,
-    mobile::{Tabbar, TabbarItem},
-};
+use thaw::mobile::{Tabbar, TabbarItem};
 
 #[component]
 pub fn TabbarPage() -> impl IntoView {

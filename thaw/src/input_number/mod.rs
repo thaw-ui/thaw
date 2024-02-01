@@ -67,10 +67,10 @@ where
         >
             <InputSuffix slot>
                 <Button disabled variant=ButtonVariant::Link on_click=sub>
-                    <Icon icon=icondata::AiMinusOutlined style="font-size: 18px"/>
+                    <Icon icon=icondata_ai::AiMinusOutlined style="font-size: 18px"/>
                 </Button>
                 <Button disabled variant=ButtonVariant::Link on_click=add>
-                    <Icon icon=icondata::AiPlusOutlined style="font-size: 18px"/>
+                    <Icon icon=icondata_ai::AiPlusOutlined style="font-size: 18px"/>
                 </Button>
             </InputSuffix>
         </Input>
