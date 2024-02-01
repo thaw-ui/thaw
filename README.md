@@ -8,6 +8,13 @@
 
 [https://thawui.vercel.app](https://thawui.vercel.app)
 
+## Leptos compatibility
+
+| Crate version                                               | Compatible Leptos version |
+| ----------------------------------------------------------- | ------------------------- |
+| 0.1                                                         | 0.5                       |
+| [thaw/v0.2](https://github.com/thaw-ui/thaw/tree/thaw/v0.2) | 0.6                       |
+
 ## Resources
 
 [Pigment](https://github.com/kobaltedev/pigment)
