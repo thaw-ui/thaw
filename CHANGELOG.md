@@ -1,3 +1,19 @@
+## [0.2.0-alpha](https://github.com/thaw-ui/thaw/compare/v0.1.10...v0.2.0-alpha) (2024-02-01)
+
+### Breaking Changes
+
+* Remove the default feature of csr.
+* `ButtonVariant::Solid` is changed to `ButtonVariant::Outlined`.
+* Change icondata to icondata_core.
+* Rewrite `Code` component.
+* Update leptos to v0.6.5.
+
+### Features
+
+* Change `RwSignal` to `Model`.
+* Change `#[prop(optional)] T` to `#[prop(optional)] OptionalProp<T>`.
+* `Checkbox` children can be empty.
+
 ## [0.1.10](https://github.com/thaw-ui/thaw/compare/v0.1.9...v0.1.10) (2024-01-31)
 
 ### Features
