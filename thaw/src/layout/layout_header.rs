@@ -8,7 +8,10 @@ pub fn LayoutHeader(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <div class=class_list!["thaw-layout-header", class.map(|c| move || c.get())] style=style.map(|s| move || s.get())>
+        <div
+            class=class_list!["thaw-layout-header", class.map(| c | move || c.get())]
+            style=style.map(|s| move || s.get())
+        >
             {children()}
         </div>
     }

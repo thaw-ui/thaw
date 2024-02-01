@@ -46,7 +46,8 @@ pub fn Table(
         <table
             class=class_list![
                 "thaw-table", ("thaw-table--single-row", move || single_row.get()),
-                ("thaw-table--single-column", move || single_column.get()), class.map(|c| move || c.get())
+                ("thaw-table--single-column", move || single_column.get()), class.map(| c | move ||
+                c.get())
             ]
 
             style=move || format!("{}{}", css_vars.get(), style.get())

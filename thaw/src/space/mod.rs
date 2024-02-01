@@ -30,7 +30,7 @@ pub fn Space(
 
     view! {
         <div
-            class=class_list!["thaw-space", class.map(|c| move || c.get())]
+            class=class_list!["thaw-space", class.map(| c | move || c.get())]
             style:gap=gap
             style:flex-direction=if vertical { "column" } else { "row" }
         >

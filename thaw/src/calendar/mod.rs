@@ -116,7 +116,10 @@ pub fn Calendar(
     };
 
     view! {
-        <div class=class_list!["thaw-calendar", class.map(|c| move || c.get())] style=move || css_vars.get()>
+        <div
+            class=class_list!["thaw-calendar", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">
 

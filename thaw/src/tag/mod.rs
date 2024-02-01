@@ -73,7 +73,10 @@ pub fn Tag(
     });
 
     view! {
-        <div class=class_list!["thaw-tag", class.map(|c| move || c.get())] style=move || css_vars.get()>
+        <div
+            class=class_list!["thaw-tag", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
             <span class="thaw-tag__content">{children()}</span>
         </div>
     }

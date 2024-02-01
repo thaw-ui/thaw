@@ -16,7 +16,7 @@ pub fn Menu(
 ) -> impl IntoView {
     view! {
         <Provider value=MenuInjection(value)>
-            <div class=class_list!["thaw-menu", class.map(|c| move || c.get())]>{children()}</div>
+            <div class=class_list!["thaw-menu", class.map(| c | move || c.get())]>{children()}</div>
         </Provider>
     }
 }

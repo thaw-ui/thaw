@@ -100,7 +100,7 @@ pub fn ColorPicker(
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-color-picker-trigger", class.map(|c| move || c.get())]
+                class=class_list!["thaw-color-picker-trigger", class.map(| c | move || c.get())]
                 on:click=show_popover
                 ref=trigger_ref
             >

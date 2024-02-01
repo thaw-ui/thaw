@@ -118,7 +118,7 @@ pub fn Slider(
 
     view! {
         <div
-            class=class_list!["thaw-slider", class.map(|c| move || c.get())]
+            class=class_list!["thaw-slider", class.map(| c | move || c.get())]
             style=move || css_vars.get()
             on:click=on_mouse_click
         >

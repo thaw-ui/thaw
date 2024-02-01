@@ -44,13 +44,18 @@ pub fn CollapseItem(
     view! {
         <div class=class_list![
             "thaw-collapse-item", ("thaw-collapse-item--active", move || is_show_content.get()),
-            class.map(|c| move || c.get())
+            class.map(| c | move || c.get())
         ]>
             <div class="thaw-collapse-item__header" on:click=on_click>
                 <Icon icon=icondata::AiRightOutlined class="thaw-collapse-item-arrow"/>
                 {move || title.get()}
             </div>
-            <CSSTransition node_ref=content_ref show=is_show_content name="thaw-collapse-item" let:display>
+            <CSSTransition
+                node_ref=content_ref
+                show=is_show_content
+                name="thaw-collapse-item"
+                let:display
+            >
                 <div
                     class="thaw-collapse-item__content"
                     ref=content_ref

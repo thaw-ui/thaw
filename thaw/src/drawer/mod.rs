@@ -33,8 +33,9 @@ pub fn Drawer(
                 <div
                     class=class_list![
                         "thaw-drawer", move || format!("thaw-drawer--placement-{}", placement.get()
-                        .as_str()), class.map(|c| move || c.get())
+                        .as_str()), class.map(| c | move || c.get())
                     ]
+
                     style=move || css_vars.get()
                 >
                     <Card title>{children()}</Card>

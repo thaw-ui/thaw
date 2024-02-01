@@ -61,7 +61,10 @@ fn TabsInner(
     let children = children();
 
     view! {
-        <div class=class_list!["thaw-tabs", class.map(|c| move || c.get())] style=move || css_vars.get()>
+        <div
+            class=class_list!["thaw-tabs", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
             <div class="thaw-tabs__label-list" ref=label_list_ref role="tablist">
                 <For
                     each=move || tab_options_vec.get()
@@ -103,7 +106,7 @@ fn TabsInner(
                                 <span
                                     class=class_list![
                                         "thaw-tabs__label", ("thaw-tabs__label--active", move ||
-                                        is_active.get()), class.map(|c| move || c.get())
+                                        is_active.get()), class.map(| c | move || c.get())
                                     ]
 
                                     on:click={

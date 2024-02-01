@@ -22,7 +22,10 @@ pub fn MenuGroup(
     });
 
     view! {
-        <div class=class_list!["thaw-menu-group", class.map(|c| move || c.get())] style=move || css_vars.get()>
+        <div
+            class=class_list!["thaw-menu-group", class.map(| c | move || c.get())]
+            style=move || css_vars.get()
+        >
             {label}
         </div>
         {children()}

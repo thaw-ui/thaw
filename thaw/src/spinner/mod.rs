@@ -53,7 +53,7 @@ pub fn Spinner(
 
     view! {
         <div
-            class=class_list!["thaw-spinner", class.map(|c| move || c.get())]
+            class=class_list!["thaw-spinner", class.map(| c | move || c.get())]
             style=move || css_vars.get()
         ></div>
     }

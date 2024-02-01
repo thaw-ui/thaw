@@ -111,7 +111,7 @@ where
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-select", class.map(|c| move || c.get())]
+                class=class_list!["thaw-select", class.map(| c | move || c.get())]
                 ref=trigger_ref
                 on:click=show_menu
                 style=move || css_vars.get()

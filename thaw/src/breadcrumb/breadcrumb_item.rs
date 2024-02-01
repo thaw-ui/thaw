@@ -12,7 +12,7 @@ pub fn BreadcrumbItem(
     view! {
         <li class="thaw-breadcrumb-item">
             <span class=class_list![
-                "thaw-breadcrumb-item__link", class.map(|c| move || c.get())
+                "thaw-breadcrumb-item__link", class.map(| c | move || c.get())
             ]>{children()}</span>
             <span class="thaw-breadcrumb-item__separator">
                 {move || breadcrumb_separator.0.get()}

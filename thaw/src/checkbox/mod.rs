@@ -35,7 +35,8 @@ pub fn Checkbox(
     view! {
         <div
             class=class_list![
-                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get()), class.map(|c| move || c.get())
+                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get()), class.map(| c |
+                move || c.get())
             ]
 
             style=move || css_vars.get()

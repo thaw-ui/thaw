@@ -2,11 +2,15 @@ mod message_environment;
 mod message_provider;
 mod theme;
 
-use crate::{theme::use_theme, Icon, Theme, components::{If, Then}};
+use crate::{
+    components::{If, Then},
+    theme::use_theme,
+    Icon, Theme,
+};
 use leptos::*;
-use uuid::Uuid;
 pub use message_provider::*;
 pub use theme::MessageTheme;
+use uuid::Uuid;
 
 #[derive(Default, Clone)]
 pub enum MessageVariant {
@@ -62,7 +66,7 @@ pub(crate) fn Message(
                 <div class="thaw-message__content">{content}</div>
                 <If cond=closable>
                     <Then slot>
-                        <div class="thaw-message__close"  on:click=move |_| on_close.call(id)>
+                        <div class="thaw-message__close" on:click=move |_| on_close.call(id)>
                             <Icon icon=icondata::AiCloseOutlined/>
                         </div>
                     </Then>
@@ -71,5 +75,3 @@ pub(crate) fn Message(
         </div>
     }
 }
-
-

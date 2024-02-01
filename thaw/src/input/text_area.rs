@@ -107,8 +107,8 @@ pub fn TextArea(
         <div
             class=class_list![
                 "thaw-textarea", ("thaw-textarea--focus", move || is_focus.get()),
-                ("thaw-textarea--disabled", move || disabled.get()), ("thaw-textarea--invalid", move ||
-                invalid.get()), class.map(|c| move || c.get())
+                ("thaw-textarea--disabled", move || disabled.get()), ("thaw-textarea--invalid", move
+                || invalid.get()), class.map(| c | move || c.get())
             ]
 
             style=move || css_vars.get()
@@ -127,7 +127,7 @@ pub fn TextArea(
                 disabled=move || disabled.get()
                 placeholder=placeholder.map(|p| move || p.get())
                 ref=textarea_ref
-            />
+            ></textarea>
         </div>
     }
 }

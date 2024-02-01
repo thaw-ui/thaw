@@ -40,7 +40,7 @@ pub fn Breadcrumb(
     view! {
         <Provider value=BreadcrumbSeparatorInjection(separator)>
             <nav
-                class=class_list!["thaw-breadcrumb", class.map(|c| move || c.get())]
+                class=class_list!["thaw-breadcrumb", class.map(| c | move || c.get())]
                 style=move || css_vars.get()
             >
                 <ul>{children()}</ul>
