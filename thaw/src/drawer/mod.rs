@@ -12,6 +12,7 @@ pub fn Drawer(
     #[prop(optional, into)] placement: MaybeSignal<DrawerPlacement>,
     #[prop(default = MaybeSignal::Static("520px".to_string()), into)] width: MaybeSignal<String>,
     #[prop(default = MaybeSignal::Static("260px".to_string()), into)] height: MaybeSignal<String>,
+    #[prop(default = MaybeSignal::Static("2000".to_string()), into)] z_index: MaybeSignal<String>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
@@ -27,7 +28,7 @@ pub fn Drawer(
         <Teleport>
             <div
                 class="thaw-drawer-container"
-                style=move || if show.get() { "" } else { "display: none" }
+                style=move || if show.get() { format!("z-index: {}", z_index.get()) } else { "display: none".to_string() }
             >
                 <div class="thaw-drawer-mask" on:click=move |_| show.set(false)></div>
                 <div

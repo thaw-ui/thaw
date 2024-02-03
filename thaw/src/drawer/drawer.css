@@ -1,5 +1,9 @@
 .thaw-drawer-container {
-    z-index: 2001;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
 }
 
 .thaw-drawer-mask {
@@ -9,12 +13,10 @@
     left: 0;
     bottom: 0;
     background-color: #0007;
-    z-index: 2000;
 }
 
 .thaw-drawer {
     position: absolute;
-    z-index: 2002;
 }
 
 .thaw-drawer > .thaw-card {
