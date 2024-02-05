@@ -22,6 +22,21 @@ view! {
 }
 ```
 
+### Customize display area
+
+```rust demo
+let show = create_rw_signal(false);
+
+view! {
+    <div style="position: relative; height: 200px; background-color: #0078ff88;">
+        <Button on_click=move |_| show.set(true)>"Open"</Button>
+        <Drawer show mount=DrawerMount::None>
+            "Current position"
+        </Drawer>
+    </div>
+}
+```
+
 ### Drawer Props
 
 | Name      | Type                           | Default                  | Desciption                                |
@@ -32,4 +47,6 @@ view! {
 | placement | `MaybeSignal<DrawerPlacement>` | `DrawerPlacement::Right` | Drawer placement.                         |
 | width     | `MaybeSignal<String>`          | `520px`                  | Drawer width.                             |
 | height    | `MaybeSignal<String>`          | `260px`                  | Drawer height.                            |
+| z_index   | `MaybeSignal<i16>`             | `2000`                   | z-index of the drawer.                    |
+| mount     | `DrawerMount`                  | `DrawerMount::Body`      | Container node of the drawer.             |
 | children  | `Children`                     |                          | Drawer content.                           |
