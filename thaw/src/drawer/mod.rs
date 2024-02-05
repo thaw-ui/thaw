@@ -12,7 +12,8 @@ pub fn Drawer(
     #[prop(optional, into)] placement: MaybeSignal<DrawerPlacement>,
     #[prop(default = MaybeSignal::Static("520px".to_string()), into)] width: MaybeSignal<String>,
     #[prop(default = MaybeSignal::Static("260px".to_string()), into)] height: MaybeSignal<String>,
-    #[prop(default = MaybeSignal::Static("2000".to_string()), into)] z_index: MaybeSignal<String>,
+    #[prop(default = 2000.into(), into)] z_index: MaybeSignal<i16>,
+    #[prop(optional, into)] mount: DrawerMount,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
@@ -24,8 +25,17 @@ pub fn Drawer(
         css_vars
     });
 
-    view! {
-        <Teleport>
+    #[component]
+    fn DrawerInnr(
+        show: Model<bool>,
+        title: OptionalProp<MaybeSignal<String>>,
+        placement: MaybeSignal<DrawerPlacement>,
+        z_index: MaybeSignal<i16>,
+        class: OptionalProp<MaybeSignal<String>>,
+        css_vars: Memo<String>,
+        children: Children,
+    ) -> impl IntoView {
+        view! {
             <div
                 class="thaw-drawer-container"
                 style=move || if show.get() { format!("z-index: {}", z_index.get()) } else { "display: none".to_string() }
@@ -42,7 +52,18 @@ pub fn Drawer(
                     <Card title>{children()}</Card>
                 </div>
             </div>
-        </Teleport>
+        }
+    }
+
+    match mount {
+        DrawerMount::None => view! {
+            <DrawerInnr show title placement z_index class css_vars children />
+        },
+        DrawerMount::Body => view! {
+            <Teleport>
+                <DrawerInnr show title placement z_index class css_vars children />
+            </Teleport>
+        },
     }
 }
 
@@ -64,4 +85,11 @@ impl DrawerPlacement {
             Self::Right => "right",
         }
     }
+}
+
+#[derive(Default)]
+pub enum DrawerMount {
+    None,
+    #[default]
+    Body,
 }
