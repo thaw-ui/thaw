@@ -8,6 +8,7 @@ mod optional_prop;
 mod signal;
 mod stored_maybe_signal;
 mod time;
+mod use_lock_html_scroll;
 
 // pub use callback::AsyncCallback;
 pub use component_ref::{create_component_ref, ComponentRef};
@@ -18,6 +19,7 @@ pub(crate) use optional_prop::OptionalProp;
 pub use signal::SignalWatch;
 pub(crate) use stored_maybe_signal::*;
 pub(crate) use time::*;
+pub(crate) use use_lock_html_scroll::*;
 
 pub(crate) fn with_hydration_off<T>(f: impl FnOnce() -> T) -> T {
     #[cfg(feature = "hydrate")]

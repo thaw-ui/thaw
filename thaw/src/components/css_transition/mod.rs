@@ -6,6 +6,7 @@ pub fn CSSTransition<T, CF, IV>(
     node_ref: NodeRef<T>,
     #[prop(into)] show: MaybeSignal<bool>,
     #[prop(into)] name: MaybeSignal<String>,
+    #[prop(optional, into)] on_after_leave: Option<Callback<()>>,
     children: CF,
 ) -> impl IntoView
 where
@@ -30,6 +31,9 @@ where
                         RemoveClassName::Leave(active, to) => {
                             let _ = class_list.remove_2(&active, &to);
                             display.set(Some("display: none;"));
+                            if let Some(on_after_leave) = on_after_leave {
+                                on_after_leave.call(());
+                            }
                         }
                     }
                 }
