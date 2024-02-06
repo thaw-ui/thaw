@@ -1,6 +1,6 @@
 use crate::{
     components::{CSSTransition, Teleport},
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
+    utils::{class_list::class_list, mount_style, use_lock_html_scroll, Model, OptionalProp},
     Card,
 };
 use leptos::*;
@@ -40,6 +40,17 @@ pub fn Drawer(
         let mask_ref = NodeRef::<html::Div>::new();
         let drawer_ref = NodeRef::<html::Div>::new();
 
+        let is_lock = RwSignal::new(show.get_untracked());
+        Effect::new(move |_| {
+            if show.get() {
+                is_lock.set(true);
+            }
+        });
+        use_lock_html_scroll(is_lock.into());
+        let on_after_leave = move |_| {
+            is_lock.set(false);
+        };
+
         view! {
             <div class="thaw-drawer-container" style=move || style.get()>
                 <CSSTransition
@@ -61,6 +72,7 @@ pub fn Drawer(
                     name=Memo::new(move |_| {
                         format!("slide-in-from-{}-transition", placement.get().as_str())
                     })
+                    on_after_leave
                     let:display
                 >
                     <div

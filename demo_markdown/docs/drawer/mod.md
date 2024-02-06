@@ -5,8 +5,8 @@ let show = create_rw_signal(false);
 let placement = create_rw_signal(DrawerPlacement::Top);
 
 let open = Callback::new(move |new_placement: DrawerPlacement| {
-    show.set(true);
     placement.set(new_placement);
+    show.set(true);
 });
 
 view! {
@@ -28,9 +28,9 @@ view! {
 let show = create_rw_signal(false);
 
 view! {
-    <div style="position: relative; height: 200px; background-color: #0078ff88;">
+    <div style="position: relative; overflow: hidden; height: 200px; background-color: #0078ff88;">
         <Button on_click=move |_| show.set(true)>"Open"</Button>
-        <Drawer show mount=DrawerMount::None>
+        <Drawer show mount=DrawerMount::None width="50%">
             "Current position"
         </Drawer>
     </div>
