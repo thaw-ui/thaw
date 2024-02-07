@@ -1,3 +1,14 @@
+## [0.2.0-beta](https://github.com/thaw-ui/thaw/compare/v0.2.0-alpha...v0.2.0-beta) (2024-02-07)
+
+### Breaking Changes
+
+* `ColorPicker` changes the value type to Color.
+* Remove re-export of chrono.
+
+### Features
+
+* `Drawer` adds z_index and mount prop.
+
 ## [0.2.0-alpha](https://github.com/thaw-ui/thaw/compare/v0.1.10...v0.2.0-alpha) (2024-02-01)
 
 ### Breaking Changes
