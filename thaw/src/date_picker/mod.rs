@@ -1,15 +1,16 @@
 mod panel;
 mod theme;
 
+pub use theme::DatePickerTheme;
+
 use crate::{
-    chrono::NaiveDate,
     components::{Binder, Follower, FollowerPlacement},
     utils::{mount_style, now_date, ComponentRef, Model, OptionalProp},
     Icon, Input, InputSuffix, SignalWatch,
 };
+use chrono::NaiveDate;
 use leptos::*;
 use panel::{Panel, PanelRef};
-pub use theme::DatePickerTheme;
 
 #[component]
 pub fn DatePicker(

@@ -1,15 +1,16 @@
 mod theme;
 
+pub use theme::CalendarTheme;
+
 use crate::{
-    chrono::{Datelike, Days, Local, NaiveDate},
     use_theme,
     utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Button, ButtonGroup, ButtonVariant, Theme,
 };
+use chrono::{Datelike, Days, Local, NaiveDate};
 use chrono::{Month, Months};
 use leptos::*;
 use std::ops::Deref;
-pub use theme::CalendarTheme;
 
 #[component]
 pub fn Calendar(

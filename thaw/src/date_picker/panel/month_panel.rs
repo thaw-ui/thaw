@@ -1,8 +1,6 @@
 use super::PanelVariant;
-use crate::{
-    chrono::{Datelike, Month, Months, NaiveDate},
-    Button, ButtonSize, ButtonVariant,
-};
+use crate::{Button, ButtonSize, ButtonVariant};
+use chrono::{Datelike, Month, Months, NaiveDate};
 use leptos::*;
 
 #[component]
