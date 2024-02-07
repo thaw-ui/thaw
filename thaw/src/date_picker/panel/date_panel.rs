@@ -1,9 +1,6 @@
 use super::PanelVariant;
-use crate::{
-    chrono::{Datelike, Days, Month, Months, NaiveDate},
-    utils::now_date,
-    Button, ButtonSize, ButtonVariant, CalendarItemDate,
-};
+use crate::{utils::now_date, Button, ButtonSize, ButtonVariant, CalendarItemDate};
+use chrono::{Datelike, Days, Month, Months, NaiveDate};
 use leptos::*;
 use std::ops::Deref;
 

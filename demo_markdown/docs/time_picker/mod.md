@@ -1,7 +1,7 @@
 # Time Picker
 
 ```rust demo
-use thaw::chrono::prelude::*;
+use chrono::prelude::*;
 
 let value = create_rw_signal(Some(Local::now().time()));
 

@@ -1,8 +1,6 @@
 use super::PanelVariant;
-use crate::{
-    chrono::{Datelike, NaiveDate},
-    Button, ButtonSize, ButtonVariant,
-};
+use crate::{Button, ButtonSize, ButtonVariant};
+use chrono::{Datelike, NaiveDate};
 use leptos::*;
 
 const MAX_YEAR: i32 = (i32::MAX >> 13) / 10 - 1;

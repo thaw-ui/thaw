@@ -3,11 +3,11 @@ mod month_panel;
 mod year_panel;
 
 use crate::{
-    chrono::NaiveDate,
     use_theme,
     utils::{now_date, ComponentRef},
     Theme,
 };
+use chrono::NaiveDate;
 use date_panel::DatePanel;
 use leptos::*;
 use month_panel::MonthPanel;

@@ -10,11 +10,12 @@ edition = "2021"
 leptos = { version = "0.6.5" }
 leptos_meta = { version = "0.6.5" }
 leptos_router = { version = "0.6.5" }
-leptos_devtools = { version = "0.0.1", optional = true}
+leptos_devtools = { version = "0.0.1", optional = true }
 thaw = { path = "../thaw" }
 demo_markdown = { path = "../demo_markdown" }
 icondata = "0.3.0"
 palette = "0.7.4"
+chrono = "0.4.33"
 
 [features]
 default = ["csr"]

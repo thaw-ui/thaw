@@ -1,14 +1,15 @@
 mod theme;
 
+pub use theme::TimePickerTheme;
+
 use crate::{
-    chrono::{Local, NaiveTime, Timelike},
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
     utils::{mount_style, ComponentRef, Model, OptionalProp},
     Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
 };
+use chrono::{Local, NaiveTime, Timelike};
 use leptos::*;
-pub use theme::TimePickerTheme;
 
 #[component]
 pub fn TimePicker(
