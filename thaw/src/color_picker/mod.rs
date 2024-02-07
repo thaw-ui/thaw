@@ -1,20 +1,22 @@
 mod color;
 mod theme;
 
+pub use color::*;
+pub use theme::ColorPickerTheme;
+
 use crate::{
     components::{Binder, Follower, FollowerPlacement},
     use_theme,
     utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
-pub use color::*;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
-pub use theme::ColorPickerTheme;
+use palette::{Hsv, IntoColor, Srgb};
 
 #[component]
 pub fn ColorPicker(
-    #[prop(optional, into)] value: Model<RGBA>,
+    #[prop(optional, into)] value: Model<Color>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
@@ -28,22 +30,51 @@ pub fn ColorPicker(
         })
     });
 
-    let hue = create_rw_signal(0);
-    let sv = create_rw_signal((0.0, 0.0));
+    let hue = create_rw_signal(0f32);
+    let sv = create_rw_signal((0f32, 0f32));
     let label = create_rw_signal(String::new());
     let style = create_memo(move |_| {
         let mut style = String::new();
 
-        value.with(|value| {
-            let value = value.to_hex_string();
-            style.push_str(&format!("background-color: {value};"));
+        value.with(|color| {
             let (s, v) = sv.get_untracked();
             if s < 0.5 && v > 0.5 {
                 style.push_str("color: #000;");
             } else {
                 style.push_str("color: #fff;");
             }
-            label.set(value);
+            match color {
+                Color::RGB(rgb) => {
+                    let rgb = Srgb::<u8>::from_format(rgb.clone());
+                    let color = format!("rgb({}, {}, {})", rgb.red, rgb.green, rgb.blue);
+                    style.push_str(&format!("background-color: {color};"));
+                    label.set(color);
+                }
+                Color::HSV(hsv) => {
+                    let rgb: Srgb = hsv.clone().into_color();
+                    let rgb = Srgb::<u8>::from_format(rgb);
+                    let color = format!("rgb({}, {}, {})", rgb.red, rgb.green, rgb.blue);
+                    style.push_str(&format!("background-color: {color};"));
+
+                    let color = format!(
+                        "hsv({}, {:.0}%, {:.0}%)",
+                        hsv.hue.into_inner(),
+                        hsv.saturation * 100.0,
+                        hsv.value * 100.0
+                    );
+                    label.set(color);
+                }
+                Color::HSL(hsl) => {
+                    let color = format!(
+                        "hsl({}, {:.0}%, {:.0}%)",
+                        hsl.hue.into_inner(),
+                        hsl.saturation * 100.0,
+                        hsl.lightness * 100.0
+                    );
+                    style.push_str(&format!("background-color: {color};"));
+                    label.set(color);
+                }
+            }
         });
 
         style
@@ -53,16 +84,28 @@ pub fn ColorPicker(
         let (s, v) = sv.get();
         let hue_value = hue.get();
         if prev.is_none() {
-            let HSV {
+            let hsv = match value.get_untracked() {
+                Color::RGB(rgb) => rgb.into_color(),
+                Color::HSV(hsv) => hsv,
+                Color::HSL(hsl) => hsl.into_color(),
+            };
+            let Hsv {
                 hue: h,
                 saturation: s,
                 value: v,
                 ..
-            } = value.get_untracked().into();
-            hue.set(h);
-            sv.set((s, v))
+            } = hsv;
+            hue.set(h.into_inner());
+            sv.set((s.into(), v.into()))
         } else {
-            value.set(RGBA::from(HSV::new(hue_value, s, v)));
+            value.update(|color| {
+                let new_hsv: Hsv = Hsv::new(hue_value, s, v);
+                match color {
+                    Color::RGB(rgb) => *rgb = new_hsv.into_color(),
+                    Color::HSV(hsv) => *hsv = new_hsv,
+                    Color::HSL(hsl) => *hsl = new_hsv.into_color(),
+                }
+            });
         }
     });
 
@@ -124,7 +167,7 @@ pub fn ColorPicker(
 }
 
 #[component]
-fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
+fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
     let panel_ref = create_node_ref::<html::Div>();
     let mouse = store_value(Vec::<WindowListenerHandle>::new());
 
@@ -143,14 +186,14 @@ fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
                 } else if v < 0.0 {
                     0.0
                 } else {
-                    v
+                    format!("{:.2}", v).parse::<f32>().unwrap()
                 };
                 let s = if s > 1.0 {
                     1.0
                 } else if s < 0.0 {
                     0.0
                 } else {
-                    s
+                    format!("{:.2}", s).parse::<f32>().unwrap()
                 };
 
                 sv.set((s, v))
@@ -197,7 +240,7 @@ fn ColorPanel(hue: ReadSignal<u16>, sv: RwSignal<(f64, f64)>) -> impl IntoView {
 }
 
 #[component]
-fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
+fn HueSlider(hue: RwSignal<f32>) -> impl IntoView {
     let rail_ref = create_node_ref::<html::Div>();
     let mouse = store_value(Vec::<WindowListenerHandle>::new());
 
@@ -208,11 +251,11 @@ fn HueSlider(hue: RwSignal<u16>) -> impl IntoView {
                 let ev_x = f64::from(ev.x());
                 let value = (ev_x - rect.left() - 6.0) / (rect.width() - 12.0) * 359.0;
                 let value = if value < 0.0 {
-                    0
+                    0.0
                 } else if value > 359.0 {
-                    359
+                    359.0
                 } else {
-                    value.round().to_string().parse::<u16>().unwrap()
+                    value.round().to_string().parse::<f32>().unwrap()
                 };
                 hue.set(value);
             }
