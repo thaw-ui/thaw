@@ -10,8 +10,8 @@ view! {
 
 ### Radio Props
 
-| Name     | Type                  | Default              | Description                              |
-| -------- | --------------------- | -------------------- | ---------------------------------------- |
-| class    | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the radio element. |
-| value    | `RwSignal<bool>`      | `false`              | Checked value.                           |
-| children | `Children`            |                      | Radio's content.                         |
+| Name     | Type                                | Default              | Description                              |
+| -------- | ----------------------------------- | -------------------- | ---------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the radio element. |
+| value    | `Model<bool>`                       | `false`              | Checked value.                           |
+| children | `Children`                          |                      | Radio's content.                         |

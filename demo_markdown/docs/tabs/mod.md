@@ -44,20 +44,20 @@ view! {
 
 ### Tabs Props
 
-| Name     | Type                  | Default               | Description                             |
-| -------- | --------------------- | --------------------- | --------------------------------------- |
-| class    | `MaybeSignal<String>` | `Default::default()`  | Addtional classes for the tabs element. |
-| value    | `RwSignal<String>`    | `TagVariant::Default` | Tabs value.                             |
-| children | `Children`            |                       | Tabs content.                           |
+| Name     | Type                                | Default              | Description                             |
+| -------- | ----------------------------------- | -------------------- | --------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the tabs element. |
+| value    | `Model<String>`                     | `Default::default()` | Tabs value.                             |
+| children | `Children`                          |                      | Tabs content.                           |
 
 ### Tab Props
 
-| Name     | Type                  | Default              | Description                            |
-| -------- | --------------------- | -------------------- | -------------------------------------- |
-| class    | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the tab element. |
-| key      | `String`              |                      | The indentifier of the tab.            |
-| label    | `String`              | `Default::default()` | The label of the tab.                  |
-| children | `Children`            |                      | Tabs content.                          |
+| Name     | Type                                | Default              | Description                            |
+| -------- | ----------------------------------- | -------------------- | -------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the tab element. |
+| key      | `String`                            |                      | The indentifier of the tab.            |
+| label    | `String`                            | `Default::default()` | The label of the tab.                  |
+| children | `Children`                          |                      | Tabs content.                          |
 
 ### Tab Slots
 

@@ -21,7 +21,7 @@ view! {
 
 ### Spinner Props
 
-| Name  | Type                       | Default               | Description                                 |
-| ----- | -------------------------- | --------------------- | ------------------------------------------- |
-| class | `MaybeSignal<String>`      | `Default::default()`  | Additional classes for the spinner element. |
-| size  | `MaybeSignal<SpinnerSize>` | `SpinnerSize::Medium` | Spinner size.                               |
+| Name  | Type                                | Default               | Description                                 |
+| ----- | ----------------------------------- | --------------------- | ------------------------------------------- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()`  | Additional classes for the spinner element. |
+| size  | `MaybeSignal<SpinnerSize>`          | `SpinnerSize::Medium` | Spinner size.                               |

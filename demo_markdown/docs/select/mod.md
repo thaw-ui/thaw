@@ -23,6 +23,6 @@ view! {
 
 | Name    | Type                                | Default              | Description                               |
 | ------- | ----------------------------------- | -------------------- | ----------------------------------------- |
-| class   | `MaybeSignal<String>`               | `Default::default()` | Addtional classes for the select element. |
-| value   | `RwSignal<Option<T>>`               | `None`               | Checked value.                            |
+| class   | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the select element. |
+| value   | `Model<Option<T>>`                  | `None`               | Checked value.                            |
 | options | `MaybeSignal<Vec<SelectOption<T>>>` | `vec![]`             | Options that can be selected.             |

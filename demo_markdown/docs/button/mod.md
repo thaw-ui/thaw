@@ -129,8 +129,8 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `MaybeSignal<String>` | `Default::default()` | Additional classes for the button element. |
-| style | `MaybeSignal<String>` | `Default::default()` | Button's style. |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the button element. |
+| style | `Option<MaybeSignal<String>>` | `Default::default()` | Button's style. |
 | variant | `MaybeSignal<ButtonVariant>` | `ButtonVariant::Primary` | Button's variant. |
 | color | `MaybeSignal<ButtonColor>` | `ButtonColor::Primary` | Button's color. |
 | round | `MaybeSignal<bool>` | `false` | Whether the button shows rounded corners. |
@@ -140,4 +140,11 @@ view! {
 | disabled | `MaybeSignal<bool>` | `false` | Whether the button is disabled. |
 | size | `MaybeSignal<ButtonSize>` | `ButtonSize::Medium` | Button size. |
 | on_click | `Option<Callback<ev::MouseEvent>>` | `None` | Listen for button click events. |
-| children | `Children` |  | Button's content. |
+| children | `Option<Children>` |  | Button's content. |
+
+### ButtonGroup props
+
+| Name     | Type       | Default | Description                         |
+| -------- | ---------- | ------- | ----------------------------------- |
+| vertical | `bool`     | `false` | Directions of buttons in the group. |
+| children | `Children` |         | ButtonGroup's content.              |

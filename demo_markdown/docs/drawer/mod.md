@@ -39,14 +39,14 @@ view! {
 
 ### Drawer Props
 
-| Name      | Type                           | Default                  | Desciption                                |
-| --------- | ------------------------------ | ------------------------ | ----------------------------------------- |
-| class     | `MaybeSignal<String>`          | `Default::default()`     | Addtional classes for the drawer element. |
-| show      | `MaybeSignal<bool>`            |                          | Whether to show drawer.                   |
-| title     | `MaybeSignal<String>`          | `Default::default()`     | Drawer title.                             |
-| placement | `MaybeSignal<DrawerPlacement>` | `DrawerPlacement::Right` | Drawer placement.                         |
-| width     | `MaybeSignal<String>`          | `520px`                  | Drawer width.                             |
-| height    | `MaybeSignal<String>`          | `260px`                  | Drawer height.                            |
-| z_index   | `MaybeSignal<i16>`             | `2000`                   | z-index of the drawer.                    |
-| mount     | `DrawerMount`                  | `DrawerMount::Body`      | Container node of the drawer.             |
-| children  | `Children`                     |                          | Drawer content.                           |
+| Name | Type | Default | Desciption |
+| --- | --- | --- | --- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the drawer element. |
+| show | `Model<bool>` |  | Whether to show drawer. |
+| title | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Drawer title. |
+| placement | `MaybeSignal<DrawerPlacement>` | `DrawerPlacement::Right` | Drawer placement. |
+| width | `MaybeSignal<String>` | `520px` | Drawer width. |
+| height | `MaybeSignal<String>` | `260px` | Drawer height. |
+| z_index | `MaybeSignal<i16>` | `2000` | z-index of the drawer. |
+| mount | `DrawerMount` | `DrawerMount::Body` | Container node of the drawer. |
+| children | `Children` |  | Drawer content. |

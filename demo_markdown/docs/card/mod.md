@@ -23,11 +23,11 @@ view! {
 
 ### Card Props
 
-| Name     | Type                  | Default              | Description                             |
-| -------- | --------------------- | -------------------- | --------------------------------------- |
-| class    | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the card element. |
-| title    | `MaybeSignal<String>` | `Default::default()` | Card title.                             |
-| children | `Children`            |                      | Card's content.                         |
+| Name     | Type                                | Default              | Description                             |
+| -------- | ----------------------------------- | -------------------- | --------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the card element. |
+| title    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Card title.                             |
+| children | `Children`                          |                      | Card's content.                         |
 
 ### Card Slots
 

@@ -41,9 +41,9 @@ view! {
 
 ### Space Props
 
-| Name     | Type                  | Default              | Description                              |
-| -------- | --------------------- | -------------------- | ---------------------------------------- |
-| class    | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the space element. |
-| vertical | `bool`                | `false`              | Whether to lay out vertically.           |
-| gap      | `SpaceGap`            | `SpaceGap::Medium`   | Space's gap.                             |
-| children | `Children`            |                      | Space's content.                         |
+| Name     | Type                                | Default              | Description                              |
+| -------- | ----------------------------------- | -------------------- | ---------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the space element. |
+| vertical | `bool`                              | `false`              | Whether to lay out vertically.           |
+| gap      | `SpaceGap`                          | `SpaceGap::Medium`   | Space's gap.                             |
+| children | `Children`                          |                      | Space's content.                         |
