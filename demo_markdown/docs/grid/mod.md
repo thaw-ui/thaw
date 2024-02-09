@@ -95,17 +95,17 @@ view! {
 
 ### Grid Props
 
-| Name  | Type                  | Default              | Desciption                              |
-| ----- | --------------------- | -------------------- | --------------------------------------- |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the grid element. |
-| cols  | `MaybeSignal<u16>`    | `1`                  | Number of grids displayed.              |
-| x_gap | `MaybeSignal<u16>`    | `0`                  | Horizontal gap.                         |
-| y_gap | `MaybeSignal<u16>`    | `0`                  | Vertical gap.                           |
+| Name  | Type                                | Default              | Desciption                              |
+| ----- | ----------------------------------- | -------------------- | --------------------------------------- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the grid element. |
+| cols  | `MaybeSignal<u16>`                  | `1`                  | Number of grids displayed.              |
+| x_gap | `MaybeSignal<u16>`                  | `0`                  | Horizontal gap.                         |
+| y_gap | `MaybeSignal<u16>`                  | `0`                  | Vertical gap.                           |
 
 ### GridItem Props
 
-| Name   | Type                  | Default              | Desciption                                    |
-| ------ | --------------------- | -------------------- | --------------------------------------------- |
-| class  | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the grid item element.  |
-| column | `MaybeSignal<u16>`    | `1`                  | Number of columns this grid item will occupy. |
-| offset | `MaybeSignal<u16>`    | `0`                  | Horizontal offset.                            |
+| Name   | Type                                | Default              | Desciption                                    |
+| ------ | ----------------------------------- | -------------------- | --------------------------------------------- |
+| class  | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the grid item element.  |
+| column | `MaybeSignal<u16>`                  | `1`                  | Number of columns this grid item will occupy. |
+| offset | `MaybeSignal<u16>`                  | `0`                  | Horizontal offset.                            |

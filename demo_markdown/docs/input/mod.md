@@ -98,10 +98,10 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the input element. |
-| value | `RwSignal<String>` | `Default::default()` | Set the input value. |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the input element. |
+| value | `Model<String>` | `Default::default()` | Set the input value. |
 | variant | `MaybeSignal<InputVariant>` | `InputVariant::Text` | Input's variant. |
-| placeholder | `MaybeSignal<String>` | `Default::default()` | Placeholder of input. |
+| placeholder | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Placeholder of input. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |
 | allow_value | `Option<Callback<String, bool>>` | `None` | Check the incoming value, if it returns false, input will not be accepted. |

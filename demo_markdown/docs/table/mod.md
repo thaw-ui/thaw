@@ -28,10 +28,10 @@ view! {
 
 ### Table Props
 
-| Name          | Type                  | Default              | Description                                                                           |
-| ------------- | --------------------- | -------------------- | ------------------------------------------------------------------------------------- |
-| class         | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the table element.                                              |
-| style         | `MaybeSignal<String>` | `Default::default()` | Table's style.                                                                        |
-| single_row    | `RwSignal<bool>`      | `true`               | Whether columns are not divided. If the prop is true, table cell has no border-right. |
-| single_column | `RwSignal<bool>`      | `false`              | Whether rows are not divided. If the prop is true, table cell has no border-bottom.   |
-| children      | `Children`            |                      | Table's content.                                                                      |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the table element. |
+| style | `MaybeSignal<String>` | `Default::default()` | Table's style. |
+| single_row | `MaybeSignal<bool>` | `true` | Whether columns are not divided. If the prop is true, table cell has no border-right. |
+| single_column | `MaybeSignal<bool>` | `false` | Whether rows are not divided. If the prop is true, table cell has no border-bottom. |
+| children | `Children` |  | Table's content. |

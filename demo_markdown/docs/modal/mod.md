@@ -15,7 +15,7 @@ view! {
 
 | Name     | Type                  | Default              | Description            |
 | -------- | --------------------- | -------------------- | ---------------------- |
-| show     | `MaybeSignal<bool>`   |                      | Whether to show modal. |
+| show     | `Model<bool>`   |                      | Whether to show modal. |
 | title    | `MaybeSignal<String>` | `Default::default()` | Modal title.           |
 | children | `Children`            |                      | Modal's content.       |
 

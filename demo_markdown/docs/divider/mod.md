@@ -10,6 +10,6 @@ view! {
 
 ### Divider Props
 
-| Name  | Type                  | Default              | Desciption                                 |
-| ----- | --------------------- | -------------------- | ------------------------------------------ |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the divider element. |
+| Name  | Type                                | Default              | Desciption                                 |
+| ----- | ----------------------------------- | -------------------- | ------------------------------------------ |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the divider element. |

@@ -11,7 +11,7 @@ view! {
 
 ### Calendar Props
 
-| Name  | Type                          | Default              | Desciption                                  |
-| ----- | ----------------------------- | -------------------- | ------------------------------------------- |
-| class | `MaybeSignal<String>`         | `Default::default()` | Addtional classes for the calendar element. |
-| value | `RwSignal<Option<NaiveDate>>` | `Default::default()` | Set the calendar value                      |
+| Name  | Type                                | Default              | Desciption                                  |
+| ----- | ----------------------------------- | -------------------- | ------------------------------------------- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the calendar element. |
+| value | `Model<Option<NaiveDate>>`          | `Default::default()` | Set the calendar value                      |

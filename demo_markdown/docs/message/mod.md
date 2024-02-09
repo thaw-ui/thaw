@@ -35,9 +35,9 @@ view! {
 
 ### MessageProvider Props
 
-| Name      | Type                          | Default                 | Desciption                      |
-| --------- | ----------------------------- | ----------------------- | ------------------------------- |
-| placement | `MessagePlacement`            | `MessagePlacement::Top` | Position to place the messages. |
+| Name      | Type               | Default                 | Desciption                      |
+| --------- | ------------------ | ----------------------- | ------------------------------- |
+| placement | `MessagePlacement` | `MessagePlacement::Top` | Position to place the messages. |
 
 ### MessageProvider Injection Methods
 
@@ -47,7 +47,7 @@ view! {
 
 ### MessageOptions fields
 
-| Name     | Type              | Default                   | Description                                                     |
-| -------- | ----------------- | ------------------------- | --------------------------------------------------------------- |
-| duration | `Duration`        | `Duration::from_secs(3)`  | How long the message will be displayed. 0 for permanent message |
-| closable | `bool`            | `false`                   | Can the message be manually closed.                             |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| duration | `Duration` | `std::time::Duration::from_secs(3)` | How long the message will be displayed. 0 for permanent message |
+| closable | `bool` | `false` | Can the message be manually closed. |

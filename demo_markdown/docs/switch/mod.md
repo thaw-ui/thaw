@@ -10,7 +10,7 @@ view! {
 
 ### Switch Props
 
-| Name  | Type                  | Default              | Description                               |
-| ----- | --------------------- | -------------------- | ----------------------------------------- |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the switch element. |
-| value | `RwSignal<bool>`      | `Default::default()` | Switch's value.                           |
+| Name  | Type                                | Default              | Description                               |
+| ----- | ----------------------------------- | -------------------- | ----------------------------------------- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the switch element. |
+| value | `Model<bool>`                       | `false`              | Switch's value.                           |

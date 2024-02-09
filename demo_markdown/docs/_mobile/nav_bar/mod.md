@@ -17,7 +17,7 @@ view! {
             on_click_right=on_click_right
         >
             <NavBarRight slot>
-                 <Icon icon=icondata::AiCloseOutlined/> 
+                 <Icon icon=icondata::AiCloseOutlined/>
             </NavBarRight>
         </NavBar>
         <div style="padding-top: 50px">{move || click_text.get()}</div>
@@ -29,16 +29,16 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the NavBar element. |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the NavBar element. |
 | title | `MaybeSignal<String>` | `Default::default()` | NavBar title. |
 | left_arrow | `MaybeSignal<bool>` | `false` | Whether to show left arrow. |
-| left_text | `MaybeSignal<String>` | `Default::default()` | NavBar left text. |
+| left_text | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | NavBar left text. |
 | on_click_left | `Option<Callback<ev::MouseEvent>>` | `Default::default()` | NavBar left click. |
-| right_text | `MaybeSignal<String>` | `Default::default()` | NavBar right text. |
+| right_text | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | NavBar right text. |
 | on_click_right | `Option<Callback<ev::MouseEvent>>` | `Default::default()` | NavBar right click. |
 
 ### NavBarLeft and NavBarRight Props
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the element. |
+| Name  | Type                                | Default              | Description                        |
+| ----- | ----------------------------------- | -------------------- | ---------------------------------- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the element. |

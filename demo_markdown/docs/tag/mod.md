@@ -13,8 +13,8 @@ view! {
 
 ### Tag Props
 
-| Name     | Type                      | Default               | Description                            |
-| -------- | ------------------------- | --------------------- | -------------------------------------- |
-| class    | `MaybeSignal<String>`     | `Default::default()`  | Addtional classes for the tag element. |
-| variant  | `MaybeSignal<TagVariant>` | `TagVariant::Default` | Tag's variant.                         |
-| children | `Children`                |                       | Tag's content.                         |
+| Name     | Type                                | Default               | Description                            |
+| -------- | ----------------------------------- | --------------------- | -------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()`  | Addtional classes for the tag element. |
+| variant  | `MaybeSignal<TagVariant>`           | `TagVariant::Default` | Tag's variant.                         |
+| children | `Children`                          |                       | Tag's content.                         |

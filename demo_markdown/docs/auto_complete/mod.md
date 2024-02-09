@@ -60,9 +60,9 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `MaybeSignal<String>` | `Default::default()` | Additional classes for the autocomplete element. |
-| value | `RwSignal<String>` | `Default::default()` | Input of autocomplete. |
-| placeholder | `RwSignal<String>` | `Default::default()` | Autocomplete's placeholder. |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the autocomplete element. |
+| value | `Model<String>` | `Default::default()` | Input of autocomplete. |
+| placeholder | `OptionalProp<RwSignal<String>>` | `Default::default()` | Autocomplete's placeholder. |
 | options | `MaybeSignal<Vec<AutoCompleteOption>>` | `Default::default()` | Options to autocomplete from. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |

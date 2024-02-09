@@ -1,5 +1,4 @@
 use std::time::Duration;
-
 use super::{message_environment::MessageEnvironment, MessageVariant};
 use crate::{
     components::Teleport,
