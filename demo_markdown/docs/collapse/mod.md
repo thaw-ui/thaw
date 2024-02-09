@@ -39,18 +39,18 @@ view! {
 
 ### Collapse Props
 
-| Name      | Type                        | Default              | Description                                 |
-| --------- | --------------------------- | -------------------- | ------------------------------------------- |
-| class     | `MaybeSignal<String>`       | `Default::default()` | Addtional classes for the collapse element. |
-| value     | `RwSignal<HashSet<String>>` | `Default::default()` | Currently active panel.                     |
-| accordion | `bool`                      | `false`              | Only allow one panel open at a time.        |
-| children  | `Children`                  |                      | Collapse's content.                         |
+| Name      | Type                                | Default              | Description                                 |
+| --------- | ----------------------------------- | -------------------- | ------------------------------------------- |
+| class     | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the collapse element. |
+| value     | `Model<HashSet<String>>`            | `Default::default()` | Currently active panel.                     |
+| accordion | `bool`                              | `false`              | Only allow one panel open at a time.        |
+| children  | `Children`                          |                      | Collapse's content.                         |
 
 ### CollapseItem Props
 
-| Name    | Type                  | Default              | Description                                      |
-| ------- | --------------------- | -------------------- | ------------------------------------------------ |
-| class   | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the collapse item element. |
-| title   | `MaybeSignal<String>` |                      | The title of the CollapseItem.                   |
-| key     | `MaybeSignal<String>` |                      | The indentifier of CollapseItem.                 |
-| chilren | `Children`            |                      | CollapseItem's content.                          |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the collapse item element. |
+| title | `MaybeSignal<String>` |  | The title of the CollapseItem. |
+| key | `MaybeSignal<String>` |  | The indentifier of CollapseItem. |
+| chilren | `Children` |  | CollapseItem's content. |

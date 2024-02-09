@@ -11,8 +11,8 @@ view! {
 
 ## Text Props
 
-| Name     | Type                  | Default              | Description                             |
-| -------- | --------------------- | -------------------- | --------------------------------------- |
-| class    | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the text element. |
-| code     | `bool`                | `false`              | Use the code tag and style.             |
-| children | `Children`            |                      | Text's content.                         |
+| Name     | Type                                | Default              | Description                             |
+| -------- | ----------------------------------- | -------------------- | --------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the text element. |
+| code     | `bool`                              | `false`              | Use the code tag and style.             |
+| children | `Children`                          |                      | Text's content.                         |

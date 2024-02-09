@@ -3,5 +3,5 @@
 Installation thaw
 
 ```shell
-cargo add thaw
+cargo add thaw --features=csr
 ```

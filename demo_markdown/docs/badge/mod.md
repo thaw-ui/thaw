@@ -36,7 +36,7 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the badge element. |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the badge element. |
 | value | `MaybeSignal<u32>` | `0` | Badge's value. |
 | max | `MaybeSignal<u32>` | `u32::MAX` | The maximum number of the badge when its value overflows. |
 | variant | `MaybeSignal<BadgeVariant>` | `BadgeVariant::Error` | Badge variant. |

@@ -131,11 +131,11 @@ view! {
 
 ### Popover Props
 
-| Name      | Type                  | Default                 | Description                   |
-| --------- | --------------------- | ----------------------- | ----------------------------- |
-| class     | `MaybeSignal<String>` | `Default::default()`    | Content class of the popover. |
-| placement | `PopoverPlacement`    | `PopoverPlacement::Top` | Popover placement.            |
-| children  | `Children`            |                         | The content inside popover.   |
+| Name      | Type                                | Default                 | Description                   |
+| --------- | ----------------------------------- | ----------------------- | ----------------------------- |
+| class     | `OptionalProp<MaybeSignal<String>>` | `Default::default()`    | Content class of the popover. |
+| placement | `PopoverPlacement`                  | `PopoverPlacement::Top` | Popover placement.            |
+| children  | `Children`                          |                         | The content inside popover.   |
 
 ### Popover Slots
 

@@ -40,13 +40,13 @@ view! {
 
 ### Slider Props
 
-| Name     | Type                  | Default              | Description                               |
-| -------- | --------------------- | -------------------- | ----------------------------------------- |
-| class    | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the slider element. |
-| value    | `MaybeSignal<f64>`    | `Default::default()` | Value of the slider.                      |
-| max      | `MaybeSignal<f64>`    | `100`                | Max value of the slider.                  |
-| step     | `MaybeSignal<f64>`    | `Default::default()` | The step in which value is incremented.   |
-| children | `Option<Children>`    | `None`               | Slider's content.                         |
+| Name     | Type                                | Default              | Description                               |
+| -------- | ----------------------------------- | -------------------- | ----------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the slider element. |
+| value    | `MaybeSignal<f64>`                  | `Default::default()` | Value of the slider.                      |
+| max      | `MaybeSignal<f64>`                  | `100`                | Max value of the slider.                  |
+| step     | `MaybeSignal<f64>`                  | `Default::default()` | The step in which value is incremented.   |
+| children | `Option<Children>`                  | `None`               | Slider's content.                         |
 
 ### SliderLabel props
 

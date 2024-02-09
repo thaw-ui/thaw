@@ -36,9 +36,9 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `MaybeSignal<String>` | `Default::default()` | Addtional classes for the input element. |
-| value | `RwSignal<T>` | `T::default()` | Set the input value. |
-| placeholder | `MaybeSignal<String>` | `Default::default()` | Placeholder of input number. |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the input element. |
+| value | `Model<T>` | `T::default()` | Set the input value. |
+| placeholder | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Placeholder of input number. |
 | step | `MaybeSignal<T>` |  | The number which the current value is increased or decreased on key or button press. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |

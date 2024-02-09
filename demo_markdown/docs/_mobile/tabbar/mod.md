@@ -21,10 +21,10 @@ view! {
 
 ### Tabbar Props
 
-| Name     | Type               | Default              | Description       |
-| -------- | ------------------ | -------------------- | ----------------- |
-| value    | `RwSignal<String>` | `Default::default()` | Tabbar's value.   |
-| children | `Children`         |                      | Tabbar's content. |
+| Name     | Type            | Default              | Description       |
+| -------- | --------------- | -------------------- | ----------------- |
+| value    | `Model<String>` | `Default::default()` | Tabbar's value.   |
+| children | `Children`      |                      | Tabbar's content. |
 
 ### TabbarItem Props
 
