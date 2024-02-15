@@ -2,7 +2,7 @@
     position: relative;
     display: inline-block;
     width: 35px;
-    height: 19px;
+    height: 18px;
     padding: 2px 5px 3px;
     background-color: var(--thaw-background-color);
     border-radius: 25px;
@@ -14,14 +14,13 @@
 
 .thaw-switch__button {
     position: absolute;
-    left: 4px;
+    top: 2px;
+    left: 2px;
     display: inline-block;
     width: 19px;
     height: 19px;
     border-radius: 50%;
     background-color: #fff;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3),
-        inset 0 0 1px 0 rgba(0, 0, 0, 0.05);
     transition: all 0.4s ease;
 }
 
@@ -30,5 +29,6 @@
 }
 
 .thaw-switch--active .thaw-switch__button {
-    left: 22px;
+    left: 24px;
 }
+
