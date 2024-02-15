@@ -8,6 +8,7 @@ mod optional_prop;
 mod signal;
 mod stored_maybe_signal;
 mod time;
+mod use_click_position;
 mod use_lock_html_scroll;
 
 // pub use callback::AsyncCallback;
@@ -19,6 +20,7 @@ pub(crate) use optional_prop::OptionalProp;
 pub use signal::SignalWatch;
 pub(crate) use stored_maybe_signal::*;
 pub(crate) use time::*;
+pub(crate) use use_click_position::*;
 pub(crate) use use_lock_html_scroll::*;
 
 pub(crate) fn with_hydration_off<T>(f: impl FnOnce() -> T) -> T {
