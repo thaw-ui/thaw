@@ -1,6 +1,25 @@
 .thaw-modal-container {
-    z-index: 2001;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    min-height: 100%;
+    pointer-events: none;
 }
+
+.thaw-modal-container > * {
+    pointer-events: auto;
+}
+
+.thaw-modal-scroll {
+    display: flex;
+    min-height: 100%;
+    min-width: 100%;
+    overflow: scroll;
+}
+
 .thaw-modal-mask {
     position: fixed;
     top: 0;
@@ -8,24 +27,56 @@
     left: 0;
     bottom: 0;
     background-color: #0007;
-    z-index: 2000;
-}
-.thaw-modal-body {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    min-height: 100%;
-    z-index: 2002;
 }
 
-.thaw-modal-body .thaw-card {
-    width: 600px;
+.thaw-modal-mask.fade-in-transition-enter-active {
+    transition: all 0.25s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.thaw-modal-mask.fade-in-transition-leave-active {
+    transition: all 0.25s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.thaw-modal-mask.fade-in-transition-enter-from,
+.thaw-modal-mask.fade-in-transition-leave-to {
+    opacity: 0;
+}
+
+.thaw-modal-mask.fade-in-transition-leave-from,
+.thaw-modal-mask.fade-in-transition-enter-to {
+    opacity: 1;
+}
+
+.thaw-modal-body {
+    position: relative;
     margin: auto;
+    width: 600px;
 }
 
 .thaw-model-title {
     font-size: 16px;
+}
+
+.fade-in-scale-up-transition-leave-active > .thaw-modal-body {
+    transform-origin: inherit;
+    transition: opacity 0.25s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.25s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.fade-in-scale-up-transition-enter-active > .thaw-modal-body {
+    transform-origin: inherit;
+    transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1),
+        transform 0.25s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.fade-in-scale-up-transition-enter-from > .thaw-modal-body,
+.fade-in-scale-up-transition-leave-to > .thaw-modal-body {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+.fade-in-scale-up-transition-leave-from > .thaw-modal-body,
+.fade-in-scale-up-transition-enter-to > .thaw-modal-body {
+    opacity: 1;
+    transform: scale(1);
 }

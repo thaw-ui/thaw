@@ -6,6 +6,7 @@ pub fn CSSTransition<T, CF, IV>(
     node_ref: NodeRef<T>,
     #[prop(into)] show: MaybeSignal<bool>,
     #[prop(into)] name: MaybeSignal<String>,
+    #[prop(optional, into)] on_enter: Option<Callback<()>>,
     #[prop(optional, into)] on_after_leave: Option<Callback<()>>,
     children: CF,
 ) -> impl IntoView
@@ -71,6 +72,9 @@ where
                         let _ = class_list.add_1(&enter_to);
                         remove_class_name
                             .set_value(Some(RemoveClassName::Enter(enter_active, enter_to)));
+                        if let Some(on_enter) = on_enter {
+                            on_enter.call(());
+                        }
                     });
                 } else if !show && prev {
                     let leave_from = format!("{name}-leave-from");
