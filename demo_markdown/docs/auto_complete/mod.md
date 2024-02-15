@@ -65,6 +65,7 @@ view! {
 | placeholder | `OptionalProp<RwSignal<String>>` | `Default::default()` | Autocomplete's placeholder. |
 | options | `MaybeSignal<Vec<AutoCompleteOption>>` | `Default::default()` | Options to autocomplete from. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
+| allow_free_input | `bool` | `false` | Whether free text input is allowed. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |
 | clear_after_select | `MaybeSignal<bool>` | `false` | Whether to clear after selection. |
 | on_select | `Option<Callback<String>>` | `None` | On select callback function. |

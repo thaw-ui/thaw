@@ -33,6 +33,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] on_select: Option<Callback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] allow_free_input: bool,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
@@ -57,13 +58,15 @@ pub fn AutoComplete(
         css_vars
     });
 
-    let select_option_index = create_rw_signal::<usize>(0);
+    let default_index = if allow_free_input { None } else { Some(0) };
+
+    let select_option_index = create_rw_signal::<Option<usize>>(default_index);
     let menu_ref = create_node_ref::<html::Div>();
     let is_show_menu = create_rw_signal(false);
     let auto_complete_ref = create_node_ref::<html::Div>();
     let options = StoredMaybeSignal::from(options);
     let open_menu = move || {
-        select_option_index.set(0);
+        select_option_index.set(default_index);
         is_show_menu.set(true);
     };
     let allow_value = move |_| {
@@ -82,8 +85,19 @@ pub fn AutoComplete(
         if let Some(on_select) = on_select {
             on_select.call(option_value);
         }
+        if allow_free_input {
+            select_option_index.set(None);
+        }
         is_show_menu.set(false);
     };
+
+    // we unset selection index whenever options get changed
+    // otherwise e.g. selection could move from one item to
+    // another staying on the same index
+    create_effect(move |_| {
+        options.track();
+        select_option_index.set(default_index);
+    });
 
     let on_keydown = move |event: ev::KeyboardEvent| {
         if !is_show_menu.get_untracked() {
@@ -92,29 +106,40 @@ pub fn AutoComplete(
         let key = event.key();
         if key == *"ArrowDown" {
             select_option_index.update(|index| {
-                if *index == options.with_untracked(|options| options.len()) - 1 {
-                    *index = 0
+                if *index == Some(options.with_untracked(|options| options.len()) - 1) {
+                    *index = default_index
                 } else {
-                    *index += 1
+                    *index = Some(index.map_or(0, |index| index + 1))
                 }
             });
         } else if key == *"ArrowUp" {
             select_option_index.update(|index| {
-                if *index == 0 {
-                    *index = options.with_untracked(|options| options.len()) - 1;
-                } else {
-                    *index -= 1
-                }
+                match *index {
+                    None => *index = Some(options.with_untracked(|options| options.len()) - 1),
+                    Some(0) => {
+                        if allow_free_input {
+                            *index = None
+                        } else {
+                            *index = Some(options.with_untracked(|options| options.len()) - 1)
+                        }
+                    }
+                    Some(prev_index) => *index = Some(prev_index - 1),
+                };
             });
         } else if key == *"Enter" {
             event.prevent_default();
             let option_value = options.with_untracked(|options| {
                 let index = select_option_index.get_untracked();
-                if options.len() > index {
-                    let option = &options[index];
-                    Some(option.value.clone())
-                } else {
-                    None
+                match index {
+                    None if allow_free_input => {
+                        let value = value.get_untracked();
+                        (!value.is_empty()).then_some(value)
+                    }
+                    Some(index) if options.len() > index => {
+                        let option = &options[index];
+                        Some(option.value.clone())
+                    }
+                    _ => None,
                 }
             });
             if let Some(option_value) = option_value {
@@ -189,13 +214,13 @@ pub fn AutoComplete(
                                     select_value(option_value.clone());
                                 };
                                 let on_mouseenter = move |_| {
-                                    select_option_index.set(index);
+                                    select_option_index.set(Some(index));
                                 };
                                 let on_mousedown = move |ev: ev::MouseEvent| {
                                     ev.prevent_default();
                                 };
                                 create_effect(move |_| {
-                                    if index == select_option_index.get() {
+                                    if Some(index) == select_option_index.get() {
                                         if !is_show_menu.get() {
                                             return;
                                         }
@@ -218,7 +243,7 @@ pub fn AutoComplete(
                                         class="thaw-auto-complete__menu-item"
                                         class=(
                                             "thaw-auto-complete__menu-item--selected",
-                                            move || index == select_option_index.get(),
+                                            move || Some(index) == select_option_index.get(),
                                         )
 
                                         on:click=on_click
