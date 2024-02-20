@@ -50,7 +50,7 @@
 .thaw-modal-body {
     position: relative;
     margin: auto;
-    width: 600px;
+    width: var(--thaw-width);
 }
 
 .thaw-model-title {

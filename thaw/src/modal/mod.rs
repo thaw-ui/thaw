@@ -15,11 +15,13 @@ pub fn Modal(
     #[prop(into)] show: Model<bool>,
     #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
     #[prop(default = 2000.into(), into)] z_index: MaybeSignal<i16>,
+    #[prop(default = MaybeSignal::Static("75%".to_string()), into)] width: MaybeSignal<String>,
     #[prop(optional, into)] title: MaybeSignal<String>,
     children: Children,
     #[prop(optional)] modal_footer: Option<ModalFooter>,
 ) -> impl IntoView {
     mount_style("modal", include_str!("./modal.css"));
+
     let on_mask_click = move |_| {
         if mask_closeable.get_untracked() {
             show.set(false);
@@ -44,10 +46,13 @@ pub fn Modal(
         let Some(modal_el) = modal_ref.get_untracked() else {
             return;
         };
+
         let x = -(modal_el.offset_left() - position.0);
         let y = -(modal_el.offset_top() - position.1 - scroll_top);
 
-        let _ = modal_el.attr("style", format!("transform-origin: {}px {}px", x, y));
+        let mut style = format!("--thaw-width: {};", width.get_untracked());
+        style.push_str(&format!("transform-origin: {}px {}px;", x, y));
+        let _ = modal_el.attr("style", style);
     };
 
     view! {
