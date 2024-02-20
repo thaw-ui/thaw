@@ -15,7 +15,7 @@ pub fn Modal(
     #[prop(into)] show: Model<bool>,
     #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
     #[prop(default = 2000.into(), into)] z_index: MaybeSignal<i16>,
-    #[prop(default = MaybeSignal::Static("75%".to_string()), into)] width: MaybeSignal<String>,
+    #[prop(default = MaybeSignal::Static("600px".to_string()), into)] width: MaybeSignal<String>,
     #[prop(optional, into)] title: MaybeSignal<String>,
     children: Children,
     #[prop(optional)] modal_footer: Option<ModalFooter>,
@@ -50,16 +50,15 @@ pub fn Modal(
         let x = -(modal_el.offset_left() - position.0);
         let y = -(modal_el.offset_top() - position.1 - scroll_top);
 
-        let mut style = format!("--thaw-width: {};", width.get_untracked());
-        style.push_str(&format!("transform-origin: {}px {}px;", x, y));
-        let _ = modal_el.attr("style", style);
+        let _ = modal_el.attr("style", format!("transform-origin: {}px {}px", x, y));
     };
 
     view! {
         <Teleport>
             <div
                 class="thaw-modal-container"
-                style=move || format!("z-index: {};", z_index.get())
+                style:z-index=move || z_index.get()
+                style=("--thaw-width", move || width.get())
             >
                 <CSSTransition
                     node_ref=mask_ref
