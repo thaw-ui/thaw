@@ -1,3 +1,13 @@
+## [0.2.0](https://github.com/thaw-ui/thaw/compare/v0.2.0-beta...v0.2.0) (2024-02-21)
+
+### Breaking Changes
+
+* `Modal` will be closed when clicking on the mask.
+
+### Features
+
+* `Modal` adds mask_closeable, width and z_index prop.
+
 ## [0.2.0-beta](https://github.com/thaw-ui/thaw/compare/v0.2.0-alpha...v0.2.0-beta) (2024-02-07)
 
 ### Breaking Changes
