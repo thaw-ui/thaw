@@ -40,15 +40,29 @@ pub fn Drawer(
         let mask_ref = NodeRef::<html::Div>::new();
         let drawer_ref = NodeRef::<html::Div>::new();
 
+        let is_css_transition = RwSignal::new(false);
+        let placement = Memo::new(move |_| {
+            if is_css_transition.get() {
+                placement.get_untracked().as_str()
+            } else {
+                placement.get_untracked().as_str()
+            }
+        });
+        let on_after_enter = move |_| {
+            is_css_transition.set(false);
+        };
+
         let is_lock = RwSignal::new(show.get_untracked());
         Effect::new(move |_| {
             if show.get() {
                 is_lock.set(true);
+                is_css_transition.set(true);
             }
         });
         use_lock_html_scroll(is_lock.into());
         let on_after_leave = move |_| {
             is_lock.set(false);
+            is_css_transition.set(false);
         };
 
         view! {
@@ -70,15 +84,17 @@ pub fn Drawer(
                     node_ref=drawer_ref
                     show=show.signal()
                     name=Memo::new(move |_| {
-                        format!("slide-in-from-{}-transition", placement.get().as_str())
+                        format!("slide-in-from-{}-transition", placement.get())
                     })
+
+                    on_after_enter
                     on_after_leave
                     let:display
                 >
                     <div
                         class=class_list![
                             "thaw-drawer", move || format!("thaw-drawer--placement-{}", placement
-                            .get().as_str()), class.map(| c | move || c.get())
+                            .get()), class.map(| c | move || c.get())
                         ]
 
                         style=move || display.get()
