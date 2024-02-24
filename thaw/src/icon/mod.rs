@@ -21,60 +21,75 @@ pub fn Icon(
     #[prop(into, optional)]
     style: Option<MaybeSignal<String>>,
 ) -> impl IntoView {
-    let svg = move || {
-        let icon = icon.get();
-        let mut svg = svg::svg();
-        if let Some(class) = class.clone() {
-            svg = svg.attr("class", move || class.get())
-        }
-        let mut svg = match (style.clone(), icon.style) {
-            (Some(a), Some(b)) => svg.attr("style", move || format!("{b} {}", a.get())),
-            (Some(a), None) => svg.attr("style", move || a.get()),
-            (None, Some(b)) => svg.attr("style", b),
-            (None, None) => svg,
-        };
+    let icon_style = RwSignal::new(None);
+    let icon_x = RwSignal::new(None);
+    let icon_y = RwSignal::new(None);
+    let icon_width = RwSignal::new(None);
+    let icon_height = RwSignal::new(None);
+    let icon_view_box = RwSignal::new(None);
+    let icon_stroke_linecap = RwSignal::new(None);
+    let icon_stroke_linejoin = RwSignal::new(None);
+    let icon_stroke_width = RwSignal::new(None);
+    let icon_stroke = RwSignal::new(None);
+    let icon_fill = RwSignal::new(None);
+    let icon_data = RwSignal::new(None);
 
-        if let Some(x) = icon.x {
-            svg = svg.attr("x", x);
-        }
-        if let Some(y) = icon.y {
-            svg = svg.attr("x", y);
-        }
-        //// The style set by the user overrides the style set by the icon.
-        // We ignore the width and height attributes of the icon, even if the user hasn't specified any.
-        svg = svg.attr(
-            "width",
-            match (width.clone(), icon.width) {
-                (Some(a), _) => (move || a.get()).into_attribute(),
-                _ => "1em".into_attribute(),
-            },
-        );
-        svg = svg.attr(
-            "height",
-            match (height.clone(), icon.height) {
-                (Some(a), _) => (move || a.get()).into_attribute(),
-                _ => "1em".into_attribute(),
-            },
-        );
-        if let Some(view_box) = icon.view_box {
-            svg = svg.attr("viewBox", view_box);
-        }
-        if let Some(stroke_linecap) = icon.stroke_linecap {
-            svg = svg.attr("stroke-linecap", stroke_linecap);
-        }
-        if let Some(stroke_linejoin) = icon.stroke_linejoin {
-            svg = svg.attr("stroke-linejoin", stroke_linejoin);
-        }
-        if let Some(stroke_width) = icon.stroke_width {
-            svg = svg.attr("stroke-width", stroke_width);
-        }
-        if let Some(stroke) = icon.stroke {
-            svg = svg.attr("stroke", stroke);
-        }
-        svg = svg.attr("fill", icon.fill.unwrap_or("currentColor"));
-        svg = svg.attr("role", "graphics-symbol");
-        svg = svg.inner_html(icon.data);
-        svg
-    };
-    svg.into_view()
+    create_render_effect(move |_| {
+        let icon = icon.get();
+
+        let style = match (style.clone(), icon.style) {
+            (Some(a), Some(b)) => Some((move || format!("{b} {}", a.get())).into_attribute()),
+            (Some(a), None) => Some((move || a.get()).into_attribute()),
+            (None, Some(b)) => Some(b.into_attribute()),
+            (None, None) => None,
+        };
+        icon_style.set(style);
+
+        icon_x.set(icon.x.map(|x| x.into_attribute()));
+        icon_y.set(icon.y.map(|y| y.into_attribute()));
+
+        let width = match (width.clone(), icon.width) {
+            (Some(a), _) => (move || a.get()).into_attribute(),
+            _ => "1em".into_attribute(),
+        };
+        icon_width.set(Some(width));
+
+        let height = match (height.clone(), icon.height) {
+            (Some(a), _) => (move || a.get()).into_attribute(),
+            _ => "1em".into_attribute(),
+        };
+        icon_height.set(Some(height));
+
+        icon_view_box.set(icon.view_box.map(|view_box| view_box.into_attribute()));
+        icon_stroke_linecap.set(icon.stroke_linecap.map(|a| a.into_attribute()));
+        icon_stroke_linejoin.set(icon.stroke_linejoin.map(|a| a.into_attribute()));
+        icon_stroke_width.set(icon.stroke_width.map(|a| a.into_attribute()));
+        icon_stroke.set(icon.stroke.map(|a| a.into_attribute()));
+        icon_fill.set(icon.fill.map(|a| a.into_attribute()));
+        icon_data.set(Some(icon.data.into_attribute()));
+    });
+
+    view! {
+        <svg
+            class=class.map(|c| c.get())
+            style=move || take(icon_style)
+            x=move || take(icon_x)
+            y=move || take(icon_y)
+            width=move || take(icon_width)
+            height=move || take(icon_height)
+            viewBox=move || take(icon_view_box)
+            stroke-linecap=move || take(icon_stroke_linecap)
+            stroke-linejoin=move || take(icon_stroke_linejoin)
+            stroke-width=move || take(icon_stroke_width)
+            stroke=move || take(icon_stroke)
+            fill=move || take(icon_fill)
+            inner_html=move || take(icon_data)
+        >
+        </svg>
+    }
+}
+
+fn take(signal: RwSignal<Option<Attribute>>) -> Option<Attribute> {
+    signal.track();
+    signal.try_update_untracked(|value| value.take()).flatten()
 }
