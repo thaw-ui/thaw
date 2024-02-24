@@ -33,7 +33,7 @@ pub fn Modal(
     let modal_ref = NodeRef::<html::Div>::new();
 
     let click_position = use_click_position();
-    let on_enter = move |_| {
+    let on_enter = Callback::new(move |_| {
         let Some(position) = click_position.get_untracked() else {
             return;
         };
@@ -51,7 +51,7 @@ pub fn Modal(
         let y = -(modal_el.offset_top() - position.1 - scroll_top);
 
         let _ = modal_el.attr("style", format!("transform-origin: {}px {}px", x, y));
-    };
+    });
 
     view! {
         <Teleport>

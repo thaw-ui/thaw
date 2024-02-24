@@ -75,3 +75,27 @@ jobs:
               run: |
                   cd ./examples/ssr_axum
                   cargo leptos build --release
+    nightly-cargo-leptos:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Setup Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: nightly
+                  target: wasm32-unknown-unknown
+                  override: true
+            - name: Install Trunk
+              uses: jetli/trunk-action@v0.4.0
+              with:
+                  version: "latest"
+            - name: Install Cargo BInstall
+              uses: cargo-bins/cargo-binstall@main
+            - name: Install Cargo Leptos
+              run: cargo binstall cargo-leptos -y
+            - name: Build
+              run: |
+                  cd ./examples/ssr_axum
+                  cargo leptos build --release --features nightly

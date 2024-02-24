@@ -45,6 +45,7 @@ ssr = [
     "dep:tracing",
     "demo/ssr",
 ]
+nightly = ["demo/nightly"]
 
 # Defines a size-optimized profile for the WASM bundle in release mode
 [profile.wasm-release]

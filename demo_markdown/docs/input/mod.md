@@ -44,13 +44,21 @@ view! {
 let value = create_rw_signal(String::from("o"));
 let input_ref = create_component_ref::<InputRef>();
 
+let focus = Callback::new(move |_| {
+    input_ref.get_untracked().unwrap().focus()
+});
+
+let blur = Callback::new(move |_| {
+    input_ref.get_untracked().unwrap().blur()
+});
+
 view! {
     <Space vertical=true>
         <Space>
-            <Button on_click=move |_| input_ref.get_untracked().unwrap().focus()>
+            <Button on_click=focus>
                 "Focus"
             </Button>
-            <Button on_click=move |_| input_ref.get_untracked().unwrap().blur()>
+            <Button on_click=blur>
                 "Blur"
             </Button>
         </Space>
