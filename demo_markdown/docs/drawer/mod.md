@@ -5,6 +5,8 @@ let show = create_rw_signal(false);
 let placement = create_rw_signal(DrawerPlacement::Top);
 
 let open = Callback::new(move |new_placement: DrawerPlacement| {
+    // Note: Since `show` changes are made in real time,
+    // please put it in front of `show.set(true)` when changing `placement`.
     placement.set(new_placement);
     show.set(true);
 });

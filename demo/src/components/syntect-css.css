@@ -1,5 +1,10 @@
 /** https://github.com/AmjadHD/sublime_one_theme */
 
+.syntect-comment {
+    font-style: italic;
+    color: hsl(220, 10%, 40%);
+}
+
 /** light */
 
 .color-scheme--light .syntect-support.syntect-function,
