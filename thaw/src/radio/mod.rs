@@ -1,3 +1,9 @@
+mod radio_group;
+mod radio_item;
+
+pub use radio_group::RadioGroup;
+pub use radio_item::RadioItem;
+
 use crate::{
     theme::use_theme,
     utils::{class_list::class_list, mount_style, Model, OptionalProp},
@@ -9,7 +15,7 @@ use leptos::*;
 pub fn Radio(
     #[prop(optional, into)] value: Model<bool>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    children: Children,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("radio", include_str!("./radio.css"));
@@ -36,7 +42,9 @@ pub fn Radio(
         >
             <input class="thaw-radio__input" type="radio" prop:value=move || value.get()/>
             <div class="thaw-radio__dot"></div>
-            <div class="thaw-radio__label">{children()}</div>
+            <div class="thaw-radio__label">
+                {children.map(|children| children())}
+            </div>
         </div>
     }
 }
