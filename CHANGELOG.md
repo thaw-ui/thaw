@@ -1,3 +1,16 @@
+## [0.2.1](https://github.com/thaw-ui/thaw/compare/v0.2.0...v0.2.1) (2024-02-25)
+
+### Features
+
+* Adds `RadioGroup` component.
+* `AutoComplete` adds allow_free_input prop.
+
+### Bug Fixs
+
+* `Drawer` cannot be closed when the placement is changed.
+* `Icon` support event.
+* `Modal` nightly build problem.
+
 ## [0.2.0](https://github.com/thaw-ui/thaw/compare/v0.2.0-beta...v0.2.0) (2024-02-21)
 
 ### Breaking Changes
