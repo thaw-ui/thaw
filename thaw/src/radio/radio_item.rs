@@ -1,7 +1,6 @@
 use crate::{
     radio::{radio_group::use_radio_group, Radio},
     utils::OptionalProp,
-    SignalWatch,
 };
 use leptos::*;
 
@@ -15,36 +14,30 @@ pub fn RadioItem(
     let checked = RwSignal::new(false);
     let item_key = store_value(key);
 
-    create_effect(move |_| {
-        let is_checked =
-            radio_group_value.with(|value| item_key.with_value(|key| value.as_ref() == Some(key)));
-
-        if is_checked {
-            if !checked.get_untracked() {
-                checked.set(true);
-            }
-        } else if checked.get_untracked() {
-            checked.set(false);
-        }
+    let is_checked = Memo::new(move |_| {
+        radio_group_value.with(|value| item_key.with_value(|key| value.as_ref() == Some(key)))
     });
 
-    _ = checked.watch(move |checked| {
-        radio_group_value.update(move |value| {
-            if *checked {
-                *value = Some(item_key.get_value());
+    Effect::new(move |prev| {
+        let checked = checked.get();
+        if prev.is_some() {
+            if !is_checked.get_untracked() {
+                radio_group_value.set(Some(item_key.get_value()))
             }
-        });
+        }
+
+        checked
     });
 
     if let Some(children) = children {
         view! {
-            <Radio class value=checked>
+            <Radio class value=(is_checked, checked.write_only())>
                 {children()}
             </Radio>
         }
     } else {
         view! {
-            <Radio class value=checked>
+            <Radio class value=(is_checked, checked.write_only())>
             </Radio>
         }
     }
