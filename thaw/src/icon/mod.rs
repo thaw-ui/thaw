@@ -84,8 +84,7 @@ pub fn Icon(
             stroke=move || take(icon_stroke)
             fill=move || take(icon_fill)
             inner_html=move || take(icon_data)
-        >
-        </svg>
+        ></svg>
     }
 }
 

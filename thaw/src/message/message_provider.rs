@@ -1,10 +1,10 @@
-use std::time::Duration;
 use super::{message_environment::MessageEnvironment, MessageVariant};
 use crate::{
     components::Teleport,
     utils::{class_list::class_list, mount_style},
 };
 use leptos::*;
+use std::time::Duration;
 use uuid::Uuid;
 
 #[derive(Default, Clone)]
