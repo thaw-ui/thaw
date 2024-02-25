@@ -80,23 +80,17 @@ pub fn Modal(
                     on_enter
                     let:display
                 >
-                    <div
-                        class="thaw-modal-scroll"
-                        style=move || display.get()
-                        ref=scroll_ref
-                    >
-                        <div
-                            class="thaw-modal-body"
-                            ref=modal_ref
-                            role="dialog"
-                            aria-modal="true"
-                        >
+                    <div class="thaw-modal-scroll" style=move || display.get() ref=scroll_ref>
+                        <div class="thaw-modal-body" ref=modal_ref role="dialog" aria-modal="true">
                             <Card>
                                 <CardHeader slot>
                                     <span class="thaw-model-title">{move || title.get()}</span>
                                 </CardHeader>
                                 <CardHeaderExtra slot>
-                                    <span style="cursor: pointer;" on:click=move |_| show.set(false)>
+                                    <span
+                                        style="cursor: pointer;"
+                                        on:click=move |_| show.set(false)
+                                    >
                                         <Icon icon=icondata_ai::AiCloseOutlined/>
                                     </span>
                                 </CardHeaderExtra>

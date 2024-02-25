@@ -36,9 +36,6 @@ pub fn RadioItem(
             </Radio>
         }
     } else {
-        view! {
-            <Radio class value=(is_checked, checked.write_only())>
-            </Radio>
-        }
+        view! { <Radio class value=(is_checked, checked.write_only())/> }
     }
 }

@@ -42,9 +42,7 @@ pub fn Radio(
         >
             <input class="thaw-radio__input" type="radio" prop:value=move || value.get()/>
             <div class="thaw-radio__dot"></div>
-            <div class="thaw-radio__label">
-                {children.map(|children| children())}
-            </div>
+            <div class="thaw-radio__label">{children.map(|children| children())}</div>
         </div>
     }
 }
