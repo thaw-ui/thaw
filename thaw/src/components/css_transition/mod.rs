@@ -1,6 +1,9 @@
 use leptos::{html::ElementDescriptor, *};
 use std::ops::Deref;
 
+/// # CSS Transition
+/// 
+/// Reference to https://vuejs.org/guide/built-ins/transition.html
 #[component]
 pub fn CSSTransition<T, CF, IV>(
     node_ref: NodeRef<T>,
