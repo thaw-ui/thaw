@@ -65,7 +65,7 @@ pub fn Icon(
         icon_stroke_linejoin.set(icon.stroke_linejoin.map(|a| a.into_attribute()));
         icon_stroke_width.set(icon.stroke_width.map(|a| a.into_attribute()));
         icon_stroke.set(icon.stroke.map(|a| a.into_attribute()));
-        icon_fill.set(icon.fill.map(|a| a.into_attribute()));
+        icon_fill.set(Some(icon.fill.unwrap_or("currentColor").into_attribute()));
         icon_data.set(Some(icon.data.into_attribute()));
     });
 
