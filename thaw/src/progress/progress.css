@@ -37,33 +37,3 @@
     text-align: right;
     margin: 0 12px;
 }
-
-.thaw-progress-circle {
-    width: 120px;
-    display: inline-block;
-    position: relative;
-}
-
-.thaw-progress-circle-fill {
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        stroke-dasharray 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.thaw-progress-circle-fill--empty {
-    opacity: 0;
-}
-
-.thaw-progress-circle-content {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.thaw-progress-circle-content--text {
-    font-size: 28px;
-}

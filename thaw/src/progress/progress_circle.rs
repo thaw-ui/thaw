@@ -6,8 +6,9 @@ use leptos::*;
 pub fn ProgressCircle(
     #[prop(into, optional)] percentage: MaybeSignal<f32>,
     #[prop(into, optional)] color: MaybeSignal<ProgressColor>,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("progress", include_str!("./progress.css"));
+    mount_style("progress-circle", include_str!("./progress-circle.css"));
     let theme = use_theme(Theme::light);
 
     let stroke_width = 7;
@@ -46,7 +47,15 @@ pub fn ProgressCircle(
         Memo::new(move |_| theme.with(|theme| color.get().theme_background_color(theme)));
 
     view! {
-        <div class="thaw-progress-circle">
+        <div
+            class="thaw-progress-circle"
+            role="progressbar"
+            aria-valuemax="100"
+            aria-valuemin="0"
+            aria-valuenow=move || percentage.get()
+            style=("--thaw-fill-color", move || fill_stroke_color.get())
+
+        >
             <svg viewBox="0 0 107 107">
                 <g>
                     <path
@@ -56,24 +65,36 @@ pub fn ProgressCircle(
                         fill="none"
                         style:stroke=move || rail_stroke_color.get()
                         style:stroke-dasharray=rail_stroke_dasharray
-                    />
+                    ></path>
                 </g>
                 <g>
                     <path
-                        class:thaw-progress-circle-fill=true
-                        class=("thaw-progress-circle-fill--empty", move || percentage.get() <= 0.0)
+                        class=("thaw-progress-circle__fill", true)
+                        class=("thaw-progress-circle__fill--empty", move || percentage.get() <= 0.0)
                         d=fill_path
                         stroke-width=stroke_width
                         stroke-linecap="round"
                         fill="none"
-                        style:stroke=move || fill_stroke_color.get()
+                        style:stroke="var(--thaw-fill-color)"
                         style:stroke-dasharray=move || fill_stroke_dasharray.get()
-                    />
+                    ></path>
                 </g>
             </svg>
-            <div class="thaw-progress-circle-content thaw-progress-circle-content--text">
-                {move || percentage.get()}"%"
-            </div>
+            {
+                if let Some(children) = children {
+                    view! {
+                        <div class="thaw-progress-circle__content">
+                            {children()}
+                        </div>
+                    }
+                } else {
+                    view! {
+                        <div class="thaw-progress-circle__content thaw-progress-circle__content--text">
+                            {move || percentage.get()}"%"
+                        </div>
+                    }
+                }
+            }
         </div>
     }
 }

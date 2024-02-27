@@ -27,6 +27,9 @@ let percentage = create_rw_signal(0.0f32);
 view! {
     <Space>
         <ProgressCircle percentage/>
+        <ProgressCircle percentage color=ProgressColor::Success/>
+        <ProgressCircle percentage color=ProgressColor::Warning/>
+        <ProgressCircle percentage color=ProgressColor::Error/>
     </Space>
     <Space>
         <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>"-10%"</Button>
@@ -43,3 +46,11 @@ view! {
 | color | `MaybeSignal<ProgressColor>` | `ProgressColor::Primary` | Progress color. |
 | show_indicator | `MaybeSignal<bool>` | `true` | Whether to display indicators. |
 | indicator_placement | `MaybeSignal<ProgressIndicatorPlacement>` | `ProgressIndicatorPlacement::Outside` | Indicator placement. |
+
+### ProgressCircle Props
+
+| Name       | Type                         | Default                  | Description               |
+| ---------- | ---------------------------- | ------------------------ | ------------------------- |
+| percentage | `MaybeSignal<f32>`           | `Default::default()`     | Percentage value.         |
+| color      | `MaybeSignal<ProgressColor>` | `ProgressColor::Primary` | ProgressCircle color.     |
+| children   | `Option<Children>`           | `None`                   | ProgressCircle's content. |
