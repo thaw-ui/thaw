@@ -41,11 +41,16 @@ pub fn Drawer(
         let drawer_ref = NodeRef::<html::Div>::new();
 
         let is_css_transition = RwSignal::new(false);
-        let placement = Memo::new(move |_| {
+        let placement = Memo::new(move |prev| {
+            let placement = placement.get().as_str();
+            let Some(prev) = prev else {
+                return placement;
+            };
+
             if is_css_transition.get() {
-                placement.get_untracked().as_str()
+                prev
             } else {
-                placement.get_untracked().as_str()
+                placement
             }
         });
         let on_after_enter = move |_| {
