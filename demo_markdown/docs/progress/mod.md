@@ -49,8 +49,10 @@ view! {
 
 ### ProgressCircle Props
 
-| Name       | Type                         | Default                  | Description               |
-| ---------- | ---------------------------- | ------------------------ | ------------------------- |
-| percentage | `MaybeSignal<f32>`           | `Default::default()`     | Percentage value.         |
-| color      | `MaybeSignal<ProgressColor>` | `ProgressColor::Primary` | ProgressCircle color.     |
-| children   | `Option<Children>`           | `None`                   | ProgressCircle's content. |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the progress element. |
+| percentage | `MaybeSignal<f32>` | `Default::default()` | Percentage value. |
+| color | `MaybeSignal<ProgressColor>` | `ProgressColor::Primary` | ProgressCircle color. |
+| size | `MaybeSignal<Stringr>` | `120px` | ProgressCircle size. |
+| children | `Option<Children>` | `None` | ProgressCircle's content. |

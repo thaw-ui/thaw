@@ -1,5 +1,6 @@
 .thaw-progress-circle {
-    width: 120px;
+    width: var(--thaw-size);
+    height: var(--thaw-size);
     display: inline-block;
     position: relative;
 }

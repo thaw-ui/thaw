@@ -1,11 +1,17 @@
 use super::ProgressColor;
-use crate::{use_theme, utils::mount_style, Theme};
+use crate::{
+    use_theme,
+    utils::{class_list::class_list, mount_style, OptionalProp},
+    Theme,
+};
 use leptos::*;
 
 #[component]
 pub fn ProgressCircle(
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(into, optional)] percentage: MaybeSignal<f32>,
     #[prop(into, optional)] color: MaybeSignal<ProgressColor>,
+    #[prop(into, default = "120px".into())] size: MaybeSignal<String>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("progress-circle", include_str!("./progress-circle.css"));
@@ -48,12 +54,13 @@ pub fn ProgressCircle(
 
     view! {
         <div
-            class="thaw-progress-circle"
+            class=class_list!["thaw-progress-circle", class.map(|c| move || c.get())]
             role="progressbar"
             aria-valuemax="100"
             aria-valuemin="0"
             aria-valuenow=move || percentage.get()
             style=("--thaw-fill-color", move || fill_stroke_color.get())
+            style=("--thaw-size", move || size.get())
 
         >
             <svg viewBox="0 0 107 107">
