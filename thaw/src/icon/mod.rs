@@ -38,9 +38,9 @@ pub fn Icon(
         let icon = icon.get();
 
         let style = match (style.clone(), icon.style) {
-            (Some(a), Some(b)) => Some((move || format!("{b} {}", a.get())).into_attribute()),
-            (Some(a), None) => Some((move || a.get()).into_attribute()),
-            (None, Some(b)) => Some(b.into_attribute()),
+            (Some(a), Some(b)) => Some(Memo::new(move |_| format!("{b} {}", a.get())).into()),
+            (Some(a), None) => Some(a),
+            (None, Some(b)) => Some(b.into()),
             (None, None) => None,
         };
         icon_style.set(style);
@@ -49,14 +49,14 @@ pub fn Icon(
         icon_y.set(icon.y.map(|y| y.into_attribute()));
 
         let width = match (width.clone(), icon.width) {
-            (Some(a), _) => (move || a.get()).into_attribute(),
-            _ => "1em".into_attribute(),
+            (Some(a), _) => a,
+            _ => "1em".into(),
         };
         icon_width.set(Some(width));
 
         let height = match (height.clone(), icon.height) {
-            (Some(a), _) => (move || a.get()).into_attribute(),
-            _ => "1em".into_attribute(),
+            (Some(a), _) => a,
+            _ => "1em".into(),
         };
         icon_height.set(Some(height));
 
@@ -72,11 +72,11 @@ pub fn Icon(
     view! {
         <svg
             class=class.map(|c| c.get())
-            style=move || take(icon_style)
+            style=move || take_signal(icon_style)
             x=move || take(icon_x)
             y=move || take(icon_y)
-            width=move || take(icon_width)
-            height=move || take(icon_height)
+            width=move || take_signal(icon_width)
+            height=move || take_signal(icon_height)
             viewBox=move || take(icon_view_box)
             stroke-linecap=move || take(icon_stroke_linecap)
             stroke-linejoin=move || take(icon_stroke_linejoin)
@@ -86,6 +86,14 @@ pub fn Icon(
             inner_html=move || take(icon_data)
         ></svg>
     }
+}
+
+fn take_signal(signal: RwSignal<Option<MaybeSignal<String>>>) -> Option<String> {
+    signal.with(|s| match s {
+        Some(MaybeSignal::Static(value)) => Some(value.clone()),
+        Some(MaybeSignal::Dynamic(signal)) => Some(signal.get()),
+        _ => None,
+    })
 }
 
 fn take(signal: RwSignal<Option<Attribute>>) -> Option<Attribute> {
