@@ -27,7 +27,8 @@ where
         let el = any_el.deref().clone();
         let class_list = el.class_list();
         let end_handle = StoredValue::new(None::<EventListenerHandle>);
-        let end_count = StoredValue::new(0usize);
+        let end_count = StoredValue::new(None::<usize>);
+        let finish = StoredValue::new(None::<Callback<()>>);
 
         let on_end = Callback::new(move |remove: Callback<()>| {
             let Some(CSSTransitionInfo {
@@ -39,55 +40,61 @@ where
                 remove.call(());
                 return;
             };
-            let Some(types) = types else {
-                remove.call(());
-                return;
-            };
 
-            let remove = move || {
+            finish.set_value(Some(Callback::new(move |_| {
+                end_count.set_value(None);
                 remove.call(());
                 end_handle.update_value(|h| {
                     h.take().map(|h| {
                         h.remove();
                     });
                 });
-            };
-
-            end_count.set_value(0);
+            })));
 
             set_timeout(
                 move || {
-                    if end_count.with_value(|v| v < &prop_count) {
-                        remove();
-                    }
+                    finish.update_value(|v| {
+                        v.take().map(|f| f.call(()));
+                    });
                 },
                 Duration::from_millis(timeout + 1),
             );
 
+            end_count.set_value(Some(0));
+            let event_listener = move || {
+                end_count.update_value(|v| {
+                    let Some(v) = v else {
+                        return;
+                    };
+                    *v += 1;
+                });
+                if end_count.with_value(|v| {
+                    let Some(v) = v else {
+                        return false;
+                    };
+                    *v >= prop_count
+                }) {
+                    finish.update_value(|v| {
+                        v.take().map(|f| f.call(()));
+                    });
+                }
+            };
             let handle = match types {
                 AnimationTypes::Transition => {
-                    add_event_listener(any_el.clone(), ev::transitionend, move |_| {
-                        end_count.update_value(|v| {
-                            *v += 1;
-                            if *v >= prop_count {
-                                remove();
-                            }
-                        });
-                    })
+                    add_event_listener(any_el.clone(), ev::transitionend, move |_| event_listener())
                 }
                 AnimationTypes::Animation => {
-                    add_event_listener(any_el.clone(), ev::animationend, move |_| {
-                        end_count.update_value(|v| {
-                            *v += 1;
-                            if *v >= prop_count {
-                                remove();
-                            }
-                        });
-                    })
+                    add_event_listener(any_el.clone(), ev::animationend, move |_| event_listener())
                 }
             };
             end_handle.set_value(Some(handle));
         });
+
+        let on_finish = move || {
+            finish.update_value(|v| {
+                v.take().map(|f| f.call(()));
+            });
+        };
 
         let on_enter_fn = {
             let class_list = class_list.clone();
@@ -154,8 +161,10 @@ where
             let name = name.get_untracked();
 
             if show && !prev {
+                on_finish();
                 on_enter_fn.call(name);
             } else if !show && prev {
+                on_finish();
                 on_leave_fn.call(name);
             }
 
@@ -178,9 +187,8 @@ enum AnimationTypes {
     Animation,
 }
 
-#[derive(Default)]
 struct CSSTransitionInfo {
-    types: Option<AnimationTypes>,
+    types: AnimationTypes,
     prop_count: usize,
     timeout: u64,
 }
@@ -207,12 +215,12 @@ fn get_transition_info(el: &web_sys::HtmlElement) -> Option<CSSTransitionInfo> {
     let timeout = u64::max(transition_timeout, animation_timeout);
     let (types, prop_count) = if timeout > 0 {
         if transition_timeout > animation_timeout {
-            (Some(AnimationTypes::Transition), transition_durations.len())
+            (AnimationTypes::Transition, transition_durations.len())
         } else {
-            (Some(AnimationTypes::Animation), animation_durations.len())
+            (AnimationTypes::Animation, animation_durations.len())
         }
     } else {
-        (None, 0)
+        return None;
     };
 
     Some(CSSTransitionInfo {
