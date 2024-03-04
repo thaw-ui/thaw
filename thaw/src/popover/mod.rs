@@ -1,14 +1,15 @@
 mod theme;
 
+pub use theme::PopoverTheme;
+
 use crate::{
-    components::{Binder, Follower, FollowerPlacement},
+    components::{Binder, CSSTransition, Follower, FollowerPlacement},
     use_theme,
     utils::{add_event_listener, class_list::class_list, mount_style, OptionalProp},
     Theme,
 };
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
-pub use theme::PopoverTheme;
 
 #[slot]
 pub struct PopoverTrigger {
@@ -112,6 +113,7 @@ pub fn Popover(
         children: trigger_children,
     } = popover_trigger;
 
+    let follower_enabled = RwSignal::new(false);
     view! {
         <Binder target_ref>
             <div
@@ -122,19 +124,27 @@ pub fn Popover(
             >
                 {trigger_children()}
             </div>
-            <Follower slot show=is_show_popover placement>
-                <div
-                    class="thaw-popover"
-                    style=move || css_vars.get()
-                    ref=popover_ref
-                    on:mouseenter=on_mouse_enter
-                    on:mouseleave=on_mouse_leave
+            <Follower slot show=follower_enabled placement>
+                <CSSTransition
+                    node_ref=popover_ref name="popover-transition"
+                    show=is_show_popover
+                    on_enter=move |_| follower_enabled.set(true)
+                    on_after_leave=move |_| follower_enabled.set(false)
+                    let:display
                 >
-                    <div class=class.map(|c| move || c.get())>{children()}</div>
-                    <div class="thaw-popover__angle-container">
-                        <div class="thaw-popover__angle"></div>
+                    <div
+                        class="thaw-popover"
+                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                        ref=popover_ref
+                        on:mouseenter=on_mouse_enter
+                        on:mouseleave=on_mouse_leave
+                    >
+                        <div class=class.map(|c| move || c.get())>{children()}</div>
+                        <div class="thaw-popover__angle-container">
+                            <div class="thaw-popover__angle"></div>
+                        </div>
                     </div>
-                </div>
+                </CSSTransition>
             </Follower>
         </Binder>
     }
