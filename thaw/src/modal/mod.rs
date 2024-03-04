@@ -22,6 +22,15 @@ pub fn Modal(
 ) -> impl IntoView {
     mount_style("modal", include_str!("./modal.css"));
 
+    let displayed = RwSignal::new(show.get_untracked());
+    Effect::new(move |prev| {
+        let show = show.get();
+        if prev.is_some() && show {
+            displayed.set(true);
+        }
+        show
+    });
+
     let on_mask_click = move |_| {
         if mask_closeable.get_untracked() {
             show.set(false);
@@ -73,15 +82,16 @@ pub fn Modal(
                         ref=mask_ref
                     ></div>
                 </CSSTransition>
-                <CSSTransition
-                    node_ref=scroll_ref
-                    show=show.signal()
-                    name="fade-in-scale-up-transition"
-                    on_enter
-                    let:display
-                >
-                    <div class="thaw-modal-scroll" style=move || display.get() ref=scroll_ref>
-                        <div class="thaw-modal-body" ref=modal_ref role="dialog" aria-modal="true">
+                <div class="thaw-modal-scroll" style=move || (!displayed.get()).then_some("display: none") ref=scroll_ref>
+                    <CSSTransition
+                        node_ref=modal_ref
+                        show=show.signal()
+                        name="fade-in-scale-up-transition"
+                        on_enter
+                        on_after_leave=move |_| displayed.set(false)
+                        let:display
+                    >
+                        <div class="thaw-modal-body" ref=modal_ref role="dialog" aria-modal="true" style=move || display.get()>
                             <Card>
                                 <CardHeader slot>
                                     <span class="thaw-model-title">{move || title.get()}</span>
@@ -102,8 +112,8 @@ pub fn Modal(
                                 </CardFooter>
                             </Card>
                         </div>
-                    </div>
-                </CSSTransition>
+                    </CSSTransition>
+                </div>
             </div>
         </Teleport>
     }
