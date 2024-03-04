@@ -57,26 +57,26 @@
     font-size: 16px;
 }
 
-.fade-in-scale-up-transition-leave-active > .thaw-modal-body {
+.fade-in-scale-up-transition-leave-active.thaw-modal-body {
     transform-origin: inherit;
     transition: opacity 0.25s cubic-bezier(0.4, 0, 1, 1),
         transform 0.25s cubic-bezier(0.4, 0, 1, 1);
 }
 
-.fade-in-scale-up-transition-enter-active > .thaw-modal-body {
+.fade-in-scale-up-transition-enter-active.thaw-modal-body {
     transform-origin: inherit;
     transition: opacity 0.25s cubic-bezier(0, 0, 0.2, 1),
         transform 0.25s cubic-bezier(0, 0, 0.2, 1);
 }
 
-.fade-in-scale-up-transition-enter-from > .thaw-modal-body,
-.fade-in-scale-up-transition-leave-to > .thaw-modal-body {
+.fade-in-scale-up-transition-enter-from.thaw-modal-body,
+.fade-in-scale-up-transition-leave-to.thaw-modal-body {
     opacity: 0;
     transform: scale(0.5);
 }
 
-.fade-in-scale-up-transition-leave-from > .thaw-modal-body,
-.fade-in-scale-up-transition-enter-to > .thaw-modal-body {
+.fade-in-scale-up-transition-leave-from.thaw-modal-body,
+.fade-in-scale-up-transition-enter-to.thaw-modal-body {
     opacity: 1;
     transform: scale(1);
 }
