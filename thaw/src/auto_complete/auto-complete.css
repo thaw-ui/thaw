@@ -18,3 +18,31 @@
 .thaw-auto-complete__menu-item--selected {
     background-color: var(--thaw-background-color-hover);
 }
+
+.thaw-auto-complete__menu.fade-in-scale-up-transition-leave-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 1, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-auto-complete__menu.fade-in-scale-up-transition-enter-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-auto-complete__menu.fade-in-scale-up-transition-enter-from,
+.thaw-auto-complete__menu.fade-in-scale-up-transition-leave-to {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.thaw-auto-complete__menu.fade-in-scale-up-transition-leave-from,
+.thaw-auto-complete__menu.fade-in-scale-up-transition-enter-to {
+    opacity: 1;
+    transform: scale(1);
+}
