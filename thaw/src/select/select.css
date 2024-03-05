@@ -42,3 +42,31 @@
 .thaw-select-menu__item-selected {
     color: var(--thaw-font-color-selected);
 }
+
+.thaw-select-menu.fade-in-scale-up-transition-leave-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 1, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-select-menu.fade-in-scale-up-transition-enter-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-select-menu.fade-in-scale-up-transition-enter-from,
+.thaw-select-menu.fade-in-scale-up-transition-leave-to {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.thaw-select-menu.fade-in-scale-up-transition-leave-from,
+.thaw-select-menu.fade-in-scale-up-transition-enter-to {
+    opacity: 1;
+    transform: scale(1);
+}

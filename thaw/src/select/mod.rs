@@ -1,7 +1,7 @@
 mod theme;
 
 use crate::{
-    components::{Binder, Follower, FollowerPlacement, FollowerWidth},
+    components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth},
     theme::use_theme,
     utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
@@ -126,34 +126,45 @@ where
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::Target
             >
-                <div class="thaw-select-menu" style=move || menu_css_vars.get() ref=menu_ref>
-                    <For
-                        each=move || options.get()
-                        key=move |item| item.value.clone()
-                        children=move |item| {
-                            let item = store_value(item);
-                            let onclick = move |_| {
-                                let SelectOption { value: item_value, label: _ } = item.get_value();
-                                value.set(Some(item_value));
-                                is_show_menu.set(false);
-                            };
-                            view! {
-                                <div
-                                    class="thaw-select-menu__item"
-                                    class=(
-                                        "thaw-select-menu__item-selected",
-                                        move || value.get() == Some(item.get_value().value),
-                                    )
+                <CSSTransition
+                    node_ref=menu_ref
+                    name="fade-in-scale-up-transition"
+                    show=is_show_menu
+                    let:display
+                >
+                    <div
+                        class="thaw-select-menu"
+                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| menu_css_vars.get())
+                        ref=menu_ref
+                    >
+                        <For
+                            each=move || options.get()
+                            key=move |item| item.value.clone()
+                            children=move |item| {
+                                let item = store_value(item);
+                                let onclick = move |_| {
+                                    let SelectOption { value: item_value, label: _ } = item.get_value();
+                                    value.set(Some(item_value));
+                                    is_show_menu.set(false);
+                                };
+                                view! {
+                                    <div
+                                        class="thaw-select-menu__item"
+                                        class=(
+                                            "thaw-select-menu__item-selected",
+                                            move || value.get() == Some(item.get_value().value),
+                                        )
 
-                                    on:click=onclick
-                                >
-                                    {item.get_value().label}
-                                </div>
+                                        on:click=onclick
+                                    >
+                                        {item.get_value().label}
+                                    </div>
+                                }
                             }
-                        }
-                    />
+                        />
 
-                </div>
+                    </div>
+                </CSSTransition>
             </Follower>
         </Binder>
     }
