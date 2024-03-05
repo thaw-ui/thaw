@@ -87,6 +87,7 @@ pub fn DatePicker(
                     close_panel
                     selected_date=panel_selected_date
                     comp_ref=panel_ref
+                    is_show_panel
                 />
             </Follower>
         </Binder>

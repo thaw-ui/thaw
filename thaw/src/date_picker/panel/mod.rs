@@ -3,6 +3,7 @@ mod month_panel;
 mod year_panel;
 
 use crate::{
+    components::CSSTransition,
     use_theme,
     utils::{now_date, ComponentRef},
     Theme,
@@ -18,6 +19,7 @@ pub fn Panel(
     selected_date: RwSignal<Option<NaiveDate>>,
     date_picker_ref: NodeRef<html::Div>,
     close_panel: Callback<Option<NaiveDate>>,
+    #[prop(into)] is_show_panel: MaybeSignal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -91,25 +93,36 @@ pub fn Panel(
     });
 
     view! {
-        <div class="thaw-date-picker-panel" style=move || css_vars.get() ref=panel_ref>
+        <CSSTransition
+            node_ref=panel_ref
+            name="fade-in-scale-up-transition"
+            show=is_show_panel
+            let:display
+        >
+            <div
+                class="thaw-date-picker-panel"
+                style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                ref=panel_ref
+            >
 
-            {move || {
-                match panel_variant.get() {
-                    PanelVariant::Date => {
-                        view! {
-                            <DatePanel value=selected_date show_date close_panel panel_variant/>
+                {move || {
+                    match panel_variant.get() {
+                        PanelVariant::Date => {
+                            view! {
+                                <DatePanel value=selected_date show_date close_panel panel_variant/>
+                            }
+                        }
+                        PanelVariant::Month => {
+                            view! { <MonthPanel date_panel_show_date=show_date panel_variant/> }
+                        }
+                        PanelVariant::Year => {
+                            view! { <YearPanel date_panel_show_date=show_date panel_variant/> }
                         }
                     }
-                    PanelVariant::Month => {
-                        view! { <MonthPanel date_panel_show_date=show_date panel_variant/> }
-                    }
-                    PanelVariant::Year => {
-                        view! { <YearPanel date_panel_show_date=show_date panel_variant/> }
-                    }
-                }
-            }}
+                }}
 
-        </div>
+            </div>
+        </CSSTransition>
     }
 }
 
