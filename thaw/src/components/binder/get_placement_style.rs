@@ -36,6 +36,23 @@ impl FollowerPlacement {
             Self::BottomEnd => "bottom-end",
         }
     }
+
+    pub fn transform_origin(&self) -> &'static str {
+        match self {
+            Self::Top => "bottom center",
+            Self::Bottom => "top center",
+            Self::Left => "center right",
+            Self::Right => "center left",
+            Self::TopStart => "bottom left",
+            Self::TopEnd => "bottom right",
+            Self::LeftStart => "top right",
+            Self::LeftEnd => "bottom right",
+            Self::RightStart => "top left",
+            Self::RightEnd => "bottom left",
+            Self::BottomStart => "top left",
+            Self::BottomEnd => "top right",
+        }
+    }
 }
 
 pub struct FollowerPlacementOffset {

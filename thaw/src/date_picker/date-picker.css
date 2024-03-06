@@ -172,3 +172,27 @@
     text-align: center;
     border-radius: 3px;
 }
+
+.thaw-date-picker-panel.fade-in-scale-up-transition-leave-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.thaw-date-picker-panel.fade-in-scale-up-transition-enter-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.thaw-date-picker-panel.fade-in-scale-up-transition-enter-from,
+.thaw-date-picker-panel.fade-in-scale-up-transition-leave-to {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.thaw-date-picker-panel.fade-in-scale-up-transition-leave-from,
+.thaw-date-picker-panel.fade-in-scale-up-transition-enter-to {
+    opacity: 1;
+    transform: scale(1);
+}

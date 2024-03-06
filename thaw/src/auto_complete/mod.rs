@@ -1,7 +1,7 @@
 mod theme;
 
 use crate::{
-    components::{Binder, Follower, FollowerPlacement, FollowerWidth},
+    components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth},
     use_theme,
     utils::{class_list::class_list, mount_style, Model, OptionalProp, StoredMaybeSignal},
     ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme,
@@ -196,69 +196,76 @@ pub fn AutoComplete(
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::Target
             >
-                <div
-                    class="thaw-auto-complete__menu"
-                    style=move || menu_css_vars.get()
-                    ref=menu_ref
+                <CSSTransition
+                    node_ref=menu_ref
+                    name="fade-in-scale-up-transition"
+                    show=is_show_menu
+                    let:display
                 >
+                    <div
+                        class="thaw-auto-complete__menu"
+                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| menu_css_vars.get())
+                        ref=menu_ref
+                    >
 
-                    {move || {
-                        options
-                            .get()
-                            .into_iter()
-                            .enumerate()
-                            .map(|(index, v)| {
-                                let AutoCompleteOption { value: option_value, label } = v;
-                                let menu_item_ref = create_node_ref::<html::Div>();
-                                let on_click = move |_| {
-                                    select_value(option_value.clone());
-                                };
-                                let on_mouseenter = move |_| {
-                                    select_option_index.set(Some(index));
-                                };
-                                let on_mousedown = move |ev: ev::MouseEvent| {
-                                    ev.prevent_default();
-                                };
-                                create_effect(move |_| {
-                                    if Some(index) == select_option_index.get() {
-                                        if !is_show_menu.get() {
-                                            return;
-                                        }
-                                        if let Some(menu_item_ref) = menu_item_ref.get() {
-                                            let menu_ref = menu_ref.get().unwrap();
-                                            let menu_rect = menu_ref.get_bounding_client_rect();
-                                            let item_rect = menu_item_ref.get_bounding_client_rect();
-                                            if item_rect.y() < menu_rect.y() {
-                                                menu_item_ref.scroll_into_view_with_bool(true);
-                                            } else if item_rect.y() + item_rect.height()
-                                                > menu_rect.y() + menu_rect.height()
-                                            {
-                                                menu_item_ref.scroll_into_view_with_bool(false);
+                        {move || {
+                            options
+                                .get()
+                                .into_iter()
+                                .enumerate()
+                                .map(|(index, v)| {
+                                    let AutoCompleteOption { value: option_value, label } = v;
+                                    let menu_item_ref = create_node_ref::<html::Div>();
+                                    let on_click = move |_| {
+                                        select_value(option_value.clone());
+                                    };
+                                    let on_mouseenter = move |_| {
+                                        select_option_index.set(Some(index));
+                                    };
+                                    let on_mousedown = move |ev: ev::MouseEvent| {
+                                        ev.prevent_default();
+                                    };
+                                    create_effect(move |_| {
+                                        if Some(index) == select_option_index.get() {
+                                            if !is_show_menu.get() {
+                                                return;
+                                            }
+                                            if let Some(menu_item_ref) = menu_item_ref.get() {
+                                                let menu_ref = menu_ref.get().unwrap();
+                                                let menu_rect = menu_ref.get_bounding_client_rect();
+                                                let item_rect = menu_item_ref.get_bounding_client_rect();
+                                                if item_rect.y() < menu_rect.y() {
+                                                    menu_item_ref.scroll_into_view_with_bool(true);
+                                                } else if item_rect.y() + item_rect.height()
+                                                    > menu_rect.y() + menu_rect.height()
+                                                {
+                                                    menu_item_ref.scroll_into_view_with_bool(false);
+                                                }
                                             }
                                         }
+                                    });
+                                    view! {
+                                        <div
+                                            class="thaw-auto-complete__menu-item"
+                                            class=(
+                                                "thaw-auto-complete__menu-item--selected",
+                                                move || Some(index) == select_option_index.get(),
+                                            )
+
+                                            on:click=on_click
+                                            on:mousedown=on_mousedown
+                                            on:mouseenter=on_mouseenter
+                                            ref=menu_item_ref
+                                        >
+                                            {label}
+                                        </div>
                                     }
-                                });
-                                view! {
-                                    <div
-                                        class="thaw-auto-complete__menu-item"
-                                        class=(
-                                            "thaw-auto-complete__menu-item--selected",
-                                            move || Some(index) == select_option_index.get(),
-                                        )
+                                })
+                                .collect_view()
+                        }}
 
-                                        on:click=on_click
-                                        on:mousedown=on_mousedown
-                                        on:mouseenter=on_mouseenter
-                                        ref=menu_item_ref
-                                    >
-                                        {label}
-                                    </div>
-                                }
-                            })
-                            .collect_view()
-                    }}
-
-                </div>
+                    </div>
+                </CSSTransition>
             </Follower>
         </Binder>
     }

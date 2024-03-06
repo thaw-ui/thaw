@@ -34,16 +34,15 @@ pub enum FollowerWidth {
 
 impl Copy for FollowerWidth {}
 
-
 /// # Tracking popup
 ///
 /// ```rust
 /// use crate::components::{Binder, Follower, FollowerPlacement};
 /// use leptos::*;
-/// 
+///
 /// let div_ref= NodeRef::new();
 /// let show = RwSignal::new(false);
-/// 
+///
 /// view! {
 ///     <Binder target_ref=div_ref>
 ///        <div ref=div_ref>
@@ -58,7 +57,8 @@ impl Copy for FollowerWidth {}
 #[component]
 pub fn Binder<El: ElementDescriptor + Clone + 'static>(
     /// Used to track DOM locations
-    #[prop(into)] target_ref: NodeRef<El>,
+    #[prop(into)]
+    target_ref: NodeRef<El>,
     /// Content for pop-up display
     follower: Follower,
     children: Children,
@@ -198,6 +198,10 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         {
             placement_str.set(placement.as_str());
             style.push_str(&format!(
+                "transform-origin: {};",
+                placement.transform_origin()
+            ));
+            style.push_str(&format!(
                 "transform: translateX({left}px) translateY({top}px) {transform};"
             ));
         } else {
@@ -207,15 +211,14 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         content_style.set(style);
     });
 
-    let is_show = create_memo(move |_| {
+    Effect::new(move |_| {
         if target_ref.get().is_none() {
-            return false;
+            return;
         }
         if content_ref.get().is_none() {
-            return false;
+            return;
         }
-        let is_show = show.get();
-        if is_show {
+        if show.get() {
             request_animation_frame(move || {
                 sync_position.call(());
             });
@@ -225,21 +228,17 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
             remove_scroll_listener.call(());
             remove_resize_listener.call(());
         }
-        is_show
     });
 
     let children = with_hydration_off(|| {
-        html::div()
-            .classes("thaw-binder-follower-container")
-            .style("display", move || (!is_show.get()).then_some("none"))
-            .child(
-                html::div()
-                    .classes("thaw-binder-follower-content")
-                    .attr("data-thaw-placement", move || placement_str.get())
-                    .node_ref(content_ref)
-                    .attr("style", move || content_style.get())
-                    .child(children()),
-            )
+        html::div().classes("thaw-binder-follower-container").child(
+            html::div()
+                .classes("thaw-binder-follower-content")
+                .attr("data-thaw-placement", move || placement_str.get())
+                .node_ref(content_ref)
+                .attr("style", move || content_style.get())
+                .child(children()),
+        )
     });
 
     view! { <Teleport element=children/> }

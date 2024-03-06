@@ -3,7 +3,7 @@ mod theme;
 pub use theme::TimePickerTheme;
 
 use crate::{
-    components::{Binder, Follower, FollowerPlacement},
+    components::{Binder, CSSTransition, Follower, FollowerPlacement},
     use_theme,
     utils::{mount_style, ComponentRef, Model, OptionalProp},
     Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
@@ -86,6 +86,7 @@ pub fn TimePicker(
                     selected_time=panel_selected_time
                     close_panel
                     time_picker_ref
+                    is_show_panel
                     comp_ref=panel_ref
                 />
             </Follower>
@@ -98,6 +99,7 @@ fn Panel(
     selected_time: RwSignal<Option<NaiveTime>>,
     time_picker_ref: NodeRef<html::Div>,
     close_panel: Callback<Option<NaiveTime>>,
+    #[prop(into)] is_show_panel: MaybeSignal<bool>,
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
@@ -173,96 +175,107 @@ fn Panel(
     });
 
     view! {
-        <div class="thaw-time-picker-panel" style=move || css_vars.get() ref=panel_ref>
-            <div class="thaw-time-picker-panel__time">
-                <div class="thaw-time-picker-panel__time-hour" ref=hour_ref>
+        <CSSTransition
+            node_ref=panel_ref
+            name="fade-in-scale-up-transition"
+            show=is_show_panel
+            let:display
+        >
+            <div
+                class="thaw-time-picker-panel"
+                style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                ref=panel_ref
+            >
+                <div class="thaw-time-picker-panel__time">
+                    <div class="thaw-time-picker-panel__time-hour" ref=hour_ref>
 
-                    {(0..24)
-                        .map(|hour| {
-                            let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
-                            let on_click = move |_| {
-                                selected_time
-                                    .update(move |time| {
-                                        *time = if let Some(time) = time {
-                                            time.with_hour(hour)
-                                        } else {
-                                            NaiveTime::from_hms_opt(hour, 0, 0)
-                                        }
-                                    });
-                                comp_ref.get_untracked().unwrap().scroll_into_view();
-                            };
-                            let is_selected = Memo::new(move |_| {
-                                selected_time.get().map_or(false, |v| v.hour() == hour)
-                            });
-                            view! {
-                                <PanelTimeItem value=hour on:click=on_click is_selected comp_ref/>
-                            }
-                        })
-                        .collect_view()}
-                    <div class="thaw-time-picker-panel__time-padding"></div>
+                        {(0..24)
+                            .map(|hour| {
+                                let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
+                                let on_click = move |_| {
+                                    selected_time
+                                        .update(move |time| {
+                                            *time = if let Some(time) = time {
+                                                time.with_hour(hour)
+                                            } else {
+                                                NaiveTime::from_hms_opt(hour, 0, 0)
+                                            }
+                                        });
+                                    comp_ref.get_untracked().unwrap().scroll_into_view();
+                                };
+                                let is_selected = Memo::new(move |_| {
+                                    selected_time.get().map_or(false, |v| v.hour() == hour)
+                                });
+                                view! {
+                                    <PanelTimeItem value=hour on:click=on_click is_selected comp_ref/>
+                                }
+                            })
+                            .collect_view()}
+                        <div class="thaw-time-picker-panel__time-padding"></div>
+                    </div>
+                    <div class="thaw-time-picker-panel__time-minute" ref=minute_ref>
+
+                        {(0..60)
+                            .map(|minute| {
+                                let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
+                                let on_click = move |_| {
+                                    selected_time
+                                        .update(move |time| {
+                                            *time = if let Some(time) = time {
+                                                time.with_minute(minute)
+                                            } else {
+                                                NaiveTime::from_hms_opt(now_time().hour(), minute, 0)
+                                            }
+                                        });
+                                    comp_ref.get_untracked().unwrap().scroll_into_view();
+                                };
+                                let is_selected = Memo::new(move |_| {
+                                    selected_time.get().map_or(false, |v| v.minute() == minute)
+                                });
+                                view! {
+                                    <PanelTimeItem value=minute on:click=on_click is_selected comp_ref/>
+                                }
+                            })
+                            .collect_view()}
+                        <div class="thaw-time-picker-panel__time-padding"></div>
+                    </div>
+                    <div class="thaw-time-picker-panel__time-second" ref=second_ref>
+
+                        {(0..60)
+                            .map(|second| {
+                                let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
+                                let on_click = move |_| {
+                                    selected_time
+                                        .update(move |time| {
+                                            *time = if let Some(time) = time {
+                                                time.with_second(second)
+                                            } else {
+                                                now_time().with_second(second)
+                                            }
+                                        });
+                                    comp_ref.get_untracked().unwrap().scroll_into_view();
+                                };
+                                let is_selected = Memo::new(move |_| {
+                                    selected_time.get().map_or(false, |v| v.second() == second)
+                                });
+                                view! {
+                                    <PanelTimeItem value=second on:click=on_click is_selected comp_ref/>
+                                }
+                            })
+                            .collect_view()}
+                        <div class="thaw-time-picker-panel__time-padding"></div>
+                    </div>
                 </div>
-                <div class="thaw-time-picker-panel__time-minute" ref=minute_ref>
-
-                    {(0..60)
-                        .map(|minute| {
-                            let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
-                            let on_click = move |_| {
-                                selected_time
-                                    .update(move |time| {
-                                        *time = if let Some(time) = time {
-                                            time.with_minute(minute)
-                                        } else {
-                                            NaiveTime::from_hms_opt(now_time().hour(), minute, 0)
-                                        }
-                                    });
-                                comp_ref.get_untracked().unwrap().scroll_into_view();
-                            };
-                            let is_selected = Memo::new(move |_| {
-                                selected_time.get().map_or(false, |v| v.minute() == minute)
-                            });
-                            view! {
-                                <PanelTimeItem value=minute on:click=on_click is_selected comp_ref/>
-                            }
-                        })
-                        .collect_view()}
-                    <div class="thaw-time-picker-panel__time-padding"></div>
-                </div>
-                <div class="thaw-time-picker-panel__time-second" ref=second_ref>
-
-                    {(0..60)
-                        .map(|second| {
-                            let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
-                            let on_click = move |_| {
-                                selected_time
-                                    .update(move |time| {
-                                        *time = if let Some(time) = time {
-                                            time.with_second(second)
-                                        } else {
-                                            now_time().with_second(second)
-                                        }
-                                    });
-                                comp_ref.get_untracked().unwrap().scroll_into_view();
-                            };
-                            let is_selected = Memo::new(move |_| {
-                                selected_time.get().map_or(false, |v| v.second() == second)
-                            });
-                            view! {
-                                <PanelTimeItem value=second on:click=on_click is_selected comp_ref/>
-                            }
-                        })
-                        .collect_view()}
-                    <div class="thaw-time-picker-panel__time-padding"></div>
+                <div class="thaw-time-picker-panel__footer">
+                    <Button variant=ButtonVariant::Outlined size=ButtonSize::Tiny on_click=now>
+                        "Now"
+                    </Button>
+                    <Button size=ButtonSize::Tiny on_click=ok>
+                        "OK"
+                    </Button>
                 </div>
             </div>
-            <div class="thaw-time-picker-panel__footer">
-                <Button variant=ButtonVariant::Outlined size=ButtonSize::Tiny on_click=now>
-                    "Now"
-                </Button>
-                <Button size=ButtonSize::Tiny on_click=ok>
-                    "OK"
-                </Button>
-            </div>
-        </div>
+        </CSSTransition>
     }
 }
 

@@ -3,6 +3,7 @@
     padding: 8px 14px;
     background-color: var(--thaw-background-color);
     border-radius: 3px;
+    transform-origin: inherit;
 }
 
 .thaw-popover-trigger {
@@ -137,4 +138,32 @@
 [data-thaw-placement="left-end"] .thaw-popover__angle {
     top: initial;
     bottom: 7px;
+}
+
+.thaw-popover.popover-transition-enter-from,
+.thaw-popover.popover-transition-leave-to {
+    opacity: 0;
+    transform: scale(0.85);
+}
+
+.thaw-popover.popover-transition-enter-to,
+.thaw-popover.popover-transition-leave-from {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.thaw-popover.popover-transition-enter-active {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.15s cubic-bezier(0, 0, 0.2, 1),
+        transform 0.15s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.thaw-popover.popover-transition-leave-active {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.15s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.15s cubic-bezier(0.4, 0, 1, 1);
 }
