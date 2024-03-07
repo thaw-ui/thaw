@@ -1,3 +1,15 @@
+## [0.2.3](https://github.com/thaw-ui/thaw/compare/v0.2.2...v0.2.3) (2024-03-07)
+
+### Features
+
+* Update leptos to v0.6.7.
+* Open animation.
+* `Button` icon property supports the signal.
+
+### Bug Fixs
+
+* `Icon` returns the function's warning.
+
 ## [0.2.2](https://github.com/thaw-ui/thaw/compare/v0.2.1...v0.2.2) (2024-02-29)
 
 ### Features
