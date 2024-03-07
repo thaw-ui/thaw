@@ -27,21 +27,51 @@ view! {
 ### Icon
 
 ```rust demo
+let icon = create_rw_signal(Some(icondata::AiCloseOutlined));
+
+let on_click = move |_| {
+    icon.update(|icon| {
+        *icon = match icon {
+            Some(data) => {
+                if *data == icondata::AiCloseOutlined {
+                    icondata::AiCheckOutlined
+                } else {
+                    icondata::AiCloseOutlined
+                }
+            }
+            None => icondata::AiCloseOutlined
+        }.into();
+    });
+};
+
 view! {
-    <Space>
-        <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
-            "Error Color Icon"
-        </Button>
-        <Button
-            color=ButtonColor::Error
-            icon=icondata::AiCloseOutlined
-            round=true
-        />
-        <Button
-            color=ButtonColor::Error
-            icon=icondata::AiCloseOutlined
-            circle=true
-        />
+    <Space vertical=true>
+        <Space>
+            <Button icon on_click>
+                "Change icon"
+            </Button>
+            <Button icon on_click=move |_| icon.set(None)>
+                "Clear icon"
+            </Button>
+        </Space>
+        <Space>
+            <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
+                "Error Color Icon"
+            </Button>
+            <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
+                "Error Color Icon"
+            </Button>
+            <Button
+                color=ButtonColor::Error
+                icon=icondata::AiCloseOutlined
+                round=true
+            />
+            <Button
+                color=ButtonColor::Error
+                icon=icondata::AiCloseOutlined
+                circle=true
+            />
+        </Space>
     </Space>
 }
 ```
@@ -135,7 +165,7 @@ view! {
 | color | `MaybeSignal<ButtonColor>` | `ButtonColor::Primary` | Button's color. |
 | round | `MaybeSignal<bool>` | `false` | Whether the button shows rounded corners. |
 | circle | `MaybeSignal<bool>` | `false` | Whether the button is round. |
-| icon | `Option<Icon>` | `None` | The icon of the button. |
+| icon | `OptionalMaybeSignal<icondata_core::Icon>` | `None` | The icon of the button. |
 | loading | `MaybeSignal<bool>` | `false` | Whether the button shows the loading status. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the button is disabled. |
 | size | `MaybeSignal<ButtonSize>` | `ButtonSize::Medium` | Button size. |

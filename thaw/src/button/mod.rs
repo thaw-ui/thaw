@@ -5,7 +5,7 @@ use crate::{
     components::{OptionComp, Wave, WaveRef},
     icon::Icon,
     theme::*,
-    utils::{class_list::class_list, mount_style, ComponentRef, OptionalProp},
+    utils::{class_list::class_list, mount_style, ComponentRef, OptionalMaybeSignal, OptionalProp},
 };
 pub use button_group::ButtonGroup;
 use leptos::*;
@@ -104,7 +104,7 @@ pub fn Button(
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(optional, into)] circle: MaybeSignal<bool>,
-    #[prop(optional, into)] icon: Option<icondata_core::Icon>,
+    #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
     #[prop(optional, into)] loading: MaybeSignal<bool>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] on_click: Option<Callback<ev::MouseEvent>>,
@@ -248,12 +248,17 @@ pub fn Button(
                                 "animation: thawLoadingCircle 1s infinite linear;{icon_style}",
                             )
                         />
-                    }
-                        .into()
-                } else if let Some(icon) = icon {
-                    view! { <Icon icon=icon style=icon_style/> }.into()
+                    }.into_view()
+
                 } else {
-                    None
+                    (move || {
+                        let icon = icon.get();
+                        view! {
+                            <OptionComp value=icon let:icon>
+                                <Icon icon=icon style=icon_style/>
+                            </OptionComp>
+                        }
+                    }).into_view()
                 }
             }}
 
