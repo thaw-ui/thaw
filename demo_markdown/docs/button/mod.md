@@ -155,6 +155,16 @@ view! {
 }
 ```
 
+### Block
+
+```rust demo
+view! {
+    <div>
+        <Button block=true>"Primary"</Button>
+    </div>
+}
+```
+
 ### Button Props
 
 | Name | Type | Default | Description |
@@ -163,6 +173,7 @@ view! {
 | style | `Option<MaybeSignal<String>>` | `Default::default()` | Button's style. |
 | variant | `MaybeSignal<ButtonVariant>` | `ButtonVariant::Primary` | Button's variant. |
 | color | `MaybeSignal<ButtonColor>` | `ButtonColor::Primary` | Button's color. |
+| block | `MaybeSignal<bool>` | `false` | Whether the button is displayed as block. |
 | round | `MaybeSignal<bool>` | `false` | Whether the button shows rounded corners. |
 | circle | `MaybeSignal<bool>` | `false` | Whether the button is round. |
 | icon | `OptionalMaybeSignal<icondata_core::Icon>` | `None` | The icon of the button. |

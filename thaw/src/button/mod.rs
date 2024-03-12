@@ -102,6 +102,7 @@ pub fn Button(
     #[prop(optional, into)] variant: MaybeSignal<ButtonVariant>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
+    #[prop(optional, into)] block: MaybeSignal<bool>,
     #[prop(optional, into)] round: MaybeSignal<bool>,
     #[prop(optional, into)] circle: MaybeSignal<bool>,
     #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
@@ -228,7 +229,7 @@ pub fn Button(
                 ButtonVariant::Text), ("thaw-button--link", move || variant.get() ==
                 ButtonVariant::Link), ("thaw-button--round", move || round.get()),
                 ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||
-                disabled.get()), class.map(| c | move || c.get())
+                disabled.get()), ("thaw-button--block", move || block.get()), class.map(| c | move || c.get())
             ]
 
             style=move || {
