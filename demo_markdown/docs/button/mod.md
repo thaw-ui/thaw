@@ -136,6 +136,16 @@ view! {
 }
 ```
 
+### Block
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Button block=true>"Primary"</Button>
+    </Space>
+}
+```
+
 ### Group
 
 ```rust demo
@@ -152,16 +162,6 @@ view! {
             <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
         </ButtonGroup>
     </Space>
-}
-```
-
-### Block
-
-```rust demo
-view! {
-    <div>
-        <Button block=true>"Primary"</Button>
-    </div>
 }
 ```
 
@@ -185,7 +185,8 @@ view! {
 
 ### ButtonGroup props
 
-| Name     | Type       | Default | Description                         |
-| -------- | ---------- | ------- | ----------------------------------- |
-| vertical | `bool`     | `false` | Directions of buttons in the group. |
-| children | `Children` |         | ButtonGroup's content.              |
+| Name     | Type                                | Default              | Description                               |
+| -------- | ----------------------------------- | -------------------- | ----------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the group element. |
+| vertical | `bool`                              | `false`              | Directions of buttons in the group.       |
+| children | `Children`                          |                      | ButtonGroup's content.                    |
