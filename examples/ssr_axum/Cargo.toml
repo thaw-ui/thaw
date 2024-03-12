@@ -11,16 +11,16 @@ axum = { version = "0.7.4", optional = true }
 console_error_panic_hook = "0.1"
 console_log = "1"
 cfg-if = "1"
-leptos = { version = "0.6.7" }
-leptos_axum = { version = "0.6.7", optional = true }
-leptos_meta = { version = "0.6.7" }
-leptos_router = { version = "0.6.7" }
+leptos = { version = "0.6.9" }
+leptos_axum = { version = "0.6.9", optional = true }
+leptos_meta = { version = "0.6.9" }
+leptos_router = { version = "0.6.9" }
 log = "0.4"
 simple_logger = "4"
 tokio = { version = "1.35.1", features = ["rt-multi-thread"], optional = true }
 tower = { version = "0.4.13", optional = true }
 tower-http = { version = "0.5.1", features = ["fs"], optional = true }
-wasm-bindgen = "=0.2.90"
+wasm-bindgen = "=0.2.92"
 thiserror = "1.0.56"
 tracing = { version = "0.1.40", optional = true }
 http = "0.2.8"
