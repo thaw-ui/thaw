@@ -15,19 +15,19 @@ license = "MIT"
 [dependencies]
 leptos = { version = "0.6.9" }
 leptos_meta = { version = "0.6.9", optional = true }
-web-sys = { version = "0.3.67", features = [
+web-sys = { version = "0.3.69", features = [
     "DomRect",
     "File",
     "FileList",
     "DataTransfer",
 ] }
-wasm-bindgen = "0.2.90"
+wasm-bindgen = "0.2.92"
 icondata_core = "0.1.0"
 icondata_ai = "0.0.10"
 uuid = { version = "1.7.0", features = ["v4"] }
 cfg-if = "1.0.0"
-chrono = "0.4.33"
-palette = "0.7.4"
+chrono = "0.4.35"
+palette = "0.7.5"
 
 [features]
 csr = ["leptos/csr"]
