@@ -9,6 +9,14 @@ use syn::ItemFn;
 pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let file_list = vec![
         (
+            "DevelopmentComponentsMdPage",
+            include_str!("../docs/_guide/development/components.md"),
+        ),
+        (
+            "DevelopmentGuideMdPage",
+            include_str!("../docs/_guide/development/guide.md"),
+        ),
+        (
             "InstallationMdPage",
             include_str!("../docs/_guide/installation.md"),
         ),
