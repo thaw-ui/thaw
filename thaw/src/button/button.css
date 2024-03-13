@@ -21,6 +21,11 @@
     transition: all 0.3s;
 }
 
+.thaw-button--block {
+    display: flex;
+    width: 100%;
+}
+
 .thaw-button--disabled:not(.thaw-button--text, .thaw-button--link) {
     border-color: var(--thaw-border-color-disabled);
     background-color: var(--thaw-background-color-disabled);

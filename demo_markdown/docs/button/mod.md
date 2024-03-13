@@ -136,6 +136,16 @@ view! {
 }
 ```
 
+### Block
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Button block=true>"Primary"</Button>
+    </Space>
+}
+```
+
 ### Group
 
 ```rust demo
@@ -163,6 +173,7 @@ view! {
 | style | `Option<MaybeSignal<String>>` | `Default::default()` | Button's style. |
 | variant | `MaybeSignal<ButtonVariant>` | `ButtonVariant::Primary` | Button's variant. |
 | color | `MaybeSignal<ButtonColor>` | `ButtonColor::Primary` | Button's color. |
+| block | `MaybeSignal<bool>` | `false` | Whether the button is displayed as block. |
 | round | `MaybeSignal<bool>` | `false` | Whether the button shows rounded corners. |
 | circle | `MaybeSignal<bool>` | `false` | Whether the button is round. |
 | icon | `OptionalMaybeSignal<icondata_core::Icon>` | `None` | The icon of the button. |
@@ -174,7 +185,8 @@ view! {
 
 ### ButtonGroup props
 
-| Name     | Type       | Default | Description                         |
-| -------- | ---------- | ------- | ----------------------------------- |
-| vertical | `bool`     | `false` | Directions of buttons in the group. |
-| children | `Children` |         | ButtonGroup's content.              |
+| Name     | Type                                | Default              | Description                               |
+| -------- | ----------------------------------- | -------------------- | ----------------------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the group element. |
+| vertical | `bool`                              | `false`              | Directions of buttons in the group.       |
+| children | `Children`                          |                      | ButtonGroup's content.                    |
