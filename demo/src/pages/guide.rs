@@ -115,5 +115,18 @@ pub(crate) fn gen_guide_menu_data() -> Vec<MenuGroupOption> {
                 label: "Server Sider Rendering".into(),
             }],
         },
+        MenuGroupOption {
+            label: "Development".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "development/guide".into(),
+                    label: "Guide".into(),
+                },
+                MenuItemOption {
+                    value: "development/components".into(),
+                    label: "Components".into(),
+                },
+            ],
+        },
     ]
 }
