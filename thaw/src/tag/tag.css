@@ -3,9 +3,31 @@
     height: 28px;
     align-items: center;
     font-size: 14px;
-    padding: 0 10px;
+    line-height: 1;
+    padding: 0 8px;
     background-color: var(--thaw-background-color);
     color: var(--thaw-font-color);
     border: 1px solid var(--thaw-border-color);
+    border-radius: 3px;
+}
+
+.thaw-tag__close {
+    position: relative;
+    right: -3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    padding: 1px;
+    width: 16px;
+    height: 16px;
+    color: var(--thaw-font-color);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-tag__close:hover {
+    background-color: var(--thaw-border-color);
     border-radius: 3px;
 }

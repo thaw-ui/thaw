@@ -1,12 +1,13 @@
 mod theme;
 
+pub use theme::TagTheme;
+
 use crate::{
     theme::use_theme,
     utils::{class_list::class_list, mount_style, OptionalProp},
-    Theme,
+    Icon, Theme,
 };
 use leptos::*;
-pub use theme::TagTheme;
 
 #[derive(Clone, Default)]
 pub enum TagVariant {
@@ -48,6 +49,8 @@ impl TagVariant {
 pub fn Tag(
     #[prop(optional, into)] variant: MaybeSignal<TagVariant>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] closable: MaybeSignal<bool>,
+    #[prop(optional, into)] on_close: Option<Callback<ev::MouseEvent>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
@@ -72,12 +75,32 @@ pub fn Tag(
         css_vars
     });
 
+    let on_close = move |event| {
+        let Some(callback) = on_close.as_ref() else {
+            return;
+        };
+        callback.call(event);
+    };
+
     view! {
         <div
             class=class_list!["thaw-tag", class.map(| c | move || c.get())]
             style=move || css_vars.get()
         >
             <span class="thaw-tag__content">{children()}</span>
+            {
+                move || {
+                    if closable.get() {
+                        view! {
+                            <button class="thaw-tag__close" on:click=on_close>
+                                <Icon icon=icondata_ai::AiCloseOutlined style="font-size: 14px"/>
+                            </button>
+                        }.into()
+                    } else {
+                        None
+                    }
+                }
+            }
         </div>
     }
 }
