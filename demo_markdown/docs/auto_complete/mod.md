@@ -68,6 +68,7 @@ view! {
 | allow_free_input | `bool` | `false` | Whether free text input is allowed. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |
 | clear_after_select | `MaybeSignal<bool>` | `false` | Whether to clear after selection. |
+| blur_after_select | `MaybeSignal<bool>` | `false` | Whether to blur after selection. |
 | on_select | `Option<Callback<String>>` | `None` | On select callback function. |
 | attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |
 

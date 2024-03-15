@@ -137,6 +137,7 @@ pub fn SiteHeader() -> impl IntoView {
                     placeholder="Type '/' to search"
                     options=search_options
                     clear_after_select=true
+                    blur_after_select=true
                     on_select=on_search_select
                     comp_ref=auto_complete_ref
                 >
