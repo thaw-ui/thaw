@@ -31,6 +31,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
+    #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] on_select: Option<Callback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] allow_free_input: bool,
@@ -57,6 +58,8 @@ pub fn AutoComplete(
         });
         css_vars
     });
+
+    let input_ref = ComponentRef::<InputRef>::new();
 
     let default_index = if allow_free_input { None } else { Some(0) };
 
@@ -89,6 +92,11 @@ pub fn AutoComplete(
             select_option_index.set(None);
         }
         is_show_menu.set(false);
+        if blur_after_select.get_untracked() {
+            if let Some(input_ref) = input_ref.get_untracked() {
+                input_ref.blur();
+            }
+        }
     };
 
     // we unset selection index whenever options get changed
@@ -147,7 +155,6 @@ pub fn AutoComplete(
             }
         }
     };
-    let input_ref = ComponentRef::<InputRef>::new();
     input_ref.on_load(move |_| {
         comp_ref.load(AutoCompleteRef { input_ref });
     });
