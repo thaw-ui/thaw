@@ -1,4 +1,4 @@
-use crate::utils::{class_list::class_list, mount_style, OptionalProp};
+use crate::utils::{class_list::class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 use leptos::*;
 
 #[derive(Default)]
@@ -16,6 +16,8 @@ pub enum SpaceGap {
 pub fn Space(
     #[prop(optional)] gap: SpaceGap,
     #[prop(optional)] vertical: bool,
+    #[prop(optional, into)] align: OptionalMaybeSignal<SpaceAlign>,
+    #[prop(optional, into)] justify: OptionalMaybeSignal<SpaceJustify>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
@@ -32,6 +34,8 @@ pub fn Space(
         <div
             class=class_list!["thaw-space", class.map(| c | move || c.get())]
             style:gap=gap
+            style:align-items=move || align.get().map(|a| a.as_str())
+            style:justify-content=move || justify.get().map(|j| j.as_str())
             style:flex-direction=if vertical { "column" } else { "row" }
         >
 
@@ -44,5 +48,57 @@ pub fn Space(
                 .collect::<Vec<_>>()}
 
         </div>
+    }
+}
+
+#[derive(Clone)]
+pub enum SpaceAlign {
+    FlexStart,
+    FlexEnd,
+    Start,
+    End,
+    Center,
+    Baseline,
+    Stretch,
+}
+
+impl SpaceAlign {
+    fn as_str(&self) -> &'static str {
+        match self {
+            Self::FlexStart => "flex-start",
+            Self::FlexEnd => "flex-end",
+            Self::Start => "start",
+            Self::End => "end",
+            Self::Center => "center",
+            Self::Baseline => "baseline",
+            Self::Stretch => "stretch",
+        }
+    }
+}
+
+#[derive(Clone)]
+pub enum SpaceJustify {
+    FlexStart,
+    FlexEnd,
+    Start,
+    End,
+    Center,
+    SpaceAround,
+    SpaceBetween,
+    SpaceEvenly,
+}
+
+impl SpaceJustify {
+    fn as_str(&self) -> &'static str {
+        match self {
+            Self::FlexStart => "flex-start",
+            Self::FlexEnd => "flex-end",
+            Self::Start => "start",
+            Self::End => "end",
+            Self::Center => "center",
+            Self::SpaceAround => "space-around",
+            Self::SpaceBetween => "space-between",
+            Self::SpaceEvenly => "space-evenly",
+        }
     }
 }

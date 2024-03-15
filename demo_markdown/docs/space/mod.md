@@ -39,6 +39,54 @@ view! {
 }
 ```
 
+### Align
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Space align=SpaceAlign::Start>
+            <Button style="height: 60px">"Start"</Button>
+            <Button style="height: 40px">"Start"</Button>
+            <Button>"Start"</Button>
+        </Space>
+        <Space align=SpaceAlign::Center>
+            <Button style="height: 60px">"Center"</Button>
+            <Button style="height: 40px">"Center"</Button>
+            <Button>"Center"</Button>
+        </Space>
+        <Space align=SpaceAlign::End>
+            <Button style="height: 60px">"End"</Button>
+            <Button style="height: 40px">"End"</Button>
+            <Button>"End"</Button>
+        </Space>
+    </Space>
+}
+```
+
+### Justify
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Space justify=SpaceJustify::SpaceAround>
+            <Button>"SpaceAround"</Button>
+            <Button>"SpaceAround"</Button>
+            <Button>"SpaceAround"</Button>
+        </Space>
+        <Space justify=SpaceJustify::Center>
+            <Button>"Center"</Button>
+            <Button>"Center"</Button>
+            <Button>"Center"</Button>
+        </Space>
+        <Space justify=SpaceJustify::End>
+            <Button>"End"</Button>
+            <Button>"End"</Button>
+            <Button>"End"</Button>
+        </Space>
+    </Space>
+}
+```
+
 ### Space Props
 
 | Name     | Type                                | Default              | Description                              |
@@ -46,4 +94,6 @@ view! {
 | class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the space element. |
 | vertical | `bool`                              | `false`              | Whether to lay out vertically.           |
 | gap      | `SpaceGap`                          | `SpaceGap::Medium`   | Space's gap.                             |
+| align    | `OptionalMaybeSignal<SpaceAlign>`   | `None`               | Vertical arrangement.                    |
+| justify  | `OptionalMaybeSignal<SpaceJustify>` | `None`               | Horizontal arrangement.                  |
 | children | `Children`                          |                      | Space's content.                         |
