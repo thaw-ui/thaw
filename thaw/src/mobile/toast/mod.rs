@@ -9,7 +9,7 @@ pub struct ToastOptions {
 
 pub fn show_toast(options: ToastOptions) {
     mount_style("toast", include_str!("./toast.css"));
-    cfg_if! { if #[cfg(target_arch = "wasm32")] {
+    cfg_if! { if #[cfg(all(target_arch = "wasm32", any(feature = "csr", feature = "hydrate")))] {
         use leptos::{leptos_dom::Mountable, *};
         let mount = document().body().expect("body element to exist");
         let children = view! { <div class="thaw-toast">{options.message}</div> };
