@@ -4,8 +4,8 @@ pub use theme::AvatarTheme;
 
 use crate::{use_theme, Theme};
 use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
 use thaw_components::OptionComp;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]
 pub fn Avatar(

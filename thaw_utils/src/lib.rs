@@ -6,7 +6,7 @@ mod optional_prop;
 mod signals;
 mod time;
 
-pub use event_listener::*;
+pub use event_listener::{add_event_listener, EventListenerHandle};
 pub use hooks::{use_click_position, use_lock_html_scroll};
 pub use mount_style::mount_style;
 pub use optional_prop::OptionalProp;

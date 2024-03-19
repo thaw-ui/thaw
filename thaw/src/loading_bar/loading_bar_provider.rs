@@ -1,6 +1,6 @@
 use super::{LoadingBar, LoadingBarRef};
-use thaw_components::Teleport;
 use leptos::*;
+use thaw_components::Teleport;
 use thaw_utils::ComponentRef;
 
 #[component]
