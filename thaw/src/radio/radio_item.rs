@@ -1,8 +1,6 @@
-use crate::{
-    radio::{radio_group::use_radio_group, Radio},
-    utils::OptionalProp,
-};
+use crate::radio::{radio_group::use_radio_group, Radio};
 use leptos::*;
+use thaw_utils::OptionalProp;
 
 #[component]
 pub fn RadioItem(

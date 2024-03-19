@@ -2,12 +2,9 @@ mod theme;
 
 pub use theme::TagTheme;
 
-use crate::{
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, OptionalProp},
-    Icon, Theme,
-};
+use crate::{theme::use_theme, Icon, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Clone, Default)]
 pub enum TagVariant {

@@ -1,13 +1,10 @@
 mod tab;
 
-use crate::{
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
-    Theme,
-};
-use leptos::*;
-
 pub use tab::*;
+
+use crate::{theme::use_theme, Theme};
+use leptos::*;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
 pub fn Tabs(

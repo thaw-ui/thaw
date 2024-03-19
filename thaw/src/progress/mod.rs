@@ -4,8 +4,9 @@ mod theme;
 pub use progress_circle::ProgressCircle;
 pub use theme::ProgressTheme;
 
-use crate::{use_theme, utils::mount_style, Theme};
+use crate::{use_theme, Theme};
 use leptos::*;
+use thaw_utils::mount_style;
 
 #[derive(Default, Clone, PartialEq)]
 pub enum ProgressIndicatorPlacement {

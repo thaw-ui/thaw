@@ -2,11 +2,12 @@ mod menu_group;
 mod menu_item;
 mod theme;
 
-use crate::utils::{class_list::class_list, Model, OptionalProp};
-use leptos::*;
 pub use menu_group::MenuGroup;
 pub use menu_item::*;
 pub use theme::MenuTheme;
+
+use leptos::*;
+use thaw_utils::{class_list, Model, OptionalProp};
 
 #[component]
 pub fn Menu(

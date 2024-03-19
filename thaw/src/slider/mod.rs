@@ -1,17 +1,13 @@
 mod slider_label;
 mod theme;
 
-use crate::{
-    components::OptionComp,
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
-    Theme,
-};
-use leptos::*;
-use web_sys::DomRect;
-
 pub use slider_label::SliderLabel;
 pub use theme::SliderTheme;
+
+use crate::{components::OptionComp, theme::use_theme, Theme};
+use leptos::*;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use web_sys::DomRect;
 
 #[component]
 pub fn Slider(

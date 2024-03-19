@@ -5,12 +5,12 @@ pub use theme::DatePickerTheme;
 
 use crate::{
     components::{Binder, Follower, FollowerPlacement},
-    utils::{mount_style, now_date, ComponentRef, Model, OptionalProp},
     Icon, Input, InputSuffix, SignalWatch,
 };
 use chrono::NaiveDate;
 use leptos::*;
 use panel::{Panel, PanelRef};
+use thaw_utils::{mount_style, now_date, ComponentRef, Model, OptionalProp};
 
 #[component]
 pub fn DatePicker(

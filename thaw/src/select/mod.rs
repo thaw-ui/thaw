@@ -1,14 +1,15 @@
 mod theme;
 
+pub use theme::SelectTheme;
+
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth},
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
 use std::hash::Hash;
-pub use theme::SelectTheme;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[derive(Clone, PartialEq, Eq, Hash)]
 pub struct SelectOption<T> {

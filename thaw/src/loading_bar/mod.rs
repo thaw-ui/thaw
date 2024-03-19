@@ -1,8 +1,10 @@
 mod loading_bar_provider;
 
-use crate::{use_theme, utils::mount_style, utils::ComponentRef, Theme};
-use leptos::*;
 pub use loading_bar_provider::{use_loading_bar, LoadingBarProvider};
+
+use crate::{use_theme, Theme};
+use leptos::*;
+use thaw_utils::{mount_style, ComponentRef};
 
 #[derive(Clone)]
 pub(crate) struct LoadingBarRef {

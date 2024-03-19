@@ -1,9 +1,9 @@
 use crate::{
     components::{CSSTransition, OptionComp, Teleport},
-    utils::{mount_style, use_click_position, Model},
     Card, CardFooter, CardHeader, CardHeaderExtra, Icon,
 };
 use leptos::*;
+use thaw_utils::{mount_style, use_click_position, Model};
 
 #[slot]
 pub struct ModalFooter {

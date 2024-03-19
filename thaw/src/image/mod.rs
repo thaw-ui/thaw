@@ -1,5 +1,5 @@
-use crate::utils::OptionalProp;
 use leptos::*;
+use thaw_utils::OptionalProp;
 
 #[component]
 pub fn Image(

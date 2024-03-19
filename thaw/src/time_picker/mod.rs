@@ -4,12 +4,11 @@ pub use theme::TimePickerTheme;
 
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement},
-    use_theme,
-    utils::{mount_style, ComponentRef, Model, OptionalProp},
-    Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
+    use_theme, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::*;
+use thaw_utils::{mount_style, ComponentRef, Model, OptionalProp};
 
 #[component]
 pub fn TimePicker(

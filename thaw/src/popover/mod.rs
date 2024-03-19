@@ -4,12 +4,11 @@ pub use theme::PopoverTheme;
 
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement},
-    use_theme,
-    utils::{add_event_listener, class_list::class_list, mount_style, OptionalProp},
-    Theme,
+    use_theme, Theme,
 };
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
+use thaw_utils::{add_event_listener, class_list, mount_style, OptionalProp};
 
 #[slot]
 pub struct PopoverTrigger {

@@ -1,9 +1,6 @@
-use crate::{
-    use_theme,
-    utils::{class_list::class_list, mount_style, OptionalProp},
-    Theme,
-};
+use crate::{use_theme, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]
 pub fn Text(

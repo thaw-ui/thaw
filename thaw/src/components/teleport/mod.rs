@@ -11,7 +11,7 @@ pub fn Teleport(
     cfg_if! { if #[cfg(all(target_arch = "wasm32", any(feature = "csr", feature = "hydrate")))] {
         use leptos::wasm_bindgen::JsCast;
         use leptos::leptos_dom::Mountable;
-        use crate::utils::with_hydration_off;
+        use thaw_utils::with_hydration_off;
 
         let mount = mount.unwrap_or_else(|| {
             document()

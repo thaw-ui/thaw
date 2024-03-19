@@ -1,17 +1,15 @@
 mod get_placement_style;
 
-use crate::{
-    components::Teleport,
-    utils::{add_event_listener, EventListenerHandle},
-    utils::{mount_style, with_hydration_off},
-};
 pub use get_placement_style::FollowerPlacement;
+
+use crate::components::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
 use leptos::{
     html::{AnyElement, ElementDescriptor, ToHtmlElement},
     leptos_dom::helpers::WindowListenerHandle,
     *,
 };
+use thaw_utils::{add_event_listener, mount_style, with_hydration_off, EventListenerHandle};
 
 #[slot]
 pub struct Follower {

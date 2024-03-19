@@ -1,14 +1,12 @@
 mod breadcrumb_item;
 mod theme;
 
-use crate::{
-    use_theme,
-    utils::{class_list::class_list, mount_style, OptionalProp},
-    Theme,
-};
+pub use theme::BreadcrumbTheme;
+
+use crate::{use_theme, Theme};
 pub use breadcrumb_item::BreadcrumbItem;
 use leptos::*;
-pub use theme::BreadcrumbTheme;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]
 pub fn Breadcrumb(

@@ -1,6 +1,6 @@
-use crate::utils::{mount_style, ComponentRef};
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
+use thaw_utils::{mount_style, ComponentRef};
 
 #[derive(Clone)]
 pub struct WaveRef {

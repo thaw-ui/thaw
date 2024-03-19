@@ -1,6 +1,6 @@
-use crate::utils::{add_event_listener, EventListenerHandle};
 use leptos::{html::ElementDescriptor, *};
 use std::{ops::Deref, time::Duration};
+use thaw_utils::{add_event_listener, EventListenerHandle};
 
 /// # CSS Transition
 ///

@@ -1,10 +1,11 @@
 mod layout_header;
 mod layout_sider;
 
-use crate::utils::{class_list::class_list, mount_style, OptionalProp};
 pub use layout_header::*;
 pub use layout_sider::*;
+
 use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Default, PartialEq)]
 pub enum LayoutPosition {

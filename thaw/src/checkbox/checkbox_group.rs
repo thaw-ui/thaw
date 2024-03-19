@@ -1,6 +1,6 @@
-use crate::utils::Model;
 use leptos::*;
 use std::collections::HashSet;
+use thaw_utils::Model;
 
 #[component]
 pub fn CheckboxGroup(
