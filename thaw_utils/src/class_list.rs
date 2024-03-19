@@ -172,15 +172,15 @@ where
     }
 }
 
+#[macro_export]
 macro_rules! class_list {
     ($($name:expr),+) => {
         {
-            use crate::utils::class_list::ClassList;
+            use $crate::class_list::ClassList;
             ClassList::new()$(.add($name))+
         }
     };
 }
-pub(crate) use class_list;
 
 #[cfg(test)]
 mod tests {

@@ -1,14 +1,15 @@
 mod theme;
 
+pub use theme::SelectTheme;
+
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth},
     theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
     Theme,
 };
 use leptos::*;
 use std::hash::Hash;
-pub use theme::SelectTheme;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[derive(Clone, PartialEq, Eq, Hash)]
 pub struct SelectOption<T> {
@@ -134,7 +135,13 @@ where
                 >
                     <div
                         class="thaw-select-menu"
-                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| menu_css_vars.get())
+                        style=move || {
+                            display
+                                .get()
+                                .map(|d| d.to_string())
+                                .unwrap_or_else(|| menu_css_vars.get())
+                        }
+
                         ref=menu_ref
                     >
                         <For
@@ -143,7 +150,8 @@ where
                             children=move |item| {
                                 let item = store_value(item);
                                 let onclick = move |_| {
-                                    let SelectOption { value: item_value, label: _ } = item.get_value();
+                                    let SelectOption { value: item_value, label: _ } = item
+                                        .get_value();
                                     value.set(Some(item_value));
                                     is_show_menu.set(false);
                                 };

@@ -1,8 +1,9 @@
 use super::PanelVariant;
-use crate::{utils::now_date, Button, ButtonSize, ButtonVariant, CalendarItemDate};
+use crate::{Button, ButtonSize, ButtonVariant, CalendarItemDate};
 use chrono::{Datelike, Days, Month, Months, NaiveDate};
 use leptos::*;
 use std::ops::Deref;
+use thaw_utils::now_date;
 
 #[component]
 pub fn DatePanel(

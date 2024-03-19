@@ -1,5 +1,5 @@
-use crate::utils::mount_style;
 use leptos::*;
+use thaw_utils::mount_style;
 
 #[component]
 pub fn SliderLabel(#[prop(into)] value: MaybeSignal<f64>, children: Children) -> impl IntoView {

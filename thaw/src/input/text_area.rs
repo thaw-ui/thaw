@@ -1,8 +1,6 @@
-use crate::{
-    theme::{use_theme, Theme},
-    utils::{class_list::class_list, mount_style, ComponentRef, Model, OptionalProp},
-};
+use crate::theme::{use_theme, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, ComponentRef, Model, OptionalProp};
 
 #[component]
 pub fn TextArea(

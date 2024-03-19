@@ -4,12 +4,11 @@ pub use theme::PopoverTheme;
 
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement},
-    use_theme,
-    utils::{add_event_listener, class_list::class_list, mount_style, OptionalProp},
-    Theme,
+    use_theme, Theme,
 };
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
+use thaw_utils::{add_event_listener, class_list, mount_style, OptionalProp};
 
 #[slot]
 pub struct PopoverTrigger {
@@ -126,7 +125,8 @@ pub fn Popover(
             </div>
             <Follower slot show=follower_enabled placement>
                 <CSSTransition
-                    node_ref=popover_ref name="popover-transition"
+                    node_ref=popover_ref
+                    name="popover-transition"
                     show=is_show_popover
                     on_enter=move |_| follower_enabled.set(true)
                     on_after_leave=move |_| follower_enabled.set(false)
@@ -134,7 +134,10 @@ pub fn Popover(
                 >
                     <div
                         class="thaw-popover"
-                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                        style=move || {
+                            display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                        }
+
                         ref=popover_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave

@@ -4,12 +4,11 @@ pub use theme::TimePickerTheme;
 
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement},
-    use_theme,
-    utils::{mount_style, ComponentRef, Model, OptionalProp},
-    Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
+    use_theme, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, SignalWatch, Theme,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::*;
+use thaw_utils::{mount_style, ComponentRef, Model, OptionalProp};
 
 #[component]
 pub fn TimePicker(
@@ -207,7 +206,12 @@ fn Panel(
                                     selected_time.get().map_or(false, |v| v.hour() == hour)
                                 });
                                 view! {
-                                    <PanelTimeItem value=hour on:click=on_click is_selected comp_ref/>
+                                    <PanelTimeItem
+                                        value=hour
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
                                 }
                             })
                             .collect_view()}
@@ -233,7 +237,12 @@ fn Panel(
                                     selected_time.get().map_or(false, |v| v.minute() == minute)
                                 });
                                 view! {
-                                    <PanelTimeItem value=minute on:click=on_click is_selected comp_ref/>
+                                    <PanelTimeItem
+                                        value=minute
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
                                 }
                             })
                             .collect_view()}
@@ -259,7 +268,12 @@ fn Panel(
                                     selected_time.get().map_or(false, |v| v.second() == second)
                                 });
                                 view! {
-                                    <PanelTimeItem value=second on:click=on_click is_selected comp_ref/>
+                                    <PanelTimeItem
+                                        value=second
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
                                 }
                             })
                             .collect_view()}

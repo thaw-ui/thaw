@@ -1,5 +1,6 @@
-use crate::{use_theme, utils::mount_style, Theme};
+use crate::{use_theme, Theme};
 use leptos::*;
+use thaw_utils::mount_style;
 
 #[component]
 pub fn UploadDragger(children: Children) -> impl IntoView {

@@ -6,13 +6,12 @@ pub use theme::ColorPickerTheme;
 
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement},
-    use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
-    Theme,
+    use_theme, Theme,
 };
 use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
 use palette::{Hsv, IntoColor, Srgb};
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
 pub fn ColorPicker(
@@ -153,14 +152,20 @@ pub fn ColorPicker(
             </div>
             <Follower slot show=is_show_popover placement=FollowerPlacement::BottomStart>
                 <CSSTransition
-                    node_ref=popover_ref name="fade-in-scale-up-transition"
+                    node_ref=popover_ref
+                    name="fade-in-scale-up-transition"
                     show=is_show_popover
                     let:display
                 >
                     <div
                         class="thaw-color-picker-popover"
                         ref=popover_ref
-                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| popover_css_vars.get())
+                        style=move || {
+                            display
+                                .get()
+                                .map(|d| d.to_string())
+                                .unwrap_or_else(|| popover_css_vars.get())
+                        }
                     >
 
                         <ColorPanel hue=hue.read_only() sv/>

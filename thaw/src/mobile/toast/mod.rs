@@ -1,6 +1,6 @@
-use crate::utils::mount_style;
 use cfg_if::cfg_if;
 use std::time::Duration;
+use thaw_utils::mount_style;
 
 pub struct ToastOptions {
     pub message: String,

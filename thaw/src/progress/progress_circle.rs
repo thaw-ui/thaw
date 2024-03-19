@@ -1,10 +1,7 @@
 use super::ProgressColor;
-use crate::{
-    use_theme,
-    utils::{class_list::class_list, mount_style, OptionalProp},
-    Theme,
-};
+use crate::{use_theme, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]
 pub fn ProgressCircle(
@@ -54,15 +51,15 @@ pub fn ProgressCircle(
 
     view! {
         <div
-            class=class_list!["thaw-progress-circle", class.map(|c| move || c.get())]
+            class=class_list!["thaw-progress-circle", class.map(| c | move || c.get())]
             role="progressbar"
             aria-valuemax="100"
             aria-valuemin="0"
             aria-valuenow=move || percentage.get()
             style=("--thaw-fill-color", move || fill_stroke_color.get())
             style=("--thaw-size", move || size.get())
-
         >
+
             <svg viewBox="0 0 107 107">
                 <g>
                     <path
@@ -87,21 +84,17 @@ pub fn ProgressCircle(
                     ></path>
                 </g>
             </svg>
-            {
-                if let Some(children) = children {
-                    view! {
-                        <div class="thaw-progress-circle__content">
-                            {children()}
-                        </div>
-                    }
-                } else {
-                    view! {
-                        <div class="thaw-progress-circle__content thaw-progress-circle__content--text">
-                            {move || percentage.get()}"%"
-                        </div>
-                    }
+
+            {if let Some(children) = children {
+                view! { <div class="thaw-progress-circle__content">{children()}</div> }
+            } else {
+                view! {
+                    <div class="thaw-progress-circle__content thaw-progress-circle__content--text">
+                        {move || percentage.get()} "%"
+                    </div>
                 }
-            }
+            }}
+
         </div>
     }
 }

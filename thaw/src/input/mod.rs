@@ -4,11 +4,9 @@ mod theme;
 pub use text_area::{TextArea, TextAreaRef};
 pub use theme::InputTheme;
 
-use crate::{
-    theme::{use_theme, Theme},
-    utils::{class_list::class_list, mount_style, ComponentRef, Model, OptionalProp},
-};
+use crate::theme::{use_theme, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, ComponentRef, Model, OptionalProp};
 
 #[derive(Default, Clone)]
 pub enum InputVariant {

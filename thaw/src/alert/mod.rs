@@ -1,13 +1,10 @@
 mod theme;
 
-use crate::{
-    components::OptionComp,
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, OptionalProp},
-    Icon, Theme,
-};
-use leptos::*;
 pub use theme::AlertTheme;
+
+use crate::{components::OptionComp, theme::use_theme, Icon, Theme};
+use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Clone)]
 pub enum AlertVariant {

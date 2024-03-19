@@ -1,6 +1,6 @@
 use super::use_breadcrumb_separator;
-use crate::utils::{class_list::class_list, OptionalProp};
 use leptos::*;
+use thaw_utils::{class_list, OptionalProp};
 
 #[component]
 pub fn BreadcrumbItem(

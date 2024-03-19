@@ -42,7 +42,6 @@ mod theme;
 mod time_picker;
 mod typography;
 mod upload;
-mod utils;
 
 pub use alert::*;
 pub use auto_complete::*;
@@ -82,8 +81,8 @@ pub use switch::*;
 pub use table::*;
 pub use tabs::*;
 pub use tag::*;
+pub use thaw_utils::{create_component_ref, ComponentRef, SignalWatch};
 pub use theme::*;
 pub use time_picker::*;
 pub use typography::*;
 pub use upload::*;
-pub use utils::{create_component_ref, ComponentRef, SignalWatch};

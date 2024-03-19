@@ -1,8 +1,8 @@
 use super::use_tabbar;
 use crate::components::*;
-use crate::utils::StoredMaybeSignal;
-use crate::{icon::Icon, theme::use_theme, utils::mount_style, Theme};
+use crate::{icon::Icon, theme::use_theme, Theme};
 use leptos::*;
+use thaw_utils::{mount_style, StoredMaybeSignal};
 
 #[component]
 pub fn TabbarItem(

@@ -1,12 +1,10 @@
 mod theme;
 
-use crate::{
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
-    Theme,
-};
-use leptos::*;
 pub use theme::SwitchTheme;
+
+use crate::{theme::use_theme, Theme};
+use leptos::*;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
 pub fn Switch(

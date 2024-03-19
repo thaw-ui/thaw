@@ -1,9 +1,9 @@
 use crate::{
     checkbox::{checkbox_group::use_checkbox_group, Checkbox},
-    utils::OptionalProp,
     SignalWatch,
 };
 use leptos::*;
+use thaw_utils::OptionalProp;
 
 #[component]
 pub fn CheckboxItem(

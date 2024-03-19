@@ -1,8 +1,8 @@
 mod grid_item;
 
-use crate::utils::{class_list::class_list, OptionalProp};
 pub use grid_item::*;
 use leptos::*;
+use thaw_utils::{class_list, OptionalProp};
 
 #[component]
 pub fn Grid(

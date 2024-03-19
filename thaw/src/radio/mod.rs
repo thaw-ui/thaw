@@ -4,12 +4,9 @@ mod radio_item;
 pub use radio_group::RadioGroup;
 pub use radio_item::RadioItem;
 
-use crate::{
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
-    Theme,
-};
+use crate::{theme::use_theme, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
 pub fn Radio(

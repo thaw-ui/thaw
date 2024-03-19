@@ -1,5 +1,5 @@
-use crate::utils::Model;
 use leptos::*;
+use thaw_utils::Model;
 
 #[component]
 pub fn RadioGroup(

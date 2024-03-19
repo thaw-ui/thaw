@@ -1,9 +1,9 @@
 use crate::{
     components::{CSSTransition, Teleport},
-    utils::{class_list::class_list, mount_style, use_lock_html_scroll, Model, OptionalProp},
     Card,
 };
 use leptos::*;
+use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model, OptionalProp};
 
 #[component]
 pub fn Drawer(

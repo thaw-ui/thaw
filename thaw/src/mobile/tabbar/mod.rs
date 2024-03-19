@@ -1,14 +1,12 @@
 mod tabbar_item;
 mod theme;
 
-use crate::{
-    use_theme,
-    utils::{mount_style, Model},
-    Theme,
-};
-use leptos::*;
 pub use tabbar_item::*;
 pub use theme::TabbarTheme;
+
+use crate::{use_theme, Theme};
+use leptos::*;
+use thaw_utils::{mount_style, Model};
 
 #[component]
 pub fn Tabbar(#[prop(optional, into)] value: Model<String>, children: Children) -> impl IntoView {

@@ -1,12 +1,10 @@
 mod theme;
 
-use crate::{
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, OptionalProp},
-    Theme,
-};
-use leptos::*;
 pub use theme::SpinnerTheme;
+
+use crate::{theme::use_theme, Theme};
+use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Default, Clone)]
 pub enum SpinnerSize {

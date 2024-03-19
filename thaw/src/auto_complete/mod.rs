@@ -1,13 +1,13 @@
 mod theme;
 
+pub use theme::AutoCompleteTheme;
+
 use crate::{
     components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth},
-    use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp, StoredMaybeSignal},
-    ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme,
+    use_theme, ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme,
 };
 use leptos::*;
-pub use theme::AutoCompleteTheme;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
 
 #[derive(Clone, PartialEq)]
 pub struct AutoCompleteOption {
@@ -211,7 +211,13 @@ pub fn AutoComplete(
                 >
                     <div
                         class="thaw-auto-complete__menu"
-                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| menu_css_vars.get())
+                        style=move || {
+                            display
+                                .get()
+                                .map(|d| d.to_string())
+                                .unwrap_or_else(|| menu_css_vars.get())
+                        }
+
                         ref=menu_ref
                     >
 

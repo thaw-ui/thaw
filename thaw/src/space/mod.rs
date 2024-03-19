@@ -1,5 +1,5 @@
-use crate::utils::{class_list::class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 
 #[derive(Default)]
 pub enum SpaceGap {

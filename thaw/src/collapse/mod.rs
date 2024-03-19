@@ -4,13 +4,10 @@ mod theme;
 pub use collapse_item::CollapseItem;
 pub use theme::CollapseTheme;
 
-use crate::{
-    use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
-    Theme,
-};
+use crate::{use_theme, Theme};
 use leptos::*;
 use std::collections::HashSet;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
 pub fn Collapse(

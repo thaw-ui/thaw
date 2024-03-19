@@ -2,12 +2,9 @@ mod theme;
 
 pub use theme::TagTheme;
 
-use crate::{
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, OptionalProp},
-    Icon, Theme,
-};
+use crate::{theme::use_theme, Icon, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Clone, Default)]
 pub enum TagVariant {
@@ -88,19 +85,20 @@ pub fn Tag(
             style=move || css_vars.get()
         >
             <span class="thaw-tag__content">{children()}</span>
-            {
-                move || {
-                    if closable.get() {
-                        view! {
-                            <button class="thaw-tag__close" on:click=on_close>
-                                <Icon icon=icondata_ai::AiCloseOutlined style="font-size: 14px"/>
-                            </button>
-                        }.into()
-                    } else {
-                        None
+
+            {move || {
+                if closable.get() {
+                    view! {
+                        <button class="thaw-tag__close" on:click=on_close>
+                            <Icon icon=icondata_ai::AiCloseOutlined style="font-size: 14px"/>
+                        </button>
                     }
+                        .into()
+                } else {
+                    None
                 }
-            }
+            }}
+
         </div>
     }
 }

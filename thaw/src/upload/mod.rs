@@ -1,11 +1,12 @@
 mod theme;
 mod upload_dragger;
 
-use crate::{utils::add_event_listener, utils::mount_style};
-use leptos::*;
 pub use theme::UploadTheme;
 pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
+
+use leptos::*;
+use thaw_utils::{add_event_listener, mount_style};
 
 #[component]
 pub fn Upload(

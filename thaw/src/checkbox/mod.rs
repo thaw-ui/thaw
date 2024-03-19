@@ -1,16 +1,12 @@
 mod checkbox_group;
 mod checkbox_item;
 
-use crate::{
-    components::*,
-    icon::*,
-    theme::use_theme,
-    utils::{class_list::class_list, mount_style, Model, OptionalProp},
-    Theme,
-};
 pub use checkbox_group::CheckboxGroup;
 pub use checkbox_item::CheckboxItem;
+
+use crate::{components::*, icon::*, theme::use_theme, Theme};
 use leptos::*;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
 pub fn Checkbox(

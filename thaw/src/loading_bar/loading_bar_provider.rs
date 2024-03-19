@@ -1,6 +1,7 @@
 use super::{LoadingBar, LoadingBarRef};
-use crate::{components::Teleport, utils::ComponentRef};
+use crate::components::Teleport;
 use leptos::*;
+use thaw_utils::ComponentRef;
 
 #[component]
 pub fn LoadingBarProvider(children: Children) -> impl IntoView {

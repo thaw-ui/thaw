@@ -1,8 +1,8 @@
-use crate::utils::{Model, OptionalProp, StoredMaybeSignal};
 use crate::{Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
 use leptos::*;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
+use thaw_utils::{Model, OptionalProp, StoredMaybeSignal};
 
 #[component]
 pub fn InputNumber<T>(
