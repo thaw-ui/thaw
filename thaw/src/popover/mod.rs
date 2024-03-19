@@ -125,7 +125,8 @@ pub fn Popover(
             </div>
             <Follower slot show=follower_enabled placement>
                 <CSSTransition
-                    node_ref=popover_ref name="popover-transition"
+                    node_ref=popover_ref
+                    name="popover-transition"
                     show=is_show_popover
                     on_enter=move |_| follower_enabled.set(true)
                     on_after_leave=move |_| follower_enabled.set(false)
@@ -133,7 +134,10 @@ pub fn Popover(
                 >
                     <div
                         class="thaw-popover"
-                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                        style=move || {
+                            display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                        }
+
                         ref=popover_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave

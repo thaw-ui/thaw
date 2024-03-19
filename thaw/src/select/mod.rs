@@ -135,7 +135,13 @@ where
                 >
                     <div
                         class="thaw-select-menu"
-                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| menu_css_vars.get())
+                        style=move || {
+                            display
+                                .get()
+                                .map(|d| d.to_string())
+                                .unwrap_or_else(|| menu_css_vars.get())
+                        }
+
                         ref=menu_ref
                     >
                         <For
@@ -144,7 +150,8 @@ where
                             children=move |item| {
                                 let item = store_value(item);
                                 let onclick = move |_| {
-                                    let SelectOption { value: item_value, label: _ } = item.get_value();
+                                    let SelectOption { value: item_value, label: _ } = item
+                                        .get_value();
                                     value.set(Some(item_value));
                                     is_show_menu.set(false);
                                 };

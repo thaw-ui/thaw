@@ -206,7 +206,12 @@ fn Panel(
                                     selected_time.get().map_or(false, |v| v.hour() == hour)
                                 });
                                 view! {
-                                    <PanelTimeItem value=hour on:click=on_click is_selected comp_ref/>
+                                    <PanelTimeItem
+                                        value=hour
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
                                 }
                             })
                             .collect_view()}
@@ -232,7 +237,12 @@ fn Panel(
                                     selected_time.get().map_or(false, |v| v.minute() == minute)
                                 });
                                 view! {
-                                    <PanelTimeItem value=minute on:click=on_click is_selected comp_ref/>
+                                    <PanelTimeItem
+                                        value=minute
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
                                 }
                             })
                             .collect_view()}
@@ -258,7 +268,12 @@ fn Panel(
                                     selected_time.get().map_or(false, |v| v.second() == second)
                                 });
                                 view! {
-                                    <PanelTimeItem value=second on:click=on_click is_selected comp_ref/>
+                                    <PanelTimeItem
+                                        value=second
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
                                 }
                             })
                             .collect_view()}

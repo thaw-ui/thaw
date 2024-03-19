@@ -211,7 +211,13 @@ pub fn AutoComplete(
                 >
                     <div
                         class="thaw-auto-complete__menu"
-                        style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| menu_css_vars.get())
+                        style=move || {
+                            display
+                                .get()
+                                .map(|d| d.to_string())
+                                .unwrap_or_else(|| menu_css_vars.get())
+                        }
+
                         ref=menu_ref
                     >
 

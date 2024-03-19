@@ -10,9 +10,7 @@ use crate::{
     theme::*,
 };
 use leptos::*;
-use thaw_utils::{
-    class_list, mount_style, ComponentRef, OptionalMaybeSignal, OptionalProp,
-};
+use thaw_utils::{class_list, mount_style, ComponentRef, OptionalMaybeSignal, OptionalProp};
 
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonVariant {
@@ -232,7 +230,8 @@ pub fn Button(
                 ButtonVariant::Text), ("thaw-button--link", move || variant.get() ==
                 ButtonVariant::Link), ("thaw-button--round", move || round.get()),
                 ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||
-                disabled.get()), ("thaw-button--block", move || block.get()), class.map(| c | move || c.get())
+                disabled.get()), ("thaw-button--block", move || block.get()), class.map(| c | move
+                || c.get())
             ]
 
             style=move || {
@@ -252,8 +251,8 @@ pub fn Button(
                                 "animation: thawLoadingCircle 1s infinite linear;{icon_style}",
                             )
                         />
-                    }.into_view()
-
+                    }
+                        .into_view()
                 } else {
                     (move || {
                         let icon = icon.get();
@@ -262,7 +261,8 @@ pub fn Button(
                                 <Icon icon=icon style=icon_style/>
                             </OptionComp>
                         }
-                    }).into_view()
+                    })
+                        .into_view()
                 }
             }}
 

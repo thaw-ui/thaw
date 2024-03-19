@@ -82,7 +82,11 @@ pub fn Modal(
                         ref=mask_ref
                     ></div>
                 </CSSTransition>
-                <div class="thaw-modal-scroll" style=move || (!displayed.get()).then_some("display: none") ref=scroll_ref>
+                <div
+                    class="thaw-modal-scroll"
+                    style=move || (!displayed.get()).then_some("display: none")
+                    ref=scroll_ref
+                >
                     <CSSTransition
                         node_ref=modal_ref
                         show=show.signal()
@@ -91,7 +95,13 @@ pub fn Modal(
                         on_after_leave=move |_| displayed.set(false)
                         let:display
                     >
-                        <div class="thaw-modal-body" ref=modal_ref role="dialog" aria-modal="true" style=move || display.get()>
+                        <div
+                            class="thaw-modal-body"
+                            ref=modal_ref
+                            role="dialog"
+                            aria-modal="true"
+                            style=move || display.get()
+                        >
                             <Card>
                                 <CardHeader slot>
                                     <span class="thaw-model-title">{move || title.get()}</span>

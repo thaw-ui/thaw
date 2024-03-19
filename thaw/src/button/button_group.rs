@@ -9,7 +9,10 @@ pub fn ButtonGroup(
 ) -> impl IntoView {
     mount_style("button-group", include_str!("./button-group.css"));
     view! {
-        <div class=class_list!["thaw-button-group", class.map(| c | move || c.get())] class=("thaw-button-group--vertical", vertical)>
+        <div
+            class=class_list!["thaw-button-group", class.map(| c | move || c.get())]
+            class=("thaw-button-group--vertical", vertical)
+        >
             {children()}
         </div>
     }
