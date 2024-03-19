@@ -1,0 +1,23 @@
+[package]
+name = "thaw_components"
+version = "0.0.1"
+edition = "2021"
+keywords = ["leptos", "thaw", "components"]
+readme = "../README.md"
+authors = ["luoxiaozero"]
+description = "Shared Thaw internal components"
+repository = "https://github.com/thaw-ui/thaw"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+leptos = { version = "0.6.9" }
+thaw_utils = { workspace = true }
+web-sys = { version = "0.3.69", features = ["DomRect"] }
+cfg-if = "1.0.0"
+
+[features]
+csr = ["leptos/csr"]
+ssr = ["leptos/ssr"]
+hydrate = ["leptos/hydrate"]

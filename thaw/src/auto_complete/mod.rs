@@ -2,11 +2,9 @@ mod theme;
 
 pub use theme::AutoCompleteTheme;
 
-use crate::{
-    components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth},
-    use_theme, ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme,
-};
+use crate::{use_theme, ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme};
 use leptos::*;
+use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
 
 #[derive(Clone, PartialEq)]

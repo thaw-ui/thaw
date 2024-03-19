@@ -1,6 +1,7 @@
 use super::use_collapse;
-use crate::{components::CSSTransition, Icon};
+use crate::Icon;
 use leptos::*;
+use thaw_components::CSSTransition;
 use thaw_utils::{class_list, OptionalProp, StoredMaybeSignal};
 
 #[component]

@@ -5,12 +5,9 @@ mod theme;
 pub use message_provider::*;
 pub use theme::MessageTheme;
 
-use crate::{
-    components::{If, Then},
-    theme::use_theme,
-    Icon, Theme,
-};
+use crate::{theme::use_theme, Icon, Theme};
 use leptos::*;
+use thaw_components::{If, Then};
 use uuid::Uuid;
 
 #[derive(Default, Clone)]

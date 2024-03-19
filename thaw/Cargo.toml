@@ -14,6 +14,7 @@ license = "MIT"
 
 [dependencies]
 leptos = { version = "0.6.9" }
+thaw_components = { workspace = true }
 thaw_utils = { workspace = true }
 web-sys = { version = "0.3.69", features = [
     "DomRect",
@@ -30,6 +31,6 @@ chrono = "0.4.35"
 palette = "0.7.5"
 
 [features]
-csr = ["leptos/csr", "thaw_utils/csr"]
-ssr = ["leptos/ssr", "thaw_utils/ssr"]
-hydrate = ["leptos/hydrate", "thaw_utils/hydrate"]
+csr = ["leptos/csr", "thaw_components/csr", "thaw_utils/csr"]
+ssr = ["leptos/ssr", "thaw_components/ssr", "thaw_utils/ssr"]
+hydrate = ["leptos/hydrate", "thaw_components/hydrate", "thaw_utils/hydrate"]

@@ -2,7 +2,7 @@ mod get_placement_style;
 
 pub use get_placement_style::FollowerPlacement;
 
-use crate::components::Teleport;
+use crate::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
 use leptos::{
     html::{AnyElement, ElementDescriptor, ToHtmlElement},

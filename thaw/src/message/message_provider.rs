@@ -1,7 +1,7 @@
 use super::{message_environment::MessageEnvironment, MessageVariant};
-use crate::components::Teleport;
 use leptos::*;
 use std::time::Duration;
+use thaw_components::Teleport;
 use thaw_utils::{class_list, mount_style};
 use uuid::Uuid;
 

@@ -2,13 +2,10 @@ mod theme;
 
 pub use theme::SelectTheme;
 
-use crate::{
-    components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth},
-    theme::use_theme,
-    Theme,
-};
+use crate::{theme::use_theme, Theme};
 use leptos::*;
 use std::hash::Hash;
+use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[derive(Clone, PartialEq, Eq, Hash)]

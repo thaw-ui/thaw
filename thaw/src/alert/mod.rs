@@ -2,8 +2,9 @@ mod theme;
 
 pub use theme::AlertTheme;
 
-use crate::{components::OptionComp, theme::use_theme, Icon, Theme};
+use crate::{theme::use_theme, Icon, Theme};
 use leptos::*;
+use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Clone)]

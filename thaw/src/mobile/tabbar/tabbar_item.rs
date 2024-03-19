@@ -1,7 +1,7 @@
 use super::use_tabbar;
-use crate::components::*;
 use crate::{icon::Icon, theme::use_theme, Theme};
 use leptos::*;
+use thaw_components::*;
 use thaw_utils::{mount_style, StoredMaybeSignal};
 
 #[component]

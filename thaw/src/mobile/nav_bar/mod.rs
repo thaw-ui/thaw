@@ -2,8 +2,9 @@ mod theme;
 
 pub use theme::NavBarTheme;
 
-use crate::{components::*, icon::*, use_theme, Theme};
+use crate::{icon::*, use_theme, Theme};
 use leptos::*;
+use thaw_components::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[slot]
