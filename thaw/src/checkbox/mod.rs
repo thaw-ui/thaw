@@ -4,8 +4,9 @@ mod checkbox_item;
 pub use checkbox_group::CheckboxGroup;
 pub use checkbox_item::CheckboxItem;
 
-use crate::{components::*, icon::*, theme::use_theme, Theme};
+use crate::{icon::*, theme::use_theme, Theme};
 use leptos::*;
+use thaw_components::*;
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]

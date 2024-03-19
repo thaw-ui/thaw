@@ -1,8 +1,6 @@
-use crate::{
-    components::{CSSTransition, Teleport},
-    Card,
-};
+use crate::Card;
 use leptos::*;
+use thaw_components::{CSSTransition, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model, OptionalProp};
 
 #[component]

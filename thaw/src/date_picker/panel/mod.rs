@@ -2,11 +2,12 @@ mod date_panel;
 mod month_panel;
 mod year_panel;
 
-use crate::{components::CSSTransition, use_theme, Theme};
+use crate::{use_theme, Theme};
 use chrono::NaiveDate;
 use date_panel::DatePanel;
 use leptos::*;
 use month_panel::MonthPanel;
+use thaw_components::CSSTransition;
 use thaw_utils::{now_date, ComponentRef};
 use year_panel::YearPanel;
 

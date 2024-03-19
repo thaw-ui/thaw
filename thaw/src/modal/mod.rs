@@ -1,8 +1,6 @@
-use crate::{
-    components::{CSSTransition, OptionComp, Teleport},
-    Card, CardFooter, CardHeader, CardHeaderExtra, Icon,
-};
+use crate::{Card, CardFooter, CardHeader, CardHeaderExtra, Icon};
 use leptos::*;
+use thaw_components::{CSSTransition, OptionComp, Teleport};
 use thaw_utils::{mount_style, use_click_position, Model};
 
 #[slot]

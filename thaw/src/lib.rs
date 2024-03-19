@@ -10,7 +10,6 @@ mod checkbox;
 mod code;
 mod collapse;
 mod color_picker;
-mod components;
 mod date_picker;
 mod divider;
 mod drawer;

@@ -2,9 +2,10 @@ mod theme;
 
 pub use theme::AvatarTheme;
 
-use crate::{components::OptionComp, use_theme, Theme};
+use crate::{use_theme, Theme};
 use leptos::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_components::OptionComp;
 
 #[component]
 pub fn Avatar(

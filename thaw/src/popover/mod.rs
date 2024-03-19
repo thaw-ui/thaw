@@ -2,12 +2,10 @@ mod theme;
 
 pub use theme::PopoverTheme;
 
-use crate::{
-    components::{Binder, CSSTransition, Follower, FollowerPlacement},
-    use_theme, Theme,
-};
+use crate::{use_theme, Theme};
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
+use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{add_event_listener, class_list, mount_style, OptionalProp};
 
 #[slot]

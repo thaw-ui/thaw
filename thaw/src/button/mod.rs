@@ -4,12 +4,9 @@ mod theme;
 pub use button_group::ButtonGroup;
 pub use theme::ButtonTheme;
 
-use crate::{
-    components::{OptionComp, Wave, WaveRef},
-    icon::Icon,
-    theme::*,
-};
+use crate::{icon::Icon, theme::*};
 use leptos::*;
+use thaw_components::{OptionComp, Wave, WaveRef};
 use thaw_utils::{class_list, mount_style, ComponentRef, OptionalMaybeSignal, OptionalProp};
 
 #[derive(Default, PartialEq, Clone, Copy)]

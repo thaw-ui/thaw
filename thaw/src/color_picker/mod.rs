@@ -4,13 +4,11 @@ mod theme;
 pub use color::*;
 pub use theme::ColorPickerTheme;
 
-use crate::{
-    components::{Binder, CSSTransition, Follower, FollowerPlacement},
-    use_theme, Theme,
-};
+use crate::{use_theme, Theme};
 use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
 use palette::{Hsv, IntoColor, Srgb};
+use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
