@@ -1,4 +1,4 @@
-## [0.2.4](https://github.com/thaw-ui/thaw/compare/v0.2.3...v0.2.4) (2024-03-20)
+## [0.2.5](https://github.com/thaw-ui/thaw/compare/v0.2.3...v0.2.5) (2024-03-20)
 
 ### Features
 
@@ -16,6 +16,8 @@
 * `Toast` cfg in ssr mode.
 * `CSSTransition` leakage in the next_frame function.
 * `Icon` rendering problem in ssr mode.
+
+## 0.2.4 unpublish
 
 ## [0.2.3](https://github.com/thaw-ui/thaw/compare/v0.2.2...v0.2.3) (2024-03-07)
 
