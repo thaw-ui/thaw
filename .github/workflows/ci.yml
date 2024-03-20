@@ -2,13 +2,16 @@ name: CI
 on:
     workflow_dispatch:
     pull_request:
-        paths: ["demo/**", "demo_markdown/**", "thaw/**"]
+        paths:
+            [
+                "demo/**",
+                "demo_markdown/**",
+                "thaw/**",
+                "thaw_components/**",
+                "thaw_utils/**",
+            ]
         branches:
             - main
-    push:
-        paths: ["demo/**", "demo_markdown/**", "thaw/**"]
-        branches:
-            - thaw/v0.2
 
 jobs:
     stable:
