@@ -1,6 +1,6 @@
 use leptos::{html::ElementDescriptor, *};
 use std::{ops::Deref, time::Duration};
-use thaw_utils::{add_event_listener, EventListenerHandle};
+use thaw_utils::{add_event_listener, use_next_frame, EventListenerHandle};
 
 /// # CSS Transition
 ///
@@ -26,6 +26,7 @@ where
         let any_el = node_el.clone().into_any();
         let el = any_el.deref().clone();
         let class_list = el.class_list();
+        let next_frame = use_next_frame();
         let end_handle = StoredValue::new(None::<EventListenerHandle>);
         let end_count = StoredValue::new(None::<usize>);
         let finish = StoredValue::new(None::<Callback<()>>);
@@ -53,7 +54,7 @@ where
 
             set_timeout(
                 move || {
-                    finish.update_value(|v| {
+                    finish.try_update_value(|v| {
                         v.take().map(|f| f.call(()));
                     });
                 },
@@ -107,7 +108,7 @@ where
                 display.set(None);
 
                 let class_list = class_list.clone();
-                next_frame(move || {
+                next_frame.run(move || {
                     let _ = class_list.remove_1(&enter_from);
                     let _ = class_list.add_1(&enter_to);
 
@@ -136,7 +137,7 @@ where
                 let _ = class_list.add_2(&leave_from, &leave_active);
 
                 let class_list = class_list.clone();
-                next_frame(move || {
+                next_frame.run(move || {
                     let _ = class_list.remove_1(&leave_from);
                     let _ = class_list.add_1(&leave_to);
 
@@ -170,15 +171,17 @@ where
 
             show
         });
+
+        on_cleanup(move || {
+            end_handle.update_value(|handle| {
+                if let Some(handle) = handle.take() {
+                    handle.remove();
+                }
+            });
+        })
     });
 
     children(display.read_only())
-}
-
-fn next_frame(cb: impl FnOnce() + 'static) {
-    request_animation_frame(move || {
-        request_animation_frame(cb);
-    });
 }
 
 #[derive(PartialEq)]
