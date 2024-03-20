@@ -1,3 +1,22 @@
+## [0.2.4](https://github.com/thaw-ui/thaw/compare/v0.2.3...v0.2.4) (2024-03-20)
+
+### Features
+
+* Added thaw_components library.
+* Added thaw_utils library.
+* Update leptos to v0.6.9.
+* `Button` adds block prop.
+* `ButtonGroup` adds class prop.
+* `Tag` adds closable and on_close prop.
+* `AutoComplete` adds blur_after_select prop.
+* `Space` adds align and justify prop.
+
+### Bug Fixs
+
+* `Toast` cfg in ssr mode.
+* `CSSTransition` leakage in the next_frame function.
+* `Icon` rendering problem in ssr mode.
+
 ## [0.2.3](https://github.com/thaw-ui/thaw/compare/v0.2.2...v0.2.3) (2024-03-07)
 
 ### Features
