@@ -97,7 +97,7 @@ pub fn SiteHeader() -> impl IntoView {
                     font-size: 20px;
                 }
                 .demo-header__menu-mobile {
-                    display: none;
+                    display: none !important;
                 }
                 .demo-header__menu-popover-mobile {
                     padding: 0;
@@ -112,10 +112,10 @@ pub fn SiteHeader() -> impl IntoView {
                 }
                 @media screen and (max-width: 1200px) {
                     .demo-header__right-btn {
-                        display: none;
+                        display: none !important;
                     }
                     .demo-header__menu-mobile {
-                        display: block;
+                        display: block !important;
                     }
                 }
             "

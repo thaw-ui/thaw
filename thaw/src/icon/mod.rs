@@ -34,7 +34,7 @@ pub fn Icon(
     let icon_fill = RwSignal::new(None);
     let icon_data = RwSignal::new(None);
 
-    create_render_effect(move |_| {
+    create_isomorphic_effect(move |_| {
         let icon = icon.get();
 
         let style = match (style.clone(), icon.style) {
