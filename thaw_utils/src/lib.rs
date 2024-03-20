@@ -7,13 +7,13 @@ mod signals;
 mod time;
 
 pub use event_listener::{add_event_listener, EventListenerHandle};
-pub use hooks::{use_click_position, use_lock_html_scroll};
+pub use hooks::{use_click_position, use_lock_html_scroll, use_next_frame, NextFrame};
 pub use mount_style::mount_style;
 pub use optional_prop::OptionalProp;
 pub use signals::{
     create_component_ref, ComponentRef, Model, OptionalMaybeSignal, SignalWatch, StoredMaybeSignal,
 };
-pub use time::*;
+pub use time::now_date;
 
 pub fn with_hydration_off<T>(f: impl FnOnce() -> T) -> T {
     #[cfg(feature = "hydrate")]
