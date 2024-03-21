@@ -37,6 +37,8 @@ pub fn Switch(
 
             style=move || css_vars.get()
             on:click=move |_| value.set(!value.get_untracked())
+            role="switch"
+            aria-checked=move || if value.get() { "true" } else { "false" }
         >
             <div class="thaw-switch__button"></div>
         </div>

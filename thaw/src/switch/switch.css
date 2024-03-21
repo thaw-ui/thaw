@@ -1,24 +1,24 @@
 .thaw-switch {
     position: relative;
     display: inline-block;
-    width: 35px;
-    height: 19px;
-    padding: 2px 5px 3px;
+    width: 40px;
+    height: 22px;
     background-color: var(--thaw-background-color);
-    border-radius: 25px;
+    border-radius: 11px;
     cursor: pointer;
     box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.05);
     transition: all 0.4s ease;
-    box-sizing: content-box;
+    user-select: none;
 }
 
 .thaw-switch__button {
     position: absolute;
-    left: 4px;
+    top: 2px;
+    left: 2px;
     display: inline-block;
-    width: 19px;
-    height: 19px;
-    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
     background-color: #fff;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3),
         inset 0 0 1px 0 rgba(0, 0, 0, 0.05);
@@ -30,5 +30,13 @@
 }
 
 .thaw-switch--active .thaw-switch__button {
-    left: 22px;
+    left: 20px;
+}
+
+.thaw-switch--active:active .thaw-switch__button {
+    left: 14px;
+}
+
+.thaw-switch:active .thaw-switch__button {
+    width: 24px;
 }
