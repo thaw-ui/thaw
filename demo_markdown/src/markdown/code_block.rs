@@ -45,7 +45,6 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
             });
         quote! {
             <Demo>
-                ""
                 <DemoCode slot is_highlight=#is_highlight>
                     #literal
                 </DemoCode>

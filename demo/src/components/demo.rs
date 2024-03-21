@@ -10,43 +10,38 @@ pub struct DemoCode {
 }
 
 #[component]
-pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
+pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -> impl IntoView {
     let theme = use_theme(Theme::light);
-    let style = create_memo(move |_| {
-        let mut style = String::from("background-image: url(/grid_dot.svg); background-repeat: repeat; background-size: 1.5rem; margin-top: 1rem; padding: 1rem; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;");
+    let css_vars = Memo::new(move |_| {
+        let mut css_vars = String::new();
         theme.with(|theme| {
             if theme.common.color_scheme == "dark" {
-                style.push_str("border: 1px solid #383f52;");
+                css_vars.push_str("--demo-color: #ffffff60;");
+                css_vars.push_str("--demo-color-hover: #ffffffe0;");
+                css_vars.push_str("--demo-border-color: #383f52;");
+                css_vars.push_str("--demo-background-color: #242832;");
             } else {
-                style.push_str(&format!("border: 1px solid {};", theme.common.border_color));
-            }
-        });
-        style
-    });
-    let code_style = create_memo(move |_| {
-        let mut style = String::from("font-weight: 400; font-size: 0.875em; line-height: 1.7142857;margin-bottom: 1rem; padding: 1rem; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem; overflow: auto;");
-        theme.with(|theme| {
-            if theme.common.color_scheme == "dark" {
-                style.push_str("border: 1px solid #383f52; border-top-width: 0;");
-                style.push_str("background-color: #242832;");
-            } else {
-                style.push_str(&format!(
-                    "border: 1px solid {}; border-top-width: 0;",
+                css_vars.push_str("--demo-color: #00000060;");
+                css_vars.push_str("--demo-color-hover: #000000e0;");
+                css_vars.push_str(&format!(
+                    "--demo-border-color: {};",
                     theme.common.border_color
                 ));
-                style.push_str("background-color: #f9fafb;");
+                css_vars.push_str("--demo-background-color: #f9fafb;");
             }
         });
-        style
+        css_vars
     });
-    let content_class = create_memo(move |_| {
+
+    let code_class = Memo::new(move |_| {
         theme.with(|theme| {
             format!(
-                "color-scheme--{}",
+                "demo-demo__code color-scheme--{}",
                 theme.common.color_scheme
             )
         })
     });
+    let is_show_code = RwSignal::new(children.is_none());
 
     let is_highlight = demo_code.is_highlight;
     let frag = (demo_code.children)();
@@ -64,8 +59,47 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
         <Style id="leptos-thaw-syntect-css">
             {include_str!("./syntect-css.css")}
         </Style>
-        <div style=move || style.get()>{children()}</div>
-        <div style=move || code_style.get() class=move || content_class.get()>
+        <Style id="demo-demo">
+            {include_str!("./demo.css")}
+        </Style>
+        <div class="demo-demo" style=move || css_vars.get()>
+            {
+                if let Some(children) = children {
+                    view! {
+                        <div class="demo-demo__view">{children()}</div>
+                        <div class="demo-demo__toolbar" class=("demo-demo__toolbar--code", move || !is_show_code.get())>
+                            <Popover>
+                                <PopoverTrigger slot>
+                                    <span on:click=move |_| is_show_code.update(|show| *show = !*show) class="demo-demo__toolbar-btn">
+                                        {
+                                            move || if is_show_code.get() {
+                                                view! {
+                                                    <Icon icon=icondata::LuCode2/>
+                                                }
+                                            } else {
+                                                view! {
+                                                    <Icon icon=icondata::LuCode/>
+                                                }
+                                            }
+                                        }
+                                    </span>
+                                </PopoverTrigger>
+                                {
+                                    move || if is_show_code.get() {
+                                        "Hide code"
+                                    } else {
+                                        "Show code"
+                                    }
+                                }
+                            </Popover>
+
+                        </div>
+                    }.into()
+                } else {
+                    None
+                }
+            }
+            <div class=move || code_class.get() style:display=move || (!is_show_code.get()).then_some("none")>
                 {
                     if is_highlight {
                         view! {
@@ -77,6 +111,7 @@ pub fn Demo(demo_code: DemoCode, children: Children) -> impl IntoView {
                         }
                     }
                 }
+            </div>
         </div>
     }
 }
