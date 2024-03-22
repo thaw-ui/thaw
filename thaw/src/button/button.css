@@ -95,6 +95,7 @@
 }
 
 .thaw-button .thaw-wave.thaw-wave--active {
+    opacity: 0;
     z-index: 1;
     animation-name: thawButtonWaveSpread, thawButtonWaveOpacity;
 }
