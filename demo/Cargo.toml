@@ -16,6 +16,7 @@ demo_markdown = { path = "../demo_markdown" }
 icondata = "0.3.0"
 palette = "0.7.4"
 chrono = "0.4.33"
+cfg-if = "1.0.0"
 
 [features]
 default = ["csr"]

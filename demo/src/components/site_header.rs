@@ -1,3 +1,4 @@
+use super::switch_version::SwitchVersion;
 use leptos::*;
 use leptos_meta::Style;
 use leptos_router::{use_location, use_navigate};
@@ -102,6 +103,9 @@ pub fn SiteHeader() -> impl IntoView {
                 .demo-header__menu-popover-mobile {
                     padding: 0;
                 }
+                .demo-header__right-btn .thaw-select {
+                    width: 60px;
+                }
                 @media screen and (max-width: 600px) {
                     .demo-header {
                         padding: 0 8px;
@@ -167,7 +171,7 @@ pub fn SiteHeader() -> impl IntoView {
                         </Menu>
                     </div>
                 </Popover>
-                <Space class="demo-header__right-btn">
+                <Space class="demo-header__right-btn" align=SpaceAlign::Center>
                     <Button
                         variant=ButtonVariant::Text
                         on_click=move |_| {
@@ -191,6 +195,7 @@ pub fn SiteHeader() -> impl IntoView {
                     <Button variant=ButtonVariant::Text on_click=Callback::new(move |_| change_theme.call(()))>
                         {move || theme_name.get()}
                     </Button>
+                    <SwitchVersion />
                     <Button
                         variant=ButtonVariant::Text
                         icon=icondata::AiGithubOutlined
