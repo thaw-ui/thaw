@@ -1,5 +1,6 @@
 use crate::{Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
 use leptos::*;
+use num_traits::bounds::Bounded;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
 use thaw_utils::{Model, OptionalProp, StoredMaybeSignal};
@@ -14,9 +15,11 @@ pub fn InputNumber<T>(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] comp_ref: ComponentRef<InputNumberRef>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(default = MaybeSignal::Static(T::min_value()), into)] min: MaybeSignal<T>,
+    #[prop(default = MaybeSignal::Static(T::max_value()), into)] max: MaybeSignal<T>,
 ) -> impl IntoView
 where
-    T: Add<Output = T> + Sub<Output = T>,
+    T: Add<Output = T> + Sub<Output = T> + PartialOrd + Bounded,
     T: Default + Clone + FromStr + ToString + 'static,
 {
     let input_value = create_rw_signal(String::default());
@@ -39,6 +42,8 @@ where
         true
     });
     let step: StoredMaybeSignal<_> = step.into();
+    let min: StoredMaybeSignal<_> = min.into();
+    let max: StoredMaybeSignal<_> = max.into();
 
     let add = Callback::<ev::MouseEvent>::new(move |e: ev::MouseEvent| {
         e.prevent_default();
@@ -54,6 +59,22 @@ where
         comp_ref.load(InputNumberRef { input_ref });
     });
 
+    let set_within_range = Callback::<ev::FocusEvent>::new(move |_| {
+        let value_gotten = value.get_untracked();
+        let min = min.get_untracked();
+        let max = max.get_untracked();
+        if value_gotten < min {
+            value.set(min.clone());
+        } else if value_gotten > max {
+            value.set(max.clone());
+        }
+    });
+
+    let minus_disabled = create_memo(move |_| disabled.get() || value.get() <= min.get());
+    let plus_disabled = create_memo(move |_| disabled.get() || value.get() >= max.get());
+    let invalid =
+        create_memo(move |_| invalid.get() || value.get() < min.get() || value.get() > max.get());
+
     view! {
         <Input
             attrs
@@ -64,12 +85,13 @@ where
             disabled
             invalid
             comp_ref=input_ref
+            on_blur=set_within_range
         >
             <InputSuffix slot>
-                <Button disabled variant=ButtonVariant::Link on_click=sub>
+                <Button disabled=minus_disabled variant=ButtonVariant::Link on_click=sub>
                     <Icon icon=icondata_ai::AiMinusOutlined style="font-size: 18px"/>
                 </Button>
-                <Button disabled variant=ButtonVariant::Link on_click=add>
+                <Button disabled=plus_disabled variant=ButtonVariant::Link on_click=add>
                     <Icon icon=icondata_ai::AiPlusOutlined style="font-size: 18px"/>
                 </Button>
             </InputSuffix>
