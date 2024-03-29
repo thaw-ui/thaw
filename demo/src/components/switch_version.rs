@@ -17,12 +17,12 @@ pub fn SwitchVersion() -> impl IntoView {
     cfg_if::cfg_if! {
         if #[cfg(any(feature = "csr", feature = "hydrate"))] {
             let location = window().location();
-            let host = location.host().ok();
-            let version = RwSignal::new(host);
-            let _ = version.watch(move |host| {
-                if let Some(host) = host {
+            let origin = location.origin().ok();
+            let version = RwSignal::new(origin);
+            let _ = version.watch(move |origin| {
+                if let Some(origin) = origin {
                     let pathname = location.pathname().unwrap_or_default();
-                    let href = format!("{}{}", host, pathname);
+                    let href = format!("{}{}", origin, pathname);
                     let _ = location.set_href(&href);
                 }
             });
