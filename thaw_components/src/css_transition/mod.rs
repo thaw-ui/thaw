@@ -10,8 +10,12 @@ pub fn CSSTransition<T, CF, IV>(
     node_ref: NodeRef<T>,
     #[prop(into)] show: MaybeSignal<bool>,
     #[prop(into)] name: MaybeSignal<String>,
+    #[prop(optional)] appear: bool,
+    #[prop(optional, into)] on_before_enter: Option<Callback<()>>,
     #[prop(optional, into)] on_enter: Option<Callback<()>>,
     #[prop(optional, into)] on_after_enter: Option<Callback<()>>,
+    #[prop(optional, into)] on_before_leave: Option<Callback<()>>,
+    #[prop(optional, into)] on_leave: Option<Callback<()>>,
     #[prop(optional, into)] on_after_leave: Option<Callback<()>>,
     children: CF,
 ) -> impl IntoView
@@ -100,6 +104,9 @@ where
         let on_enter_fn = {
             let class_list = class_list.clone();
             Callback::new(move |name: String| {
+                if let Some(on_before_enter) = on_before_enter {
+                    on_before_enter.call(());
+                }
                 let enter_from = format!("{name}-enter-from");
                 let enter_active = format!("{name}-enter-active");
                 let enter_to = format!("{name}-enter-to");
@@ -130,6 +137,9 @@ where
         let on_leave_fn = {
             let class_list = class_list.clone();
             Callback::new(move |name: String| {
+                if let Some(on_before_leave) = on_before_leave {
+                    on_before_leave.call(());
+                }
                 let leave_from = format!("{name}-leave-from");
                 let leave_active = format!("{name}-leave-active");
                 let leave_to = format!("{name}-leave-to");
@@ -149,13 +159,20 @@ where
                         }
                     });
                     on_end.call(remove);
+                    if let Some(on_leave) = on_leave {
+                        on_leave.call(());
+                    }
                 });
             })
         };
 
         create_render_effect(move |prev: Option<bool>| {
             let show = show.get();
-            let Some(prev) = prev else {
+            let prev = if let Some(prev) = prev {
+                prev
+            } else if show && appear {
+                false
+            } else {
                 return show;
             };
 
