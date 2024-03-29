@@ -5,7 +5,13 @@ target = "index.html"
 # filehash = false
 
 [watch]
-watch = ["../thaw", "./src", "../demo_markdown"]
+watch = [
+    "../thaw",
+    "../thaw_components",
+    "../thaw_utils",
+    "./src",
+    "../demo_markdown",
+]
 
 [serve]
 address = "127.0.0.1"
