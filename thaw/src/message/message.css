@@ -35,7 +35,7 @@
     right: 12px;
 }
 
-.thaw-message-container--top-left{
+.thaw-message-container--top-left {
     align-items: start;
     top: 12px;
     left: 12px;
@@ -52,6 +52,37 @@
 .thaw-message-wrapper {
     margin-bottom: 8px;
     position: relative;
+    transform-origin: top center;
+}
+
+.thaw-message-wrapper.fade-in-height-expand-transition-leave-from,
+.thaw-message-wrapper.fade-in-height-expand-transition-enter-to {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.thaw-message-wrapper.fade-in-height-expand-transition-leave-to,
+.thaw-message-wrapper.fade-in-height-expand-transition-enter-from {
+    transform: scale(0.85);
+    opacity: 0;
+    margin-bottom: 0 !important;
+    max-height: 0 !important;
+}
+
+.thaw-message-wrapper.fade-in-height-expand-transition-leave-active {
+    overflow: visible;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        opacity 0.3s cubic-bezier(0, 0, 0.2, 1) 0s,
+        margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-message-wrapper.fade-in-height-expand-transition-enter-active {
+    overflow: visible;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 1, 1),
+        margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .thaw-message {
