@@ -1,4 +1,4 @@
-use super::{message_environment::MessageEnvironment, MessageVariant};
+use super::{Message, MessageVariant};
 use leptos::*;
 use std::time::Duration;
 use thaw_components::Teleport;
@@ -58,9 +58,9 @@ pub fn MessageProvider(
                         key=|message| message.0
                         children=move |message| {
                             view! {
-                                <MessageEnvironment
+                                <Message
                                     message
-                                    on_internal_after_leave=handle_after_leave
+                                    on_close=handle_after_leave
                                 />
                             }
                         }
