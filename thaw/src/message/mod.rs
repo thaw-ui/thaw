@@ -1,4 +1,3 @@
-mod message_environment;
 mod message_provider;
 mod theme;
 
@@ -36,13 +35,18 @@ impl MessageVariant {
 }
 
 #[component]
-pub(crate) fn Message(
-    variant: MessageVariant,
-    content: String,
-    closable: bool,
-    id: Uuid,
-    #[prop(into)] on_close: Callback<Uuid, ()>,
-) -> impl IntoView {
+fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> impl IntoView {
+    let (id, content, variant, MessageOptions { duration, closable }) = message;
+
+    if !duration.is_zero() {
+        set_timeout(
+            move || {
+                on_close.call(id);
+            },
+            duration,
+        );
+    }
+
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
