@@ -62,7 +62,7 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
     });
     let style = theme.with_untracked(|theme| format!("color: {};", variant.theme_color(theme)));
 
-    let on_before_leave = move |_| {
+    let on_before_leave = Callback::new(move |_| {
         let Some(node_el) = message_ref.get() else {
             return;
         };
@@ -71,7 +71,7 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
         let el = any_el.deref();
         let style = el.style();
         let _ = style.set_property("max-height", &format!("{}px", el.offset_height()));
-    };
+    });
     let on_after_leave = Callback::new(move |_| {
         queue_microtask(move || on_close.call(id));
     });
