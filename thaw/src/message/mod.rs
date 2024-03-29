@@ -72,9 +72,9 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
         let style = el.style();
         let _ = style.set_property("max-height", &format!("{}px", el.offset_height()));
     };
-    let on_after_leave = move |_| {
+    let on_after_leave = Callback::new(move |_| {
         queue_microtask(move || on_close.call(id));
-    };
+    });
 
     view! {
         <CSSTransition
