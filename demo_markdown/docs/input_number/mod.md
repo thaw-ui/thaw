@@ -32,6 +32,16 @@ view! {
 }
 ```
 
+### Min / Max
+
+```rust demo
+let value = create_rw_signal(0);
+
+view! {
+    <InputNumber value step=1 min=-1 max=2/>
+}
+```
+
 ### InputNumber Props
 
 | Name | Type | Default | Description |
@@ -43,10 +53,12 @@ view! {
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |
 | attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |
+| min | `MaybeSignal<T>` | `T::min_value()` | The minimum number that the input value can take. |
+| max | `MaybeSignal<T>` | `T::max_value()` | The max number that the input value can take. |
 
 #### T impl
 
-`T: Add<Output = T> + Sub<Output = T> + Default + Clone + FromStr + ToString + 'static`
+`T: Add<Output = T> + Sub<Output = T> + PartialOrd + num_traits::Bounded + Default + Clone + FromStr + ToString + 'static`
 
 ### InputNumber Ref
 
