@@ -1,6 +1,6 @@
 use crate::{Button, ButtonVariant, ComponentRef, Icon, Input, InputRef, InputSuffix};
 use leptos::*;
-use num_traits::bounds::Bounded;
+use num_traits::Bounded;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
 use thaw_utils::{Model, OptionalProp, StoredMaybeSignal};
@@ -60,20 +60,22 @@ where
     });
 
     let set_within_range = Callback::<ev::FocusEvent>::new(move |_| {
-        let value_gotten = value.get_untracked();
+        let old_value = value.get_untracked();
         let min = min.get_untracked();
         let max = max.get_untracked();
-        if value_gotten < min {
-            value.set(min.clone());
-        } else if value_gotten > max {
-            value.set(max.clone());
+        if old_value < min {
+            value.set(min);
+        } else if old_value > max {
+            value.set(max);
         }
     });
 
     let minus_disabled = create_memo(move |_| disabled.get() || value.get() <= min.get());
     let plus_disabled = create_memo(move |_| disabled.get() || value.get() >= max.get());
-    let invalid =
-        create_memo(move |_| invalid.get() || value.get() < min.get() || value.get() > max.get());
+    let invalid = create_memo(move |_| {
+        let value = value.get();
+        invalid.get() || value < min.get() || value > max.get()
+    });
 
     view! {
         <Input
