@@ -12,6 +12,16 @@ view! {
 }
 ```
 
+### Min / Max
+
+```rust demo
+let value = create_rw_signal(0);
+
+view! {
+    <InputNumber value step=1 min=-1 max=2/>
+}
+```
+
 ### Disabled
 
 ```rust demo
@@ -32,16 +42,6 @@ view! {
 }
 ```
 
-### Min / Max
-
-```rust demo
-let value = create_rw_signal(0);
-
-view! {
-    <InputNumber value step=1 min=-1 max=2/>
-}
-```
-
 ### InputNumber Props
 
 | Name | Type | Default | Description |
@@ -50,15 +50,15 @@ view! {
 | value | `Model<T>` | `T::default()` | Set the input value. |
 | placeholder | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Placeholder of input number. |
 | step | `MaybeSignal<T>` |  | The number which the current value is increased or decreased on key or button press. |
+| min | `MaybeSignal<T>` | `T::min_value()` | The minimum number that the input value can take. |
+| max | `MaybeSignal<T>` | `T::max_value()` | The maximum number that the input value can take. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |
 | attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |
-| min | `MaybeSignal<T>` | `T::min_value()` | The minimum number that the input value can take. |
-| max | `MaybeSignal<T>` | `T::max_value()` | The max number that the input value can take. |
 
 #### T impl
 
-`T: Add<Output = T> + Sub<Output = T> + PartialOrd + num_traits::Bounded + Default + Clone + FromStr + ToString + 'static`
+`T: Add<Output = T> + Sub<Output = T> + PartialOrd + num::Bounded + Default + Clone + FromStr + ToString + 'static`
 
 ### InputNumber Ref
 
