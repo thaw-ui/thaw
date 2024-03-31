@@ -1,3 +1,15 @@
+## [0.2.6](https://github.com/thaw-ui/thaw/compare/v0.2.5...v0.2.6) (2024-03-31)
+
+### Features
+
+* Optimize `Switch` styles.
+* `Message` adds animation.
+* thaw_components: `CSSTransition` adds appear, on_before_enter, on_before_leave and on_leave prop.
+
+### Bug Fixs
+
+* `Button` wave flicker problem.
+
 ## [0.2.5](https://github.com/thaw-ui/thaw/compare/v0.2.3...v0.2.5) (2024-03-20)
 
 ### Features
