@@ -28,6 +28,7 @@ mod modal;
 mod popover;
 mod progress;
 mod radio;
+mod scrollbar;
 mod select;
 mod skeleton;
 mod slider;
