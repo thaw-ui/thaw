@@ -1,7 +1,4 @@
-use crate::{
-    checkbox::{checkbox_group::use_checkbox_group, Checkbox},
-    SignalWatch,
-};
+use crate::checkbox::{checkbox_group::use_checkbox_group, Checkbox};
 use leptos::*;
 use thaw_utils::OptionalProp;
 
@@ -12,41 +9,38 @@ pub fn CheckboxItem(
     #[prop(into)] key: String,
 ) -> impl IntoView {
     let checkbox_group_value = use_checkbox_group().0;
-    let checked = create_rw_signal(false);
-    let item_key = store_value(key);
+    let checked = RwSignal::new(false);
+    let item_key = StoredValue::new(key);
 
-    create_effect(move |_| {
-        let is_checked =
-            checkbox_group_value.with(|value| item_key.with_value(|key| value.contains(key)));
+    let is_checked = Memo::new(move |_| {
+        checkbox_group_value.with(|value| item_key.with_value(|key| value.contains(key)))
+    });
 
-        if is_checked {
-            if !checked.get_untracked() {
-                checked.set(true);
-            }
+    Effect::new(move |_| {
+        checked.track();
+
+        if is_checked.get_untracked() {
+            checkbox_group_value.update(move |value| {
+                item_key.with_value(|key| {
+                    value.remove(key);
+                });
+            });
         } else if checked.get_untracked() {
-            checked.set(false);
+            checkbox_group_value.update(move |value| {
+                value.insert(item_key.get_value());
+            });
         }
     });
 
-    _ = checked.watch(move |checked| {
-        checkbox_group_value.update(move |value| {
-            if *checked {
-                value.insert(item_key.get_value());
-            } else {
-                value.remove(&item_key.get_value());
-            }
-        });
-    });
-
-    let label = if let Some(label) = label {
-        label
+    if let Some(label) = label {
+        view! {
+            <Checkbox class value=(is_checked, checked.write_only())>
+                {label}
+            </Checkbox>
+        }
     } else {
-        item_key.get_value()
-    };
-
-    view! {
-        <Checkbox class value=checked>
-            {label}
-        </Checkbox>
+        view! {
+            <Checkbox class value=(is_checked, checked.write_only()) />
+        }
     }
 }
