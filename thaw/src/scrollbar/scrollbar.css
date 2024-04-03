@@ -16,8 +16,17 @@
 }
 
 .thaw-scrollbar__content {
+    display: flow-root;
     box-sizing: border-box;
     min-width: 100%;
+}
+
+.thaw-scrollbar-container::-webkit-scrollbar,
+.thaw-scrollbar-container::-webkit-scrollbar-track-piece,
+.thaw-scrollbar-container::-webkit-scrollbar-thumb {
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 .thaw-scrollbar__track--vertical {
@@ -25,9 +34,9 @@
     pointer-events: none;
     user-select: none;
 
-    right: 0;
-    top: 0;
-    bottom: 0;
+    right: 2px;
+    top: 2px;
+    bottom: 2px;
     width: var(--thaw-scrollbar-size);
 }
 
@@ -36,9 +45,9 @@
     pointer-events: none;
     user-select: none;
 
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
     height: var(--thaw-scrollbar-size);
 }
 
@@ -55,4 +64,8 @@
 
 .thaw-scrollabr__thumb:hover {
     background-color: var(--thaw-scrollbar-background-color-hover);
+}
+
+.thaw-scrollbar__track--horizontal > .thaw-scrollabr__thumb {
+    width: 36%;
 }
