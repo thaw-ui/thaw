@@ -72,6 +72,7 @@ pub use modal::*;
 pub use popover::*;
 pub use progress::*;
 pub use radio::*;
+pub use scrollbar::*;
 pub use select::*;
 pub use skeleton::*;
 pub use slider::*;

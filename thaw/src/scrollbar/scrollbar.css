@@ -1,0 +1,21 @@
+.thaw-scrollbar {
+    overflow: hidden;
+    position: relative;
+    z-index: auto;
+    height: 100%;
+    width: 100%;
+}
+
+.thaw-scrollbar__container {
+    width: 100%;
+    overflow: scroll;
+    height: 100%;
+    min-height: inherit;
+    max-height: inherit;
+    scrollbar-width: none;
+}
+
+.thaw-scrollbar__content {
+    box-sizing: border-box;
+    min-width: 100%;
+}
