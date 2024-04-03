@@ -5,8 +5,8 @@ use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, CalendarTheme,
     CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme, MessageTheme,
-    PopoverTheme, ProgressTheme, SelectTheme, SkeletionTheme, SliderTheme, SpinnerTheme,
-    SwitchTheme, TableTheme, TagTheme, TimePickerTheme, TypographyTheme, UploadTheme,
+    PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme, SliderTheme,
+    SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, TypographyTheme, UploadTheme,
 };
 use leptos::*;
 
@@ -45,6 +45,7 @@ pub struct Theme {
     pub date_picker: DatePickerTheme,
     pub popover: PopoverTheme,
     pub collapse: CollapseTheme,
+    pub scrollbar: ScrollbarTheme,
 }
 
 impl Theme {
@@ -78,6 +79,7 @@ impl Theme {
             date_picker: DatePickerTheme::light(),
             popover: PopoverTheme::light(),
             collapse: CollapseTheme::light(),
+            scrollbar: ScrollbarTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -110,6 +112,7 @@ impl Theme {
             date_picker: DatePickerTheme::dark(),
             popover: PopoverTheme::dark(),
             collapse: CollapseTheme::dark(),
+            scrollbar: ScrollbarTheme::dark(),
         }
     }
 }
