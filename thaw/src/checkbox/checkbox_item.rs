@@ -39,8 +39,6 @@ pub fn CheckboxItem(
             </Checkbox>
         }
     } else {
-        view! {
-            <Checkbox class value=(is_checked, checked.write_only()) />
-        }
+        view! { <Checkbox class value=(is_checked, checked.write_only())/> }
     }
 }

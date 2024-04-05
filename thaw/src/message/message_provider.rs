@@ -57,12 +57,7 @@ pub fn MessageProvider(
                         each=move || message_list.get()
                         key=|message| message.0
                         children=move |message| {
-                            view! {
-                                <Message
-                                    message
-                                    on_close=handle_after_leave
-                                />
-                            }
+                            view! { <Message message on_close=handle_after_leave/> }
                         }
                     />
 

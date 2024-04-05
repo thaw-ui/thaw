@@ -281,8 +281,15 @@ pub fn Scrollbar(
 
             <div class="thaw-scrollbar__container" ref=container_ref on:scroll=on_scroll>
                 <div
-                    class=class_list!["thaw-scrollbar__content", content_class.map(|c| move || c.get())]
-                    style=move || format!("width: fit-content; {}", content_style.as_ref().map_or(String::new(), |s| s.get()))
+                    class=class_list![
+                        "thaw-scrollbar__content", content_class.map(| c | move || c.get())
+                    ]
+                    style=move || {
+                        format!(
+                            "width: fit-content; {}",
+                            content_style.as_ref().map_or(String::new(), |s| s.get()),
+                        )
+                    }
                     ref=content_ref
                 >
                     {children()}

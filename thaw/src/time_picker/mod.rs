@@ -216,7 +216,7 @@ fn Panel(
                                     }
                                 })
                                 .collect_view()}
-                            </Scrollbar>
+                        </Scrollbar>
                         <div class="thaw-time-picker-panel__time-padding"></div>
                     </div>
                     <div class="thaw-time-picker-panel__time-minute" ref=minute_ref>
@@ -247,8 +247,8 @@ fn Panel(
                                         />
                                     }
                                 })
-                            .collect_view()}
-                            </Scrollbar>
+                                .collect_view()}
+                        </Scrollbar>
                         <div class="thaw-time-picker-panel__time-padding"></div>
                     </div>
                     <div class="thaw-time-picker-panel__time-second" ref=second_ref>
@@ -280,7 +280,7 @@ fn Panel(
                                     }
                                 })
                                 .collect_view()}
-                            </Scrollbar>
+                        </Scrollbar>
                         <div class="thaw-time-picker-panel__time-padding"></div>
                     </div>
                 </div>

@@ -48,7 +48,16 @@ pub fn Layout(
             class=class_list![gen_class(position), class.map(| c | move || c.get())]
             style=move || style.as_ref().map(|s| s.get())
         >
-            <Scrollbar content_class content_style=Signal::derive(move || format!("{} {}", sider_style.get().unwrap_or_default(), content_style.as_ref().map_or(String::new(), |s| s.get())))>
+            <Scrollbar
+                content_class
+                content_style=Signal::derive(move || {
+                    format!(
+                        "{} {}",
+                        sider_style.get().unwrap_or_default(),
+                        content_style.as_ref().map_or(String::new(), |s| s.get()),
+                    )
+                })
+            >
                 {children()}
             </Scrollbar>
         </div>
