@@ -10,6 +10,8 @@ use thaw_utils::{class_list, mount_style, OptionalProp};
 pub fn Scrollbar(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] style: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] content_class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] content_style: OptionalProp<MaybeSignal<String>>,
     #[prop(default = 8)] size: u8,
     children: Children,
 ) -> impl IntoView {
@@ -54,6 +56,9 @@ pub fn Scrollbar(
         if content_width <= 0.0 {
             return 0.0;
         }
+        if content_width <= container_width {
+            return 0.0;
+        }
         x_track_width * container_width / content_width
     });
     let x_thumb_left = Memo::new(move |_| {
@@ -83,6 +88,10 @@ pub fn Scrollbar(
         if content_height <= 0.0 {
             return 0.0;
         }
+        if content_height <= container_height {
+            return 0.0;
+        }
+
         y_track_height * container_height / content_height
     });
     let y_thumb_top = Memo::new(move |_| {
@@ -271,7 +280,13 @@ pub fn Scrollbar(
         >
 
             <div class="thaw-scrollbar__container" ref=container_ref on:scroll=on_scroll>
-                <div class="thaw-scrollbar__content" style="width: fit-content;" ref=content_ref>{children()}</div>
+                <div
+                    class=class_list!["thaw-scrollbar__content", content_class.map(|c| move || c.get())]
+                    style=move || format!("width: fit-content; {}", content_style.as_ref().map_or(String::new(), |s| s.get()))
+                    ref=content_ref
+                >
+                    {children()}
+                </div>
             </div>
             <div class="thaw-scrollbar__track--vertical" ref=y_track_ref>
                 <div
