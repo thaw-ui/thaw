@@ -55,7 +55,7 @@ pub fn GuidePage() -> impl IntoView {
 
                     </Menu>
                 </LayoutSider>
-                <Layout style="padding: 8px 12px 28px; overflow-y: auto;">
+                <Layout content_style="padding: 8px 12px 28px;">
                     <Outlet/>
                 </Layout>
             </Layout>

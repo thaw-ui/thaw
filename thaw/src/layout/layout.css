@@ -9,3 +9,9 @@
     bottom: 0;
     left: 0;
 }
+
+.thaw-layout--absolute-positioned
+    > .thaw-scrollbar
+    > .thaw-scrollbar__container {
+    display: flex;
+}
