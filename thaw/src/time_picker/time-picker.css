@@ -17,7 +17,6 @@
 .thaw-time-picker-panel__time-minute,
 .thaw-time-picker-panel__time-second {
     flex: 1;
-    overflow-y: auto;
 }
 
 .thaw-time-picker-panel__time-item {
