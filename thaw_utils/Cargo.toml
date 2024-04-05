@@ -12,8 +12,8 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.6.9" }
-leptos_meta = { version = "0.6.9", optional = true }
+leptos = { version = "0.6.10" }
+leptos_meta = { version = "0.6.10", optional = true }
 web-sys = "0.3.69"
 wasm-bindgen = "0.2.92"
 cfg-if = "1.0.0"
