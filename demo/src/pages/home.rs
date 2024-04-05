@@ -13,7 +13,7 @@ pub fn Home() -> impl IntoView {
     view! {
         <Layout
             position=LayoutPosition::Absolute
-            style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
+            content_style="display: flex; align-items: center; justify-content: center; flex-direction: column;"
         >
             <h1 style="font-size: 80px; line-height: 1;margin: 0 0 18px;">"Thaw UI"</h1>
             <p>"An easy to use leptos component library"</p>

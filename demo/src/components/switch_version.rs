@@ -9,6 +9,10 @@ pub fn SwitchVersion() -> impl IntoView {
             value: "https://thawui.vercel.app".into(),
         },
         SelectOption {
+            label: "0.2.6".into(),
+            value: "https://thaw-mzh1656cm-thaw.vercel.app".into(),
+        },
+        SelectOption {
             label: "0.2.5".into(),
             value: "https://thaw-8og1kv8zs-thaw.vercel.app".into(),
         },
