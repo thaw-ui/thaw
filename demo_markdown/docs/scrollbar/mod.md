@@ -28,5 +28,7 @@ view! {
 | --- | --- | --- | --- |
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the scrollbar element. |
 | style | `Option<MaybeSignal<String>>` | `Default::default()` | Scrollbar's style. |
+| content_class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the layout element. |
+| content_style | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Style of scrollable content node. |
 | size | `u8` | `8` | Size of scrollbar. |
 | children | `Children` |  | Scrollbar's content. |
