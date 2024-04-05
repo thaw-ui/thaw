@@ -1,0 +1,67 @@
+.thaw-scrollbar {
+    overflow: hidden;
+    position: relative;
+    z-index: auto;
+    height: 100%;
+    width: 100%;
+}
+
+.thaw-scrollbar__container {
+    width: 100%;
+    overflow: scroll;
+    height: 100%;
+    min-height: inherit;
+    max-height: inherit;
+    scrollbar-width: none;
+}
+
+.thaw-scrollbar__content {
+    display: flow-root;
+    box-sizing: border-box;
+    min-width: 100%;
+}
+
+.thaw-scrollbar__container::-webkit-scrollbar,
+.thaw-scrollbar__container::-webkit-scrollbar-track-piece,
+.thaw-scrollbar__container::-webkit-scrollbar-thumb {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.thaw-scrollbar__track--vertical {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+
+    right: 2px;
+    top: 2px;
+    bottom: 2px;
+    width: var(--thaw-scrollbar-size);
+}
+
+.thaw-scrollbar__track--horizontal {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    height: var(--thaw-scrollbar-size);
+}
+
+.thaw-scrollabr__thumb {
+    position: absolute;
+    pointer-events: all;
+
+    width: 100%;
+    height: 100%;
+    border-radius: var(--thaw-scrollbar-size);
+    background-color: var(--thaw-scrollbar-background-color);
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-scrollabr__thumb:hover {
+    background-color: var(--thaw-scrollbar-background-color-hover);
+}

@@ -285,6 +285,13 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             ],
         },
         MenuGroupOption {
+            label: "Utility Components".into(),
+            children: vec![MenuItemOption {
+                value: "scrollbar".into(),
+                label: "Scrollbar".into(),
+            }],
+        },
+        MenuGroupOption {
             label: "Config Components".into(),
             children: vec![MenuItemOption {
                 value: "theme".into(),
