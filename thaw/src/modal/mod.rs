@@ -1,5 +1,5 @@
 use crate::{Card, CardFooter, CardHeader, CardHeaderExtra, Icon};
-use leptos::*;
+use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
 use thaw_components::{CSSTransition, OptionComp, Teleport};
 use thaw_utils::{mount_style, use_click_position, Model};
 
@@ -12,6 +12,7 @@ pub struct ModalFooter {
 pub fn Modal(
     #[prop(into)] show: Model<bool>,
     #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
+    #[prop(default = true, into)] close_on_esc: bool,
     #[prop(default = 2000.into(), into)] z_index: MaybeSignal<i16>,
     #[prop(default = MaybeSignal::Static("600px".to_string()), into)] width: MaybeSignal<String>,
     #[prop(optional, into)] title: MaybeSignal<String>,
@@ -21,12 +22,30 @@ pub fn Modal(
     mount_style("modal", include_str!("./modal.css"));
 
     let displayed = RwSignal::new(show.get_untracked());
+    let esc_handle = StoredValue::new(None::<WindowListenerHandle>);
     Effect::new(move |prev| {
-        let show = show.get();
-        if prev.is_some() && show {
+        let is_show = show.get();
+        if prev.is_some() && is_show {
             displayed.set(true);
         }
-        show
+
+        if close_on_esc {
+            if is_show && !prev.unwrap_or(false) {
+                let handle = window_event_listener(ev::keydown, move |e| {
+                    if &e.code() == "Escape" {
+                        show.set(false);
+                    }
+                });
+                esc_handle.set_value(Some(handle));
+            } else {
+                esc_handle.update_value(|handle| {
+                    if let Some(handle) = handle.take() {
+                        handle.remove();
+                    }
+                })
+            }
+        }
+        is_show
     });
 
     let on_mask_click = move |_| {
@@ -58,6 +77,14 @@ pub fn Modal(
         let y = -(modal_el.offset_top() - position.1 - scroll_top);
 
         let _ = modal_el.attr("style", format!("transform-origin: {}px {}px", x, y));
+    });
+
+    on_cleanup(move || {
+        esc_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.remove();
+            }
+        })
     });
 
     view! {

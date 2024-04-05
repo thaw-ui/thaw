@@ -20,6 +20,7 @@ view! {
 | width          | `MaybeSignal<String>` | `600px`              | Modal width.                                |
 | z_index        | `MaybeSignal<i16>`    | `2000`               | z-index of the modal.                       |
 | mask_closeable | `MaybeSignal<bool>`   | `true`               | Whether to emit hide event when click mask. |
+| close_on_esc   | `bool`                | `true`               | Whether to close modal on Esc is pressed.   |
 | children       | `Children`            |                      | Modal's content.                            |
 
 ### Modal Slots
