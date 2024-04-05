@@ -21,9 +21,9 @@
     min-width: 100%;
 }
 
-.thaw-scrollbar-container::-webkit-scrollbar,
-.thaw-scrollbar-container::-webkit-scrollbar-track-piece,
-.thaw-scrollbar-container::-webkit-scrollbar-thumb {
+.thaw-scrollbar__container::-webkit-scrollbar,
+.thaw-scrollbar__container::-webkit-scrollbar-track-piece,
+.thaw-scrollbar__container::-webkit-scrollbar-thumb {
     width: 0;
     height: 0;
     display: none;
@@ -64,8 +64,4 @@
 
 .thaw-scrollabr__thumb:hover {
     background-color: var(--thaw-scrollbar-background-color-hover);
-}
-
-.thaw-scrollbar__track--horizontal > .thaw-scrollabr__thumb {
-    width: 36%;
 }
