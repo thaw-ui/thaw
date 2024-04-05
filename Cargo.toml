@@ -4,6 +4,6 @@ members = ["thaw", "thaw_components", "thaw_utils", "demo", "demo_markdown"]
 exclude = ["examples"]
 
 [workspace.dependencies]
-thaw = { version = "0.2.6", path = "./thaw" }
-thaw_components = { version = "0.0.2", path = "./thaw_components" }
-thaw_utils = { version = "0.0.1", path = "./thaw_utils" }
+thaw = { version = "0.3.0-alpha", path = "./thaw" }
+thaw_components = { version = "0.0.3", path = "./thaw_components" }
+thaw_utils = { version = "0.0.2", path = "./thaw_utils" }

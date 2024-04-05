@@ -1,3 +1,19 @@
+## [0.3.0-alpha](https://github.com/thaw-ui/thaw/compare/v0.2.6...v0.3.0-alpha) (2024-04-05)
+
+### Breaking Changes
+
+* `Checkbox` label does not display default value.
+* `Modal` adds close_on_esc prop.
+* Add min/max props into `InputNumber`.
+* `Layout` scrollbar. (When class or style is used, the original style may be confused.  You can use content_class or content_style instead)
+
+### Features
+
+* Adds `Scrollbar` component.
+* `TimePicker` scrollbar.
+* `Layout` adds content_class and content_style prop.
+* Update leptos to v0.6.10.
+
 ## [0.2.6](https://github.com/thaw-ui/thaw/compare/v0.2.5...v0.2.6) (2024-03-31)
 
 ### Features
