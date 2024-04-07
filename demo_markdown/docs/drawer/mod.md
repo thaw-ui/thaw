@@ -45,6 +45,8 @@ view! {
 | --- | --- | --- | --- |
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the drawer element. |
 | show | `Model<bool>` |  | Whether to show drawer. |
+| mask_closeable | `MaybeSignal<bool>` | `true` | Whether to emit hide event when click mask. |
+| close_on_esc | `bool` | `true` | Whether to close drawer on Esc is pressed. |
 | title | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Drawer title. |
 | placement | `MaybeSignal<DrawerPlacement>` | `DrawerPlacement::Right` | Drawer placement. |
 | width | `MaybeSignal<String>` | `520px` | Drawer width. |
