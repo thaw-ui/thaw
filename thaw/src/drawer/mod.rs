@@ -1,6 +1,6 @@
 use crate::Card;
-use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
-use thaw_components::{CSSTransition, Teleport};
+use leptos::*;
+use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model, OptionalProp};
 
 #[component]
@@ -60,31 +60,12 @@ pub fn Drawer(
         };
 
         let is_lock = RwSignal::new(show.get_untracked());
-        let esc_handle = StoredValue::new(None::<WindowListenerHandle>);
-        Effect::new(move |prev| {
+        Effect::new(move |_| {
             let is_show = show.get();
             if is_show {
                 is_lock.set(true);
                 is_css_transition.set(true);
             }
-            if close_on_esc {
-                if is_show && !prev.unwrap_or(false) {
-                    let handle = window_event_listener(ev::keydown, move |e| {
-                        if &e.code() == "Escape" {
-                            show.set(false);
-                        }
-                    });
-                    esc_handle.set_value(Some(handle));
-                } else {
-                    esc_handle.update_value(|handle| {
-                        if let Some(handle) = handle.take() {
-                            handle.remove();
-                        }
-                    })
-                }
-            }
-
-            is_show
         });
         use_lock_html_scroll(is_lock.into());
         let on_after_leave = move |_| {
@@ -97,56 +78,53 @@ pub fn Drawer(
                 show.set(false);
             }
         };
-
-        on_cleanup(move || {
-            esc_handle.update_value(|handle| {
-                if let Some(handle) = handle.take() {
-                    handle.remove();
-                }
-            })
-        });
+        let on_esc = move |_: ev::KeyboardEvent| {
+            show.set(false);
+        };
 
         view! {
-            <div class="thaw-drawer-container" style=move || style.get()>
-                <CSSTransition
-                    node_ref=mask_ref
-                    show=show.signal()
-                    name="fade-in-transition"
-                    let:display
-                >
-                    <div
-                        class="thaw-drawer-mask"
-                        style=move || display.get()
-                        on:click=on_mask_click
-                        ref=mask_ref
-                    ></div>
-                </CSSTransition>
-                <CSSTransition
-                    node_ref=drawer_ref
-                    show=show.signal()
-                    name=Memo::new(move |_| {
-                        format!("slide-in-from-{}-transition", placement.get())
-                    })
-
-                    on_after_enter
-                    on_after_leave
-                    let:display
-                >
-                    <div
-                        class=class_list![
-                            "thaw-drawer", move || format!("thaw-drawer--placement-{}", placement
-                            .get()), class.map(| c | move || c.get())
-                        ]
-
-                        style=move || display.get()
-                        ref=drawer_ref
-                        role="dialog"
-                        aria-modal="true"
+            <FocusTrap disabled=!close_on_esc active=show.signal() on_esc>
+                <div class="thaw-drawer-container" style=move || style.get()>
+                    <CSSTransition
+                        node_ref=mask_ref
+                        show=show.signal()
+                        name="fade-in-transition"
+                        let:display
                     >
-                        <Card title>{children()}</Card>
-                    </div>
-                </CSSTransition>
-            </div>
+                        <div
+                            class="thaw-drawer-mask"
+                            style=move || display.get()
+                            on:click=on_mask_click
+                            ref=mask_ref
+                        ></div>
+                    </CSSTransition>
+                    <CSSTransition
+                        node_ref=drawer_ref
+                        show=show.signal()
+                        name=Memo::new(move |_| {
+                            format!("slide-in-from-{}-transition", placement.get())
+                        })
+
+                        on_after_enter
+                        on_after_leave
+                        let:display
+                    >
+                        <div
+                            class=class_list![
+                                "thaw-drawer", move || format!("thaw-drawer--placement-{}", placement
+                                .get()), class.map(| c | move || c.get())
+                            ]
+
+                            style=move || display.get()
+                            ref=drawer_ref
+                            role="dialog"
+                            aria-modal="true"
+                        >
+                            <Card title>{children()}</Card>
+                        </div>
+                    </CSSTransition>
+                </div>
+            </FocusTrap>
         }
     }
 
