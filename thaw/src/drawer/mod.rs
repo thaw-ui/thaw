@@ -1,11 +1,13 @@
 use crate::Card;
-use leptos::*;
+use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
 use thaw_components::{CSSTransition, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model, OptionalProp};
 
 #[component]
 pub fn Drawer(
     #[prop(into)] show: Model<bool>,
+    #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
+    #[prop(default = true, into)] close_on_esc: bool,
     #[prop(optional, into)] title: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] placement: MaybeSignal<DrawerPlacement>,
     #[prop(default = MaybeSignal::Static("520px".to_string()), into)] width: MaybeSignal<String>,
@@ -29,6 +31,8 @@ pub fn Drawer(
     #[component]
     fn DrawerInnr(
         show: Model<bool>,
+        mask_closeable: MaybeSignal<bool>,
+        close_on_esc: bool,
         title: OptionalProp<MaybeSignal<String>>,
         placement: MaybeSignal<DrawerPlacement>,
         class: OptionalProp<MaybeSignal<String>>,
@@ -56,17 +60,51 @@ pub fn Drawer(
         };
 
         let is_lock = RwSignal::new(show.get_untracked());
-        Effect::new(move |_| {
-            if show.get() {
+        let esc_handle = StoredValue::new(None::<WindowListenerHandle>);
+        Effect::new(move |prev| {
+            let is_show = show.get();
+            if is_show {
                 is_lock.set(true);
                 is_css_transition.set(true);
             }
+            if close_on_esc {
+                if is_show && !prev.unwrap_or(false) {
+                    let handle = window_event_listener(ev::keydown, move |e| {
+                        if &e.code() == "Escape" {
+                            show.set(false);
+                        }
+                    });
+                    esc_handle.set_value(Some(handle));
+                } else {
+                    esc_handle.update_value(|handle| {
+                        if let Some(handle) = handle.take() {
+                            handle.remove();
+                        }
+                    })
+                }
+            }
+
+            is_show
         });
         use_lock_html_scroll(is_lock.into());
         let on_after_leave = move |_| {
             is_lock.set(false);
             is_css_transition.set(false);
         };
+
+        let on_mask_click = move |_| {
+            if mask_closeable.get_untracked() {
+                show.set(false);
+            }
+        };
+
+        on_cleanup(move || {
+            esc_handle.update_value(|handle| {
+                if let Some(handle) = handle.take() {
+                    handle.remove();
+                }
+            })
+        });
 
         view! {
             <div class="thaw-drawer-container" style=move || style.get()>
@@ -79,7 +117,7 @@ pub fn Drawer(
                     <div
                         class="thaw-drawer-mask"
                         style=move || display.get()
-                        on:click=move |_| show.set(false)
+                        on:click=on_mask_click
                         ref=mask_ref
                     ></div>
                 </CSSTransition>
@@ -113,10 +151,12 @@ pub fn Drawer(
     }
 
     match mount {
-        DrawerMount::None => view! { <DrawerInnr show title placement class style children/> },
+        DrawerMount::None => {
+            view! { <DrawerInnr show mask_closeable close_on_esc title placement class style children/> }
+        }
         DrawerMount::Body => view! {
             <Teleport>
-                <DrawerInnr show title placement class style children/>
+                <DrawerInnr show mask_closeable close_on_esc title placement class style children/>
             </Teleport>
         },
     }
