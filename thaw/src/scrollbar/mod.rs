@@ -4,7 +4,7 @@ pub use theme::ScrollbarTheme;
 
 use crate::{use_theme, Theme};
 use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style, ComponentRef, OptionalProp};
 
 #[component]
 pub fn Scrollbar(
@@ -13,6 +13,7 @@ pub fn Scrollbar(
     #[prop(optional, into)] content_class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] content_style: OptionalProp<MaybeSignal<String>>,
     #[prop(default = 8)] size: u8,
+    #[prop(optional)] comp_ref: Option<ComponentRef<ScrollbarRef>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("scrollbar", include_str!("./scrollbar.css"));
@@ -48,6 +49,12 @@ pub fn Scrollbar(
     let content_width = RwSignal::new(0);
     let content_height = RwSignal::new(0);
     let thumb_status = StoredValue::new(None::<ThumbStatus>);
+
+    if let Some(comp_ref) = comp_ref {
+        comp_ref.load(ScrollbarRef {
+            container_scroll_top,
+        });
+    }
 
     let x_thumb_width = Memo::new(move |_| {
         let content_width = f64::from(content_width.get());
@@ -321,4 +328,15 @@ pub fn Scrollbar(
 enum ThumbStatus {
     Enter,
     DelayLeave,
+}
+
+#[derive(Clone)]
+pub struct ScrollbarRef {
+    container_scroll_top: RwSignal<i32>,
+}
+
+impl ScrollbarRef {
+    pub fn container_scroll_top(&self) -> i32 {
+        self.container_scroll_top.get()
+    }
 }
