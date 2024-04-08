@@ -37,7 +37,8 @@
 
 .thaw-drawer > .thaw-card > .thaw-card__content {
     flex: 1;
-    padding: 20px 28px;
+    padding: 0;
+    overflow: hidden;
 }
 
 .thaw-drawer--placement-top {

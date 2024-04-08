@@ -1,4 +1,4 @@
-use crate::Card;
+use crate::{Card, Scrollbar};
 use leptos::*;
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model, OptionalProp};
@@ -120,7 +120,11 @@ pub fn Drawer(
                             role="dialog"
                             aria-modal="true"
                         >
-                            <Card title>{children()}</Card>
+                            <Card title>
+                                <Scrollbar content_style="padding: 20px 28px;">
+                                    {children()}
+                                </Scrollbar>
+                            </Card>
                         </div>
                     </CSSTransition>
                 </div>
