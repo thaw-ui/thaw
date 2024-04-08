@@ -78,9 +78,9 @@ pub fn Drawer(
                 show.set(false);
             }
         };
-        let on_esc = move |_: ev::KeyboardEvent| {
+        let on_esc = Callback::new(move |_: ev::KeyboardEvent| {
             show.set(false);
-        };
+        });
 
         view! {
             <FocusTrap disabled=!close_on_esc active=show.signal() on_esc>

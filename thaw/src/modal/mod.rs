@@ -34,9 +34,9 @@ pub fn Modal(
             show.set(false);
         }
     };
-    let on_esc = move |_: ev::KeyboardEvent| {
+    let on_esc = Callback::new(move |_: ev::KeyboardEvent| {
         show.set(false);
-    };
+    });
 
     let mask_ref = NodeRef::<html::Div>::new();
     let scrollbar_ref = ComponentRef::<ScrollbarRef>::new();
