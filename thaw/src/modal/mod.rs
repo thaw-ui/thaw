@@ -1,7 +1,7 @@
-use crate::{Card, CardFooter, CardHeader, CardHeaderExtra, Icon};
+use crate::{Card, CardFooter, CardHeader, CardHeaderExtra, Icon, Scrollbar, ScrollbarRef};
 use leptos::*;
 use thaw_components::{CSSTransition, FocusTrap, OptionComp, Teleport};
-use thaw_utils::{mount_style, use_click_position, Model};
+use thaw_utils::{mount_style, use_click_position, ComponentRef, Model};
 
 #[slot]
 pub struct ModalFooter {
@@ -39,7 +39,7 @@ pub fn Modal(
     };
 
     let mask_ref = NodeRef::<html::Div>::new();
-    let scroll_ref = NodeRef::<html::Div>::new();
+    let scrollbar_ref = ComponentRef::<ScrollbarRef>::new();
     let modal_ref = NodeRef::<html::Div>::new();
 
     let click_position = use_click_position();
@@ -48,10 +48,10 @@ pub fn Modal(
             return;
         };
 
-        let Some(scroll_el) = scroll_ref.get_untracked() else {
+        let Some(scroll_el) = scrollbar_ref.get_untracked() else {
             return;
         };
-        let scroll_top = scroll_el.scroll_top();
+        let scroll_top = scroll_el.container_scroll_top();
 
         let Some(modal_el) = modal_ref.get_untracked() else {
             return;
@@ -71,24 +71,24 @@ pub fn Modal(
                     style:z-index=move || z_index.get()
                     style=("--thaw-width", move || width.get())
                 >
-                    <CSSTransition
-                        node_ref=mask_ref
-                        show=show.signal()
-                        name="fade-in-transition"
-                        let:display
+                    <Scrollbar
+                        content_style="min-height: 100%; display: flex;"
+                        style=Signal::derive(move || if displayed.get() { String::new() } else { String::from("display: none") })
+                        comp_ref=scrollbar_ref
                     >
-                        <div
-                            class="thaw-modal-mask"
-                            style=move || display.get()
-                            on:click=on_mask_click
-                            ref=mask_ref
-                        ></div>
-                    </CSSTransition>
-                    <div
-                        class="thaw-modal-scroll"
-                        style=move || (!displayed.get()).then_some("display: none")
-                        ref=scroll_ref
-                    >
+                        <CSSTransition
+                            node_ref=mask_ref
+                            show=show.signal()
+                            name="fade-in-transition"
+                            let:display
+                        >
+                            <div
+                                class="thaw-modal-mask"
+                                style=move || display.get()
+                                on:click=on_mask_click
+                                ref=mask_ref
+                            ></div>
+                        </CSSTransition>
                         <CSSTransition
                             node_ref=modal_ref
                             show=show.signal()
@@ -125,7 +125,7 @@ pub fn Modal(
                                 </Card>
                             </div>
                         </CSSTransition>
-                    </div>
+                    </Scrollbar>
                 </div>
             </FocusTrap>
         </Teleport>

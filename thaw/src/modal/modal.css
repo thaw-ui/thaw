@@ -13,13 +13,6 @@
     pointer-events: auto;
 }
 
-.thaw-modal-scroll {
-    display: flex;
-    min-height: 100%;
-    min-width: 100%;
-    overflow: scroll;
-}
-
 .thaw-modal-mask {
     position: fixed;
     top: 0;
