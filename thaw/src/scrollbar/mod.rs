@@ -337,6 +337,6 @@ pub struct ScrollbarRef {
 
 impl ScrollbarRef {
     pub fn container_scroll_top(&self) -> i32 {
-        self.container_scroll_top.get()
+        self.container_scroll_top.get_untracked()
     }
 }
