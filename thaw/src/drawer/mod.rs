@@ -87,6 +87,7 @@ pub fn Drawer(
                 <div class="thaw-drawer-container" style=move || style.get()>
                     <CSSTransition
                         node_ref=mask_ref
+                        appear=show.get_untracked()
                         show=show.signal()
                         name="fade-in-transition"
                         let:display
@@ -100,6 +101,7 @@ pub fn Drawer(
                     </CSSTransition>
                     <CSSTransition
                         node_ref=drawer_ref
+                        appear=show.get_untracked()
                         show=show.signal()
                         name=Memo::new(move |_| {
                             format!("slide-in-from-{}-transition", placement.get())
@@ -137,7 +139,7 @@ pub fn Drawer(
             view! { <DrawerInnr show mask_closeable close_on_esc title placement class style children/> }
         }
         DrawerMount::Body => view! {
-            <Teleport>
+            <Teleport immediate=show.signal()>
                 <DrawerInnr show mask_closeable close_on_esc title placement class style children/>
             </Teleport>
         },

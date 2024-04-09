@@ -239,7 +239,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         )
     });
 
-    view! { <Teleport element=children/> }
+    view! { <Teleport element=children immediate=show/> }
 }
 
 fn get_scroll_parent(element: Option<HtmlElement<AnyElement>>) -> Option<HtmlElement<AnyElement>> {

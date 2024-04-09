@@ -4,46 +4,62 @@ use leptos::{html::AnyElement, *};
 /// https://github.com/solidjs/solid/blob/main/packages/solid/web/src/index.ts#L56
 #[component]
 pub fn Teleport(
+    #[prop(default = true.into(), into)] immediate: MaybeSignal<bool>,
     #[prop(into, optional)] mount: Option<web_sys::Element>,
     #[prop(optional, into)] element: Option<HtmlElement<AnyElement>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     cfg_if! { if #[cfg(all(target_arch = "wasm32", any(feature = "csr", feature = "hydrate")))] {
-        use leptos::wasm_bindgen::JsCast;
-        use leptos::leptos_dom::Mountable;
-        use thaw_utils::with_hydration_off;
+        let mount_fn = StoredValue::new(None::<Box<dyn FnOnce() -> ()>>);
 
-        let mount = mount.unwrap_or_else(|| {
-            document()
-                .body()
-                .expect("body element to exist")
-                .unchecked_into()
+        mount_fn.set_value(Some(Box::new(move || {
+            let mount = mount.unwrap_or_else(|| {
+                use leptos::wasm_bindgen::JsCast;
+                document()
+                    .body()
+                    .expect("body element to exist")
+                    .unchecked_into()
+            });
+
+            if let Some(element) = element {
+                let render_root = element;
+                let _ = mount.append_child(&render_root);
+                on_cleanup(move || {
+                    let _ = mount.remove_child(&render_root);
+                });
+            } else if let Some(children) = children {
+                let container = document()
+                    .create_element("div")
+                    .expect("element creation to work");
+
+                thaw_utils::with_hydration_off(|| {
+                    use leptos::leptos_dom::Mountable;
+                    let _ = container.append_child(&children().into_view().get_mountable_node());
+                });
+
+                let render_root = container;
+                let _ = mount.append_child(&render_root);
+                on_cleanup(move || {
+                    let _ = mount.remove_child(&render_root);
+                });
+            }
+        })));
+
+        let owner = Owner::current();
+        Effect::new(move |_| {
+            if immediate.get() {
+                mount_fn.update_value(|mount_fn| {
+                    if let Some(f) = mount_fn.take() {
+                        with_owner(owner.unwrap(), move || {
+                            f();
+                        });
+                    }
+                });
+            }
         });
-
-        if let Some(element) = element {
-            let render_root = element;
-            let _  = mount.append_child(&render_root);
-            on_cleanup(move || {
-                let _ = mount.remove_child(&render_root);
-            });
-        } else if let Some(children) =  children {
-            let container = document()
-                .create_element("div")
-                .expect("element creation to work");
-            with_hydration_off(|| {
-                let _ = container.append_child(&children().into_view().get_mountable_node());
-            });
-
-            let render_root = container;
-            let _  = mount.append_child(&render_root);
-            on_cleanup(move || {
-                let _ = mount.remove_child(&render_root);
-            });
-        } else {
-            return;
-        };
     } else {
         let _ = mount;
+        let _ = immediate;
         #[cfg(not(feature = "ssr"))]
         {
             let _ = element;
@@ -51,9 +67,9 @@ pub fn Teleport(
         }
         #[cfg(feature = "ssr")]
         if element.is_none() {
-            if let Some(children) =  children {
+            if let Some(children) = children {
                 // Consumed hydration `id`
-                let _  = children();
+                let _ = children();
             }
         }
     }}

@@ -64,7 +64,7 @@ pub fn Modal(
     });
 
     view! {
-        <Teleport>
+         <Teleport immediate=show.signal()>
             <FocusTrap disabled=!close_on_esc active=show.signal() on_esc>
                 <div
                     class="thaw-modal-container"
@@ -78,6 +78,7 @@ pub fn Modal(
                     >
                         <CSSTransition
                             node_ref=mask_ref
+                            appear=show.get_untracked()
                             show=show.signal()
                             name="fade-in-transition"
                             let:display
@@ -91,6 +92,7 @@ pub fn Modal(
                         </CSSTransition>
                         <CSSTransition
                             node_ref=modal_ref
+                            appear=show.get_untracked()
                             show=show.signal()
                             name="fade-in-scale-up-transition"
                             on_enter

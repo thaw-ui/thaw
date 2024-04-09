@@ -110,7 +110,6 @@ pub fn Popover(
         children: trigger_children,
     } = popover_trigger;
 
-    let follower_enabled = RwSignal::new(false);
     view! {
         <Binder target_ref>
             <div
@@ -121,13 +120,12 @@ pub fn Popover(
             >
                 {trigger_children()}
             </div>
-            <Follower slot show=follower_enabled placement>
+            <Follower slot show=is_show_popover placement>
                 <CSSTransition
                     node_ref=popover_ref
                     name="popover-transition"
+                    appear=is_show_popover.get_untracked()
                     show=is_show_popover
-                    on_enter=move |_| follower_enabled.set(true)
-                    on_after_leave=move |_| follower_enabled.set(false)
                     let:display
                 >
                     <div

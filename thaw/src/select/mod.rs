@@ -127,6 +127,7 @@ where
                 <CSSTransition
                     node_ref=menu_ref
                     name="fade-in-scale-up-transition"
+                    appear=is_show_menu.get_untracked()
                     show=is_show_menu
                     let:display
                 >

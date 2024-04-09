@@ -93,6 +93,7 @@ pub fn Panel(
         <CSSTransition
             node_ref=panel_ref
             name="fade-in-scale-up-transition"
+            appear=is_show_panel.get_untracked()
             show=is_show_panel
             let:display
         >
