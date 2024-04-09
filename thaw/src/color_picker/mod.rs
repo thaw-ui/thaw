@@ -152,6 +152,7 @@ pub fn ColorPicker(
                 <CSSTransition
                     node_ref=popover_ref
                     name="fade-in-scale-up-transition"
+                    appear=is_show_popover.get_untracked()
                     show=is_show_popover
                     let:display
                 >
