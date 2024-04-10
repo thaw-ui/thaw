@@ -1,3 +1,21 @@
+## [0.3.0-beta](https://github.com/thaw-ui/thaw/compare/v0.3.0-alpha...v0.3.0-beta) (2024-04-10)
+
+### Breaking Changes
+
+* `Drawer` adds close_on_esc and mask_closeable prop.
+* `Drawer` scrollbar.
+* `Modal` scrollbar.
+* `Teleport` related component will lazy mount. (Defer rendering of the DOM until it is first displayed)
+
+### Features
+
+* thaw_components: Adds `FocusTrap` component.
+* thaw_components: `Teleport` adds immediate prop.
+
+### Bug Fixs
+
+* `Modal` esc close problem.
+
 ## [0.3.0-alpha](https://github.com/thaw-ui/thaw/compare/v0.2.6...v0.3.0-alpha) (2024-04-05)
 
 ### Breaking Changes
