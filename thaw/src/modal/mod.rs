@@ -64,7 +64,7 @@ pub fn Modal(
     });
 
     view! {
-         <Teleport immediate=show.signal()>
+        <Teleport immediate=show.signal()>
             <FocusTrap disabled=!close_on_esc active=show.signal() on_esc>
                 <div
                     class="thaw-modal-container"
@@ -73,7 +73,13 @@ pub fn Modal(
                 >
                     <Scrollbar
                         content_style="min-height: 100%; display: flex;"
-                        style=Signal::derive(move || if displayed.get() { String::new() } else { String::from("display: none") })
+                        style=Signal::derive(move || {
+                            if displayed.get() {
+                                String::new()
+                            } else {
+                                String::from("display: none")
+                            }
+                        })
                         comp_ref=scrollbar_ref
                     >
                         <CSSTransition

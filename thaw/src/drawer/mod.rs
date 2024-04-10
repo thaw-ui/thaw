@@ -113,8 +113,8 @@ pub fn Drawer(
                     >
                         <div
                             class=class_list![
-                                "thaw-drawer", move || format!("thaw-drawer--placement-{}", placement
-                                .get()), class.map(| c | move || c.get())
+                                "thaw-drawer", move || format!("thaw-drawer--placement-{}",
+                                placement.get()), class.map(| c | move || c.get())
                             ]
 
                             style=move || display.get()
