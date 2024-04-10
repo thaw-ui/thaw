@@ -1,9 +1,8 @@
-use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
-use std::cell::RefCell;
+use leptos::*;
 
 #[cfg(any(feature = "csr", feature = "hydrate"))]
 thread_local! {
-    static STACK: RefCell<Vec<uuid::Uuid>> = Default::default();
+    static STACK: std::cell::RefCell<Vec<uuid::Uuid>> = Default::default();
 }
 
 #[component]
@@ -15,6 +14,7 @@ pub fn FocusTrap(
 ) -> impl IntoView {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     if disabled == false {
+        use leptos::leptos_dom::helpers::WindowListenerHandle;
         let esc_handle = StoredValue::new(None::<WindowListenerHandle>);
         let id = StoredValue::new(uuid::Uuid::new_v4());
 
@@ -53,6 +53,13 @@ pub fn FocusTrap(
         on_cleanup(move || {
             deactivate();
         });
+    }
+
+    #[cfg(not(any(feature = "csr", feature = "hydrate")))]
+    {
+        let _ = disabled;
+        let _ = active;
+        let _ = on_esc;
     }
 
     children()
