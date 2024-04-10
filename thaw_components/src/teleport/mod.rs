@@ -60,17 +60,7 @@ pub fn Teleport(
     } else {
         let _ = mount;
         let _ = immediate;
-        #[cfg(not(feature = "ssr"))]
-        {
-            let _ = element;
-            let _ = children;
-        }
-        #[cfg(feature = "ssr")]
-        if element.is_none() {
-            if let Some(children) = children {
-                // Consumed hydration `id`
-                let _ = children();
-            }
-        }
+        let _ = element;
+        let _ = children;
     }}
 }
