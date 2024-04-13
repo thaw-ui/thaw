@@ -21,6 +21,7 @@ pub fn Popover(
     #[prop(optional)] trigger_type: PopoverTriggerType,
     popover_trigger: PopoverTrigger,
     #[prop(optional)] placement: PopoverPlacement,
+    #[prop(optional)] tooltip: bool,
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
@@ -28,10 +29,18 @@ pub fn Popover(
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.time_picker.panel_background_color
-            ));
+            let background_color = if tooltip {
+                &theme.popover.tooltip_background_color
+            } else {
+                &theme.popover.background_color
+            };
+            css_vars.push_str(&format!("--thaw-background-color: {};", background_color));
+            let font_color = if tooltip {
+                "#fff"
+            } else {
+                &theme.common.font_color
+            };
+            css_vars.push_str(&format!("--thaw-font-color: {};", font_color));
         });
         css_vars
     });
@@ -129,7 +138,7 @@ pub fn Popover(
                     let:display
                 >
                     <div
-                        class="thaw-popover"
+                        class=if tooltip { "thaw-popover thaw-popover--tooltip" } else { "thaw-popover" }
                         style=move || {
                             display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
                         }

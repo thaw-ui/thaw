@@ -68,7 +68,7 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
                     view! {
                         <div class="demo-demo__view">{children()}</div>
                         <div class="demo-demo__toolbar" class=("demo-demo__toolbar--code", move || !is_show_code.get())>
-                            <Popover>
+                            <Popover tooltip=true>
                                 <PopoverTrigger slot>
                                     <span on:click=move |_| is_show_code.update(|show| *show = !*show) class="demo-demo__toolbar-btn">
                                         {
