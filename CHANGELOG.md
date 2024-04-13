@@ -1,3 +1,13 @@
+## [0.3.0](https://github.com/thaw-ui/thaw/compare/v0.3.0-beta...v0.3.0) (2024-04-14)
+
+### Features
+
+* `Popover` adds tooltip prop.
+
+### Bug Fixs
+
+* ssr mode `Input` default value.
+
 ## [0.3.0-beta](https://github.com/thaw-ui/thaw/compare/v0.3.0-alpha...v0.3.0-beta) (2024-04-10)
 
 ### Breaking Changes
