@@ -140,6 +140,16 @@ pub fn Input(
         }
     };
 
+    let input_value: Option<String>;
+    #[cfg(feature = "ssr")]
+    {
+        input_value = Some(value.get_untracked());
+    }
+    #[cfg(not(feature = "ssr"))]
+    {
+        input_value = None;
+    }
+
     #[cfg(debug_assertions)]
     {
         const INNER_ATTRS: [&str; 4] = ["type", "class", "disabled", "placeholder"];
@@ -173,6 +183,7 @@ pub fn Input(
             <input
                 {..attrs}
                 type=move || variant.get().as_str()
+                value=input_value
                 prop:value=move || {
                     value_trigger.track();
                     value.get()

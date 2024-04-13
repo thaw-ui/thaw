@@ -23,7 +23,7 @@ where
     T: Default + Clone + FromStr + ToString + 'static,
 {
     let input_value = create_rw_signal(String::default());
-    create_effect(move |prev| {
+    Effect::new_isomorphic(move |prev| {
         value.with(|value| {
             let value = value.to_string();
             if let Some(prev) = prev {
