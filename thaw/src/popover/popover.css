@@ -2,6 +2,7 @@
     position: relative;
     padding: 8px 14px;
     background-color: var(--thaw-background-color);
+    color: var(--thaw-font-color);
     border-radius: 3px;
     transform-origin: inherit;
 }

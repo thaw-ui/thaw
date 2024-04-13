@@ -129,12 +129,28 @@ view! {
 }
 ```
 
+### Tooltip
+
+```rust demo
+view! {
+    <Space>
+        <Popover tooltip=true>
+            <PopoverTrigger slot>
+                <Button>"Hover"</Button>
+            </PopoverTrigger>
+            "Content"
+        </Popover>
+    </Space>
+}
+```
+
 ### Popover Props
 
 | Name      | Type                                | Default                 | Description                   |
 | --------- | ----------------------------------- | ----------------------- | ----------------------------- |
 | class     | `OptionalProp<MaybeSignal<String>>` | `Default::default()`    | Content class of the popover. |
 | placement | `PopoverPlacement`                  | `PopoverPlacement::Top` | Popover placement.            |
+| tooltip   | `bool`                              | `false`                 | Tooltip.                      |
 | children  | `Children`                          |                         | The content inside popover.   |
 
 ### Popover Slots
