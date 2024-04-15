@@ -1,34 +1,23 @@
-mod multiselect;
-mod theme;
-
-pub use multiselect::Multiselect;
-pub use theme::SelectTheme;
-
+use super::SelectOption;
 use crate::{theme::use_theme, Theme};
 use leptos::*;
 use std::hash::Hash;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub struct SelectOption<T> {
-    pub label: String,
-    pub value: T,
-}
-
 #[component]
-pub fn Select<T>(
-    #[prop(optional, into)] value: Model<Option<T>>,
+pub fn Multiselect<T>(
+    #[prop(optional, into)] value: Model<Vec<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView
 where
     T: Eq + Hash + Clone + 'static,
 {
-    mount_style("select", include_str!("./select.css"));
+    mount_style("multiselect", include_str!("./multiselect.css"));
 
     let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
+    let css_vars = Memo::new(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
             let border_color_hover = theme.common.color_primary.clone();
@@ -47,7 +36,7 @@ where
         css_vars
     });
 
-    let menu_css_vars = create_memo(move |_| {
+    let menu_css_vars = Memo::new(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
             css_vars.push_str(&format!(
@@ -86,9 +75,7 @@ where
                 if current_el == *body {
                     break;
                 };
-                if current_el == ***menu_ref.get().unwrap()
-                    || current_el == ***trigger_ref.get().unwrap()
-                {
+                if current_el == ***menu_ref.get().unwrap() {
                     return;
                 }
                 el = current_el.parent_element();
@@ -97,28 +84,14 @@ where
         });
         on_cleanup(move || timer.remove());
     }
-
-    let temp_options = options.clone();
-    let select_option_label = create_memo(move |_| match value.get() {
-        Some(value) => temp_options
-            .get()
-            .iter()
-            .find(move |v| v.value == value)
-            .map_or(String::new(), |v| v.label.clone()),
-        None => String::new(),
-    });
-
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-select", class.map(| c | move || c.get())]
+                class=class_list!["thaw-multiselect", class.map(| c | move || c.get())]
                 ref=trigger_ref
                 on:click=show_menu
                 style=move || css_vars.get()
             >
-
-                {move || select_option_label.get()}
-
             </div>
             <Follower
                 slot
@@ -134,7 +107,7 @@ where
                     let:display
                 >
                     <div
-                        class="thaw-select-menu"
+                        class="thaw-multiselect-menu"
                         style=move || {
                             display
                                 .get()
@@ -148,24 +121,28 @@ where
                             each=move || options.get()
                             key=move |item| item.value.clone()
                             children=move |item| {
-                                let item = store_value(item);
-                                let onclick = move |_| {
-                                    let SelectOption { value: item_value, label: _ } = item
-                                        .get_value();
-                                    value.set(Some(item_value));
-                                    is_show_menu.set(false);
-                                };
+                                let SelectOption { value: item_value, label } = item;
+                                let item_value = StoredValue::new(item_value);
+                                let is_selected = Memo::new(move |_| item_value.with_value(|item_value| value.with(|value| value.iter().any(|item| item == item_value))));
                                 view! {
                                     <div
-                                        class="thaw-select-menu__item"
+                                        class="thaw-multiselect-menu__item"
                                         class=(
-                                            "thaw-select-menu__item-selected",
-                                            move || value.get() == Some(item.get_value().value),
+                                            "thaw-multiselect-menu__item-selected",
+                                            move || is_selected.get()
                                         )
 
-                                        on:click=onclick
+                                        on:click=move |_| {
+                                            value.update(|value|
+                                                if is_selected.get_untracked() {
+
+                                                } else {
+                                                    value.push(item_value.get_value());
+                                                }
+                                            )
+                                        }
                                     >
-                                        {item.get_value().label}
+                                        {label}
                                     </div>
                                 }
                             }

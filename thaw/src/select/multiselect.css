@@ -1,0 +1,72 @@
+.thaw-multiselect {
+    position: relative;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    background-color: var(--thaw-background-color);
+    color: var(--thaw-font-color);
+    border: 1px solid var(--thaw-border-color);
+    border-radius: 3px;
+    transition: all 0.3s;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.thaw-multiselect:hover {
+    border-color: var(--thaw-border-color-hover);
+}
+
+.thaw-multiselect-menu {
+    color: var(--thaw-font-color);
+    background-color: var(--thaw-background-color);
+    box-sizing: border-box;
+    padding: 5px;
+    width: 100%;
+    max-height: 200px;
+    border-radius: 3px;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    overflow: auto;
+}
+
+.thaw-multiselect-menu__item {
+    padding: 6px 5px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.thaw-multiselect-menu__item:hover {
+    background-color: var(--thaw-background-color-hover);
+}
+
+.thaw-multiselect-menu__item-selected {
+    color: var(--thaw-font-color-selected);
+}
+
+.thaw-multiselect-menu.fade-in-scale-up-transition-leave-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.2s cubic-bezier(0.4, 0, 1, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-multiselect-menu.fade-in-scale-up-transition-enter-active {
+    transform-origin: inherit;
+    transition: opacity 0.2s cubic-bezier(0, 0, 0.2, 1),
+        transform 0.2s cubic-bezier(0, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-multiselect-menu.fade-in-scale-up-transition-enter-from,
+.thaw-multiselect-menu.fade-in-scale-up-transition-leave-to {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.thaw-multiselect-menu.fade-in-scale-up-transition-leave-from,
+.thaw-multiselect-menu.fade-in-scale-up-transition-enter-to {
+    opacity: 1;
+    transform: scale(1);
+}

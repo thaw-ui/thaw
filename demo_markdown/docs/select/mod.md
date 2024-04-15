@@ -19,6 +19,27 @@ view! {
 }
 ```
 
+### Multiselect
+
+```rust demo
+let value = create_rw_signal(vec![]);
+
+let options = vec![
+    SelectOption {
+        label: String::from("RwSignal"),
+        value: String::from("rw_signal"),
+    },
+    SelectOption {
+        label: String::from("Memo"),
+        value: String::from("memo"),
+    },
+];
+
+view! {
+    <Multiselect value options/>
+}
+```
+
 ### Select Props
 
 | Name    | Type                                | Default              | Description                               |
