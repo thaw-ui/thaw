@@ -179,7 +179,7 @@ where
                                 (v.label.clone(), v.variant)
                             });
                         let value = value.clone();
-                        let on_close = move |_| {
+                        let on_close = Callback::new(move |_| {
                             update!(|signal_value| {
                                 if let SelectValue::Multiple(values) = signal_value {
                                     let index = values
@@ -191,7 +191,7 @@ where
                                     }
                                 }
                             });
-                        };
+                        });
                         view! {
                             <Tag
                                 variant
