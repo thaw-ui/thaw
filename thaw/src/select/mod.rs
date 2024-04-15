@@ -119,6 +119,14 @@ where
     let show_menu = move |_| {
         is_show_menu.set(true);
     };
+    // Trigger the following menu to resync when the value is updated
+    let _ = watch(
+        move || value.track(),
+        move |_, _, _| {
+            is_show_menu.update(|_| {});
+        },
+        false,
+    );
 
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
