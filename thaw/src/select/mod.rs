@@ -123,7 +123,9 @@ where
     let _ = watch(
         move || value.track(),
         move |_, _, _| {
-            is_show_menu.update(|_| {});
+            if is_multi.get_untracked() {
+                is_show_menu.update(|_| {});
+            }
         },
         false,
     );
