@@ -4,12 +4,10 @@ pub use get_placement_style::FollowerPlacement;
 
 use crate::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
-use leptos::{
-    html::{AnyElement, ElementDescriptor, ToHtmlElement},
-    leptos_dom::helpers::WindowListenerHandle,
-    *,
+use leptos::{html::ElementDescriptor, leptos_dom::helpers::WindowListenerHandle, *};
+use thaw_utils::{
+    add_event_listener, get_scroll_parent, mount_style, with_hydration_off, EventListenerHandle,
 };
-use thaw_utils::{add_event_listener, mount_style, with_hydration_off, EventListenerHandle};
 
 #[slot]
 pub struct Follower {
@@ -74,26 +72,26 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
     let resize_handle = store_value(None::<WindowListenerHandle>);
 
     let ensure_scroll_listener = move || {
-        let mut cursor = target_ref.get_untracked().map(|target| target.into_any());
-        let mut scrollable_element_vec = vec![];
+        let Some(el) = target_ref.get_untracked().map(|target| target.into_any()) else {
+            return;
+        };
+
+        let mut handle_vec = vec![];
+        let mut cursor = get_scroll_parent(&el);
         loop {
-            cursor = get_scroll_parent(cursor);
-            if let Some(cursor) = cursor.take() {
-                scrollable_element_vec.push(cursor);
+            if let Some(el) = cursor.take() {
+                cursor = get_scroll_parent(&el);
+
+                let handle = add_event_listener(el, ev::scroll, move |_| {
+                    if let Some(scroll_listener) = scroll_listener.get_value() {
+                        scroll_listener.call(());
+                    }
+                });
+                handle_vec.push(handle);
             } else {
                 break;
             }
         }
-        let handle_vec = scrollable_element_vec
-            .into_iter()
-            .map(|ele| {
-                add_event_listener(ele, ev::scroll, move |_| {
-                    if let Some(scroll_listener) = scroll_listener.get_value() {
-                        scroll_listener.call(());
-                    }
-                })
-            })
-            .collect();
         scrollable_element_handle_vec.set_value(handle_vec);
     };
 
@@ -240,60 +238,4 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     });
 
     view! { <Teleport element=children immediate=show/> }
-}
-
-fn get_scroll_parent(element: Option<HtmlElement<AnyElement>>) -> Option<HtmlElement<AnyElement>> {
-    let Some(element) = element else {
-        return None;
-    };
-
-    fn get_parent_element(element: HtmlElement<AnyElement>) -> Option<HtmlElement<AnyElement>> {
-        if element.node_type() == 9 {
-            None
-        } else {
-            element.parent_element().map(|ele| ele.to_leptos_element())
-        }
-    }
-    let Some(parent_element) = get_parent_element(element) else {
-        return None;
-    };
-
-    if parent_element.node_type() == 9 {
-        return Some(parent_element);
-    }
-
-    if parent_element.node_type() == 1 {
-        fn get_overflow(
-            parent_element: &HtmlElement<AnyElement>,
-        ) -> Option<(String, String, String)> {
-            let Ok(Some(css_style_declaration)) = window().get_computed_style(parent_element)
-            else {
-                return None;
-            };
-            let Ok(overflow) = css_style_declaration.get_property_value("overflow") else {
-                return None;
-            };
-            let Ok(overflow_x) = css_style_declaration.get_property_value("overflowX") else {
-                return None;
-            };
-            let Ok(overflow_y) = css_style_declaration.get_property_value("overflowY") else {
-                return None;
-            };
-            Some((overflow, overflow_x, overflow_y))
-        }
-        if let Some((overflow, overflow_x, overflow_y)) = get_overflow(&parent_element) {
-            let overflow = format!("{overflow}{overflow_x}{overflow_y}");
-            if overflow.contains("auto") {
-                return Some(parent_element);
-            }
-            if overflow.contains("scroll") {
-                return Some(parent_element);
-            }
-            if overflow.contains("overlay") {
-                return Some(parent_element);
-            }
-        }
-    }
-
-    get_scroll_parent(Some(parent_element))
 }
