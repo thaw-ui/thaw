@@ -1,7 +1,5 @@
 .thaw-back-top {
     position: fixed;
-    right: 40px;
-    bottom: 40px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -40,7 +38,8 @@
     transform: scale(1);
 }
 
-.thaw-back-top > .thaw-icon {
+.thaw-back-top > svg {
+    font-size: 24px;
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -48,7 +47,7 @@
     box-shadow: 0 2px 12px 0px #0000002e;
 }
 
-.thaw-back-top:hover > .thaw-icon {
+.thaw-back-top:hover > svg {
     color: var(--thaw-icon-color-hover);
 }
 
@@ -56,6 +55,6 @@
     box-shadow: 0 2px 12px 0px #0000002e;
 }
 
-.thaw-back-top:active .thaw-icon {
+.thaw-back-top:active svg {
     color: var(--thaw-icon-color-active);
 }

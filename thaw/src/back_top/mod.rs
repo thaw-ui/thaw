@@ -4,11 +4,14 @@ pub use theme::BackTopTheme;
 
 use crate::{use_theme, Icon, Theme};
 use leptos::{html::ToHtmlElement, *};
-use thaw_components::{CSSTransition, Teleport};
-use thaw_utils::{add_event_listener, get_scroll_parent, mount_style};
+use thaw_components::{CSSTransition, Fallback, OptionComp, Teleport};
+use thaw_utils::{
+    add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle, OptionalProp,
+};
 
 #[component]
 pub fn BackTop(
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(default=40.into(), into)] right: MaybeSignal<i32>,
     #[prop(default=40.into(), into)] bottom: MaybeSignal<i32>,
     #[prop(default=180.into(), into)] visibility_height: MaybeSignal<i32>,
@@ -37,7 +40,7 @@ pub fn BackTop(
         style
     });
     let placeholder_ref = NodeRef::<html::Div>::new();
-    let back_top_ref = NodeRef::new();
+    let back_top_ref = NodeRef::<html::Div>::new();
     let is_show_back_top = RwSignal::new(false);
     let scroll_top = RwSignal::new(0);
 
@@ -50,28 +53,36 @@ pub fn BackTop(
     );
 
     let scroll_to_top = StoredValue::new(None::<Callback<()>>);
+    let scroll_handle = StoredValue::new(None::<EventListenerHandle>);
 
     placeholder_ref.on_load(move |el| {
-        let scroll_el = get_scroll_parent(&el.into_any())
-            .unwrap_or_else(|| document().document_element().unwrap().to_leptos_element());
+        request_animation_frame(move || {
+            let scroll_el = get_scroll_parent(&el.into_any())
+                .unwrap_or_else(|| document().document_element().unwrap().to_leptos_element());
 
-        {
-            let scroll_el = scroll_el.clone();
-            scroll_to_top.set_value(Some(Callback::new(move |_| {
-                scroll_el.scroll_by_with_scroll_to_options(
-                    web_sys::ScrollToOptions::new()
-                        .top(0.0)
-                        .behavior(web_sys::ScrollBehavior::Smooth),
-                );
-            })));
-        }
+            {
+                let scroll_el = scroll_el.clone();
+                scroll_to_top.set_value(Some(Callback::new(move |_| {
+                    scroll_el.scroll_to_with_scroll_to_options(
+                        web_sys::ScrollToOptions::new()
+                            .top(0.0)
+                            .behavior(web_sys::ScrollBehavior::Smooth),
+                    );
+                })));
+            }
 
-        let handle = add_event_listener(scroll_el.clone(), ev::scroll, move |_| {
-            scroll_top.set(scroll_el.scroll_top());
+            let handle = add_event_listener(scroll_el.clone(), ev::scroll, move |_| {
+                scroll_top.set(scroll_el.scroll_top());
+            });
+            scroll_handle.set_value(Some(handle));
         });
+    });
 
-        on_cleanup(move || {
-            handle.remove();
+    on_cleanup(move || {
+        scroll_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.remove();
+            }
         });
     });
 
@@ -93,8 +104,20 @@ pub fn BackTop(
                     show=is_show_back_top
                     let:display
                 >
-                    <div class="thaw-back-top" ref=back_top_ref style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| style.get()) on:click=on_click>
-                        <Icon icon=icondata_ai::AiVerticalAlignTopOutlined/>
+                    <div
+                        class=class_list!["thaw-back-top", class.map(| c | move || c.get())]
+                        ref=back_top_ref
+                        style=move || {
+                            display.get().map(|d| d.to_string()).unwrap_or_else(|| style.get())
+                        }
+                        on:click=on_click
+                    >
+                        <OptionComp value=children let:children>
+                            <Fallback slot>
+                                <Icon icon=icondata_ai::AiVerticalAlignTopOutlined/>
+                            </Fallback>
+                            {children()}
+                        </OptionComp>
                     </div>
                 </CSSTransition>
             </Teleport>
