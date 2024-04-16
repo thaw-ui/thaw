@@ -1,6 +1,7 @@
 mod alert;
 mod auto_complete;
 mod avatar;
+mod back_top;
 mod badge;
 mod breadcrumb;
 mod button;
@@ -46,6 +47,7 @@ mod upload;
 pub use alert::*;
 pub use auto_complete::*;
 pub use avatar::*;
+pub use back_top::*;
 pub use badge::*;
 pub use breadcrumb::*;
 pub use button::*;

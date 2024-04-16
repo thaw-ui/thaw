@@ -209,6 +209,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Navigation Components".into(),
             children: vec![
                 MenuItemOption {
+                    value: "back-top".into(),
+                    label: "Back Top".into(),
+                },
+                MenuItemOption {
                     value: "breadcrumb".into(),
                     label: "Breadcrumb".into(),
                 },

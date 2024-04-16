@@ -3,10 +3,11 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AutoCompleteTheme, AvatarTheme, BreadcrumbTheme, ButtonTheme, CalendarTheme,
-    CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme, MessageTheme,
-    PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme, SliderTheme,
-    SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, TypographyTheme, UploadTheme,
+    AlertTheme, AutoCompleteTheme, AvatarTheme, BackTopTheme, BreadcrumbTheme, ButtonTheme,
+    CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme,
+    MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme,
+    SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, TypographyTheme,
+    UploadTheme,
 };
 use leptos::*;
 
@@ -46,6 +47,7 @@ pub struct Theme {
     pub popover: PopoverTheme,
     pub collapse: CollapseTheme,
     pub scrollbar: ScrollbarTheme,
+    pub back_top: BackTopTheme,
 }
 
 impl Theme {
@@ -80,6 +82,7 @@ impl Theme {
             popover: PopoverTheme::light(),
             collapse: CollapseTheme::light(),
             scrollbar: ScrollbarTheme::light(),
+            back_top: BackTopTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -113,6 +116,7 @@ impl Theme {
             popover: PopoverTheme::dark(),
             collapse: CollapseTheme::dark(),
             scrollbar: ScrollbarTheme::dark(),
+            back_top: BackTopTheme::dark(),
         }
     }
 }
