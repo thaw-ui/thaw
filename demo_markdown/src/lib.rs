@@ -31,6 +31,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "AlertMdPage" => "../docs/alert/mod.md",
         "AutoCompleteMdPage" => "../docs/auto_complete/mod.md",
         "AvatarMdPage" => "../docs/avatar/mod.md",
+        "BackTopMdPage" => "../docs/back_top/mod.md",
         "BadgeMdPage" => "../docs/badge/mod.md",
         "BreadcrumbMdPage" => "../docs/breadcrumb/mod.md",
         "ButtonMdPage" => "../docs/button/mod.md",
