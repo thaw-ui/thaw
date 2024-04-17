@@ -13,7 +13,7 @@
     position: absolute;
     left: 2px;
     width: 100%;
-    background-color: var(--thaw-background-color);
+    background-color: var(--thaw-link-background-color);
     transition: top 0.15s cubic-bezier(0.4, 0, 0.2, 1),
         max-width 0.15s cubic-bezier(0.4, 0, 0.2, 1),
         background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -28,7 +28,7 @@
     border-radius: 2px;
     overflow: hidden;
     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: var(--thaw-rail-color);
+    background-color: var(--thaw-rail-background-color);
 }
 
 .thaw-anchor-rail__bar {
