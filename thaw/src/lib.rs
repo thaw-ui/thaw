@@ -1,4 +1,5 @@
 mod alert;
+mod anchor;
 mod auto_complete;
 mod avatar;
 mod back_top;
@@ -45,6 +46,7 @@ mod typography;
 mod upload;
 
 pub use alert::*;
+pub use anchor::*;
 pub use auto_complete::*;
 pub use avatar::*;
 pub use back_top::*;

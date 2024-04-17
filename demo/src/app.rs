@@ -47,6 +47,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/nav-bar" view=NavBarPage/>
                 <Route path="/toast" view=ToastPage/>
                 <Route path="/alert" view=AlertMdPage/>
+                <Route path="/anchor" view=AnchorMdPage/>
                 <Route path="/auto-complete" view=AutoCompleteMdPage/>
                 <Route path="/avatar" view=AvatarMdPage/>
                 <Route path="/back-top" view=BackTopMdPage/>

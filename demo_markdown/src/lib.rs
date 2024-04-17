@@ -29,6 +29,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "TabbarMdPage" => "../docs/_mobile/tabbar/mod.md",
         "ToastMdPage" => "../docs/_mobile/toast/mod.md",
         "AlertMdPage" => "../docs/alert/mod.md",
+        "AnchorMdPage" => "../docs/anchor/mod.md",
         "AutoCompleteMdPage" => "../docs/auto_complete/mod.md",
         "AvatarMdPage" => "../docs/avatar/mod.md",
         "BackTopMdPage" => "../docs/back_top/mod.md",
