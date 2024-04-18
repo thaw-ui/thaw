@@ -8,7 +8,7 @@
     margin-top: 0.5em;
 }
 
-.thaw-anchor-link-background {
+.thaw-anchor-background {
     max-width: 0;
     position: absolute;
     left: 2px;
@@ -36,9 +36,12 @@
     left: 0;
     width: 4px;
     height: 21px;
-    background-color: var(--thaw-rail-color-active);
     transition: top 0.15s cubic-bezier(0.4, 0, 0.2, 1),
         background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-anchor-rail__bar.thaw-anchor-rail__bar--active {
+    background-color: var(--thaw-title-color-active);
 }
 
 .thaw-anchor-link {
@@ -52,7 +55,7 @@
 }
 
 .thaw-anchor-link.thaw-anchor-link--active > .thaw-anchor-link__title {
-    color: var(--thaw-text-color-active);
+    color: var(--thaw-title-color-active);
 }
 
 .thaw-anchor-link__title {
@@ -69,11 +72,6 @@
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.thaw-anchor-link__title:hover,
-.thaw-anchor-link__title:focus {
-    color: var(--thaw-text-color-hover);
-}
-
-.thaw-anchor-link__title:active {
-    color: var(--thaw-text-color-pressed);
+.thaw-anchor-link__title:hover {
+    color: var(--thaw-title-color-hover);
 }

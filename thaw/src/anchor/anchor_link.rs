@@ -11,6 +11,7 @@ pub fn AnchorLink(
 ) -> impl IntoView {
     let anchor = use_anchor();
 
+    let title_ref = NodeRef::<html::A>::new();
     let href_id = StoredValue::new(None::<String>);
     let is_active = Memo::new(move |_| {
         href_id.with_value(|href_id| {
@@ -35,6 +36,19 @@ pub fn AnchorLink(
                     }
                 });
             });
+
+            title_ref.on_load(move |title_el| {
+                let _ = watch(
+                    move || is_active.get(),
+                    move |is_active, _, _| {
+                        if *is_active {
+                            let title_rect = title_el.get_bounding_client_rect();
+                            anchor.update_background_position(title_rect);
+                        }
+                    },
+                    true,
+                );
+            });
         }
     }
     let on_click = move |_| {
@@ -47,7 +61,7 @@ pub fn AnchorLink(
 
     view! {
         <div class=class_list!["thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get())]>
-            <a href=href class="thaw-anchor-link__title" on:click=on_click>
+            <a href=href class="thaw-anchor-link__title" on:click=on_click ref=title_ref>
                 {move || title.get()}
             </a>
             <OptionComp value=children let:children>
