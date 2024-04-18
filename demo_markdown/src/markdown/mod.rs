@@ -1,29 +1,35 @@
 mod code_block;
 
 use comrak::{
-    nodes::{AstNode, NodeValue},
+    nodes::{AstNode, LineColumn, NodeValue},
     parse_document, Arena,
 };
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
 use syn::ItemMacro;
 
-pub fn parse_markdown(md_text: &str) -> Result<(TokenStream, Vec<String>), String> {
+pub fn parse_markdown(md_text: &str) -> Result<(TokenStream, Vec<String>, Vec<(String, String)>), String> {
     let mut demos: Vec<String> = vec![];
+    let mut toc: Vec<(String, String)> = vec![];
 
     let arena = Arena::new();
     let mut options = comrak::Options::default();
     options.extension.table = true;
 
     let root = parse_document(&arena, &md_text, &options);
-    let body = iter_nodes(root, &mut demos);
-    Ok((body, demos))
+    let body = iter_nodes(md_text, root, &mut demos, &mut toc);
+    Ok((body, demos, toc))
 }
 
-fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream {
+fn iter_nodes<'a>(
+    md_text: &str,
+    node: &'a AstNode<'a>,
+    demos: &mut Vec<String>,
+    toc: &mut Vec<(String, String)>,
+) -> TokenStream {
     let mut children = vec![];
     for c in node.children() {
-        children.push(iter_nodes(c, demos));
+        children.push(iter_nodes(md_text, c, demos, toc));
     }
     match &node.data.borrow().value {
         NodeValue::Document => quote!(#(#children)*),
@@ -55,9 +61,15 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream
             </p >
         ),
         NodeValue::Heading(node_h) => {
+            let sourcepos = node.data.borrow().sourcepos;
+            let text = range_text(md_text, sourcepos.start.clone(), sourcepos.end.clone());
+            let level = node_h.level as usize + 1;
+            let text = text[level..].to_string();
+            let h_id = format!("{}", text.replace(' ', "-").to_ascii_lowercase());
+            toc.push((h_id.clone(), text));
             let h = Ident::new(&format!("h{}", node_h.level), Span::call_site());
             quote!(
-                <#h>
+                <#h id=#h_id>
                     #(#children)*
                 </#h>
             )
@@ -147,4 +159,41 @@ fn iter_nodes<'a>(node: &'a AstNode<'a>, demos: &mut Vec<String>) -> TokenStream
         NodeValue::FootnoteReference(_) => quote!("FootnoteReference todo!!!"),
         NodeValue::MultilineBlockQuote(_) => quote!("FootnoteReference todo!!!"),
     }
+}
+
+fn range_text(text: &str, start: LineColumn, end: LineColumn) -> &str {
+    let LineColumn {
+        line: start_line,
+        column: start_col,
+    } = start;
+    let LineColumn {
+        line: end_line,
+        column: end_col,
+    } = end;
+
+    let mut lines = text.lines();
+
+    let mut current_line_num = 1;
+    let mut start_line_text = lines.next().unwrap_or("");
+    while current_line_num < start_line {
+        start_line_text = lines.next().unwrap_or("");
+        current_line_num += 1;
+    }
+
+    let start_index = start_col - 1;
+    let mut start_line_text = &start_line_text[start_index..];
+
+    let mut current_line_num = start_line + 1;
+    while current_line_num < end_line {
+        let next_line = lines.next().unwrap_or("");
+        start_line_text = &next_line;
+        current_line_num += 1;
+    }
+
+    let end_index = end_col;
+    if current_line_num == end_line {
+        start_line_text = &start_line_text[..end_index];
+    }
+
+    start_line_text
 }

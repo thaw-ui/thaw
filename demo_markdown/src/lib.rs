@@ -78,11 +78,25 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
     for (fn_name, file_str) in file_list {
         let fn_name = Ident::new(fn_name, Span::call_site());
 
-        let (body, demos) = match parse_markdown(file_str) {
+        let (body, demos, toc) = match parse_markdown(file_str) {
             Ok(body) => body,
             Err(err) => {
                 return quote!(compile_error!(#err)).into();
             }
+        };
+
+        let toc = {
+            let links = toc
+                .into_iter()
+                .map(|h| format!(r##"<AnchorLink href="#{}" title="{}" />"##, h.0, h.1))
+                .collect::<Vec<_>>()
+                .join(" ");
+            let toc = format!(
+                "#[component] fn Toc() -> impl IntoView {{ view! {{ <Anchor>{}</Anchor> }} }}",
+                links
+            );
+            syn::parse_str::<ItemFn>(&toc)
+                .expect(&format!("Cannot be resolved as a function: \n {toc}"))
         };
 
         let demos: Vec<ItemFn> = demos
@@ -106,9 +120,14 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
             pub fn #fn_name() -> impl IntoView {
                 #(#demos)*
 
+                #toc
+
                 view! {
                     <div class="demo-components__component">
                         #body
+                    </div>
+                    <div class="demo-components__toc">
+                        <Toc />
                     </div>
                 }
             }
