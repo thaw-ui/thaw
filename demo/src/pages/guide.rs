@@ -64,7 +64,7 @@ pub fn GuidePage() -> impl IntoView {
 
                     </Menu>
                 </LayoutSider>
-                <Layout content_style="padding: 8px 12px 28px; display: flex;">
+                <Layout content_style="padding: 8px 12px 28px; display: flex;" class="doc-content">
                     <Outlet/>
                 </Layout>
             </Layout>

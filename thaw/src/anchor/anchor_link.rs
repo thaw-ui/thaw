@@ -1,16 +1,18 @@
 use crate::use_anchor;
 use leptos::*;
 use thaw_components::OptionComp;
-use thaw_utils::class_list;
+use thaw_utils::{class_list, OptionalProp, StoredMaybeSignal};
 
 #[component]
 pub fn AnchorLink(
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(into)] title: MaybeSignal<String>,
     #[prop(into)] href: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let anchor = use_anchor();
 
+    let title: StoredMaybeSignal<_> = title.into();
     let title_ref = NodeRef::<html::A>::new();
     let href_id = StoredValue::new(None::<String>);
     let is_active = Memo::new(move |_| {
@@ -60,8 +62,17 @@ pub fn AnchorLink(
     };
 
     view! {
-        <div class=class_list!["thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get())]>
-            <a href=href class="thaw-anchor-link__title" on:click=on_click ref=title_ref>
+        <div class=class_list![
+            "thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get()), class.map(| c
+            | move || c.get())
+        ]>
+            <a
+                href=href
+                class="thaw-anchor-link__title"
+                on:click=on_click
+                ref=title_ref
+                title=move || title.get()
+            >
                 {move || title.get()}
             </a>
             <OptionComp value=children let:children>

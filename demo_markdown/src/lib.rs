@@ -92,7 +92,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
                 .collect::<Vec<_>>()
                 .join(" ");
             let toc = format!(
-                "#[component] fn Toc() -> impl IntoView {{ view! {{ <Anchor>{}</Anchor> }} }}",
+                r##"#[component] fn Toc() -> impl IntoView {{ view! {{ <Anchor offset_target=".doc-content">{}</Anchor> }} }}"##,
                 links
             );
             syn::parse_str::<ItemFn>(&toc)

@@ -7,12 +7,13 @@ pub use theme::AnchorTheme;
 use crate::{use_theme, Theme};
 use leptos::*;
 use std::cmp::Ordering;
-use thaw_utils::{add_event_listener_with_bool, mount_style, throttle};
-use web_sys::DomRect;
+use thaw_utils::{add_event_listener_with_bool, class_list, mount_style, throttle, OptionalProp};
+use web_sys::{DomRect, Element};
 
 #[component]
 pub fn Anchor(
-    #[prop(into, optional)] offset_target: Option<web_sys::Element>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(into, optional)] offset_target: Option<OffsetTarget>,
     children: Children,
 ) -> impl IntoView {
     mount_style("anchor", include_str!("./anchor.css"));
@@ -58,9 +59,15 @@ pub fn Anchor(
     );
     let on_scroll = move || {
         element_ids.with(|ids| {
-            let offset_target_top = offset_target
-                .as_ref()
-                .map_or(0.0, |el| el.get_bounding_client_rect().top());
+            let offset_target_top = if let Some(offset_target) = offset_target.as_ref() {
+                if let Some(rect) = offset_target.get_bounding_client_rect() {
+                    rect.top()
+                } else {
+                    return;
+                }
+            } else {
+                0.0
+            };
 
             let mut links: Vec<LinkInfo> = vec![];
             for id in ids.iter() {
@@ -116,16 +123,30 @@ pub fn Anchor(
         scroll_handle.remove();
     });
     view! {
-        <div class="thaw-anchor" ref=anchor_ref style=move || css_vars.get()>
-             <div class="thaw-anchor-rail">
-                <div class="thaw-anchor-rail__bar" class=("thaw-anchor-rail__bar--active", move || active_id.with(|id| id.is_some())) ref=bar_ref>
-                </div>
-             </div>
-            <div class="thaw-anchor-background" ref=background_ref>
+        <div
+            class=class_list!["thaw-anchor", class.map(| c | move || c.get())]
+            ref=anchor_ref
+            style=move || css_vars.get()
+        >
+            <div class="thaw-anchor-rail">
+                <div
+                    class="thaw-anchor-rail__bar"
+                    class=(
+                        "thaw-anchor-rail__bar--active",
+                        move || active_id.with(|id| id.is_some()),
+                    )
+
+                    ref=bar_ref
+                ></div>
             </div>
-            <Provider value=AnchorInjection::new(anchor_ref, background_ref, bar_ref, element_ids, active_id)>
-                {children()}
-            </Provider>
+            <div class="thaw-anchor-background" ref=background_ref></div>
+            <Provider value=AnchorInjection::new(
+                anchor_ref,
+                background_ref,
+                bar_ref,
+                element_ids,
+                active_id,
+            )>{children()}</Provider>
         </div>
     }
 }
@@ -208,4 +229,39 @@ pub(crate) fn use_anchor() -> AnchorInjection {
 struct LinkInfo {
     top: f64,
     id: String,
+}
+
+pub enum OffsetTarget {
+    Selector(String),
+    Element(Element),
+}
+
+impl OffsetTarget {
+    fn get_bounding_client_rect(&self) -> Option<DomRect> {
+        match self {
+            OffsetTarget::Selector(selector) => {
+                let el = document().query_selector(selector).ok().flatten()?;
+                Some(el.get_bounding_client_rect())
+            }
+            OffsetTarget::Element(el) => Some(el.get_bounding_client_rect()),
+        }
+    }
+}
+
+impl From<&'static str> for OffsetTarget {
+    fn from(value: &'static str) -> Self {
+        Self::Selector(value.to_string())
+    }
+}
+
+impl From<String> for OffsetTarget {
+    fn from(value: String) -> Self {
+        Self::Selector(value)
+    }
+}
+
+impl From<Element> for OffsetTarget {
+    fn from(value: Element) -> Self {
+        Self::Element(value)
+    }
 }
