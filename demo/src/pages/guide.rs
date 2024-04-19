@@ -32,10 +32,19 @@ pub fn GuidePage() -> impl IntoView {
                 width: 896px;
                 margin: 0 auto;
             }
+            .demo-components__toc {
+                width: 190px;
+                margin: 12px 2px 12px 12px;
+            }
+            .demo-components__toc > .thaw-anchor {
+                position: sticky;
+                top: 36px;
+            }
             .demo-md-table-box {
                 overflow: auto;
             }
             @media screen and (max-width: 1200px) {
+                .demo-components__toc,
                 .demo-guide__sider {
                     display: none;
                 }
@@ -55,7 +64,7 @@ pub fn GuidePage() -> impl IntoView {
 
                     </Menu>
                 </LayoutSider>
-                <Layout content_style="padding: 8px 12px 28px;">
+                <Layout content_style="padding: 8px 12px 28px; display: flex;" class="doc-content">
                     <Outlet/>
                 </Layout>
             </Layout>

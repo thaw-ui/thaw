@@ -1,0 +1,77 @@
+.thaw-anchor {
+    position: relative;
+    padding-left: 4px;
+}
+
+.thaw-anchor .thaw-anchor-link + .thaw-anchor-link,
+.thaw-anchor .thaw-anchor-link > .thaw-anchor-link {
+    margin-top: 0.5em;
+}
+
+.thaw-anchor-background {
+    max-width: 0;
+    position: absolute;
+    left: 2px;
+    width: 100%;
+    background-color: var(--thaw-link-background-color);
+    transition: top 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+        max-width 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-anchor-rail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: var(--thaw-rail-background-color);
+}
+
+.thaw-anchor-rail__bar {
+    position: absolute;
+    left: 0;
+    width: 4px;
+    height: 21px;
+    transition: top 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-anchor-rail__bar.thaw-anchor-rail__bar--active {
+    background-color: var(--thaw-title-color-active);
+}
+
+.thaw-anchor-link {
+    padding: 0 0 0 16px;
+    position: relative;
+    line-height: 1.5;
+    font-size: 13px;
+    min-height: 1.5em;
+    display: flex;
+    flex-direction: column;
+}
+
+.thaw-anchor-link.thaw-anchor-link--active > .thaw-anchor-link__title {
+    color: var(--thaw-title-color-active);
+}
+
+.thaw-anchor-link__title {
+    outline: none;
+    max-width: 100%;
+    text-decoration: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    display: inline-block;
+    padding-right: 16px;
+    color: inherit;
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-anchor-link__title:hover {
+    color: var(--thaw-title-color-hover);
+}
