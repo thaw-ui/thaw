@@ -13,9 +13,9 @@ pub fn SwitchVersion() -> impl IntoView {
         if #[cfg(any(feature = "csr", feature = "hydrate"))] {
             let location = window().location();
             let origin = location.origin().ok();
-            let version = RwSignal::new(SelectValue::from(origin));
+            let version = RwSignal::new(origin);
             let _ = version.watch(move |origin| {
-                if let SelectValue::Single(Some(origin)) = origin {
+                if let Some(origin) = origin {
                     let pathname = location.pathname().unwrap_or_default();
                     let href = format!("{}{}", origin, pathname);
                     let _ = location.set_href(&href);

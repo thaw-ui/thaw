@@ -8,11 +8,11 @@ use syn::ItemFn;
 macro_rules! file_path {
     ($($key:expr => $value:expr),*) => {
         {
-            let mut pairs = Vec::new();
-            $(
-                pairs.push(($key, include_str!($value)));
-            )*
-            pairs
+            vec![
+                $(
+                    ($key, include_str!($value)),
+                )*
+            ]
         }
     }
 }
@@ -52,6 +52,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "MenuMdPage" => "../docs/menu/mod.md",
         "MessageMdPage" => "../docs/message/mod.md",
         "ModalMdPage" => "../docs/modal/mod.md",
+        "MultiSelectMdPage" => "../docs/multi_select/mod.md",
         "PopoverMdPage" => "../docs/popover/mod.md",
         "ProgressMdPage" => "../docs/progress/mod.md",
         "RadioMdPage" => "../docs/radio/mod.md",
@@ -95,7 +96,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
             })
             .map(|demo| {
                 syn::parse_str::<ItemFn>(&demo)
-                    .expect(&format!("Cannot be resolved as a function: \n {demo}"))
+                    .unwrap_or_else(|_| panic!("Cannot be resolved as a function: \n {demo}"))
             })
             .collect();
 

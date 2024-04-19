@@ -2,7 +2,7 @@
     position: relative;
     padding: 0 10px;
     min-height: 30px;
-    line-height: 30px;
+    line-height: 28px;
     background-color: var(--thaw-background-color);
     color: var(--thaw-font-color);
     border: 1px solid var(--thaw-border-color);
@@ -10,10 +10,6 @@
     transition: all 0.3s;
     cursor: pointer;
     box-sizing: border-box;
-}
-
-.thaw-select.thaw-select--multiple {
-    line-height: 26px;
 }
 
 .thaw-select.thaw-select--multiple .thaw-tag {
