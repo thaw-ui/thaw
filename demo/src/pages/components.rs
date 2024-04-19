@@ -171,7 +171,7 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Select".into(),
                 },
                 MenuItemOption {
-                    value: "multi-select".into(),
+                    value: "select-multi".into(),
                     label: "Select Multiple".into(),
                 },
                 MenuItemOption {

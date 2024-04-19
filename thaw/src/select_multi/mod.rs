@@ -5,7 +5,7 @@ use thaw_utils::{Model, OptionalProp};
 use crate::{select::raw::RawSelect, SelectLabel, SelectOption, Tag, TagVariant};
 
 #[component]
-pub fn MultiSelect<T>(
+pub fn SelectMulti<T>(
     #[prop(optional, into)] values: Model<Vec<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,

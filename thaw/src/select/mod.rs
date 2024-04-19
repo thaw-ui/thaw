@@ -1,8 +1,6 @@
-mod multi;
-mod raw;
+pub(crate) mod raw;
 mod theme;
 
-pub use multi::*;
 pub use theme::SelectTheme;
 
 use leptos::*;

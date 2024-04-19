@@ -19,7 +19,7 @@ let options = vec![
 ];
 
 view! {
-    <MultiSelect values options />
+    <SelectMulti values options />
 }
 ```
 
