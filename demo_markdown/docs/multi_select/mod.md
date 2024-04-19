@@ -30,3 +30,9 @@ view! {
 | class   | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the select element. |
 | values  | `Model<Vec<T>>`                     | `vec![]`             | Checked values.                           |
 | options | `MaybeSignal<Vec<SelectOption<T>>>` | `vec![]`             | Options that can be selected.             |
+
+### Select Multiple Slots
+
+| Name        | Default | Description   |
+| ----------- | ------- | ------------- |
+| SelectLabel | `None`  | Select label. |

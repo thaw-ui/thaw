@@ -9,7 +9,7 @@ pub fn MultiSelect<T>(
     #[prop(optional, into)] values: Model<Vec<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] label: Option<SelectLabel>,
+    #[prop(optional)] select_label: Option<SelectLabel>,
 ) -> impl IntoView
 where
     T: Eq + Hash + Clone + 'static,
@@ -51,7 +51,7 @@ where
                 }
             });
         });
-    let label = label.unwrap_or_else(|| {
+    let label = select_label.unwrap_or_else(|| {
         let options = options.clone();
         let signal_values = values;
         let value_label = Signal::derive(move || {
