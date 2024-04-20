@@ -4,6 +4,7 @@
     min-height: 30px;
     line-height: 28px;
     background-color: var(--thaw-background-color);
+    font-size: 14px;
     color: var(--thaw-font-color);
     border: 1px solid var(--thaw-border-color);
     border-radius: 3px;
