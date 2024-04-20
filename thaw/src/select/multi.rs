@@ -152,12 +152,12 @@ where
                         <Icon
                             class="thaw-select-dropdown-icon"
                             icon=icondata_ai::AiCloseCircleFilled
-                            on_click=move |_| {
+                            on_click=Callback::new(move |_| {
                                 set_timeout(
                                     move || value.set(vec![]),
                                     Duration::ZERO,
                                 )
-                            }
+                            })
                         />
                     }
                 } else {
