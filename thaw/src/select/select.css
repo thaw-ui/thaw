@@ -22,6 +22,7 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 12px;
+    opacity: 40%;
 }
 
 .thaw-select.thaw-select--multiple .thaw-tag {
