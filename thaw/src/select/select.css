@@ -36,6 +36,7 @@
 }
 
 .thaw-select-menu {
+    font-size: 14px;
     color: var(--thaw-font-color);
     background-color: var(--thaw-background-color);
     box-sizing: border-box;
