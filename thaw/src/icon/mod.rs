@@ -20,6 +20,9 @@ pub fn Icon(
     /// HTML style attribute.
     #[prop(into, optional)]
     style: Option<MaybeSignal<String>>,
+    /// Callback when clicking on the icon.
+    #[prop(optional, into)]
+    on_click: Option<Callback<ev::MouseEvent>>,
 ) -> impl IntoView {
     let icon_style = RwSignal::new(None);
     let icon_x = RwSignal::new(None);
@@ -33,6 +36,11 @@ pub fn Icon(
     let icon_stroke = RwSignal::new(None);
     let icon_fill = RwSignal::new(None);
     let icon_data = RwSignal::new(None);
+    let on_click = move |ev| {
+        if let Some(click) = on_click.as_ref() {
+            click.call(ev);
+        }
+    };
 
     create_isomorphic_effect(move |_| {
         let icon = icon.get();
@@ -84,6 +92,7 @@ pub fn Icon(
             stroke=move || take(icon_stroke)
             fill=move || take(icon_fill)
             inner_html=move || take(icon_data)
+            on:click=on_click
         ></svg>
     }
 }

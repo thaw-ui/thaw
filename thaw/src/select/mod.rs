@@ -9,7 +9,10 @@ use leptos::*;
 use std::{hash::Hash, rc::Rc};
 use thaw_utils::{Model, OptionalProp};
 
-use crate::select::raw::RawSelect;
+use crate::{
+    select::raw::{RawSelect, SelectIcon},
+    Icon,
+};
 
 #[slot]
 pub struct SelectLabel {
@@ -51,7 +54,7 @@ where
             value.set(Some(item_value));
             hide_menu(());
         });
-    let label = select_label.unwrap_or_else(|| {
+    let select_label = select_label.unwrap_or_else(|| {
         let options = options.clone();
         let value_label = Signal::derive(move || {
             with!(|value, options| {
@@ -68,12 +71,20 @@ where
             children: Rc::new(move || Fragment::new(vec![value_label.into_view()])),
         }
     });
+    let select_icon = SelectIcon {
+        children: Rc::new(move || {
+            Fragment::new(vec![
+                view! { <Icon class="thaw-select-dropdown-icon" icon=icondata_ai::AiDownOutlined/> }.into_view()
+            ])
+        }),
+    };
 
     view! {
         <RawSelect
             options
             class
-            label
+            select_label
+            select_icon
             is_menu_visible
             on_select=on_select
             show_menu

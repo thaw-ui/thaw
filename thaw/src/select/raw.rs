@@ -1,20 +1,28 @@
-use std::hash::Hash;
+use std::{hash::Hash, time::Duration};
 
 use leptos::*;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
-use crate::{theme::use_theme, Icon, SelectLabel, SelectOption, Theme};
+use crate::{theme::use_theme, SelectLabel, SelectOption, Theme};
+
+#[slot]
+pub(crate) struct SelectIcon {
+    children: ChildrenFn,
+}
 
 #[component]
 pub(super) fn RawSelect<T, F>(
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    label: SelectLabel,
+    select_label: SelectLabel,
+    select_icon: SelectIcon,
     #[prop(optional, into)] is_menu_visible: Signal<bool>,
     #[prop(into)] on_select: Callback<(ev::MouseEvent, SelectOption<T>)>,
     #[prop(into)] show_menu: Callback<()>,
     #[prop(into)] hide_menu: Callback<()>,
+    #[prop(optional, into)] on_hover_enter: Option<Callback<()>>,
+    #[prop(optional, into)] on_hover_exit: Option<Callback<()>>,
     is_selected: F,
 ) -> impl IntoView
 where
@@ -71,21 +79,14 @@ where
         use leptos::wasm_bindgen::__rt::IntoJsResult;
         let listener = window_event_listener(ev::click, move |ev| {
             let el = ev.target();
-            let mut el: Option<web_sys::Element> =
-                el.into_js_result().map_or(None, |el| Some(el.into()));
-            let body = document().body().unwrap();
-            while let Some(current_el) = el {
-                if current_el == *body {
-                    break;
-                };
-                if current_el == ***menu_ref.get().unwrap()
-                    || current_el == ***trigger_ref.get().unwrap()
-                {
-                    return;
-                }
-                el = current_el.parent_element();
+            let el: Option<web_sys::Node> = el.into_js_result().map_or(None, |el| Some(el.into()));
+            let is_descendent_of_select = trigger_ref.get().unwrap().contains(el.as_ref());
+            let is_descendent_of_menu = menu_ref.get().unwrap().contains(el.as_ref());
+            if (!is_descendent_of_select && !is_descendent_of_menu)
+                || (is_menu_visible.get() && el.unwrap() == ****trigger_ref.get().unwrap())
+            {
+                hide_menu.call(());
             }
-            hide_menu.call(());
         });
         on_cleanup(move || listener.remove());
     }
@@ -95,11 +96,17 @@ where
             <div
                 class=class_list!["thaw-select", class.map(|c| move || c.get())]
                 ref=trigger_ref
-                on:click=move |_| show_menu.call(())
+                on:click=move |_| {
+                    if !is_menu_visible.get_untracked() {
+                        set_timeout(move || show_menu.call(()), Duration::ZERO);
+                    }
+                }
+                on:mouseenter=move |_| if let Some(cb) = on_hover_enter { cb.call(()) }
+                on:mouseleave=move |_| if let Some(cb) = on_hover_exit { cb.call(()) }
                 style=move || css_vars.get()
             >
-                {label.children}
-                <Icon class="thaw-select-dropdown-icon" icon=icondata_ai::AiDownOutlined/>
+                {select_label.children}
+                {select_icon.children}
             </div>
             <Follower
                 slot

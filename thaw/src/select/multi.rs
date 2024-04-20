@@ -1,8 +1,11 @@
 use leptos::*;
-use std::{hash::Hash, rc::Rc};
+use std::{hash::Hash, rc::Rc, time::Duration};
 use thaw_utils::{Model, OptionalProp};
 
-use crate::{select::raw::RawSelect, SelectLabel, SelectOption, Tag, TagVariant};
+use crate::{
+    select::raw::{RawSelect, SelectIcon},
+    Icon, SelectLabel, SelectOption, Tag, TagVariant,
+};
 
 #[derive(Clone, Default, PartialEq, Eq, Hash)]
 pub struct MultiSelectOption<T> {
@@ -84,7 +87,7 @@ where
                 }
             });
         });
-    let label = select_label.unwrap_or_else(|| {
+    let select_label = select_label.unwrap_or_else(|| {
         let options = options.clone();
         let signal_value = value;
         let value_label = Signal::derive(move || {
@@ -99,16 +102,24 @@ where
                                 (v.label.clone(), v.variant)
                             });
                         let value = value.clone();
-                        let on_close = Callback::new(move |_| {
-                            update!(|signal_value| {
-                                let index = signal_value
-                                    .iter()
-                                    .enumerate()
-                                    .find_map(|(i, v)| (v == &value).then_some(i));
-                                if let Some(i) = index {
-                                    signal_value.remove(i);
-                                }
-                            });
+                        let on_close = Callback::new(move |ev: ev::MouseEvent| {
+                            ev.stop_propagation();
+                            let value = value.clone();
+                            // We remove the item on the next tick to ensure the menu on click handler works correctly
+                            set_timeout(
+                                move || {
+                                    update!(|signal_value| {
+                                        let index = signal_value
+                                            .iter()
+                                            .enumerate()
+                                            .find_map(|(i, v)| (v == &value).then_some(i));
+                                        if let Some(i) = index {
+                                            signal_value.remove(i);
+                                        }
+                                    });
+                                },
+                                Duration::ZERO,
+                            )
                         });
                         view! {
                             <Tag
@@ -127,6 +138,37 @@ where
             children: Rc::new(move || Fragment::new(vec![value_label.into_view()])),
         }
     });
+    let is_hovered = RwSignal::new(false);
+    let show_clear_icon = Signal::derive(move || {
+        (is_hovered.get() || is_menu_visible.get()) && with!(|value| !value.is_empty())
+    });
+    let on_hover_enter = Callback::new(move |_| is_hovered.set(true));
+    let on_hover_exit = Callback::new(move |_| is_hovered.set(false));
+    let select_icon = SelectIcon {
+        children: Rc::new(move || {
+            Fragment::new(vec![view! {
+                {move || if show_clear_icon.get() {
+                    view! {
+                        <Icon
+                            class="thaw-select-dropdown-icon"
+                            icon=icondata_ai::AiCloseCircleFilled
+                            on_click=move |_| {
+                                set_timeout(
+                                    move || value.set(vec![]),
+                                    Duration::ZERO,
+                                )
+                            }
+                        />
+                    }
+                } else {
+                    view! {
+                        <Icon class="thaw-select-dropdown-icon" icon=icondata_ai::AiDownOutlined/>
+                    }
+                }}
+            }
+            .into_view()])
+        }),
+    };
 
     // Trigger the following menu to resync when the value is updated
     let _ = watch(
@@ -141,11 +183,14 @@ where
         <RawSelect
             options=select_options
             class
-            label
+            select_label
+            select_icon
             is_menu_visible
             on_select=on_select
             show_menu
             hide_menu
+            on_hover_enter
+            on_hover_exit
             is_selected=is_selected
         />
     }
