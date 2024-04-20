@@ -4,7 +4,7 @@ use leptos::*;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
-use crate::{theme::use_theme, SelectLabel, SelectOption, Theme};
+use crate::{theme::use_theme, Icon, SelectLabel, SelectOption, Theme};
 
 #[component]
 pub(super) fn RawSelect<T, F>(
@@ -99,6 +99,7 @@ where
                 style=move || css_vars.get()
             >
                 {label.children}
+                <Icon class="thaw-select-dropdown-icon" icon=icondata_ai::AiDownOutlined/>
             </div>
             <Follower
                 slot
