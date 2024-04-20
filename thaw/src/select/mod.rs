@@ -1,13 +1,15 @@
-pub(crate) mod raw;
+mod multi;
+mod raw;
 mod theme;
 
+pub use multi::*;
 pub use theme::SelectTheme;
 
 use leptos::*;
 use std::{hash::Hash, rc::Rc};
 use thaw_utils::{Model, OptionalProp};
 
-use crate::{select::raw::RawSelect, TagVariant};
+use crate::select::raw::RawSelect;
 
 #[slot]
 pub struct SelectLabel {
@@ -18,7 +20,6 @@ pub struct SelectLabel {
 pub struct SelectOption<T> {
     pub label: String,
     pub value: T,
-    pub variant: TagVariant,
 }
 
 impl<T> SelectOption<T> {
@@ -26,13 +27,7 @@ impl<T> SelectOption<T> {
         SelectOption {
             label: label.into(),
             value,
-            variant: TagVariant::Default,
         }
-    }
-
-    pub fn with_variant(mut self, variant: TagVariant) -> SelectOption<T> {
-        self.variant = variant;
-        self
     }
 }
 

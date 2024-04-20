@@ -12,9 +12,13 @@
     box-sizing: border-box;
 }
 
+.thaw-select.thaw-select--multiple {
+    padding: 0 3px;
+}
+
 .thaw-select.thaw-select--multiple .thaw-tag {
     height: 20px;
-    margin-right: 6px;
+    margin-right: 3px;
 }
 
 .thaw-select:hover {

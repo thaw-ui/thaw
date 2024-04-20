@@ -7,7 +7,7 @@ use thaw_utils::{class_list, mount_style, OptionalProp};
 use crate::{theme::use_theme, SelectLabel, SelectOption, Theme};
 
 #[component]
-pub fn RawSelect<T, F>(
+pub(super) fn RawSelect<T, F>(
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     label: SelectLabel,
