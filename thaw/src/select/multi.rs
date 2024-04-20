@@ -43,6 +43,7 @@ pub fn MultiSelect<T>(
     #[prop(optional, into)] value: Model<Vec<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<MultiSelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] allow_clear: MaybeSignal<bool>,
     #[prop(optional)] select_label: Option<SelectLabel>,
 ) -> impl IntoView
 where
@@ -140,7 +141,8 @@ where
     });
     let is_hovered = RwSignal::new(false);
     let show_clear_icon = Signal::derive(move || {
-        (is_hovered.get() || is_menu_visible.get()) && with!(|value| !value.is_empty())
+        allow_clear.get()
+            && ((is_hovered.get() || is_menu_visible.get()) && with!(|value| !value.is_empty()))
     });
     let on_hover_enter = Callback::new(move |_| is_hovered.set(true));
     let on_hover_exit = Callback::new(move |_| is_hovered.set(false));
@@ -150,7 +152,7 @@ where
                 {move || if show_clear_icon.get() {
                     view! {
                         <Icon
-                            class="thaw-select-dropdown-icon"
+                            class="thaw-select-dropdown-icon thaw-select-dropdown-icon--clear"
                             icon=icondata_ai::AiCloseCircleFilled
                             on_click=Callback::new(move |_| {
                                 set_timeout(
