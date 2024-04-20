@@ -31,6 +31,37 @@ where
 {
     mount_style("select", include_str!("./select.css"));
 
+    let trigger_ref = create_node_ref::<html::Div>();
+    let menu_ref = create_node_ref::<html::Div>();
+    let min_width = RwSignal::new(0);
+
+    Effect::new(move |_| {
+        if let Some(menu) = menu_ref.get() {
+            show_menu.call(());
+            let _ = request_animation_frame_with_handle(move || {
+                min_width.set(menu.offset_width());
+                hide_menu.call(());
+            });
+        }
+    });
+
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
+    {
+        use leptos::wasm_bindgen::__rt::IntoJsResult;
+        let listener = window_event_listener(ev::click, move |ev| {
+            let el = ev.target();
+            let el: Option<web_sys::Node> = el.into_js_result().map_or(None, |el| Some(el.into()));
+            let is_descendent_of_select = trigger_ref.get().unwrap().contains(el.as_ref());
+            let is_descendent_of_menu = menu_ref.get().unwrap().contains(el.as_ref());
+            if (!is_descendent_of_select && !is_descendent_of_menu)
+                || (is_menu_visible.get() && el.unwrap() == ****trigger_ref.get().unwrap())
+            {
+                hide_menu.call(());
+            }
+        });
+        on_cleanup(move || listener.remove());
+    }
+
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
@@ -45,6 +76,10 @@ where
             css_vars.push_str(&format!(
                 "--thaw-border-color: {};",
                 theme.select.border_color
+            ));
+            css_vars.push_str(&format!(
+                "--thaw-select-min-width: {}px;",
+                min_width.get() + 22
             ));
         });
 
@@ -70,26 +105,6 @@ where
         });
         css_vars
     });
-
-    let trigger_ref = create_node_ref::<html::Div>();
-    let menu_ref = create_node_ref::<html::Div>();
-
-    #[cfg(any(feature = "csr", feature = "hydrate"))]
-    {
-        use leptos::wasm_bindgen::__rt::IntoJsResult;
-        let listener = window_event_listener(ev::click, move |ev| {
-            let el = ev.target();
-            let el: Option<web_sys::Node> = el.into_js_result().map_or(None, |el| Some(el.into()));
-            let is_descendent_of_select = trigger_ref.get().unwrap().contains(el.as_ref());
-            let is_descendent_of_menu = menu_ref.get().unwrap().contains(el.as_ref());
-            if (!is_descendent_of_select && !is_descendent_of_menu)
-                || (is_menu_visible.get() && el.unwrap() == ****trigger_ref.get().unwrap())
-            {
-                hide_menu.call(());
-            }
-        });
-        on_cleanup(move || listener.remove());
-    }
 
     view! {
         <Binder target_ref=trigger_ref>

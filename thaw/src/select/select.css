@@ -3,6 +3,7 @@
     display: inline-block;
     padding: 0 30px 0 10px;
     min-height: 30px;
+    min-width: var(--thaw-select-min-width);
     line-height: 28px;
     background-color: var(--thaw-background-color);
     font-size: 14px;
