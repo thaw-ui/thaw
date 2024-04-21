@@ -33,17 +33,6 @@ where
 
     let trigger_ref = create_node_ref::<html::Div>();
     let menu_ref = create_node_ref::<html::Div>();
-    let min_width = RwSignal::new(0);
-
-    Effect::new(move |_| {
-        if let Some(menu) = menu_ref.get() {
-            show_menu.call(());
-            let _ = request_animation_frame_with_handle(move || {
-                min_width.set(menu.offset_width());
-                hide_menu.call(());
-            });
-        }
-    });
 
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
@@ -76,10 +65,6 @@ where
             css_vars.push_str(&format!(
                 "--thaw-border-color: {};",
                 theme.select.border_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-select-min-width: {}px;",
-                min_width.get() + 22
             ));
         });
 
