@@ -105,7 +105,7 @@ where
                 on:mouseleave=move |_| if let Some(cb) = on_hover_exit { cb.call(()) }
                 style=move || css_vars.get()
             >
-                {select_label.children}
+                {(select_label.children)()}
                 {select_icon.children}
             </div>
             <Follower

@@ -136,7 +136,7 @@ where
             })
         });
         SelectLabel {
-            children: Rc::new(move || Fragment::new(vec![value_label.into_view()])),
+            children: Box::new(move || Fragment::new(vec![value_label.into_view()])),
         }
     });
     let is_hovered = RwSignal::new(false);

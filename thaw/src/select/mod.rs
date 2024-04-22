@@ -16,7 +16,7 @@ use crate::{
 
 #[slot]
 pub struct SelectLabel {
-    children: ChildrenFn,
+    children: Children,
 }
 
 #[derive(Clone, Default, PartialEq, Eq, Hash)]
@@ -68,7 +68,7 @@ where
             })
         });
         SelectLabel {
-            children: Rc::new(move || Fragment::new(vec![value_label.into_view()])),
+            children: Box::new(move || Fragment::new(vec![value_label.into_view()])),
         }
     });
     let select_icon = SelectIcon {
