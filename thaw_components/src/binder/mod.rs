@@ -184,8 +184,8 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         let mut style = String::new();
         if let Some(width) = width {
             let width = match width {
-                FollowerWidth::Target => format!("min-width: {}px;", target_rect.width()),
-                FollowerWidth::MinTarget => format!("width: {}px;", target_rect.width()),
+                FollowerWidth::Target => format!("width: {}px;", target_rect.width()),
+                FollowerWidth::MinTarget => format!("min-width: {}px;", target_rect.width()),
                 FollowerWidth::Px(width) => format!("width: {width}px;"),
             };
             style.push_str(&width);

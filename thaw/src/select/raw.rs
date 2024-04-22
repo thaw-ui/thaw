@@ -112,7 +112,7 @@ where
                 slot
                 show=is_menu_visible
                 placement=FollowerPlacement::BottomStart
-                width=FollowerWidth::Target
+                width=FollowerWidth::MinTarget
             >
                 <CSSTransition
                     node_ref=menu_ref
