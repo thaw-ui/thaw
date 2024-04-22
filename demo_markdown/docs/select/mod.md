@@ -48,12 +48,12 @@ view! {
 
 ### Multiple Select Props
 
-| Name        | Type                                | Default              | Description                               |
-| ----------- | ----------------------------------- | -------------------- | ----------------------------------------- |
-| class       | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the select element. |
-| value       | `Model<Vec<T>>`                     | `vec![]`             | Checked values.                           |
-| options     | `MaybeSignal<Vec<SelectOption<T>>>` | `vec![]`             | Options that can be selected.             |
-| allow_clear | `MaybeSignal<bool>`                 | `false`              | Allow the options to be cleared.          |
+| Name      | Type                                | Default              | Description                               |
+| --------- | ----------------------------------- | -------------------- | ----------------------------------------- |
+| class     | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the select element. |
+| value     | `Model<Vec<T>>`                     | `vec![]`             | Checked values.                           |
+| options   | `MaybeSignal<Vec<SelectOption<T>>>` | `vec![]`             | Options that can be selected.             |
+| clearable | `MaybeSignal<bool>`                 | `false`              | Allow the options to be cleared.          |
 
 ### Select Slots
 

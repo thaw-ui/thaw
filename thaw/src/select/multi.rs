@@ -43,7 +43,7 @@ pub fn MultiSelect<T>(
     #[prop(optional, into)] value: Model<Vec<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<MultiSelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] allow_clear: MaybeSignal<bool>,
+    #[prop(optional, into)] clearable: MaybeSignal<bool>,
     #[prop(optional)] select_label: Option<SelectLabel>,
 ) -> impl IntoView
 where
@@ -141,7 +141,7 @@ where
     });
     let is_hovered = RwSignal::new(false);
     let show_clear_icon = Signal::derive(move || {
-        allow_clear.get()
+        clearable.get()
             && ((is_hovered.get() || is_menu_visible.get()) && with!(|value| !value.is_empty()))
     });
     let on_hover_enter = Callback::new(move |_| is_hovered.set(true));
