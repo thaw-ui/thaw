@@ -53,6 +53,8 @@ pub fn Scrollbar(
     if let Some(comp_ref) = comp_ref {
         comp_ref.load(ScrollbarRef {
             container_scroll_top,
+            container_ref,
+            content_ref,
         });
     }
 
@@ -335,10 +337,18 @@ enum ThumbStatus {
 #[derive(Clone)]
 pub struct ScrollbarRef {
     container_scroll_top: RwSignal<i32>,
+    container_ref: NodeRef<html::Div>,
+    pub content_ref: NodeRef<html::Div>,
 }
 
 impl ScrollbarRef {
     pub fn container_scroll_top(&self) -> i32 {
         self.container_scroll_top.get_untracked()
+    }
+
+    pub fn scroll_to_with_scroll_to_options(&self, options: &web_sys::ScrollToOptions) {
+        if let Some(el) = self.container_ref.get_untracked() {
+            el.scroll_to_with_scroll_to_options(options);
+        }
     }
 }
