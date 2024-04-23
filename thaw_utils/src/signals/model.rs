@@ -132,6 +132,16 @@ impl<T> From<RwSignal<T>> for Model<T> {
     }
 }
 
+impl<T> From<(Signal<T>, WriteSignal<T>)> for Model<T> {
+    fn from((read, write): (Signal<T>, WriteSignal<T>)) -> Self {
+        Self {
+            read,
+            write,
+            on_write: None,
+        }
+    }
+}
+
 impl<T> From<(ReadSignal<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (ReadSignal<T>, WriteSignal<T>)) -> Self {
         Self {
