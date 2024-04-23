@@ -3,8 +3,8 @@ mod theme;
 pub use theme::TimePickerTheme;
 
 use crate::{
-    use_theme, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, Scrollbar, SignalWatch,
-    Theme,
+    use_theme, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, Scrollbar,
+    ScrollbarRef, SignalWatch, Theme,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::*;
@@ -165,9 +165,9 @@ fn Panel(
         _ = panel_ref;
     }
 
-    let hour_ref = create_node_ref::<html::Div>();
-    let minute_ref = create_node_ref::<html::Div>();
-    let second_ref = create_node_ref::<html::Div>();
+    let hour_ref = ComponentRef::<ScrollbarRef>::new();
+    let minute_ref = ComponentRef::<ScrollbarRef>::new();
+    let second_ref = ComponentRef::<ScrollbarRef>::new();
     comp_ref.load(PanelRef {
         hour_ref,
         minute_ref,
@@ -188,8 +188,8 @@ fn Panel(
                 ref=panel_ref
             >
                 <div class="thaw-time-picker-panel__time">
-                    <div class="thaw-time-picker-panel__time-hour" ref=hour_ref>
-                        <Scrollbar size=6>
+                    <div class="thaw-time-picker-panel__time-hour">
+                        <Scrollbar size=6 comp_ref=hour_ref>
                             {(0..24)
                                 .map(|hour| {
                                     let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
@@ -217,11 +217,11 @@ fn Panel(
                                     }
                                 })
                                 .collect_view()}
+                            <div class="thaw-time-picker-panel__time-padding"></div>
                         </Scrollbar>
-                        <div class="thaw-time-picker-panel__time-padding"></div>
                     </div>
-                    <div class="thaw-time-picker-panel__time-minute" ref=minute_ref>
-                        <Scrollbar size=6>
+                    <div class="thaw-time-picker-panel__time-minute">
+                        <Scrollbar size=6 comp_ref=minute_ref>
                             {(0..60)
                                 .map(|minute| {
                                     let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
@@ -249,11 +249,11 @@ fn Panel(
                                     }
                                 })
                                 .collect_view()}
+                            <div class="thaw-time-picker-panel__time-padding"></div>
                         </Scrollbar>
-                        <div class="thaw-time-picker-panel__time-padding"></div>
                     </div>
-                    <div class="thaw-time-picker-panel__time-second" ref=second_ref>
-                        <Scrollbar size=6>
+                    <div class="thaw-time-picker-panel__time-second">
+                        <Scrollbar size=6 comp_ref=second_ref>
                             {(0..60)
                                 .map(|second| {
                                     let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
@@ -281,8 +281,8 @@ fn Panel(
                                     }
                                 })
                                 .collect_view()}
+                            <div class="thaw-time-picker-panel__time-padding"></div>
                         </Scrollbar>
-                        <div class="thaw-time-picker-panel__time-padding"></div>
                     </div>
                 </div>
                 <div class="thaw-time-picker-panel__footer">
@@ -300,32 +300,38 @@ fn Panel(
 
 #[derive(Clone)]
 struct PanelRef {
-    hour_ref: NodeRef<html::Div>,
-    minute_ref: NodeRef<html::Div>,
-    second_ref: NodeRef<html::Div>,
+    hour_ref: ComponentRef<ScrollbarRef>,
+    minute_ref: ComponentRef<ScrollbarRef>,
+    second_ref: ComponentRef<ScrollbarRef>,
 }
 
 impl PanelRef {
-    fn scroll_top(el: HtmlElement<html::Div>) {
-        if let Ok(Some(slected_el)) =
-            el.query_selector(".thaw-time-picker-panel__time-item--slected")
-        {
-            use wasm_bindgen::JsCast;
-            if let Ok(slected_el) = slected_el.dyn_into::<web_sys::HtmlElement>() {
-                el.set_scroll_top(slected_el.offset_top());
-            }
+    fn scroll_top(scrollbar_ref: ScrollbarRef) {
+        let Some(contetn_ref) = scrollbar_ref.content_ref.get_untracked() else {
+            return;
+        };
+        let Ok(Some(slected_el)) =
+            contetn_ref.query_selector(".thaw-time-picker-panel__time-item--slected")
+        else {
+            return;
+        };
+        use wasm_bindgen::JsCast;
+        if let Ok(slected_el) = slected_el.dyn_into::<web_sys::HtmlElement>() {
+            scrollbar_ref.scroll_to_with_scroll_to_options(
+                web_sys::ScrollToOptions::new().top(f64::from(slected_el.offset_top())),
+            );
         }
     }
 
     fn scroll_into_view(&self) {
-        if let Some(hour_el) = self.hour_ref.get_untracked() {
-            Self::scroll_top(hour_el);
+        if let Some(hour) = self.hour_ref.get_untracked() {
+            Self::scroll_top(hour);
         }
-        if let Some(minute_el) = self.minute_ref.get_untracked() {
-            Self::scroll_top(minute_el);
+        if let Some(minute) = self.minute_ref.get_untracked() {
+            Self::scroll_top(minute);
         }
-        if let Some(second_el) = self.second_ref.get_untracked() {
-            Self::scroll_top(second_el);
+        if let Some(second) = self.second_ref.get_untracked() {
+            Self::scroll_top(second);
         }
     }
 }
