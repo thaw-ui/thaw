@@ -1,7 +1,7 @@
 .thaw-button {
     height: var(--thaw-height);
     padding: var(--thaw-padding);
-    font-size: var(--thaw-font-color);
+    font-size: var(--thaw-font-size);
     background-color: var(--thaw-background-color);
     color: var(--thaw-font-color);
     border: 1px solid var(--thaw-border-color);
