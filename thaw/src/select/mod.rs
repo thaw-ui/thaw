@@ -1,17 +1,37 @@
+mod multi;
+mod raw;
 mod theme;
 
+pub use multi::*;
 pub use theme::SelectTheme;
 
-use crate::{theme::use_theme, Theme};
 use leptos::*;
-use std::hash::Hash;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use std::{hash::Hash, rc::Rc};
+use thaw_utils::{Model, OptionalProp};
 
-#[derive(Clone, PartialEq, Eq, Hash)]
+use crate::{
+    select::raw::{RawSelect, SelectIcon},
+    Icon,
+};
+
+#[slot]
+pub struct SelectLabel {
+    children: Children,
+}
+
+#[derive(Clone, Default, PartialEq, Eq, Hash)]
 pub struct SelectOption<T> {
     pub label: String,
     pub value: T,
+}
+
+impl<T> SelectOption<T> {
+    pub fn new(label: impl Into<String>, value: T) -> SelectOption<T> {
+        SelectOption {
+            label: label.into(),
+            value,
+        }
+    }
 }
 
 #[component]
@@ -19,159 +39,57 @@ pub fn Select<T>(
     #[prop(optional, into)] value: Model<Option<T>>,
     #[prop(optional, into)] options: MaybeSignal<Vec<SelectOption<T>>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional)] select_label: Option<SelectLabel>,
 ) -> impl IntoView
 where
     T: Eq + Hash + Clone + 'static,
 {
-    mount_style("select", include_str!("./select.css"));
-
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            let border_color_hover = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--thaw-border-color-hover: {border_color_hover};"));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.select.background_color
-            ));
-            css_vars.push_str(&format!("--thaw-font-color: {};", theme.select.font_color));
-            css_vars.push_str(&format!(
-                "--thaw-border-color: {};",
-                theme.select.border_color
-            ));
+    let is_menu_visible = create_rw_signal(false);
+    let show_menu = move |_| is_menu_visible.set(true);
+    let hide_menu = move |_| is_menu_visible.set(false);
+    let is_selected = move |v: &T| with!(|value| value.as_ref() == Some(v));
+    let on_select: Callback<(ev::MouseEvent, SelectOption<T>)> =
+        Callback::new(move |(_, option): (ev::MouseEvent, SelectOption<T>)| {
+            let item_value = option.value;
+            value.set(Some(item_value));
+            hide_menu(());
         });
-
-        css_vars
-    });
-
-    let menu_css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.select.menu_background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-hover: {};",
-                theme.select.menu_background_color_hover
-            ));
-            css_vars.push_str(&format!("--thaw-font-color: {};", theme.select.font_color));
-            css_vars.push_str(&format!(
-                "--thaw-font-color-selected: {};",
-                theme.common.color_primary
-            ));
+    let select_label = select_label.unwrap_or_else(|| {
+        let options = options.clone();
+        let value_label = Signal::derive(move || {
+            with!(|value, options| {
+                match value {
+                    Some(value) => options
+                        .iter()
+                        .find(|opt| &opt.value == value)
+                        .map_or(String::new(), |v| v.label.clone()),
+                    None => String::new(),
+                }
+            })
         });
-        css_vars
+        SelectLabel {
+            children: Box::new(move || Fragment::new(vec![value_label.into_view()])),
+        }
     });
-
-    let is_show_menu = create_rw_signal(false);
-    let trigger_ref = create_node_ref::<html::Div>();
-    let menu_ref = create_node_ref::<html::Div>();
-    let show_menu = move |_| {
-        is_show_menu.set(true);
+    let select_icon = SelectIcon {
+        children: Rc::new(move || {
+            Fragment::new(vec![
+                view! { <Icon class="thaw-select-dropdown-icon" icon=icondata_ai::AiDownOutlined/> }.into_view()
+            ])
+        }),
     };
 
-    #[cfg(any(feature = "csr", feature = "hydrate"))]
-    {
-        use leptos::wasm_bindgen::__rt::IntoJsResult;
-        let timer = window_event_listener(ev::click, move |ev| {
-            let el = ev.target();
-            let mut el: Option<web_sys::Element> =
-                el.into_js_result().map_or(None, |el| Some(el.into()));
-            let body = document().body().unwrap();
-            while let Some(current_el) = el {
-                if current_el == *body {
-                    break;
-                };
-                if current_el == ***menu_ref.get().unwrap()
-                    || current_el == ***trigger_ref.get().unwrap()
-                {
-                    return;
-                }
-                el = current_el.parent_element();
-            }
-            is_show_menu.set(false);
-        });
-        on_cleanup(move || timer.remove());
-    }
-
-    let temp_options = options.clone();
-    let select_option_label = create_memo(move |_| match value.get() {
-        Some(value) => temp_options
-            .get()
-            .iter()
-            .find(move |v| v.value == value)
-            .map_or(String::new(), |v| v.label.clone()),
-        None => String::new(),
-    });
-
     view! {
-        <Binder target_ref=trigger_ref>
-            <div
-                class=class_list!["thaw-select", class.map(| c | move || c.get())]
-                ref=trigger_ref
-                on:click=show_menu
-                style=move || css_vars.get()
-            >
-
-                {move || select_option_label.get()}
-
-            </div>
-            <Follower
-                slot
-                show=is_show_menu
-                placement=FollowerPlacement::BottomStart
-                width=FollowerWidth::Target
-            >
-                <CSSTransition
-                    node_ref=menu_ref
-                    name="fade-in-scale-up-transition"
-                    appear=is_show_menu.get_untracked()
-                    show=is_show_menu
-                    let:display
-                >
-                    <div
-                        class="thaw-select-menu"
-                        style=move || {
-                            display
-                                .get()
-                                .map(|d| d.to_string())
-                                .unwrap_or_else(|| menu_css_vars.get())
-                        }
-
-                        ref=menu_ref
-                    >
-                        <For
-                            each=move || options.get()
-                            key=move |item| item.value.clone()
-                            children=move |item| {
-                                let item = store_value(item);
-                                let onclick = move |_| {
-                                    let SelectOption { value: item_value, label: _ } = item
-                                        .get_value();
-                                    value.set(Some(item_value));
-                                    is_show_menu.set(false);
-                                };
-                                view! {
-                                    <div
-                                        class="thaw-select-menu__item"
-                                        class=(
-                                            "thaw-select-menu__item-selected",
-                                            move || value.get() == Some(item.get_value().value),
-                                        )
-
-                                        on:click=onclick
-                                    >
-                                        {item.get_value().label}
-                                    </div>
-                                }
-                            }
-                        />
-
-                    </div>
-                </CSSTransition>
-            </Follower>
-        </Binder>
+        <RawSelect
+            options
+            class
+            select_label
+            select_icon
+            is_menu_visible
+            on_select=on_select
+            show_menu
+            hide_menu
+            is_selected=is_selected
+        />
     }
 }

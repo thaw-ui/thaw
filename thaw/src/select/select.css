@@ -1,9 +1,10 @@
 .thaw-select {
     position: relative;
-    padding: 0 10px;
-    height: 30px;
-    line-height: 30px;
+    padding: 0 30px 0 10px;
+    min-height: 30px;
+    line-height: 28px;
     background-color: var(--thaw-background-color);
+    font-size: 14px;
     color: var(--thaw-font-color);
     border: 1px solid var(--thaw-border-color);
     border-radius: 3px;
@@ -12,11 +13,35 @@
     box-sizing: border-box;
 }
 
+.thaw-select.thaw-select--multiple {
+    padding: 0 30px 0 3px;
+}
+
+.thaw-select-dropdown-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    opacity: 40%;
+    pointer-events: none;
+}
+
+.thaw-select-dropdown-icon--clear {
+    pointer-events: auto;
+}
+
+.thaw-select.thaw-select--multiple .thaw-tag {
+    height: 20px;
+    margin-right: 3px;
+}
+
 .thaw-select:hover {
     border-color: var(--thaw-border-color-hover);
 }
 
 .thaw-select-menu {
+    font-size: 14px;
     color: var(--thaw-font-color);
     background-color: var(--thaw-background-color);
     box-sizing: border-box;

@@ -6,7 +6,7 @@ use crate::{theme::use_theme, Icon, Theme};
 use leptos::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
-#[derive(Clone, Default)]
+#[derive(Clone, Copy, Default, PartialEq, Eq, Hash)]
 pub enum TagVariant {
     #[default]
     Default,
