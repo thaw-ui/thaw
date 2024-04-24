@@ -1,8 +1,10 @@
 .thaw-select {
     position: relative;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     padding: 0 30px 0 10px;
-    min-height: 30px;
-    line-height: 28px;
+    min-height: 34px;
     background-color: var(--thaw-background-color);
     font-size: 14px;
     color: var(--thaw-font-color);
@@ -14,7 +16,7 @@
 }
 
 .thaw-select.thaw-select--multiple {
-    padding: 0 30px 0 3px;
+    padding: 3px 30px 0 3px;
 }
 
 .thaw-select-dropdown-icon {
@@ -32,8 +34,8 @@
 }
 
 .thaw-select.thaw-select--multiple .thaw-tag {
-    height: 20px;
-    margin-right: 3px;
+    height: 24px;
+    margin: 0 3px 3px 0;
 }
 
 .thaw-select:hover {
