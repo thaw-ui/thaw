@@ -1,6 +1,7 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
 use leptos::*;
+use thaw_utils::{class_list, mount_style};
 
 /// The Icon component.
 #[component]
@@ -24,6 +25,8 @@ pub fn Icon(
     #[prop(optional, into)]
     on_click: Option<Callback<ev::MouseEvent>>,
 ) -> impl IntoView {
+    mount_style("icon", include_str!("./icon.css"));
+
     let icon_style = RwSignal::new(None);
     let icon_x = RwSignal::new(None);
     let icon_y = RwSignal::new(None);
@@ -79,7 +82,7 @@ pub fn Icon(
 
     view! {
         <svg
-            class=class.map(|c| c.get())
+            class=class_list!["thaw-icon", class.map(|c| move || c.get())]
             style=move || take_signal(icon_style)
             x=move || take(icon_x)
             y=move || take(icon_y)
