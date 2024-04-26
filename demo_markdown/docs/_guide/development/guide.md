@@ -2,7 +2,7 @@
 
 ### Code style
 
-It is recommended to use the Rust style instead of the functional stule in the newly added reactive code.
+It is recommended to use the Rust style instead of the functional style in the newly added reactive code.
 
 ```rust
 RwSignal::new(12) // ✅
