@@ -1,3 +1,21 @@
+## [0.3.1](https://github.com/thaw-ui/thaw/compare/v0.3.0...v0.3.1) (2024-04-27)
+
+### Features
+
+* Adds `BackTop` component.
+* Adds `Anchor` component.
+* Adds `MultiSelect` component.
+* thaw_utils: Adds get_scroll_parent function.
+* thaw_utils: Adds add_event_listener_with_bool function.
+* thaw_utils: Adds throttle function.
+
+### Bug Fixs
+
+* `Button` font size styling.
+* `TimePicker` scroll problem.
+* `Icon` inline-block.
+* `Select` height problem.
+
 ## [0.3.0](https://github.com/thaw-ui/thaw/compare/v0.3.0-beta...v0.3.0) (2024-04-14)
 
 ### Features
