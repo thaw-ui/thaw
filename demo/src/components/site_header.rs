@@ -103,9 +103,6 @@ pub fn SiteHeader() -> impl IntoView {
                 .demo-header__menu-popover-mobile {
                     padding: 0;
                 }
-                .demo-header__right-btn .thaw-select {
-                    width: 60px;
-                }
                 @media screen and (max-width: 600px) {
                     .demo-header {
                         padding: 0 8px;
