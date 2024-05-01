@@ -3,10 +3,10 @@
 ```rust demo
 view! {
     <Space>
-        <Button variant=ButtonVariant::Primary>"Primary"</Button>
-        <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-        <Button variant=ButtonVariant::Text>"Text"</Button>
-        <Button variant=ButtonVariant::Link>"Link"</Button>
+        <Button>"Secondary"</Button>
+        <Button variant=ButtonAppearance::Primary>"Primary"</Button>
+        <Button variant=ButtonAppearance::Subtle>"Subtle"</Button>
+        <Button variant=ButtonAppearance::Transparent>"Transparent"</Button>
     </Space>
 }
 ```
@@ -107,17 +107,17 @@ view! {
 ```rust demo
 view! {
     <Space>
-        <Button variant=ButtonVariant::Primary disabled=true>
+        <Button variant=ButtonAppearance::Primary disabled=true>
             "Primary"
         </Button>
-        <Button variant=ButtonVariant::Outlined disabled=true>
+        <Button disabled=true>
             "Outlined"
         </Button>
-        <Button variant=ButtonVariant::Text disabled=true>
-            "Text"
+        <Button variant=ButtonAppearance::Subtle disabled=true>
+            "Subtle"
         </Button>
-        <Button variant=ButtonVariant::Link disabled=true>
-            "Link"
+        <Button variant=ButtonAppearance::Transparent disabled=true>
+            "Transparent"
         </Button>
     </Space>
 }
@@ -152,14 +152,14 @@ view! {
 view! {
     <Space>
         <ButtonGroup>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
         </ButtonGroup>
         <ButtonGroup vertical=true>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
         </ButtonGroup>
     </Space>
 }
@@ -171,7 +171,7 @@ view! {
 | --- | --- | --- | --- |
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the button element. |
 | style | `Option<MaybeSignal<String>>` | `Default::default()` | Button's style. |
-| variant | `MaybeSignal<ButtonVariant>` | `ButtonVariant::Primary` | Button's variant. |
+| variant | `MaybeSignal<ButtonAppearance>` | `ButtonAppearance::Primary` | Button's variant. |
 | color | `MaybeSignal<ButtonColor>` | `ButtonColor::Primary` | Button's color. |
 | block | `MaybeSignal<bool>` | `false` | Whether the button is displayed as block. |
 | round | `MaybeSignal<bool>` | `false` | Whether the button shows rounded corners. |

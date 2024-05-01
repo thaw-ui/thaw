@@ -1,5 +1,5 @@
 use super::PanelVariant;
-use crate::{Button, ButtonSize, ButtonVariant};
+use crate::{Button, ButtonSize, ButtonAppearance};
 use chrono::{Datelike, NaiveDate};
 use leptos::*;
 
@@ -30,7 +30,7 @@ pub fn YearPanel(
         <div>
             <div class="thaw-date-picker-year-panel__header">
                 <Button
-                    variant=ButtonVariant::Link
+                    variant=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowLeftOutlined
                     on_click=previous_year_range
@@ -43,7 +43,7 @@ pub fn YearPanel(
 
                 </div>
                 <Button
-                    variant=ButtonVariant::Link
+                    variant=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowRightOutlined
                     on_click=next_year_range

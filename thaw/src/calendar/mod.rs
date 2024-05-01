@@ -2,7 +2,7 @@ mod theme;
 
 pub use theme::CalendarTheme;
 
-use crate::{use_theme, Button, ButtonGroup, ButtonVariant, Theme};
+use crate::{use_theme, Button, ButtonGroup, ButtonAppearance, Theme};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::*;
 use std::ops::Deref;
@@ -135,15 +135,13 @@ pub fn Calendar(
                 <span>
                     <ButtonGroup>
                         <Button
-                            variant=ButtonVariant::Outlined
                             icon=icondata_ai::AiLeftOutlined
                             on_click=previous_month
                         />
-                        <Button variant=ButtonVariant::Outlined on_click=today>
+                        <Button on_click=today>
                             "Today"
                         </Button>
                         <Button
-                            variant=ButtonVariant::Outlined
                             icon=icondata_ai::AiRightOutlined
                             on_click=next_month
                         />

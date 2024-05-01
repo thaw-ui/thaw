@@ -115,11 +115,13 @@ fn TheProvider(children: Children) -> impl IntoView {
     let theme = create_rw_signal(theme);
 
     view! {
-        <ThemeProvider theme>
-            <GlobalStyle/>
-            <MessageProvider>
-                <LoadingBarProvider>{children()}</LoadingBarProvider>
-            </MessageProvider>
-        </ThemeProvider>
+        <ConfigProvider theme>
+            <ThemeProvider theme>
+                <GlobalStyle/>
+                <MessageProvider>
+                    <LoadingBarProvider>{children()}</LoadingBarProvider>
+                </MessageProvider>
+            </ThemeProvider>
+        </ConfigProvider>
     }
 }

@@ -152,7 +152,7 @@ pub fn SiteHeader() -> impl IntoView {
                 <Popover placement=PopoverPlacement::BottomEnd class="demo-header__menu-popover-mobile">
                     <PopoverTrigger slot class="demo-header__menu-mobile">
                         <Button
-                            variant=ButtonVariant::Text
+                            variant=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
                             style="font-size: 22px; padding: 0px 6px;"
                         />
@@ -173,7 +173,7 @@ pub fn SiteHeader() -> impl IntoView {
                 </Popover>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
                     <Button
-                        variant=ButtonVariant::Text
+                        variant=ButtonAppearance::Subtle
                         on_click=move |_| {
                             let navigate = use_navigate();
                             navigate("/guide/installation", Default::default());
@@ -183,7 +183,7 @@ pub fn SiteHeader() -> impl IntoView {
                         "Guide"
                     </Button>
                     <Button
-                        variant=ButtonVariant::Text
+                        variant=ButtonAppearance::Subtle
                         on_click=move |_| {
                             let navigate = use_navigate();
                             navigate("/components/button", Default::default());
@@ -192,12 +192,12 @@ pub fn SiteHeader() -> impl IntoView {
 
                         "Components"
                     </Button>
-                    <Button variant=ButtonVariant::Text on_click=Callback::new(move |_| change_theme.call(()))>
+                    <Button variant=ButtonAppearance::Subtle on_click=Callback::new(move |_| change_theme.call(()))>
                         {move || theme_name.get()}
                     </Button>
                     <SwitchVersion />
                     <Button
-                        variant=ButtonVariant::Text
+                        variant=ButtonAppearance::Subtle
                         icon=icondata::AiGithubOutlined
                         round=true
                         style="font-size: 22px; padding: 0px 6px;"

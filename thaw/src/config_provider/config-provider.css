@@ -1,0 +1,8 @@
+.thaw-config-provider {
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase300);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+}

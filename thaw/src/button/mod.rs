@@ -10,12 +10,23 @@ use thaw_components::{OptionComp, Wave, WaveRef};
 use thaw_utils::{class_list, mount_style, ComponentRef, OptionalMaybeSignal, OptionalProp};
 
 #[derive(Default, PartialEq, Clone, Copy)]
-pub enum ButtonVariant {
+pub enum ButtonAppearance {
     #[default]
+    Secondary,
     Primary,
-    Outlined,
-    Text,
-    Link,
+    Subtle,
+    Transparent,
+}
+
+impl ButtonAppearance {
+    fn as_str(&self) -> &str {
+        match self {
+            ButtonAppearance::Secondary => "secondary",
+            ButtonAppearance::Primary => "primary",
+            ButtonAppearance::Subtle => "subtle",
+            ButtonAppearance::Transparent => "transparent",
+        }
+    }
 }
 
 #[derive(Default, Clone)]
@@ -97,7 +108,7 @@ impl ButtonSize {
 pub fn Button(
     #[prop(optional, into)] style: Option<MaybeSignal<String>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] variant: MaybeSignal<ButtonVariant>,
+    #[prop(optional, into)] variant: MaybeSignal<ButtonAppearance>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
     #[prop(optional, into)] block: MaybeSignal<bool>,
@@ -132,7 +143,8 @@ pub fn Button(
             ));
 
             match variant.get() {
-                ButtonVariant::Primary => {
+                ButtonAppearance::Secondary => {}
+                ButtonAppearance::Primary => {
                     let bg_color_hover = color.get().theme_color_hover(theme);
                     let bg_color_active = color.get().theme_color_active(theme);
                     css_vars.push_str(&format!("--thaw-background-color: {bg_color};"));
@@ -154,20 +166,7 @@ pub fn Button(
                         theme.button.color_border_disabled
                     ));
                 }
-                ButtonVariant::Outlined => {
-                    css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
-                    css_vars.push_str(&format!(
-                        "--thaw-border-color: {};",
-                        theme.button.border_color_outlined
-                    ));
-                    css_vars.push_str(&format!("--thaw-border-color-hover: {bg_color};"));
-                    css_vars.push_str(&format!("--thaw-ripple-color: {bg_color};"));
-                    css_vars.push_str(&format!(
-                        "--thaw-border-color-disabled: {};",
-                        theme.button.color_border_disabled
-                    ));
-                }
-                ButtonVariant::Text => {
+                ButtonAppearance::Subtle => {
                     css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
                     css_vars.push_str(&format!(
                         "--thaw-background-color-hover: {};",
@@ -179,7 +178,7 @@ pub fn Button(
                     ));
                     css_vars.push_str("--thaw-ripple-color: #0000;");
                 }
-                ButtonVariant::Link => {
+                ButtonAppearance::Transparent => {
                     css_vars.push_str(&format!("--thaw-font-color-hover: {bg_color};"));
                     css_vars.push_str("--thaw-ripple-color: #0000;");
                 }
@@ -222,13 +221,11 @@ pub fn Button(
     view! {
         <button
             class=class_list![
-                "thaw-button", ("thaw-button--outlined", move || variant.get() ==
-                ButtonVariant::Outlined), ("thaw-button--text", move || variant.get() ==
-                ButtonVariant::Text), ("thaw-button--link", move || variant.get() ==
-                ButtonVariant::Link), ("thaw-button--round", move || round.get()),
+                "thaw-button", ("thaw-button--round", move || round.get()),
                 ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||
-                disabled.get()), ("thaw-button--block", move || block.get()), class.map(| c | move
-                || c.get())
+                disabled.get()), ("thaw-button--block", move || block.get()),
+                move || format!("thaw-button--{}", variant.get().as_str()),
+                class.map(| c | move || c.get())
             ]
 
             style=move || {

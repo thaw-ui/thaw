@@ -3,7 +3,7 @@ mod theme;
 pub use theme::TimePickerTheme;
 
 use crate::{
-    use_theme, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, Scrollbar,
+    use_theme, Button, ButtonSize, ButtonAppearance, Icon, Input, InputSuffix, Scrollbar,
     ScrollbarRef, SignalWatch, Theme,
 };
 use chrono::{Local, NaiveTime, Timelike};
@@ -286,7 +286,7 @@ fn Panel(
                     </div>
                 </div>
                 <div class="thaw-time-picker-panel__footer">
-                    <Button variant=ButtonVariant::Outlined size=ButtonSize::Tiny on_click=now>
+                    <Button size=ButtonSize::Tiny on_click=now>
                         "Now"
                     </Button>
                     <Button size=ButtonSize::Tiny on_click=ok>

@@ -1,5 +1,5 @@
 use super::PanelVariant;
-use crate::{Button, ButtonSize, ButtonVariant};
+use crate::{Button, ButtonSize, ButtonAppearance};
 use chrono::{Datelike, Month, Months, NaiveDate};
 use leptos::*;
 
@@ -23,14 +23,14 @@ pub fn MonthPanel(
         <div class="thaw-date-picker-month-panel">
             <div class="thaw-date-picker-month-panel__header">
                 <Button
-                    variant=ButtonVariant::Link
+                    variant=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowLeftOutlined
                     on_click=previous_year
                 />
                 <div class="thaw-date-picker-date-panel__header-year">
                     <Button
-                        variant=ButtonVariant::Text
+                        variant=ButtonAppearance::Subtle
                         size=ButtonSize::Small
                         on_click=move |_| panel_variant.set(PanelVariant::Year)
                     >
@@ -38,7 +38,7 @@ pub fn MonthPanel(
                     </Button>
                 </div>
                 <Button
-                    variant=ButtonVariant::Link
+                    variant=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowRightOutlined
                     on_click=next_year
