@@ -1,6 +1,8 @@
 mod common;
+mod color;
 
 use self::common::CommonTheme;
+pub use color::ColorTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, AvatarTheme, BackTopTheme, BreadcrumbTheme,
@@ -20,6 +22,7 @@ pub trait ThemeMethod {
 pub struct Theme {
     pub name: String,
     pub common: CommonTheme,
+    pub color: ColorTheme,
     pub button: ButtonTheme,
     pub input: InputTheme,
     pub menu: MenuTheme,
@@ -56,6 +59,7 @@ impl Theme {
         Self {
             name: "light".into(),
             common: CommonTheme::light(),
+            color: ColorTheme::light(),
             button: ButtonTheme::light(),
             input: InputTheme::light(),
             menu: MenuTheme::light(),
@@ -91,6 +95,7 @@ impl Theme {
         Self {
             name: "dark".into(),
             common: CommonTheme::dark(),
+            color: ColorTheme::dark(),
             button: ButtonTheme::dark(),
             input: InputTheme::dark(),
             menu: MenuTheme::dark(),

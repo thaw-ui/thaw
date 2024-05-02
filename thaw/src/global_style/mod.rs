@@ -11,9 +11,9 @@ pub fn GlobalStyle() -> impl IntoView {
                     .style()
                     .set_property("background-color", &theme.common.background_color);
                 _ = body.style().set_property("color", &theme.common.font_color);
-                _ = body
-                    .style()
-                    .set_property("font-size", &theme.common.font_size);
+                // _ = body
+                //     .style()
+                //     .set_property("font-size", &theme.common.font_size);
                 _ = body
                     .style()
                     .set_property("color-scheme", &theme.common.color_scheme);

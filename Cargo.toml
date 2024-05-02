@@ -1,9 +1,17 @@
 [workspace]
 resolver = "2"
-members = ["thaw", "thaw_components", "thaw_utils", "demo", "demo_markdown"]
+members = [
+    "thaw",
+    "thaw_components",
+    "thaw_macro",
+    "thaw_utils",
+    "demo",
+    "demo_markdown",
+]
 exclude = ["examples"]
 
 [workspace.dependencies]
 thaw = { version = "0.3.1", path = "./thaw" }
 thaw_components = { version = "0.1.1", path = "./thaw_components" }
+thaw_macro = { version = "0.1.0", path = "./thaw_macro" }
 thaw_utils = { version = "0.0.3", path = "./thaw_utils" }
