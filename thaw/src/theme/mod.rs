@@ -1,16 +1,16 @@
-mod common;
 mod color;
+mod common;
 
 use self::common::CommonTheme;
-pub use color::ColorTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, AvatarTheme, BackTopTheme, BreadcrumbTheme,
-    ButtonTheme, CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme,
-    MenuTheme, MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme,
-    SkeletionTheme, SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
-    TypographyTheme, UploadTheme,
+    CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme,
+    MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme,
+    SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, TypographyTheme,
+    UploadTheme,
 };
+pub use color::ColorTheme;
 use leptos::*;
 
 pub trait ThemeMethod {
@@ -23,7 +23,6 @@ pub struct Theme {
     pub name: String,
     pub common: CommonTheme,
     pub color: ColorTheme,
-    pub button: ButtonTheme,
     pub input: InputTheme,
     pub menu: MenuTheme,
     pub table: TableTheme,
@@ -60,7 +59,6 @@ impl Theme {
             name: "light".into(),
             common: CommonTheme::light(),
             color: ColorTheme::light(),
-            button: ButtonTheme::light(),
             input: InputTheme::light(),
             menu: MenuTheme::light(),
             table: TableTheme::light(),
@@ -96,7 +94,6 @@ impl Theme {
             name: "dark".into(),
             common: CommonTheme::dark(),
             color: ColorTheme::dark(),
-            button: ButtonTheme::dark(),
             input: InputTheme::dark(),
             menu: MenuTheme::dark(),
             table: TableTheme::dark(),

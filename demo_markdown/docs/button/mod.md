@@ -54,84 +54,12 @@ view! {
             </Button>
         </Space>
         <Space>
-            <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
+            <Button icon=icondata::AiCloseOutlined>
                 "Error Color Icon"
             </Button>
-            <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
-                "Error Color Icon"
+            <Button icon=icondata::AiCloseOutlined>
             </Button>
-            <Button
-                color=ButtonColor::Error
-                icon=icondata::AiCloseOutlined
-                round=true
-            />
-            <Button
-                color=ButtonColor::Error
-                icon=icondata::AiCloseOutlined
-                circle=true
-            />
         </Space>
-    </Space>
-}
-```
-
-### Color
-
-```rust demo
-view! {
-    <Space>
-        <Button color=ButtonColor::Primary>"Primary Color"</Button>
-        <Button color=ButtonColor::Success>"Success Color"</Button>
-        <Button color=ButtonColor::Warning>"Warning Color"</Button>
-        <Button color=ButtonColor::Error>"Error Color"</Button>
-    </Space>
-}
-```
-
-
-### Loading
-
-```rust demo
-let loading = create_rw_signal(false);
-let on_click = move |_| {
-    loading.set(true);
-    set_timeout(
-        move || {
-            loading.set(false);
-        },
-        std::time::Duration::new(2, 0),
-    );
-};
-
-view! {
-    <Space>
-        <Button loading on_click icon=icondata::AiCloseOutlined>
-            "Click Me"
-        </Button>
-        <Button loading on_click>
-            "Click Me"
-        </Button>
-    </Space>
-}
-```
-
-### Disabled
-
-```rust demo
-view! {
-    <Space>
-        <Button appearance=ButtonAppearance::Primary disabled=true>
-            "Primary"
-        </Button>
-        <Button disabled=true>
-            "Outlined"
-        </Button>
-        <Button appearance=ButtonAppearance::Subtle disabled=true>
-            "Subtle"
-        </Button>
-        <Button appearance=ButtonAppearance::Transparent disabled=true>
-            "Transparent"
-        </Button>
     </Space>
 }
 ```
@@ -140,11 +68,68 @@ view! {
 
 ```rust demo
 view! {
-    <Space>
-        <Button size=ButtonSize::Tiny>"Primary"</Button>
-        <Button size=ButtonSize::Small>"Primary"</Button>
-        <Button size=ButtonSize::Medium>"Primary"</Button>
-        <Button size=ButtonSize::Large>"Primary"</Button>
+    <Space vertical=true>
+        <Space>
+            <Button size=ButtonSize::Small>"Small"</Button>
+            <Button size=ButtonSize::Small icon=icondata::AiCloseOutlined>
+                "Small with calendar icon"
+            </Button>
+            <Button size=ButtonSize::Small icon=icondata::AiCloseOutlined>
+            </Button>
+        </Space>
+        <Space>
+            <Button>"Medium"</Button>
+            <Button icon=icondata::AiCloseOutlined>
+                "Medium with calendar icon"
+            </Button>
+            <Button icon=icondata::AiCloseOutlined>
+            </Button>
+        </Space>
+        <Space>
+            <Button size=ButtonSize::Large>"Large"</Button>
+            <Button size=ButtonSize::Large icon=icondata::AiCloseOutlined>
+                "Large with calendar icon"
+            </Button>
+            <Button size=ButtonSize::Large icon=icondata::AiCloseOutlined>
+            </Button>
+        </Space>
+    </Space>
+}
+```
+
+### Disabled
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Space>
+            <Button disabled=true>
+                "Secondary"
+            </Button>
+            <Button appearance=ButtonAppearance::Primary disabled=true>
+                "Primary"
+            </Button>
+            <Button appearance=ButtonAppearance::Subtle disabled=true>
+                "Subtle"
+            </Button>
+            <Button appearance=ButtonAppearance::Transparent disabled=true>
+                "Transparent"
+            </Button>
+        </Space>
+        <Space>
+            <Button disabled_focusable=true>
+                "Secondary"
+            </Button>
+            <Button appearance=ButtonAppearance::Primary disabled_focusable=true>
+                "Primary"
+            </Button>
+            <Button appearance=ButtonAppearance::Subtle disabled_focusable=true>
+                "Subtle"
+            </Button>
+            <Button appearance=ButtonAppearance::Transparent disabled_focusable=true>
+                "Transparent"
+            </Button>
+        </Space>
     </Space>
 }
 ```

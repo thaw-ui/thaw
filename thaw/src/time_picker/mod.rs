@@ -286,10 +286,10 @@ fn Panel(
                     </div>
                 </div>
                 <div class="thaw-time-picker-panel__footer">
-                    <Button size=ButtonSize::Tiny on_click=now>
+                    <Button size=ButtonSize::Small on_click=now>
                         "Now"
                     </Button>
-                    <Button size=ButtonSize::Tiny on_click=ok>
+                    <Button size=ButtonSize::Small on_click=ok>
                         "OK"
                     </Button>
                 </div>

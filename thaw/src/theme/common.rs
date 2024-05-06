@@ -20,9 +20,13 @@ pub struct CommonTheme {
     pub color_error_hover: String,
     pub color_error_active: String,
 
+    pub font_size_base_200: String,
     pub font_size_base_300: String,
+    pub font_size_base_400: String,
 
-    pub line_height_base300: String,
+    pub line_height_base_200: String,
+    pub line_height_base_300: String,
+    pub line_height_base_400: String,
 
     pub font_weight_regular: String,
     pub font_weight_semibold: String,
@@ -35,7 +39,9 @@ pub struct CommonTheme {
     pub border_radius_circular: String,
     
     pub spacing_horizontal_s_nudge: String,
+    pub spacing_horizontal_s: String,
     pub spacing_horizontal_m: String,
+    pub spacing_horizontal_l: String,
 
     pub duration_faster: String,
     pub curve_easy_ease: String,
@@ -69,9 +75,13 @@ impl CommonTheme {
             color_error_hover: "".into(),
             color_error_active: "".into(),
 
+            font_size_base_200: "12px".into(),
             font_size_base_300: "14px".into(),
+            font_size_base_400: "16px".into(),
 
-            line_height_base300: "20px".into(),
+            line_height_base_200: "16px".into(),
+            line_height_base_300: "20px".into(),
+            line_height_base_400: "22px".into(),
 
             font_weight_regular: "400".into(),
             font_weight_semibold: "600".into(),
@@ -84,7 +94,9 @@ impl CommonTheme {
             border_radius_circular: "10000px".into(),
 
             spacing_horizontal_s_nudge: "6px".into(),
+            spacing_horizontal_s: "8px".into(),
             spacing_horizontal_m: "12px".into(),
+            spacing_horizontal_l: "16px".into(),
 
             duration_faster: "100ms".into(),
             curve_easy_ease: "cubic-bezier(0.33,0,0.67,1)".into(),

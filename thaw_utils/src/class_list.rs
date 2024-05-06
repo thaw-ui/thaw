@@ -1,6 +1,6 @@
 #[cfg(not(feature = "ssr"))]
 use leptos::create_render_effect;
-use leptos::{Attribute, IntoAttribute, Oco, RwSignal, SignalUpdate, SignalWith};
+use leptos::{Attribute, IntoAttribute, Memo, Oco, RwSignal, SignalGet, SignalUpdate, SignalWith};
 use std::{collections::HashSet, rc::Rc};
 
 pub struct ClassList(RwSignal<HashSet<Oco<'static, str>>>);
@@ -160,6 +160,12 @@ where
 {
     fn into_class(self) -> Class {
         Class::Fn(self.0.into(), Box::new(self.1))
+    }
+}
+
+impl IntoClass for (&'static str, Memo<bool>) {
+    fn into_class(self) -> Class {
+        Class::Fn(self.0.into(), Box::new(move || self.1.get()))
     }
 }
 

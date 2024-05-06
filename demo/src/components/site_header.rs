@@ -199,7 +199,6 @@ pub fn SiteHeader() -> impl IntoView {
                     <Button
                         appearance=ButtonAppearance::Subtle
                         icon=icondata::AiGithubOutlined
-                        round=true
                         style="font-size: 22px; padding: 0px 6px;"
                         on_click=move |_| {
                             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
