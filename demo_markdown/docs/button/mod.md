@@ -4,22 +4,21 @@
 view! {
     <Space>
         <Button>"Secondary"</Button>
-        <Button variant=ButtonAppearance::Primary>"Primary"</Button>
-        <Button variant=ButtonAppearance::Subtle>"Subtle"</Button>
-        <Button variant=ButtonAppearance::Transparent>"Transparent"</Button>
+        <Button appearance=ButtonAppearance::Primary>"Primary"</Button>
+        <Button appearance=ButtonAppearance::Subtle>"Subtle"</Button>
+        <Button appearance=ButtonAppearance::Transparent>"Transparent"</Button>
     </Space>
 }
 ```
 
-### Color
+### Shape
 
 ```rust demo
 view! {
     <Space>
-        <Button color=ButtonColor::Primary>"Primary Color"</Button>
-        <Button color=ButtonColor::Success>"Success Color"</Button>
-        <Button color=ButtonColor::Warning>"Warning Color"</Button>
-        <Button color=ButtonColor::Error>"Error Color"</Button>
+        <Button>"Rounded"</Button>
+        <Button shape=ButtonShape::Circular>"Circular"</Button>
+        <Button shape=ButtonShape::Square>"Square"</Button>
     </Space>
 }
 ```
@@ -76,6 +75,20 @@ view! {
 }
 ```
 
+### Color
+
+```rust demo
+view! {
+    <Space>
+        <Button color=ButtonColor::Primary>"Primary Color"</Button>
+        <Button color=ButtonColor::Success>"Success Color"</Button>
+        <Button color=ButtonColor::Warning>"Warning Color"</Button>
+        <Button color=ButtonColor::Error>"Error Color"</Button>
+    </Space>
+}
+```
+
+
 ### Loading
 
 ```rust demo
@@ -107,16 +120,16 @@ view! {
 ```rust demo
 view! {
     <Space>
-        <Button variant=ButtonAppearance::Primary disabled=true>
+        <Button appearance=ButtonAppearance::Primary disabled=true>
             "Primary"
         </Button>
         <Button disabled=true>
             "Outlined"
         </Button>
-        <Button variant=ButtonAppearance::Subtle disabled=true>
+        <Button appearance=ButtonAppearance::Subtle disabled=true>
             "Subtle"
         </Button>
-        <Button variant=ButtonAppearance::Transparent disabled=true>
+        <Button appearance=ButtonAppearance::Transparent disabled=true>
             "Transparent"
         </Button>
     </Space>
@@ -171,7 +184,7 @@ view! {
 | --- | --- | --- | --- |
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the button element. |
 | style | `Option<MaybeSignal<String>>` | `Default::default()` | Button's style. |
-| variant | `MaybeSignal<ButtonAppearance>` | `ButtonAppearance::Primary` | Button's variant. |
+| appearance | `MaybeSignal<ButtonAppearance>` | `ButtonAppearance::Primary` | Button's variant. |
 | color | `MaybeSignal<ButtonColor>` | `ButtonColor::Primary` | Button's color. |
 | block | `MaybeSignal<bool>` | `false` | Whether the button is displayed as block. |
 | round | `MaybeSignal<bool>` | `false` | Whether the button shows rounded corners. |

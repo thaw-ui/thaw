@@ -1,10 +1,9 @@
 use super::ThemeMethod;
+use thaw_macro::WriteCSSVars;
 
-#[derive(Clone)]
+#[derive(Clone, WriteCSSVars)]
 pub struct CommonTheme {
     pub font_family_base: String,
-    pub font_color: String,
-    pub background_color: String,
     pub border_color: String,
     pub color_scheme: String,
 
@@ -31,8 +30,11 @@ pub struct CommonTheme {
 
     pub stroke_width_thin: String,
 
+    pub border_radius_none: String,
     pub border_radius_medium: String,
-
+    pub border_radius_circular: String,
+    
+    pub spacing_horizontal_s_nudge: String,
     pub spacing_horizontal_m: String,
 
     pub duration_faster: String,
@@ -52,8 +54,6 @@ impl CommonTheme {
     fn common() -> Self {
         Self {
             font_family_base: "'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif".into(),
-            font_color: "".into(),
-            background_color: "".into(),
             border_color: "".into(),
             color_scheme: "".into(),
             color_primary: "".into(),
@@ -79,8 +79,11 @@ impl CommonTheme {
 
             stroke_width_thin: "1px".into(),
 
+            border_radius_none: "0".into(),
             border_radius_medium: "4px".into(),
+            border_radius_circular: "10000px".into(),
 
+            spacing_horizontal_s_nudge: "6px".into(),
             spacing_horizontal_m: "12px".into(),
 
             duration_faster: "100ms".into(),
@@ -101,8 +104,6 @@ impl CommonTheme {
 impl ThemeMethod for CommonTheme {
     fn light() -> Self {
         Self {
-            font_color: "#11181c".into(),
-            background_color: "#fff".into(),
             color_scheme: "light".into(),
             color_primary: "#0078ff".into(),
             color_primary_hover: "#2994ff".into(),
@@ -123,8 +124,6 @@ impl ThemeMethod for CommonTheme {
     }
     fn dark() -> Self {
         Self {
-            font_color: "#ecedee".into(),
-            background_color: "#1a1d1e".into(),
             color_scheme: "dark".into(),
             color_primary: "#0078ff".into(),
             color_primary_hover: "#2994ff".into(),

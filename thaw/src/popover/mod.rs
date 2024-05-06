@@ -38,7 +38,9 @@ pub fn Popover(
             let font_color = if tooltip {
                 "#fff"
             } else {
-                &theme.common.font_color
+                // TODO
+                // &theme.common.font_color
+                ""
             };
             css_vars.push_str(&format!("--thaw-font-color: {};", font_color));
         });

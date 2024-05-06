@@ -90,10 +90,10 @@ where
             on_blur=set_within_range
         >
             <InputSuffix slot>
-                <Button disabled=minus_disabled variant=ButtonAppearance::Transparent on_click=sub>
+                <Button disabled=minus_disabled appearance=ButtonAppearance::Transparent on_click=sub>
                     <Icon icon=icondata_ai::AiMinusOutlined style="font-size: 18px"/>
                 </Button>
-                <Button disabled=plus_disabled variant=ButtonAppearance::Transparent on_click=add>
+                <Button disabled=plus_disabled appearance=ButtonAppearance::Transparent on_click=add>
                     <Icon icon=icondata_ai::AiPlusOutlined style="font-size: 18px"/>
                 </Button>
             </InputSuffix>

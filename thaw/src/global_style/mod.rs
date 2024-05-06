@@ -7,10 +7,10 @@ pub fn GlobalStyle() -> impl IntoView {
     create_effect(move |_| {
         theme.with(|theme| {
             if let Some(body) = document().body() {
-                _ = body
-                    .style()
-                    .set_property("background-color", &theme.common.background_color);
-                _ = body.style().set_property("color", &theme.common.font_color);
+                // _ = body
+                //     .style()
+                //     .set_property("background-color", &theme.common.background_color);
+                // _ = body.style().set_property("color", &theme.common.font_color);
                 // _ = body
                 //     .style()
                 //     .set_property("font-size", &theme.common.font_size);

@@ -29,6 +29,24 @@ impl ButtonAppearance {
     }
 }
 
+#[derive(Default, PartialEq, Clone, Copy)]
+pub enum ButtonShape {
+    #[default]
+    Rounded,
+    Circular,
+    Square
+}
+
+impl ButtonShape {
+    fn as_str(&self) -> &str {
+        match self {
+            ButtonShape::Rounded => "rounded",
+            ButtonShape::Circular => "circular",
+            ButtonShape::Square => "square",
+        }
+    }
+}
+
 #[derive(Default, Clone)]
 pub enum ButtonColor {
     #[default]
@@ -76,15 +94,6 @@ pub enum ButtonSize {
 }
 
 impl ButtonSize {
-    fn theme_font_size(&self, theme: &Theme) -> String {
-        match self {
-            ButtonSize::Tiny => theme.common.font_size_tiny.clone(),
-            ButtonSize::Small => theme.common.font_size_small.clone(),
-            ButtonSize::Medium => theme.common.font_size_medium.clone(),
-            ButtonSize::Large => theme.common.font_size_large.clone(),
-        }
-    }
-
     fn theme_height(&self, theme: &Theme) -> String {
         match self {
             ButtonSize::Tiny => theme.common.height_tiny.clone(),
@@ -108,7 +117,8 @@ impl ButtonSize {
 pub fn Button(
     #[prop(optional, into)] style: Option<MaybeSignal<String>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] variant: MaybeSignal<ButtonAppearance>,
+    #[prop(optional, into)] appearance: MaybeSignal<ButtonAppearance>,
+    #[prop(optional, into)] shape: MaybeSignal<ButtonShape>,
     #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
     #[prop(optional, into)] block: MaybeSignal<bool>,
@@ -130,10 +140,6 @@ pub fn Button(
                 theme.button.color_text_disabled
             ));
             css_vars.push_str(&format!(
-                "--thaw-font-size: {};",
-                size.get().theme_font_size(theme)
-            ));
-            css_vars.push_str(&format!(
                 "--thaw-height: {};",
                 size.get().theme_height(theme)
             ));
@@ -142,7 +148,7 @@ pub fn Button(
                 size.get().theme_padding(theme)
             ));
 
-            match variant.get() {
+            match appearance.get() {
                 ButtonAppearance::Secondary => {}
                 ButtonAppearance::Primary => {
                     let bg_color_hover = color.get().theme_color_hover(theme);
@@ -190,7 +196,7 @@ pub fn Button(
     mount_style("button", include_str!("./button.css"));
 
     let icon_style = if children.is_some() {
-        "margin-right: 6px"
+        "margin-right: var(--spacingHorizontalSNudge)"
     } else {
         ""
     };
@@ -224,7 +230,8 @@ pub fn Button(
                 "thaw-button", ("thaw-button--round", move || round.get()),
                 ("thaw-button--circle", move || circle.get()), ("thaw-button--disabled", move ||
                 disabled.get()), ("thaw-button--block", move || block.get()),
-                move || format!("thaw-button--{}", variant.get().as_str()),
+                move || format!("thaw-button--{}", appearance.get().as_str()),
+                move || format!("thaw-button--{}", shape.get().as_str()),
                 class.map(| c | move || c.get())
             ]
 

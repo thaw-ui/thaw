@@ -88,27 +88,27 @@ pub fn DatePanel(
             <div class="thaw-date-picker-date-panel__calendar">
                 <div class="thaw-date-picker-date-panel__header">
                     <Button
-                        variant=ButtonAppearance::Transparent
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiArrowLeftOutlined
                         on_click=previous_year
                     />
                     <Button
-                        variant=ButtonAppearance::Transparent
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiLeftOutlined
                         on_click=previous_month
                     />
                     <div class="thaw-date-picker-date-panel__header-month-year">
                         <Button
-                            variant=ButtonAppearance::Subtle
+                            appearance=ButtonAppearance::Subtle
                             size=ButtonSize::Small
                             on_click=move |_| panel_variant.set(PanelVariant::Month)
                         >
                             {move || Month::try_from(show_date.get().month() as u8).unwrap().name()}
                         </Button>
                         <Button
-                            variant=ButtonAppearance::Subtle
+                            appearance=ButtonAppearance::Subtle
                             size=ButtonSize::Small
                             on_click=move |_| panel_variant.set(PanelVariant::Year)
                         >
@@ -116,13 +116,13 @@ pub fn DatePanel(
                         </Button>
                     </div>
                     <Button
-                        variant=ButtonAppearance::Transparent
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiRightOutlined
                         on_click=next_month
                     />
                     <Button
-                        variant=ButtonAppearance::Transparent
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiArrowRightOutlined
                         on_click=next_year

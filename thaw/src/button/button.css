@@ -90,6 +90,13 @@
     border-color: transparent;
 }
 
+.thaw-button--circular {
+    border-radius: var(--borderRadiusCircular);
+}
+.thaw-button--square {
+    border-radius: var(--borderRadiusNone);
+}
+
 .thaw-button--block {
     display: flex;
     width: 100%;

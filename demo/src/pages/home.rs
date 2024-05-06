@@ -23,7 +23,7 @@ pub fn Home() -> impl IntoView {
                     navigate("/components/button", Default::default());
                 }>"Read the docs"</Button>
                 <Button
-                    variant=ButtonAppearance::Subtle
+                    appearance=ButtonAppearance::Subtle
                     on_click=move |_| {
                         _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                     }

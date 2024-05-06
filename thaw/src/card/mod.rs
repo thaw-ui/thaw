@@ -34,9 +34,10 @@ pub fn Card(
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
+            // TODO
             css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.common.background_color
+                "--thaw-background-color: ;",
+                // theme.common.background_color
             ));
             css_vars.push_str(&format!(
                 "--thaw-border-color: {};",
