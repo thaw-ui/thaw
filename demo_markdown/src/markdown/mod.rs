@@ -8,6 +8,7 @@ use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
 use syn::ItemMacro;
 
+#[allow(clippy::type_complexity)]
 pub fn parse_markdown(
     md_text: &str,
 ) -> Result<(TokenStream, Vec<String>, Vec<(String, String)>), String> {
@@ -65,7 +66,7 @@ fn iter_nodes<'a>(
             let text = range_text(md_text, sourcepos.start, sourcepos.end);
             let level = node_h.level as usize + 1;
             let text = text[level..].to_string();
-            let h_id = format!("{}", text.replace(' ', "-").to_ascii_lowercase());
+            let h_id = text.replace(' ', "-").to_ascii_lowercase().to_string();
             toc.push((h_id.clone(), text));
             let h = Ident::new(&format!("h{}", node_h.level), Span::call_site());
             quote!(
