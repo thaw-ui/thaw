@@ -8,7 +8,9 @@ use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
 use syn::ItemMacro;
 
-pub fn parse_markdown(md_text: &str) -> Result<(TokenStream, Vec<String>, Vec<(String, String)>), String> {
+pub fn parse_markdown(
+    md_text: &str,
+) -> Result<(TokenStream, Vec<String>, Vec<(String, String)>), String> {
     let mut demos: Vec<String> = vec![];
     let mut toc: Vec<(String, String)> = vec![];
 
@@ -45,10 +47,8 @@ fn iter_nodes<'a>(
         NodeValue::HtmlBlock(node_html_block) => {
             let html =
                 syn::parse_str::<ItemMacro>(&format!("view! {{ {} }}", node_html_block.literal))
-                    .expect(&format!(
-                        "Cannot be resolved as a macro: \n {}",
-                        node_html_block.literal
-                    ));
+                    .unwrap_or_else(|_| panic!("Cannot be resolved as a macro: \n {}",
+                        node_html_block.literal));
             quote!(
                 {
                     #html

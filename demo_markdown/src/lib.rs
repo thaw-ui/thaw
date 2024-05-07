@@ -96,7 +96,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
                 links
             );
             syn::parse_str::<ItemFn>(&toc)
-                .expect(&format!("Cannot be resolved as a function: \n {toc}"))
+                .unwrap_or_else(|_| panic!("Cannot be resolved as a function: \n {toc}"))
         };
 
         let demos: Vec<ItemFn> = demos
