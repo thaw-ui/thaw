@@ -18,7 +18,7 @@ pub fn parse_markdown(
     let mut options = comrak::Options::default();
     options.extension.table = true;
 
-    let root = parse_document(&arena, &md_text, &options);
+    let root = parse_document(&arena, md_text, &options);
     let body = iter_nodes(md_text, root, &mut demos, &mut toc);
     Ok((body, demos, toc))
 }
@@ -186,7 +186,7 @@ fn range_text(text: &str, start: LineColumn, end: LineColumn) -> &str {
     let mut current_line_num = start_line + 1;
     while current_line_num < end_line {
         let next_line = lines.next().unwrap_or("");
-        start_line_text = &next_line;
+        start_line_text = next_line;
         current_line_num += 1;
     }
 
