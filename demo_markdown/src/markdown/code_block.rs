@@ -55,9 +55,7 @@ static SYNTAX_SET: OnceLock<SyntaxSet> = OnceLock::new();
 
 fn highlight_to_html(text: &str, syntax: &str) -> Option<String> {
     let syntax_set = SYNTAX_SET.get_or_init(|| SyntaxSet::load_defaults_newlines());
-    let Some(syntax) = syntax_set.find_syntax_by_token(syntax) else {
-        return None;
-    };
+    let syntax = syntax_set.find_syntax_by_token(syntax)?;
 
     let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
         syntax,
