@@ -54,7 +54,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
 static SYNTAX_SET: OnceLock<SyntaxSet> = OnceLock::new();
 
 fn highlight_to_html(text: &str, syntax: &str) -> Option<String> {
-    let syntax_set = SYNTAX_SET.get_or_init(|| SyntaxSet::load_defaults_newlines());
+    let syntax_set = SYNTAX_SET.get_or_init(SyntaxSet::load_defaults_newlines);
     let syntax = syntax_set.find_syntax_by_token(syntax)?;
 
     let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
