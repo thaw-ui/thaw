@@ -12,9 +12,7 @@ pub fn use_click_position() -> ReadSignal<Option<(i32, i32)>> {
             if event.client_x() > 0 || event.client_y() > 0 {
                 return Some((event.client_x(), event.client_y()));
             }
-            let Some(target) = event.target() else {
-                return None;
-            };
+            let target = event.target()?;
 
             let Ok(target) = target.dyn_into::<web_sys::Element>() else {
                 return None;

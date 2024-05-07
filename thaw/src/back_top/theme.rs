@@ -3,7 +3,6 @@ use crate::theme::ThemeMethod;
 #[derive(Clone)]
 pub struct BackTopTheme {
     pub background_color: String,
-    
 }
 
 impl ThemeMethod for BackTopTheme {

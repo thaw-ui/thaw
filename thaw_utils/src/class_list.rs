@@ -5,6 +5,12 @@ use std::{collections::HashSet, rc::Rc};
 
 pub struct ClassList(RwSignal<HashSet<Oco<'static, str>>>);
 
+impl Default for ClassList {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ClassList {
     pub fn new() -> Self {
         Self(RwSignal::new(HashSet::new()))

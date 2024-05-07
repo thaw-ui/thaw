@@ -18,8 +18,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
         let literal = langs
             .iter()
             .find(|lang| lang != &&"demo")
-            .map(|lang| highlight_to_html(&code_block.literal, lang))
-            .flatten()
+            .and_then(|lang| highlight_to_html(&code_block.literal, lang))
             .unwrap_or_else(|| {
                 is_highlight = false;
                 code_block.literal.clone()
@@ -37,8 +36,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
         let mut is_highlight = true;
         let literal = langs
             .first()
-            .map(|lang| highlight_to_html(&code_block.literal, lang))
-            .flatten()
+            .and_then(|lang| highlight_to_html(&code_block.literal, lang))
             .unwrap_or_else(|| {
                 is_highlight = false;
                 code_block.literal.clone()
@@ -56,10 +54,8 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
 static SYNTAX_SET: OnceLock<SyntaxSet> = OnceLock::new();
 
 fn highlight_to_html(text: &str, syntax: &str) -> Option<String> {
-    let syntax_set = SYNTAX_SET.get_or_init(|| SyntaxSet::load_defaults_newlines());
-    let Some(syntax) = syntax_set.find_syntax_by_token(syntax) else {
-        return None;
-    };
+    let syntax_set = SYNTAX_SET.get_or_init(SyntaxSet::load_defaults_newlines);
+    let syntax = syntax_set.find_syntax_by_token(syntax)?;
 
     let mut html_generator = ClassedHTMLGenerator::new_with_class_style(
         syntax,
