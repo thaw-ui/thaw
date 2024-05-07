@@ -62,7 +62,7 @@ fn iter_nodes<'a>(
         ),
         NodeValue::Heading(node_h) => {
             let sourcepos = node.data.borrow().sourcepos;
-            let text = range_text(md_text, sourcepos.start.clone(), sourcepos.end.clone());
+            let text = range_text(md_text, sourcepos.start, sourcepos.end);
             let level = node_h.level as usize + 1;
             let text = text[level..].to_string();
             let h_id = format!("{}", text.replace(' ', "-").to_ascii_lowercase());
