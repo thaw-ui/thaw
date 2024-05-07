@@ -13,10 +13,10 @@ let open = Callback::new(move |new_placement: DrawerPlacement| {
 
 view! {
     <ButtonGroup>
-        <Button on_click=Callback::new(move |_| open.call(DrawerPlacement::Top))>"Top"</Button>
-        <Button on_click=Callback::new(move |_| open.call(DrawerPlacement::Right))>"Right"</Button>
-        <Button on_click=Callback::new(move |_| open.call(DrawerPlacement::Bottom))>"Bottom"</Button>
-        <Button on_click=Callback::new(move |_| open.call(DrawerPlacement::Left))>"Left"</Button>
+        <Button on_click=Callback::new(move |_| leptos::Callable::call(&open, DrawerPlacement::Top))>"Top"</Button>
+        <Button on_click=Callback::new(move |_| leptos::Callable::call(&open, DrawerPlacement::Right))>"Right"</Button>
+        <Button on_click=Callback::new(move |_| leptos::Callable::call(&open, DrawerPlacement::Bottom))>"Bottom"</Button>
+        <Button on_click=Callback::new(move |_| leptos::Callable::call(&open, DrawerPlacement::Left))>"Left"</Button>
     </ButtonGroup>
     <Drawer title="Title" show placement>
         "Hello"
