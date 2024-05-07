@@ -48,8 +48,12 @@ fn iter_nodes<'a>(
         NodeValue::HtmlBlock(node_html_block) => {
             let html =
                 syn::parse_str::<ItemMacro>(&format!("view! {{ {} }}", node_html_block.literal))
-                    .unwrap_or_else(|_| panic!("Cannot be resolved as a macro: \n {}",
-                        node_html_block.literal));
+                    .unwrap_or_else(|_| {
+                        panic!(
+                            "Cannot be resolved as a macro: \n {}",
+                            node_html_block.literal
+                        )
+                    });
             quote!(
                 {
                     #html

@@ -4,7 +4,6 @@ use leptos::*;
 use thaw::mobile::{NavBar, NavBarRight};
 use thaw::Icon;
 
-
 #[component]
 pub fn NavBarPage() -> impl IntoView {
     view! {

@@ -6,7 +6,8 @@ use crate::{use_theme, Icon, Theme};
 use leptos::{html::ToHtmlElement, *};
 use thaw_components::{CSSTransition, Fallback, OptionComp, Teleport};
 use thaw_utils::{
-    add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle, OptionalProp,
+    add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle,
+    OptionalProp,
 };
 
 #[component]
