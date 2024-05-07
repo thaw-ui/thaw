@@ -18,8 +18,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
         let literal = langs
             .iter()
             .find(|lang| lang != &&"demo")
-            .map(|lang| highlight_to_html(&code_block.literal, lang))
-            .flatten()
+            .and_then(|lang| highlight_to_html(&code_block.literal, lang))
             .unwrap_or_else(|| {
                 is_highlight = false;
                 code_block.literal.clone()
@@ -37,8 +36,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
         let mut is_highlight = true;
         let literal = langs
             .first()
-            .map(|lang| highlight_to_html(&code_block.literal, lang))
-            .flatten()
+            .and_then(|lang| highlight_to_html(&code_block.literal, lang))
             .unwrap_or_else(|| {
                 is_highlight = false;
                 code_block.literal.clone()
