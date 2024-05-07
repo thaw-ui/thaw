@@ -4,9 +4,7 @@ use leptos::{
 };
 
 pub fn get_scroll_parent(element: &HtmlElement<AnyElement>) -> Option<HtmlElement<AnyElement>> {
-    let Some(parent_element) = get_parent_element(element) else {
-        return None;
-    };
+    let parent_element = get_parent_element(element)?;
 
     if parent_element.node_type() == 9 {
         return Some(parent_element);

@@ -22,7 +22,7 @@ impl NextFrame {
     pub fn run(&self, cb: impl FnOnce() + 'static) {
         self.cancel();
 
-        let next_frame_hadnle = self.0.clone();
+        let next_frame_hadnle = self.0;
         let handle = request_animation_frame_with_handle(move || {
             let handle = request_animation_frame_with_handle(cb).unwrap();
             next_frame_hadnle.set_value(Some(handle));

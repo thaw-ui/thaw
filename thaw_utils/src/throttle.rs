@@ -1,7 +1,7 @@
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
 
-pub fn throttle(cb: impl Fn() + 'static, duration: Duration) -> impl Fn() -> () {
+pub fn throttle(cb: impl Fn() + 'static, duration: Duration) -> impl Fn() {
     let cb = Callback::new(move |_| cb());
     let timeout_handle = StoredValue::new(None::<TimeoutHandle>);
     on_cleanup(move || {
