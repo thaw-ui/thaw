@@ -20,9 +20,9 @@ pub enum MessageVariant {
 impl MessageVariant {
     fn icon(&self) -> icondata_core::Icon {
         match self {
-            MessageVariant::Success => icondata_ai::AiCloseCircleFilled,
+            MessageVariant::Success => icondata_ai::AiCheckCircleFilled,
             MessageVariant::Warning => icondata_ai::AiExclamationCircleFilled,
-            MessageVariant::Error => icondata_ai::AiCheckCircleFilled,
+            MessageVariant::Error => icondata_ai::AiCloseCircleFilled,
         }
     }
     fn theme_color(&self, theme: &Theme) -> String {
