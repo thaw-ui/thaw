@@ -117,7 +117,6 @@ fn TheProvider(children: Children) -> impl IntoView {
     view! {
         <ConfigProvider theme>
             <ThemeProvider theme>
-                <GlobalStyle/>
                 <MessageProvider>
                     <LoadingBarProvider>{children()}</LoadingBarProvider>
                 </MessageProvider>

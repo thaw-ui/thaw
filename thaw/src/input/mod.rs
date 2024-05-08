@@ -164,7 +164,7 @@ pub fn Input(
     }
 
     view! {
-        <div
+        <span
             class=class_list![
                 "thaw-input", ("thaw-input--focus", move || is_focus.get()),
                 ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
@@ -204,7 +204,7 @@ pub fn Input(
                 None
             }}
 
-        </div>
+        </span>
     }
 }
 

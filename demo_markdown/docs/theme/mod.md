@@ -17,21 +17,6 @@ view! {
 }
 ```
 
-### GlobalStyle
-
-You can use GlobalStyle to sync common global style to the body element.
-
-```rust
-let theme = create_rw_signal(Theme::light());
-
-view! {
-    <ThemeProvider theme>
-        <GlobalStyle />
-        "..."
-    </ThemeProvider>
-}
-```
-
 ### Customize Theme
 
 ```rust demo
