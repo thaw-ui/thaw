@@ -43,7 +43,9 @@ pub struct CommonTheme {
     pub spacing_horizontal_m: String,
     pub spacing_horizontal_l: String,
 
+    pub duration_ultra_fast: String,
     pub duration_faster: String,
+    pub curve_accelerate_mid: String,
     pub curve_easy_ease: String,
 
     pub height_tiny: String,
@@ -98,7 +100,9 @@ impl CommonTheme {
             spacing_horizontal_m: "12px".into(),
             spacing_horizontal_l: "16px".into(),
 
+            duration_ultra_fast: "50ms".into(),
             duration_faster: "100ms".into(),
+            curve_accelerate_mid: "cubic-bezier(1,0,1,1)".into(),
             curve_easy_ease: "cubic-bezier(0.33,0,0.67,1)".into(),
 
             height_tiny: "22px".into(),

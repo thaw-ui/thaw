@@ -22,6 +22,10 @@ pub struct ColorTheme {
     pub color_neutral_stroke_1: String,
     pub color_neutral_stroke_1_hover: String,
     pub color_neutral_stroke_1_pressed: String,
+    pub color_neutral_stroke_accessible: String,
+
+    pub color_compound_brand_stroke: String,
+
     pub color_brand_background: String,
     pub color_brand_background_hover: String,
     pub color_brand_background_pressed: String,
@@ -55,6 +59,10 @@ impl ColorTheme {
             color_neutral_stroke_1: "#d1d1d1".into(),
             color_neutral_stroke_1_hover: "#c7c7c7".into(),
             color_neutral_stroke_1_pressed: "#b3b3b3".into(),
+            color_neutral_stroke_accessible: "#616161".into(),
+
+            color_compound_brand_stroke: "#0f6cbd".into(),
+
             color_brand_background: "#0f6cbd".into(),
             color_brand_background_hover: "#115ea3".into(),
             color_brand_background_pressed: "#0c3b5e".into(),
@@ -88,6 +96,10 @@ impl ColorTheme {
             color_neutral_stroke_1: "#666666".into(),
             color_neutral_stroke_1_hover: "#757575".into(),
             color_neutral_stroke_1_pressed: "#6b6b6b".into(),
+            color_neutral_stroke_accessible: "#adadad".into(),
+
+            color_compound_brand_stroke: "#479ef5".into(),
+
             color_brand_background: "#115ea3".into(),
             color_brand_background_hover: "#0f6cbd".into(),
             color_brand_background_pressed: "#0c3b5e".into(),
