@@ -6,6 +6,7 @@ pub struct ColorTheme {
     pub color_neutral_background_1: String,
     pub color_neutral_background_1_hover: String,
     pub color_neutral_background_1_pressed: String,
+    pub color_neutral_background_6: String,
     
     pub color_neutral_foreground_disabled: String,
     pub color_neutral_foreground_1: String,
@@ -16,6 +17,7 @@ pub struct ColorTheme {
     pub color_neutral_foreground_2_pressed: String,
     pub color_neutral_foreground_2_brand_hover: String,
     pub color_neutral_foreground_2_brand_pressed: String,
+    pub color_neutral_foreground_3: String,
     pub color_neutral_foreground_4: String,
     pub color_neutral_foreground_on_brand: String,
 
@@ -47,6 +49,8 @@ impl ColorTheme {
             color_neutral_background_1: "#fff".into(),
             color_neutral_background_1_hover: "#f5f5f5".into(),
             color_neutral_background_1_pressed: "#e0e0e0".into(),
+            color_neutral_background_6: "#e6e6e6".into(),
+
             color_neutral_foreground_disabled: "#bdbdbd".into(),
             color_neutral_foreground_1: "#242424".into(),
             color_neutral_foreground_1_hover: "#242424".into(),
@@ -56,6 +60,7 @@ impl ColorTheme {
             color_neutral_foreground_2_pressed: "#242424".into(),
             color_neutral_foreground_2_brand_hover: "#0f6cbd".into(),
             color_neutral_foreground_2_brand_pressed: "#115ea3".into(),
+            color_neutral_foreground_3: "#616161".into(),
             color_neutral_foreground_4: "#707070".into(),
             color_neutral_foreground_on_brand: "#fff".into(),
 
@@ -87,6 +92,8 @@ impl ColorTheme {
             color_neutral_background_1: "#292929".into(),
             color_neutral_background_1_hover: "#3d3d3d".into(),
             color_neutral_background_1_pressed: "#1f1f1f".into(),
+            color_neutral_background_6: "#333333".into(),
+
             color_neutral_foreground_disabled: "#5c5c5c".into(),
             color_neutral_foreground_1: "#fff".into(),
             color_neutral_foreground_1_hover: "#fff".into(),
@@ -96,6 +103,7 @@ impl ColorTheme {
             color_neutral_foreground_2_pressed: "#fff".into(),
             color_neutral_foreground_2_brand_hover: "#479ef5".into(),
             color_neutral_foreground_2_brand_pressed: "#2886de".into(),
+            color_neutral_foreground_3: "#adadad".into(),
             color_neutral_foreground_4: "#999999".into(),
             color_neutral_foreground_on_brand: "#fff".into(),
 

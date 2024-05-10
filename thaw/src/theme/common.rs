@@ -20,9 +20,16 @@ pub struct CommonTheme {
     pub color_error_hover: String,
     pub color_error_active: String,
 
+    pub font_size_base_100: String,
     pub font_size_base_200: String,
     pub font_size_base_300: String,
     pub font_size_base_400: String,
+    pub font_size_base_500: String,
+    pub font_size_base_600: String,
+    pub font_size_base_700: String,
+    pub font_size_base_800: String,
+    pub font_size_base_900: String,
+    pub font_size_base_1000: String,
 
     pub line_height_base_200: String,
     pub line_height_base_300: String,
@@ -37,7 +44,7 @@ pub struct CommonTheme {
     pub border_radius_none: String,
     pub border_radius_medium: String,
     pub border_radius_circular: String,
-    
+
     pub spacing_horizontal_x_x_s: String,
     pub spacing_horizontal_s_nudge: String,
     pub spacing_horizontal_s: String,
@@ -81,9 +88,16 @@ impl CommonTheme {
             color_error_hover: "".into(),
             color_error_active: "".into(),
 
+            font_size_base_100: "10px".into(),
             font_size_base_200: "12px".into(),
             font_size_base_300: "14px".into(),
             font_size_base_400: "16px".into(),
+            font_size_base_500: "20px".into(),
+            font_size_base_600: "24px".into(),
+            font_size_base_700: "28px".into(),
+            font_size_base_800: "32px".into(),
+            font_size_base_900: "40px".into(),
+            font_size_base_1000: "60px".into(),
 
             line_height_base_200: "16px".into(),
             line_height_base_300: "20px".into(),

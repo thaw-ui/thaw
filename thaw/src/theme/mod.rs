@@ -4,7 +4,7 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AnchorTheme, AutoCompleteTheme, AvatarTheme, BackTopTheme, BreadcrumbTheme,
+    AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, BreadcrumbTheme,
     CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme,
     MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme,
     SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, TypographyTheme,
@@ -29,7 +29,6 @@ pub struct Theme {
     pub alert: AlertTheme,
     pub skeletion: SkeletionTheme,
     pub tag: TagTheme,
-    pub avatar: AvatarTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
     pub slider: SliderTheme,
@@ -65,7 +64,6 @@ impl Theme {
             alert: AlertTheme::light(),
             skeletion: SkeletionTheme::light(),
             tag: TagTheme::light(),
-            avatar: AvatarTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
             slider: SliderTheme::light(),
@@ -100,7 +98,6 @@ impl Theme {
             alert: AlertTheme::dark(),
             skeletion: SkeletionTheme::dark(),
             tag: TagTheme::dark(),
-            avatar: AvatarTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
             slider: SliderTheme::dark(),
