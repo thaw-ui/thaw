@@ -163,6 +163,16 @@ where
     }
 }
 
+impl IntoClass for (&'static str, bool) {
+    fn into_class(self) -> Class {
+        if self.1 {
+            Class::String(self.0.into())
+        } else {
+            Class::None
+        }
+    }
+}
+
 impl IntoClass for (&'static str, Memo<bool>) {
     fn into_class(self) -> Class {
         Class::Fn(self.0.into(), Box::new(move || self.1.get()))

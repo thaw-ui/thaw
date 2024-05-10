@@ -1,7 +1,7 @@
 # Input
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
+let value = RwSignal::new(String::from("o"));
 
 view! {
     <Space vertical=true>
@@ -12,16 +12,49 @@ view! {
 }
 ```
 
+## Prefix & Suffix
+
+```rust demo
+let value = RwSignal::new(String::from("o"));
+
+view! {
+    <Space vertical=true>
+        <Input value>
+            <InputPrefix slot>
+                <Icon icon=icondata::AiUserOutlined/>
+            </InputPrefix>
+        </Input>
+        <Input value>
+            <InputSuffix slot>
+                <Icon icon=icondata::AiGithubOutlined/>
+            </InputSuffix>
+        </Input>
+        <Input value>
+            <InputPrefix slot>"$"</InputPrefix>
+            <InputSuffix slot>".00"</InputSuffix>
+        </Input>
+    </Space>
+}
+```
+
 ### Disabled
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
+let value = RwSignal::new(String::from("o"));
 
 view! {
     <Space vertical=true>
         <Input value disabled=true/>
         <TextArea value disabled=true/>
     </Space>
+}
+```
+
+### Placeholder
+
+```rust demo
+view! {
+    <Input placeholder="This is a placeholder"/>
 }
 ```
 
@@ -78,29 +111,7 @@ view! {
 }
 ```
 
-## Prefix & Suffix
 
-```rust demo
-let value = create_rw_signal(String::from("o"));
-
-view! {
-    <Space vertical=true>
-        <Input value>
-            <InputPrefix slot>
-                <Icon icon=icondata::AiUserOutlined/>
-            </InputPrefix>
-        </Input>
-        <Input value>
-            <InputSuffix slot>"$"</InputSuffix>
-        </Input>
-        <Input value>
-            <InputSuffix slot>
-                <Icon icon=icondata::AiGithubOutlined/>
-            </InputSuffix>
-        </Input>
-    </Space>
-}
-```
 
 ### Input Props
 

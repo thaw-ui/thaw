@@ -16,6 +16,7 @@ pub struct ColorTheme {
     pub color_neutral_foreground_2_pressed: String,
     pub color_neutral_foreground_2_brand_hover: String,
     pub color_neutral_foreground_2_brand_pressed: String,
+    pub color_neutral_foreground_4: String,
     pub color_neutral_foreground_on_brand: String,
 
     pub color_neutral_stroke_disabled: String,
@@ -23,6 +24,8 @@ pub struct ColorTheme {
     pub color_neutral_stroke_1_hover: String,
     pub color_neutral_stroke_1_pressed: String,
     pub color_neutral_stroke_accessible: String,
+    pub color_neutral_stroke_accessible_hover: String,
+    pub color_neutral_stroke_accessible_pressed: String,
 
     pub color_compound_brand_stroke: String,
 
@@ -53,6 +56,7 @@ impl ColorTheme {
             color_neutral_foreground_2_pressed: "#242424".into(),
             color_neutral_foreground_2_brand_hover: "#0f6cbd".into(),
             color_neutral_foreground_2_brand_pressed: "#115ea3".into(),
+            color_neutral_foreground_4: "#707070".into(),
             color_neutral_foreground_on_brand: "#fff".into(),
 
             color_neutral_stroke_disabled: "#e0e0e0".into(),
@@ -60,6 +64,8 @@ impl ColorTheme {
             color_neutral_stroke_1_hover: "#c7c7c7".into(),
             color_neutral_stroke_1_pressed: "#b3b3b3".into(),
             color_neutral_stroke_accessible: "#616161".into(),
+            color_neutral_stroke_accessible_hover: "#575757".into(),
+            color_neutral_stroke_accessible_pressed: "#4d4d4d".into(),
 
             color_compound_brand_stroke: "#0f6cbd".into(),
 
@@ -90,6 +96,7 @@ impl ColorTheme {
             color_neutral_foreground_2_pressed: "#fff".into(),
             color_neutral_foreground_2_brand_hover: "#479ef5".into(),
             color_neutral_foreground_2_brand_pressed: "#2886de".into(),
+            color_neutral_foreground_4: "#999999".into(),
             color_neutral_foreground_on_brand: "#fff".into(),
 
             color_neutral_stroke_disabled: "#424242".into(),
@@ -97,6 +104,8 @@ impl ColorTheme {
             color_neutral_stroke_1_hover: "#757575".into(),
             color_neutral_stroke_1_pressed: "#6b6b6b".into(),
             color_neutral_stroke_accessible: "#adadad".into(),
+            color_neutral_stroke_accessible_hover: "#bdbdbd".into(),
+            color_neutral_stroke_accessible_pressed: "#b3b3b3".into(),
 
             color_compound_brand_stroke: "#479ef5".into(),
 

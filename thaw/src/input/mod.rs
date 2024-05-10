@@ -4,7 +4,6 @@ mod theme;
 pub use text_area::{TextArea, TextAreaRef};
 pub use theme::InputTheme;
 
-use crate::theme::{use_theme, Theme};
 use leptos::*;
 use thaw_utils::{class_list, mount_style, ComponentRef, Model, OptionalProp};
 
@@ -54,10 +53,9 @@ pub fn Input(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
 
-    let value_trigger = create_trigger();
+    let value_trigger = Trigger::new();
     let on_input = move |ev| {
         let input_value = event_target_value(&ev);
         if let Some(allow_value) = allow_value.as_ref() {
@@ -68,7 +66,7 @@ pub fn Input(
         }
         value.set(input_value);
     };
-    let is_focus = create_rw_signal(false);
+    let is_focus = RwSignal::new(false);
     let on_internal_focus = move |ev| {
         is_focus.set(true);
         if let Some(on_focus) = on_focus.as_ref() {
@@ -82,47 +80,7 @@ pub fn Input(
         }
     };
 
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            let border_color_hover = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--thaw-border-color-hover: {border_color_hover};"));
-            css_vars.push_str(&format!("--thaw-box-shadow-color: {border_color_hover}33;"));
-            let border_radius = theme.common.border_radius.clone();
-            css_vars.push_str(&format!("--thaw-border-radius: {border_radius};"));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.input.background_color
-            ));
-            css_vars.push_str(&format!("--thaw-font-color: {};", theme.input.font_color));
-            css_vars.push_str(&format!(
-                "--thaw-border-color: {};",
-                theme.input.border_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-border-color-error: {};",
-                theme.common.color_error
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-placeholder-color: {};",
-                theme.input.placeholder_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-disabled: {};",
-                theme.input.background_color_disabled
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-font-color-disabled: {};",
-                theme.input.font_color_disabled
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-box-shadow-color-invalid: {}33;",
-                theme.common.color_error
-            ));
-        });
-        css_vars
-    });
-    let input_ref = create_node_ref::<html::Input>();
+    let input_ref = NodeRef::<html::Input>::new();
     input_ref.on_load(move |_| {
         comp_ref.load(InputRef { input_ref });
     });
@@ -166,12 +124,13 @@ pub fn Input(
     view! {
         <span
             class=class_list![
-                "thaw-input", ("thaw-input--focus", move || is_focus.get()),
+                "thaw-input",
+                ("thaw-input--prefix", input_prefix.as_ref().map_or(false, |prefix| prefix.if_)),
+                ("thaw-input--suffix", input_suffix.as_ref().map_or(false, |suffix| suffix.if_)),
                 ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
                 invalid.get()), class.map(| c | move || c.get())
             ]
 
-            style=move || css_vars.get()
             on:mousedown=on_mousedown
         >
             {if let Some(prefix) = input_prefix.and_then(|prefix| prefix.if_.then_some(prefix)) {
@@ -192,7 +151,7 @@ pub fn Input(
                 on:input=on_input
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
-                class="thaw-input__input-el"
+                class="thaw-input__input"
                 disabled=move || disabled.get()
                 placeholder=placeholder.map(|p| move || p.get())
                 ref=input_ref

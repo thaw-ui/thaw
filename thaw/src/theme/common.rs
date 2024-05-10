@@ -38,14 +38,18 @@ pub struct CommonTheme {
     pub border_radius_medium: String,
     pub border_radius_circular: String,
     
+    pub spacing_horizontal_x_x_s: String,
     pub spacing_horizontal_s_nudge: String,
     pub spacing_horizontal_s: String,
+    pub spacing_horizontal_m_nudge: String,
     pub spacing_horizontal_m: String,
     pub spacing_horizontal_l: String,
 
     pub duration_ultra_fast: String,
     pub duration_faster: String,
+    pub duration_normal: String,
     pub curve_accelerate_mid: String,
+    pub curve_decelerate_mid: String,
     pub curve_easy_ease: String,
 
     pub height_tiny: String,
@@ -95,14 +99,18 @@ impl CommonTheme {
             border_radius_medium: "4px".into(),
             border_radius_circular: "10000px".into(),
 
+            spacing_horizontal_x_x_s: "2px".into(),
             spacing_horizontal_s_nudge: "6px".into(),
             spacing_horizontal_s: "8px".into(),
+            spacing_horizontal_m_nudge: "10px".into(),
             spacing_horizontal_m: "12px".into(),
             spacing_horizontal_l: "16px".into(),
 
             duration_ultra_fast: "50ms".into(),
             duration_faster: "100ms".into(),
+            duration_normal: "200ms".into(),
             curve_accelerate_mid: "cubic-bezier(1,0,1,1)".into(),
+            curve_decelerate_mid: "cubic-bezier(0,0,0,1)".into(),
             curve_easy_ease: "cubic-bezier(0.33,0,0.67,1)".into(),
 
             height_tiny: "22px".into(),
