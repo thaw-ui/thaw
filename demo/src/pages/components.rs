@@ -58,13 +58,22 @@ pub fn ComponentsPage() -> impl IntoView {
         <Layout position=LayoutPosition::Absolute>
             <SiteHeader/>
             <Layout has_sider=true position=LayoutPosition::Absolute style="top: 64px;">
-                <LayoutSider class="demo-components__sider">
+                <div class="demo-components__sider">
                     <NavDrawer selected_value=select_name>
 
                         {gen_menu_data().into_view()}
-
+                        <NavDrawerFooter slot>
+                            <Button
+                                appearance=ButtonAppearance::Subtle
+                                icon=icondata::AiGithubOutlined
+                                style="font-size: 22px; padding: 0px 6px;"
+                                on_click=move |_| {
+                                    _ = window().open_with_url("http://github.com/thaw-ui/thaw");
+                                }
+                            />
+                        </NavDrawerFooter>
                     </NavDrawer>
-                </LayoutSider>
+                </div>
                 <Layout content_style="padding: 8px 12px 28px; display: flex;" class="doc-content">
                     <Outlet/>
                 </Layout>

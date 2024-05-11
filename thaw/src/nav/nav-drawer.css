@@ -23,6 +23,15 @@
     /* overflow: auto; */
 }
 
+.thaw-nav-drawer__footer {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 var(--spacingVerticalMNudge);
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
 .thaw-nav-item {
     display: flex;
     text-transform: none;
