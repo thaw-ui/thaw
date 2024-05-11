@@ -3,6 +3,7 @@
 }
 
 .thaw-layout--absolute-positioned {
+    background-color: inherit;
     position: absolute;
     top: 0;
     right: 0;

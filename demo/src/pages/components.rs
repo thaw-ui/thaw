@@ -59,11 +59,11 @@ pub fn ComponentsPage() -> impl IntoView {
             <SiteHeader/>
             <Layout has_sider=true position=LayoutPosition::Absolute style="top: 64px;">
                 <LayoutSider class="demo-components__sider">
-                    <Menu value=select_name>
+                    <NavDrawer selected_value=select_name>
 
                         {gen_menu_data().into_view()}
 
-                    </Menu>
+                    </NavDrawer>
                 </LayoutSider>
                 <Layout content_style="padding: 8px 12px 28px; display: flex;" class="doc-content">
                     <Outlet/>
@@ -81,15 +81,13 @@ pub(crate) struct MenuGroupOption {
 impl IntoView for MenuGroupOption {
     fn into_view(self) -> View {
         let Self { label, children } = self;
+        let children_len = children.len();
         view! {
-            <MenuGroup label=format!(
-                "{label} ({})", children.len()
-            )>
-
-                {children.into_iter().map(|v| v.into_view()).collect_view()}
-
-            </MenuGroup>
-        }
+            <Text>
+                {format!("{label} ({children_len})")}
+            </Text>
+            {children.into_iter().map(|v| v.into_view()).collect_view()}
+        }.into_view()
     }
 }
 
@@ -101,7 +99,8 @@ pub(crate) struct MenuItemOption {
 impl IntoView for MenuItemOption {
     fn into_view(self) -> View {
         let Self { label, value } = self;
-        view! { <MenuItem key=value label/> }
+        // key=value label
+        view! { <NavItem value>{label}</NavItem> }
     }
 }
 

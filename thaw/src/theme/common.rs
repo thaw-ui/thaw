@@ -51,6 +51,8 @@ pub struct CommonTheme {
     pub spacing_horizontal_m_nudge: String,
     pub spacing_horizontal_m: String,
     pub spacing_horizontal_l: String,
+    pub spacing_vertical_m_nudge: String,
+    pub spacing_vertical_l: String,
 
     pub duration_ultra_fast: String,
     pub duration_faster: String,
@@ -119,6 +121,8 @@ impl CommonTheme {
             spacing_horizontal_m_nudge: "10px".into(),
             spacing_horizontal_m: "12px".into(),
             spacing_horizontal_l: "16px".into(),
+            spacing_vertical_m_nudge: "10px".into(),
+            spacing_vertical_l: "16px".into(),
 
             duration_ultra_fast: "50ms".into(),
             duration_faster: "100ms".into(),

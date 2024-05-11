@@ -161,13 +161,13 @@ pub fn SiteHeader() -> impl IntoView {
                         <Menu value=menu_value>
                             <MenuItem key=theme_name label=theme_name />
                             <MenuItem key="github" label="Github" />
-                            {
-                                use crate::pages::{gen_guide_menu_data, gen_menu_data};
-                                vec![
-                                    gen_guide_menu_data().into_view(),
-                                    gen_menu_data().into_view(),
-                                ]
-                            }
+                            // {
+                            //     use crate::pages::{gen_guide_menu_data, gen_menu_data};
+                            //     vec![
+                            //         gen_guide_menu_data().into_view(),
+                            //         gen_menu_data().into_view(),
+                            //     ]
+                            // }
                         </Menu>
                     </div>
                 </Popover>
