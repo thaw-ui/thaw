@@ -162,6 +162,14 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
     }
 }
 
+impl<T: Clone + Default> From<Signal<T>> for Model<T> {
+    fn from(read: Signal<T>) -> Self {
+        let mut model = Self::new(read.get());
+        model.on_write = None;
+        model
+    }
+}
+
 impl<T: Default> From<(Option<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Option<T>, WriteSignal<T>)) -> Self {
         let mut model = Self::new(read.unwrap_or_default());
@@ -197,6 +205,11 @@ mod test {
         let model: Model<i32> = (read, write).into();
         assert_eq!(model.get_untracked(), 0);
         model.set(1);
+        assert_eq!(model.get_untracked(), 1);
+
+        // Derived
+        let derived = Signal::derive(move || rw_signal.get()); 
+        let model: Model<i32> = derived.into();
         assert_eq!(model.get_untracked(), 1);
 
         runtime.dispose();
