@@ -162,7 +162,7 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
     }
 }
 
-impl<T: Clone + Default> From<Signal<T>> for Model<T> {
+impl<T: Clone> From<Signal<T>> for Model<T> {
     fn from(read: Signal<T>) -> Self {
         let mut model = Self::new(read.get());
         model.on_write = None;
