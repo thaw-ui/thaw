@@ -9,7 +9,17 @@ view! {
             "content"
         </Card>
         <Card title="title">
-            <CardHeader slot>"header"</CardHeader>
+            <CardHeader>
+                "Header"
+                <CardHeaderDescription slot>
+                    "Description"
+                </CardHeaderDescription>
+                <CardHeaderAction slot>
+                    <Button appearance=ButtonAppearance::Transparent>
+                        "..."
+                    </Button>
+                </CardHeaderAction>
+            </CardHeader>
             "content"
         </Card>
         <Card title="title">

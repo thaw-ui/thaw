@@ -18,10 +18,15 @@ pub fn Home() -> impl IntoView {
             <h1 style="font-size: 80px; line-height: 1;margin: 0 0 18px;">"Thaw UI"</h1>
             <p>"An easy to use leptos component library"</p>
             <Space>
-                <Button on_click=move |_| {
+                <Button
+                    appearance=ButtonAppearance::Primary
+                    on_click=move |_| {
                     let navigate = use_navigate();
-                    navigate("/components/button", Default::default());
-                }>"Read the docs"</Button>
+                        navigate("/components/button", Default::default());
+                    }
+                >
+                    "Read the docs"
+                </Button>
                 <Button
                     appearance=ButtonAppearance::Subtle
                     on_click=move |_| {

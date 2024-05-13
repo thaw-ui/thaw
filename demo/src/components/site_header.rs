@@ -23,9 +23,7 @@ pub fn SiteHeader() -> impl IntoView {
             theme.set(Theme::dark());
         }
     });
-    let style = create_memo(move |_| {
-        theme.with(|theme| format!("border-bottom: 1px solid {}", theme.common.border_color))
-    });
+
     let search_value = create_rw_signal(String::new());
     let search_all_options = store_value(gen_search_all_options());
     let search_options = create_memo(move |_| {
@@ -88,6 +86,9 @@ pub fn SiteHeader() -> impl IntoView {
                     align-items: center;
                     justify-content: space-between;
                     padding: 0 20px;
+                    z-index: 1000;
+                    position: relative;
+                    border-bottom: 1px solid var(--colorNeutralStroke2);
                 }
                 .demo-name {
                     cursor: pointer;
@@ -124,7 +125,7 @@ pub fn SiteHeader() -> impl IntoView {
                 }
             "
         </Style>
-        <LayoutHeader class="demo-header" style>
+        <LayoutHeader class="demo-header">
             <Space
                 on:click=move |_| {
                 let navigate = use_navigate();

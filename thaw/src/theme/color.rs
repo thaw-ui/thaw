@@ -45,6 +45,8 @@ pub struct ColorTheme {
     pub color_transparent_background: String,
     pub color_transparent_background_hover: String,
     pub color_transparent_background_pressed: String,
+
+    pub shadow4: String,
 }
 
 impl ColorTheme {
@@ -93,6 +95,8 @@ impl ColorTheme {
             color_transparent_background: "transparent".into(),
             color_transparent_background_hover: "transparent".into(),
             color_transparent_background_pressed: "transparent".into(),
+
+            shadow4: "0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14)".into(),
         }
     }
 
@@ -141,6 +145,8 @@ impl ColorTheme {
             color_transparent_background: "transparent".into(),
             color_transparent_background_hover: "transparent".into(),
             color_transparent_background_pressed: "transparent".into(),
+
+            shadow4: "0 0 2px rgba(0,0,0,0.24), 0 2px 4px rgba(0,0,0,0.28)".into(),
         }
     }
 }

@@ -113,7 +113,7 @@ pub fn Modal(
                                 style=move || display.get()
                             >
                                 <Card>
-                                    <CardHeader slot>
+                                    <CardHeader>
                                         <span class="thaw-model-title">{move || title.get()}</span>
                                     </CardHeader>
                                     <CardHeaderExtra slot>

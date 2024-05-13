@@ -1,12 +1,15 @@
+mod card_header;
+
+pub use card_header::*;
+
 use crate::{use_theme, Theme};
 use leptos::*;
 use thaw_components::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
-
-#[slot]
-pub struct CardHeader {
-    children: Children,
-}
+// #[slot]
+// pub struct CardHeader {
+//     children: Children,
+// }
 
 #[slot]
 pub struct CardHeaderExtra {
@@ -23,7 +26,7 @@ pub struct CardFooter {
 #[component]
 pub fn Card(
     #[prop(optional, into)] title: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional)] card_header: Option<CardHeader>,
+    // #[prop(optional)] card_header: Option<CardHeader>,
     #[prop(optional)] card_header_extra: Option<CardHeaderExtra>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
@@ -51,31 +54,32 @@ pub fn Card(
         <div
             class=class_list!["thaw-card", class.map(| c | move || c.get())]
             style=move || css_vars.get()
+            role="group"
         >
 
-            {if card_header.is_some() || title.is_some() {
-                view! {
-                    <div class="thaw-card__header">
-                        <div class="thaw-card__header-content">
+            // {if card_header.is_some() || title.is_some() {
+            //     view! {
+            //         <div class="thaw-card__header">
+            //             <div class="thaw-card__header-content">
 
-                            {if let Some(header) = card_header {
-                                (header.children)().into_view()
-                            } else if let Some(title) = title.into_option() {
-                                (move || title.get()).into_view()
-                            } else {
-                                unreachable!()
-                            }}
+            //                 {if let Some(header) = card_header {
+            //                     (header.children)().into_view()
+            //                 } else if let Some(title) = title.into_option() {
+            //                     (move || title.get()).into_view()
+            //                 } else {
+            //                     unreachable!()
+            //                 }}
 
-                        </div>
-                        <OptionComp value=card_header_extra let:header_extra>
-                            <div class="thaw-card__header-extra">{(header_extra.children)()}</div>
-                        </OptionComp>
-                    </div>
-                }
-                    .into()
-            } else {
-                None
-            }}
+            //             </div>
+            //             <OptionComp value=card_header_extra let:header_extra>
+            //                 <div class="thaw-card__header-extra">{(header_extra.children)()}</div>
+            //             </OptionComp>
+            //         </div>
+            //     }
+            //         .into()
+            // } else {
+            //     None
+            // }}
 
             <div class="thaw-card__content">{children()}</div>
             <OptionComp value=card_footer let:footer>
