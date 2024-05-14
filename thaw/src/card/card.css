@@ -19,11 +19,10 @@
     --thaw-card--size: 12px;
 }
 
-.thaw-card__header {
-    font-weight: 600;
-    display: flex;
-    align-items: center;
+.thaw-card > .thaw-card-preview {
+    margin: 0 calc(var(--thaw-card--size)* -1);
 }
+
 .thaw-card__header-extra {
     display: flex;
     align-items: center;

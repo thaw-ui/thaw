@@ -1,0 +1,6 @@
+.thaw-card-footer {
+    display: flex;
+    flex-direction: row;
+    column-gap: 12px;
+    row-gap: 12px;
+}

@@ -2,32 +2,26 @@
 
 ```rust demo
 view! {
-    <Space vertical=true>
-        <Card title="title">"content"</Card>
-        <Card title="title">
-            <CardHeaderExtra slot>"header-extra"</CardHeaderExtra>
-            "content"
-        </Card>
-        <Card title="title">
-            <CardHeader>
-                "Header"
-                <CardHeaderDescription slot>
-                    "Description"
-                </CardHeaderDescription>
-                <CardHeaderAction slot>
-                    <Button appearance=ButtonAppearance::Transparent>
-                        "..."
-                    </Button>
-                </CardHeaderAction>
-            </CardHeader>
-            "content"
-        </Card>
-        <Card title="title">
-            <CardHeaderExtra slot>"header-extra"</CardHeaderExtra>
-            "content"
-            <CardFooter slot>"footer"</CardFooter>
-        </Card>
-    </Space>
+    <Card>
+        <CardHeader>
+            "Header"
+            <CardHeaderDescription slot>
+                "Description"
+            </CardHeaderDescription>
+            <CardHeaderAction slot>
+                <Button appearance=ButtonAppearance::Transparent>
+                    "..."
+                </Button>
+            </CardHeaderAction>
+        </CardHeader>
+        <CardPreview>
+            <img src="https://s3.bmp.ovh/imgs/2021/10/2c3b013418d55659.jpg" style="width: 100%"/>
+        </CardPreview>
+        <CardFooter>
+            <Button>"Reply"</Button>
+            <Button>"Share"</Button>
+        </CardFooter>
+    </Card>
 }
 ```
 
