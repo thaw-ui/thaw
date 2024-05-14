@@ -4,9 +4,9 @@
 view! {
     <Card>
         <CardHeader>
-            "Header"
+            <Body1>"Header"</Body1>
             <CardHeaderDescription slot>
-                "Description"
+                <Caption1>"Description"</Caption1>
             </CardHeaderDescription>
             <CardHeaderAction slot>
                 <Button appearance=ButtonAppearance::Transparent>

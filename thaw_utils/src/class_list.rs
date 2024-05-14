@@ -1,6 +1,8 @@
 #[cfg(not(feature = "ssr"))]
 use leptos::create_render_effect;
-use leptos::{Attribute, IntoAttribute, Memo, Oco, RwSignal, SignalGet, SignalUpdate, SignalWith};
+use leptos::{
+    Attribute, IntoAttribute, MaybeProp, Memo, Oco, RwSignal, SignalGet, SignalUpdate, SignalWith,
+};
 use std::{collections::HashSet, rc::Rc};
 
 pub struct ClassList(RwSignal<HashSet<Oco<'static, str>>>);
@@ -41,6 +43,44 @@ impl ClassList {
                         self.0.update(|set| {
                             set.insert(name.clone());
                         });
+                    }
+                    name
+                });
+            }
+            Class::FnOptionString(f) => {
+                #[cfg(feature = "ssr")]
+                {
+                    if let Some(name) = f() {
+                        self.0.update(|set| {
+                            set.insert(name);
+                        });
+                    }
+                }
+                #[cfg(not(feature = "ssr"))]
+                create_render_effect(move |old_name| {
+                    let name = f();
+                    if let Some(old_name) = old_name {
+                        if old_name != name {
+                            self.0.update(|set| match (old_name, name.clone()) {
+                                (None, Some(name)) => {
+                                    set.insert(name);
+                                }
+                                (Some(old_name), None) => {
+                                    set.remove(&old_name);
+                                }
+                                (Some(old_name), Some(name)) => {
+                                    set.remove(&old_name);
+                                    set.insert(name);
+                                }
+                                _ => {}
+                            });
+                        }
+                    } else {
+                        if let Some(name) = name.clone() {
+                            self.0.update(|set| {
+                                set.insert(name.clone());
+                            });
+                        }
                     }
                     name
                 });
@@ -111,6 +151,7 @@ pub enum Class {
     None,
     String(Oco<'static, str>),
     FnString(Box<dyn Fn() -> Oco<'static, str>>),
+    FnOptionString(Box<dyn Fn() -> Option<Oco<'static, str>>>),
     Fn(Oco<'static, str>, Box<dyn Fn() -> bool>),
 }
 
@@ -176,6 +217,12 @@ impl IntoClass for (&'static str, bool) {
 impl IntoClass for (&'static str, Memo<bool>) {
     fn into_class(self) -> Class {
         Class::Fn(self.0.into(), Box::new(move || self.1.get()))
+    }
+}
+
+impl IntoClass for MaybeProp<String> {
+    fn into_class(self) -> Class {
+        Class::FnOptionString(Box::new(move || self.get().map(|c| Oco::from(c))))
     }
 }
 

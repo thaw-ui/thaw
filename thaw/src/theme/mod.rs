@@ -4,11 +4,10 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, BreadcrumbTheme,
-    CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme,
-    MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme,
-    SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, TypographyTheme,
-    UploadTheme,
+    AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, BreadcrumbTheme, CalendarTheme,
+    CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme, MessageTheme,
+    PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme, SliderTheme,
+    SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -41,7 +40,6 @@ pub struct Theme {
     pub color_picker: ColorPickerTheme,
     pub breadcrumb: BreadcrumbTheme,
     pub progress: ProgressTheme,
-    pub typograph: TypographyTheme,
     pub calendar: CalendarTheme,
     pub time_picker: TimePickerTheme,
     pub date_picker: DatePickerTheme,
@@ -76,7 +74,6 @@ impl Theme {
             color_picker: ColorPickerTheme::light(),
             breadcrumb: BreadcrumbTheme::light(),
             progress: ProgressTheme::light(),
-            typograph: TypographyTheme::light(),
             calendar: CalendarTheme::light(),
             time_picker: TimePickerTheme::light(),
             date_picker: DatePickerTheme::light(),
@@ -110,7 +107,6 @@ impl Theme {
             color_picker: ColorPickerTheme::dark(),
             breadcrumb: BreadcrumbTheme::dark(),
             progress: ProgressTheme::dark(),
-            typograph: TypographyTheme::dark(),
             calendar: CalendarTheme::dark(),
             time_picker: TimePickerTheme::dark(),
             date_picker: DatePickerTheme::dark(),
