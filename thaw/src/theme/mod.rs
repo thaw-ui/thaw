@@ -5,9 +5,9 @@ use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, BreadcrumbTheme, CalendarTheme,
-    CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme, MessageTheme,
-    PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme, SliderTheme,
-    SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme, UploadTheme,
+    ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme, MessageTheme, PopoverTheme,
+    ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme, SliderTheme, SpinnerTheme,
+    SwitchTheme, TableTheme, TagTheme, TimePickerTheme, UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -44,7 +44,6 @@ pub struct Theme {
     pub time_picker: TimePickerTheme,
     pub date_picker: DatePickerTheme,
     pub popover: PopoverTheme,
-    pub collapse: CollapseTheme,
     pub scrollbar: ScrollbarTheme,
     pub back_top: BackTopTheme,
     pub anchor: AnchorTheme,
@@ -78,7 +77,6 @@ impl Theme {
             time_picker: TimePickerTheme::light(),
             date_picker: DatePickerTheme::light(),
             popover: PopoverTheme::light(),
-            collapse: CollapseTheme::light(),
             scrollbar: ScrollbarTheme::light(),
             back_top: BackTopTheme::light(),
             anchor: AnchorTheme::light(),
@@ -111,7 +109,6 @@ impl Theme {
             time_picker: TimePickerTheme::dark(),
             date_picker: DatePickerTheme::dark(),
             popover: PopoverTheme::dark(),
-            collapse: CollapseTheme::dark(),
             scrollbar: ScrollbarTheme::dark(),
             back_top: BackTopTheme::dark(),
             anchor: AnchorTheme::dark(),

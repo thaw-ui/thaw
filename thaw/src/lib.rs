@@ -1,3 +1,4 @@
+mod accordion;
 mod alert;
 mod anchor;
 mod auto_complete;
@@ -10,7 +11,6 @@ mod calendar;
 mod card;
 mod checkbox;
 mod code;
-mod collapse;
 mod color_picker;
 mod config_provider;
 mod date_picker;
@@ -46,6 +46,7 @@ mod theme;
 mod time_picker;
 mod upload;
 
+pub use accordion::*;
 pub use alert::*;
 pub use anchor::*;
 pub use auto_complete::*;
@@ -58,7 +59,6 @@ pub use calendar::*;
 pub use card::*;
 pub use checkbox::*;
 pub use code::*;
-pub use collapse::*;
 pub use color_picker::*;
 pub use config_provider::*;
 pub use date_picker::*;

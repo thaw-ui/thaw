@@ -110,6 +110,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Common Components".into(),
             children: vec![
                 MenuItemOption {
+                    value: "accordion".into(),
+                    label: "Accordion".into(),
+                },
+                MenuItemOption {
                     value: "avatar".into(),
                     label: "Avatar".into(),
                 },
@@ -120,10 +124,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "card".into(),
                     label: "Card".into(),
-                },
-                MenuItemOption {
-                    value: "collapse".into(),
-                    label: "Collapse".into(),
                 },
                 MenuItemOption {
                     value: "divider".into(),

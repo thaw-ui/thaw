@@ -1,0 +1,60 @@
+.thaw-accordion-header {
+    margin: 0;
+    background-color: var(--colorTransparentBackground);
+    color: var(--colorNeutralForeground1);
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-accordion-header__button {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: var(--spacingHorizontalMNudge);
+    padding-right: var(--spacingHorizontalM);
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 100%;
+    min-height: 44px;
+    text-align: unset;
+    line-height: var(--lineHeightBase300);
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightRegular);
+    background-color: inherit;
+    color: inherit;
+    border-width: 0px;
+    appearance: button;
+    overflow: visible;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.thaw-accordion-panel {
+    margin: 0 var(--spacingHorizontalM);
+}
+
+
+.thaw-accordion-panel-enter-from,
+.thaw-accordion-panel-enter-to {
+    opacity: 1;
+}
+
+.thaw-accordion-panel-leave-to,
+.thaw-accordion-panel-enter-from {
+    opacity: 0;
+    max-height: 0;
+}
+
+.thaw-accordion-panel-leave-active {
+    overflow: hidden;
+    transition: max-height 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        opacity 0.15s cubic-bezier(0, 0, 0.2, 1) 0s,
+        padding-top 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+}
+
+.thaw-accordion-panel-enter-active {
+    overflow: hidden;
+    transition: max-height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.15s cubic-bezier(0.4, 0, 1, 1),
+        padding-top 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
