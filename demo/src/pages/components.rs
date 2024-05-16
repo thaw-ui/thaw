@@ -83,9 +83,9 @@ impl IntoView for MenuGroupOption {
         let Self { label, children } = self;
         let children_len = children.len();
         view! {
-            <Text>
+            <Caption1Strong>
                 {format!("{label} ({children_len})")}
-            </Text>
+            </Caption1Strong>
             {children.into_iter().map(|v| v.into_view()).collect_view()}
         }.into_view()
     }
@@ -99,7 +99,6 @@ pub(crate) struct MenuItemOption {
 impl IntoView for MenuItemOption {
     fn into_view(self) -> View {
         let Self { label, value } = self;
-        // key=value label
         view! { <NavItem value>{label}</NavItem> }
     }
 }
