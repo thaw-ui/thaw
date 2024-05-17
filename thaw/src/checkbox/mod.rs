@@ -4,7 +4,7 @@ mod checkbox_item;
 pub use checkbox_group::CheckboxGroup;
 pub use checkbox_item::CheckboxItem;
 
-use crate::{icon::*, theme::use_theme, Theme};
+use crate::icon::*;
 use leptos::*;
 use thaw_components::*;
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
@@ -15,19 +15,7 @@ pub fn Checkbox(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
     mount_style("checkbox", include_str!("./checkbox.css"));
-
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color-checked: {};",
-                theme.common.color_primary
-            ));
-        });
-        css_vars
-    });
 
     view! {
         <div
@@ -36,11 +24,10 @@ pub fn Checkbox(
                 move || c.get())
             ]
 
-            style=move || css_vars.get()
             on:click=move |_| value.set(!value.get_untracked())
         >
             <input class="thaw-checkbox__input" type="checkbox"/>
-            <div class="thaw-checkbox__dot">
+            <div class="thaw-checkbox__indicator">
                 <If cond=value.signal()>
                     <Then slot>
                         <Icon icon=icondata_ai::AiCheckOutlined style="color: white"/>
@@ -48,7 +35,7 @@ pub fn Checkbox(
                 </If>
             </div>
             <OptionComp value=children let:children>
-                <div class="thaw-checkbox__label">{children()}</div>
+                <label class="thaw-checkbox__label">{children()}</label>
             </OptionComp>
         </div>
     }

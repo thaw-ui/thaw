@@ -46,11 +46,13 @@ pub struct CommonTheme {
     pub border_radius_circular: String,
 
     pub spacing_horizontal_x_x_s: String,
+    pub spacing_horizontal_x_s: String,
     pub spacing_horizontal_s_nudge: String,
     pub spacing_horizontal_s: String,
     pub spacing_horizontal_m_nudge: String,
     pub spacing_horizontal_m: String,
     pub spacing_horizontal_l: String,
+    pub spacing_vertical_s: String,
     pub spacing_vertical_m_nudge: String,
     pub spacing_vertical_l: String,
 
@@ -116,11 +118,13 @@ impl CommonTheme {
             border_radius_circular: "10000px".into(),
 
             spacing_horizontal_x_x_s: "2px".into(),
+            spacing_horizontal_x_s: "4px".into(),
             spacing_horizontal_s_nudge: "6px".into(),
             spacing_horizontal_s: "8px".into(),
             spacing_horizontal_m_nudge: "10px".into(),
             spacing_horizontal_m: "12px".into(),
             spacing_horizontal_l: "16px".into(),
+            spacing_vertical_s: "8px".into(),
             spacing_vertical_m_nudge: "10px".into(),
             spacing_vertical_l: "16px".into(),
 
