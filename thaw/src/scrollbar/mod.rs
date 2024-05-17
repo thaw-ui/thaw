@@ -157,7 +157,7 @@ pub fn Scrollbar(
         sync_scroll_state();
     };
     let on_mouseleave = move |_| {
-        thumb_status.update_value(|thumb_status| {
+        thumb_status.try_update_value(|thumb_status| {
             if thumb_status.is_some() {
                 *thumb_status = Some(ThumbStatus::DelayLeave);
             } else {
