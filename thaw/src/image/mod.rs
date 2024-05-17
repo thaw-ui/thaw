@@ -29,6 +29,12 @@ pub fn Image(
             style.push_str(&format!("border-radius: {border_radius};"))
         }
 
+        if let Some(object_fit) = object_fit.as_ref().map(|object_fit| object_fit.get()) {
+            if !object_fit.is_empty() {
+                style.push_str(&format!("object-fit: {object_fit};"))
+            }
+        }
+
         style
     };
 
@@ -38,7 +44,6 @@ pub fn Image(
             src=src.map(|s| move || s.get())
             alt=alt.map(|a| move || a.get())
             style=style
-            object_fit=object_fit.map(|o| move || o.get())
         />
     }
 }
