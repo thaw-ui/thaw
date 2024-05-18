@@ -9,6 +9,7 @@ use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 #[component]
 pub fn Switch(
     #[prop(optional, into)] value: Model<bool>,
+    #[prop(optional, into)] on_change: Option<Callback<bool>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("switch", include_str!("./switch.css"));
@@ -27,6 +28,13 @@ pub fn Switch(
         });
         css_vars
     });
+    let on_click = move |_| {
+        let new_value = !value.get_untracked();
+        value.set(new_value);
+        if let Some(on_change) = on_change {
+            on_change.call(new_value);
+        }
+    };
 
     view! {
         <div
@@ -36,7 +44,7 @@ pub fn Switch(
             ]
 
             style=move || css_vars.get()
-            on:click=move |_| value.set(!value.get_untracked())
+            on:click=on_click
             role="switch"
             aria-checked=move || if value.get() { "true" } else { "false" }
         >
