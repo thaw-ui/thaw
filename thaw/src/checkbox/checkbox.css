@@ -6,16 +6,6 @@
     cursor: pointer;
 }
 
-.thaw-checkbox--checked {
-    --thaw-checkbox__indicator--background-color: var(
-        --colorCompoundBrandBackground
-    );
-    --thaw-checkbox__indicator--color: var(--colorNeutralForegroundInverted);
-    --thaw-checkbox__indicator--border-color: var(
-        --colorCompoundBrandBackground
-    );
-}
-
 .thaw-checkbox:hover {
     color: var(--colorNeutralForeground2);
 
@@ -29,6 +19,36 @@
 
     --thaw-checkbox__indicator--border-color: var(
         --colorNeutralStrokeAccessiblePressed
+    );
+}
+
+.thaw-checkbox--checked {
+    color: var(--colorNeutralForeground1);
+
+    --thaw-checkbox__indicator--background-color: var(
+        --colorCompoundBrandBackground
+    );
+    --thaw-checkbox__indicator--color: var(--colorNeutralForegroundInverted);
+    --thaw-checkbox__indicator--border-color: var(
+        --colorCompoundBrandBackground
+    );
+}
+
+.thaw-checkbox--checked:hover {
+    --thaw-checkbox__indicator--border-color: var(
+        --colorCompoundBrandBackgroundHover
+    );
+    --thaw-checkbox__indicator--background-color: var(
+        --colorCompoundBrandBackgroundHover
+    );
+}
+
+.thaw-checkbox--checked:active {
+    --thaw-checkbox__indicator--border-color: var(
+        --colorCompoundBrandBackgroundPressed
+    );
+    --thaw-checkbox__indicator--background-color: var(
+        --colorCompoundBrandBackgroundPressed
     );
 }
 
