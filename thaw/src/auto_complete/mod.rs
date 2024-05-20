@@ -7,10 +7,16 @@ use leptos::*;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
 
-#[derive(Clone, PartialEq)]
-pub struct AutoCompleteOption {
-    pub label: String,
+#[derive(Clone)]
+pub struct AutoCompleteOption<T> {
+    pub label: T,
     pub value: String,
+}
+
+impl<T> PartialEq for AutoCompleteOption<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 #[slot]
@@ -24,10 +30,10 @@ pub struct AutoCompleteSuffix {
 }
 
 #[component]
-pub fn AutoComplete(
+pub fn AutoComplete<T>(
     #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
+    #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption<T>>>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] on_select: Option<Callback<String>>,
@@ -39,7 +45,10 @@ pub fn AutoComplete(
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-) -> impl IntoView {
+) -> impl IntoView
+where
+    T: IntoView + Clone + 'static,
+{
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let theme = use_theme(Theme::light);
     let menu_css_vars = create_memo(move |_| {
