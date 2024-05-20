@@ -4,9 +4,11 @@
 <h1 align="center">Thaw UI</h1>
 <p align="center">An easy to use leptos component library</p>
 
-## Documentation
+## Documentation & Community
 
 [https://thawui.vercel.app](https://thawui.vercel.app)
+
+[Discord](https://discord.gg/YPxuprzu6M)
 
 ## Leptos compatibility
 
