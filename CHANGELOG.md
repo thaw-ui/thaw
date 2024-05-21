@@ -1,3 +1,16 @@
+## [0.3.2](https://github.com/thaw-ui/thaw/compare/v0.3.1...v0.3.2) (2024-05-21)
+
+### Features
+
+* `Switch` adds on_change prop, closes [#196](https://github.com/thaw-ui/thaw/pull/196).
+
+### Bug Fixs
+
+* `Image` object-fit, closes [#195](https://github.com/thaw-ui/thaw/pull/195).
+* `Icon` missaligment in message fix, closes [#194](https://github.com/thaw-ui/thaw/pull/194).
+* fix `Scrollbar` panic, closes [#193](https://github.com/thaw-ui/thaw/pull/193).
+* interchange the icons of MessageVariant::Success and MessageVariant::Error, closes [#188](https://github.com/thaw-ui/thaw/pull/188).
+
 ## [0.3.1](https://github.com/thaw-ui/thaw/compare/v0.3.0...v0.3.1) (2024-04-27)
 
 ### Features
