@@ -106,4 +106,5 @@
     font-family: var(--fontFamilyBase);
     font-size: var(--fontSizeBase300);
     color: inherit;
+    cursor: inherit;
 }

@@ -7,12 +7,20 @@ pub fn CheckboxGroup(
     #[prop(optional, into)] value: Model<HashSet<String>>,
     children: Children,
 ) -> impl IntoView {
-    view! { <Provider value=CheckboxGroupInjection(value) children/> }
+    view! { 
+        <Provider value=CheckboxGroupInjection(value)>
+            <div class="thaw-checkbox-group" role="group">
+                {children()}
+            </div>
+        </Provider>
+    }
 }
 
 #[derive(Clone)]
 pub(crate) struct CheckboxGroupInjection(pub Model<HashSet<String>>);
 
-pub(crate) fn use_checkbox_group() -> CheckboxGroupInjection {
-    expect_context()
+impl CheckboxGroupInjection {
+    pub fn use_() -> Self {
+        expect_context()
+    }
 }
