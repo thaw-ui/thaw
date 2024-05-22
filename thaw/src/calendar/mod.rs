@@ -2,7 +2,7 @@ mod theme;
 
 pub use theme::CalendarTheme;
 
-use crate::{use_theme, Button, ButtonGroup, ButtonAppearance, Theme};
+use crate::{use_theme, Button, ButtonGroup, Theme};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::*;
 use std::ops::Deref;

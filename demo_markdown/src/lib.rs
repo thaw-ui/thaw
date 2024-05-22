@@ -62,6 +62,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "SkeletonMdPage" => "../docs/skeleton/mod.md",
         "SliderMdPage" => "../docs/slider/mod.md",
         "SpaceMdPage" => "../docs/space/mod.md",
+        "SpinButtonMdPage" => "../docs/spin_button/mod.md",
         "SpinnerMdPage" => "../docs/spinner/mod.md",
         "SwitchMdPage" => "../docs/switch/mod.md",
         "TableMdPage" => "../docs/table/mod.md",

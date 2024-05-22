@@ -58,7 +58,7 @@
     transition-delay: var(--curveDecelerateMid);
 }
 
-.r1qp7m7v:focus-within:active::after {
+.thaw-input:focus-within:active::after {
     border-bottom-color: var(--colorCompoundBrandStrokePressed);
 }
 

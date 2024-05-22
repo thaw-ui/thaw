@@ -140,6 +140,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "typography".into(),
                     label: "Typography".into(),
                 },
+                MenuItemOption {
+                    value: "spin-button".into(),
+                    label: "Spin Button".into(),
+                },
             ],
         },
         MenuGroupOption {

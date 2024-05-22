@@ -1,0 +1,123 @@
+.thaw-spin-button {
+    display: inline-grid;
+    grid-template-columns: 1fr 24px;
+    grid-template-rows: 1fr 1fr;
+    column-gap: var(--spacingHorizontalXS);
+    row-gap: 0px;
+    position: relative;
+    isolation: isolate;
+    background-color: var(--colorNeutralBackground1);
+    min-height: 32px;
+    padding: 0 0 0 var(--spacingHorizontalMNudge);
+
+    border: 1px solid var(--colorNeutralStroke1);
+    border-bottom-color: var(--colorNeutralStrokeAccessible);
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-spin-button:hover {
+    border-color: var(--colorNeutralStroke1Hover);
+    border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
+}
+
+.thaw-spin-button:focus-within {
+    outline: transparent solid 2px;
+}
+
+.thaw-spin-button:active,
+.thaw-spin-button:focus-within {
+    border-color: var(--colorNeutralStroke1Pressed);
+    border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
+}
+
+.thaw-spin-button::after {
+    box-sizing: border-box;
+    content: "";
+    position: absolute;
+    left: -1px;
+    bottom: -1px;
+    right: -1px;
+    height: max(2px, var(--borderRadiusMedium));
+    border-bottom-left-radius: var(--borderRadiusMedium);
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    border-bottom: 2px solid var(--colorCompoundBrandStroke);
+    clip-path: inset(calc(100% - 2px) 0px 0px);
+    transform: scaleX(0);
+    transition-property: transform;
+    transition-duration: var(--durationUltraFast);
+    transition-delay: var(--curveAccelerateMid);
+}
+
+.thaw-spin-button:focus-within::after {
+    transform: scaleX(1);
+    transition-property: transform;
+    transition-duration: var(--durationNormal);
+    transition-delay: var(--curveDecelerateMid);
+}
+
+.thaw-spin-button:focus-within:active::after {
+    border-bottom-color: var(--colorCompoundBrandStrokePressed);
+}
+
+.thaw-spin-button__input {
+    grid-area: 1 / 1 / 3 / 2;
+    outline-style: none;
+    border: 0px;
+    padding: 0px;
+    color: var(--colorNeutralForeground1);
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    width: 100%;
+}
+
+.thaw-spin-button__increment-button,
+.thaw-spin-button__decrement-button {
+    display: inline-flex;
+    width: 24px;
+    align-items: center;
+    justify-content: center;
+    border: 0px;
+    position: absolute;
+    outline-style: none;
+    height: 16px;
+    background-color: transparent;
+    color: var(--colorNeutralForeground3);
+    grid-column-start: 2;
+    border-radius: 0px;
+    padding: 0px 5px;
+}
+
+.thaw-spin-button__increment-button:enabled:hover,
+.thaw-spin-button__decrement-button:enabled:hover {
+    cursor: pointer;
+    color: var(--colorNeutralForeground3Hover);
+    background-color: var(--colorSubtleBackgroundHover);
+}
+
+.thaw-spin-button__increment-button:enabled:active,
+.thaw-spin-button__decrement-button:enabled:active {
+    color: var(--colorNeutralForeground3Pressed);
+    background-color: var(--colorSubtleBackgroundPressed);
+}
+
+.thaw-spin-button__increment-button:active,
+.thaw-spin-button__decrement-button:active {
+    outline-style: none;
+}
+
+.thaw-spin-button__increment-button {
+    grid-row-start: 1;
+    padding-top: 4px;
+    padding-bottom: 1px;
+    border-top-right-radius: var(--borderRadiusMedium);
+}
+
+.thaw-spin-button__decrement-button {
+    padding-bottom: 4px;
+    padding-top: 1px;
+    grid-row-start: 2;
+    border-bottom-right-radius: var(--borderRadiusMedium);
+}

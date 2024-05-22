@@ -39,6 +39,7 @@ pub struct ColorTheme {
     pub color_compound_brand_background_hover: String,
     pub color_compound_brand_background_pressed: String,
     pub color_compound_brand_stroke: String,
+    pub color_compound_brand_stroke_pressed: String,
 
     pub color_brand_background: String,
     pub color_brand_background_hover: String,
@@ -93,6 +94,7 @@ impl ColorTheme {
             color_compound_brand_background_hover: "#115ea3".into(),
             color_compound_brand_background_pressed: "#0f548c".into(),
             color_compound_brand_stroke: "#0f6cbd".into(),
+            color_compound_brand_stroke_pressed: "#0f548c".into(),
 
             color_brand_background: "#0f6cbd".into(),
             color_brand_background_hover: "#115ea3".into(),
@@ -147,6 +149,7 @@ impl ColorTheme {
             color_compound_brand_background_hover: "#62abf5".into(),
             color_compound_brand_background_pressed: "#2886de".into(),
             color_compound_brand_stroke: "#479ef5".into(),
+            color_compound_brand_stroke_pressed: "#2886de".into(),
 
             color_brand_background: "#115ea3".into(),
             color_brand_background_hover: "#0f6cbd".into(),

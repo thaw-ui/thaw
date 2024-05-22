@@ -80,6 +80,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/skeleton" view=SkeletonMdPage/>
                 <Route path="/slider" view=SliderMdPage/>
                 <Route path="/space" view=SpaceMdPage/>
+                <Route path="/spin-button" view=SpinButtonMdPage/>
                 <Route path="/spinner" view=SpinnerMdPage/>
                 <Route path="/switch" view=SwitchMdPage/>
                 <Route path="/table" view=TableMdPage/>
