@@ -48,12 +48,13 @@ where
         }
     };
 
-    let increment_disabled = Memo::new(move |_| disabled.get() || value.get() <= min.get());
-    let decrement_disabled = Memo::new(move |_| disabled.get() || value.get() >= max.get());
+    let increment_disabled = Memo::new(move |_| disabled.get() || value.get() >= max.get());
+    let decrement_disabled = Memo::new(move |_| disabled.get() || value.get() <= min.get());
 
     view! {
         <span
             class="thaw-spin-button"
+            class=("thaw-spin-button--disabled", move || disabled.get())
         >
             <input
                 autocomplete="off"
@@ -79,6 +80,7 @@ where
                 type="button"
                 class="thaw-spin-button__increment-button"
                 class=("thaw-spin-button__increment-button--disabled", move || increment_disabled.get())
+                disabled=move || disabled.get()
                 on:click=move |_| {
                     if !increment_disabled.get_untracked() {
                         update_value(value.get_untracked() + step_page.get_untracked());
@@ -94,6 +96,7 @@ where
                 aria-label="Decrement value"
                 type="button"
                 class="thaw-spin-button__decrement-button"
+                disabled=move || disabled.get()
                 class=("thaw-spin-button__decrement-button--disabled", move || decrement_disabled.get())
                 on:click=move |_| {
                     if !decrement_disabled.get_untracked() {
