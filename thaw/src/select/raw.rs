@@ -50,6 +50,10 @@ where
         });
         on_cleanup(move || listener.remove());
     }
+    #[cfg(not(any(feature = "csr", feature = "hydrate")))]
+    {
+        let _ = hide_menu;
+    }
 
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {

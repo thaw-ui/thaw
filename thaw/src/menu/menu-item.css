@@ -1,4 +1,6 @@
 .thaw-menu-item__content {
+    display: flex;
+    align-items: center;
     margin: 0.3rem 0.4rem;
     padding: 0.5rem 0.75rem;
     color: var(--thaw-font-color);
