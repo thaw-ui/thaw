@@ -1,26 +1,12 @@
 # Radio
 
 ```rust demo
-let value = create_rw_signal(false);
-
-view! {
-    <Radio value>"Click"</Radio>
-}
-```
-
-### Group
-
-```rust demo
-let value = create_rw_signal(None);
+let value = RwSignal::new(None);
 
 view! {
     <RadioGroup value>
-        <RadioItem key="a">
-            "Apple"
-        </RadioItem>
-        <RadioItem key="o">
-            "Orange"
-        </RadioItem>
+        <Radio value="a" label="Apple"/>
+        <Radio value="o" label="Orange"/>
     </RadioGroup>
     <div style="margin-top: 1rem">
         "value: " {move || format!("{:?}", value.get())}

@@ -1,42 +1,81 @@
 .thaw-radio {
     display: inline-flex;
-    align-items: center;
-    cursor: pointer;
+    position: relative;
 }
 
 .thaw-radio__input {
-    width: 0;
-    height: 0;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: calc(16px + 2 * var(--spacingHorizontalS));
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0px;
     opacity: 0;
 }
 
-.thaw-radio__dot {
-    display: inline-block;
+.thaw-radio__input:enabled {
+    cursor: pointer;
+}
+
+.thaw-radio__indicator {
     position: relative;
-    width: 14px;
-    height: 14px;
-    border: 1px solid #ddd;
-    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: var(--strokeWidthThin) solid;
+    border-radius: var(--borderRadiusCircular);
+    margin: var(--spacingVerticalS) var(--spacingHorizontalS);
+    fill: currentcolor;
+    pointer-events: none;
 }
 
-.thaw-radio:hover .thaw-radio__dot,
-.thaw-radio--checked .thaw-radio__dot {
-    border-color: var(--thaw-background-color-checked);
+.thaw-radio__input:enabled:not(:checked) ~ .thaw-radio__indicator {
+    border-color: var(--colorNeutralStrokeAccessible);
 }
 
-.thaw-radio--checked .thaw-radio__dot::before {
-    content: "";
+.thaw-radio__input:checked ~ .thaw-radio__indicator {
+    border-color: var(--colorCompoundBrandStroke);
+    color: var(--colorCompoundBrandForeground1);
+}
+
+.thaw-radio__indicator::after {
     position: absolute;
-    top: 3px;
-    bottom: 3px;
-    left: 3px;
-    right: 3px;
-    background-color: var(--thaw-background-color-checked);
-    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: var(--borderRadiusCircular);
+    transform: scale(0.625);
+    background-color: currentcolor;
+}
+
+.thaw-radio__input:checked ~ .thaw-radio__indicator::after {
+    content: "";
 }
 
 .thaw-radio__label {
-    display: inline-block;
-    padding: 0 6px;
-    user-select: none;
+    margin-bottom: calc((16px - var(--lineHeightBase300)) / 2);
+    margin-top: calc((16px - var(--lineHeightBase300)) / 2);
+    align-self: center;
+    padding-bottom: var(--spacingVerticalS);
+    padding-top: var(--spacingVerticalS);
+    padding-left: var(--spacingHorizontalXS);
+    padding-right: var(--spacingHorizontalS);
+    line-height: var(--lineHeightBase300);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    color: var(--colorNeutralForeground1);
+}
+
+.thaw-radio__input:enabled:not(:checked) ~ .thaw-radio__label {
+    color: var(--colorNeutralForeground3);
+}
+
+.thaw-radio__input:enabled ~ .thaw-radio__label {
+    cursor: pointer;
 }

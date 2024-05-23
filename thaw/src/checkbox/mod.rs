@@ -25,7 +25,7 @@ pub fn Checkbox(
     };
 
     view! {
-        <div
+        <span
             class=class_list![
                 "thaw-checkbox", ("thaw-checkbox--checked", move || checked.get()), class.map(| c |
                 move || c.get())
@@ -39,7 +39,7 @@ pub fn Checkbox(
                 ref=input_ref
                 on:change=on_change
             />
-            <div class="thaw-checkbox__indicator">
+            <div aria-hidden="true" class="thaw-checkbox__indicator">
                 {
                     move || if checked.get() {
                         view! {
@@ -55,6 +55,6 @@ pub fn Checkbox(
             <OptionComp value=children let:children>
                 <label class="thaw-checkbox__label" for=id>{children()}</label>
             </OptionComp>
-        </div>
+        </span>
     }
 }
