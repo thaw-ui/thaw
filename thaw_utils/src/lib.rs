@@ -7,7 +7,7 @@ mod signals;
 mod throttle;
 mod time;
 
-pub use dom::{get_scroll_parent, mount_style};
+pub use dom::{get_scroll_parent, mount_dynamic_style, mount_style};
 pub use event_listener::{
     add_event_listener, add_event_listener_with_bool, EventListenerHandle, IntoEventTarget,
 };

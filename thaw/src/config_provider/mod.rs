@@ -1,6 +1,6 @@
 use crate::Theme;
 use leptos::*;
-use thaw_utils::mount_style;
+use thaw_utils::{mount_dynamic_style, mount_style};
 
 #[component]
 pub fn ConfigProvider(
@@ -15,25 +15,26 @@ pub fn ConfigProvider(
     mount_style("config-provider", include_str!("./config-provider.css"));
 
     let theme = theme.unwrap_or_else(|| RwSignal::new(Theme::light()));
-    let css_vars = Memo::new(move |_| {
+    let id = StoredValue::new(uuid::Uuid::new_v4().to_string());
+    mount_dynamic_style(id.get_value(), move || {
         let mut css_vars = String::new();
         theme.with(|theme| {
             theme.common.write_css_vars(&mut css_vars);
             theme.color.write_css_vars(&mut css_vars);
         });
-        css_vars
+        format!(
+            ".thaw-config-provider[data-thaw-id=\"{}\"]{{{css_vars}}}",
+            id.get_value()
+        )
     });
 
-    let config_injection = ConfigInjection {
-        theme,
-        dir: dir.clone(),
-    };
+    let config_injection = ConfigInjection { theme, dir };
 
     view! {
         <Provider value=config_injection>
             <div
                 class="thaw-config-provider"
-                style=move || css_vars.get()
+                data-thaw-id=id.get_value()
                 dir=move || dir.get().map(move |dir| dir.as_str())
             >
                 {children()}
@@ -44,8 +45,8 @@ pub fn ConfigProvider(
 
 #[derive(Clone)]
 pub struct ConfigInjection {
-    theme: RwSignal<Theme>,
-    dir: RwSignal<Option<ConfigDirection>>,
+    pub theme: RwSignal<Theme>,
+    pub dir: RwSignal<Option<ConfigDirection>>,
 }
 
 #[derive(Clone)]
