@@ -4,7 +4,7 @@
 let checked = RwSignal::new(false);
 
 view! {
-    <Checkbox checked>"Click"</Checkbox>
+    <Checkbox checked label="Click"/>
     <Checkbox />
 }
 ```
@@ -18,9 +18,9 @@ let value = RwSignal::new(HashSet::new());
 
 view! {
     <CheckboxGroup value>
-        <CheckboxItem label="apple" value="a"/>
-        <CheckboxItem label="b" value="b"/>
-        <CheckboxItem label="c" value="c"/>
+        <Checkbox label="apple" value="a"/>
+        <Checkbox label="b" value="b"/>
+        <Checkbox label="c" value="c"/>
     </CheckboxGroup>
     <div style="margin-top: 1rem">"value: " {move || format!("{:?}", value.get())}</div>
 }

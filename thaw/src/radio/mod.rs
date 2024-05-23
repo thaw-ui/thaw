@@ -43,6 +43,7 @@ pub fn Radio(
                 class="thaw-radio__input"
                 type="radio"
                 id=id.clone()
+                value=item_value.get_value()
                 prop:checked=move || checked.get()
                 on:change=on_change
             />

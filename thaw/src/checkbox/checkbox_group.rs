@@ -19,8 +19,10 @@ pub fn CheckboxGroup(
 #[derive(Clone)]
 pub(crate) struct CheckboxGroupInjection(pub Model<HashSet<String>>);
 
+impl Copy for CheckboxGroupInjection {}
+
 impl CheckboxGroupInjection {
-    pub fn use_() -> Self {
-        expect_context()
+    pub fn use_() -> Option<Self> {
+        use_context()
     }
 }
