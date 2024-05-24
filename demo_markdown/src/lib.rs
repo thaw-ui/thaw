@@ -41,6 +41,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "CardMdPage" => "../docs/card/mod.md",
         "CheckboxMdPage" => "../docs/checkbox/mod.md",
         "ColorPickerMdPage" => "../docs/color_picker/mod.md",
+        "ConfigProviderMdPage" => "../docs/config_provider/mod.md",
         "DatePickerMdPage" => "../docs/date_picker/mod.md",
         "DividerMdPage" => "../docs/divider/mod.md",
         "DrawerMdPage" => "../docs/drawer/mod.md",
@@ -68,7 +69,6 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "TableMdPage" => "../docs/table/mod.md",
         "TabsMdPage" => "../docs/tabs/mod.md",
         "TagMdPage" => "../docs/tag/mod.md",
-        "ThemeMdPage" => "../docs/theme/mod.md",
         "TimePickerMdPage" => "../docs/time_picker/mod.md",
         "TypographyMdPage" => "../docs/typography/mod.md",
         "UploadMdPage" => "../docs/upload/mod.md"

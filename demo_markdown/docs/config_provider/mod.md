@@ -1,47 +1,47 @@
-# Theme
+# ConfigProvider
 
-### ThemeProvider
+### Theme
 
 ```rust demo
-let theme = create_rw_signal(Theme::light());
+let theme = RwSignal::new(Theme::light());
 
 view! {
-    <ThemeProvider theme>
+    <ConfigProvider theme>
         <Card>
             <Space>
                 <Button on_click=move |_| theme.set(Theme::light())>"Light"</Button>
                 <Button on_click=move |_| theme.set(Theme::dark())>"Dark"</Button>
             </Space>
         </Card>
-    </ThemeProvider>
+    </ConfigProvider>
 }
 ```
 
 ### Customize Theme
 
 ```rust demo
-let theme = create_rw_signal(Theme::light());
+let theme = RwSignal::new(Theme::light());
 let on_customize_theme = move |_| {
     theme.update(|theme| {
-        theme.common.color_primary = "#f5222d".to_string();
-        theme.common.color_primary_hover = "#ff4d4f".to_string();
-        theme.common.color_primary_active = "#cf1322".to_string();
+        theme.color.color_brand_background = "#f5222d".to_string();
+        theme.color.color_brand_background_hover = "#ff4d4f".to_string();
+        theme.color.color_brand_background_pressed = "#cf1322".to_string();
     });
 };
 
 view! {
-    <ThemeProvider theme>
+    <ConfigProvider theme>
         <Card>
             <Space>
-                <Button on_click=move |_| theme.set(Theme::light())>"Light"</Button>
-                <Button on_click=on_customize_theme>"Customize Theme"</Button>
+                <Button appearance=ButtonAppearance::Primary on_click=move |_| theme.set(Theme::light())>"Light"</Button>
+                <Button appearance=ButtonAppearance::Primary on_click=on_customize_theme>"Customize Theme"</Button>
             </Space>
         </Card>
-    </ThemeProvider>
+    </ConfigProvider>
 }
 ```
 
-### ThemeProvider Props
+### ConfigProvider Props
 
 | Name  | Type                      | Default              | Description |
 | ----- | ------------------------- | -------------------- | ----------- |

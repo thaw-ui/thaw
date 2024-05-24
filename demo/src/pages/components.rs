@@ -106,7 +106,7 @@ impl IntoView for MenuItemOption {
 pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
     vec![
         MenuGroupOption {
-            label: "Common Components".into(),
+            label: "Components".into(),
             children: vec![
                 MenuItemOption {
                     value: "accordion".into(),
@@ -123,6 +123,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "card".into(),
                     label: "Card".into(),
+                },
+                MenuItemOption {
+                    value: "config-provider".into(),
+                    label: "Config Provider".into(),
                 },
                 MenuItemOption {
                     value: "divider".into(),
@@ -308,13 +312,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             children: vec![MenuItemOption {
                 value: "scrollbar".into(),
                 label: "Scrollbar".into(),
-            }],
-        },
-        MenuGroupOption {
-            label: "Config Components".into(),
-            children: vec![MenuItemOption {
-                value: "theme".into(),
-                label: "Theme".into(),
             }],
         },
         MenuGroupOption {

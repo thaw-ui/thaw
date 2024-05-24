@@ -16,6 +16,7 @@ pub fn ConfigProvider(
 
     let theme = theme.unwrap_or_else(|| RwSignal::new(Theme::light()));
     let id = StoredValue::new(uuid::Uuid::new_v4().to_string());
+
     mount_dynamic_style(id.get_value(), move || {
         let mut css_vars = String::new();
         theme.with(|theme| {
@@ -28,7 +29,19 @@ pub fn ConfigProvider(
         )
     });
 
-    let config_injection = ConfigInjection { theme, dir };
+    on_cleanup(move || {
+        if let Ok(Some(style)) =
+            document().query_selector(&format!("head style[data-thaw-id=\"{}\"]", id.get_value()))
+        {
+            style.remove();
+        }
+    });
+
+    let config_injection = ConfigInjection {
+        theme,
+        dir,
+        id: id.get_value(),
+    };
 
     view! {
         <Provider value=config_injection>
@@ -47,6 +60,13 @@ pub fn ConfigProvider(
 pub struct ConfigInjection {
     pub theme: RwSignal<Theme>,
     pub dir: RwSignal<Option<ConfigDirection>>,
+    id: String,
+}
+
+impl ConfigInjection {
+    pub fn id(&self) -> &String {
+        &self.id
+    }
 }
 
 #[derive(Clone)]
