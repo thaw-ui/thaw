@@ -23,14 +23,14 @@ pub fn Radio(
         move |_| {
             item_value.with_value(|value| {
                 group
-                    .0
+                    .value
                     .with(|group_value| group_value.as_ref() == Some(value))
             })
         }
     });
 
     let on_change = move |_| {
-        group.0.set(Some(item_value.get_value()));
+        group.value.set(Some(item_value.get_value()));
     };
 
     view! {
@@ -43,6 +43,7 @@ pub fn Radio(
                 class="thaw-radio__input"
                 type="radio"
                 id=id.clone()
+                name=group.name
                 value=item_value.get_value()
                 prop:checked=move || checked.get()
                 on:change=on_change
