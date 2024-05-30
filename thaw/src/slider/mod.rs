@@ -1,10 +1,7 @@
 mod slider_label;
-mod theme;
 
 pub use slider_label::SliderLabel;
-pub use theme::SliderTheme;
 
-use crate::{theme::use_theme, Theme};
 use leptos::*;
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
@@ -19,23 +16,6 @@ pub fn Slider(
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        css_vars.push_str(&format!("--thaw-slider-max: {};", max.get()));
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                &theme.slider.background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-fill: {};",
-                &theme.common.color_primary
-            ));
-        });
-
-        css_vars
-    });
 
     let percentage = create_memo(move |_| {
         if value.get() < 0.0 || max.get() <= 0.0 {
@@ -116,14 +96,13 @@ pub fn Slider(
     view! {
         <div
             class=class_list!["thaw-slider", class.map(| c | move || c.get())]
-            style=move || css_vars.get()
+            style=move || format!("--thaw-slider--direction: 90deg;--thaw-slider--progress: {:.2}%", value.get())
             on:click=on_mouse_click
         >
-            <div class="thaw-slider-rail" ref=rail_ref>
-                <div
-                    class="thaw-slider-rail__fill"
-                    style=move || format!("width: {}%", percentage.get())
-                ></div>
+            <input type="range" class="thaw-slider__input"/>
+            <div class="thaw-slider__rail" ref=rail_ref>
+            </div>
+            <div class="thaw-slider__thumb">
             </div>
             <OptionComp value=children let:children>
                 {children()}

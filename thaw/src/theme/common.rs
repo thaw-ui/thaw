@@ -43,6 +43,7 @@ pub struct CommonTheme {
 
     pub border_radius_none: String,
     pub border_radius_medium: String,
+    pub border_radius_x_large: String,
     pub border_radius_circular: String,
 
     pub spacing_horizontal_x_x_s: String,
@@ -115,6 +116,7 @@ impl CommonTheme {
 
             border_radius_none: "0".into(),
             border_radius_medium: "4px".into(),
+            border_radius_x_large: "8px".into(),
             border_radius_circular: "10000px".into(),
 
             spacing_horizontal_x_x_s: "2px".into(),
