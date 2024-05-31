@@ -1,7 +1,7 @@
 # Slider
 
 ```rust demo
-let value = create_rw_signal(0.0);
+let value = RwSignal::new(0.0);
 
 view! {
     <Slider value/>
@@ -11,20 +11,20 @@ view! {
 ### Step
 
 ```rust demo
-let value = create_rw_signal(0.0);
+let value = RwSignal::new(0.0);
 
 view! {
-    <Slider step=10.0 value/>
+    <Slider step=25.0 value/>
 }
 ```
 
 ## Slider Label
 
 ```rust demo
-let value = create_rw_signal(0.0);
+let value = RwSignal::new(0.0);
 
 view! {
-    <Slider value max=10.0 step=1.0>
+    <Slider value max=10.0 step=5.0>
         <SliderLabel value=0.0>
             "0"
         </SliderLabel>
