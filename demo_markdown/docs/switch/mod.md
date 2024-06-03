@@ -1,10 +1,10 @@
 # Switch
 
 ```rust demo
-let value = create_rw_signal(false);
+let checked = RwSignal::new(false);
 
 view! {
-    <Switch value />
+    <Switch checked />
 }
 ```
 
