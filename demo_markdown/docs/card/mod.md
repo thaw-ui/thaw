@@ -5,7 +5,7 @@ view! {
     <Card>
         <CardHeader>
             <Body1>
-                <b>"Header"</b>"2022-02-22"
+                <b>"Header"</b>" 2022-02-22"
             </Body1>
             <CardHeaderDescription slot>
                 <Caption1>"Description"</Caption1>
