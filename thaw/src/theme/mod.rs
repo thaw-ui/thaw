@@ -5,8 +5,8 @@ use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, BreadcrumbTheme, CalendarTheme,
-    ColorPickerTheme, DatePickerTheme, InputTheme, MenuTheme, MessageTheme, PopoverTheme,
-    ProgressTheme, ScrollbarTheme, SelectTheme, SkeletionTheme, SpinnerTheme, TableTheme, TagTheme,
+    ColorPickerTheme, DatePickerTheme, InputTheme, MessageTheme, PopoverTheme, ProgressTheme,
+    ScrollbarTheme, SelectTheme, SkeletionTheme, SpinnerTheme, TableTheme, TagTheme,
     TimePickerTheme, UploadTheme,
 };
 pub use color::ColorTheme;
@@ -23,7 +23,6 @@ pub struct Theme {
     pub common: CommonTheme,
     pub color: ColorTheme,
     pub input: InputTheme,
-    pub menu: MenuTheme,
     pub table: TableTheme,
     pub alert: AlertTheme,
     pub skeletion: SkeletionTheme,
@@ -54,7 +53,6 @@ impl Theme {
             common: CommonTheme::light(),
             color: ColorTheme::light(),
             input: InputTheme::light(),
-            menu: MenuTheme::light(),
             table: TableTheme::light(),
             alert: AlertTheme::light(),
             skeletion: SkeletionTheme::light(),
@@ -84,7 +82,6 @@ impl Theme {
             common: CommonTheme::dark(),
             color: ColorTheme::dark(),
             input: InputTheme::dark(),
-            menu: MenuTheme::dark(),
             table: TableTheme::dark(),
             alert: AlertTheme::dark(),
             skeletion: SkeletionTheme::dark(),

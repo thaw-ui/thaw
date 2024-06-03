@@ -10,20 +10,14 @@ pub fn ComponentsPage() -> impl IntoView {
     let loaction = use_location();
 
     let select_name = create_rw_signal(String::new());
-    create_effect(move |_| {
-        let mut pathname = loaction.pathname.get();
-        let name = if pathname.starts_with("/components/") {
-            pathname.drain(12..).collect()
-        } else {
-            String::new()
-        };
-        select_name.set(name);
+    Effect::new(move |_| {
+        select_name.set(loaction.pathname.get());
     });
 
     _ = select_name.watch(move |name| {
         let pathname = loaction.pathname.get_untracked();
-        if !pathname.eq(&format!("/components/{name}")) {
-            navigate(&format!("/components/{name}"), Default::default());
+        if &pathname != name {
+            navigate(name, Default::default());
         }
     });
     view! {
@@ -87,7 +81,8 @@ impl IntoView for MenuGroupOption {
                 {format!("{label} ({children_len})")}
             </Caption1Strong>
             {children.into_iter().map(|v| v.into_view()).collect_view()}
-        }.into_view()
+        }
+        .into_view()
     }
 }
 
@@ -106,46 +101,79 @@ impl IntoView for MenuItemOption {
 pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
     vec![
         MenuGroupOption {
+            label: "Getting Started".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "/guide/installation".into(),
+                    label: "Installation".into(),
+                },
+                MenuItemOption {
+                    value: "/guide/usage".into(),
+                    label: "Usage".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
+            label: "Guides".into(),
+            children: vec![MenuItemOption {
+                value: "/guide/server-sider-rendering".into(),
+                label: "Server Sider Rendering".into(),
+            }],
+        },
+        MenuGroupOption {
+            label: "Development".into(),
+            children: vec![
+                MenuItemOption {
+                    value: "/guide/development/guide".into(),
+                    label: "Guide".into(),
+                },
+                MenuItemOption {
+                    value: "/guide/development/components".into(),
+                    label: "Components".into(),
+                },
+            ],
+        },
+        MenuGroupOption {
             label: "Components".into(),
             children: vec![
                 MenuItemOption {
-                    value: "accordion".into(),
+                    value: "/components/accordion".into(),
                     label: "Accordion".into(),
                 },
                 MenuItemOption {
-                    value: "avatar".into(),
+                    value: "/components/avatar".into(),
                     label: "Avatar".into(),
                 },
                 MenuItemOption {
-                    value: "button".into(),
+                    value: "/components/button".into(),
                     label: "Button".into(),
                 },
                 MenuItemOption {
-                    value: "card".into(),
+                    value: "/components/card".into(),
                     label: "Card".into(),
                 },
                 MenuItemOption {
-                    value: "config-provider".into(),
+                    value: "/components/config-provider".into(),
                     label: "Config Provider".into(),
                 },
                 MenuItemOption {
-                    value: "divider".into(),
+                    value: "/components/divider".into(),
                     label: "Divider".into(),
                 },
                 MenuItemOption {
-                    value: "icon".into(),
+                    value: "/components/icon".into(),
                     label: "Icon".into(),
                 },
                 MenuItemOption {
-                    value: "tag".into(),
+                    value: "/components/tag".into(),
                     label: "Tag".into(),
                 },
                 MenuItemOption {
-                    value: "typography".into(),
+                    value: "/components/typography".into(),
                     label: "Typography".into(),
                 },
                 MenuItemOption {
-                    value: "spin-button".into(),
+                    value: "/components/spin-button".into(),
                     label: "Spin Button".into(),
                 },
             ],
@@ -154,51 +182,47 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Data Input Components".into(),
             children: vec![
                 MenuItemOption {
-                    value: "auto-complete".into(),
+                    value: "/components/auto-complete".into(),
                     label: "Auto Complete".into(),
                 },
                 MenuItemOption {
-                    value: "color-picker".into(),
+                    value: "/components/color-picker".into(),
                     label: "Color Picker".into(),
                 },
                 MenuItemOption {
-                    value: "checkbox".into(),
+                    value: "/components/checkbox".into(),
                     label: "Checkbox".into(),
                 },
                 MenuItemOption {
-                    value: "date-picker".into(),
+                    value: "/components/date-picker".into(),
                     label: "Date Picker".into(),
                 },
                 MenuItemOption {
-                    value: "input".into(),
+                    value: "/components/input".into(),
                     label: "Input".into(),
                 },
                 MenuItemOption {
-                    value: "input-number".into(),
-                    label: "Input Number".into(),
-                },
-                MenuItemOption {
-                    value: "radio".into(),
+                    value: "/components/radio".into(),
                     label: "Radio".into(),
                 },
                 MenuItemOption {
-                    value: "select".into(),
+                    value: "/components/select".into(),
                     label: "Select".into(),
                 },
                 MenuItemOption {
-                    value: "slider".into(),
+                    value: "/components/slider".into(),
                     label: "Slider".into(),
                 },
                 MenuItemOption {
-                    value: "switch".into(),
+                    value: "/components/switch".into(),
                     label: "Switch".into(),
                 },
                 MenuItemOption {
-                    value: "time-picker".into(),
+                    value: "/components/time-picker".into(),
                     label: "Time Picker".into(),
                 },
                 MenuItemOption {
-                    value: "upload".into(),
+                    value: "/components/upload".into(),
                     label: "Upload".into(),
                 },
             ],
@@ -207,15 +231,15 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Data Display Components".into(),
             children: vec![
                 MenuItemOption {
-                    value: "calendar".into(),
+                    value: "/components/calendar".into(),
                     label: "Calendar".into(),
                 },
                 MenuItemOption {
-                    value: "image".into(),
+                    value: "/components/image".into(),
                     label: "Image".into(),
                 },
                 MenuItemOption {
-                    value: "table".into(),
+                    value: "/components/table".into(),
                     label: "Table".into(),
                 },
             ],
@@ -224,27 +248,23 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Navigation Components".into(),
             children: vec![
                 MenuItemOption {
-                    value: "anchor".into(),
+                    value: "/components/anchor".into(),
                     label: "Anchor".into(),
                 },
                 MenuItemOption {
-                    value: "back-top".into(),
+                    value: "/components/back-top".into(),
                     label: "Back Top".into(),
                 },
                 MenuItemOption {
-                    value: "breadcrumb".into(),
+                    value: "/components/breadcrumb".into(),
                     label: "Breadcrumb".into(),
                 },
                 MenuItemOption {
-                    value: "loading-bar".into(),
+                    value: "/components/loading-bar".into(),
                     label: "Loading Bar".into(),
                 },
                 MenuItemOption {
-                    value: "menu".into(),
-                    label: "Menu".into(),
-                },
-                MenuItemOption {
-                    value: "tabs".into(),
+                    value: "/components/tabs".into(),
                     label: "Tabs".into(),
                 },
             ],
@@ -253,39 +273,39 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Feedback Components".into(),
             children: vec![
                 MenuItemOption {
-                    value: "alert".into(),
+                    value: "/components/alert".into(),
                     label: "Alert".into(),
                 },
                 MenuItemOption {
-                    value: "badge".into(),
+                    value: "/components/badge".into(),
                     label: "Badge".into(),
                 },
                 MenuItemOption {
-                    value: "drawer".into(),
+                    value: "/components/drawer".into(),
                     label: "Drawer".into(),
                 },
                 MenuItemOption {
-                    value: "message".into(),
+                    value: "/components/message".into(),
                     label: "Message".into(),
                 },
                 MenuItemOption {
-                    value: "modal".into(),
+                    value: "/components/modal".into(),
                     label: "Modal".into(),
                 },
                 MenuItemOption {
-                    value: "popover".into(),
+                    value: "/components/popover".into(),
                     label: "Popover".into(),
                 },
                 MenuItemOption {
-                    value: "progress".into(),
+                    value: "/components/progress".into(),
                     label: "Progress".into(),
                 },
                 MenuItemOption {
-                    value: "spinner".into(),
+                    value: "/components/spinner".into(),
                     label: "Spinner".into(),
                 },
                 MenuItemOption {
-                    value: "skeleton".into(),
+                    value: "/components/skeleton".into(),
                     label: "Skeleton".into(),
                 },
             ],
@@ -294,15 +314,15 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Layout Components".into(),
             children: vec![
                 MenuItemOption {
-                    value: "layout".into(),
+                    value: "/components/layout".into(),
                     label: "Layout".into(),
                 },
                 MenuItemOption {
-                    value: "grid".into(),
+                    value: "/components/grid".into(),
                     label: "Grid".into(),
                 },
                 MenuItemOption {
-                    value: "space".into(),
+                    value: "/components/space".into(),
                     label: "Space".into(),
                 },
             ],
@@ -310,7 +330,7 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
         MenuGroupOption {
             label: "Utility Components".into(),
             children: vec![MenuItemOption {
-                value: "scrollbar".into(),
+                value: "/components/scrollbar".into(),
                 label: "Scrollbar".into(),
             }],
         },
@@ -318,15 +338,15 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Mobile Components".into(),
             children: vec![
                 MenuItemOption {
-                    value: "nav-bar".into(),
+                    value: "/components/nav-bar".into(),
                     label: "Nav Bar".into(),
                 },
                 MenuItemOption {
-                    value: "tabbar".into(),
+                    value: "/components/tabbar".into(),
                     label: "Tabbar".into(),
                 },
                 MenuItemOption {
-                    value: "toast".into(),
+                    value: "/components/toast".into(),
                     label: "Toast".into(),
                 },
             ],

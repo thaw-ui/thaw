@@ -76,7 +76,7 @@ pub fn SiteHeader() -> impl IntoView {
     });
     on_cleanup(move || handle.remove());
 
-    let menu_value = use_menu_value(change_theme);
+    // let menu_value = use_menu_value(change_theme);
     view! {
         <Style id="demo-header">
             "
@@ -159,40 +159,20 @@ pub fn SiteHeader() -> impl IntoView {
                         />
                     </PopoverTrigger>
                     <div style="height: 70vh; overflow: auto;">
-                        <Menu value=menu_value>
-                            <MenuItem key=theme_name label=theme_name />
-                            <MenuItem key="github" label="Github" />
-                            // {
-                            //     use crate::pages::{gen_guide_menu_data, gen_menu_data};
-                            //     vec![
-                            //         gen_guide_menu_data().into_view(),
-                            //         gen_menu_data().into_view(),
-                            //     ]
-                            // }
-                        </Menu>
+                        // <Menu value=menu_value>
+                        //     <MenuItem key=theme_name label=theme_name />
+                        //     <MenuItem key="github" label="Github" />
+                        //     // {
+                        //     //     use crate::pages::{gen_guide_menu_data, gen_menu_data};
+                        //     //     vec![
+                        //     //         gen_guide_menu_data().into_view(),
+                        //     //         gen_menu_data().into_view(),
+                        //     //     ]
+                        //     // }
+                        // </Menu>
                     </div>
                 </Popover>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
-                    <Button
-                        appearance=ButtonAppearance::Subtle
-                        on_click=move |_| {
-                            let navigate = use_navigate();
-                            navigate("/guide/installation", Default::default());
-                        }
-                    >
-
-                        "Guide"
-                    </Button>
-                    <Button
-                        appearance=ButtonAppearance::Subtle
-                        on_click=move |_| {
-                            let navigate = use_navigate();
-                            navigate("/components/button", Default::default());
-                        }
-                    >
-
-                        "Components"
-                    </Button>
                     <Button appearance=ButtonAppearance::Subtle on_click=Callback::new(move |_| change_theme.call(()))>
                         {move || theme_name.get()}
                     </Button>
@@ -213,62 +193,57 @@ pub fn SiteHeader() -> impl IntoView {
 }
 
 fn gen_search_all_options() -> Vec<AutoCompleteOption> {
-    use crate::pages::{gen_guide_menu_data, gen_menu_data};
-    let mut options: Vec<_> = gen_menu_data()
+    use crate::pages::gen_menu_data;
+    gen_menu_data()
         .into_iter()
         .flat_map(|group| {
             group.children.into_iter().map(|item| AutoCompleteOption {
-                value: format!("/components/{}", item.value),
+                value: item.value,
                 label: item.label,
             })
         })
-        .collect();
-    options.extend(gen_guide_menu_data().into_iter().flat_map(|group| {
-        group.children.into_iter().map(|item| AutoCompleteOption {
-            value: format!("/guide/{}", item.value),
-            label: item.label,
-        })
-    }));
-    options
+        .collect()
 }
 
-fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
-    use crate::pages::gen_guide_menu_data;
-    let guide = store_value(gen_guide_menu_data());
-    let navigate = use_navigate();
-    let loaction = use_location();
 
-    let menu_value = create_rw_signal({
-        let mut pathname = loaction.pathname.get_untracked();
-        if pathname.starts_with("/components/") {
-            pathname.drain(12..).collect()
-        } else if pathname.starts_with("/guide/") {
-            pathname.drain(7..).collect()
-        } else {
-            String::new()
-        }
-    });
+// TODO
+// fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
+//     use crate::pages::gen_guide_menu_data;
+//     let guide = store_value(gen_guide_menu_data());
+//     let navigate = use_navigate();
+//     let loaction = use_location();
 
-    _ = menu_value.watch(move |name| {
-        if name == "Dark" || name == "Light" {
-            change_theme.call(());
-            return;
-        } else if name == "github" {
-            _ = window().open_with_url("http://github.com/thaw-ui/thaw");
-            return;
-        }
-        let pathname = loaction.pathname.get_untracked();
-        if guide.with_value(|menu| {
-            menu.iter()
-                .any(|group| group.children.iter().any(|item| &item.value == name))
-        }) {
-            if !pathname.eq(&format!("/guide/{name}")) {
-                navigate(&format!("/guide/{name}"), Default::default());
-            }
-        } else if !pathname.eq(&format!("/components/{name}")) {
-            navigate(&format!("/components/{name}"), Default::default());
-        }
-    });
+//     let menu_value = create_rw_signal({
+//         let mut pathname = loaction.pathname.get_untracked();
+//         if pathname.starts_with("/components/") {
+//             pathname.drain(12..).collect()
+//         } else if pathname.starts_with("/guide/") {
+//             pathname.drain(7..).collect()
+//         } else {
+//             String::new()
+//         }
+//     });
 
-    menu_value
-}
+//     _ = menu_value.watch(move |name| {
+//         if name == "Dark" || name == "Light" {
+//             change_theme.call(());
+//             return;
+//         } else if name == "github" {
+//             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
+//             return;
+//         }
+//         let pathname = loaction.pathname.get_untracked();
+//         if guide.with_value(|menu| {
+//             menu.iter()
+//                 .any(|group| group.children.iter().any(|item| &item.value == name))
+//         }) {
+//             if !pathname.eq(&format!("/guide/{name}")) {
+//                 navigate(&format!("/guide/{name}"), Default::default());
+//             }
+//         } else if !pathname.eq(&format!("/components/{name}")) {
+//             navigate(&format!("/components/{name}"), Default::default());
+//         }
+//     });
+
+//     menu_value
+// }
