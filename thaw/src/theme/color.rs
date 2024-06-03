@@ -6,6 +6,9 @@ pub struct ColorTheme {
     pub color_neutral_background_1: String,
     pub color_neutral_background_1_hover: String,
     pub color_neutral_background_1_pressed: String,
+    pub color_neutral_background_3: String,
+    pub color_neutral_background_3_hover: String,
+    pub color_neutral_background_3_pressed: String,
     pub color_neutral_background_4: String,
     pub color_neutral_background_4_hover: String,
     pub color_neutral_background_4_pressed: String,
@@ -36,7 +39,8 @@ pub struct ColorTheme {
     pub color_neutral_stroke_accessible_pressed: String,
 
     pub color_compound_brand_foreground_1: String,
-
+    pub color_compound_brand_foreground_1_hover: String,
+    pub color_compound_brand_foreground_1_pressed: String,
     pub color_compound_brand_background: String,
     pub color_compound_brand_background_hover: String,
     pub color_compound_brand_background_pressed: String,
@@ -61,9 +65,12 @@ impl ColorTheme {
     pub fn light() -> Self {
         Self {
             color_neutral_background_disabled: "#f0f0f0".into(),
-            color_neutral_background_1: "#fff".into(),
+            color_neutral_background_1: "#ffffff".into(),
             color_neutral_background_1_hover: "#f5f5f5".into(),
             color_neutral_background_1_pressed: "#e0e0e0".into(),
+            color_neutral_background_3: "#f5f5f5".into(),
+            color_neutral_background_3_hover: "#ebebeb".into(),
+            color_neutral_background_3_pressed: "#d6d6d6".into(),
             color_neutral_background_4: "#f0f0f0".into(),
             color_neutral_background_4_hover: "#fafafa".into(),
             color_neutral_background_4_pressed: "#f5f5f5".into(),
@@ -94,6 +101,8 @@ impl ColorTheme {
             color_neutral_stroke_accessible_pressed: "#4d4d4d".into(),
 
             color_compound_brand_foreground_1: "#0f6cbd".into(),
+            color_compound_brand_foreground_1_hover: "#115ea3".into(),
+            color_compound_brand_foreground_1_pressed: "#0f548c".into(),
 
             color_compound_brand_background: "#0f6cbd".into(),
             color_compound_brand_background_hover: "#115ea3".into(),
@@ -122,6 +131,9 @@ impl ColorTheme {
             color_neutral_background_1: "#292929".into(),
             color_neutral_background_1_hover: "#3d3d3d".into(),
             color_neutral_background_1_pressed: "#1f1f1f".into(),
+            color_neutral_background_3: "#141414".into(),
+            color_neutral_background_3_hover: "#292929".into(),
+            color_neutral_background_3_pressed: "#0a0a0a".into(),
             color_neutral_background_4: "#0a0a0a".into(),
             color_neutral_background_4_hover: "#1f1f1f".into(),
             color_neutral_background_4_pressed: "#000000".into(),
@@ -152,6 +164,8 @@ impl ColorTheme {
             color_neutral_stroke_accessible_pressed: "#b3b3b3".into(),
 
             color_compound_brand_foreground_1: "#479ef5".into(),
+            color_compound_brand_foreground_1_hover: "#62abf5".into(),
+            color_compound_brand_foreground_1_pressed: "#2886de".into(),
 
             color_compound_brand_background: "#479ef5".into(),
             color_compound_brand_background_hover: "#62abf5".into(),

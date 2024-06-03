@@ -6,8 +6,8 @@ use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, BreadcrumbTheme, CalendarTheme,
     ColorPickerTheme, DatePickerTheme, InputTheme, MessageTheme, PopoverTheme, ProgressTheme,
-    ScrollbarTheme, SelectTheme, SkeletionTheme, SpinnerTheme, TableTheme, TagTheme,
-    TimePickerTheme, UploadTheme,
+    ScrollbarTheme, SelectTheme, SkeletionTheme, SpinnerTheme, TableTheme, TimePickerTheme,
+    UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -26,7 +26,6 @@ pub struct Theme {
     pub table: TableTheme,
     pub alert: AlertTheme,
     pub skeletion: SkeletionTheme,
-    pub tag: TagTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
     pub spinner: SpinnerTheme,
@@ -56,7 +55,6 @@ impl Theme {
             table: TableTheme::light(),
             alert: AlertTheme::light(),
             skeletion: SkeletionTheme::light(),
-            tag: TagTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
             spinner: SpinnerTheme::light(),
@@ -85,7 +83,6 @@ impl Theme {
             table: TableTheme::dark(),
             alert: AlertTheme::dark(),
             skeletion: SkeletionTheme::dark(),
-            tag: TagTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
             spinner: SpinnerTheme::dark(),
