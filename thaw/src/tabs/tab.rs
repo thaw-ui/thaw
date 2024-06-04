@@ -1,74 +1,44 @@
-use super::use_tabs;
+use super::{TabListInjection, TabRegisterData};
 use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
-
-#[derive(Clone)]
-pub(crate) struct TabOption {
-    pub key: String,
-    pub label: String,
-    pub label_view: Option<TabLabelView>,
-}
-
-#[derive(Clone)]
-pub(crate) struct TabLabelView {
-    pub class: OptionalProp<MaybeSignal<String>>,
-    pub children: Fragment,
-}
-
-impl From<TabLabel> for TabLabelView {
-    fn from(tab_label: TabLabel) -> Self {
-        let TabLabel { class, children } = tab_label;
-        Self {
-            class,
-            children: children(),
-        }
-    }
-}
-
-#[slot]
-pub struct TabLabel {
-    #[prop(optional, into)]
-    class: OptionalProp<MaybeSignal<String>>,
-    children: Children,
-}
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn Tab(
-    #[prop(into)] key: String,
-    #[prop(optional, into)] label: String,
-    #[prop(optional)] tab_label: Option<TabLabel>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(into)] value: String,
     children: Children,
 ) -> impl IntoView {
     mount_style("tab", include_str!("./tab.css"));
-    let tabs = use_tabs();
-    tabs.push_tab_options(TabOption {
-        key: key.clone(),
-        label,
-        label_view: tab_label.map(|label| label.into()),
-    });
 
-    let is_active = create_memo({
-        let key = key.clone();
-        let tabs = tabs.clone();
-        move |_| key == tabs.get_key()
+    let tab_ref = NodeRef::<html::Button>::new();
+    let tab_list = TabListInjection::use_();
+    let value = StoredValue::new(value);
+    tab_list.register(TabRegisterData {
+        value: value.get_value(),
+        tab_ref,
     });
-
     on_cleanup(move || {
-        tabs.remove_tab_options(&key);
+        value.with_value(|v| tab_list.unregister(v));
+    });
+
+    let selected = Memo::new(move |_| {
+        tab_list
+            .selected_value
+            .with(|selected_value| value.with_value(|value| value == selected_value))
     });
 
     view! {
-        <div
+        <button
             class=class_list![
-                "thaw-tab", ("thaw-tab--hidden", move || ! is_active.get()), class.map(| c | move ||
-                c.get())
+                "thaw-tab", ("thaw-tab--hidden", move || selected.get()), class
             ]
-
-            role="tabpanel"
-            aria-hidden=move || if is_active.get() { "false" } else { "true" }
+            role="tab"
+            aria-selected=move || if selected.get() { "true" } else { "false" }
+            ref=tab_ref
         >
-            {children()}
-        </div>
+            <span class="thaw-tab__content">
+                {children()}
+            </span>
+        </button>
     }
 }

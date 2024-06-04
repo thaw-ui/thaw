@@ -1,44 +1,17 @@
 # Tabs
 
 ```rust demo
-let value = create_rw_signal(String::from("apple"));
+let selected_value = RwSignal::new(String::new());
 
 view! {
-    <Tabs value>
-        <Tab key="apple" label="Apple">
-            "apple"
+    <TabList selected_value>
+        <Tab value="apple">
+            "🍎 Apple"
         </Tab>
-        <Tab key="pear" label="Pear">
-            "pear"
+        <Tab value="pear">
+            "🍐 Pear"
         </Tab>
-    </Tabs>
-}
-```
-
-### Custom tab label
-
-```rust demo
-use leptos_meta::Style;
-let value = create_rw_signal(String::from("apple"));
-
-view! {
-    <Style id="demo-tab-label">
-        ".p-0 { padding: 0 }"
-    </Style>
-    <Tabs value>
-        <Tab key="apple">
-            <TabLabel slot class="p-0">
-                "🍎 Apple"
-            </TabLabel>
-            "apple"
-        </Tab>
-        <Tab key="pear">
-            <TabLabel slot>
-                "🍐 Pear"
-            </TabLabel>
-            "pear"
-        </Tab>
-    </Tabs>
+    </TabList>
 }
 ```
 
