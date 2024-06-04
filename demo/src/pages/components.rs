@@ -144,6 +144,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Avatar".into(),
                 },
                 MenuItemOption {
+                    value: "/components/breadcrumb".into(),
+                    label: "Breadcrumb".into(),
+                },
+                MenuItemOption {
                     value: "/components/button".into(),
                     label: "Button".into(),
                 },
@@ -238,10 +242,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/back-top".into(),
                     label: "Back Top".into(),
-                },
-                MenuItemOption {
-                    value: "/components/breadcrumb".into(),
-                    label: "Breadcrumb".into(),
                 },
                 MenuItemOption {
                     value: "/components/loading-bar".into(),

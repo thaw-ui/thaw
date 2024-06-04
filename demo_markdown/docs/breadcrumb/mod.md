@@ -3,21 +3,17 @@
 ```rust demo
 view! {
     <Breadcrumb>
-        <BreadcrumbItem>"Leptos"</BreadcrumbItem>
-        <BreadcrumbItem>"UI"</BreadcrumbItem>
-        <BreadcrumbItem>"Thaw"</BreadcrumbItem>
-    </Breadcrumb>
-}
-```
-
-### Separator
-
-```rust demo
-view! {
-    <Breadcrumb separator=">">
-        <BreadcrumbItem>"Leptos"</BreadcrumbItem>
-        <BreadcrumbItem>"UI"</BreadcrumbItem>
-        <BreadcrumbItem>"Thaw"</BreadcrumbItem>
+        <BreadcrumbItem>
+            <BreadcrumbButton>"Leptos"</BreadcrumbButton>
+        </BreadcrumbItem>
+        <BreadcrumbDivider />
+        <BreadcrumbItem>
+            <BreadcrumbButton>"UI"</BreadcrumbButton>
+        </BreadcrumbItem>
+        <BreadcrumbDivider />
+        <BreadcrumbItem>
+            <BreadcrumbButton current=true>"Thaw"</BreadcrumbButton>
+        </BreadcrumbItem>
     </Breadcrumb>
 }
 ```
