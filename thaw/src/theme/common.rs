@@ -65,7 +65,9 @@ pub struct CommonTheme {
     pub duration_ultra_fast: String,
     pub duration_faster: String,
     pub duration_normal: String,
+    pub duration_slow: String,
     pub curve_accelerate_mid: String,
+    pub curve_decelerate_max: String,
     pub curve_decelerate_mid: String,
     pub curve_easy_ease: String,
 
@@ -143,7 +145,9 @@ impl CommonTheme {
             duration_ultra_fast: "50ms".into(),
             duration_faster: "100ms".into(),
             duration_normal: "200ms".into(),
+            duration_slow: "300ms".into(),
             curve_accelerate_mid: "cubic-bezier(1,0,1,1)".into(),
+            curve_decelerate_max: "cubic-bezier(0.1,0.9,0.2,1)".into(),
             curve_decelerate_mid: "cubic-bezier(0,0,0,1)".into(),
             curve_easy_ease: "cubic-bezier(0.33,0,0.67,1)".into(),
 

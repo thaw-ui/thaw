@@ -59,3 +59,28 @@
 .thaw-tab:active .thaw-tab__content {
     color: var(--colorNeutralForeground2Pressed);
 }
+
+.thaw-tab--selected {
+    overflow: visible;
+}
+
+.thaw-tab--selected .thaw-tab__content {
+    font-weight: var(--fontWeightSemibold);
+}
+
+.thaw-tab--selected::after {
+    position: absolute;
+    content: "";
+    transform: translateX(var(--thaw-tab__indicator--offset))
+        scaleX(var(--thaw-tab__indicator--scale));
+    transform-origin: left center;
+    transition-timing-function: var(--curveDecelerateMax);
+    transition-duration: var(--durationSlow);
+    transition-property: transform;
+    right: var(--spacingHorizontalM);
+    left: var(--spacingHorizontalM);
+    height: var(--strokeWidthThicker);
+    bottom: 0px;
+    background-color: var(--colorCompoundBrandStroke);
+    border-radius: var(--borderRadiusCircular);
+}

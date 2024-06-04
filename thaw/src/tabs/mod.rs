@@ -8,26 +8,19 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn TabList(
-    #[prop(optional, into)] selected_value: Model<String>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The value of the currently selected tab.
+    #[prop(optional, into)]
+    selected_value: Model<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tab-list", include_str!("./tab-list.css"));
 
     let registered_tabs = RwSignal::new(HashMap::new());
-    // request_animation_frame(move || {
-    //     let list_rect = label_list.get_bounding_client_rect();
-    //     let rect = label.get_bounding_client_rect();
-    //     label_line
-    //         .set(
-    //             Some(TabsLabelLine {
-    //                 width: rect.width(),
-    //                 left: rect.left() - list_rect.left(),
-    //             }),
-    //         );
-    // });
+
     view! {
         <Provider value=TabListInjection {
+            previous_selected_value: StoredValue::new(selected_value.get_untracked()),
             selected_value,
             registered_tabs,
         }>
@@ -43,8 +36,9 @@ pub fn TabList(
 
 #[derive(Clone)]
 pub(crate) struct TabListInjection {
+    pub previous_selected_value: StoredValue<String>,
     pub selected_value: Model<String>,
-    registered_tabs: RwSignal<HashMap<String, TabRegisterData>>,
+    pub registered_tabs: RwSignal<HashMap<String, TabRegisterData>>,
 }
 
 impl Copy for TabListInjection {}
@@ -65,9 +59,15 @@ impl TabListInjection {
             map.remove(value);
         });
     }
+
+    pub fn on_select(&self, value: String) {
+        self.previous_selected_value
+            .set_value(self.selected_value.get_untracked());
+        self.selected_value.set(value);
+    }
 }
 
 pub(crate) struct TabRegisterData {
-    value: String,
-    tab_ref: NodeRef<html::Button>,
+    pub value: String,
+    pub tab_ref: NodeRef<html::Button>,
 }

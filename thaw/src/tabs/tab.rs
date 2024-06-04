@@ -1,5 +1,6 @@
 use super::{TabListInjection, TabRegisterData};
 use leptos::*;
+use std::ops::Deref;
 use thaw_utils::{class_list, mount_style};
 
 #[component]
@@ -27,14 +28,52 @@ pub fn Tab(
             .with(|selected_value| value.with_value(|value| value == selected_value))
     });
 
+    Effect::new(move |_| {
+        let selected = selected.get();
+        if selected {
+            tab_list.registered_tabs.with_untracked(|registered_tabs| {
+                if let Some(previous_selected_tab) = tab_list
+                    .previous_selected_value
+                    .with_value(|selected_value| registered_tabs.get(selected_value))
+                {
+                    let tab_el = tab_ref.get_untracked().unwrap();
+                    let selected_tab_rect = tab_el.get_bounding_client_rect();
+                    let previous_selected_tab_rect = previous_selected_tab
+                        .tab_ref
+                        .get_untracked()
+                        .unwrap()
+                        .get_bounding_client_rect();
+
+                    let offset = previous_selected_tab_rect.x() - selected_tab_rect.x();
+                    let scale = previous_selected_tab_rect.width() / selected_tab_rect.width();
+
+                    let style = tab_el.deref().style();
+                    let _ = style
+                        .set_property("--thaw-tab__indicator--offset", &format!("{offset:.0}px"));
+                    let _ =
+                        style.set_property("--thaw-tab__indicator--scale", &format!("{scale:.2}"));
+
+                    // let _ = style.get_property_value("offsetWidth");
+
+                    // let _ = style.set_property("--thaw-tab__indicator--offset", "0px");
+                    // let _ = style.set_property("--thaw-tab__indicator--scale", "1");
+                }
+            })
+        }
+
+        selected
+    });
+
     view! {
         <button
             class=class_list![
-                "thaw-tab", ("thaw-tab--hidden", move || selected.get()), class
+                "thaw-tab", ("thaw-tab--selected", move || selected.get()), class
             ]
             role="tab"
             aria-selected=move || if selected.get() { "true" } else { "false" }
             ref=tab_ref
+            style="--thaw-tab__indicator--offset: 0px; --thaw-tab__indicator--scale: 1"
+            on:click=move |_| tab_list.on_select(value.get_value())
         >
             <span class="thaw-tab__content">
                 {children()}
