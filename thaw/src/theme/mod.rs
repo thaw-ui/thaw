@@ -4,10 +4,9 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, CalendarTheme,
-    ColorPickerTheme, DatePickerTheme, InputTheme, MessageTheme, PopoverTheme, ProgressTheme,
-    ScrollbarTheme, SelectTheme, SkeletionTheme, SpinnerTheme, TableTheme, TimePickerTheme,
-    UploadTheme,
+    AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, CalendarTheme, ColorPickerTheme,
+    DatePickerTheme, InputTheme, MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme,
+    SelectTheme, SkeletionTheme, TableTheme, TimePickerTheme, UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -28,7 +27,6 @@ pub struct Theme {
     pub skeletion: SkeletionTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
-    pub spinner: SpinnerTheme,
     pub upload: UploadTheme,
     pub nav_bar: NavBarTheme,
     pub tabbar: TabbarTheme,
@@ -56,7 +54,6 @@ impl Theme {
             skeletion: SkeletionTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
-            spinner: SpinnerTheme::light(),
             upload: UploadTheme::light(),
             nav_bar: NavBarTheme::light(),
             tabbar: TabbarTheme::light(),
@@ -83,7 +80,6 @@ impl Theme {
             skeletion: SkeletionTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
-            spinner: SpinnerTheme::dark(),
             upload: UploadTheme::dark(),
             nav_bar: NavBarTheme::dark(),
             tabbar: TabbarTheme::dark(),

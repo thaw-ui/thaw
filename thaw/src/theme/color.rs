@@ -50,6 +50,9 @@ pub struct ColorTheme {
     pub color_brand_background: String,
     pub color_brand_background_hover: String,
     pub color_brand_background_pressed: String,
+    pub color_brand_stroke_1: String,
+    pub color_brand_stroke_2_contrast: String,
+
     pub color_subtle_background: String,
     pub color_subtle_background_hover: String,
     pub color_subtle_background_pressed: String,
@@ -113,6 +116,8 @@ impl ColorTheme {
             color_brand_background: "#0f6cbd".into(),
             color_brand_background_hover: "#115ea3".into(),
             color_brand_background_pressed: "#0c3b5e".into(),
+            color_brand_stroke_1: "#0f6cbd".into(),
+            color_brand_stroke_2_contrast: "#b4d6fa".into(),
             color_subtle_background: "transparent".into(),
             color_subtle_background_hover: "#f5f5f5".into(),
             color_subtle_background_pressed: "#e0e0e0".into(),
@@ -176,6 +181,9 @@ impl ColorTheme {
             color_brand_background: "#115ea3".into(),
             color_brand_background_hover: "#0f6cbd".into(),
             color_brand_background_pressed: "#0c3b5e".into(),
+            color_brand_stroke_1: "#479ef5".into(),
+            color_brand_stroke_2_contrast: "#0e4775".into(),
+
             color_subtle_background: "transparent".into(),
             color_subtle_background_hover: "#383838".into(),
             color_subtle_background_pressed: "#2e2e2e".into(),

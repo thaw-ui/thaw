@@ -34,12 +34,16 @@ pub struct CommonTheme {
     pub line_height_base_200: String,
     pub line_height_base_300: String,
     pub line_height_base_400: String,
+    pub line_height_base_500: String,
 
     pub font_weight_regular: String,
     pub font_weight_semibold: String,
     pub font_weight_bold: String,
 
     pub stroke_width_thin: String,
+    pub stroke_width_thick: String,
+    pub stroke_width_thicker: String,
+    pub stroke_width_thickest: String,
 
     pub border_radius_none: String,
     pub border_radius_medium: String,
@@ -107,12 +111,16 @@ impl CommonTheme {
             line_height_base_200: "16px".into(),
             line_height_base_300: "20px".into(),
             line_height_base_400: "22px".into(),
+            line_height_base_500: "28px".into(),
 
             font_weight_regular: "400".into(),
             font_weight_semibold: "600".into(),
             font_weight_bold: "700".into(),
 
             stroke_width_thin: "1px".into(),
+            stroke_width_thick: "2px".into(),
+            stroke_width_thicker: "3px".into(),
+            stroke_width_thickest: "4px".into(),
 
             border_radius_none: "0".into(),
             border_radius_medium: "4px".into(),

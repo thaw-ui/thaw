@@ -168,16 +168,20 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Icon".into(),
                 },
                 MenuItemOption {
+                    value: "/components/spin-button".into(),
+                    label: "Spin Button".into(),
+                },
+                MenuItemOption {
+                    value: "/components/spinner".into(),
+                    label: "Spinner".into(),
+                },
+                MenuItemOption {
                     value: "/components/tag".into(),
                     label: "Tag".into(),
                 },
                 MenuItemOption {
                     value: "/components/text".into(),
                     label: "Text".into(),
-                },
-                MenuItemOption {
-                    value: "/components/spin-button".into(),
-                    label: "Spin Button".into(),
                 },
                 MenuItemOption {
                     value: "/components/auto-complete".into(),
@@ -278,10 +282,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/progress".into(),
                     label: "Progress".into(),
-                },
-                MenuItemOption {
-                    value: "/components/spinner".into(),
-                    label: "Spinner".into(),
                 },
                 MenuItemOption {
                     value: "/components/skeleton".into(),
