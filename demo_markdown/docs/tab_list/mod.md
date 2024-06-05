@@ -6,10 +6,16 @@ let selected_value = RwSignal::new(String::new());
 view! {
     <TabList selected_value>
         <Tab value="apple">
-            "🍎 Apple"
+            "Apple"
         </Tab>
         <Tab value="pear">
-            "🍐 Pear"
+            "Pear"
+        </Tab>
+        <Tab value="item1">
+            "Item 1"
+        </Tab>
+        <Tab value="item2">
+            "Item 2"
         </Tab>
     </TabList>
 }

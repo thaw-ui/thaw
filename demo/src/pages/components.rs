@@ -176,6 +176,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Spinner".into(),
                 },
                 MenuItemOption {
+                    value: "/components/tab-list".into(),
+                    label: "Tab List".into(),
+                },
+                MenuItemOption {
                     value: "/components/tag".into(),
                     label: "Tag".into(),
                 },
@@ -250,10 +254,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/loading-bar".into(),
                     label: "Loading Bar".into(),
-                },
-                MenuItemOption {
-                    value: "/components/tabs".into(),
-                    label: "Tabs".into(),
                 },
                 MenuItemOption {
                     value: "/components/alert".into(),
