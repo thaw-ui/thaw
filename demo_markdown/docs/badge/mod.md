@@ -1,33 +1,92 @@
 # Badge
 
 ```rust demo
-let value = create_rw_signal(0);
+view! {
+    <Badge />
+}
+```
 
+### Appearance
+
+```rust demo
 view! {
     <Space>
-        <Badge value max=10>
-            <Avatar/>
-        </Badge>
-        <Badge variant=BadgeVariant::Success value max=10>
-            <Avatar/>
-        </Badge>
-        <Badge variant=BadgeVariant::Warning value max=10>
-            <Avatar/>
-        </Badge>
-        <Badge variant=BadgeVariant::Warning dot=true>
-            <Avatar/>
-        </Badge>
-        <Button on_click=move |_| value.update(|v| *v += 1)>"+1"</Button>
-        <Button on_click=move |_| {
-            value
-                .update(|v| {
-                    if *v != 0 {
-                        *v -= 1;
-                    }
-                })
-        }>"-1"</Button>
-        "value:"
-        {move || value.get()}
+        <Badge appearance=BadgeAppearance::Filled>"999+"</Badge>
+        <Badge appearance=BadgeAppearance::Ghost>"999+"</Badge>
+        <Badge appearance=BadgeAppearance::Outline>"999+"</Badge>
+        <Badge appearance=BadgeAppearance::Tint>"999+"</Badge>
+    </Space>
+}
+```
+
+### Sizes
+
+```rust demo
+view! {
+    <Space>
+        <Badge size=BadgeSize::Tiny/>
+        <Badge size=BadgeSize::ExtraSmall/>
+        <Badge size=BadgeSize::Small/>
+        <Badge size=BadgeSize::Medium/>
+        <Badge size=BadgeSize::Large/>
+        <Badge size=BadgeSize::ExtraLarge/>
+    </Space>
+}
+```
+
+### Color
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Brand>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Brand>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Brand>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Brand>"999+"</Badge>
+        </Space>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Danger>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Danger>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Danger>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Danger>"999+"</Badge>
+        </Space>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Important>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Important>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Important>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Important>"999+"</Badge>
+        </Space>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Informative>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Informative>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Informative>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Informative>"999+"</Badge>
+        </Space>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Severe>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Severe>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Severe>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Severe>"999+"</Badge>
+        </Space>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Subtle>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Subtle>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Subtle>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Subtle>"999+"</Badge>
+        </Space>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Success>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Success>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Success>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Success>"999+"</Badge>
+        </Space>
+        <Space>
+            <Badge appearance=BadgeAppearance::Filled color=BadgeColor::Warning>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Ghost color=BadgeColor::Warning>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Outline color=BadgeColor::Warning>"999+"</Badge>
+            <Badge appearance=BadgeAppearance::Tint color=BadgeColor::Warning>"999+"</Badge>
+        </Space>
     </Space>
 }
 ```

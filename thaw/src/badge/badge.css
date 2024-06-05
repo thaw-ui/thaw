@@ -1,28 +1,220 @@
 .thaw-badge {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    display: inline-block;
-}
-.thaw-badge__sup {
-    position: absolute;
-    color: var(--thaw-font-color);
-    background-color: var(--thaw-background-color);
-    z-index: 10;
-}
-.thaw-badge__sup--value {
-    top: -9px;
-    right: -9px;
-    font-size: 12px;
-    height: 18px;
-    line-height: 18px;
-    border-radius: 9px;
-    padding: 0 6px;
-    text-align: center;
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    font-weight: var(--fontWeightSemibold);
+    line-height: var(--lineHeightBase200);
+    height: 20px;
+    width: 20px;
+    min-width: max-content;
+    padding: 0 calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+    border-radius: var(--borderRadiusCircular);
+    border-color: var(--colorTransparentStroke);
 }
 
-.thaw-badge__sup--dot {
-    top: -5px;
-    right: -5px;
+.thaw-badge--filled {
+    color: var(--colorNeutralForegroundOnBrand);
+    background-color: var(--colorBrandBackground);
+}
+
+.thaw-badge--filled.thaw-badge--danger {
+    background-color: var(--colorPaletteRedBackground3);
+}
+
+.thaw-badge--filled.thaw-badge--important {
+    color: var(--colorNeutralBackground1);
+    background-color: var(--colorNeutralForeground1);
+}
+
+.thaw-badge--filled.thaw-badge--informative {
+    color: var(--colorNeutralForeground3);
+    background-color: var(--colorNeutralBackground5);
+}
+
+.thaw-badge--filled.thaw-badge--severe {
+    background-color: var(--colorPaletteDarkOrangeBackground3);
+}
+
+.thaw-badge--filled.thaw-badge--subtle {
+    color: var(--colorNeutralForeground1);
+    background-color: var(--colorNeutralBackground1);
+}
+
+.thaw-badge--filled.thaw-badge--success {
+    background-color: var(--colorPaletteGreenBackground3);
+}
+
+.thaw-badge--filled.thaw-badge--warning {
+    color: var(--colorNeutralForeground1Static);
+    background-color: var(--colorPaletteYellowBackground3);
+}
+
+.thaw-badge--ghost {
+    color: var(--colorBrandForeground1);
+}
+
+.thaw-badge--ghost.thaw-badge--danger {
+    color: var(--colorPaletteRedForeground3);
+}
+
+.thaw-badge--ghost.thaw-badge--important {
+    color: var(--colorNeutralForeground1);
+}
+
+.thaw-badge--ghost.thaw-badge--informative {
+    color: var(--colorNeutralForeground3);
+}
+
+.thaw-badge--ghost.thaw-badge--severe {
+    color: var(--colorPaletteDarkOrangeForeground3);
+}
+
+.thaw-badge--ghost.thaw-badge--subtle {
+    color: var(--colorNeutralForegroundStaticInverted);
+}
+
+.thaw-badge--ghost.thaw-badge--success {
+    color: var(--colorPaletteGreenForeground3);
+}
+
+.thaw-badge--ghost.thaw-badge--warning {
+    color: var(--colorPaletteYellowForeground2);
+}
+
+.thaw-badge--outline {
+    color: var(--colorBrandForeground1);
+    border-color: currentcolor;
+}
+
+.thaw-badge--outline.thaw-badge--danger {
+    color: var(--colorPaletteRedForeground3);
+    border-color: var(--colorPaletteRedBorder2);
+}
+
+.thaw-badge--outline.thaw-badge--important {
+    color: var(--colorNeutralForeground3);
+    border-color: var(--colorNeutralStrokeAccessible);
+}
+
+.thaw-badge--outline.thaw-badge--informative {
+    color: var(--colorNeutralForeground3);
+    border-color: var(--colorNeutralStroke2);
+}
+
+.thaw-badge--outline.thaw-badge--severe {
+    color: var(--colorPaletteDarkOrangeForeground3);
+}
+
+.thaw-badge--outline.thaw-badge--subtle {
+    color: var(--colorNeutralForegroundStaticInverted);
+}
+
+.thaw-badge--outline.thaw-badge--success {
+    color: var(--colorPaletteGreenForeground3);
+    border-color: var(--colorPaletteGreenBorder2);
+}
+
+.thaw-badge--outline.thaw-badge--warning {
+    color: var(--colorPaletteYellowForeground2);
+}
+
+.thaw-badge--tint {
+    color: var(--colorBrandForeground2);
+    background-color: var(--colorBrandBackground2);
+    border-color: var(--colorBrandStroke2);
+}
+
+.thaw-badge--tint.thaw-badge--danger {
+    background-color: var(--colorPaletteRedBackground1);
+    color: var(--colorPaletteRedForeground1);
+    border-color: var(--colorPaletteRedBorder1);
+}
+
+.thaw-badge--tint.thaw-badge--important {
+    background-color: var(--colorNeutralForeground3);
+    color: var(--colorNeutralBackground1);
+    border-color: var(--colorTransparentStroke);
+}
+
+.thaw-badge--tint.thaw-badge--informative {
+    background-color: var(--colorNeutralBackground4);
+    color: var(--colorNeutralForeground3);
+    border-color: var(--colorNeutralStroke2);
+}
+
+.thaw-badge--tint.thaw-badge--severe {
+    background-color: var(--colorPaletteDarkOrangeBackground1);
+    color: var(--colorPaletteDarkOrangeForeground1);
+    border-color: var(--colorPaletteDarkOrangeBorder1);
+}
+
+.thaw-badge--tint.thaw-badge--subtle {
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground3);
+    border-color: var(--colorNeutralStroke2);
+}
+
+.thaw-badge--tint.thaw-badge--success {
+    background-color: var(--colorPaletteGreenBackground1);
+    color: var(--colorPaletteGreenForeground1);
+    border-color: var(--colorPaletteGreenBorder1);
+}
+
+.thaw-badge--tint.thaw-badge--warning {
+    background-color: var(--colorPaletteYellowBackground1);
+    color: var(--colorPaletteYellowForeground1);
+    border-color: var(--colorPaletteYellowBorder1);
+}
+
+.thaw-badge--tiny {
+    min-width: unset;
+    line-height: 4px;
+    font-size: 4px;
+    height: 6px;
+    width: 6px;
+    padding: unset;
+}
+
+.thaw-badge--extra-small {
+    min-width: unset;
+    line-height: 6px;
+    font-size: 6px;
     height: 10px;
     width: 10px;
-    border-radius: 50%;
+    padding: unset;
+}
+
+.thaw-badge--small {
+    line-height: var(--lineHeightBase100);
+    font-size: var(--fontSizeBase100);
+    height: 16px;
+    width: 16px;
+    padding: 0 calc(var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+}
+
+.thaw-badge--large {
+    height: 24px;
+    width: 24px;
+    padding: 0 calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+}
+
+.thaw-badge--extra-large {
+    height: 32px;
+    width: 32px;
+    padding: 0
+        calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
+}
+
+.thaw-badge::after {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    border-style: solid;
+    border-color: inherit;
+    border-width: var(--strokeWidthThin);
+    border-radius: inherit;
 }

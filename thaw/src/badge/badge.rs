@@ -1,0 +1,106 @@
+use leptos::*;
+use thaw_components::OptionComp;
+use thaw_utils::{class_list, mount_style};
+
+#[component]
+pub fn Badge(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    /// A Badge can be filled, outline, ghost, inverted
+    #[prop(optional, into)]
+    appearance: MaybeSignal<BadgeAppearance>,
+    /// A Badge can be on of several preset sizes.
+    #[prop(optional, into)]
+    size: MaybeSignal<BadgeSize>,
+    /// A Badge can be one of preset colors.
+    #[prop(optional, into)]
+    color: MaybeSignal<BadgeColor>,
+    #[prop(optional)] children: Option<Children>,
+) -> impl IntoView {
+    mount_style("badge", include_str!("./badge.css"));
+
+    view! {
+        <div class=class_list![
+            "thaw-badge",
+            move || format!("thaw-badge--{}", appearance.get().as_str()),
+            move || format!("thaw-badge--{}", size.get().as_str()),
+            move || format!("thaw-badge--{}", color.get().as_str()),
+            class
+        ]>
+            <OptionComp value=children let:children>
+                {children()}
+            </OptionComp>
+        </div>
+    }
+}
+
+#[derive(Default, Clone)]
+pub enum BadgeAppearance {
+    #[default]
+    Filled,
+    Ghost,
+    Outline,
+    Tint,
+}
+
+impl BadgeAppearance {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            BadgeAppearance::Filled => "filled",
+            BadgeAppearance::Ghost => "ghost",
+            BadgeAppearance::Outline => "outline",
+            BadgeAppearance::Tint => "tint",
+        }
+    }
+}
+
+#[derive(Default, Clone)]
+pub enum BadgeSize {
+    Tiny,
+    ExtraSmall,
+    Small,
+    #[default]
+    Medium,
+    Large,
+    ExtraLarge,
+}
+
+impl BadgeSize {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            BadgeSize::Tiny => "tiny",
+            BadgeSize::ExtraSmall => "extra-small",
+            BadgeSize::Small => "small",
+            BadgeSize::Medium => "medium",
+            BadgeSize::Large => "large",
+            BadgeSize::ExtraLarge => "extra-large",
+        }
+    }
+}
+
+#[derive(Default, Clone)]
+pub enum BadgeColor {
+    #[default]
+    Brand,
+    Danger,
+    Important,
+    Informative,
+    Severe,
+    Subtle,
+    Success,
+    Warning,
+}
+
+impl BadgeColor {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            BadgeColor::Brand => "brand",
+            BadgeColor::Danger => "danger",
+            BadgeColor::Important => "important",
+            BadgeColor::Informative => "informative",
+            BadgeColor::Severe => "severe",
+            BadgeColor::Subtle => "subtle",
+            BadgeColor::Success => "success",
+            BadgeColor::Warning => "warning",
+        }
+    }
+}
