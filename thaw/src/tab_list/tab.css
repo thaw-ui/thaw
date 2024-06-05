@@ -64,8 +64,17 @@
     overflow: visible;
 }
 
+/* https://stackoverflow.com/questions/5687035/css-bolding-some-text-without-changing-its-containers-size/46452396#46452396 */
 .thaw-tab--selected .thaw-tab__content {
-    font-weight: var(--fontWeightSemibold);
+    /* font-weight: var(--fontWeightSemibold); */
+    text-shadow: -0.06ex 0 0 currentColor, 0.06ex 0 0 currentColor;
+}
+
+@supports (-webkit-text-stroke-width: 0.04ex) {
+    .thaw-tab--selected .thaw-tab__content {
+        text-shadow: -0.03ex 0 0 currentColor, 0.03ex 0 0 currentColor;
+        -webkit-text-stroke-width: 0.04ex;
+    }
 }
 
 .thaw-tab--selected::after {
