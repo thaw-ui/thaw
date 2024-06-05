@@ -2,8 +2,9 @@
 
 ```rust demo
 view! {
-    <Skeleton repeat=2 text=true/>
-    <Skeleton width="60%" text=true/>
+    <Skeleton>
+        <SkeletonItem/>
+    </Skeleton>
 }
 ```
 

@@ -172,6 +172,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Icon".into(),
                 },
                 MenuItemOption {
+                    value: "/components/skeleton".into(),
+                    label: "Skeleton".into(),
+                },
+                MenuItemOption {
                     value: "/components/spin-button".into(),
                     label: "Spin Button".into(),
                 },
@@ -282,10 +286,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/progress".into(),
                     label: "Progress".into(),
-                },
-                MenuItemOption {
-                    value: "/components/skeleton".into(),
-                    label: "Skeleton".into(),
                 },
                 MenuItemOption {
                     value: "/components/layout".into(),
