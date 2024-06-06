@@ -1,56 +1,81 @@
-mod theme;
-
-pub use theme::TableTheme;
-
-use crate::{theme::use_theme, Theme};
 use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_components::OptionComp;
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn Table(
-    #[prop(optional, into)] style: MaybeSignal<String>,
-    #[prop(default=true.into(), into)] single_row: MaybeSignal<bool>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] single_column: MaybeSignal<bool>,
+    #[prop(optional, into)] style: MaybeProp<String>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("table", include_str!("./table.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.table.background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-striped: {};",
-                theme.table.background_color_striped
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-border-color: {};",
-                theme.table.border_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-border-radius: {};",
-                theme.common.border_radius
-            ));
-        });
-
-        css_vars
-    });
 
     view! {
         <table
-            class=class_list![
-                "thaw-table", ("thaw-table--single-row", move || single_row.get()),
-                ("thaw-table--single-column", move || single_column.get()), class.map(| c | move ||
-                c.get())
-            ]
-
-            style=move || format!("{}{}", css_vars.get(), style.get())
+            class=class_list!["thaw-table", class]
+            style=move || style.get()
         >
             {children()}
         </table>
+    }
+}
+
+#[component]
+pub fn TableHeader(children: Children) -> impl IntoView {
+    view! {
+        <thead class="thaw-table-header">
+            {children()}
+        </thead>
+    }
+}
+
+#[component]
+pub fn TableHeaderCell(#[prop(optional)] children: Option<Children>) -> impl IntoView {
+    view! {
+        <th class="thaw-table-header-cell">
+            <button class="thaw-table-header-cell__button" role="presentation">
+                <OptionComp value=children let:children>
+                    {children()}
+                </OptionComp>
+            </button>
+        </th>
+    }
+}
+
+#[component]
+pub fn TableBody(children: Children) -> impl IntoView {
+    view! {
+        <tbody class="thaw-table-body">
+            {children()}
+        </tbody>
+    }
+}
+
+#[component]
+pub fn TableRow(children: Children) -> impl IntoView {
+    view! {
+        <tr class="thaw-table-row">
+            {children()}
+        </tr>
+    }
+}
+
+#[component]
+pub fn TableCell(#[prop(optional)] children: Option<Children>) -> impl IntoView {
+    view! {
+        <td class="thaw-table-cell">
+            <OptionComp value=children let:children>
+                {children()}
+            </OptionComp>
+        </td>
+    }
+}
+
+#[component]
+pub fn TableCellLayout(children: Children) -> impl IntoView {
+    view! {
+        <div class="thaw-table-cell-layout">
+            {children()}
+        </div>
     }
 }

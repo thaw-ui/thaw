@@ -96,22 +96,22 @@ fn iter_nodes<'a>(
 
             quote!(
                 <div class="demo-md-table-box">
-                    <Table single_column=true>
-                        <thead>
+                    <Table>
+                        <TableHeader>
                             #(#header_children)*
-                        </thead>
-                        <tbody>
+                        </TableHeader>
+                        <TableBody>
                             #(#children)*
-                        </tbody>
+                        </TableBody>
                     </Table>
                 </div>
             )
         }
         NodeValue::TableRow(_) => {
             quote!(
-                <tr>
+                <TableRow>
                     #(#children)*
-                </tr>
+                </TableRow>
             )
         }
         NodeValue::TableCell => {
@@ -122,15 +122,15 @@ fn iter_nodes<'a>(
             };
             if is_header {
                 quote!(
-                    <th>
+                    <TableHeaderCell>
                         #(#children)*
-                    </th>
+                    </TableHeaderCell>
                 )
             } else {
                 quote!(
-                    <td>
+                    <TableCell>
                         #(#children)*
-                    </td>
+                    </TableCell>
                 )
             }
         }

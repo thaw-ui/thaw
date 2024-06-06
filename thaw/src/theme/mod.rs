@@ -6,7 +6,7 @@ use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, CalendarTheme, ColorPickerTheme,
     DatePickerTheme, InputTheme, MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme,
-    SelectTheme, TableTheme, TimePickerTheme, UploadTheme,
+    SelectTheme, TimePickerTheme, UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -22,7 +22,6 @@ pub struct Theme {
     pub common: CommonTheme,
     pub color: ColorTheme,
     pub input: InputTheme,
-    pub table: TableTheme,
     pub alert: AlertTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
@@ -48,7 +47,6 @@ impl Theme {
             common: CommonTheme::light(),
             color: ColorTheme::light(),
             input: InputTheme::light(),
-            table: TableTheme::light(),
             alert: AlertTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
@@ -73,7 +71,6 @@ impl Theme {
             common: CommonTheme::dark(),
             color: ColorTheme::dark(),
             input: InputTheme::dark(),
-            table: TableTheme::dark(),
             alert: AlertTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
