@@ -141,5 +141,3 @@ pub fn Modal(
         </Teleport>
     }
 }
-
-
