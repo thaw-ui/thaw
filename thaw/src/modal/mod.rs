@@ -1,6 +1,6 @@
 use crate::{Card, CardFooter, CardHeader, CardHeaderExtra, Icon, Scrollbar, ScrollbarRef};
 use leptos::*;
-use thaw_components::{CSSTransition, FocusTrap, OptionComp, Teleport};
+use thaw_components::{CSSTransition, FocusTrap, If, OptionComp, Teleport, Then};
 use thaw_utils::{class_list, mount_style, use_click_position, ComponentRef, Model, OptionalProp};
 
 #[slot]
@@ -13,6 +13,7 @@ pub fn Modal(
     #[prop(into)] show: Model<bool>,
     #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
     #[prop(default = true, into)] close_on_esc: bool,
+    #[prop(default = true, into)] closable: bool,
     #[prop(default = 2000.into(), into)] z_index: MaybeSignal<i16>,
     #[prop(default = MaybeSignal::Static("600px".to_string()), into)] width: MaybeSignal<String>,
     #[prop(optional, into)] title: MaybeSignal<String>,
@@ -108,7 +109,9 @@ pub fn Modal(
                             let:display
                         >
                             <div
-                                class=class_list!["thaw-modal-body", class.map(| c | move || c.get())]
+                                class=class_list![
+                                    "thaw-modal-body", class.map(| c | move || c.get())
+                                ]
                                 ref=modal_ref
                                 role="dialog"
                                 aria-modal="true"
@@ -119,12 +122,16 @@ pub fn Modal(
                                         <span class="thaw-model-title">{move || title.get()}</span>
                                     </CardHeader>
                                     <CardHeaderExtra slot>
-                                        <span
-                                            style="cursor: pointer;"
-                                            on:click=move |_| show.set(false)
-                                        >
-                                            <Icon icon=icondata_ai::AiCloseOutlined/>
-                                        </span>
+                                        <If cond=closable>
+                                            <Then slot>
+                                                <span
+                                                    style="cursor: pointer;"
+                                                    on:click=move |_| show.set(false)
+                                                >
+                                                    <Icon icon=icondata_ai::AiCloseOutlined/>
+                                                </span>
+                                            </Then>
+                                        </If>
                                     </CardHeaderExtra>
                                     {children()}
                                     <CardFooter slot if_=modal_footer.is_some()>
