@@ -1,7 +1,7 @@
 use crate::{Card, CardFooter, CardHeader, CardHeaderExtra, Icon, Scrollbar, ScrollbarRef};
 use leptos::*;
 use thaw_components::{CSSTransition, FocusTrap, OptionComp, Teleport};
-use thaw_utils::{mount_style, use_click_position, ComponentRef, Model};
+use thaw_utils::{class_list, mount_style, use_click_position, ComponentRef, Model, OptionalProp};
 
 #[slot]
 pub struct ModalFooter {
@@ -18,6 +18,7 @@ pub fn Modal(
     #[prop(optional, into)] title: MaybeSignal<String>,
     children: Children,
     #[prop(optional)] modal_footer: Option<ModalFooter>,
+    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("modal", include_str!("./modal.css"));
 
@@ -80,6 +81,7 @@ pub fn Modal(
                                 String::from("display: none")
                             }
                         })
+
                         comp_ref=scrollbar_ref
                     >
                         <CSSTransition
@@ -106,7 +108,7 @@ pub fn Modal(
                             let:display
                         >
                             <div
-                                class="thaw-modal-body"
+                                class=class_list!["thaw-modal-body", class.map(| c | move || c.get())]
                                 ref=modal_ref
                                 role="dialog"
                                 aria-modal="true"
@@ -139,3 +141,5 @@ pub fn Modal(
         </Teleport>
     }
 }
+
+

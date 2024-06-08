@@ -15,6 +15,7 @@ view! {
 
 | Name           | Type                  | Default              | Description                                 |
 | -------------- | --------------------- | -------------------- | ------------------------------------------- |
+| class          | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the modal element. |
 | show           | `Model<bool>`         |                      | Whether to show modal.                      |
 | title          | `MaybeSignal<String>` | `Default::default()` | Modal title.                                |
 | width          | `MaybeSignal<String>` | `600px`              | Modal width.                                |
