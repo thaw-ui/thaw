@@ -5,7 +5,7 @@ use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, CalendarTheme, ColorPickerTheme,
-    DatePickerTheme, InputTheme, MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme,
+    DatePickerTheme, InputTheme, MessageTheme, ProgressTheme, ScrollbarTheme,
     SelectTheme, TimePickerTheme, UploadTheme,
 };
 pub use color::ColorTheme;
@@ -34,7 +34,6 @@ pub struct Theme {
     pub calendar: CalendarTheme,
     pub time_picker: TimePickerTheme,
     pub date_picker: DatePickerTheme,
-    pub popover: PopoverTheme,
     pub scrollbar: ScrollbarTheme,
     pub back_top: BackTopTheme,
     pub anchor: AnchorTheme,
@@ -59,7 +58,6 @@ impl Theme {
             calendar: CalendarTheme::light(),
             time_picker: TimePickerTheme::light(),
             date_picker: DatePickerTheme::light(),
-            popover: PopoverTheme::light(),
             scrollbar: ScrollbarTheme::light(),
             back_top: BackTopTheme::light(),
             anchor: AnchorTheme::light(),
@@ -83,7 +81,6 @@ impl Theme {
             calendar: CalendarTheme::dark(),
             time_picker: TimePickerTheme::dark(),
             date_picker: DatePickerTheme::dark(),
-            popover: PopoverTheme::dark(),
             scrollbar: ScrollbarTheme::dark(),
             back_top: BackTopTheme::dark(),
             anchor: AnchorTheme::dark(),

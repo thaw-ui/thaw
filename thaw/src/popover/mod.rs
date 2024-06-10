@@ -1,8 +1,4 @@
-mod theme;
-
-pub use theme::PopoverTheme;
-
-use crate::{use_theme, Theme};
+use crate::ConfigInjection;
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
@@ -25,27 +21,8 @@ pub fn Popover(
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            let background_color = if tooltip {
-                &theme.popover.tooltip_background_color
-            } else {
-                &theme.popover.background_color
-            };
-            css_vars.push_str(&format!("--thaw-background-color: {};", background_color));
-            let font_color = if tooltip {
-                "#fff"
-            } else {
-                // TODO
-                // &theme.common.font_color
-                ""
-            };
-            css_vars.push_str(&format!("--thaw-font-color: {};", font_color));
-        });
-        css_vars
-    });
+    let config_provider = ConfigInjection::use_();
+
     let popover_ref = create_node_ref::<html::Div>();
     let target_ref = create_node_ref::<html::Div>();
     let is_show_popover = create_rw_signal(false);
@@ -140,18 +117,20 @@ pub fn Popover(
                     let:display
                 >
                     <div
-                        class=if tooltip { "thaw-popover thaw-popover--tooltip" } else { "thaw-popover" }
-                        style=move || {
-                            display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                        class=if tooltip {
+                            "thaw-config-provider thaw-popover-surface thaw-popover--tooltip" }
+                        else {
+                            "thaw-config-provider thaw-popover-surface"
                         }
+                        data-thaw-id=config_provider.id().clone()
+                        style=move || display.get()
 
                         ref=popover_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >
                         <div class=class.map(|c| move || c.get())>{children()}</div>
-                        <div class="thaw-popover__angle-container">
-                            <div class="thaw-popover__angle"></div>
+                        <div class="thaw-popover-surface__angle">
                         </div>
                     </div>
                 </CSSTransition>

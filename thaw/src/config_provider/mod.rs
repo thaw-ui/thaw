@@ -67,6 +67,10 @@ impl ConfigInjection {
     pub fn id(&self) -> &String {
         &self.id
     }
+
+    pub fn use_() -> ConfigInjection {
+        expect_context()
+    }
 }
 
 #[derive(Clone)]
