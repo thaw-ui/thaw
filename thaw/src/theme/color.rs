@@ -2,6 +2,7 @@ use thaw_macro::WriteCSSVars;
 
 #[derive(Clone, WriteCSSVars)]
 pub struct ColorTheme {
+    pub color_neutral_background_static: String,
     pub color_neutral_background_disabled: String,
     pub color_neutral_background_1: String,
     pub color_neutral_background_1_hover: String,
@@ -15,6 +16,7 @@ pub struct ColorTheme {
     pub color_neutral_background_5: String,
     pub color_neutral_background_6: String,
 
+    pub color_neutral_foreground_static_inverted: String,
     pub color_neutral_foreground_disabled: String,
     pub color_neutral_foreground_1: String,
     pub color_neutral_foreground_1_hover: String,
@@ -100,6 +102,7 @@ pub struct ColorTheme {
 impl ColorTheme {
     pub fn light() -> Self {
         Self {
+            color_neutral_background_static: "#333333".into(),
             color_neutral_background_disabled: "#f0f0f0".into(),
             color_neutral_background_1: "#ffffff".into(),
             color_neutral_background_1_hover: "#f5f5f5".into(),
@@ -113,6 +116,7 @@ impl ColorTheme {
             color_neutral_background_5: "#ebebeb".into(),
             color_neutral_background_6: "#e6e6e6".into(),
 
+            color_neutral_foreground_static_inverted: "#ffffff".into(),
             color_neutral_foreground_disabled: "#bdbdbd".into(),
             color_neutral_foreground_1: "#242424".into(),
             color_neutral_foreground_1_hover: "#242424".into(),
@@ -199,6 +203,7 @@ impl ColorTheme {
 
     pub fn dark() -> Self {
         Self {
+            color_neutral_background_static: "#3d3d3d".into(),
             color_neutral_background_disabled: "#141414".into(),
             color_neutral_background_1: "#292929".into(),
             color_neutral_background_1_hover: "#3d3d3d".into(),
@@ -212,6 +217,7 @@ impl ColorTheme {
             color_neutral_background_5: "#000000".into(),
             color_neutral_background_6: "#333333".into(),
 
+            color_neutral_foreground_static_inverted: "#ffffff".into(),
             color_neutral_foreground_disabled: "#5c5c5c".into(),
             color_neutral_foreground_1: "#fff".into(),
             color_neutral_foreground_1_hover: "#fff".into(),

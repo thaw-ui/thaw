@@ -260,7 +260,11 @@ fn get_timeout(mut delays: Vec<String>, durations: &Vec<String>) -> u64 {
             return 0;
         }
 
-        let s = s.split_at(s.len() - 1).0;
+        let s = if s.ends_with("ms") {
+            s.split_at(s.len() - 2).0
+        } else {
+            s.split_at(s.len() - 1).0
+        };
 
         (s.parse::<f32>().unwrap_or_default() * 1000.0).floor() as u64
     }

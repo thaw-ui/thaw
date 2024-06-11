@@ -1,32 +1,33 @@
 use crate::ConfigInjection;
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
+use palette::bool_mask::BoolMask;
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{add_event_listener, class_list, mount_style, OptionalProp};
+use thaw_utils::{add_event_listener, class_list, mount_style};
 
 #[slot]
 pub struct PopoverTrigger {
     #[prop(optional, into)]
-    class: OptionalProp<MaybeSignal<String>>,
+    class: MaybeProp<String>,
     children: Children,
 }
 
 #[component]
 pub fn Popover(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] trigger_type: PopoverTriggerType,
     popover_trigger: PopoverTrigger,
     #[prop(optional)] placement: PopoverPlacement,
-    #[prop(optional)] tooltip: bool,
+    #[prop(optional, into)] appearance: Option<MaybeSignal<PopoverAppearance>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
     let config_provider = ConfigInjection::use_();
 
-    let popover_ref = create_node_ref::<html::Div>();
-    let target_ref = create_node_ref::<html::Div>();
-    let is_show_popover = create_rw_signal(false);
-    let show_popover_handle = store_value(None::<TimeoutHandle>);
+    let popover_ref = NodeRef::<html::Div>::new();
+    let target_ref = NodeRef::<html::Div>::new();
+    let is_show_popover = RwSignal::new(false);
+    let show_popover_handle = StoredValue::new(None::<TimeoutHandle>);
 
     let on_mouse_enter = move |_| {
         if trigger_type != PopoverTriggerType::Hover {
@@ -61,6 +62,9 @@ pub fn Popover(
         let handle = window_event_listener(ev::click, move |ev| {
             use leptos::wasm_bindgen::__rt::IntoJsResult;
             if trigger_type != PopoverTriggerType::Click {
+                return;
+            }
+            if !is_show_popover.get_untracked() {
                 return;
             }
             let el = ev.target();
@@ -101,7 +105,7 @@ pub fn Popover(
     view! {
         <Binder target_ref>
             <div
-                class=class_list!["thaw-popover-trigger", trigger_class.map(| c | move || c.get())]
+                class=class_list!["thaw-popover-trigger", trigger_class]
                 ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
@@ -117,11 +121,11 @@ pub fn Popover(
                     let:display
                 >
                     <div
-                        class=if tooltip {
-                            "thaw-config-provider thaw-popover-surface thaw-popover--tooltip" }
-                        else {
-                            "thaw-config-provider thaw-popover-surface"
-                        }
+                        class=class_list![
+                            "thaw-config-provider thaw-popover-surface",
+                            appearance.map(|appearance| move || format!("thaw-popover-surface--{}", appearance.get().as_str())),
+                            class
+                        ]
                         data-thaw-id=config_provider.id().clone()
                         style=move || display.get()
 
@@ -129,13 +133,28 @@ pub fn Popover(
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >
-                        <div class=class.map(|c| move || c.get())>{children()}</div>
+                        {children()}
                         <div class="thaw-popover-surface__angle">
                         </div>
                     </div>
                 </CSSTransition>
             </Follower>
         </Binder>
+    }
+}
+
+#[derive(Clone)]
+pub enum PopoverAppearance {
+    Brand,
+    Inverted,
+}
+
+impl PopoverAppearance {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            PopoverAppearance::Brand => "brand",
+            PopoverAppearance::Inverted => "inverted",
+        }
     }
 }
 

@@ -54,7 +54,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::LeftStart>
+            <Popover placement=PopoverPlacement::LeftStart trigger_type=PopoverTriggerType::Click>
                 <PopoverTrigger slot>
                     <Button>"Left Start"</Button>
                 </PopoverTrigger>
@@ -70,7 +70,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::Left>
+            <Popover placement=PopoverPlacement::Left trigger_type=PopoverTriggerType::Click>
                 <PopoverTrigger slot>
                     <Button>"Left"</Button>
                 </PopoverTrigger>
@@ -129,12 +129,18 @@ view! {
 }
 ```
 
-### Tooltip
+### Appearance
 
 ```rust demo
 view! {
     <Space>
-        <Popover tooltip=true>
+        <Popover appearance=PopoverAppearance::Brand>
+            <PopoverTrigger slot>
+                <Button>"Hover"</Button>
+            </PopoverTrigger>
+            "Content"
+        </Popover>
+        <Popover appearance=PopoverAppearance::Inverted>
             <PopoverTrigger slot>
                 <Button>"Hover"</Button>
             </PopoverTrigger>
