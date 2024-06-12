@@ -1,4 +1,4 @@
-use leptos::{leptos_dom::helpers::TimeoutHandle, *};
+use leptos::{leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
 
 pub fn throttle(cb: impl Fn() + 'static, duration: Duration) -> impl Fn() -> () {
