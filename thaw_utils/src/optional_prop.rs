@@ -1,4 +1,4 @@
-use leptos::{MaybeSignal, Memo, ReadSignal, RwSignal, Signal};
+use leptos::prelude::{MaybeSignal, Memo, ReadSignal, RwSignal, Signal};
 use std::ops::{Deref, DerefMut};
 
 pub struct OptionalProp<T>(Option<T>);
@@ -99,7 +99,7 @@ impl<T> From<Option<T>> for OptionalProp<T> {
 #[cfg(test)]
 mod test {
     use super::OptionalProp;
-    use leptos::MaybeSignal;
+    use leptos::prelude::MaybeSignal;
 
     #[test]
     fn from() {

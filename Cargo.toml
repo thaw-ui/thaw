@@ -15,3 +15,6 @@ thaw = { version = "0.3.1", path = "./thaw" }
 thaw_components = { version = "0.1.1", path = "./thaw_components" }
 thaw_macro = { version = "0.1.0", path = "./thaw_macro" }
 thaw_utils = { version = "0.0.3", path = "./thaw_utils" }
+
+leptos = { git = "https://github.com/leptos-rs/leptos", branch = "leptos_0.7" }
+leptos_meta = { git = "https://github.com/leptos-rs/leptos", branch = "leptos_0.7" }
