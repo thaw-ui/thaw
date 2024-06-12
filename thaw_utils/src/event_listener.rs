@@ -1,14 +1,18 @@
 use ::wasm_bindgen::{prelude::Closure, JsCast};
-use leptos::{html::AnyElement, *};
+use leptos::{
+    ev,
+    tachys::{renderer::DomRenderer, view::any_view::AnyView},
+};
 use std::ops::Deref;
 use web_sys::EventTarget;
 
-pub fn add_event_listener<E: ev::EventDescriptor + 'static>(
-    target: HtmlElement<AnyElement>,
+pub fn add_event_listener<E>(
+    target: impl DomRenderer,
     event: E,
     cb: impl Fn(E::EventType) + 'static,
 ) -> EventListenerHandle
 where
+    E: ev::EventDescriptor + 'static,
     E::EventType: JsCast,
 {
     add_event_listener_untyped(target, &event.name(), move |e| {
@@ -31,12 +35,12 @@ impl EventListenerHandle {
 }
 
 fn add_event_listener_untyped(
-    target: HtmlElement<AnyElement>,
+    target: impl DomRenderer,
     event_name: &str,
     cb: impl Fn(web_sys::Event) + 'static,
 ) -> EventListenerHandle {
     fn wel(
-        target: HtmlElement<AnyElement>,
+        target: impl DomRenderer,
         cb: Box<dyn FnMut(web_sys::Event)>,
         event_name: &str,
     ) -> EventListenerHandle {
