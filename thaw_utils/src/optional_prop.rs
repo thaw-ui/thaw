@@ -66,19 +66,19 @@ impl From<String> for OptionalProp<MaybeSignal<String>> {
     }
 }
 
-impl<T> From<ReadSignal<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T: Send + Sync> From<ReadSignal<T>> for OptionalProp<MaybeSignal<T>> {
     fn from(value: ReadSignal<T>) -> Self {
         Self(Some(MaybeSignal::from(value)))
     }
 }
 
-impl<T> From<RwSignal<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T: Send + Sync> From<RwSignal<T>> for OptionalProp<MaybeSignal<T>> {
     fn from(value: RwSignal<T>) -> Self {
         Self(Some(MaybeSignal::from(value)))
     }
 }
 
-impl<T> From<Memo<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T: Send + Sync> From<Memo<T>> for OptionalProp<MaybeSignal<T>> {
     fn from(value: Memo<T>) -> Self {
         Self(Some(MaybeSignal::from(value)))
     }

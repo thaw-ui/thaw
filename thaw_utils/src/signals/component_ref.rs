@@ -1,14 +1,18 @@
 use leptos::{
-    create_render_effect, create_rw_signal, logging::debug_warn, RwSignal, SignalGet,
-    SignalGetUntracked, SignalUpdate,
+    logging::debug_warn,
+    reactive_graph::{
+        effect::RenderEffect,
+        signal::RwSignal,
+        traits::{Get, GetUntracked, Update},
+    },
 };
 use std::cell::Cell;
 
 pub struct ComponentRef<T: 'static>(RwSignal<Option<T>>);
 
-impl<T> Default for ComponentRef<T> {
+impl<T: Send + Sync> Default for ComponentRef<T> {
     fn default() -> Self {
-        Self(create_rw_signal(None))
+        Self(RwSignal::new(None))
     }
 }
 
@@ -20,11 +24,14 @@ impl<T> Clone for ComponentRef<T> {
 
 impl<T: 'static> Copy for ComponentRef<T> {}
 
-impl<T> ComponentRef<T> {
+// TODO
+impl<T: Send + Sync> ComponentRef<T> {
     pub fn new() -> Self {
         Self::default()
     }
+}
 
+impl<T> ComponentRef<T> {
     pub fn get(&self) -> Option<T>
     where
         T: Clone,
@@ -58,14 +65,10 @@ impl<T> ComponentRef<T> {
     {
         let f = Cell::new(Some(f));
 
-        create_render_effect(move |_| {
+        RenderEffect::new(move |_| {
             if let Some(comp) = self.get() {
                 f.take().unwrap()(comp);
             }
         });
     }
-}
-
-pub fn create_component_ref<T>() -> ComponentRef<T> {
-    ComponentRef::default()
 }
