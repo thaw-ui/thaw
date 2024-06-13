@@ -1,24 +1,35 @@
+// use leptos::{
+//     leptos_dom::helpers::AnimationFrameRequestHandle, on_cleanup,
+//     request_animation_frame_with_handle, StoredValue,
+// };
+
 use leptos::{
-    leptos_dom::helpers::AnimationFrameRequestHandle, on_cleanup,
-    request_animation_frame_with_handle, StoredValue,
+    prelude::{request_animation_frame_with_handle, AnimationFrameRequestHandle},
+    reactive_graph::owner::{on_cleanup, StoredValue},
 };
 
-pub fn use_next_frame() -> NextFrame {
-    let next_frame = NextFrame::default();
-
-    on_cleanup(move || {
-        next_frame.cancel();
-    });
-
-    next_frame
-}
-
-#[derive(Default, Clone)]
+#[derive(Clone)]
 pub struct NextFrame(StoredValue<Option<AnimationFrameRequestHandle>>);
+
+impl Default for NextFrame {
+    fn default() -> Self {
+        Self(StoredValue::new(None))
+    }
+}
 
 impl Copy for NextFrame {}
 
 impl NextFrame {
+    pub fn use_() -> Self {
+        let next_frame = NextFrame::default();
+
+        on_cleanup(move || {
+            next_frame.cancel();
+        });
+
+        next_frame
+    }
+
     pub fn run(&self, cb: impl FnOnce() + 'static) {
         self.cancel();
 
