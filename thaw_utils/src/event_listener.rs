@@ -1,9 +1,5 @@
 use ::wasm_bindgen::{prelude::Closure, JsCast};
-use leptos::{
-    ev,
-    tachys::{renderer::DomRenderer, view::any_view::AnyView},
-};
-use std::ops::Deref;
+use leptos::{ev, tachys::renderer::DomRenderer};
 use web_sys::EventTarget;
 
 pub fn add_event_listener<E>(
@@ -15,9 +11,10 @@ where
     E: ev::EventDescriptor + 'static,
     E::EventType: JsCast,
 {
-    add_event_listener_untyped(target, &event.name(), move |e| {
-        cb(e.unchecked_into::<E::EventType>())
-    })
+    todo!()
+    // add_event_listener_untyped(target, &event.name(), move |e| {
+    //     cb(e.unchecked_into::<E::EventType>())
+    // })
 }
 
 pub struct EventListenerHandle(Box<dyn FnOnce()>);
@@ -34,26 +31,26 @@ impl EventListenerHandle {
     }
 }
 
-fn add_event_listener_untyped(
-    target: impl DomRenderer,
-    event_name: &str,
-    cb: impl Fn(web_sys::Event) + 'static,
-) -> EventListenerHandle {
-    fn wel(
-        target: impl DomRenderer,
-        cb: Box<dyn FnMut(web_sys::Event)>,
-        event_name: &str,
-    ) -> EventListenerHandle {
-        let cb = Closure::wrap(cb).into_js_value();
-        _ = target.add_event_listener_with_callback(event_name, cb.unchecked_ref());
-        let event_name = event_name.to_string();
-        EventListenerHandle(Box::new(move || {
-            _ = target.remove_event_listener_with_callback(&event_name, cb.unchecked_ref());
-        }))
-    }
+// fn add_event_listener_untyped(
+//     target: impl DomRenderer,
+//     event_name: &str,
+//     cb: impl Fn(web_sys::Event) + 'static,
+// ) -> EventListenerHandle {
+//     fn wel(
+//         target: impl DomRenderer,
+//         cb: Box<dyn FnMut(web_sys::Event)>,
+//         event_name: &str,
+//     ) -> EventListenerHandle {
+//         let cb = Closure::wrap(cb).into_js_value();
+//         _ = target.add_event_listener_with_callback(event_name, cb.unchecked_ref());
+//         let event_name = event_name.to_string();
+//         EventListenerHandle(Box::new(move || {
+//             _ = target.remove_event_listener_with_callback(&event_name, cb.unchecked_ref());
+//         }))
+//     }
 
-    wel(target, Box::new(cb), event_name)
-}
+//     wel(target, Box::new(cb), event_name)
+// }
 
 pub fn add_event_listener_with_bool<E: ev::EventDescriptor + 'static>(
     target: impl IntoEventTarget,
@@ -119,8 +116,8 @@ impl IntoEventTarget for web_sys::Document {
     }
 }
 
-impl IntoEventTarget for HtmlElement<AnyElement> {
-    fn into_event_target(self) -> EventTarget {
-        self.deref().deref().deref().deref().clone()
-    }
-}
+// impl IntoEventTarget for HtmlElement<AnyElement> {
+//     fn into_event_target(self) -> EventTarget {
+//         self.deref().deref().deref().deref().clone()
+//     }
+// }

@@ -1,10 +1,13 @@
 #[cfg(not(feature = "ssr"))]
-use leptos::create_render_effect;
+use leptos::prelude::RenderEffect;
 use leptos::{
-    Attribute, IntoAttribute, MaybeProp, Memo, Oco, RwSignal, SignalGet, SignalUpdate, SignalWith,
+    prelude::{MaybeProp, Memo, Oco, RwSignal},
+    reactive_graph::traits::{Get, Update, With, WithUntracked},
+    tachys::renderer::DomRenderer,
 };
-use std::{collections::HashSet, rc::Rc};
+use std::collections::HashSet;
 
+#[derive(Clone)]
 pub struct ClassList(RwSignal<HashSet<Oco<'static, str>>>);
 
 impl ClassList {
@@ -30,7 +33,7 @@ impl ClassList {
                     });
                 }
                 #[cfg(not(feature = "ssr"))]
-                create_render_effect(move |old_name| {
+                RenderEffect::new(move |old_name| {
                     let name = f();
                     if let Some(old_name) = old_name {
                         if old_name != name {
@@ -57,7 +60,7 @@ impl ClassList {
                     }
                 }
                 #[cfg(not(feature = "ssr"))]
-                create_render_effect(move |old_name| {
+                RenderEffect::new(move |old_name| {
                     let name = f();
                     if let Some(old_name) = old_name {
                         if old_name != name {
@@ -96,7 +99,7 @@ impl ClassList {
                     });
                 }
                 #[cfg(not(feature = "ssr"))]
-                create_render_effect(move |old| {
+                RenderEffect::new(move |old| {
                     let name = name.clone();
                     let new = f();
                     if old.is_none() {
@@ -121,29 +124,89 @@ impl ClassList {
 
         self
     }
+
+    fn to_class_string(self, class: &mut String) {
+        self.0.with(|set| {
+            set.iter().enumerate().for_each(|(index, name)| {
+                if name.is_empty() {
+                    return;
+                }
+                if index != 0 {
+                    class.push(' ');
+                }
+                class.push_str(name)
+            });
+        });
+    }
 }
 
-impl IntoAttribute for ClassList {
-    fn into_attribute(self) -> Attribute {
-        Attribute::Fn(Rc::new(move || {
-            self.0.with(|set| {
-                let mut class = String::new();
-                set.iter().enumerate().for_each(|(index, name)| {
-                    if name.is_empty() {
-                        return;
-                    }
-                    if index != 0 {
-                        class.push(' ');
-                    }
-                    class.push_str(name)
-                });
-                class.into_attribute()
-            })
-        }))
+impl<'a, R> leptos::tachys::html::class::IntoClass<R> for ClassList
+where
+    R: DomRenderer,
+{
+    type State = (R::ClassList, String);
+    type Cloneable = Self;
+    type CloneableOwned = Self;
+
+    fn html_len(&self) -> usize {
+        self.0.with_untracked(|set| {
+            let mut len = 0;
+            set.iter().enumerate().for_each(|(index, name)| {
+                if name.is_empty() {
+                    return;
+                }
+                if index != 0 {
+                    len += 1;
+                }
+                len += name.len();
+            });
+
+            len
+        })
     }
 
-    fn into_attribute_boxed(self: Box<Self>) -> Attribute {
-        self.into_attribute()
+    fn to_html(self, class: &mut String) {
+        self.to_class_string(class);
+    }
+
+    fn hydrate<const FROM_SERVER: bool>(self, el: &R::Element) -> Self::State {
+        let class_list = R::class_list(el);
+        let mut class = String::new();
+        self.to_class_string(&mut class);
+
+        if !FROM_SERVER {
+            R::add_class(&class_list, &class);
+        }
+        (class_list, class)
+    }
+
+    fn build(self, el: &R::Element) -> Self::State {
+        let class_list = R::class_list(el);
+        let mut class = String::new();
+        self.to_class_string(&mut class);
+        if !class.is_empty() {
+            R::add_class(&class_list, &class);
+        }
+        (class_list, class)
+    }
+
+    fn rebuild(self, state: &mut Self::State) {
+        let mut class = String::new();
+        self.to_class_string(&mut class);
+        let (class_list, prev_class) = state;
+        if class != *prev_class {
+            R::remove_class(class_list, prev_class);
+            R::add_class(class_list, &class);
+        }
+        *prev_class = class;
+    }
+
+    fn into_cloneable(self) -> Self::Cloneable {
+        self
+    }
+
+    fn into_cloneable_owned(self) -> Self::CloneableOwned {
+        self
     }
 }
 
@@ -245,21 +308,22 @@ macro_rules! class_list {
     };
 }
 
-#[cfg(test)]
-mod tests {
-    use leptos::{create_runtime, Attribute, IntoAttribute};
+// TODO
+// #[cfg(test)]
+// mod tests {
+//     use leptos::reactive_graph::Run;
 
-    #[test]
-    fn macro_class_list() {
-        let rt = create_runtime();
-        let class_list = class_list!("aa", ("bb", || true), move || "cc");
-        if let Attribute::Fn(f) = class_list.into_attribute() {
-            if let Attribute::String(class) = f() {
-                assert!(class.contains("aa"));
-                assert!(class.contains("bb"));
-                assert!(class.contains("cc"));
-            }
-        }
-        rt.dispose();
-    }
-}
+//     #[test]
+//     fn macro_class_list() {
+//         let rt = create_runtime();
+//         let class_list = class_list!("aa", ("bb", || true), move || "cc");
+//         if let Attribute::Fn(f) = class_list.into_attribute() {
+//             if let Attribute::String(class) = f() {
+//                 assert!(class.contains("aa"));
+//                 assert!(class.contains("bb"));
+//                 assert!(class.contains("cc"));
+//             }
+//         }
+//         rt.dispose();
+//     }
+// }
