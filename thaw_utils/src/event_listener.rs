@@ -1,9 +1,5 @@
 use ::wasm_bindgen::{prelude::Closure, JsCast};
-use leptos::{
-    ev,
-    tachys::{renderer::DomRenderer, view::any_view::AnyView},
-};
-use std::ops::Deref;
+use leptos::{ev, tachys::renderer::DomRenderer};
 use web_sys::EventTarget;
 
 pub fn add_event_listener<E>(
