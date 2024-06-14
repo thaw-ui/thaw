@@ -1,5 +1,6 @@
 use cfg_if::cfg_if;
-use leptos::{html::AnyElement, *};
+use leptos::{html::{AnyElement, HtmlElement}, prelude::*};
+use tachys::view::any_view::AnyView;
 
 /// https://github.com/solidjs/solid/blob/main/packages/solid/web/src/index.ts#L56
 #[component]

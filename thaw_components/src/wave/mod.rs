@@ -1,4 +1,4 @@
-use leptos::{leptos_dom::helpers::TimeoutHandle, *};
+use leptos::{html, leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
 use thaw_utils::{mount_style, ComponentRef};
 
@@ -16,8 +16,8 @@ impl WaveRef {
 #[component]
 pub fn Wave(#[prop(optional)] comp_ref: ComponentRef<WaveRef>) -> impl IntoView {
     mount_style("wave", include_str!("./wave.css"));
-    let wave_ref = create_node_ref::<html::Div>();
-    let animation_timeout_handle = create_rw_signal(None::<TimeoutHandle>);
+    let wave_ref = NodeRef::<html::Div>::new();
+    let animation_timeout_handle = RwSignal::new(None::<TimeoutHandle>);
     let play = Callback::new(move |_: ()| {
         if let Some(handle) = animation_timeout_handle.get() {
             handle.clear();
@@ -51,7 +51,7 @@ pub fn Wave(#[prop(optional)] comp_ref: ComponentRef<WaveRef>) -> impl IntoView 
                 move || animation_timeout_handle.with(|handle| handle.is_some()),
             )
 
-            ref=wave_ref
+            node_ref=wave_ref
         ></div>
     }
 }

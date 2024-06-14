@@ -4,7 +4,9 @@ pub use get_placement_style::FollowerPlacement;
 
 use crate::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
-use leptos::{html::ElementDescriptor, leptos_dom::helpers::WindowListenerHandle, *};
+use leptos::{
+    ev, html, html::ElementDescriptor, leptos_dom::helpers::WindowListenerHandle, prelude::*,
+};
 use thaw_utils::{
     add_event_listener, get_scroll_parent, mount_style, with_hydration_off, EventListenerHandle,
 };
@@ -69,9 +71,9 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
         children: follower_children,
     } = follower;
 
-    let scroll_listener = store_value(None::<Callback<()>>);
-    let scrollable_element_handle_vec = store_value::<Vec<EventListenerHandle>>(vec![]);
-    let resize_handle = store_value(None::<WindowListenerHandle>);
+    let scroll_listener = StoredValue::new(None::<Callback<()>>);
+    let scrollable_element_handle_vec = StoredValue::new::<Vec<EventListenerHandle>>(vec![]);
+    let resize_handle = StoredValue::new(None::<WindowListenerHandle>);
 
     let ensure_scroll_listener = move || {
         let Some(el) = target_ref.get_untracked().map(|target| target.into_any()) else {
@@ -167,9 +169,9 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     #[prop(into)] remove_resize_listener: Callback<()>,
     children: Children,
 ) -> impl IntoView {
-    let content_ref = create_node_ref::<html::Div>();
-    let content_style = create_rw_signal(String::new());
-    let placement_str = create_rw_signal(placement.as_str());
+    let content_ref = NodeRef::<html::Div>::new();
+    let content_style = RwSignal::new(String::new());
+    let placement_str = RwSignal::new(placement.as_str());
     let sync_position: Callback<()> = Callback::new(move |_| {
         let Some(content_ref) = content_ref.get_untracked() else {
             return;
