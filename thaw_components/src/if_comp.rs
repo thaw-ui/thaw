@@ -1,5 +1,5 @@
 use super::Fallback;
-use leptos::*;
+use leptos::prelude::*;
 
 #[slot]
 pub struct Then {

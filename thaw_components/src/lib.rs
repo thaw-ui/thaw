@@ -14,7 +14,7 @@ pub use option_comp::OptionComp;
 pub use teleport::Teleport;
 pub use wave::{Wave, WaveRef};
 
-use leptos::*;
+use leptos::prelude::{slot, ChildrenFn};
 
 #[slot]
 pub struct Fallback {
