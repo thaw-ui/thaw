@@ -149,6 +149,7 @@ pub fn SiteHeader() -> impl IntoView {
                     <AutoCompletePrefix slot>
                         <Icon icon=icondata::AiSearchOutlined style="font-size: 18px; color: var(--thaw-placeholder-color);"/>
                     </AutoCompletePrefix>
+                    <p title="#TODO"></p>
                 </AutoComplete>
                 <Popover placement=PopoverPlacement::BottomEnd class="demo-header__menu-popover-mobile">
                     <PopoverTrigger slot class="demo-header__menu-mobile">

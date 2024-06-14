@@ -1,23 +1,30 @@
 # Auto Complete
 
 ```rust demo
-let value = create_rw_signal(String::new());
-let options = create_memo(move |_| {
+let value = RwSignal::new(String::new());
+let options = Memo::<Vec<_>>::new(move |_| {
     let prefix = value
         .get()
         .split_once('@')
         .map_or(value.get(), |v| v.0.to_string());
     vec!["@gmail.com", "@163.com"]
         .into_iter()
-        .map(|suffix| AutoCompleteOption {
-            label: format!("{prefix}{suffix}"),
-            value: format!("{prefix}{suffix}"),
-        })
+        .map(|suffix| (format!("{prefix}{suffix}"), format!("{prefix}{suffix}")))
         .collect()
 });
 
 view! {
-    <AutoComplete value options placeholder="Email"/>
+    <AutoComplete value placeholder="Email">
+        <For
+            each=move || options.get()
+            key=|option| option.0.clone()
+            let:option
+        >
+            <AutoCompleteOption2 key=option.0>
+                {option.1}
+            </AutoCompleteOption2>
+        </For>
+    </AutoComplete>
 }
 ```
 
