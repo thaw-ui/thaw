@@ -4,9 +4,9 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AnchorTheme, AutoCompleteTheme, BackTopTheme, CalendarTheme, ColorPickerTheme,
-    DatePickerTheme, InputTheme, MessageTheme, ProgressTheme, ScrollbarTheme,
-    SelectTheme, TimePickerTheme, UploadTheme,
+    AlertTheme, AnchorTheme, BackTopTheme, CalendarTheme, ColorPickerTheme, DatePickerTheme,
+    InputTheme, MessageTheme, ProgressTheme, ScrollbarTheme, SelectTheme, TimePickerTheme,
+    UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -28,7 +28,6 @@ pub struct Theme {
     pub upload: UploadTheme,
     pub nav_bar: NavBarTheme,
     pub tabbar: TabbarTheme,
-    pub auto_complete: AutoCompleteTheme,
     pub color_picker: ColorPickerTheme,
     pub progress: ProgressTheme,
     pub calendar: CalendarTheme,
@@ -52,7 +51,6 @@ impl Theme {
             upload: UploadTheme::light(),
             nav_bar: NavBarTheme::light(),
             tabbar: TabbarTheme::light(),
-            auto_complete: AutoCompleteTheme::light(),
             color_picker: ColorPickerTheme::light(),
             progress: ProgressTheme::light(),
             calendar: CalendarTheme::light(),
@@ -75,7 +73,6 @@ impl Theme {
             upload: UploadTheme::dark(),
             nav_bar: NavBarTheme::dark(),
             tabbar: TabbarTheme::dark(),
-            auto_complete: AutoCompleteTheme::dark(),
             color_picker: ColorPickerTheme::dark(),
             progress: ProgressTheme::dark(),
             calendar: CalendarTheme::dark(),

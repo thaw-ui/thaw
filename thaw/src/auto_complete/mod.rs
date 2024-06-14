@@ -1,10 +1,12 @@
-mod theme;
+mod auto_complete_option;
 
-pub use theme::AutoCompleteTheme;
+pub use auto_complete_option::AutoCompleteOption2;
 
-use crate::{use_theme, ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme};
+use crate::{ComponentRef, ConfigInjection, Input, InputPrefix, InputRef, InputSuffix};
 use leptos::*;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
+use thaw_components::{
+    Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth, OptionComp,
+};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
 
 #[derive(Clone, PartialEq)]
@@ -39,24 +41,10 @@ pub fn AutoComplete(
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
-    let theme = use_theme(Theme::light);
-    let menu_css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.select.menu_background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-hover: {};",
-                theme.select.menu_background_color_hover
-            ));
-        });
-        css_vars
-    });
-
+    let config_provider = ConfigInjection::use_();
     let input_ref = ComponentRef::<InputRef>::new();
 
     let default_index = if allow_free_input { None } else { Some(0) };
@@ -201,85 +189,98 @@ pub fn AutoComplete(
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::Target
             >
-                <CSSTransition
-                    node_ref=menu_ref
-                    name="fade-in-scale-up-transition"
-                    appear=is_show_menu.get_untracked()
-                    show=is_show_menu
-                    let:display
-                >
-                    <div
-                        class="thaw-auto-complete__menu"
-                        style=move || {
-                            display
-                                .get()
-                                .map(|d| d.to_string())
-                                .unwrap_or_else(|| menu_css_vars.get())
-                        }
-
-                        ref=menu_ref
+                <Provider value=AutoCompleteInjection(value)>
+                    <CSSTransition
+                        node_ref=menu_ref
+                        name="fade-in-scale-up-transition"
+                        appear=is_show_menu.get_untracked()
+                        show=is_show_menu
+                        let:display
                     >
+                        <div
+                            class="thaw-config-provider thaw-auto-complete__listbox"
+                            style=move || display.get()
+                            data-thaw-id=config_provider.id().clone()
+                            ref=menu_ref
+                            role="listbox"
+                        >
 
-                        {move || {
-                            options
-                                .get()
-                                .into_iter()
-                                .enumerate()
-                                .map(|(index, v)| {
-                                    let AutoCompleteOption { value: option_value, label } = v;
-                                    let menu_item_ref = create_node_ref::<html::Div>();
-                                    let on_click = move |_| {
-                                        select_value(option_value.clone());
-                                    };
-                                    let on_mouseenter = move |_| {
-                                        select_option_index.set(Some(index));
-                                    };
-                                    let on_mousedown = move |ev: ev::MouseEvent| {
-                                        ev.prevent_default();
-                                    };
-                                    create_effect(move |_| {
-                                        if Some(index) == select_option_index.get() {
-                                            if !is_show_menu.get() {
-                                                return;
-                                            }
-                                            if let Some(menu_item_ref) = menu_item_ref.get() {
-                                                let menu_ref = menu_ref.get().unwrap();
-                                                let menu_rect = menu_ref.get_bounding_client_rect();
-                                                let item_rect = menu_item_ref.get_bounding_client_rect();
-                                                if item_rect.y() < menu_rect.y() {
-                                                    menu_item_ref.scroll_into_view_with_bool(true);
-                                                } else if item_rect.y() + item_rect.height()
-                                                    > menu_rect.y() + menu_rect.height()
-                                                {
-                                                    menu_item_ref.scroll_into_view_with_bool(false);
-                                                }
-                                            }
-                                        }
-                                    });
-                                    view! {
-                                        <div
-                                            class="thaw-auto-complete__menu-item"
-                                            class=(
-                                                "thaw-auto-complete__menu-item--selected",
-                                                move || Some(index) == select_option_index.get(),
-                                            )
+                            // {move || {
+                            //     options
+                            //         .get()
+                            //         .into_iter()
+                            //         .enumerate()
+                            //         .map(|(index, v)| {
+                            //             let AutoCompleteOption { value: option_value, label } = v;
+                            //             let menu_item_ref = create_node_ref::<html::Div>();
+                            //             let on_click = move |_| {
+                            //                 select_value(option_value.clone());
+                            //             };
+                            //             let on_mouseenter = move |_| {
+                            //                 select_option_index.set(Some(index));
+                            //             };
+                            //             let on_mousedown = move |ev: ev::MouseEvent| {
+                            //                 ev.prevent_default();
+                            //             };
+                            //             create_effect(move |_| {
+                            //                 if Some(index) == select_option_index.get() {
+                            //                     if !is_show_menu.get() {
+                            //                         return;
+                            //                     }
+                            //                     if let Some(menu_item_ref) = menu_item_ref.get() {
+                            //                         let menu_ref = menu_ref.get().unwrap();
+                            //                         let menu_rect = menu_ref.get_bounding_client_rect();
+                            //                         let item_rect = menu_item_ref.get_bounding_client_rect();
+                            //                         if item_rect.y() < menu_rect.y() {
+                            //                             menu_item_ref.scroll_into_view_with_bool(true);
+                            //                         } else if item_rect.y() + item_rect.height()
+                            //                             > menu_rect.y() + menu_rect.height()
+                            //                         {
+                            //                             menu_item_ref.scroll_into_view_with_bool(false);
+                            //                         }
+                            //                     }
+                            //                 }
+                            //             });
+                            //             view! {
+                            //                 <div
+                            //                     class="thaw-auto-complete__menu-item"
+                            //                     class=(
+                            //                         "thaw-auto-complete__menu-item--selected",
+                            //                         move || Some(index) == select_option_index.get(),
+                            //                     )
 
-                                            on:click=on_click
-                                            on:mousedown=on_mousedown
-                                            on:mouseenter=on_mouseenter
-                                            ref=menu_item_ref
-                                        >
-                                            {label}
-                                        </div>
-                                    }
-                                })
-                                .collect_view()
-                        }}
-
-                    </div>
-                </CSSTransition>
+                            //                     on:click=on_click
+                            //                     on:mousedown=on_mousedown
+                            //                     on:mouseenter=on_mouseenter
+                            //                     ref=menu_item_ref
+                            //                 >
+                            //                     {label}
+                            //                 </div>
+                            //             }
+                            //         })
+                            //         .collect_view()
+                            // }}
+                            <OptionComp value=children let:children>
+                                {children()}
+                            </OptionComp>
+                        </div>
+                    </CSSTransition>
+                </Provider>
             </Follower>
         </Binder>
+    }
+}
+
+#[derive(Clone)]
+pub(crate) struct AutoCompleteInjection(pub Model<String>);
+
+impl AutoCompleteInjection {
+    pub fn use_() -> Self {
+        expect_context()
+    }
+
+    pub fn is_selected(&self, key: &String) -> bool {
+        self.0.with(|value| value == key)
     }
 }
 

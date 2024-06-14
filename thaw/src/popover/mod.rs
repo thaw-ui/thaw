@@ -1,6 +1,5 @@
 use crate::ConfigInjection;
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
-use palette::bool_mask::BoolMask;
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{add_event_listener, class_list, mount_style};
