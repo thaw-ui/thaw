@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{ev, prelude::*};
 
 #[cfg(any(feature = "csr", feature = "hydrate"))]
 thread_local! {

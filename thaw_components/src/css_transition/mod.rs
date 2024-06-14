@@ -1,13 +1,13 @@
-use leptos::{html::ElementDescriptor, *};
+use leptos::{ev, html::ElementType, prelude::*};
 use std::{ops::Deref, time::Duration};
-use thaw_utils::{add_event_listener, use_next_frame, EventListenerHandle};
+use thaw_utils::{add_event_listener, EventListenerHandle, NextFrame};
 
 /// # CSS Transition
 ///
 /// Reference to https://vuejs.org/guide/built-ins/transition.html
 #[component]
-pub fn CSSTransition<T, CF, IV>(
-    node_ref: NodeRef<T>,
+pub fn CSSTransition<E, CF, IV>(
+    node_ref: NodeRef<E>,
     #[prop(into)] show: MaybeSignal<bool>,
     #[prop(into)] name: MaybeSignal<String>,
     #[prop(optional)] appear: bool,
@@ -20,17 +20,18 @@ pub fn CSSTransition<T, CF, IV>(
     children: CF,
 ) -> impl IntoView
 where
-    T: ElementDescriptor + Clone + 'static,
+    E: ElementType,
+    E::Output: 'static,
     CF: FnOnce(ReadSignal<Option<&'static str>>) -> IV + 'static,
     IV: IntoView,
 {
-    let display = create_rw_signal((!show.get_untracked()).then_some("display: none;"));
+    let display = RwSignal::new((!show.get_untracked()).then_some("display: none;"));
 
     node_ref.on_load(move |node_el| {
         let any_el = node_el.clone().into_any();
         let el = any_el.deref().clone();
         let class_list = el.class_list();
-        let next_frame = use_next_frame();
+        let next_frame = NextFrame::use_();
         let end_handle = StoredValue::new(None::<EventListenerHandle>);
         let end_count = StoredValue::new(None::<usize>);
         let finish = StoredValue::new(None::<Callback<()>>);
@@ -166,7 +167,7 @@ where
             })
         };
 
-        create_render_effect(move |prev: Option<bool>| {
+        RenderEffect::new(move |prev: Option<bool>| {
             let show = show.get();
             let prev = if let Some(prev) = prev {
                 prev
