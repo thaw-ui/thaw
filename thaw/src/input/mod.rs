@@ -53,6 +53,8 @@ pub fn Input(
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional, into)] parser: OptionalProp<Callback<String, String>>,
+    #[prop(optional, into)] formatter: OptionalProp<Callback<String, String>>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
@@ -60,13 +62,13 @@ pub fn Input(
     let value_trigger = create_trigger();
     let on_input = move |ev| {
         let input_value = event_target_value(&ev);
+        parser.map_or_else(|| value.set(input_value.clone()), |c| value.set(c.call(input_value.clone())));
         if let Some(allow_value) = allow_value.as_ref() {
-            if !allow_value.call(input_value.clone()) {
+            if !allow_value.call(value.get()) {
                 value_trigger.notify();
                 return;
             }
         }
-        value.set(input_value);
     };
     let is_focus = create_rw_signal(false);
     let on_internal_focus = move |ev| {
@@ -186,7 +188,7 @@ pub fn Input(
                 value=input_value
                 prop:value=move || {
                     value_trigger.track();
-                    value.get()
+                    formatter.map_or_else(|| value.get(), |c| c.call(value.get()))
                 }
 
                 on:input=on_input

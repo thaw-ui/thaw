@@ -42,6 +42,53 @@ view! {
 }
 ```
 
+### Formatter
+
+```rust demo
+let value = create_rw_signal(0.0);
+
+let formatter = Callback::<String, String>::new(move |v: String| {
+    let mut int: String = if v.chars().count() < 4 { 
+        String::from("0") 
+    } else {
+        v.chars().take(v.chars().count() - 3).collect() 
+    };
+
+    let sign: String = if v.chars().take(1).collect::<String>() == String::from("-") { 
+        int = int.chars().skip(1).collect();
+        String::from("-")
+    } else { 
+        String::from("") 
+    };
+
+    let dec: String = if v.chars().count() < 2 {
+        format!("{:0>2}" , v)
+    } else {
+        v.chars().skip(v.chars().count() - 2).take(2).collect()
+    };
+
+    let int = int
+        .as_bytes()
+        .rchunks(3)
+        .rev()
+        .map(std::str::from_utf8)
+        .collect::<Result<Vec<&str>, _>>()
+        .unwrap()
+        .join("."); // separator
+    format!("{}{},{:0>2}", sign, int, dec)
+});
+
+let parser = Callback::<String, String>::new(move |v: String| {
+    let digits = v.chars().filter(|a| a.is_digit(10)).collect::<String>();
+    let float = digits.parse::<f64>().unwrap_or_else(|_| 1.0);
+    format!("{:.2}", float / 100.0)
+});
+
+view! {
+    <InputNumber value parser formatter step=0.01 />
+    <p>{ value }</p>
+}
+```
 ### InputNumber Props
 
 | Name | Type | Default | Description |

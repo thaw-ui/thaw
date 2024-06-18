@@ -1,11 +1,13 @@
 use super::use_menu;
-use crate::{theme::use_theme, Theme};
+use crate::{theme::use_theme, Icon, Theme};
 use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_components::OptionComp;
+use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 
 #[component]
 pub fn MenuItem(
     #[prop(into)] key: MaybeSignal<String>,
+    #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
     #[prop(into)] label: MaybeSignal<String>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
@@ -46,6 +48,15 @@ pub fn MenuItem(
                 on:click=on_click
                 style=move || css_vars.get()
             >
+                {
+                    move || {
+                        view! {
+                            <OptionComp value=icon.get() let:icon>
+                                <Icon icon=icon style="font-size: 18px;margin-right: 8px"/>
+                            </OptionComp>
+                        }
+                    }
+                }
                 {move || label.get()}
             </div>
         </div>
