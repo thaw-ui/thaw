@@ -48,11 +48,8 @@ view! {
 let value = create_rw_signal(0.0);
 
 let formatter = Callback::<String, String>::new(move |v: String| {
-    let mut int: String = if v.chars().count() < 4 { 
-        String::from("0") 
-    } else {
-        v.chars().take(v.chars().count() - 3).collect() 
-    };
+    let dot_pos = v.chars().position(|c| c == '.').unwrap_or_else(|| v.chars().count());
+    let mut int: String = v.chars().take(dot_pos).collect();
 
     let sign: String = if v.chars().take(1).collect::<String>() == String::from("-") { 
         int = int.chars().skip(1).collect();
@@ -61,11 +58,7 @@ let formatter = Callback::<String, String>::new(move |v: String| {
         String::from("") 
     };
 
-    let dec: String = if v.chars().count() < 2 {
-        format!("{:0>2}" , v)
-    } else {
-        v.chars().skip(v.chars().count() - 2).take(2).collect()
-    };
+    let dec: String = v.chars().skip(dot_pos + 1).take(2).collect();
 
     let int = int
         .as_bytes()
@@ -74,19 +67,19 @@ let formatter = Callback::<String, String>::new(move |v: String| {
         .map(std::str::from_utf8)
         .collect::<Result<Vec<&str>, _>>()
         .unwrap()
-        .join("."); // separator
-    format!("{}{},{:0>2}", sign, int, dec)
+        .join(".");
+    format!("{}{},{:0<2}", sign, int, dec)
 });
 
 let parser = Callback::<String, String>::new(move |v: String| {
     let digits = v.chars().filter(|a| a.is_digit(10)).collect::<String>();
     let float = digits.parse::<f64>().unwrap_or_else(|_| 1.0);
-    format!("{:.2}", float / 100.0)
+    format!("{:.2}", float.round() / 100.0)
 });
 
 view! {
-    <InputNumber value parser formatter step=0.01 />
-    <p>{ value }</p>
+    <InputNumber value parser formatter step=1.0 />
+    <p>"Underlying value: "{ value }</p>
 }
 ```
 ### InputNumber Props

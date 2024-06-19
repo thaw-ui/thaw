@@ -33,6 +33,7 @@ where
                     return prev;
                 }
             }
+            input_value.set(value.clone());
             value
         })
     });

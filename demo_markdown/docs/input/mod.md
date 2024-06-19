@@ -102,6 +102,25 @@ view! {
 }
 ```
 
+### Formatter
+
+```rust demo
+let value = create_rw_signal(String::from("loren_ipsun"));
+
+let formatter = Callback::<String, String>::new(move |v: String| {
+    v.replace("_", " ")
+});
+
+let parser = Callback::<String, String>::new(move |v: String| {
+    v.replace(" ", "_")
+});
+
+view! {
+    <Input value parser formatter />
+    <p>"Underlying value: "{ value }</p>
+}
+```
+
 ### Input Props
 
 | Name | Type | Default | Description |
