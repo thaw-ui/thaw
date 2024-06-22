@@ -7,7 +7,7 @@ use crate::{
     ButtonTheme, CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme,
     MenuTheme, MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme,
     SkeletionTheme, SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
-    TypographyTheme, UploadTheme,
+    TypographyTheme, UploadTheme, DropdownTheme
 };
 use leptos::*;
 
@@ -45,6 +45,7 @@ pub struct Theme {
     pub time_picker: TimePickerTheme,
     pub date_picker: DatePickerTheme,
     pub popover: PopoverTheme,
+    pub dropdown: DropdownTheme,
     pub collapse: CollapseTheme,
     pub scrollbar: ScrollbarTheme,
     pub back_top: BackTopTheme,
@@ -81,6 +82,7 @@ impl Theme {
             time_picker: TimePickerTheme::light(),
             date_picker: DatePickerTheme::light(),
             popover: PopoverTheme::light(),
+            dropdown: DropdownTheme::light(),
             collapse: CollapseTheme::light(),
             scrollbar: ScrollbarTheme::light(),
             back_top: BackTopTheme::light(),
@@ -116,6 +118,7 @@ impl Theme {
             time_picker: TimePickerTheme::dark(),
             date_picker: DatePickerTheme::dark(),
             popover: PopoverTheme::dark(),
+            dropdown: DropdownTheme::dark(),
             collapse: CollapseTheme::dark(),
             scrollbar: ScrollbarTheme::dark(),
             back_top: BackTopTheme::dark(),
