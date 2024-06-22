@@ -1,10 +1,8 @@
 mod color;
-mod theme;
 
 pub use color::*;
-pub use theme::ColorPickerTheme;
 
-use crate::{use_theme, Theme};
+use crate::ConfigInjection;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::*;
 use palette::{Hsv, IntoColor, Srgb};
@@ -17,20 +15,11 @@ pub fn ColorPicker(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
-    let theme = use_theme(Theme::light);
-    let popover_css_vars = create_memo(move |_| {
-        theme.with(|theme| {
-            format!(
-                "--thaw-background-color: {};",
-                theme.color_picker.popover_background_color
-            )
-        })
-    });
-
-    let hue = create_rw_signal(0f32);
-    let sv = create_rw_signal((0f32, 0f32));
-    let label = create_rw_signal(String::new());
-    let style = create_memo(move |_| {
+    let config_provider = ConfigInjection::use_();
+    let hue = RwSignal::new(0f32);
+    let sv = RwSignal::new((0f32, 0f32));
+    let label = RwSignal::new(String::new());
+    let style = Memo::new(move |_| {
         let mut style = String::new();
 
         value.with(|color| {
@@ -77,7 +66,7 @@ pub fn ColorPicker(
         style
     });
 
-    create_effect(move |prev| {
+    Effect::new(move |prev| {
         let (s, v) = sv.get();
         let hue_value = hue.get();
         if prev.is_none() {
@@ -106,9 +95,9 @@ pub fn ColorPicker(
         }
     });
 
-    let is_show_popover = create_rw_signal(false);
-    let trigger_ref = create_node_ref::<html::Div>();
-    let popover_ref = create_node_ref::<html::Div>();
+    let is_show_popover = RwSignal::new(false);
+    let trigger_ref = NodeRef::<html::Div>::new();
+    let popover_ref = NodeRef::<html::Div>::new();
     let show_popover = move |_| {
         is_show_popover.set(true);
     };
@@ -157,14 +146,10 @@ pub fn ColorPicker(
                     let:display
                 >
                     <div
-                        class="thaw-color-picker-popover"
+                        class="thaw-config-provider thaw-color-picker-popover"
                         ref=popover_ref
-                        style=move || {
-                            display
-                                .get()
-                                .map(|d| d.to_string())
-                                .unwrap_or_else(|| popover_css_vars.get())
-                        }
+                        style=move || display.get()
+                        data-thaw-id=config_provider.id().clone()
                     >
 
                         <ColorPanel hue=hue.read_only() sv/>
@@ -178,8 +163,8 @@ pub fn ColorPicker(
 
 #[component]
 fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
-    let panel_ref = create_node_ref::<html::Div>();
-    let mouse = store_value(Vec::<WindowListenerHandle>::new());
+    let panel_ref = NodeRef::<html::Div>::new();
+    let mouse = StoredValue::new(Vec::<WindowListenerHandle>::new());
 
     let on_mouse_down = move |ev| {
         let cb = move |ev: ev::MouseEvent| {
@@ -251,8 +236,8 @@ fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
 
 #[component]
 fn HueSlider(hue: RwSignal<f32>) -> impl IntoView {
-    let rail_ref = create_node_ref::<html::Div>();
-    let mouse = store_value(Vec::<WindowListenerHandle>::new());
+    let rail_ref = NodeRef::<html::Div>::new();
+    let mouse = StoredValue::new(Vec::<WindowListenerHandle>::new());
 
     let on_mouse_down = move |ev| {
         let cb = move |ev: ev::MouseEvent| {
