@@ -4,9 +4,8 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AnchorTheme, BackTopTheme, CalendarTheme, DatePickerTheme,
-    InputTheme, MessageTheme, ProgressTheme, ScrollbarTheme, SelectTheme, TimePickerTheme,
-    UploadTheme,
+    AlertTheme, AnchorTheme, BackTopTheme, CalendarTheme, DatePickerTheme, MessageTheme,
+    ProgressTheme, ScrollbarTheme, SelectTheme, TimePickerTheme, UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -21,7 +20,6 @@ pub struct Theme {
     pub name: String,
     pub common: CommonTheme,
     pub color: ColorTheme,
-    pub input: InputTheme,
     pub alert: AlertTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
@@ -43,7 +41,6 @@ impl Theme {
             name: "light".into(),
             common: CommonTheme::light(),
             color: ColorTheme::light(),
-            input: InputTheme::light(),
             alert: AlertTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
@@ -64,7 +61,6 @@ impl Theme {
             name: "dark".into(),
             common: CommonTheme::dark(),
             color: ColorTheme::dark(),
-            input: InputTheme::dark(),
             alert: AlertTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),

@@ -1,0 +1,95 @@
+.thaw-textarea {
+    position: relative;
+    display: inline-flex;
+    margin: 0px;
+    padding: 0 0 var(--strokeWidthThick) 0;
+    background-color: var(--colorNeutralBackground1);
+    border-radius: var(--borderRadiusMedium);
+    border-bottom-color: var(--colorNeutralStrokeAccessible);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    box-sizing: border-box;
+}
+
+.thaw-textarea:focus-within {
+    border-bottom-color: var(--colorCompoundBrandStroke);
+    outline-width: var(--strokeWidthThick);
+    outline-color: transparent;
+    outline-style: solid;
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+}
+
+.thaw-textarea:hover {
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1Hover);
+    border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
+}
+
+.thaw-textarea:active {
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1Pressed);
+    border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
+}
+
+/* .thaw-textarea--focus,
+.thaw-textarea:hover:not(.thaw-textarea--disabled, .thaw-textarea--invalid) {
+    border-color: var(--thaw-border-color-hover);
+}
+
+.thaw-textarea--disabled,
+.thaw-textarea--disabled .thaw-textarea__textarea-el {
+    cursor: not-allowed;
+    background-color: var(--thaw-background-color-disabled);
+    color: var(--thaw-font-color-disabled);
+} */
+
+.thaw-textarea::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    left: -1px;
+    height: max(var(--strokeWidthThick), var(--borderRadiusMedium));
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    border-bottom-left-radius: var(--borderRadiusMedium);
+    box-sizing: border-box;
+    border-bottom: var(--strokeWidthThick) solid var(--colorCompoundBrandStroke);
+    transition-delay: var(--curveAccelerateMid);
+    transition-duration: var(--durationUltraFast);
+    transition-property: transform;
+    transform: scaleX(0);
+    clip-path: inset(calc(100% - var(--strokeWidthThick)) 0 0 0);
+}
+
+.thaw-textarea:focus-within::after {
+    transition-delay: var(--curveDecelerateMid);
+    transition-duration: var(--durationNormal);
+    transition-property: transform;
+    transform: scaleX(1);
+}
+
+.thaw-textarea:focus-within:active::after {
+    border-bottom-color: var(--colorCompoundBrandStrokePressed);
+}
+
+.thaw-textarea__textarea {
+    flex-grow: 1;
+    height: 100%;
+    max-height: 260px;
+    min-height: 52px;
+
+    margin: 0px;
+    padding: var(--spacingVerticalSNudge)
+        calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
+    outline-style: none;
+    background-color: transparent;
+    color: var(--colorNeutralForeground1);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    border-style: none;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.thaw-textarea__textarea-el::placeholder {
+    color: var(--thaw-placeholder-color);
+}

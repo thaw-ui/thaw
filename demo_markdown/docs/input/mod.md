@@ -7,7 +7,6 @@ view! {
     <Space vertical=true>
         <Input value/>
         <Input value variant=InputVariant::Password placeholder="Password"/>
-        <TextArea value placeholder="Textarea"/>
     </Space>
 }
 ```
@@ -45,7 +44,6 @@ let value = RwSignal::new(String::from("o"));
 view! {
     <Space vertical=true>
         <Input value disabled=true/>
-        <TextArea value disabled=true/>
     </Space>
 }
 ```
@@ -66,7 +64,6 @@ let value = create_rw_signal(String::from("o"));
 view! {
     <Space vertical=true>
         <Input value invalid=true/>
-        <TextArea value invalid=true/>
     </Space>
 }
 ```
