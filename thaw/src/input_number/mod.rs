@@ -14,6 +14,8 @@ pub fn InputNumber<T>(
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] comp_ref: ComponentRef<InputNumberRef>,
+    #[prop(optional, into)] parser: OptionalProp<Callback<String, String>>,
+    #[prop(optional, into)] formatter: OptionalProp<Callback<String, String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     #[prop(default = MaybeSignal::Static(T::min_value()), into)] min: MaybeSignal<T>,
     #[prop(default = MaybeSignal::Static(T::max_value()), into)] max: MaybeSignal<T>,
@@ -88,6 +90,8 @@ where
             invalid
             comp_ref=input_ref
             on_blur=set_within_range
+            parser
+            formatter
         >
             <InputSuffix slot>
                 <Button disabled=minus_disabled variant=ButtonVariant::Link on_click=sub>
