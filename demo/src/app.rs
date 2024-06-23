@@ -86,6 +86,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/table" view=TableMdPage/>
                 <Route path="/tag" view=TagMdPage/>
                 <Route path="/text" view=TextMdPage/>
+                <Route path="/textarea" view=TextareaMdPage/>
                 <Route path="/time-picker" view=TimePickerMdPage/>
                 <Route path="/upload" view=UploadMdPage/>
             </Route>

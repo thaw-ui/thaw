@@ -200,6 +200,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Text".into(),
                 },
                 MenuItemOption {
+                    value: "/components/textarea".into(),
+                    label: "Textarea".into(),
+                },
+                MenuItemOption {
                     value: "/components/auto-complete".into(),
                     label: "Auto Complete".into(),
                 },

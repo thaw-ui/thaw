@@ -1,9 +1,3 @@
-mod text_area;
-mod theme;
-
-pub use text_area::{TextArea, TextAreaRef};
-pub use theme::InputTheme;
-
 use leptos::*;
 use thaw_utils::{class_list, mount_style, ComponentRef, Model, OptionalProp};
 
