@@ -4,7 +4,7 @@ use crate::theme::ThemeMethod;
 pub struct DropdownTheme {
     pub background_color: String,
     pub item_color_hover: String,
-    pub font_color_disabled: String
+    pub font_color_disabled: String,
 }
 
 impl ThemeMethod for DropdownTheme {

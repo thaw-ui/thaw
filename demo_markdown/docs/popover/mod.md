@@ -146,15 +146,24 @@ view! {
 
 ### Popover Props
 
-| Name      | Type                                | Default                 | Description                   |
-| --------- | ----------------------------------- | ----------------------- | ----------------------------- |
-| class     | `OptionalProp<MaybeSignal<String>>` | `Default::default()`    | Content class of the popover. |
-| placement | `PopoverPlacement`                  | `PopoverPlacement::Top` | Popover placement.            |
-| tooltip   | `bool`                              | `false`                 | Tooltip.                      |
-| children  | `Children`                          |                         | The content inside popover.   |
+| Name         | Type                                | Default                    | Description                       |
+| -------------| ----------------------------------- | -------------------------- | --------------------------------- |
+| class        | `OptionalProp<MaybeSignal<String>>` | `Default::default()`       | Content class of the popover.     |
+| placement    | `PopoverPlacement`                  | `PopoverPlacement::Top`    | Popover placement.                |
+| trigger_type | `PopoverTriggerType`                | `PopoverTriggerType::Hover`| Action that displays the dropdown |
+| tooltip      | `bool`                              | `false`                    | Tooltip.                          |
+| children     | `Children`                          |                            | The content inside popover.       |
 
 ### Popover Slots
 
 | Name           | Default | Description                                     |
 | -------------- | ------- | ----------------------------------------------- |
 | PopoverTrigger |         | The element or component that triggers popover. |
+
+### PopoverTriger Props
+
+| Name         | Type                                | Default                      | Description                                         |
+| ------------ | ----------------------------------- | ---------------------------- | --------------------------------------------------  |
+| class        | `OptionalProp<MaybeSignal<String>>` | `Default::default()`         | Addtional classes for the popover trigger element. |
+| children     | `Children`                          |                              | The content inside popover trigger.                |
+

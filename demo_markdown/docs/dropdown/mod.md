@@ -148,25 +148,36 @@ view! {
 }
 ```
 
-### Select Props
+### Dropdown Props
 
-| Name    | Type                                | Default              | Description                               |
-| ------- | ----------------------------------- | -------------------- | ----------------------------------------- |
-| class   | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the select element. |
-| value   | `Model<Option<T>>`                  | `None`               | Checked value.                            |
-| options | `MaybeSignal<Vec<SelectOption<T>>>` | `vec![]`             | Options that can be selected.             |
+| Name         | Type                                | Default                      | Description                                 |
+| ------------ | ----------------------------------- | ---------------------------- | ------------------------------------------  |
+| class        | `OptionalProp<MaybeSignal<String>>` | `Default::default()`         | Addtional classes for the dropdown element. |
+| trigger_type | `DropdownTriggerType`               | `DropdownTriggerType::Click` | Action that displays the dropdown.          |
+| placement    | `DropdownPlacement`                 | `DropdownPlacement::Bottom`  | Dropdown placement.                         | 
+| children     | `Children`                          |                              | The content inside dropdown.                |
 
-### Multiple Select Props
+### DropdownItem Props
 
-| Name      | Type                                | Default              | Description                               |
-| --------- | ----------------------------------- | -------------------- | ----------------------------------------- |
-| class     | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the select element. |
-| value     | `Model<Vec<T>>`                     | `vec![]`             | Checked values.                           |
-| options   | `MaybeSignal<Vec<SelectOption<T>>>` | `vec![]`             | Options that can be selected.             |
-| clearable | `MaybeSignal<bool>`                 | `false`              | Allow the options to be cleared.          |
+| Name     | Type                                         | Default              | Description                                      |
+| -------- | -------------------------------------------- | -------------------- | ------------------------------------------------ |
+| class    | `OptionalProp<MaybeSignal<String>>`          | `Default::default()` | Addtional classes for the dropdown item element. |
+| label    | `MaybeSignal<String>`                        | `Default::default()` | The label of the dropdown item.                  |
+| icon     | `OptionalMaybeSignal<icondata_core::Icon>`   | `None`               | The icon of the dropdown item.                   |
+| disabled | `MaybeSignal<bool>`                          | `false`              | Whether the dropdown item is disabled.           |
+| on_click | `Option<Callback<ev::MouseEvent>>`           | `None`               | Listen for dropdown item click events.           |
 
-### Select Slots
 
-| Name        | Default | Description   |
-| ----------- | ------- | ------------- |
-| SelectLabel | `None`  | Select label. |
+### Dropdown Slots
+
+| Name            | Default | Description                                      |
+| --------------- | ------- | ------------------------------------------------ |
+| DropdownTrigger | `None`  | The element or component that triggers dropdown. |
+
+### DropdownTriger Props
+
+| Name         | Type                                | Default                      | Description                                         |
+| ------------ | ----------------------------------- | ---------------------------- | --------------------------------------------------  |
+| class        | `OptionalProp<MaybeSignal<String>>` | `Default::default()`         | Addtional classes for the dropdown trigger element. |
+| children     | `Children`                          |                              | The content inside dropdown trigger.                |
+

@@ -9,12 +9,14 @@ use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 pub use theme::DropdownTheme;
 
 use leptos::{html::Div, leptos_dom::helpers::TimeoutHandle, *};
-use thaw_utils::{add_event_listener, mount_style, OptionalProp};
+use thaw_utils::{add_event_listener, class_list, mount_style, OptionalProp};
 
 use crate::{use_theme, Theme};
 
 #[slot]
 pub struct DropdownTrigger {
+    #[prop(optional, into)]
+    class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 }
 
@@ -114,6 +116,7 @@ pub fn Dropdown(
         });
     });
     let DropdownTrigger {
+        class: trigger_class,
         children: trigger_children,
     } = dropdown_trigger;
 
@@ -122,7 +125,7 @@ pub fn Dropdown(
     view! {
         <Binder target_ref>
             <div
-                class="thaw-dropdown-trigger"
+                class=class_list!["thaw-dropdown-trigger", trigger_class.map(| c | move || c.get())]
                 ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave

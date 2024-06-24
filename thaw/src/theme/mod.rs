@@ -4,10 +4,10 @@ use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, AvatarTheme, BackTopTheme, BreadcrumbTheme,
-    ButtonTheme, CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, InputTheme,
-    MenuTheme, MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme,
+    ButtonTheme, CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, DropdownTheme,
+    InputTheme, MenuTheme, MessageTheme, PopoverTheme, ProgressTheme, ScrollbarTheme, SelectTheme,
     SkeletionTheme, SliderTheme, SpinnerTheme, SwitchTheme, TableTheme, TagTheme, TimePickerTheme,
-    TypographyTheme, UploadTheme, DropdownTheme
+    TypographyTheme, UploadTheme,
 };
 use leptos::*;
 
