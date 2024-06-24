@@ -3,36 +3,32 @@
 ```rust demo
 let value = create_rw_signal(None::<String>);
 let message = use_message();
-let facebook = move |_| {
-    message.create(
-        "Facebook".into(),
-        MessageVariant::Success,
-        Default::default(),
-    );
+
+let on_select = move |key: String| {
+    match key.as_str() {
+        "facebook" => message.create( "Facebook".into(), MessageVariant::Success, Default::default(),),
+        "twitter" =>  message.create( "Twitter".into(), MessageVariant::Warning, Default::default(),),
+        _ => ()
+    }
 };
-let twitter = move |_| {
-    message.create(
-        "Twitter".into(),
-        MessageVariant::Warning,
-        Default::default(),
-    );
-};
+
+
 view! {
     <Space>
-        <Dropdown>
+        <Dropdown on_select>
             <DropdownTrigger slot>
                 <Button>"Click"</Button>
             </DropdownTrigger>
-            <DropdownItem on_click=facebook icon=icondata::AiFacebookOutlined label="Facebook"></DropdownItem>
-            <DropdownItem on_click=twitter disabled=true icon=icondata::AiTwitterOutlined label="Twitter"></DropdownItem>
+            <DropdownItem key="facebook" icon=icondata::AiFacebookOutlined label="Facebook"></DropdownItem>
+            <DropdownItem key="twitter" disabled=true icon=icondata::AiTwitterOutlined label="Twitter"></DropdownItem>
         </Dropdown>
 
-        <Dropdown trigger_type=DropdownTriggerType::Hover>
+        <Dropdown on_select trigger_type=DropdownTriggerType::Hover>
             <DropdownTrigger slot>
                 <Button>"Hover"</Button>
             </DropdownTrigger>
-            <DropdownItem on_click=facebook icon=icondata::AiFacebookOutlined label="Facebook"></DropdownItem>
-            <DropdownItem on_click=twitter disabled=true icon=icondata::AiTwitterOutlined label="Twitter"></DropdownItem>
+            <DropdownItem key="facebook" icon=icondata::AiFacebookOutlined label="Facebook"></DropdownItem>
+            <DropdownItem key="twitter" disabled=true icon=icondata::AiTwitterOutlined label="Twitter"></DropdownItem>
         </Dropdown>
     </Space>
 }
@@ -43,13 +39,15 @@ view! {
 ```rust demo
 use leptos_meta::Style;
 
+let on_select = move |key| println!("{}", key);
+
 view! {
     <Style>
         ".demo-dropdown .thaw-button { width: 100% } .demo-dropdown .thaw-dropdown-trigger { display: block }"
     </Style>
     <Grid x_gap=8 y_gap=8 cols=3 class="demo-dropdown">
         <GridItem>
-            <Dropdown placement=DropdownPlacement::TopStart>
+            <Dropdown on_select placement=DropdownPlacement::TopStart>
                 <DropdownTrigger slot>
                     <Button>"Top Start"</Button>
                 </DropdownTrigger>
@@ -57,7 +55,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::Top>
+            <Dropdown on_select placement=DropdownPlacement::Top>
                 <DropdownTrigger slot>
                     <Button>"Top"</Button>
                 </DropdownTrigger>
@@ -65,7 +63,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::TopEnd>
+            <Dropdown on_select placement=DropdownPlacement::TopEnd>
                 <DropdownTrigger slot>
                     <Button>"Top End"</Button>
                 </DropdownTrigger>
@@ -73,7 +71,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::LeftStart>
+            <Dropdown on_select placement=DropdownPlacement::LeftStart>
                 <DropdownTrigger slot>
                     <Button>"Left Start"</Button>
                 </DropdownTrigger>
@@ -81,7 +79,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem offset=1>
-            <Dropdown placement=DropdownPlacement::RightStart>
+            <Dropdown on_select placement=DropdownPlacement::RightStart>
                 <DropdownTrigger slot>
                     <Button>"Right Start"</Button>
                 </DropdownTrigger>
@@ -89,7 +87,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::Left>
+            <Dropdown on_select placement=DropdownPlacement::Left>
                 <DropdownTrigger slot>
                     <Button>"Left"</Button>
                 </DropdownTrigger>
@@ -97,7 +95,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem offset=1>
-            <Dropdown placement=DropdownPlacement::Right>
+            <Dropdown on_select placement=DropdownPlacement::Right>
                 <DropdownTrigger slot>
                     <Button>"Right"</Button>
                 </DropdownTrigger>
@@ -105,7 +103,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::LeftEnd>
+            <Dropdown on_select placement=DropdownPlacement::LeftEnd>
                 <DropdownTrigger slot>
                     <Button>"Left End"</Button>
                 </DropdownTrigger>
@@ -113,7 +111,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem offset=1>
-            <Dropdown placement=DropdownPlacement::RightEnd>
+            <Dropdown on_select placement=DropdownPlacement::RightEnd>
                 <DropdownTrigger slot>
                     <Button>"Right End"</Button>
                 </DropdownTrigger>
@@ -121,7 +119,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::BottomStart>
+            <Dropdown on_select placement=DropdownPlacement::BottomStart>
                 <DropdownTrigger slot>
                     <Button>"Bottom Start"</Button>
                 </DropdownTrigger>
@@ -129,7 +127,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::Bottom>
+            <Dropdown on_select placement=DropdownPlacement::Bottom>
                 <DropdownTrigger slot>
                     <Button>"Bottom"</Button>
                 </DropdownTrigger>
@@ -137,7 +135,7 @@ view! {
             </Dropdown>
         </GridItem>
         <GridItem>
-            <Dropdown placement=DropdownPlacement::BottomEnd>
+            <Dropdown on_select placement=DropdownPlacement::BottomEnd>
                 <DropdownTrigger slot>
                     <Button>"Bottom End"</Button>
                 </DropdownTrigger>

@@ -9,7 +9,9 @@ use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 pub use theme::DropdownTheme;
 
 use leptos::{html::Div, leptos_dom::helpers::TimeoutHandle, *};
-use thaw_utils::{add_event_listener, class_list, mount_style, OptionalProp};
+use thaw_utils::{
+    add_event_listener, call_on_click_outside, class_list, mount_style, OptionalProp,
+};
 
 use crate::{use_theme, Theme};
 
@@ -23,32 +25,8 @@ pub struct DropdownTrigger {
 #[derive(Copy, Clone)]
 struct HasIcon(RwSignal<bool>);
 
-fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
-    #[cfg(any(feature = "csr", feature = "hydrate"))]
-    {
-        let handle = window_event_listener(ev::click, move |ev| {
-            use leptos::wasm_bindgen::__rt::IntoJsResult;
-            let el = ev.target();
-            let mut el: Option<web_sys::Element> =
-                el.into_js_result().map_or(None, |el| Some(el.into()));
-            let body = document().body().unwrap();
-            while let Some(current_el) = el {
-                if current_el == *body {
-                    break;
-                };
-                let Some(dropdown_el) = element.get_untracked() else {
-                    break;
-                };
-                if current_el == ***dropdown_el {
-                    return;
-                }
-                el = current_el.parent_element();
-            }
-            on_click.call(());
-        });
-        on_cleanup(move || handle.remove());
-    }
-}
+#[derive(Copy, Clone)]
+struct OnSelect(Callback<String>);
 
 #[component]
 pub fn Dropdown(
@@ -56,6 +34,7 @@ pub fn Dropdown(
     dropdown_trigger: DropdownTrigger,
     #[prop(optional)] trigger_type: DropdownTriggerType,
     #[prop(optional)] placement: DropdownPlacement,
+    #[prop(into)] on_select: Callback<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("dropdown", include_str!("./dropdown.css"));
@@ -121,6 +100,10 @@ pub fn Dropdown(
     } = dropdown_trigger;
 
     provide_context(HasIcon(create_rw_signal(false)));
+    provide_context(OnSelect(Callback::<String>::new(move |key| {
+        is_show_dropdown.set(false);
+        on_select.call(key);
+    })));
 
     view! {
         <Binder target_ref>

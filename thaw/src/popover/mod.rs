@@ -6,7 +6,9 @@ use crate::{use_theme, Theme};
 use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{add_event_listener, class_list, mount_style, OptionalProp};
+use thaw_utils::{
+    add_event_listener, call_on_click_outside, class_list, mount_style, OptionalProp,
+};
 
 #[slot]
 pub struct PopoverTrigger {
@@ -77,33 +79,11 @@ pub fn Popover(
             .ok();
         });
     };
-    #[cfg(any(feature = "csr", feature = "hydrate"))]
-    {
-        let handle = window_event_listener(ev::click, move |ev| {
-            use leptos::wasm_bindgen::__rt::IntoJsResult;
-            if trigger_type != PopoverTriggerType::Click {
-                return;
-            }
-            let el = ev.target();
-            let mut el: Option<web_sys::Element> =
-                el.into_js_result().map_or(None, |el| Some(el.into()));
-            let body = document().body().unwrap();
-            while let Some(current_el) = el {
-                if current_el == *body {
-                    break;
-                };
-                let Some(popover_el) = popover_ref.get_untracked() else {
-                    break;
-                };
-                if current_el == ***popover_el {
-                    return;
-                }
-                el = current_el.parent_element();
-            }
-            is_show_popover.set(false);
-        });
-        on_cleanup(move || handle.remove());
-    }
+
+    call_on_click_outside(
+        popover_ref,
+        Callback::new(move |_| is_show_popover.set(false)),
+    );
 
     target_ref.on_load(move |target_el| {
         add_event_listener(target_el.into_any(), ev::click, move |event| {
