@@ -1,10 +1,6 @@
-mod theme;
-
-pub use theme::TimePickerTheme;
-
 use crate::{
-    use_theme, Button, ButtonSize, ButtonAppearance, Icon, Input, InputSuffix, Scrollbar,
-    ScrollbarRef, SignalWatch, Theme,
+    Button, ButtonSize, ConfigInjection, Icon, Input, InputSuffix, Scrollbar, ScrollbarRef,
+    SignalWatch,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::*;
@@ -18,11 +14,11 @@ pub fn TimePicker(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
-    let time_picker_ref = create_node_ref::<html::Div>();
+    let time_picker_ref = NodeRef::<html::Div>::new();
     let panel_ref = ComponentRef::<PanelRef>::default();
-    let is_show_panel = create_rw_signal(false);
+    let is_show_panel = RwSignal::new(false);
     let show_time_format = "%H:%M:%S";
-    let show_time_text = create_rw_signal(String::new());
+    let show_time_text = RwSignal::new(String::new());
     let update_show_time_text = move || {
         value.with_untracked(move |time| {
             let text = time.as_ref().map_or(String::new(), |time| {
@@ -32,7 +28,7 @@ pub fn TimePicker(
         });
     };
     update_show_time_text();
-    let panel_selected_time = create_rw_signal(None::<NaiveTime>);
+    let panel_selected_time = RwSignal::new(None::<NaiveTime>);
     _ = panel_selected_time.watch(move |time| {
         let text = time.as_ref().map_or(String::new(), |time| {
             time.format(show_time_format).to_string()
@@ -102,29 +98,7 @@ fn Panel(
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-item-font-color: {};",
-                theme.common.color_primary
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.time_picker.panel_background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-background-color-hover: {};",
-                theme.time_picker.panel_time_item_background_color_hover
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-border-color: {};",
-                theme.time_picker.panel_border_color
-            ));
-        });
-        css_vars
-    });
+    let config_provider = ConfigInjection::use_();
     let now = Callback::new(move |_| {
         close_panel.call(Some(now_time()));
     });
@@ -132,7 +106,7 @@ fn Panel(
         close_panel.call(selected_time.get_untracked());
     });
 
-    let panel_ref = create_node_ref::<html::Div>();
+    let panel_ref = NodeRef::<html::Div>::new();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
@@ -183,8 +157,9 @@ fn Panel(
             let:display
         >
             <div
-                class="thaw-time-picker-panel"
-                style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                class="thaw-config-provider thaw-time-picker-panel"
+                data-thaw-id=config_provider.id().clone()
+                style=move || display.get()
                 ref=panel_ref
             >
                 <div class="thaw-time-picker-panel__time">

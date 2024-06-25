@@ -1,4 +1,4 @@
-.thaw-date-picker-panel {
+div.thaw-date-picker-panel {
     width: 300px;
     background-color: var(--colorNeutralBackground1);
     border-radius: var(--borderRadiusMedium);

@@ -208,6 +208,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Textarea".into(),
                 },
                 MenuItemOption {
+                    value: "/components/time-picker".into(),
+                    label: "Time Picker".into(),
+                },
+                MenuItemOption {
                     value: "/components/auto-complete".into(),
                     label: "Auto Complete".into(),
                 },
@@ -238,10 +242,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/switch".into(),
                     label: "Switch".into(),
-                },
-                MenuItemOption {
-                    value: "/components/time-picker".into(),
-                    label: "Time Picker".into(),
                 },
                 MenuItemOption {
                     value: "/components/upload".into(),
