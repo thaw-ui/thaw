@@ -1,8 +1,4 @@
 mod panel;
-mod theme;
-
-pub use theme::DatePickerTheme;
-
 use crate::{Icon, Input, InputSuffix, SignalWatch};
 use chrono::NaiveDate;
 use leptos::*;

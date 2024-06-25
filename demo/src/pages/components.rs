@@ -164,6 +164,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Config Provider".into(),
                 },
                 MenuItemOption {
+                    value: "/components/date-picker".into(),
+                    label: "Date Picker".into(),
+                },
+                MenuItemOption {
                     value: "/components/divider".into(),
                     label: "Divider".into(),
                 },
@@ -214,10 +218,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/checkbox".into(),
                     label: "Checkbox".into(),
-                },
-                MenuItemOption {
-                    value: "/components/date-picker".into(),
-                    label: "Date Picker".into(),
                 },
                 MenuItemOption {
                     value: "/components/input".into(),

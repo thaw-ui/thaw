@@ -2,7 +2,7 @@ mod date_panel;
 mod month_panel;
 mod year_panel;
 
-use crate::{use_theme, Theme};
+use crate::ConfigInjection;
 use chrono::NaiveDate;
 use date_panel::DatePanel;
 use leptos::*;
@@ -19,33 +19,33 @@ pub fn Panel(
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color-today: {};",
-                theme.common.color_primary
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-font-color-other-month: {};",
-                theme.date_picker.panel_other_month_font_color,
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.date_picker.panel_background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-background-color-hover: {};",
-                theme.date_picker.panel_date_item_background_color_hover
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-border-color: {};",
-                theme.date_picker.panel_border_color
-            ));
-        });
-        css_vars
-    });
+    let config_provider = ConfigInjection::use_();
+    // let css_vars = create_memo(move |_| {
+    //     let mut css_vars = String::new();
+    //     theme.with(|theme| {
+    //         css_vars.push_str(&format!(
+    //             "--thaw-background-color-today: {};",
+    //             theme.common.color_primary
+    //         ));
+    //         css_vars.push_str(&format!(
+    //             "--thaw-font-color-other-month: {};",
+    //             theme.date_picker.panel_other_month_font_color,
+    //         ));
+    //         css_vars.push_str(&format!(
+    //             "--thaw-background-color: {};",
+    //             theme.date_picker.panel_background_color
+    //         ));
+    //         css_vars.push_str(&format!(
+    //             "--thaw-item-background-color-hover: {};",
+    //             theme.date_picker.panel_date_item_background_color_hover
+    //         ));
+    //         css_vars.push_str(&format!(
+    //             "--thaw-item-border-color: {};",
+    //             theme.date_picker.panel_border_color
+    //         ));
+    //     });
+    //     css_vars
+    // });
 
     let panel_ref = create_node_ref::<html::Div>();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
@@ -98,8 +98,9 @@ pub fn Panel(
             let:display
         >
             <div
-                class="thaw-date-picker-panel"
-                style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
+                class="thaw-config-provider thaw-date-picker-panel"
+                data-thaw-id=config_provider.id().clone()
+                style=move || display.get()
                 ref=panel_ref
             >
 
