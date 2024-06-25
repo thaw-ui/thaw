@@ -20,34 +20,7 @@ pub fn Panel(
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let config_provider = ConfigInjection::use_();
-    // let css_vars = create_memo(move |_| {
-    //     let mut css_vars = String::new();
-    //     theme.with(|theme| {
-    //         css_vars.push_str(&format!(
-    //             "--thaw-background-color-today: {};",
-    //             theme.common.color_primary
-    //         ));
-    //         css_vars.push_str(&format!(
-    //             "--thaw-font-color-other-month: {};",
-    //             theme.date_picker.panel_other_month_font_color,
-    //         ));
-    //         css_vars.push_str(&format!(
-    //             "--thaw-background-color: {};",
-    //             theme.date_picker.panel_background_color
-    //         ));
-    //         css_vars.push_str(&format!(
-    //             "--thaw-item-background-color-hover: {};",
-    //             theme.date_picker.panel_date_item_background_color_hover
-    //         ));
-    //         css_vars.push_str(&format!(
-    //             "--thaw-item-border-color: {};",
-    //             theme.date_picker.panel_border_color
-    //         ));
-    //     });
-    //     css_vars
-    // });
-
-    let panel_ref = create_node_ref::<html::Div>();
+    let panel_ref = NodeRef::<html::Div>::new();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
@@ -82,8 +55,8 @@ pub fn Panel(
         _ = date_picker_ref;
         _ = panel_ref;
     }
-    let panel_variant = create_rw_signal(PanelVariant::Date);
-    let show_date = create_rw_signal(selected_date.get_untracked().unwrap_or(now_date()));
+    let panel_variant = RwSignal::new(PanelVariant::Date);
+    let show_date = RwSignal::new(selected_date.get_untracked().unwrap_or(now_date()));
     comp_ref.load(PanelRef {
         show_date,
         variant: panel_variant,
