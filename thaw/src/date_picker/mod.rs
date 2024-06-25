@@ -13,9 +13,9 @@ pub fn DatePicker(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));
-    let date_picker_ref = create_node_ref::<html::Div>();
-    let is_show_panel = create_rw_signal(false);
-    let show_date_text = create_rw_signal(String::new());
+    let date_picker_ref = NodeRef::<html::Div>::new();
+    let is_show_panel = RwSignal::new(false);
+    let show_date_text = RwSignal::new(String::new());
     let show_date_format = "%Y-%m-%d";
     let update_show_date_text = move || {
         value.with_untracked(move |date| {
@@ -27,7 +27,7 @@ pub fn DatePicker(
     };
     update_show_date_text();
     let panel_ref = ComponentRef::<PanelRef>::default();
-    let panel_selected_date = create_rw_signal(None::<NaiveDate>);
+    let panel_selected_date = RwSignal::new(None::<NaiveDate>);
     _ = panel_selected_date.watch(move |date| {
         let text = date.as_ref().map_or(String::new(), |date| {
             date.format(show_date_format).to_string()

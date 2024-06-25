@@ -1,5 +1,5 @@
 use super::PanelVariant;
-use crate::{Button, ButtonSize, ButtonAppearance, CalendarItemDate};
+use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate};
 use chrono::{Datelike, Days, Month, Months, NaiveDate};
 use leptos::*;
 use std::ops::Deref;
@@ -12,7 +12,7 @@ pub fn DatePanel(
     close_panel: Callback<Option<NaiveDate>>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
-    let dates = create_memo(move |_| {
+    let dates = Memo::new(move |_| {
         let show_date = show_date.get();
         let show_date_month = show_date.month();
         let mut dates = vec![];
@@ -167,7 +167,7 @@ pub fn DatePanel(
 
 #[component]
 fn DatePanelItem(value: RwSignal<Option<NaiveDate>>, date: CalendarItemDate) -> impl IntoView {
-    let is_selected = create_memo({
+    let is_selected = Memo::new({
         let date = date.clone();
         move |_| value.with(|value_date| value_date.as_ref() == Some(date.deref()))
     });
