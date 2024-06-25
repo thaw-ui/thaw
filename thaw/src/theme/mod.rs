@@ -4,8 +4,8 @@ mod common;
 use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
-    AlertTheme, AnchorTheme, BackTopTheme, CalendarTheme, MessageTheme,
-    ProgressTheme, ScrollbarTheme, SelectTheme, TimePickerTheme, UploadTheme,
+    AlertTheme, AnchorTheme, BackTopTheme, CalendarTheme, MessageTheme, ProgressTheme,
+    ScrollbarTheme, SelectTheme, UploadTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -28,7 +28,6 @@ pub struct Theme {
     pub tabbar: TabbarTheme,
     pub progress: ProgressTheme,
     pub calendar: CalendarTheme,
-    pub time_picker: TimePickerTheme,
     pub scrollbar: ScrollbarTheme,
     pub back_top: BackTopTheme,
     pub anchor: AnchorTheme,
@@ -48,7 +47,6 @@ impl Theme {
             tabbar: TabbarTheme::light(),
             progress: ProgressTheme::light(),
             calendar: CalendarTheme::light(),
-            time_picker: TimePickerTheme::light(),
             scrollbar: ScrollbarTheme::light(),
             back_top: BackTopTheme::light(),
             anchor: AnchorTheme::light(),
@@ -67,7 +65,6 @@ impl Theme {
             tabbar: TabbarTheme::dark(),
             progress: ProgressTheme::dark(),
             calendar: CalendarTheme::dark(),
-            time_picker: TimePickerTheme::dark(),
             scrollbar: ScrollbarTheme::dark(),
             back_top: BackTopTheme::dark(),
             anchor: AnchorTheme::dark(),
