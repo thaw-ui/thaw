@@ -8,7 +8,7 @@ use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 pub use theme::DropdownTheme;
 
-use leptos::{html::Div, leptos_dom::helpers::TimeoutHandle, *};
+use leptos::{leptos_dom::helpers::TimeoutHandle, *};
 use thaw_utils::{
     add_event_listener, call_on_click_outside, class_list, mount_style, OptionalProp,
 };
@@ -84,12 +84,18 @@ pub fn Dropdown(
         });
     };
 
-    call_on_click_outside(
-        dropdown_ref,
-        Callback::new(move |_| is_show_dropdown.set(false)),
-    );
+    if trigger_type != DropdownTriggerType::Hover {
+        call_on_click_outside(
+            dropdown_ref,
+            Callback::new(move |_| is_show_dropdown.set(false)),
+        );
+    }
+
     target_ref.on_load(move |target_el| {
         add_event_listener(target_el.into_any(), ev::click, move |event| {
+            if trigger_type != DropdownTriggerType::Click {
+                return;
+            }
             event.stop_propagation();
             is_show_dropdown.update(|show| *show = !*show);
         });

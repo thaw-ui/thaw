@@ -1,7 +1,6 @@
 # Dropdown 
 
 ```rust demo
-let value = create_rw_signal(None::<String>);
 let message = use_message();
 
 let on_select = move |key: String| {
@@ -15,20 +14,21 @@ let on_select = move |key: String| {
 
 view! {
     <Space>
-        <Dropdown on_select>
-            <DropdownTrigger slot>
-                <Button>"Click"</Button>
-            </DropdownTrigger>
-            <DropdownItem key="facebook" icon=icondata::AiFacebookOutlined label="Facebook"></DropdownItem>
-            <DropdownItem key="twitter" disabled=true icon=icondata::AiTwitterOutlined label="Twitter"></DropdownItem>
-        </Dropdown>
-
         <Dropdown on_select trigger_type=DropdownTriggerType::Hover>
             <DropdownTrigger slot>
                 <Button>"Hover"</Button>
             </DropdownTrigger>
             <DropdownItem key="facebook" icon=icondata::AiFacebookOutlined label="Facebook"></DropdownItem>
             <DropdownItem key="twitter" disabled=true icon=icondata::AiTwitterOutlined label="Twitter"></DropdownItem>
+        </Dropdown>
+
+        <Dropdown on_select>
+            <DropdownTrigger slot>
+                <Button>"Click"</Button>
+            </DropdownTrigger>
+            <DropdownItem key="facebook" icon=icondata::AiFacebookOutlined label="Facebook"></DropdownItem>
+            <DropdownItem key="twitter" icon=icondata::AiTwitterOutlined label="Twitter"></DropdownItem>
+            <DropdownItem key="no_icon" disabled=true label="Mastodon"></DropdownItem>
         </Dropdown>
     </Space>
 }
@@ -149,8 +149,9 @@ view! {
 ### Dropdown Props
 
 | Name         | Type                                | Default                      | Description                                 |
-| ------------ | ----------------------------------- | ---------------------------- | ------------------------------------------  |
+| ------------ | ----------------------------------- | ---------------------------- | ------------------------------------------- |
 | class        | `OptionalProp<MaybeSignal<String>>` | `Default::default()`         | Addtional classes for the dropdown element. |
+| on_select    | `Callback<String>`                  |                              | Called when item is selected.               |
 | trigger_type | `DropdownTriggerType`               | `DropdownTriggerType::Click` | Action that displays the dropdown.          |
 | placement    | `DropdownPlacement`                 | `DropdownPlacement::Bottom`  | Dropdown placement.                         | 
 | children     | `Children`                          |                              | The content inside dropdown.                |
@@ -160,10 +161,10 @@ view! {
 | Name     | Type                                         | Default              | Description                                      |
 | -------- | -------------------------------------------- | -------------------- | ------------------------------------------------ |
 | class    | `OptionalProp<MaybeSignal<String>>`          | `Default::default()` | Addtional classes for the dropdown item element. |
+| key      | `MaybeSignal<String>`                        | `Default::default()` | The key of the dropdown item.                    |
 | label    | `MaybeSignal<String>`                        | `Default::default()` | The label of the dropdown item.                  |
 | icon     | `OptionalMaybeSignal<icondata_core::Icon>`   | `None`               | The icon of the dropdown item.                   |
 | disabled | `MaybeSignal<bool>`                          | `false`              | Whether the dropdown item is disabled.           |
-| on_click | `Option<Callback<ev::MouseEvent>>`           | `None`               | Listen for dropdown item click events.           |
 
 
 ### Dropdown Slots

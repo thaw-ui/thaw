@@ -13,10 +13,10 @@ pub fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
                 if current_el == *body {
                     break;
                 };
-                let Some(dropdown_el) = element.get_untracked() else {
+                let Some(displayed_el) = element.get_untracked() else {
                     break;
                 };
-                if current_el == ***dropdown_el {
+                if current_el == ***displayed_el {
                     return;
                 }
                 el = current_el.parent_element();

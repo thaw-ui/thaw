@@ -80,11 +80,12 @@ pub fn Popover(
         });
     };
 
-    call_on_click_outside(
-        popover_ref,
-        Callback::new(move |_| is_show_popover.set(false)),
-    );
-
+    if trigger_type != PopoverTriggerType::Hover {
+        call_on_click_outside(
+            popover_ref,
+            Callback::new(move |_| is_show_popover.set(false)),
+        );
+    }
     target_ref.on_load(move |target_el| {
         add_event_listener(target_el.into_any(), ev::click, move |event| {
             if trigger_type != PopoverTriggerType::Click {

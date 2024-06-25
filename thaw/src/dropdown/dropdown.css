@@ -7,9 +7,6 @@
     transform-origin: inherit;
 }
 
-.thaw-dropdown-trigger {
-}
-
 [data-thaw-placement="top-start"] > .thaw-dropdown,
 [data-thaw-placement="top-end"] > .thaw-dropdown,
 [data-thaw-placement="top"] > .thaw-dropdown {
