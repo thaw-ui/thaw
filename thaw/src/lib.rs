@@ -23,7 +23,6 @@ mod input;
 mod layout;
 mod loading_bar;
 mod message;
-pub mod mobile;
 mod modal;
 mod nav;
 mod popover;

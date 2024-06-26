@@ -309,22 +309,22 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 },
             ],
         },
-        MenuGroupOption {
-            label: "Mobile Components".into(),
-            children: vec![
-                MenuItemOption {
-                    value: "/components/nav-bar".into(),
-                    label: "Nav Bar".into(),
-                },
-                MenuItemOption {
-                    value: "/components/tabbar".into(),
-                    label: "Tabbar".into(),
-                },
-                MenuItemOption {
-                    value: "/components/toast".into(),
-                    label: "Toast".into(),
-                },
-            ],
-        },
+        // MenuGroupOption {
+        //     label: "Mobile Components".into(),
+        //     children: vec![
+        //         MenuItemOption {
+        //             value: "/components/nav-bar".into(),
+        //             label: "Nav Bar".into(),
+        //         },
+        //         MenuItemOption {
+        //             value: "/components/tabbar".into(),
+        //             label: "Tabbar".into(),
+        //         },
+        //         MenuItemOption {
+        //             value: "/components/toast".into(),
+        //             label: "Toast".into(),
+        //         },
+        //     ],
+        // },
     ]
 }
