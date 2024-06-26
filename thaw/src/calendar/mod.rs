@@ -1,8 +1,4 @@
-mod theme;
-
-pub use theme::CalendarTheme;
-
-use crate::{use_theme, Button, ButtonGroup, Theme};
+use crate::{Button, ButtonGroup};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::*;
 use std::ops::Deref;
@@ -14,31 +10,8 @@ pub fn Calendar(
     #[prop(optional, into)] value: Model<Option<NaiveDate>>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color-today: {};",
-                theme.common.color_primary
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-font-color-other-month: {};",
-                theme.calendar.other_month_font_color,
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-border-color: {};",
-                theme.calendar.border_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-hover: {};",
-                theme.calendar.background_color_hover
-            ));
-        });
-        css_vars
-    });
-    let show_date = create_rw_signal(value.get_untracked().unwrap_or(now_date()));
-    create_effect(move |_| {
+    let show_date = RwSignal::new(value.get_untracked().unwrap_or(now_date()));
+    Effect::new(move |_| {
         if let Some(selected_date) = value.get() {
             let show_date_data = show_date.get_untracked();
             if selected_date.year() != show_date_data.year()
@@ -49,7 +22,7 @@ pub fn Calendar(
         }
     });
 
-    let dates = create_memo(move |_| {
+    let dates = Memo::new(move |_| {
         let show_date = show_date.get();
         let show_date_month = show_date.month();
         let mut dates = vec![];
@@ -115,7 +88,6 @@ pub fn Calendar(
     view! {
         <div
             class=class_list!["thaw-calendar", class.map(| c | move || c.get())]
-            style=move || css_vars.get()
         >
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">
@@ -132,21 +104,19 @@ pub fn Calendar(
                     }}
 
                 </span>
-                <span>
-                    <ButtonGroup>
-                        <Button
-                            icon=icondata_ai::AiLeftOutlined
-                            on_click=previous_month
-                        />
-                        <Button on_click=today>
-                            "Today"
-                        </Button>
-                        <Button
-                            icon=icondata_ai::AiRightOutlined
-                            on_click=next_month
-                        />
-                    </ButtonGroup>
-                </span>
+                <ButtonGroup>
+                    <Button
+                        icon=icondata_ai::AiLeftOutlined
+                        on_click=previous_month
+                    />
+                    <Button on_click=today>
+                        "Today"
+                    </Button>
+                    <Button
+                        icon=icondata_ai::AiRightOutlined
+                        on_click=next_month
+                    />
+                </ButtonGroup>
             </div>
             <div class="thaw-calendar__dates">
 
@@ -172,7 +142,7 @@ fn CalendarItem(
     index: usize,
     date: CalendarItemDate,
 ) -> impl IntoView {
-    let is_selected = create_memo({
+    let is_selected = Memo::new({
         let date = date.clone();
         move |_| value.with(|value_date| value_date.as_ref() == Some(date.deref()))
     });

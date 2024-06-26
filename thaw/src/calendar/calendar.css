@@ -23,7 +23,8 @@
     grid-auto-rows: 1fr;
     border-top: 1px solid;
     border-left: 1px solid;
-    border-color: var(--thaw-border-color);
+    border-color: var(--colorNeutralStroke2);
+    border-radius: var(--borderRadiusMedium);
 }
 
 .thaw-calendar-item {
@@ -31,16 +32,16 @@
     padding: 8px 12px;
     border-right: 1px solid;
     border-bottom: 1px solid;
-    border-color: var(--thaw-border-color);
+    border-color: var(--colorNeutralStroke2);
     cursor: pointer;
 }
 
 .thaw-calendar-item:hover {
-    background-color: var(--thaw-background-color-hover);
+    background-color: var(--colorNeutralBackground1Hover);
 }
 
 .thaw-calendar-item--other-month {
-    color: var(--thaw-font-color-other-month);
+    color: var(--colorNeutralForegroundDisabled);
 }
 
 .thaw-calendar-item__header {
@@ -53,7 +54,7 @@
     justify-content: center;
     align-items: center;
     color: white;
-    background-color: var(--thaw-background-color-today);
+    background-color: var(--colorBrandBackground);
     border-radius: 50%;
     margin-left: -0.4em;
     margin-top: -0.3em;
@@ -66,6 +67,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--thaw-background-color-today);
+    background-color: var(--colorBrandBackground);
     height: 3px;
 }
