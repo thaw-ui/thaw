@@ -5,7 +5,7 @@ use self::common::CommonTheme;
 use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, BackTopTheme, CalendarTheme, MessageTheme, ProgressTheme,
-    ScrollbarTheme, SelectTheme, UploadTheme,
+    ScrollbarTheme, SelectTheme,
 };
 pub use color::ColorTheme;
 use leptos::*;
@@ -23,7 +23,6 @@ pub struct Theme {
     pub alert: AlertTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
-    pub upload: UploadTheme,
     pub nav_bar: NavBarTheme,
     pub tabbar: TabbarTheme,
     pub progress: ProgressTheme,
@@ -42,7 +41,6 @@ impl Theme {
             alert: AlertTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
-            upload: UploadTheme::light(),
             nav_bar: NavBarTheme::light(),
             tabbar: TabbarTheme::light(),
             progress: ProgressTheme::light(),
@@ -60,7 +58,6 @@ impl Theme {
             alert: AlertTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
-            upload: UploadTheme::dark(),
             nav_bar: NavBarTheme::dark(),
             tabbar: TabbarTheme::dark(),
             progress: ProgressTheme::dark(),
