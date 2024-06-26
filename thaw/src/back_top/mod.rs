@@ -1,12 +1,9 @@
-mod theme;
-
-pub use theme::BackTopTheme;
-
-use crate::{use_theme, Icon, Theme};
+use crate::{ConfigInjection, Icon};
 use leptos::{html::ToHtmlElement, *};
 use thaw_components::{CSSTransition, Fallback, OptionComp, Teleport};
 use thaw_utils::{
-    add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle, OptionalProp,
+    add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle,
+    OptionalProp,
 };
 
 #[component]
@@ -18,27 +15,7 @@ pub fn BackTop(
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("back-top", include_str!("./back-top.css"));
-    let theme = use_theme(Theme::light);
-    let style = Memo::new(move |_| {
-        let mut style = String::new();
-        style.push_str(&format!("right: {}px;", right.get_untracked()));
-        style.push_str(&format!("bottom: {}px;", bottom.get_untracked()));
-        theme.with(|theme| {
-            style.push_str(&format!(
-                "--thaw-icon-color-hover: {};",
-                theme.common.color_primary_hover
-            ));
-            style.push_str(&format!(
-                "--thaw-icon-color-active: {};",
-                theme.common.color_primary_active
-            ));
-            style.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.back_top.background_color
-            ));
-        });
-        style
-    });
+    let config_provider = ConfigInjection::use_();
     let placeholder_ref = NodeRef::<html::Div>::new();
     let back_top_ref = NodeRef::<html::Div>::new();
     let is_show_back_top = RwSignal::new(false);
@@ -105,10 +82,11 @@ pub fn BackTop(
                     let:display
                 >
                     <div
-                        class=class_list!["thaw-back-top", class.map(| c | move || c.get())]
+                        class=class_list!["thaw-config-provider thaw-back-top", class.map(| c | move || c.get())]
+                        data-thaw-id=config_provider.id().clone()
                         ref=back_top_ref
                         style=move || {
-                            display.get().map(|d| d.to_string()).unwrap_or_else(|| style.get())
+                            display.get().map_or_else(|| format!("right: {}px; bottom: {}px", right.get(), bottom.get()), |d| d.to_string())
                         }
                         on:click=on_click
                     >
