@@ -1,4 +1,4 @@
-.thaw-back-top {
+div.thaw-back-top {
     position: fixed;
     cursor: pointer;
     display: flex;
@@ -10,8 +10,8 @@
     border-radius: 22px;
     height: 44px;
     min-width: 44px;
-    box-shadow: 0 2px 8px 0px rgba(0, 0, 0, 0.12);
-    background-color: var(--thaw-background-color);
+    box-shadow: var(--shadow4);
+    background-color: var(--colorNeutralBackground1);
 }
 
 .thaw-back-top.fade-in-scale-up-transition-leave-active {
@@ -43,18 +43,15 @@
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.thaw-back-top:hover {
-    box-shadow: 0 2px 12px 0px #0000002e;
+.thaw-back-top:hover,
+.thaw-back-top:active {
+    box-shadow: var(--shadow16);
 }
 
 .thaw-back-top:hover > svg {
-    color: var(--thaw-icon-color-hover);
-}
-
-.thaw-back-top:active {
-    box-shadow: 0 2px 12px 0px #0000002e;
+    color: var(--colorBrandBackgroundHover);
 }
 
 .thaw-back-top:active svg {
-    color: var(--thaw-icon-color-active);
+    color: var(--colorBrandBackgroundPressed);
 }
