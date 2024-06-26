@@ -1,8 +1,3 @@
-mod theme;
-
-pub use theme::ScrollbarTheme;
-
-use crate::{use_theme, Theme};
 use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
 use thaw_utils::{class_list, mount_style, ComponentRef, OptionalProp};
 
@@ -17,23 +12,6 @@ pub fn Scrollbar(
     children: Children,
 ) -> impl IntoView {
     mount_style("scrollbar", include_str!("./scrollbar.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = Memo::new(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-scrollbar-background-color: {};",
-                theme.scrollbar.background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-scrollbar-background-color-hover: {};",
-                theme.scrollbar.background_color_hover
-            ));
-            css_vars.push_str(&format!("--thaw-scrollbar-size: {}px;", size));
-        });
-        css_vars
-    });
-
     let container_ref = NodeRef::<html::Div>::new();
     let content_ref = NodeRef::<html::Div>::new();
     let x_track_ref = NodeRef::<html::Div>::new();
@@ -281,7 +259,7 @@ pub fn Scrollbar(
         <div
             class=class_list!["thaw-scrollbar", class.map(| c | move || c.get())]
             style=move || {
-                format!("{}{}", css_vars.get(), style.as_ref().map(|s| s.get()).unwrap_or_default())
+                format!("--thaw-scrollbar-size: {}px;{}", size, style.as_ref().map(|s| s.get()).unwrap_or_default())
             }
 
             on:mouseenter=on_mouseenter
