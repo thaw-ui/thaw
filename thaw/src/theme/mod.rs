@@ -2,10 +2,7 @@ mod color;
 mod common;
 
 use self::common::CommonTheme;
-use crate::{
-    AlertTheme, AnchorTheme, CalendarTheme, MessageTheme, ProgressTheme, ScrollbarTheme,
-    SelectTheme,
-};
+use crate::{AlertTheme, AnchorTheme, MessageTheme, ProgressTheme, ScrollbarTheme, SelectTheme};
 pub use color::ColorTheme;
 use leptos::*;
 
@@ -23,7 +20,6 @@ pub struct Theme {
     pub message: MessageTheme,
     pub select: SelectTheme,
     pub progress: ProgressTheme,
-    pub calendar: CalendarTheme,
     pub scrollbar: ScrollbarTheme,
     pub anchor: AnchorTheme,
 }
@@ -37,9 +33,7 @@ impl Theme {
             alert: AlertTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
-
             progress: ProgressTheme::light(),
-            calendar: CalendarTheme::light(),
             scrollbar: ScrollbarTheme::light(),
             anchor: AnchorTheme::light(),
         }
@@ -53,7 +47,6 @@ impl Theme {
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
             progress: ProgressTheme::dark(),
-            calendar: CalendarTheme::dark(),
             scrollbar: ScrollbarTheme::dark(),
             anchor: AnchorTheme::dark(),
         }
