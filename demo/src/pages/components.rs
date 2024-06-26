@@ -140,8 +140,24 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Accordion".into(),
                 },
                 MenuItemOption {
+                    value: "/components/alert".into(),
+                    label: "Alert".into(),
+                },
+                MenuItemOption {
+                    value: "/components/anchor".into(),
+                    label: "Anchor".into(),
+                },
+                MenuItemOption {
+                    value: "/components/auto-complete".into(),
+                    label: "Auto Complete".into(),
+                },
+                MenuItemOption {
                     value: "/components/avatar".into(),
                     label: "Avatar".into(),
+                },
+                MenuItemOption {
+                    value: "/components/back-top".into(),
+                    label: "Back Top".into(),
                 },
                 MenuItemOption {
                     value: "/components/badge".into(),
@@ -156,8 +172,20 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Button".into(),
                 },
                 MenuItemOption {
+                    value: "/components/calendar".into(),
+                    label: "Calendar".into(),
+                },
+                MenuItemOption {
                     value: "/components/card".into(),
                     label: "Card".into(),
+                },
+                MenuItemOption {
+                    value: "/components/checkbox".into(),
+                    label: "Checkbox".into(),
+                },
+                MenuItemOption {
+                    value: "/components/color-picker".into(),
+                    label: "Color Picker".into(),
                 },
                 MenuItemOption {
                     value: "/components/config-provider".into(),
@@ -172,12 +200,72 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Divider".into(),
                 },
                 MenuItemOption {
+                    value: "/components/drawer".into(),
+                    label: "Drawer".into(),
+                },
+                MenuItemOption {
+                    value: "/components/grid".into(),
+                    label: "Grid".into(),
+                },
+                MenuItemOption {
                     value: "/components/icon".into(),
                     label: "Icon".into(),
                 },
                 MenuItemOption {
+                    value: "/components/image".into(),
+                    label: "Image".into(),
+                },
+                MenuItemOption {
+                    value: "/components/input".into(),
+                    label: "Input".into(),
+                },
+                MenuItemOption {
+                    value: "/components/layout".into(),
+                    label: "Layout".into(),
+                },
+                MenuItemOption {
+                    value: "/components/loading-bar".into(),
+                    label: "Loading Bar".into(),
+                },
+                MenuItemOption {
+                    value: "/components/message".into(),
+                    label: "Message".into(),
+                },
+                MenuItemOption {
+                    value: "/components/modal".into(),
+                    label: "Modal".into(),
+                },
+                MenuItemOption {
+                    value: "/components/popover".into(),
+                    label: "Popover".into(),
+                },
+                MenuItemOption {
+                    value: "/components/progress".into(),
+                    label: "Progress".into(),
+                },
+                MenuItemOption {
+                    value: "/components/radio".into(),
+                    label: "Radio".into(),
+                },
+                MenuItemOption {
+                    value: "/components/scrollbar".into(),
+                    label: "Scrollbar".into(),
+                },
+                MenuItemOption {
+                    value: "/components/select".into(),
+                    label: "Select".into(),
+                },
+                MenuItemOption {
                     value: "/components/skeleton".into(),
                     label: "Skeleton".into(),
+                },
+                MenuItemOption {
+                    value: "/components/slider".into(),
+                    label: "Slider".into(),
+                },
+                MenuItemOption {
+                    value: "/components/space".into(),
+                    label: "Space".into(),
                 },
                 MenuItemOption {
                     value: "/components/spin-button".into(),
@@ -186,6 +274,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/spinner".into(),
                     label: "Spinner".into(),
+                },
+                MenuItemOption {
+                    value: "/components/switch".into(),
+                    label: "Switch".into(),
                 },
                 MenuItemOption {
                     value: "/components/tab-list".into(),
@@ -212,100 +304,8 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Time Picker".into(),
                 },
                 MenuItemOption {
-                    value: "/components/auto-complete".into(),
-                    label: "Auto Complete".into(),
-                },
-                MenuItemOption {
-                    value: "/components/color-picker".into(),
-                    label: "Color Picker".into(),
-                },
-                MenuItemOption {
-                    value: "/components/checkbox".into(),
-                    label: "Checkbox".into(),
-                },
-                MenuItemOption {
-                    value: "/components/input".into(),
-                    label: "Input".into(),
-                },
-                MenuItemOption {
-                    value: "/components/radio".into(),
-                    label: "Radio".into(),
-                },
-                MenuItemOption {
-                    value: "/components/select".into(),
-                    label: "Select".into(),
-                },
-                MenuItemOption {
-                    value: "/components/slider".into(),
-                    label: "Slider".into(),
-                },
-                MenuItemOption {
-                    value: "/components/switch".into(),
-                    label: "Switch".into(),
-                },
-                MenuItemOption {
                     value: "/components/upload".into(),
                     label: "Upload".into(),
-                },
-                MenuItemOption {
-                    value: "/components/calendar".into(),
-                    label: "Calendar".into(),
-                },
-                MenuItemOption {
-                    value: "/components/image".into(),
-                    label: "Image".into(),
-                },
-                MenuItemOption {
-                    value: "/components/anchor".into(),
-                    label: "Anchor".into(),
-                },
-                MenuItemOption {
-                    value: "/components/back-top".into(),
-                    label: "Back Top".into(),
-                },
-                MenuItemOption {
-                    value: "/components/loading-bar".into(),
-                    label: "Loading Bar".into(),
-                },
-                MenuItemOption {
-                    value: "/components/alert".into(),
-                    label: "Alert".into(),
-                },
-                MenuItemOption {
-                    value: "/components/drawer".into(),
-                    label: "Drawer".into(),
-                },
-                MenuItemOption {
-                    value: "/components/message".into(),
-                    label: "Message".into(),
-                },
-                MenuItemOption {
-                    value: "/components/modal".into(),
-                    label: "Modal".into(),
-                },
-                MenuItemOption {
-                    value: "/components/popover".into(),
-                    label: "Popover".into(),
-                },
-                MenuItemOption {
-                    value: "/components/progress".into(),
-                    label: "Progress".into(),
-                },
-                MenuItemOption {
-                    value: "/components/layout".into(),
-                    label: "Layout".into(),
-                },
-                MenuItemOption {
-                    value: "/components/grid".into(),
-                    label: "Grid".into(),
-                },
-                MenuItemOption {
-                    value: "/components/space".into(),
-                    label: "Space".into(),
-                },
-                MenuItemOption {
-                    value: "/components/scrollbar".into(),
-                    label: "Scrollbar".into(),
                 },
             ],
         },
