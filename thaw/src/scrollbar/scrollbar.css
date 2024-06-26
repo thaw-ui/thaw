@@ -58,10 +58,18 @@
     width: 100%;
     height: 100%;
     border-radius: var(--thaw-scrollbar-size);
-    background-color: var(--thaw-scrollbar-background-color);
+    background-color: color-mix(
+        in srgb,
+        var(--colorNeutralBackgroundInverted) 32%,
+        transparent
+    );
     transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .thaw-scrollabr__thumb:hover {
-    background-color: var(--thaw-scrollbar-background-color-hover);
+    background-color: color-mix(
+        in srgb,
+        var(--colorNeutralBackgroundInverted) 42%,
+        transparent
+    );
 }
