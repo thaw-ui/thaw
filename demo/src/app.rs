@@ -43,9 +43,9 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/development/components" view=DevelopmentComponentsMdPage/>
             </Route>
             <Route path="/components" view=ComponentsPage>
-                <Route path="/tabbar" view=TabbarPage/>
-                <Route path="/nav-bar" view=NavBarPage/>
-                <Route path="/toast" view=ToastPage/>
+                // <Route path="/tabbar" view=TabbarPage/>
+                // <Route path="/nav-bar" view=NavBarPage/>
+                // <Route path="/toast" view=ToastPage/>
                 <Route path="/accordion" view=AccordionMdPage/>
                 <Route path="/alert" view=AlertMdPage/>
                 <Route path="/anchor" view=AnchorMdPage/>
@@ -90,9 +90,9 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/time-picker" view=TimePickerMdPage/>
                 <Route path="/upload" view=UploadMdPage/>
             </Route>
-            <Route path="/mobile/tabbar" view=TabbarDemoPage/>
-            <Route path="/mobile/nav-bar" view=NavBarDemoPage/>
-            <Route path="/mobile/toast" view=ToastDemoPage/>
+            // <Route path="/mobile/tabbar" view=TabbarDemoPage/>
+            // <Route path="/mobile/nav-bar" view=NavBarDemoPage/>
+            // <Route path="/mobile/toast" view=ToastDemoPage/>
         </Routes>
     }
 }

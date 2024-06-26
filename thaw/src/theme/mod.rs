@@ -3,7 +3,6 @@ mod common;
 
 use self::common::CommonTheme;
 use crate::{
-    mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, BackTopTheme, CalendarTheme, MessageTheme, ProgressTheme,
     ScrollbarTheme, SelectTheme,
 };
@@ -23,8 +22,6 @@ pub struct Theme {
     pub alert: AlertTheme,
     pub message: MessageTheme,
     pub select: SelectTheme,
-    pub nav_bar: NavBarTheme,
-    pub tabbar: TabbarTheme,
     pub progress: ProgressTheme,
     pub calendar: CalendarTheme,
     pub scrollbar: ScrollbarTheme,
@@ -41,8 +38,7 @@ impl Theme {
             alert: AlertTheme::light(),
             message: MessageTheme::light(),
             select: SelectTheme::light(),
-            nav_bar: NavBarTheme::light(),
-            tabbar: TabbarTheme::light(),
+
             progress: ProgressTheme::light(),
             calendar: CalendarTheme::light(),
             scrollbar: ScrollbarTheme::light(),
@@ -58,8 +54,6 @@ impl Theme {
             alert: AlertTheme::dark(),
             message: MessageTheme::dark(),
             select: SelectTheme::dark(),
-            nav_bar: NavBarTheme::dark(),
-            tabbar: TabbarTheme::dark(),
             progress: ProgressTheme::dark(),
             calendar: CalendarTheme::dark(),
             scrollbar: ScrollbarTheme::dark(),
