@@ -2,6 +2,7 @@ pub mod class_list;
 mod dom;
 mod event_listener;
 mod hooks;
+mod on_click_outside;
 mod optional_prop;
 mod signals;
 mod throttle;
@@ -12,6 +13,7 @@ pub use event_listener::{
     add_event_listener, add_event_listener_with_bool, EventListenerHandle, IntoEventTarget,
 };
 pub use hooks::{use_click_position, use_lock_html_scroll, use_next_frame, NextFrame};
+pub use on_click_outside::call_on_click_outside;
 pub use optional_prop::OptionalProp;
 pub use signals::{
     create_component_ref, ComponentRef, Model, OptionalMaybeSignal, SignalWatch, StoredMaybeSignal,

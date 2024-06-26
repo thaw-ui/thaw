@@ -70,7 +70,8 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "ThemeMdPage" => "../docs/theme/mod.md",
         "TimePickerMdPage" => "../docs/time_picker/mod.md",
         "TypographyMdPage" => "../docs/typography/mod.md",
-        "UploadMdPage" => "../docs/upload/mod.md"
+        "UploadMdPage" => "../docs/upload/mod.md",
+        "DropdownMdPage" => "../docs/dropdown/mod.md"
     };
 
     let mut fn_list = vec![];
