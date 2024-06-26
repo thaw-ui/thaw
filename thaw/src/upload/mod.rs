@@ -1,7 +1,5 @@
-mod theme;
 mod upload_dragger;
 
-pub use theme::UploadTheme;
 pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
