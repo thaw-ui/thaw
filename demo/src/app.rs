@@ -76,7 +76,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/progress" view=ProgressMdPage/>
                 <Route path="/radio" view=RadioMdPage/>
                 <Route path="/scrollbar" view=ScrollbarMdPage/>
-                <Route path="/select" view=SelectMdPage/>
+                // <Route path="/select" view=SelectMdPage/>
                 <Route path="/skeleton" view=SkeletonMdPage/>
                 <Route path="/slider" view=SliderMdPage/>
                 <Route path="/space" view=SpaceMdPage/>
