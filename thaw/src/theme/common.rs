@@ -46,7 +46,9 @@ pub struct CommonTheme {
     pub stroke_width_thickest: String,
 
     pub border_radius_none: String,
+    pub border_radius_small: String,
     pub border_radius_medium: String,
+    pub border_radius_large: String,
     pub border_radius_x_large: String,
     pub border_radius_circular: String,
 
@@ -80,8 +82,6 @@ pub struct CommonTheme {
     pub height_large: String,
 
     pub border_radius: String,
-    pub border_radius_small: String,
-    pub border_radius_large: String,
 }
 
 impl CommonTheme {
@@ -129,7 +129,9 @@ impl CommonTheme {
             stroke_width_thickest: "4px".into(),
 
             border_radius_none: "0".into(),
+            border_radius_small: "2px".into(),
             border_radius_medium: "4px".into(),
+            border_radius_large: "6px".into(),
             border_radius_x_large: "8px".into(),
             border_radius_circular: "10000px".into(),
 
@@ -163,8 +165,6 @@ impl CommonTheme {
             height_large: "40px".into(),
 
             border_radius: "3px".into(),
-            border_radius_small: "2px".into(),
-            border_radius_large: "8px".into(),
         }
     }
 }
