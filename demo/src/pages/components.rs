@@ -188,6 +188,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Color Picker".into(),
                 },
                 MenuItemOption {
+                    value: "/components/combobox".into(),
+                    label: "Combobox".into(),
+                },
+                MenuItemOption {
                     value: "/components/config-provider".into(),
                     label: "Config Provider".into(),
                 },
