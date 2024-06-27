@@ -4,10 +4,10 @@ use thaw::*;
 #[component]
 pub fn SwitchVersion() -> impl IntoView {
     let options = vec![
-        SelectOption::new("main", "https://thawui.vercel.app".into()),
-        SelectOption::new("0.3.0", "https://thaw-gxcwse9r5-thaw.vercel.app".into()),
-        SelectOption::new("0.2.6", "https://thaw-mzh1656cm-thaw.vercel.app".into()),
-        SelectOption::new("0.2.5", "https://thaw-8og1kv8zs-thaw.vercel.app".into()),
+        ("main", "https://thawui.vercel.app"),
+        ("0.3.0", "https://thaw-gxcwse9r5-thaw.vercel.app"),
+        ("0.2.6", "https://thaw-mzh1656cm-thaw.vercel.app"),
+        ("0.2.5", "https://thaw-8og1kv8zs-thaw.vercel.app"),
     ];
 
     cfg_if::cfg_if! {
@@ -28,6 +28,14 @@ pub fn SwitchVersion() -> impl IntoView {
     }
 
     view! {
-        <Select value=version options/>
+        <Combobox>
+            {
+                options.into_iter().map(|option| view! {
+                    <ComboboxOption key=option.1>
+                        {option.0}
+                    </ComboboxOption>
+                }).collect_view()
+            }
+        </Combobox>
     }
 }

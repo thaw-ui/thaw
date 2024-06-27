@@ -1,8 +1,13 @@
 # Message
 
-<Alert variant=AlertVariant::Warning title="Prerequisite">
-    "If you want to use message, you need to wrap the component where you call related methods inside MessageProvider and use use_message to get the API."
-</Alert>
+<MessageBar layout=MessageBarLayout::Multiline intent=MessageBarIntent::Warning>
+    <MessageBarBody>
+      <h3 style="margin: 0">"Prerequisite"</h3>
+      <p>
+        "If you want to use message, you need to wrap the component where you call related methods inside MessageProvider and use use_message to get the API."
+      </p>
+    </MessageBarBody>
+</MessageBar>
 
 ```rust demo
 let message = use_message();

@@ -52,12 +52,12 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
     let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {}",
-                theme.message.background_color
-            ))
-        });
+        // theme.with(|theme| {
+        //     css_vars.push_str(&format!(
+        //         "--thaw-background-color: {}",
+        //         theme.message.background_color
+        //     ))
+        // });
         css_vars
     });
     let style = theme.with_untracked(|theme| format!("color: {};", variant.theme_color(theme)));
