@@ -140,10 +140,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Accordion".into(),
                 },
                 MenuItemOption {
-                    value: "/components/alert".into(),
-                    label: "Alert".into(),
-                },
-                MenuItemOption {
                     value: "/components/anchor".into(),
                     label: "Anchor".into(),
                 },
@@ -231,9 +227,13 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "/components/loading-bar".into(),
                     label: "Loading Bar".into(),
                 },
+                // MenuItemOption {
+                //     value: "/components/message".into(),
+                //     label: "Message".into(),
+                // },
                 MenuItemOption {
-                    value: "/components/message".into(),
-                    label: "Message".into(),
+                    value: "/components/message-bar".into(),
+                    label: "Message Bar".into(),
                 },
                 MenuItemOption {
                     value: "/components/modal".into(),

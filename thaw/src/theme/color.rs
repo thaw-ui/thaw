@@ -88,8 +88,15 @@ pub struct ColorTheme {
     pub color_palette_dark_orange_foreground_3: String,
     pub color_palette_dark_orange_border_1: String,
 
+    pub color_status_success_background_1: String,
     pub color_status_success_foreground_1: String,
+    pub color_status_success_border_1: String,
+    pub color_status_warning_background_1: String,
+    pub color_status_warning_foreground_3: String,
+    pub color_status_warning_border_1: String,
+    pub color_status_danger_background_1: String,
     pub color_status_danger_foreground_1: String,
+    pub color_status_danger_border_1: String,
 
     pub color_subtle_background: String,
     pub color_subtle_background_hover: String,
@@ -193,8 +200,15 @@ impl ColorTheme {
             color_palette_dark_orange_foreground_3: "#da3b01".into(),
             color_palette_dark_orange_border_1: "#f4bfab".into(),
 
+            color_status_success_background_1: "#f1faf1".into(),
             color_status_success_foreground_1: "#0e700e".into(),
+            color_status_success_border_1: "#9fd89f".into(),
+            color_status_warning_background_1: "#fff9f5".into(),
+            color_status_warning_foreground_3: "#bc4b09".into(),
+            color_status_warning_border_1: "#fdcfb4".into(),
+            color_status_danger_background_1: "#fdf3f4".into(),
             color_status_danger_foreground_1: "#b10e1c".into(),
+            color_status_danger_border_1: "#eeacb2".into(),
 
             color_subtle_background: "transparent".into(),
             color_subtle_background_hover: "#f5f5f5".into(),
@@ -298,8 +312,15 @@ impl ColorTheme {
             color_palette_dark_orange_foreground_3: "#e9835e".into(),
             color_palette_dark_orange_border_1: "#da3b01".into(),
 
+            color_status_success_background_1: "#052505".into(),
             color_status_success_foreground_1: "#54b054".into(),
+            color_status_success_border_1: "#107c10".into(),
+            color_status_warning_background_1: "#4a1e04".into(),
+            color_status_warning_foreground_3: "#f98845".into(),
+            color_status_warning_border_1: "#f7630c".into(),
+            color_status_danger_background_1: "#3b0509".into(),
             color_status_danger_foreground_1: "#dc626d".into(),
+            color_status_danger_border_1: "#c50f1f".into(),
 
             color_subtle_background: "transparent".into(),
             color_subtle_background_hover: "#383838".into(),

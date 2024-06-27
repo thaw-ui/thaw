@@ -47,7 +47,6 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 // <Route path="/nav-bar" view=NavBarPage/>
                 // <Route path="/toast" view=ToastPage/>
                 <Route path="/accordion" view=AccordionMdPage/>
-                <Route path="/alert" view=AlertMdPage/>
                 <Route path="/anchor" view=AnchorMdPage/>
                 <Route path="/auto-complete" view=AutoCompleteMdPage/>
                 <Route path="/avatar" view=AvatarMdPage/>
@@ -70,7 +69,8 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/input" view=InputMdPage/>
                 <Route path="/layout" view=LayoutMdPage/>
                 <Route path="/loading-bar" view=LoadingBarMdPage/>
-                <Route path="/message" view=MessageMdPage/>
+                // <Route path="/message" view=MessageMdPage/>
+                <Route path="/message-bar" view=MessageBarMdPage/>
                 <Route path="/modal" view=ModalMdPage/>
                 <Route path="/popover" view=PopoverMdPage/>
                 <Route path="/progress" view=ProgressMdPage/>
@@ -118,9 +118,9 @@ fn TheProvider(children: Children) -> impl IntoView {
     view! {
         <ConfigProvider theme>
             <ThemeProvider theme>
-                <MessageProvider>
+                // <MessageProvider>
                     <LoadingBarProvider>{children()}</LoadingBarProvider>
-                </MessageProvider>
+                // </MessageProvider>
             </ThemeProvider>
         </ConfigProvider>
     }

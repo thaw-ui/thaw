@@ -2,7 +2,7 @@ mod color;
 mod common;
 
 use self::common::CommonTheme;
-use crate::{AlertTheme, AnchorTheme, MessageTheme, ProgressTheme};
+use crate::{AnchorTheme, ProgressTheme};
 pub use color::ColorTheme;
 use leptos::*;
 
@@ -16,8 +16,6 @@ pub struct Theme {
     pub name: String,
     pub common: CommonTheme,
     pub color: ColorTheme,
-    pub alert: AlertTheme,
-    pub message: MessageTheme,
     pub progress: ProgressTheme,
     pub anchor: AnchorTheme,
 }
@@ -28,8 +26,6 @@ impl Theme {
             name: "light".into(),
             common: CommonTheme::light(),
             color: ColorTheme::light(),
-            alert: AlertTheme::light(),
-            message: MessageTheme::light(),
             progress: ProgressTheme::light(),
             anchor: AnchorTheme::light(),
         }
@@ -39,8 +35,6 @@ impl Theme {
             name: "dark".into(),
             common: CommonTheme::dark(),
             color: ColorTheme::dark(),
-            alert: AlertTheme::dark(),
-            message: MessageTheme::dark(),
             progress: ProgressTheme::dark(),
             anchor: AnchorTheme::dark(),
         }
