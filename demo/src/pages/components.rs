@@ -255,10 +255,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "/components/scrollbar".into(),
                     label: "Scrollbar".into(),
                 },
-                MenuItemOption {
-                    value: "/components/select".into(),
-                    label: "Select".into(),
-                },
+                // MenuItemOption {
+                //     value: "/components/select".into(),
+                //     label: "Select".into(),
+                // },
                 MenuItemOption {
                     value: "/components/skeleton".into(),
                     label: "Skeleton".into(),
