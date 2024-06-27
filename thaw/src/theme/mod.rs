@@ -2,7 +2,7 @@ mod color;
 mod common;
 
 use self::common::CommonTheme;
-use crate::{AnchorTheme, ProgressTheme};
+use crate::ProgressTheme;
 pub use color::ColorTheme;
 use leptos::*;
 
@@ -17,7 +17,6 @@ pub struct Theme {
     pub common: CommonTheme,
     pub color: ColorTheme,
     pub progress: ProgressTheme,
-    pub anchor: AnchorTheme,
 }
 
 impl Theme {
@@ -27,7 +26,6 @@ impl Theme {
             common: CommonTheme::light(),
             color: ColorTheme::light(),
             progress: ProgressTheme::light(),
-            anchor: AnchorTheme::light(),
         }
     }
     pub fn dark() -> Self {
@@ -36,7 +34,6 @@ impl Theme {
             common: CommonTheme::dark(),
             color: ColorTheme::dark(),
             progress: ProgressTheme::dark(),
-            anchor: AnchorTheme::dark(),
         }
     }
 }
