@@ -60,9 +60,8 @@ pub fn Input(
     mount_style("input", include_str!("./input.css"));
 
     let value_trigger = create_trigger();
-    let parser_clone = parser.clone();
     let on_input = move |ev| {
-        if parser_clone.is_none() {
+        if parser.is_none() {
             let input_value = event_target_value(&ev);
             if let Some(allow_value) = allow_value.as_ref() {
                 if !allow_value.call(input_value.clone()) {

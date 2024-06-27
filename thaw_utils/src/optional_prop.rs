@@ -96,6 +96,8 @@ impl<T> From<Option<T>> for OptionalProp<T> {
     }
 }
 
+impl<T: Copy> Copy for OptionalProp<T> {}
+
 #[cfg(test)]
 mod test {
     use super::OptionalProp;
