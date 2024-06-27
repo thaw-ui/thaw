@@ -78,6 +78,7 @@
     outline-style: none;
 }
 
+.thaw-combobox__clear-icon,
 .thaw-combobox__expand-icon {
     display: block;
     margin-left: var(--spacingHorizontalXXS);
@@ -152,7 +153,6 @@
 
 .thaw-combobox-option__check-icon {
     visibility: hidden;
-
     margin-left: calc(var(--spacingHorizontalXXS) * -1);
     margin-right: var(--spacingHorizontalXXS);
     font-size: var(--fontSizeBase400);
@@ -162,6 +162,8 @@
     visibility: visible;
 }
 
+.thaw-combobox__clear-icon > svg,
+.thaw-combobox__expand-icon > svg,
 .thaw-combobox-option__check-icon--multiselect > svg,
 .thaw-combobox-option__check-icon > svg {
     display: block;
