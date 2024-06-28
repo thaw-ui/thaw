@@ -244,8 +244,8 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Popover".into(),
                 },
                 MenuItemOption {
-                    value: "/components/progress".into(),
-                    label: "Progress".into(),
+                    value: "/components/progress-bar".into(),
+                    label: "ProgressBar".into(),
                 },
                 MenuItemOption {
                     value: "/components/radio".into(),
