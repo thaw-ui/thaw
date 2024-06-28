@@ -45,15 +45,6 @@ impl ButtonShape {
     }
 }
 
-#[derive(Default, Clone)]
-pub enum ButtonColor {
-    #[default]
-    Primary,
-    Success,
-    Warning,
-    Error,
-}
-
 #[derive(Default, PartialEq, Clone)]
 pub enum ButtonSize {
     Small,
@@ -78,7 +69,6 @@ pub fn Button(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] appearance: MaybeSignal<ButtonAppearance>,
     #[prop(optional, into)] shape: MaybeSignal<ButtonShape>,
-    #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
     #[prop(optional, into)] block: MaybeSignal<bool>,
     #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,

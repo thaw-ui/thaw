@@ -1,13 +1,23 @@
-# Modal
+# Dialog
 
 ```rust demo
-let show = create_rw_signal(false);
+let open = RwSignal::new(false);
 
 view! {
-    <Button on_click=move |_| show.set(true)>"Open Modal"</Button>
-    <Modal title="title" show>
-        "hello"
-    </Modal>
+    <Button on_click=move |_| open.set(true)>"Open Dialog"</Button>
+    <Dialog open>
+        <DialogSurface>
+            <DialogBody>
+                <DialogTitle>"Dialog title"</DialogTitle>
+                <DialogContent>
+                    "Dialog body"
+                </DialogContent>
+                <DialogActions>
+                    <Button appearance=ButtonAppearance::Primary>"Do Something"</Button>
+                </DialogActions>
+            </DialogBody>
+        </DialogSurface>
+    </Dialog>
 }
 ```
 

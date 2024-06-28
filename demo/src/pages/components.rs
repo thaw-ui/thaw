@@ -196,6 +196,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Date Picker".into(),
                 },
                 MenuItemOption {
+                    value: "/components/dialog".into(),
+                    label: "Dialog".into(),
+                },
+                MenuItemOption {
                     value: "/components/divider".into(),
                     label: "Divider".into(),
                 },
@@ -234,10 +238,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                 MenuItemOption {
                     value: "/components/message-bar".into(),
                     label: "Message Bar".into(),
-                },
-                MenuItemOption {
-                    value: "/components/modal".into(),
-                    label: "Modal".into(),
                 },
                 MenuItemOption {
                     value: "/components/popover".into(),
