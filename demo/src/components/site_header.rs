@@ -6,7 +6,7 @@ use thaw::*;
 
 #[component]
 pub fn SiteHeader() -> impl IntoView {
-    let theme = use_rw_theme();
+    let theme = Theme::use_rw_theme();
     let theme_name = create_memo(move |_| {
         theme.with(|theme| {
             if theme.name == *"light" {

@@ -1,10 +1,8 @@
 mod message_provider;
-mod theme;
 
 pub use message_provider::*;
-pub use theme::MessageTheme;
 
-use crate::{theme::use_theme, Icon, Theme};
+use crate::{Icon, Theme};
 use leptos::*;
 use thaw_components::{CSSTransition, If, Then};
 use uuid::Uuid;
@@ -25,13 +23,13 @@ impl MessageVariant {
             MessageVariant::Error => icondata_ai::AiCheckCircleFilled,
         }
     }
-    fn theme_color(&self, theme: &Theme) -> String {
-        match self {
-            MessageVariant::Success => theme.common.color_success.clone(),
-            MessageVariant::Warning => theme.common.color_warning.clone(),
-            MessageVariant::Error => theme.common.color_error.clone(),
-        }
-    }
+    // fn theme_color(&self, theme: &Theme) -> String {
+    //     match self {
+    //         MessageVariant::Success => theme.common.color_success.clone(),
+    //         MessageVariant::Warning => theme.common.color_warning.clone(),
+    //         MessageVariant::Error => theme.common.color_error.clone(),
+    //     }
+    // }
 }
 
 #[component]
@@ -49,7 +47,7 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
         );
     }
 
-    let theme = use_theme(Theme::light);
+    // let theme = use_theme(Theme::light);
     let css_vars = create_memo(move |_| {
         let mut css_vars = String::new();
         // theme.with(|theme| {
@@ -60,7 +58,7 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
         // });
         css_vars
     });
-    let style = theme.with_untracked(|theme| format!("color: {};", variant.theme_color(theme)));
+    // let style = theme.with_untracked(|theme| format!("color: {};", variant.theme_color(theme)));
 
     let on_before_leave = Callback::new(move |_| {
         let Some(node_el) = message_ref.get() else {
@@ -89,7 +87,7 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
             <div class="thaw-message-wrapper" ref=message_ref>
                 <div class="thaw-message" style=move || css_vars.get()>
                     <div class="thaw-message__icon">
-                        <Icon icon=variant.icon() style/>
+                        <Icon icon=variant.icon()/>
                     </div>
                     <div class="thaw-message__content">{content}</div>
                     <If cond=closable>
