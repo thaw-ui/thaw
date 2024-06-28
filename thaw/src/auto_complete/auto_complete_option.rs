@@ -1,12 +1,10 @@
-use leptos::*;
 use super::AutoCompleteInjection;
+use leptos::*;
 
 #[component]
 pub fn AutoCompleteOption2(key: String, children: Children) -> impl IntoView {
     let auto_complete = AutoCompleteInjection::use_();
-    let is_selected = Memo::new(move |_| {
-        auto_complete.is_selected(&key)
-    });
+    let is_selected = Memo::new(move |_| auto_complete.is_selected(&key));
 
     view! {
         <div

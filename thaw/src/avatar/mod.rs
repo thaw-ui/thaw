@@ -17,7 +17,8 @@ pub fn Avatar(
     #[prop(optional, into)]
     shape: MaybeSignal<AvatarShape>,
     /// Size of the avatar in pixels.
-    #[prop(optional, into)] size: Option<MaybeSignal<u8>>,
+    #[prop(optional, into)]
+    size: Option<MaybeSignal<u8>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("avatar", include_str!("./avatar.css"));

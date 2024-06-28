@@ -50,6 +50,16 @@ impl Theme {
     }
 }
 
+impl From<String> for Theme {
+    fn from(value: String) -> Self {
+        if value == "dark" {
+            Theme::dark()
+        } else {
+            Theme::light()
+        }
+    }
+}
+
 impl ThemeMethod for Theme {
     fn light() -> Self {
         Theme::light()

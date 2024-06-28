@@ -2,9 +2,9 @@ mod loading_bar_provider;
 
 pub use loading_bar_provider::{use_loading_bar, LoadingBarProvider};
 
+use crate::ConfigInjection;
 use leptos::*;
 use thaw_utils::{mount_style, ComponentRef};
-use crate::ConfigInjection;
 
 #[derive(Clone)]
 pub(crate) struct LoadingBarRef {

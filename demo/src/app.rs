@@ -2,6 +2,10 @@ use crate::pages::*;
 use leptos::*;
 use leptos_meta::provide_meta_context;
 use leptos_router::*;
+use leptos_use::{
+    storage::use_local_storage,
+    utils::{FromToStringCodec, StringCodec},
+};
 use thaw::*;
 
 #[component]
@@ -99,20 +103,8 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
 
 #[component]
 fn TheProvider(children: Children) -> impl IntoView {
-    fn use_query_value(key: &str) -> Option<String> {
-        let query_map = use_query_map();
-        query_map.with_untracked(|query| query.get(key).cloned())
-    }
-    let theme = use_query_value("theme").map_or_else(Theme::light, |name| {
-        if name == "light" {
-            Theme::light()
-        } else if name == "dark" {
-            Theme::dark()
-        } else {
-            Theme::light()
-        }
-    });
-    let theme = create_rw_signal(theme);
+    let (read_theme, _, _) = use_local_storage::<String, FromToStringCodec>("theme");
+    let theme = RwSignal::new(Theme::from(read_theme.get_untracked()));
 
     view! {
         <ConfigProvider theme>

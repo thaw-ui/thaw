@@ -10,7 +10,8 @@ pub fn Textarea(
     #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     /// Which direction the Textarea is allowed to be resized.
-    #[prop(optional, into)] resize: MaybeSignal<TextareaResize>,
+    #[prop(optional, into)]
+    resize: MaybeSignal<TextareaResize>,
     #[prop(optional)] comp_ref: ComponentRef<TextareaRef>,
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
