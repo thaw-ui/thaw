@@ -122,7 +122,7 @@ pub fn Drawer(
                             role="dialog"
                             aria-modal="true"
                         >
-                            <Card title>
+                            <Card>
                                 <Scrollbar content_style="padding: 20px 28px;">
                                     {children()}
                                 </Scrollbar>
