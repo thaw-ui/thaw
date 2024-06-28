@@ -1,18 +1,15 @@
-use super::ProgressColor;
-use crate::{use_theme, Theme};
 use leptos::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]
 pub fn ProgressCircle(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(into, optional)] percentage: MaybeSignal<f32>,
-    #[prop(into, optional)] color: MaybeSignal<ProgressColor>,
+    #[prop(into, optional)] value: MaybeSignal<f64>,
+    #[prop(into, optional)] color: MaybeSignal<ProgressCircleColor>,
     #[prop(into, default = "120px".into())] size: MaybeSignal<String>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("progress-circle", include_str!("./progress-circle.css"));
-    let theme = use_theme(Theme::light);
 
     let stroke_width = 7;
     let view_box_width = 100;
@@ -27,27 +24,23 @@ pub fn ProgressCircle(
 
     let len = std::f64::consts::PI * 2.0 * f64::from(radius);
     let rail_stroke_dasharray = format!("{len}px {}px", view_box_width * 8);
-    let rail_stroke_color =
-        Memo::new(move |_| theme.with(|theme| theme.progress.background_color.clone()));
 
     let fill_path = rail_path.clone();
     let fill_stroke_dasharray = Memo::new(move |_| {
-        let percentage = percentage.get();
-        let percentage = if percentage < 0.0 {
-            0.0
-        } else if percentage > 100.0 {
-            100.0
-        } else {
-            percentage
-        };
+        let percentage = value.get().max(0.0).min(100.0);
+        
         format!(
             "{}px {}px",
-            f64::from(percentage / 100.0) * len,
+            percentage / 100.0 * len,
             view_box_width * 8
         )
     });
-    let fill_stroke_color =
-        Memo::new(move |_| theme.with(|theme| color.get().theme_background_color(theme)));
+    let fill_stroke_color = move || match color.get() {
+        ProgressCircleColor::Brand => "var(--colorCompoundBrandBackground)",
+        ProgressCircleColor::Error => "var(--colorPaletteRedBackground3)",
+        ProgressCircleColor::Warning => "var(--colorPaletteDarkOrangeBackground3)",
+        ProgressCircleColor::Success => "var(--colorPaletteGreenBackground3)",
+    };
 
     view! {
         <div
@@ -55,8 +48,7 @@ pub fn ProgressCircle(
             role="progressbar"
             aria-valuemax="100"
             aria-valuemin="0"
-            aria-valuenow=move || percentage.get()
-            style=("--thaw-fill-color", move || fill_stroke_color.get())
+            aria-valuenow=move || value.get()
             style=("--thaw-size", move || size.get())
         >
 
@@ -67,19 +59,19 @@ pub fn ProgressCircle(
                         stroke-width=stroke_width
                         stroke-linecap="round"
                         fill="none"
-                        style:stroke=move || rail_stroke_color.get()
+                        style:stroke="var(--colorNeutralBackground6)"
                         style:stroke-dasharray=rail_stroke_dasharray
                     ></path>
                 </g>
                 <g>
                     <path
                         class=("thaw-progress-circle__fill", true)
-                        class=("thaw-progress-circle__fill--empty", move || percentage.get() <= 0.0)
+                        class=("thaw-progress-circle__fill--empty", move || value.get() <= 0.0)
                         d=fill_path
                         stroke-width=stroke_width
                         stroke-linecap="round"
                         fill="none"
-                        style:stroke="var(--thaw-fill-color)"
+                        style:stroke=fill_stroke_color
                         style:stroke-dasharray=move || fill_stroke_dasharray.get()
                     ></path>
                 </g>
@@ -90,11 +82,20 @@ pub fn ProgressCircle(
             } else {
                 view! {
                     <div class="thaw-progress-circle__content thaw-progress-circle__content--text">
-                        {move || percentage.get()} "%"
+                        {move || value.get()} "%"
                     </div>
                 }
             }}
 
         </div>
     }
+}
+
+#[derive(Default, Clone)]
+pub enum ProgressCircleColor {
+    #[default]
+    Brand,
+    Error,
+    Warning,
+    Success,
 }

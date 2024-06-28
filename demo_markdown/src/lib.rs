@@ -56,7 +56,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "MessageBarMdPage" => "../docs/message_bar/mod.md",
         "ModalMdPage" => "../docs/modal/mod.md",
         "PopoverMdPage" => "../docs/popover/mod.md",
-        "ProgressMdPage" => "../docs/progress/mod.md",
+        "ProgressBarMdPage" => "../docs/progress_bar/mod.md",
         "RadioMdPage" => "../docs/radio/mod.md",
         "ScrollbarMdPage" => "../docs/scrollbar/mod.md",
         // "SelectMdPage" => "../docs/select/mod.md",

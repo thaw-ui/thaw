@@ -1,19 +1,17 @@
-# Progress
+# ProgressBar
 
 ```rust demo
-let percentage = create_rw_signal(0.0f32);
+let value = RwSignal::new(0.0);
 
 view! {
     <Space vertical=true>
-        <Progress percentage show_indicator=false/>
-        <Progress percentage/>
-        <Progress percentage indicator_placement=ProgressIndicatorPlacement::Inside/>
-        <Progress percentage color=ProgressColor::Success/>
-        <Progress percentage color=ProgressColor::Warning/>
-        <Progress percentage color=ProgressColor::Error/>
+        <ProgressBar value/>
+        <ProgressBar value color=ProgressBarColor::Success/>
+        <ProgressBar value color=ProgressBarColor::Warning/>
+        <ProgressBar value color=ProgressBarColor::Error/>
         <Space>
-            <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>"-10%"</Button>
-            <Button on_click=move |_| percentage.update(|v| *v += 10.0)>"+10%"</Button>
+            <Button on_click=move |_| value.update(|v| *v -= 0.1)>"-10%"</Button>
+            <Button on_click=move |_| value.update(|v| *v += 0.1)>"+10%"</Button>
         </Space>
     </Space>
 }
@@ -22,18 +20,18 @@ view! {
 ### Circle
 
 ```rust demo
-let percentage = create_rw_signal(0.0f32);
+let value = RwSignal::new(0.0);
 
 view! {
     <Space>
-        <ProgressCircle percentage/>
-        <ProgressCircle percentage color=ProgressColor::Success/>
-        <ProgressCircle percentage color=ProgressColor::Warning/>
-        <ProgressCircle percentage color=ProgressColor::Error/>
+        <ProgressCircle value/>
+        <ProgressCircle value color=ProgressCircleColor::Success/>
+        <ProgressCircle value color=ProgressCircleColor::Warning/>
+        <ProgressCircle value color=ProgressCircleColor::Error/>
     </Space>
     <Space>
-        <Button on_click=move |_| percentage.update(|v| *v -= 10.0)>"-10%"</Button>
-        <Button on_click=move |_| percentage.update(|v| *v += 10.0)>"+10%"</Button>
+        <Button on_click=move |_| value.update(|v| *v -= 10.0)>"-10%"</Button>
+        <Button on_click=move |_| value.update(|v| *v += 10.0)>"+10%"</Button>
     </Space>
 }
 ```
