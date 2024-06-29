@@ -1,4 +1,4 @@
-use leptos::window;
+use leptos::prelude::window;
 use web_sys::DomRect;
 
 #[derive(Clone)]
