@@ -83,8 +83,6 @@ let parser = Callback::<String, f64>::new(move |v: String| {
 view! {
     <InputNumber value parser formatter step=1.0 />
     <p>"Underlying value: "{ value }</p>
-    <InputNumber value=value_2 parser formatter step=1.0 />
-    <p>"Underlying value_2: "{ value_2 }</p>
 }
 ```
 ### InputNumber Props
@@ -100,8 +98,8 @@ view! {
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
 | invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |
 | attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |
-| parser | `OptionalProp<Callback<String, String>>` | `Default::default()` | Modifies the user input before assigning it to the value |
-| formatter | `OptionalProp<Callback<String, String>>` | `Default::default()` | Formats the value to be shown to the user |
+| parser | `OptionalProp<Callback<String, T>>` | `Default::default()` | Modifies the user input before assigning it to the value |
+| formatter | `OptionalProp<Callback<T, String>>` | `Default::default()` | Formats the value to be shown to the user |
 
 #### T impl
 
