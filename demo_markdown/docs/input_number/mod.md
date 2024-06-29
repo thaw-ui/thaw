@@ -48,7 +48,8 @@ view! {
 let value = create_rw_signal(0.0);
 let value_2 = create_rw_signal(0.0);
 
-let formatter = Callback::<String, String>::new(move |v: String| {
+let formatter = Callback::<f64, String>::new(move |v: f64| {
+    let v = v.to_string();
     let dot_pos = v.chars().position(|c| c == '.').unwrap_or_else(|| v.chars().count());
     let mut int: String = v.chars().take(dot_pos).collect();
 
@@ -72,11 +73,11 @@ let formatter = Callback::<String, String>::new(move |v: String| {
     format!("{}{},{:0<2}", sign, int, dec)
 });
 
-let parser = Callback::<String, String>::new(move |v: String| {
+let parser = Callback::<String, f64>::new(move |v: String| {
     let comma_pos = v.chars().position(|c| c == ',').unwrap_or_else(|| v.chars().count());
     let int_part = v.chars().take(comma_pos).filter(|a| a.is_digit(10)).collect::<String>();
     let dec_part = v.chars().skip(comma_pos + 1).take(2).filter(|a| a.is_digit(10)).collect::<String>();
-    format!("{:0<1}.{:0<2}", int_part, dec_part)
+    format!("{:0<1}.{:0<2}", int_part, dec_part).parse::<f64>().unwrap_or_default()
 });
 
 view! {

@@ -14,8 +14,8 @@ pub fn InputNumber<T>(
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] comp_ref: ComponentRef<InputNumberRef>,
-    #[prop(optional, into)] parser: OptionalProp<Callback<String, String>>,
-    #[prop(optional, into)] formatter: OptionalProp<Callback<String, String>>,
+    #[prop(optional, into)] parser: OptionalProp<Callback<String, T>>,
+    #[prop(optional, into)] formatter: OptionalProp<Callback<T, String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     #[prop(default = MaybeSignal::Static(T::min_value()), into)] min: MaybeSignal<T>,
     #[prop(default = MaybeSignal::Static(T::max_value()), into)] max: MaybeSignal<T>,
@@ -77,6 +77,13 @@ where
     let invalid = create_memo(move |_| {
         let value = value.get();
         invalid.get() || value < min.get() || value > max.get()
+    });
+
+    let parser = parser.map(|parser| {
+        Callback::new(move |v| parser.call(v).to_string())
+    });
+    let formatter = formatter.map(|formatter| {
+        Callback::new(move |v: String| formatter.call(v.parse::<T>().unwrap_or_default()))
     });
 
     view! {
