@@ -51,7 +51,6 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 // <Route path="/nav-bar" view=NavBarPage/>
                 // <Route path="/toast" view=ToastPage/>
                 <Route path="/accordion" view=AccordionMdPage/>
-                <Route path="/alert" view=AlertMdPage/>
                 <Route path="/anchor" view=AnchorMdPage/>
                 <Route path="/auto-complete" view=AutoCompleteMdPage/>
                 <Route path="/avatar" view=AvatarMdPage/>
@@ -63,8 +62,10 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/card" view=CardMdPage/>
                 <Route path="/checkbox" view=CheckboxMdPage/>
                 <Route path="/color-picker" view=ColorPickerMdPage/>
+                <Route path="/combobox" view=ComboboxMdPage/>
                 <Route path="/config-provider" view=ConfigProviderMdPage/>
                 <Route path="/date-picker" view=DatePickerMdPage/>
+                <Route path="/dialog" view=DialogMdPage/>
                 <Route path="/divider" view=DividerMdPage/>
                 <Route path="/drawer" view=DrawerMdPage/>
                 <Route path="/grid" view=GridMdPage/>
@@ -73,13 +74,13 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path="/input" view=InputMdPage/>
                 <Route path="/layout" view=LayoutMdPage/>
                 <Route path="/loading-bar" view=LoadingBarMdPage/>
-                <Route path="/message" view=MessageMdPage/>
-                <Route path="/modal" view=ModalMdPage/>
+                // <Route path="/message" view=MessageMdPage/>
+                <Route path="/message-bar" view=MessageBarMdPage/>
                 <Route path="/popover" view=PopoverMdPage/>
-                <Route path="/progress" view=ProgressMdPage/>
+                <Route path="/progress-bar" view=ProgressBarMdPage/>
                 <Route path="/radio" view=RadioMdPage/>
                 <Route path="/scrollbar" view=ScrollbarMdPage/>
-                <Route path="/select" view=SelectMdPage/>
+                // <Route path="/select" view=SelectMdPage/>
                 <Route path="/skeleton" view=SkeletonMdPage/>
                 <Route path="/slider" view=SliderMdPage/>
                 <Route path="/space" view=SpaceMdPage/>
@@ -108,11 +109,9 @@ fn TheProvider(children: Children) -> impl IntoView {
 
     view! {
         <ConfigProvider theme>
-            <ThemeProvider theme>
-                <MessageProvider>
-                    <LoadingBarProvider>{children()}</LoadingBarProvider>
-                </MessageProvider>
-            </ThemeProvider>
+                // <MessageProvider>
+            <LoadingBarProvider>{children()}</LoadingBarProvider>
+                // </MessageProvider>
         </ConfigProvider>
     }
 }

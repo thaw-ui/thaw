@@ -140,10 +140,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Accordion".into(),
                 },
                 MenuItemOption {
-                    value: "/components/alert".into(),
-                    label: "Alert".into(),
-                },
-                MenuItemOption {
                     value: "/components/anchor".into(),
                     label: "Anchor".into(),
                 },
@@ -188,12 +184,20 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Color Picker".into(),
                 },
                 MenuItemOption {
+                    value: "/components/combobox".into(),
+                    label: "Combobox".into(),
+                },
+                MenuItemOption {
                     value: "/components/config-provider".into(),
                     label: "Config Provider".into(),
                 },
                 MenuItemOption {
                     value: "/components/date-picker".into(),
                     label: "Date Picker".into(),
+                },
+                MenuItemOption {
+                    value: "/components/dialog".into(),
+                    label: "Dialog".into(),
                 },
                 MenuItemOption {
                     value: "/components/divider".into(),
@@ -227,21 +231,21 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "/components/loading-bar".into(),
                     label: "Loading Bar".into(),
                 },
+                // MenuItemOption {
+                //     value: "/components/message".into(),
+                //     label: "Message".into(),
+                // },
                 MenuItemOption {
-                    value: "/components/message".into(),
-                    label: "Message".into(),
-                },
-                MenuItemOption {
-                    value: "/components/modal".into(),
-                    label: "Modal".into(),
+                    value: "/components/message-bar".into(),
+                    label: "Message Bar".into(),
                 },
                 MenuItemOption {
                     value: "/components/popover".into(),
                     label: "Popover".into(),
                 },
                 MenuItemOption {
-                    value: "/components/progress".into(),
-                    label: "Progress".into(),
+                    value: "/components/progress-bar".into(),
+                    label: "ProgressBar".into(),
                 },
                 MenuItemOption {
                     value: "/components/radio".into(),
@@ -251,10 +255,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "/components/scrollbar".into(),
                     label: "Scrollbar".into(),
                 },
-                MenuItemOption {
-                    value: "/components/select".into(),
-                    label: "Select".into(),
-                },
+                // MenuItemOption {
+                //     value: "/components/select".into(),
+                //     label: "Select".into(),
+                // },
                 MenuItemOption {
                     value: "/components/skeleton".into(),
                     label: "Skeleton".into(),

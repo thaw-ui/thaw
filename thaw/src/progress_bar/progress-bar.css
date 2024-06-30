@@ -1,0 +1,29 @@
+.thaw-progress-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--colorNeutralBackground6);
+    overflow: hidden;
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-progress-bar__bar {
+    transition-timing-function: ease;
+    transition-duration: 0.3s;
+    transition-property: width;
+    height: 100%;
+    background-color: var(--colorCompoundBrandBackground);
+    border-radius: inherit;
+}
+
+.thaw-progress-bar--error .thaw-progress-bar__bar {
+    background-color: var(--colorPaletteRedBackground3);
+}
+
+.thaw-progress-bar--warning .thaw-progress-bar__bar {
+    background-color: var(--colorPaletteDarkOrangeBackground3);
+}
+
+.thaw-progress-bar--success .thaw-progress-bar__bar {
+    background-color: var(--colorPaletteGreenBackground3);
+}

@@ -11,11 +11,11 @@ pub struct DemoCode {
 
 #[component]
 pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -> impl IntoView {
-    let theme = use_theme(Theme::light);
+    let theme = Theme::use_theme(Theme::light);
     let css_vars = Memo::new(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
-            if theme.common.color_scheme == "dark" {
+            if theme.color.color_scheme == "dark" {
                 css_vars.push_str("--demo-color: #ffffff60;");
                 css_vars.push_str("--demo-color-hover: #ffffffe0;");
                 css_vars.push_str("--demo-border-color: #383f52;");
@@ -24,8 +24,7 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
                 css_vars.push_str("--demo-color: #00000060;");
                 css_vars.push_str("--demo-color-hover: #000000e0;");
                 css_vars.push_str(&format!(
-                    "--demo-border-color: {};",
-                    theme.common.border_color
+                    "--demo-border-color: var(--colorNeutralStroke2);",
                 ));
                 css_vars.push_str("--demo-background-color: #f9fafb;");
             }
@@ -34,12 +33,7 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
     });
 
     let code_class = Memo::new(move |_| {
-        theme.with(|theme| {
-            format!(
-                "demo-demo__code color-scheme--{}",
-                theme.common.color_scheme
-            )
-        })
+        theme.with(|theme| format!("demo-demo__code color-scheme--{}", theme.color.color_scheme))
     });
     let is_show_code = RwSignal::new(children.is_none());
 
