@@ -53,20 +53,36 @@ pub fn Input(
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional, into)] parser: OptionalProp<Callback<String, String>>,
+    #[prop(optional, into)] formatter: OptionalProp<Callback<String, String>>,
 ) -> impl IntoView {
     let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
 
     let value_trigger = create_trigger();
     let on_input = move |ev| {
-        let input_value = event_target_value(&ev);
-        if let Some(allow_value) = allow_value.as_ref() {
-            if !allow_value.call(input_value.clone()) {
-                value_trigger.notify();
-                return;
+        if parser.is_none() {
+            let input_value = event_target_value(&ev);
+            if let Some(allow_value) = allow_value.as_ref() {
+                if !allow_value.call(input_value.clone()) {
+                    value_trigger.notify();
+                    return;
+                }
             }
+            value.set(input_value);
         }
-        value.set(input_value);
+    };
+    let on_change = move |ev| {
+        if let Some(parser) = parser.or_else(|| None) {
+            let parsed_input_value = parser.call(event_target_value(&ev));
+            if let Some(allow_value) = allow_value.as_ref() {
+                if !allow_value.call(parsed_input_value.clone()) {
+                    value_trigger.notify();
+                    return;
+                }
+            }
+            value.set(parsed_input_value);
+        }
     };
     let is_focus = create_rw_signal(false);
     let on_internal_focus = move |ev| {
@@ -186,9 +202,10 @@ pub fn Input(
                 value=input_value
                 prop:value=move || {
                     value_trigger.track();
-                    value.get()
+                    formatter.map_or_else(|| value.get(), |c| c.call(value.get()))
                 }
 
+                on:change=on_change
                 on:input=on_input
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur

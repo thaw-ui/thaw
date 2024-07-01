@@ -102,6 +102,25 @@ view! {
 }
 ```
 
+### Formatter
+
+```rust demo
+let value = create_rw_signal(String::from("loren_ipsun"));
+
+let formatter = Callback::<String, String>::new(move |v: String| {
+    v.replace("_", " ")
+});
+
+let parser = Callback::<String, String>::new(move |v: String| {
+    v.replace(" ", "_")
+});
+
+view! {
+    <Input value parser formatter />
+    <p>"Underlying value: "{ value }</p>
+}
+```
+
 ### Input Props
 
 | Name | Type | Default | Description |
@@ -116,6 +135,8 @@ view! {
 | on_focus | `Option<Callback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
 | on_blur | `Option<Callback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
 | attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |
+| parser | `OptionalProp<Callback<String, String>>` | `Default::default()` | Modifies the user input before assigning it to the value |
+| formatter | `OptionalProp<Callback<String, String>>` | `Default::default()` | Formats the value to be shown to the user |
 
 ### Input Slots
 
