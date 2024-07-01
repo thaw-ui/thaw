@@ -31,9 +31,7 @@ pub fn SwitchVersion() -> impl IntoView {
         <Combobox>
             {
                 options.into_iter().map(|option| view! {
-                    <ComboboxOption key=option.1>
-                        {option.0}
-                    </ComboboxOption>
+                    <ComboboxOption value=option.1 text=option.0 />
                 }).collect_view()
             }
         </Combobox>

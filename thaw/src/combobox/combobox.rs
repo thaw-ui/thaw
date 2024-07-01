@@ -5,7 +5,8 @@ use thaw_utils::{add_event_listener, mount_style, Model};
 
 #[component]
 pub fn Combobox(
-    #[prop(optional, into)] value: Model<Vec<String>>,
+    #[prop(optional, into)] value: Model<String>,
+    #[prop(optional, into)] selected_options: Model<Vec<String>>,
     #[prop(optional)] multiselect: bool,
     #[prop(optional)] clearable: bool,
     children: Children,
@@ -19,7 +20,7 @@ pub fn Combobox(
     let clear_icon_ref = NodeRef::<html::Span>::new();
     let is_show_clear_icon = Memo::new(move |_| {
         if clearable {
-            value.with(|value| !value.is_empty())
+            selected_options.with(|options| !options.is_empty())
         } else {
             false
         }
@@ -28,7 +29,7 @@ pub fn Combobox(
         clear_icon_ref.on_load(move |clear_icon_el| {
             let handler = add_event_listener(clear_icon_el.into_any(), ev::click, move |e| {
                 e.stop_propagation();
-                value.set(vec![]);
+                selected_options.set(vec![]);
             });
             on_cleanup(move || handler.remove());
         });
@@ -66,6 +67,32 @@ pub fn Combobox(
         on_cleanup(move || handle.remove());
     }
 
+    let on_input = move |ev| {
+        let input_value = event_target_value(&ev);
+        if !multiselect {
+            if selected_options.with_untracked(|options| {
+                if let Some(option) = options.first() {
+                    if option != &input_value {
+                        return true;
+                    }
+                }
+                false
+            }) {
+                selected_options.set(vec![]);
+            }
+        }
+        value.set(input_value);
+    };
+    let on_blur = move |_| {
+        if multiselect {
+            value.set(String::new());
+        } else {
+            if selected_options.with_untracked(|options| options.is_empty()) {
+                value.set(String::new());
+            }
+        }
+    };
+
     view! {
         <Binder target_ref=trigger_ref>
             <div
@@ -80,17 +107,11 @@ pub fn Combobox(
                     aria-expanded="true"
                     role="combobox"
                     class="thaw-combobox__input"
-                    // #TODO
-                    readonly=true
                     prop:value=move || {
-                        value.with(|value| {
-                            if multiselect {
-                                String::new()
-                            } else {
-                                value.first().cloned().unwrap_or_default()
-                            }
-                        })
+                        value.get()
                     }
+                    on:input=on_input
+                    on:blur=on_blur
                 />
                 {
                     if clearable {
@@ -129,7 +150,7 @@ pub fn Combobox(
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::MinTarget
             >
-                <Provider value=ComboboxInjection{value, multiselect, is_show_listbox}>
+                <Provider value=ComboboxInjection{value, multiselect, selected_options, is_show_listbox}>
                     <CSSTransition
                         node_ref=listbox_ref
                         name="fade-in-scale-up-transition"
@@ -155,7 +176,8 @@ pub fn Combobox(
 
 #[derive(Clone, Copy)]
 pub(crate) struct ComboboxInjection {
-    value: Model<Vec<String>>,
+    value: Model<String>,
+    selected_options: Model<Vec<String>>,
     is_show_listbox: RwSignal<bool>,
     pub multiselect: bool,
 }
@@ -165,20 +187,22 @@ impl ComboboxInjection {
         expect_context()
     }
 
-    pub fn is_selected(&self, key: &String) -> bool {
-        self.value.with(|value| value.contains(key))
+    pub fn is_selected(&self, value: &String) -> bool {
+        self.selected_options
+            .with(|options| options.contains(value))
     }
 
-    pub fn on_option_select(&self, key: &String) {
-        self.value.update(|value| {
+    pub fn on_option_select(&self, value: &String, text: &String) {
+        self.selected_options.update(|options| {
             if self.multiselect {
-                if let Some(index) = value.iter().position(|k| k == key) {
-                    value.remove(index);
+                if let Some(index) = options.iter().position(|v| v == value) {
+                    options.remove(index);
                     return;
                 }
-                value.push(key.clone());
+                options.push(value.clone());
             } else {
-                *value = vec![key.clone()];
+                *options = vec![value.clone()];
+                self.value.set(text.clone());
                 self.is_show_listbox.set(false);
             }
         });

@@ -1,12 +1,24 @@
 use crate::ComboboxInjection;
 use leptos::*;
-use thaw_components::{If, Then};
+use thaw_components::{Fallback, If, OptionComp, Then};
 use thaw_utils::class_list;
 
 #[component]
-pub fn ComboboxOption(#[prop(into)] key: String, children: Children) -> impl IntoView {
+pub fn ComboboxOption(
+    #[prop(optional, into)] value: Option<String>,
+    #[prop(into)] text: String,
+    #[prop(optional)] children: Option<Children>,
+) -> impl IntoView {
     let combobox = ComboboxInjection::use_();
-    let key = StoredValue::new(key);
+    let value = StoredValue::new(value.unwrap_or_else(|| text.clone()));
+    let text = StoredValue::new(text);
+    let on_click = move |_| {
+        text.with_value(|text| {
+            value.with_value(|value| {
+                combobox.on_option_select(value, text);
+            });
+        });
+    };
 
     view! {
         <div
@@ -14,17 +26,15 @@ pub fn ComboboxOption(#[prop(into)] key: String, children: Children) -> impl Int
             aria-selected="true"
             class=class_list![
                 "thaw-combobox-option",
-                ("thaw-combobox-option--selected", move || key.with_value(|key| combobox.is_selected(&key)))
+                ("thaw-combobox-option--selected", move || value.with_value(|value| combobox.is_selected(&value)))
             ]
-            on:click=move |_| {
-                key.with_value(|key| combobox.on_option_select(key));
-            }
+            on:click=on_click
         >
             {
                 if combobox.multiselect {
                     view! {
                         <span aria-hidden="true" class="thaw-combobox-option__check-icon--multiselect">
-                            <If cond=Signal::derive(move || key.with_value(|key| combobox.is_selected(&key)))>
+                            <If cond=Signal::derive(move || value.with_value(|value| combobox.is_selected(&value)))>
                                 <Then slot>
                                     <svg fill="currentColor" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12">
                                         <path d="M9.76 3.2c.3.29.32.76.04 1.06l-4.25 4.5a.75.75 0 0 1-1.08.02L2.22 6.53a.75.75 0 0 1 1.06-1.06l1.7 1.7L8.7 3.24a.75.75 0 0 1 1.06-.04Z" fill="currentColor"></path>
@@ -43,7 +53,12 @@ pub fn ComboboxOption(#[prop(into)] key: String, children: Children) -> impl Int
                     }
                 }
             }
-            {children()}
+            <OptionComp value=children let:children>
+                <Fallback slot>
+                    {text.get_value()}
+                </Fallback>
+                {children()}
+            </OptionComp>
         </div>
     }
 }

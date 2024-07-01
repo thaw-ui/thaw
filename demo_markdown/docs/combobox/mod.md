@@ -1,16 +1,12 @@
 # Combobox
 
 ```rust demo
-let value = RwSignal::new(vec![]);
+let selected_options = RwSignal::new(vec![]);
 
 view! {
-    <Combobox value>
-        <ComboboxOption key="cat">
-            "Cat"
-        </ComboboxOption>
-        <ComboboxOption key="dog">
-            "Dog"
-        </ComboboxOption>
+    <Combobox selected_options>
+        <ComboboxOption value="cat" text="Car" />
+        <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
 ```
@@ -18,16 +14,12 @@ view! {
 ### Clearable
 
 ```rust demo
-let value = RwSignal::new(vec![]);
+let selected_options = RwSignal::new(vec![]);
 
 view! {
-    <Combobox value multiselect=true clearable=true>
-        <ComboboxOption key="cat">
-            "Cat"
-        </ComboboxOption>
-        <ComboboxOption key="dog">
-            "Dog"
-        </ComboboxOption>
+    <Combobox selected_options multiselect=true clearable=true>
+        <ComboboxOption value="cat" text="Car" />
+        <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
 ```
@@ -35,16 +27,12 @@ view! {
 ### Multiselect
 
 ```rust demo
-let value = RwSignal::new(vec![]);
+let selected_options = RwSignal::new(vec![]);
 
 view! {
-    <Combobox value multiselect=true>
-        <ComboboxOption key="cat">
-            "Cat"
-        </ComboboxOption>
-        <ComboboxOption key="dog">
-            "Dog"
-        </ComboboxOption>
+    <Combobox selected_options multiselect=true>
+        <ComboboxOption value="cat" text="Car" />
+        <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
 ```
