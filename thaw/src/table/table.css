@@ -1,6 +1,6 @@
 .thaw-table {
     display: table;
-    table-layout: auto;
+    table-layout: fixed;
     vertical-align: middle;
     border-collapse: collapse;
     width: 100%;
