@@ -97,7 +97,7 @@ fn iter_nodes<'a>(
             let header_children: Vec<TokenStream> = children.drain(0..header_index).collect();
 
             quote!(
-                <div class="demo-md-table-bo">
+                <div class="demo-md-table-box">
                     <Table attr:style="table-layout: auto">
                         <TableHeader>
                             #(#header_children)*
