@@ -1,6 +1,7 @@
 use leptos::{ev, html::ElementType, prelude::*};
 use std::{ops::Deref, time::Duration};
 use thaw_utils::{add_event_listener, EventListenerHandle, NextFrame};
+use web_sys::wasm_bindgen::JsCast;
 
 /// # CSS Transition
 ///
@@ -20,80 +21,90 @@ pub fn CSSTransition<E, CF, IV>(
     children: CF,
 ) -> impl IntoView
 where
-    E: ElementType,
-    E::Output: 'static,
+    E: ElementType + 'static,
+    E::Output: JsCast + Clone + Deref<Target = web_sys::Element> + 'static,
     CF: FnOnce(ReadSignal<Option<&'static str>>) -> IV + 'static,
     IV: IntoView,
 {
     let display = RwSignal::new((!show.get_untracked()).then_some("display: none;"));
 
-    node_ref.on_load(move |node_el| {
-        let any_el = node_el.clone().into_any();
-        let el = any_el.deref().clone();
+    Effect::new(move |_| {
+        let target_ref = node_ref.get();
+        let Some(el) = target_ref.as_deref() else {
+            return;
+        };
+
         let class_list = el.class_list();
         let next_frame = NextFrame::use_();
         let end_handle = StoredValue::new(None::<EventListenerHandle>);
         let end_count = StoredValue::new(None::<usize>);
         let finish = StoredValue::new(None::<Callback<()>>);
 
-        let on_end = Callback::new(move |remove: Callback<()>| {
-            let Some(CSSTransitionInfo {
-                types,
-                prop_count,
-                timeout,
-            }) = get_transition_info(&el)
-            else {
-                remove.call(());
-                return;
-            };
+        let on_end = Callback::new({
+            let el = send_wrapper::SendWrapper::new(el.clone());
+            move |remove: Callback<()>| {
+                let Some(CSSTransitionInfo {
+                    types,
+                    prop_count,
+                    timeout,
+                }) = get_transition_info(&el)
+                else {
+                    remove.call(());
+                    return;
+                };
 
-            finish.set_value(Some(Callback::new(move |_| {
-                end_count.set_value(None);
-                remove.call(());
-                end_handle.update_value(|h| {
-                    h.take().map(|h| {
-                        h.remove();
+                finish.set_value(Some(Callback::new(move |_| {
+                    end_count.set_value(None);
+                    remove.call(());
+                    end_handle.update_value(|h| {
+                        h.take().map(|h| {
+                            h.remove();
+                        });
                     });
-                });
-            })));
+                })));
 
-            set_timeout(
-                move || {
-                    finish.try_update_value(|v| {
-                        v.take().map(|f| f.call(()));
-                    });
-                },
-                Duration::from_millis(timeout + 1),
-            );
+                set_timeout(
+                    move || {
+                        finish.try_update_value(|v| {
+                            v.take().map(|f| f.call(()));
+                        });
+                    },
+                    Duration::from_millis(timeout + 1),
+                );
 
-            end_count.set_value(Some(0));
-            let event_listener = move || {
-                end_count.update_value(|v| {
-                    let Some(v) = v else {
-                        return;
-                    };
-                    *v += 1;
-                });
-                if end_count.with_value(|v| {
-                    let Some(v) = v else {
-                        return false;
-                    };
-                    *v >= prop_count
-                }) {
-                    finish.update_value(|v| {
-                        v.take().map(|f| f.call(()));
+                end_count.set_value(Some(0));
+                let event_listener = move || {
+                    end_count.update_value(|v| {
+                        let Some(v) = v else {
+                            return;
+                        };
+                        *v += 1;
                     });
-                }
-            };
-            let handle = match types {
-                AnimationTypes::Transition => {
-                    add_event_listener(any_el.clone(), ev::transitionend, move |_| event_listener())
-                }
-                AnimationTypes::Animation => {
-                    add_event_listener(any_el.clone(), ev::animationend, move |_| event_listener())
-                }
-            };
-            end_handle.set_value(Some(handle));
+                    if end_count.with_value(|v| {
+                        let Some(v) = v else {
+                            return false;
+                        };
+                        *v >= prop_count
+                    }) {
+                        finish.update_value(|v| {
+                            v.take().map(|f| f.call(()));
+                        });
+                    }
+                };
+                let handle = match types {
+                    AnimationTypes::Transition => {
+                        add_event_listener(el.deref().clone(), ev::transitionend, move |_| {
+                            event_listener()
+                        })
+                    }
+                    AnimationTypes::Animation => {
+                        add_event_listener(el.deref().clone(), ev::animationend, move |_| {
+                            event_listener()
+                        })
+                    }
+                };
+                end_handle.set_value(Some(handle));
+            }
         });
 
         let on_finish = move || {
@@ -104,8 +115,13 @@ where
 
         let on_enter_fn = {
             let class_list = class_list.clone();
+            let class_list = send_wrapper::SendWrapper::new(class_list);
+            let on_before_enter = on_before_enter.clone();
+            let on_after_enter = on_after_enter.clone();
+            let on_enter = on_enter.clone();
+            let on_end = on_end.clone();
             Callback::new(move |name: String| {
-                if let Some(on_before_enter) = on_before_enter {
+                if let Some(on_before_enter) = on_before_enter.as_ref() {
                     on_before_enter.call(());
                 }
                 let enter_from = format!("{name}-enter-from");
@@ -116,13 +132,16 @@ where
                 display.set(None);
 
                 let class_list = class_list.clone();
+                let on_after_enter = on_after_enter.clone();
+                let on_end = on_end.clone();
+                let on_enter = on_enter.clone();
                 next_frame.run(move || {
                     let _ = class_list.remove_1(&enter_from);
                     let _ = class_list.add_1(&enter_to);
 
                     let remove = Callback::new(move |_| {
                         let _ = class_list.remove_2(&enter_active, &enter_to);
-                        if let Some(on_after_enter) = on_after_enter {
+                        if let Some(on_after_enter) = on_after_enter.as_ref() {
                             on_after_enter.call(());
                         }
                     });
@@ -137,8 +156,13 @@ where
 
         let on_leave_fn = {
             let class_list = class_list.clone();
+            let class_list = send_wrapper::SendWrapper::new(class_list);
+            let on_before_leave = on_before_leave.clone();
+            let on_after_leave = on_after_leave.clone();
+            let on_leave = on_leave.clone();
+            let on_end = on_end.clone();
             Callback::new(move |name: String| {
-                if let Some(on_before_leave) = on_before_leave {
+                if let Some(on_before_leave) = on_before_leave.as_ref() {
                     on_before_leave.call(());
                 }
                 let leave_from = format!("{name}-leave-from");
@@ -148,6 +172,9 @@ where
                 let _ = class_list.add_2(&leave_from, &leave_active);
 
                 let class_list = class_list.clone();
+                let on_after_leave = on_after_leave.clone();
+                let on_end = on_end.clone();
+                let on_leave = on_leave.clone();
                 next_frame.run(move || {
                     let _ = class_list.remove_1(&leave_from);
                     let _ = class_list.add_1(&leave_to);
@@ -155,7 +182,7 @@ where
                     let remove = Callback::new(move |_| {
                         let _ = class_list.remove_2(&leave_active, &leave_to);
                         display.set(Some("display: none;"));
-                        if let Some(on_after_leave) = on_after_leave {
+                        if let Some(on_after_leave) = on_after_leave.as_ref() {
                             on_after_leave.call(());
                         }
                     });
@@ -167,6 +194,7 @@ where
             })
         };
 
+        let name = name.clone();
         RenderEffect::new(move |prev: Option<bool>| {
             let show = show.get();
             let prev = if let Some(prev) = prev {
@@ -214,7 +242,7 @@ struct CSSTransitionInfo {
     timeout: u64,
 }
 
-fn get_transition_info(el: &web_sys::HtmlElement) -> Option<CSSTransitionInfo> {
+fn get_transition_info(el: &web_sys::Element) -> Option<CSSTransitionInfo> {
     let styles = window().get_computed_style(el).ok().flatten()?;
 
     let get_style_properties = |property: &str| {

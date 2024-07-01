@@ -1,11 +1,17 @@
 mod get_placement_style;
 
+use std::ops::Deref;
+
 pub use get_placement_style::FollowerPlacement;
+use web_sys::wasm_bindgen::JsCast;
 
 use crate::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
 use leptos::{
-    ev, html, html::ElementDescriptor, leptos_dom::helpers::WindowListenerHandle, prelude::*,
+    ev,
+    html::{self, ElementType},
+    leptos_dom::helpers::WindowListenerHandle,
+    prelude::*,
 };
 use thaw_utils::{
     add_event_listener, get_scroll_parent, mount_style, with_hydration_off, EventListenerHandle,
@@ -55,14 +61,18 @@ impl Copy for FollowerWidth {}
 /// }
 /// ```
 #[component]
-pub fn Binder<El: ElementDescriptor + Clone + 'static>(
+pub fn Binder<E>(
     /// Used to track DOM locations
     #[prop(into)]
-    target_ref: NodeRef<El>,
+    target_ref: NodeRef<E>,
     /// Content for pop-up display
     follower: Follower,
     children: Children,
-) -> impl IntoView {
+) -> impl IntoView
+where
+    E: ElementType + 'static,
+    E::Output: JsCast + Clone + Deref<Target = web_sys::Element> + 'static,
+{
     mount_style("binder", include_str!("./binder.css"));
     let Follower {
         show: follower_show,
@@ -72,11 +82,12 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
     } = follower;
 
     let scroll_listener = StoredValue::new(None::<Callback<()>>);
-    let scrollable_element_handle_vec = StoredValue::new::<Vec<EventListenerHandle>>(vec![]);
+    let scrollable_element_handle_vec = StoredValue::<Vec<EventListenerHandle>>::new(vec![]);
     let resize_handle = StoredValue::new(None::<WindowListenerHandle>);
 
-    let ensure_scroll_listener = move || {
-        let Some(el) = target_ref.get_untracked().map(|target| target.into_any()) else {
+    let ensure_scroll_listener = Callback::new(move |_: ()| {
+        let target_ref = target_ref.get_untracked();
+        let Some(el) = target_ref.as_deref() else {
             return;
         };
 
@@ -97,12 +108,12 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
             }
         }
         scrollable_element_handle_vec.set_value(handle_vec);
-    };
+    });
 
     let add_scroll_listener = Callback::new(move |listener: Callback<()>| {
         scroll_listener.update_value(|scroll_listener| {
             if scroll_listener.is_none() {
-                ensure_scroll_listener();
+                ensure_scroll_listener.call(());
             }
             *scroll_listener = Some(listener);
         })
@@ -136,9 +147,13 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
         });
     });
 
-    on_cleanup(move || {
-        remove_scroll_listener.call(());
-        remove_resize_listener.call(());
+    on_cleanup({
+        let remove_scroll_listener = remove_scroll_listener.clone();
+        let remove_resize_listener = remove_resize_listener.clone();
+        move || {
+            remove_scroll_listener.call(());
+            remove_resize_listener.call(());
+        }
     });
     view! {
         {children()}
@@ -158,9 +173,9 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
 }
 
 #[component]
-fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
+fn FollowerContainer<E>(
     show: MaybeSignal<bool>,
-    target_ref: NodeRef<El>,
+    target_ref: NodeRef<E>,
     width: Option<FollowerWidth>,
     placement: FollowerPlacement,
     #[prop(into)] add_scroll_listener: Callback<Callback<()>>,
@@ -168,7 +183,11 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     #[prop(into)] add_resize_listener: Callback<Callback<()>>,
     #[prop(into)] remove_resize_listener: Callback<()>,
     children: Children,
-) -> impl IntoView {
+) -> impl IntoView
+where
+    E: ElementType,
+    E::Output: JsCast + Clone + Deref<Target = web_sys::Element> + 'static,
+{
     let content_ref = NodeRef::<html::Div>::new();
     let content_style = RwSignal::new(String::new());
     let placement_str = RwSignal::new(placement.as_str());
@@ -176,7 +195,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
         let Some(content_ref) = content_ref.get_untracked() else {
             return;
         };
-        let Some(target_ref) = target_ref.get_untracked().map(|target| target.into_any()) else {
+        let Some(target_ref) = target_ref.get_untracked() else {
             return;
         };
         let target_rect = target_ref.get_bounding_client_rect();
@@ -206,7 +225,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
                 "transform: translateX({left}px) translateY({top}px) {transform};"
             ));
         } else {
-            logging::error!("Thaw-Binder: get_follower_placement_style return None");
+            error!("Thaw-Binder: get_follower_placement_style return None");
         }
 
         content_style.set(style);
@@ -232,9 +251,9 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     });
 
     let children = with_hydration_off(|| {
-        html::div().classes("thaw-binder-follower-container").child(
+        html::div().class("thaw-binder-follower-container").child(
             html::div()
-                .classes("thaw-binder-follower-content")
+                .class("thaw-binder-follower-content")
                 .attr("data-thaw-placement", move || placement_str.get())
                 .node_ref(content_ref)
                 .attr("style", move || content_style.get())
