@@ -72,6 +72,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "TextareaMdPage" => "../docs/textarea/mod.md",
         "TimePickerMdPage" => "../docs/time_picker/mod.md",
         "TextMdPage" => "../docs/text/mod.md",
+        "ToastMdPage" => "../docs/toast/mod.md",
         "UploadMdPage" => "../docs/upload/mod.md"
     };
 

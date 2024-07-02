@@ -308,6 +308,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Time Picker".into(),
                 },
                 MenuItemOption {
+                    value: "/components/toast".into(),
+                    label: "Toast".into(),
+                },
+                MenuItemOption {
                     value: "/components/upload".into(),
                     label: "Upload".into(),
                 },
