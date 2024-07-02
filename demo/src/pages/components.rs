@@ -76,7 +76,7 @@ impl IntoView for MenuGroupOption {
     fn into_view(self) -> View {
         let Self { label, children } = self;
         view! {
-            <Caption1Strong style="margin-inline-start: 10px">
+            <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: inline-block">
                 {label}
             </Caption1Strong>
             {children.into_iter().map(|v| v.into_view()).collect_view()}

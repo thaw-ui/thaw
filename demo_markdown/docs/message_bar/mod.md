@@ -4,7 +4,7 @@
 view! {
     <MessageBar>
         <MessageBarBody>
-            <MessageBarTitle>Descriptive title</MessageBarTitle>
+            <MessageBarTitle>"Descriptive title"</MessageBarTitle>
             "Message providing information to the user with actionable insights."
         </MessageBarBody>
         <MessageBarActions>

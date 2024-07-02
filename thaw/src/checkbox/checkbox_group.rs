@@ -7,7 +7,7 @@ pub fn CheckboxGroup(
     #[prop(optional, into)] value: Model<HashSet<String>>,
     children: Children,
 ) -> impl IntoView {
-    view! { 
+    view! {
         <Provider value=CheckboxGroupInjection(value)>
             <div class="thaw-checkbox-group" role="group">
                 {children()}

@@ -40,3 +40,13 @@ impl Theme {
         expect_context::<ConfigInjection>().theme
     }
 }
+
+impl From<String> for Theme {
+    fn from(value: String) -> Self {
+        if value == "dark" {
+            Theme::dark()
+        } else {
+            Theme::light()
+        }
+    }
+}

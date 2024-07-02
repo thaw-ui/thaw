@@ -1,5 +1,5 @@
 use super::PanelVariant;
-use crate::{Button, ButtonSize, ButtonAppearance};
+use crate::{Button, ButtonAppearance, ButtonSize};
 use chrono::{Datelike, NaiveDate};
 use leptos::*;
 

@@ -197,7 +197,7 @@ impl ColorTheme {
             color_palette_yellow_foreground_1: "#817400".into(),
             color_palette_yellow_foreground_2: "#817400".into(),
             color_palette_yellow_border_1: "#fef7b2".into(),
-            
+
             color_palette_dark_orange_background_1: "#fdf6f3".into(),
             color_palette_dark_orange_background_3: "#da3b01".into(),
             color_palette_dark_orange_foreground_1: "#c43501".into(),

@@ -1,7 +1,8 @@
 use super::switch_version::SwitchVersion;
 use leptos::*;
 use leptos_meta::Style;
-use leptos_router::{use_location, use_navigate};
+use leptos_router::use_navigate;
+use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
 use thaw::*;
 
 #[component]
@@ -16,16 +17,20 @@ pub fn SiteHeader() -> impl IntoView {
             }
         })
     });
+    let (_, write_theme, _) = use_local_storage::<String, FromToStringCodec>("theme");
     let change_theme = Callback::new(move |_| {
         if theme_name.get_untracked() == "Light" {
             theme.set(Theme::light());
+            write_theme.set("light".to_string());
         } else {
             theme.set(Theme::dark());
+            write_theme.set("dark".to_string());
         }
     });
 
     let search_value = create_rw_signal(String::new());
     let search_all_options = store_value(gen_search_all_options());
+
     let search_options = create_memo(move |_| {
         let search_value = search_value.get();
         if search_value.is_empty() {
@@ -126,32 +131,36 @@ pub fn SiteHeader() -> impl IntoView {
             "
         </Style>
         <LayoutHeader class="demo-header">
-            <Space
-                on:click=move |_| {
+            <Space on:click=move |_| {
                 let navigate = use_navigate();
                 navigate("/", Default::default());
             }>
                 <img src="/logo.svg" style="width: 36px"/>
-                <div class="demo-name">
-                    "Thaw UI"
-                </div>
+                <div class="demo-name">"Thaw UI"</div>
             </Space>
             <Space>
                 <AutoComplete
                     value=search_value
                     placeholder="Type '/' to search"
-                    options=search_options
                     clear_after_select=true
                     blur_after_select=true
                     on_select=on_search_select
                     comp_ref=auto_complete_ref
                 >
+                    <For each=move || search_options.get() key=|option| option.label.clone() let:option>
+                        <AutoCompleteOption key=option.value>{option.label}</AutoCompleteOption>
+                    </For>
                     <AutoCompletePrefix slot>
-                        <Icon icon=icondata::AiSearchOutlined style="font-size: 18px; color: var(--thaw-placeholder-color);"/>
+                        <Icon
+                            icon=icondata::AiSearchOutlined
+                            style="font-size: 18px; color: var(--thaw-placeholder-color);"
+                        />
                     </AutoCompletePrefix>
-                    <p title="#TODO"></p>
                 </AutoComplete>
-                <Popover placement=PopoverPlacement::BottomEnd class="demo-header__menu-popover-mobile">
+                <Popover
+                    placement=PopoverPlacement::BottomEnd
+                    class="demo-header__menu-popover-mobile"
+                >
                     <PopoverTrigger slot class="demo-header__menu-mobile">
                         <Button
                             appearance=ButtonAppearance::Subtle
@@ -159,25 +168,36 @@ pub fn SiteHeader() -> impl IntoView {
                             style="font-size: 22px; padding: 0px 6px;"
                         />
                     </PopoverTrigger>
-                    <div style="height: 70vh; overflow: auto;">
-                        // <Menu value=menu_value>
-                        //     <MenuItem key=theme_name label=theme_name />
-                        //     <MenuItem key="github" label="Github" />
-                        //     // {
-                        //     //     use crate::pages::{gen_guide_menu_data, gen_menu_data};
-                        //     //     vec![
-                        //     //         gen_guide_menu_data().into_view(),
-                        //     //         gen_menu_data().into_view(),
-                        //     //     ]
-                        //     // }
-                        // </Menu>
+                    <div style="height: 70vh; overflow: auto;">// <Menu value=menu_value>
+                    // <MenuItem key=theme_name label=theme_name />
+                    // <MenuItem key="github" label="Github" />
+                    // {
+                    // use crate::pages::{gen_guide_menu_data, gen_menu_data};
+                    // vec![
+                    // gen_guide_menu_data().into_view(),
+                    // gen_menu_data().into_view(),
+                    // ]
+                    // }
+                    // </Menu>
                     </div>
                 </Popover>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
-                    <Button appearance=ButtonAppearance::Subtle on_click=Callback::new(move |_| change_theme.call(()))>
+                    <Button
+                        appearance=ButtonAppearance::Subtle
+                        on_click=Callback::new(move |_| change_theme.call(()))
+                    >
                         {move || theme_name.get()}
                     </Button>
-                    <SwitchVersion />
+                    <SwitchVersion/>
+                    <Button
+                        appearance=ButtonAppearance::Subtle
+                        icon=icondata::BiDiscordAlt
+                        style="font-size: 22px; padding: 0px 6px;"
+                        on_click=move |_| {
+                            _ = window().open_with_url("https://discord.gg/YPxuprzu6M");
+                        }
+                    />
+
                     <Button
                         appearance=ButtonAppearance::Subtle
                         icon=icondata::AiGithubOutlined
@@ -186,11 +206,18 @@ pub fn SiteHeader() -> impl IntoView {
                             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                         }
                     />
+
                 </Space>
             </Space>
 
         </LayoutHeader>
     }
+}
+
+#[derive(Clone, PartialEq)]
+struct AutoCompleteOption {
+    pub label: String,
+    pub value: String,
 }
 
 fn gen_search_all_options() -> Vec<AutoCompleteOption> {
@@ -205,7 +232,6 @@ fn gen_search_all_options() -> Vec<AutoCompleteOption> {
         })
         .collect()
 }
-
 
 // TODO
 // fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
@@ -248,3 +274,5 @@ fn gen_search_all_options() -> Vec<AutoCompleteOption> {
 
 //     menu_value
 // }
+
+

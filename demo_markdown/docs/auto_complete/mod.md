@@ -20,9 +20,9 @@ view! {
             key=|option| option.0.clone()
             let:option
         >
-            <AutoCompleteOption2 key=option.0>
+            <AutoCompleteOption key=option.0>
                 {option.1}
-            </AutoCompleteOption2>
+            </AutoCompleteOption>
         </For>
     </AutoComplete>
 }
