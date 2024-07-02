@@ -1,14 +1,13 @@
 mod auto_complete_option;
 
-pub use auto_complete_option::AutoCompleteOption2;
+pub use auto_complete_option::AutoCompleteOption;
 
 use crate::{ComponentRef, ConfigInjection, Input, InputPrefix, InputRef, InputSuffix};
 use leptos::*;
 use thaw_components::{
     Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth, OptionComp,
 };
-use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
-
+use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[slot]
 pub struct AutoCompletePrefix {
@@ -82,134 +81,134 @@ pub fn AutoComplete(
     // otherwise e.g. selection could move from one item to
     // another staying on the same index
     //create_effect(move |_| {
-        //options.track();
-        //select_option_index.set(default_index);
+    //options.track();
+    //select_option_index.set(default_index);
     //});
 
     //let on_keydown = move |event: ev::KeyboardEvent| {
-        //if !is_show_menu.get_untracked() {
-            //return;
-        //}
-        //let key = event.key();
-        //if key == *"ArrowDown" {
-            //select_option_index.update(|index| {
-                //if *index == Some(options.with_untracked(|options| options.len()) - 1) {
-                    //*index = default_index
-                //} else {
-                    //*index = Some(index.map_or(0, |index| index + 1))
-                //}
-            //});
-        //} else if key == *"ArrowUp" {
-            //select_option_index.update(|index| {
-                //match *index {
-                    //None => *index = Some(options.with_untracked(|options| options.len()) - 1),
-                    //Some(0) => {
-                        //if allow_free_input {
-                            //*index = None
-                        //} else {
-                            //*index = Some(options.with_untracked(|options| options.len()) - 1)
-                        //}
-                    //}
-                    //Some(prev_index) => *index = Some(prev_index - 1),
-                //};
-            //});
-        //} else if key == *"Enter" {
-            //event.prevent_default();
-            //let option_value = options.with_untracked(|options| {
-                //let index = select_option_index.get_untracked();
-                //match index {
-                    //None if allow_free_input => {
-                        //let value = value.get_untracked();
-                        //(!value.is_empty()).then_some(value)
-                    //}
-                    //Some(index) if options.len() > index => {
-                        //let option = &options[index];
-                        //Some(option.value.clone())
-                    //}
-                    //_ => None,
-                //}
-            //});
-            //if let Some(option_value) = option_value {
-                //select_value(option_value);
-            //}
-        //}
+    //if !is_show_menu.get_untracked() {
+    //return;
+    //}
+    //let key = event.key();
+    //if key == *"ArrowDown" {
+    //select_option_index.update(|index| {
+    //if *index == Some(options.with_untracked(|options| options.len()) - 1) {
+    //*index = default_index
+    //} else {
+    //*index = Some(index.map_or(0, |index| index + 1))
+    //}
+    //});
+    //} else if key == *"ArrowUp" {
+    //select_option_index.update(|index| {
+    //match *index {
+    //None => *index = Some(options.with_untracked(|options| options.len()) - 1),
+    //Some(0) => {
+    //if allow_free_input {
+    //*index = None
+    //} else {
+    //*index = Some(options.with_untracked(|options| options.len()) - 1)
+    //}
+    //}
+    //Some(prev_index) => *index = Some(prev_index - 1),
+    //};
+    //});
+    //} else if key == *"Enter" {
+    //event.prevent_default();
+    //let option_value = options.with_untracked(|options| {
+    //let index = select_option_index.get_untracked();
+    //match index {
+    //None if allow_free_input => {
+    //let value = value.get_untracked();
+    //(!value.is_empty()).then_some(value)
+    //}
+    //Some(index) if options.len() > index => {
+    //let option = &options[index];
+    //Some(option.value.clone())
+    //}
+    //_ => None,
+    //}
+    //});
+    //if let Some(option_value) = option_value {
+    //select_value(option_value);
+    //}
+    //}
     //};
     input_ref.on_load(move |_| {
         comp_ref.load(AutoCompleteRef { input_ref });
     });
 
     view! {
-        <Binder target_ref=auto_complete_ref>
-            <div
-                class=class_list!["thaw-auto-complete", class.map(| c | move || c.get())]
-                ref=auto_complete_ref
-//                on:keydown=on_keydown
-            >
-                <Input
-                    attrs
-                    value
-                    placeholder
-                    disabled
-                    invalid
-                    on_focus=move |_| open_menu()
-                    on_blur=move |_| is_show_menu.set(false)
-                    allow_value
-                    comp_ref=input_ref
+            <Binder target_ref=auto_complete_ref>
+                <div
+                    class=class_list!["thaw-auto-complete", class.map(| c | move || c.get())]
+                    ref=auto_complete_ref
+    //                on:keydown=on_keydown
                 >
-                    <InputPrefix if_=auto_complete_prefix.is_some() slot>
-
-                        {if let Some(auto_complete_prefix) = auto_complete_prefix {
-                            Some((auto_complete_prefix.children)())
-                        } else {
-                            None
-                        }}
-
-                    </InputPrefix>
-                    <InputSuffix if_=auto_complete_suffix.is_some() slot>
-
-                        {if let Some(auto_complete_suffix) = auto_complete_suffix {
-                            Some((auto_complete_suffix.children)())
-                        } else {
-                            None
-                        }}
-
-                    </InputSuffix>
-                </Input>
-            </div>
-            <Follower
-                slot
-                show=is_show_menu
-                placement=FollowerPlacement::BottomStart
-                width=FollowerWidth::Target
-            >
-                <Provider value=AutoCompleteInjection(value, select_value)>
-                    <CSSTransition
-                        node_ref=menu_ref
-                        name="fade-in-scale-up-transition"
-                        appear=is_show_menu.get_untracked()
-                        show=is_show_menu
-                        let:display
+                    <Input
+                        attrs
+                        value
+                        placeholder
+                        disabled
+                        invalid
+                        on_focus=move |_| open_menu()
+                        on_blur=move |_| is_show_menu.set(false)
+                        allow_value
+                        comp_ref=input_ref
                     >
-                        <div
-                            class="thaw-config-provider thaw-auto-complete__listbox"
-                            style=move || display.get()
-                            data-thaw-id=config_provider.id().clone()
-                            ref=menu_ref
-                            role="listbox"
-                        >
+                        <InputPrefix if_=auto_complete_prefix.is_some() slot>
 
-                            <OptionComp value=children let:children>
-                                {children()}
-                            </OptionComp>
-                        </div>
-                    </CSSTransition>
-                </Provider>
-            </Follower>
-        </Binder>
-    }
+                            {if let Some(auto_complete_prefix) = auto_complete_prefix {
+                                Some((auto_complete_prefix.children)())
+                            } else {
+                                None
+                            }}
+
+                        </InputPrefix>
+                        <InputSuffix if_=auto_complete_suffix.is_some() slot>
+
+                            {if let Some(auto_complete_suffix) = auto_complete_suffix {
+                                Some((auto_complete_suffix.children)())
+                            } else {
+                                None
+                            }}
+
+                        </InputSuffix>
+                    </Input>
+                </div>
+                <Follower
+                    slot
+                    show=is_show_menu
+                    placement=FollowerPlacement::BottomStart
+                    width=FollowerWidth::Target
+                >
+                    <Provider value=AutoCompleteInjection(value, select_value)>
+                        <CSSTransition
+                            node_ref=menu_ref
+                            name="fade-in-scale-up-transition"
+                            appear=is_show_menu.get_untracked()
+                            show=is_show_menu
+                            let:display
+                        >
+                            <div
+                                class="thaw-config-provider thaw-auto-complete__listbox"
+                                style=move || display.get()
+                                data-thaw-id=config_provider.id().clone()
+                                ref=menu_ref
+                                role="listbox"
+                            >
+
+                                <OptionComp value=children let:children>
+                                    {children()}
+                                </OptionComp>
+                            </div>
+                        </CSSTransition>
+                    </Provider>
+                </Follower>
+            </Binder>
+        }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub(crate) struct AutoCompleteInjection(pub Model<String>, pub Callback<String>);
 
 impl AutoCompleteInjection {

@@ -148,7 +148,7 @@ pub fn SiteHeader() -> impl IntoView {
                     comp_ref=auto_complete_ref
                 >
                     <For each=move || search_options.get() key=|option| option.label.clone() let:option>
-                        <AutoCompleteOption2 key=option.value>{option.label}</AutoCompleteOption2>
+                        <AutoCompleteOption key=option.value>{option.label}</AutoCompleteOption>
                     </For>
                     <AutoCompletePrefix slot>
                         <Icon
@@ -156,7 +156,6 @@ pub fn SiteHeader() -> impl IntoView {
                             style="font-size: 18px; color: var(--thaw-placeholder-color);"
                         />
                     </AutoCompletePrefix>
-                    <p title="#TODO"></p>
                 </AutoComplete>
                 <Popover
                     placement=PopoverPlacement::BottomEnd
