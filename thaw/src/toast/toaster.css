@@ -1,3 +1,27 @@
+div.thaw-toaster-container {
+    z-index: 1000000;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    text-align: left;
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+}
+
+.thaw-toaster {
+    bottom: 16px;
+    right: 20px;
+    
+    position: fixed;
+    width: 292px;
+    pointer-events: none;
+}
+
 .thaw-toast {
     display: grid;
     grid-template-columns: auto 1fr auto;

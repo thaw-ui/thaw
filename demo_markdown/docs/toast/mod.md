@@ -1,9 +1,14 @@
 # Toast
 
-```rust
+```rust demo
+let toaster = ToasterInjection::use_();
+
+let on_click = move |_| {
+    toaster.dispatch_toast(view! { <span>"Hello"</span> }.into_any(), Default::default());
+};
+
 view! {
-    <Toaster toaster_id=toaster_id />
-    <Button>"Make toast"</Button>
+    <Button on_click=on_click>"Make toast"</Button>
 }
 
 ```
