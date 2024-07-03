@@ -185,7 +185,7 @@ fn FollowerContainer<E>(
     children: Children,
 ) -> impl IntoView
 where
-    E: ElementType,
+    E: ElementType + 'static,
     E::Output: JsCast + Clone + Deref<Target = web_sys::Element> + 'static,
 {
     let content_ref = NodeRef::<html::Div>::new();
@@ -239,11 +239,14 @@ where
             return;
         }
         if show.get() {
-            request_animation_frame(move || {
-                sync_position.call(());
+            request_animation_frame({
+                let sync_position = sync_position.clone();
+                move || {
+                    sync_position.call(());
+                }
             });
-            add_scroll_listener.call(sync_position);
-            add_resize_listener.call(sync_position);
+            add_scroll_listener.call(sync_position.clone());
+            add_resize_listener.call(sync_position.clone());
         } else {
             remove_scroll_listener.call(());
             remove_resize_listener.call(());
@@ -261,5 +264,5 @@ where
         )
     });
 
-    view! { <Teleport element=children immediate=show/> }
+    view! { <Teleport element=children.into_any() immediate=show/> }
 }

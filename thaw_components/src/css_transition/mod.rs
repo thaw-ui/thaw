@@ -1,5 +1,6 @@
 use leptos::{ev, html::ElementType, prelude::*};
 use std::{ops::Deref, time::Duration};
+use tachys::view::any_view::AnyView;
 use thaw_utils::{add_event_listener, EventListenerHandle, NextFrame};
 use web_sys::wasm_bindgen::JsCast;
 
@@ -22,9 +23,9 @@ pub fn CSSTransition<E, CF, IV>(
 ) -> impl IntoView
 where
     E: ElementType + 'static,
-    E::Output: JsCast + Clone + Deref<Target = web_sys::Element> + 'static,
-    CF: FnOnce(ReadSignal<Option<&'static str>>) -> IV + 'static,
-    IV: IntoView,
+    E::Output: JsCast + Clone + Deref<Target = web_sys::HtmlElement> + 'static,
+    CF: FnOnce(ReadSignal<Option<&'static str>>) -> IV + Send + 'static,
+    IV: IntoView + 'static,
 {
     let display = RwSignal::new((!show.get_untracked()).then_some("display: none;"));
 
@@ -92,13 +93,13 @@ where
                     }
                 };
                 let handle = match types {
-                    AnimationTypes::Transition => {
-                        add_event_listener(el.deref().clone(), ev::transitionend, move |_| {
-                            event_listener()
-                        })
-                    }
+                    AnimationTypes::Transition => add_event_listener(
+                        el.deref().clone().into(),
+                        ev::transitionend,
+                        move |_| event_listener(),
+                    ),
                     AnimationTypes::Animation => {
-                        add_event_listener(el.deref().clone(), ev::animationend, move |_| {
+                        add_event_listener(el.deref().clone().into(), ev::animationend, move |_| {
                             event_listener()
                         })
                     }
