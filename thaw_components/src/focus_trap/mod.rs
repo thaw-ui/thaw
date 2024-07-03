@@ -32,6 +32,7 @@ pub fn FocusTrap(
         Effect::new(move |prev| {
             let is_active = active.get();
             if is_active && !prev.unwrap_or(false) {
+                let on_esc = on_esc.clone();
                 let handle = window_event_listener(ev::keydown, move |e| {
                     if &e.code() == "Escape" {
                         if is_current_active() {

@@ -1,5 +1,5 @@
 use cfg_if::cfg_if;
-use leptos::{html::{AnyElement, HtmlElement}, prelude::*};
+use leptos::prelude::*;
 use tachys::view::any_view::AnyView;
 
 /// https://github.com/solidjs/solid/blob/main/packages/solid/web/src/index.ts#L56
@@ -7,7 +7,7 @@ use tachys::view::any_view::AnyView;
 pub fn Teleport(
     #[prop(default = true.into(), into)] immediate: MaybeSignal<bool>,
     #[prop(into, optional)] mount: Option<web_sys::Element>,
-    #[prop(optional, into)] element: Option<HtmlElement<AnyElement>>,
+    #[prop(optional, into)] element: Option<AnyView<Dom>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     cfg_if! { if #[cfg(all(target_arch = "wasm32", any(feature = "csr", feature = "hydrate")))] {

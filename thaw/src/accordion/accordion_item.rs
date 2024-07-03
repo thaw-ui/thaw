@@ -1,5 +1,5 @@
 use crate::AccordionInjection;
-use leptos::*;
+use leptos::{prelude::*, html};
 use thaw_components::CSSTransition;
 use thaw_utils::{mount_style, StoredMaybeSignal};
 
@@ -43,7 +43,7 @@ pub fn AccordionItem(
             <div class="thaw-accordion-header">
                 <button
                     class="thaw-accordion-header__button"
-                    aria-expanded=move || is_show_panel.get().to_string()
+                    // aria_expanded=move || is_show_panel.get().to_string() #TODO
                     type="button"
                     on:click=on_click
                 >
@@ -58,8 +58,8 @@ pub fn AccordionItem(
             >
                 <div
                     class="thaw-accordion-panel"
-                    ref=panel_ref
-                    style=move || display.get()
+                    node_ref=panel_ref
+                    style=move || display.get().map(|d| d.to_string())
                 >
                     {children()}
                 </div>

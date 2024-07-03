@@ -2,18 +2,21 @@ mod accordion_item;
 
 pub use accordion_item::*;
 
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use std::collections::HashSet;
 use thaw_utils::Model;
 
 #[component]
 pub fn Accordion(
     /// Controls the state of the panel.
-    #[prop(optional, into)] open_items: Model<HashSet<String>>,
+    #[prop(optional, into)]
+    open_items: Model<HashSet<String>>,
     /// Indicates if Accordion support multiple Panels opened at the same time.
-    #[prop(optional)] multiple: bool,
+    #[prop(optional)]
+    multiple: bool,
     /// Indicates if Accordion support multiple Panels closed at the same time.
-    #[prop(optional)] collapsible: bool,
+    #[prop(optional)]
+    collapsible: bool,
     children: Children,
 ) -> impl IntoView {
     view! {
