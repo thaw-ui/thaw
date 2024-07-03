@@ -2,7 +2,7 @@ mod accordion_item;
 
 pub use accordion_item::*;
 
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use std::collections::HashSet;
 use thaw_utils::Model;
 
