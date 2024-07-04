@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{prelude::*, tachys::view::any_view::IntoAny};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
@@ -62,79 +62,79 @@ pub fn Text(
                 {children()}
             </b>
         }
-        .into_view(),
+        .into_any(),
         TextTag::Em => view! {
             <em class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </em>
         }
-        .into_view(),
+        .into_any(),
         TextTag::H1 => view! {
             <h1 class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </h1>
         }
-        .into_view(),
+        .into_any(),
         TextTag::H2 => view! {
             <h2 class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </h2>
         }
-        .into_view(),
+        .into_any(),
         TextTag::H3 => view! {
             <h3 class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </h3>
         }
-        .into_view(),
+        .into_any(),
         TextTag::H4 => view! {
             <h4 class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </h4>
         }
-        .into_view(),
+        .into_any(),
         TextTag::H5 => view! {
             <h5 class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </h5>
         }
-        .into_view(),
+        .into_any(),
         TextTag::H6 => view! {
             <h6 class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </h6>
         }
-        .into_view(),
+        .into_any(),
         TextTag::I => view! {
             <i class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </i>
         }
-        .into_view(),
+        .into_any(),
         TextTag::P => view! {
             <p class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </p>
         }
-        .into_view(),
+        .into_any(),
         TextTag::Pre => view! {
             <pre class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </pre>
         }
-        .into_view(),
+        .into_any(),
         TextTag::Span => view! {
             <span class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </span>
         }
-        .into_view(),
+        .into_any(),
         TextTag::Strong => view! {
             <strong class=class_list!["thaw-text", class] style=move || style.get()>
                 {children()}
             </strong>
         }
-        .into_view(),
+        .into_any(),
     }
 }
 

@@ -3,7 +3,7 @@ mod auto_complete_option;
 pub use auto_complete_option::AutoCompleteOption;
 
 use crate::{ComponentRef, ConfigInjection, Input, InputPrefix, InputRef, InputSuffix};
-use leptos::*;
+use leptos::{prelude::*, html};
 use thaw_components::{
     Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth, OptionComp,
 };
@@ -42,10 +42,10 @@ pub fn AutoComplete(
 
     let default_index = if allow_free_input { None } else { Some(0) };
 
-    let select_option_index = create_rw_signal::<Option<usize>>(default_index);
-    let menu_ref = create_node_ref::<html::Div>();
-    let is_show_menu = create_rw_signal(false);
-    let auto_complete_ref = create_node_ref::<html::Div>();
+    let select_option_index = RwSignal::<Option<usize>>::new(default_index);
+    let menu_ref = NodeRef::<html::Div>::new();
+    let is_show_menu = RwSignal::new(false);
+    let auto_complete_ref = NodeRef::<html::Div>::new();
     let open_menu = move || {
         select_option_index.set(default_index);
         is_show_menu.set(true);
@@ -141,7 +141,7 @@ pub fn AutoComplete(
             <Binder target_ref=auto_complete_ref>
                 <div
                     class=class_list!["thaw-auto-complete", class.map(| c | move || c.get())]
-                    ref=auto_complete_ref
+                    node_ref=auto_complete_ref
     //                on:keydown=on_keydown
                 >
                     <Input
@@ -193,7 +193,7 @@ pub fn AutoComplete(
                                 class="thaw-config-provider thaw-auto-complete__listbox"
                                 style=move || display.get()
                                 data-thaw-id=config_provider.id().clone()
-                                ref=menu_ref
+                                node_ref=menu_ref
                                 role="listbox"
                             >
 

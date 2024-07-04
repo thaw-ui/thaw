@@ -1,4 +1,4 @@
-use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
+use leptos::{ev, html, leptos_dom::helpers::WindowListenerHandle, prelude::*};
 use thaw_utils::{class_list, mount_style, ComponentRef, OptionalProp};
 
 #[component]
@@ -266,7 +266,7 @@ pub fn Scrollbar(
             on:mouseleave=on_mouseleave
         >
 
-            <div class="thaw-scrollbar__container" ref=container_ref on:scroll=on_scroll>
+            <div class="thaw-scrollbar__container" node_ref=container_ref on:scroll=on_scroll>
                 <div
                     class=class_list![
                         "thaw-scrollbar__content", content_class.map(| c | move || c.get())
@@ -279,12 +279,12 @@ pub fn Scrollbar(
                         )
                     }
 
-                    ref=content_ref
+                    node_ref=content_ref
                 >
                     {children()}
                 </div>
             </div>
-            <div class="thaw-scrollbar__track--vertical" ref=y_track_ref>
+            <div class="thaw-scrollbar__track--vertical" node_ref=y_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
                     style:display=move || (!is_show_y_thumb.get()).then_some("none")
@@ -293,7 +293,7 @@ pub fn Scrollbar(
                     on:mousedown=on_y_thumb_mousedown
                 ></div>
             </div>
-            <div class="thaw-scrollbar__track--horizontal" ref=x_track_ref>
+            <div class="thaw-scrollbar__track--horizontal" node_ref=x_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
                     style:display=move || (!is_show_x_thumb.get()).then_some("none")

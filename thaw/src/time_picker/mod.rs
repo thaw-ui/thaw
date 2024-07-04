@@ -3,7 +3,7 @@ use crate::{
     SignalWatch,
 };
 use chrono::{Local, NaiveTime, Timelike};
-use leptos::*;
+use leptos::{ev, html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{mount_style, ComponentRef, Model, OptionalProp};
 
@@ -11,7 +11,7 @@ use thaw_utils::{mount_style, ComponentRef, Model, OptionalProp};
 pub fn TimePicker(
     #[prop(optional, into)] value: Model<Option<NaiveTime>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
     let time_picker_ref = NodeRef::<html::Div>::new();
@@ -70,8 +70,8 @@ pub fn TimePicker(
 
     view! {
         <Binder target_ref=time_picker_ref>
-            <div ref=time_picker_ref>
-                <Input attrs class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
+            <div node_ref=time_picker_ref>
+                <Input class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px"/>
                     </InputSuffix>
@@ -160,7 +160,7 @@ fn Panel(
                 class="thaw-config-provider thaw-time-picker-panel"
                 data-thaw-id=config_provider.id().clone()
                 style=move || display.get()
-                ref=panel_ref
+                node_ref=panel_ref
             >
                 <div class="thaw-time-picker-panel__time">
                     <div class="thaw-time-picker-panel__time-hour">
@@ -317,7 +317,7 @@ fn PanelTimeItem(
     is_selected: Memo<bool>,
     comp_ref: ComponentRef<PanelTimeItemRef>,
 ) -> impl IntoView {
-    let item_ref = create_node_ref();
+    let item_ref = NodeRef::new();
     item_ref.on_load(move |_| {
         let item_ref = PanelTimeItemRef { item_ref };
         comp_ref.load(item_ref);
@@ -326,7 +326,7 @@ fn PanelTimeItem(
         <div
             class="thaw-time-picker-panel__time-item"
             class=("thaw-time-picker-panel__time-item--slected", move || is_selected.get())
-            ref=item_ref
+            node_ref=item_ref
         >
 
             {format!("{value:02}")}

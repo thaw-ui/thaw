@@ -1,7 +1,7 @@
 mod panel;
 use crate::{Icon, Input, InputSuffix, SignalWatch};
 use chrono::NaiveDate;
-use leptos::*;
+use leptos::{prelude::*, html};
 use panel::{Panel, PanelRef};
 use thaw_components::{Binder, Follower, FollowerPlacement};
 use thaw_utils::{mount_style, now_date, ComponentRef, Model, OptionalProp};
@@ -68,7 +68,7 @@ pub fn DatePicker(
 
     view! {
         <Binder target_ref=date_picker_ref>
-            <div ref=date_picker_ref>
+            <div node_ref=date_picker_ref>
                 <Input attrs class value=show_date_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiCalendarOutlined style="font-size: 18px"/>

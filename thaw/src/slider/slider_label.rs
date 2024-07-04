@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use thaw_utils::mount_style;
 
 use crate::SliderInjection;

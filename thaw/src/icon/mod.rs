@@ -1,6 +1,6 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
-use leptos::*;
+use leptos::{ev, prelude::*};
 use thaw_utils::{class_list, mount_style};
 
 /// The Icon component.
@@ -45,7 +45,7 @@ pub fn Icon(
         }
     };
 
-    create_isomorphic_effect(move |_| {
+    Effect::new_isomorphic(move |_| {
         let icon = icon.get();
 
         let style = match (style.clone(), icon.style) {

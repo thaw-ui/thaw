@@ -1,7 +1,7 @@
 use super::PanelVariant;
 use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate};
 use chrono::{Datelike, Days, Month, Months, NaiveDate};
-use leptos::*;
+use leptos::prelude::*;
 use std::ops::Deref;
 use thaw_utils::now_date;
 

@@ -3,7 +3,7 @@ mod message_provider;
 pub use message_provider::*;
 
 use crate::{Icon, Theme};
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_components::{CSSTransition, If, Then};
 use uuid::Uuid;
 
@@ -48,7 +48,7 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
     }
 
     // let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
+    let css_vars = Memo::new(move |_| {
         let mut css_vars = String::new();
         // theme.with(|theme| {
         //     css_vars.push_str(&format!(
@@ -61,17 +61,17 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
     // let style = theme.with_untracked(|theme| format!("color: {};", variant.theme_color(theme)));
 
     let on_before_leave = Callback::new(move |_| {
-        let Some(node_el) = message_ref.get() else {
-            return;
-        };
-        use std::ops::Deref;
-        let any_el = node_el.into_any();
-        let el = any_el.deref();
-        let style = el.style();
-        let _ = style.set_property("max-height", &format!("{}px", el.offset_height()));
+        // let Some(node_el) = message_ref.get() else {
+        //     return;
+        // };
+        // use std::ops::Deref;
+        // let any_el = node_el.into_any();
+        // let el = any_el.deref();
+        // let style = el.style();
+        // let _ = style.set_property("max-height", &format!("{}px", el.offset_height()));
     });
     let on_after_leave = Callback::new(move |_| {
-        queue_microtask(move || on_close.call(id));
+        // queue_microtask(move || on_close.call(id));
     });
 
     view! {
@@ -84,7 +84,7 @@ fn Message(message: MessageType, #[prop(into)] on_close: Callback<Uuid, ()>) -> 
             on_after_leave=on_after_leave
             let:_
         >
-            <div class="thaw-message-wrapper" ref=message_ref>
+            <div class="thaw-message-wrapper" node_ref=message_ref>
                 <div class="thaw-message" style=move || css_vars.get()>
                     <div class="thaw-message__icon">
                         <Icon icon=variant.icon()/>

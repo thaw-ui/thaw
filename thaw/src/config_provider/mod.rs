@@ -1,5 +1,5 @@
 use crate::Theme;
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use thaw_utils::{mount_dynamic_style, mount_style};
 
 #[component]

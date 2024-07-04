@@ -3,7 +3,7 @@ mod checkbox_group;
 pub use checkbox_group::CheckboxGroup;
 
 use checkbox_group::CheckboxGroupInjection;
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
@@ -67,7 +67,7 @@ pub fn Checkbox(
                 type="checkbox"
                 id=id.clone()
                 checked=checked
-                ref=input_ref
+                node_ref=input_ref
                 on:change=on_change
             />
             <div aria-hidden="true" class="thaw-checkbox__indicator">

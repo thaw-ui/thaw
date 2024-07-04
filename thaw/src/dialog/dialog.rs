@@ -1,5 +1,5 @@
 use crate::ConfigInjection;
-use leptos::*;
+use leptos::{context::Provider, ev, html, prelude::*};
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{mount_style, Model};
 
@@ -41,7 +41,7 @@ pub fn Dialog(
                             class="thaw-dialog-surface__backdrop"
                             style=move || display.get()
                             on:click=on_mask_click
-                            ref=mask_ref
+                            node_ref=mask_ref
                             aria-hidden="true"
                         ></div>
                     </CSSTransition>

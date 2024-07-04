@@ -3,7 +3,7 @@ mod loading_bar_provider;
 pub use loading_bar_provider::{use_loading_bar, LoadingBarProvider};
 
 use crate::ConfigInjection;
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_utils::{mount_style, ComponentRef};
 
 #[derive(Clone)]
@@ -35,17 +35,15 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
     let start = Callback::new(move |_| {
         loading.set(true);
         if let Some(loading_bar_ref) = loading_bar_ref.get_untracked() {
-            let loading_bar_ref = loading_bar_ref
-                .style("background-color", "var(--colorStatusSuccessForeground1)")
-                .style("transition", "none")
-                .style("max-width", "0");
+            loading_bar_ref.style(("background-color", "var(--colorStatusSuccessForeground1)"));
+            loading_bar_ref.style(("transition", "none"));
+            loading_bar_ref.style(("max-width", "0"));
             _ = loading_bar_ref.offset_width();
-            _ = loading_bar_ref
-                .style("transition", "max-width 4s linear")
-                .style("max-width", "80%");
+            loading_bar_ref.style(("transition", "max-width 4s linear"));
+            loading_bar_ref.style(("max-width", "80%"));
         }
     });
-    let is_on_transitionend = store_value(false);
+    let is_on_transitionend = StoredValue::new(false);
     let on_transitionend = move |_| {
         if is_on_transitionend.get_value() {
             is_on_transitionend.set_value(false);
@@ -54,10 +52,9 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
     };
     let finish = Callback::new(move |_| {
         if let Some(loading_bar_ref) = loading_bar_ref.get_untracked() {
-            _ = loading_bar_ref
-                .style("background-color", "var(--colorStatusSuccessForeground1)")
-                .style("transition", "max-width 0.5s linear")
-                .style("max-width", "100%");
+            loading_bar_ref.style(("background-color", "var(--colorStatusSuccessForeground1)"));
+            loading_bar_ref.style(("transition", "max-width 0.5s linear"));
+            loading_bar_ref.style(("max-width", "100%"));
             is_on_transitionend.set_value(true);
         }
     });
@@ -66,15 +63,13 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
             if !loading.get() {
                 loading.set(true);
                 let loading_bar_ref = loading_bar_ref.clone();
-                let loading_bar_ref = loading_bar_ref
-                    .style("transition", "none")
-                    .style("max-width", "0");
+                loading_bar_ref.style(("transition", "none"));
+                loading_bar_ref.style(("max-width", "0"));
                 _ = loading_bar_ref.offset_width();
             }
-            _ = loading_bar_ref
-                .style("background-color", "var(--colorStatusDangerForeground1)")
-                .style("transition", "max-width 0.5s linear")
-                .style("max-width", "100%");
+            loading_bar_ref.style(("background-color", "var(--colorStatusDangerForeground1)"));
+            loading_bar_ref.style(("transition", "max-width 0.5s linear"));
+            loading_bar_ref.style(("max-width", "100%"));
             is_on_transitionend.set_value(true);
         }
     });
@@ -92,7 +87,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
         >
             <div
                 class="thaw-loading-bar"
-                ref=loading_bar_ref
+                node_ref=loading_bar_ref
                 on:transitionend=on_transitionend
             ></div>
         </div>

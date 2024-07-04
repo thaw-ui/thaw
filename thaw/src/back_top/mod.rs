@@ -1,5 +1,5 @@
 use crate::{ConfigInjection, Icon};
-use leptos::{html::ToHtmlElement, *};
+use leptos::{ev, html, html::ToHtmlElement, prelude::*};
 use thaw_components::{CSSTransition, Fallback, OptionComp, Teleport};
 use thaw_utils::{
     add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle,
@@ -32,10 +32,14 @@ pub fn BackTop(
     let scroll_to_top = StoredValue::new(None::<Callback<()>>);
     let scroll_handle = StoredValue::new(None::<EventListenerHandle>);
 
-    placeholder_ref.on_load(move |el| {
+    Effect::new(move |_| {
+        let Some(placeholder_el) = placeholder_ref.get() else {
+            return;
+        };
+
         request_animation_frame(move || {
-            let scroll_el = get_scroll_parent(&el.into_any())
-                .unwrap_or_else(|| document().document_element().unwrap().to_leptos_element());
+            let scroll_el = get_scroll_parent(&placeholder_el)
+                .unwrap_or_else(|| document().document_element().unwrap());
 
             {
                 let scroll_el = scroll_el.clone();
@@ -72,7 +76,7 @@ pub fn BackTop(
     };
 
     view! {
-        <div style="display: none" class="thaw-back-top-placeholder" ref=placeholder_ref>
+        <div style="display: none" class="thaw-back-top-placeholder" node_ref=placeholder_ref>
             <Teleport immediate=is_show_back_top>
                 <CSSTransition
                     node_ref=back_top_ref
@@ -84,7 +88,7 @@ pub fn BackTop(
                     <div
                         class=class_list!["thaw-config-provider thaw-back-top", class.map(| c | move || c.get())]
                         data-thaw-id=config_provider.id().clone()
-                        ref=back_top_ref
+                        node_ref=back_top_ref
                         style=move || {
                             display.get().map_or_else(|| format!("right: {}px; bottom: {}px", right.get(), bottom.get()), |d| d.to_string())
                         }

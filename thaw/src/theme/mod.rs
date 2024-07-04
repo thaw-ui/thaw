@@ -4,7 +4,7 @@ mod common;
 use crate::ConfigInjection;
 pub use color::ColorTheme;
 pub use common::CommonTheme;
-use leptos::*;
+use leptos::prelude::*;
 
 #[derive(Clone)]
 pub struct Theme {

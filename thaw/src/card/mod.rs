@@ -6,7 +6,7 @@ pub use card_footer::*;
 pub use card_header::*;
 pub use card_preview::*;
 
-use leptos::*;
+use leptos::prelude::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]

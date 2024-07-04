@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{ev, html, prelude::*};
 use thaw_utils::{class_list, mount_style, ComponentRef, Model, OptionalProp};
 
 #[derive(Default, Clone)]
@@ -45,16 +45,16 @@ pub fn Input(
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
 
-    let value_trigger = Trigger::new();
+    let value_trigger = ArcTrigger::new();
     let on_input = move |ev| {
         let input_value = event_target_value(&ev);
         if let Some(allow_value) = allow_value.as_ref() {
             if !allow_value.call(input_value.clone()) {
-                value_trigger.notify();
+                value_trigger.trigger();
                 return;
             }
         }
@@ -75,9 +75,7 @@ pub fn Input(
     };
 
     let input_ref = NodeRef::<html::Input>::new();
-    input_ref.on_load(move |_| {
-        comp_ref.load(InputRef { input_ref });
-    });
+    comp_ref.load(InputRef { input_ref });
 
     let on_mousedown = move |event: ev::MouseEvent| {
         let el: web_sys::HtmlElement = event_target(&event);
@@ -102,18 +100,18 @@ pub fn Input(
         input_value = None;
     }
 
-    #[cfg(debug_assertions)]
-    {
-        const INNER_ATTRS: [&str; 4] = ["type", "class", "disabled", "placeholder"];
-        attrs.iter().for_each(|attr| {
-            if INNER_ATTRS.contains(&attr.0) {
-                logging::warn!(
-                    "Thaw: The '{}' attribute already exists on elements inside the Input component, which may cause conflicts.",
-                    attr.0
-                );
-            }
-        });
-    }
+    // #[cfg(debug_assertions)]
+    // {
+    //     const INNER_ATTRS: [&str; 4] = ["type", "class", "disabled", "placeholder"];
+    //     attrs.iter().for_each(|attr| {
+    //         if INNER_ATTRS.contains(&attr.0) {
+    //             logging::warn!(
+    //                 "Thaw: The '{}' attribute already exists on elements inside the Input component, which may cause conflicts.",
+    //                 attr.0
+    //             );
+    //         }
+    //     });
+    // }
 
     view! {
         <span
@@ -134,7 +132,6 @@ pub fn Input(
             }}
 
             <input
-                {..attrs}
                 type=move || variant.get().as_str()
                 value=input_value
                 prop:value=move || {
@@ -148,7 +145,7 @@ pub fn Input(
                 class="thaw-input__input"
                 disabled=move || disabled.get()
                 placeholder=placeholder.map(|p| move || p.get())
-                ref=input_ref
+                node_ref=input_ref
             />
 
             {if let Some(suffix) = input_suffix.and_then(|suffix| suffix.if_.then_some(suffix)) {

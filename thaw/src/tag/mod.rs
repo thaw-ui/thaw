@@ -1,5 +1,5 @@
 use crate::Icon;
-use leptos::*;
+use leptos::{ev, prelude::*};
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Clone, Copy, Default, PartialEq, Eq, Hash)]

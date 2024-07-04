@@ -3,7 +3,7 @@ mod upload_dragger;
 pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
-use leptos::*;
+use leptos::{ev, html, prelude::*};
 use thaw_utils::{add_event_listener, mount_style};
 
 #[component]
@@ -15,8 +15,8 @@ pub fn Upload(
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));
 
-    let input_ref = create_node_ref::<html::Input>();
-    let trigger_ref = create_node_ref::<html::Div>();
+    let input_ref = NodeRef::<html::Input>::new();
+    let trigger_ref = NodeRef::<html::Div>::new();
 
     trigger_ref.on_load(move |trigger_ref| {
         let handle = add_event_listener(trigger_ref.into_any(), ev::click, move |_| {
@@ -44,7 +44,7 @@ pub fn Upload(
         }
     };
 
-    let is_trigger_dragover = create_rw_signal(false);
+    let is_trigger_dragover = RwSignal::new(false);
     let on_trigger_drop = move |event: ev::DragEvent| {
         event.prevent_default();
         if let Some(data) = event.data_transfer() {
@@ -73,7 +73,7 @@ pub fn Upload(
         >
             <input
                 class="thaw-upload__input"
-                ref=input_ref
+                node_ref=input_ref
                 type="file"
                 accept=move || accept.get()
                 multiple=move || multiple.get()
@@ -81,7 +81,7 @@ pub fn Upload(
             />
             <div
                 class="thaw-upload__trigger"
-                ref=trigger_ref
+                node_ref=trigger_ref
                 on:drop=on_trigger_drop
                 on:dragover=on_trigger_dragover
                 on:dragenter=on_trigger_dragenter

@@ -1,5 +1,5 @@
 use super::AutoCompleteInjection;
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn AutoCompleteOption(key: String, children: Children) -> impl IntoView {
@@ -11,7 +11,7 @@ pub fn AutoCompleteOption(key: String, children: Children) -> impl IntoView {
         <div
             class="thaw-auto-complete-option"
             role="option"
-            aria-selected=move || if is_selected.get() { "true" } else { "false" }
+            // aria-selected=move || if is_selected.get() { "true" } else { "false" }
             on:click=move |_| auto_complete.select_value(value.clone())
         >
             {children()}

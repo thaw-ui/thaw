@@ -1,5 +1,5 @@
 use crate::Scrollbar;
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn DrawerBody(children: Children) -> impl IntoView {

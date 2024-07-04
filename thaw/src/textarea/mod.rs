@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{ev, html, prelude::*};
 use thaw_utils::{class_list, mount_style, ComponentRef, Model};
 
 #[component]
@@ -14,16 +14,16 @@ pub fn Textarea(
     resize: MaybeSignal<TextareaResize>,
     #[prop(optional)] comp_ref: ComponentRef<TextareaRef>,
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("textarea", include_str!("./textarea.css"));
 
-    let value_trigger = Trigger::new();
+    let value_trigger = ArcTrigger::new();
     let on_input = move |ev| {
         let input_value = event_target_value(&ev);
         if let Some(allow_value) = allow_value.as_ref() {
             if !allow_value.call(input_value.clone()) {
-                value_trigger.notify();
+                value_trigger.trigger();
                 return;
             }
         }
@@ -41,22 +41,20 @@ pub fn Textarea(
     };
 
     let textarea_ref = NodeRef::<html::Textarea>::new();
-    textarea_ref.on_load(move |_| {
-        comp_ref.load(TextareaRef { textarea_ref });
-    });
+    comp_ref.load(TextareaRef { textarea_ref });
 
-    #[cfg(debug_assertions)]
-    {
-        const INNER_ATTRS: [&str; 3] = ["class", "disabled", "placeholder"];
-        attrs.iter().for_each(|attr| {
-            if INNER_ATTRS.contains(&attr.0) {
-                logging::warn!(
-                    "Thaw: The '{}' attribute already exists on elements inside the TextArea component, which may cause conflicts.",
-                    attr.0
-                );
-            }
-        });
-    }
+    // #[cfg(debug_assertions)]
+    // {
+    //     const INNER_ATTRS: [&str; 3] = ["class", "disabled", "placeholder"];
+    //     attrs.iter().for_each(|attr| {
+    //         if INNER_ATTRS.contains(&attr.0) {
+    //             logging::warn!(
+    //                 "Thaw: The '{}' attribute already exists on elements inside the TextArea component, which may cause conflicts.",
+    //                 attr.0
+    //             );
+    //         }
+    //     });
+    // }
 
     view! {
         <span
@@ -68,7 +66,6 @@ pub fn Textarea(
             ]
         >
             <textarea
-                {..attrs}
                 prop:value=move || {
                     value_trigger.track();
                     value.get()
@@ -80,7 +77,7 @@ pub fn Textarea(
                 class="thaw-textarea__textarea"
                 disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
-                ref=textarea_ref
+                node_ref=textarea_ref
             ></textarea>
         </span>
     }

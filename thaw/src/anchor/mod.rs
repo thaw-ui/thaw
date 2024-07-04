@@ -2,7 +2,7 @@ mod anchor_link;
 
 pub use anchor_link::AnchorLink;
 
-use leptos::*;
+use leptos::{context::Provider, ev, html, prelude::*};
 use std::cmp::Ordering;
 use thaw_utils::{add_event_listener_with_bool, class_list, mount_style, throttle, OptionalProp};
 use web_sys::{DomRect, Element};
@@ -87,7 +87,7 @@ pub fn Anchor(
     view! {
         <div
             class=class_list!["thaw-anchor", class.map(| c | move || c.get())]
-            ref=anchor_ref
+            node_ref=anchor_ref
         >
             <div class="thaw-anchor-rail">
                 <div
@@ -97,7 +97,7 @@ pub fn Anchor(
                         move || active_id.with(|id| id.is_some()),
                     )
 
-                    ref=bar_ref
+                    node_ref=bar_ref
                 ></div>
             </div>
             <Provider value=AnchorInjection::new(
@@ -164,9 +164,8 @@ impl AnchorInjection {
             let offset_top = title_rect.top() - anchor_rect.top();
             // let offset_left = title_rect.left() - anchor_rect.left();
 
-            let _ = bar_el
-                .style("top", format!("{}px", offset_top))
-                .style("height", format!("{}px", title_rect.height()));
+            bar_el.style(("top", format!("{}px", offset_top)));
+            bar_el.style(("height", format!("{}px", title_rect.height())));
         }
     }
 }

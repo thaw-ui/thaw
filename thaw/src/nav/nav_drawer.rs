@@ -1,5 +1,5 @@
 use crate::Scrollbar;
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use thaw_components::OptionComp;
 use thaw_utils::{mount_style, Model};
 

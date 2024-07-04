@@ -2,7 +2,7 @@ mod slider_label;
 
 pub use slider_label::SliderLabel;
 
-use leptos::*;
+use leptos::{context::Provider, ev, prelude::*};
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 

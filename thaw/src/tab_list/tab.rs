@@ -1,5 +1,5 @@
 use super::{TabListInjection, TabRegisterData};
-use leptos::*;
+use leptos::{html, prelude::*};
 use std::ops::Deref;
 use thaw_utils::{class_list, mount_style};
 
@@ -66,7 +66,7 @@ pub fn Tab(
             ]
             role="tab"
             aria-selected=move || if selected.get() { "true" } else { "false" }
-            ref=tab_ref
+            node_ref=tab_ref
             on:click=on_select
         >
             <span class="thaw-tab__content">

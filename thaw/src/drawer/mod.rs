@@ -10,7 +10,7 @@ pub use drawer_header_title::*;
 pub use inline_drawer::*;
 pub use overlay_drawer::*;
 
-use leptos::{MaybeSignal, SignalWith};
+use leptos::prelude::MaybeSignal;
 
 #[derive(Clone, Default, Copy)]
 pub enum DrawerPosition {

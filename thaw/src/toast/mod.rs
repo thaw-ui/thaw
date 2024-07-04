@@ -5,17 +5,18 @@ mod toast_title;
 mod toaster;
 mod toaster_provider;
 
+use tachys::view::any_view::AnyView;
 pub use toast::*;
 pub use toast_title::*;
 pub use toaster_provider::*;
 
-use leptos::{html::AnyElement, *};
+use leptos::prelude::*;
 use std::sync::mpsc::{channel, Receiver, Sender, TryIter};
 
 #[derive(Clone)]
 pub struct ToasterInjection {
-    sender: Sender<(HtmlElement<AnyElement>, ToastOptions)>,
-    trigger: Trigger,
+    sender: Sender<(AnyView<Dom>, ToastOptions)>,
+    trigger: ArcTrigger,
 }
 
 impl ToasterInjection {
@@ -24,8 +25,8 @@ impl ToasterInjection {
     }
 
     pub fn channel() -> (Self, ToasterReceiver) {
-        let (sender, receiver) = channel::<(HtmlElement<AnyElement>, ToastOptions)>();
-        let trigger = Trigger::new();
+        let (sender, receiver) = channel::<(AnyView<Dom>, ToastOptions)>();
+        let trigger = ArcTrigger::new();
 
         (
             Self { sender, trigger },
@@ -33,26 +34,23 @@ impl ToasterInjection {
         )
     }
 
-    pub fn dispatch_toast(&self, any_element: HtmlElement<AnyElement>, options: ToastOptions) {
-        self.sender.send((any_element, options)).unwrap();
-        self.trigger.notify();
+    pub fn dispatch_toast(&self, any_view: AnyView<Dom>, options: ToastOptions) {
+        self.sender.send((any_view, options)).unwrap();
+        self.trigger.trigger();
     }
 }
 
 pub struct ToasterReceiver {
-    receiver: Receiver<(HtmlElement<AnyElement>, ToastOptions)>,
-    trigger: Trigger,
+    receiver: Receiver<(AnyView<Dom>, ToastOptions)>,
+    trigger: ArcTrigger,
 }
 
 impl ToasterReceiver {
-    pub fn new(
-        receiver: Receiver<(HtmlElement<AnyElement>, ToastOptions)>,
-        trigger: Trigger,
-    ) -> Self {
+    pub fn new(receiver: Receiver<(AnyView<Dom>, ToastOptions)>, trigger: ArcTrigger) -> Self {
         Self { receiver, trigger }
     }
 
-    pub fn try_recv(&self) -> TryIter<'_, (HtmlElement<AnyElement>, ToastOptions)> {
+    pub fn try_recv(&self) -> TryIter<'_, (AnyView<Dom>, ToastOptions)> {
         self.trigger.track();
         self.receiver.try_iter()
     }

@@ -1,5 +1,5 @@
 use crate::ComboboxInjection;
-use leptos::*;
+use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
 use thaw_utils::class_list;
 

@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]
@@ -28,12 +28,8 @@ pub fn ProgressCircle(
     let fill_path = rail_path.clone();
     let fill_stroke_dasharray = Memo::new(move |_| {
         let percentage = value.get().max(0.0).min(100.0);
-        
-        format!(
-            "{}px {}px",
-            percentage / 100.0 * len,
-            view_box_width * 8
-        )
+
+        format!("{}px {}px", percentage / 100.0 * len, view_box_width * 8)
     });
     let fill_stroke_color = move || match color.get() {
         ProgressCircleColor::Brand => "var(--colorCompoundBrandBackground)",
@@ -78,13 +74,13 @@ pub fn ProgressCircle(
             </svg>
 
             {if let Some(children) = children {
-                view! { <div class="thaw-progress-circle__content">{children()}</div> }
+                view! { <div class="thaw-progress-circle__content">{children()}</div> }.into_any()
             } else {
                 view! {
                     <div class="thaw-progress-circle__content thaw-progress-circle__content--text">
                         {move || value.get()} "%"
                     </div>
-                }
+                }.into_any()
             }}
 
         </div>

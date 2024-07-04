@@ -1,7 +1,7 @@
 use super::PanelVariant;
 use crate::{Button, ButtonAppearance, ButtonSize};
 use chrono::{Datelike, Month, Months, NaiveDate};
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn MonthPanel(

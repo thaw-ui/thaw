@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use num_traits::Bounded;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
@@ -13,6 +13,7 @@ pub fn SpinButton<T>(
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
 ) -> impl IntoView
 where
+    T: Send + Sync,
     T: Add<Output = T> + Sub<Output = T> + PartialOrd + Bounded,
     T: Default + Clone + FromStr + ToString + 'static,
 {

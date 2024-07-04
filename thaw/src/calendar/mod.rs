@@ -1,6 +1,6 @@
 use crate::{Button, ButtonGroup};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
-use leptos::*;
+use leptos::prelude::*;
 use std::ops::Deref;
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 

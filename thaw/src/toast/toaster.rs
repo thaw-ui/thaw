@@ -1,5 +1,5 @@
 use super::{ToastPosition, ToasterReceiver};
-use leptos::*;
+use leptos::prelude::*;
 use thaw_components::Teleport;
 use thaw_utils::{class_list, mount_style};
 

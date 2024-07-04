@@ -1,5 +1,5 @@
 use crate::ConfigInjection;
-use leptos::*;
+use leptos::{context::Provider, ev, html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{add_event_listener, mount_style, Model};
 
@@ -26,8 +26,11 @@ pub fn Combobox(
         }
     });
     if clearable {
-        clear_icon_ref.on_load(move |clear_icon_el| {
-            let handler = add_event_listener(clear_icon_el.into_any(), ev::click, move |e| {
+        Effect::new(move |_| {
+            let Some(clear_icon_el) = clear_icon_ref.get() else {
+                return;
+            };
+            let handler = add_event_listener(clear_icon_el.into(), ev::click, move |e| {
                 e.stop_propagation();
                 selected_options.set(vec![]);
             });
@@ -52,10 +55,10 @@ pub fn Combobox(
                         if current_el == *body {
                             break;
                         };
-                        if current_el == ***listbox_el {
+                        if current_el == listbox_el {
                             return;
                         }
-                        if current_el == ***trigger_el {
+                        if current_el == trigger_el {
                             return;
                         }
                         el = current_el.parent_element();
@@ -97,7 +100,7 @@ pub fn Combobox(
         <Binder target_ref=trigger_ref>
             <div
                 class="thaw-combobox"
-                ref=trigger_ref
+                node_ref=trigger_ref
                 on:click=move |_| {
                     is_show_listbox.update(|show| *show = !*show);
                 }
@@ -120,7 +123,7 @@ pub fn Combobox(
                                 aria-hidden="true"
                                 class="thaw-combobox__clear-icon"
                                 style=move || (!is_show_clear_icon.get()).then(|| "display: none")
-                                ref=clear_icon_ref
+                                node_ref=clear_icon_ref
                             >
                                 <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
                                     <path d="m4.09 4.22.06-.07a.5.5 0 0 1 .63-.06l.07.06L10 9.29l5.15-5.14a.5.5 0 0 1 .63-.06l.07.06c.18.17.2.44.06.63l-.06.07L10.71 10l5.14 5.15c.18.17.2.44.06.63l-.06.07a.5.5 0 0 1-.63.06l-.07-.06L10 10.71l-5.15 5.14a.5.5 0 0 1-.63.06l-.07-.06a.5.5 0 0 1-.06-.63l.06-.07L9.29 10 4.15 4.85a.5.5 0 0 1-.06-.63l.06-.07-.06.07Z" fill="currentColor"></path>
@@ -162,7 +165,7 @@ pub fn Combobox(
                             class="thaw-config-provider thaw-combobox__listbox"
                             style=move || display.get()
                             data-thaw-id=config_provider.id().clone()
-                            ref=listbox_ref
+                            node_ref=listbox_ref
                             role="listbox"
                         >
                             {children()}

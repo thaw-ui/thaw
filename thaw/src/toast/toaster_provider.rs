@@ -1,5 +1,5 @@
 use super::{toaster::Toaster, ToastPosition, ToasterInjection};
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 
 #[component]
 pub fn ToasterProvider(

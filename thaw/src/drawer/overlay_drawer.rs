@@ -1,6 +1,6 @@
 use super::{DrawerPosition, DrawerSize};
 use crate::ConfigInjection;
-use leptos::*;
+use leptos::prelude::*;
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 
@@ -75,7 +75,7 @@ pub fn OverlayDrawer(
                             class="thaw-overlay-drawer__backdrop"
                             style=move || display.get()
                             on:click=on_mask_click
-                            ref=mask_ref
+                            node_ref=mask_ref
                         ></div>
                     </CSSTransition>
                     <CSSTransition
@@ -102,7 +102,7 @@ pub fn OverlayDrawer(
                                     .get()
                                     .map_or_else(size, |d| d.to_string())
                             }
-                            ref=drawer_ref
+                            node_ref=drawer_ref
                             role="dialog"
                             aria-modal="true"
                         >
