@@ -5,7 +5,7 @@ pub use layout_header::*;
 pub use layout_sider::*;
 
 use crate::Scrollbar;
-use leptos::*;
+use leptos::prelude::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[derive(Default, PartialEq)]
@@ -36,7 +36,7 @@ pub fn Layout(
 ) -> impl IntoView {
     mount_style("layout", include_str!("./layout.css"));
 
-    let sider_style = create_memo(move |_| {
+    let sider_style = Memo::new(move |_| {
         if has_sider.get() {
             Some("display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;")
         } else {

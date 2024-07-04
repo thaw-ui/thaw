@@ -1,5 +1,5 @@
 use super::dialog::DialogInjection;
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_components::CSSTransition;
 
 #[component]
@@ -17,7 +17,7 @@ pub fn DialogSurface(children: Children) -> impl IntoView {
         >
             <div
                 class="thaw-dialog-surface"
-                ref=surface_ref
+                node_ref=surface_ref
                 role="dialog"
                 aria-modal="true"
                 style:display=move || display.get().map(|_| "none")

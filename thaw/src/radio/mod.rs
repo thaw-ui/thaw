@@ -2,7 +2,7 @@ mod radio_group;
 
 pub use radio_group::RadioGroup;
 
-use leptos::*;
+use leptos::prelude::*;
 use radio_group::RadioGroupInjection;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 

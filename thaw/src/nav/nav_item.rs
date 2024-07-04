@@ -1,5 +1,5 @@
 use crate::use_nav_drawer;
-use leptos::*;
+use leptos::prelude::*;
 use thaw_utils::{class_list, StoredMaybeSignal};
 
 #[component]

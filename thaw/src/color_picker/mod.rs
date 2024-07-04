@@ -4,7 +4,7 @@ pub use color::*;
 
 use crate::ConfigInjection;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
-use leptos::*;
+use leptos::{ev, html, prelude::*};
 use palette::{Hsv, IntoColor, Srgb};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
@@ -114,8 +114,8 @@ pub fn ColorPicker(
                 if current_el == *body {
                     break;
                 };
-                if current_el == ***popover_ref.get().unwrap()
-                    || current_el == ***trigger_ref.get().unwrap()
+                if current_el == popover_ref.get().unwrap()
+                    || current_el == trigger_ref.get().unwrap()
                 {
                     return;
                 }
@@ -131,7 +131,7 @@ pub fn ColorPicker(
             <div
                 class=class_list!["thaw-color-picker-trigger", class.map(| c | move || c.get())]
                 on:click=show_popover
-                ref=trigger_ref
+                node_ref=trigger_ref
             >
                 <div class="thaw-color-picker-trigger__content" style=move || style.get()>
                     {move || label.get()}
@@ -147,7 +147,7 @@ pub fn ColorPicker(
                 >
                     <div
                         class="thaw-config-provider thaw-color-picker-popover"
-                        ref=popover_ref
+                        node_ref=popover_ref
                         style=move || display.get()
                         data-thaw-id=config_provider.id().clone()
                     >
@@ -210,7 +210,7 @@ fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
     };
 
     view! {
-        <div class="thaw-color-picker-popover__panel" ref=panel_ref on:mousedown=on_mouse_down>
+        <div class="thaw-color-picker-popover__panel" node_ref=panel_ref on:mousedown=on_mouse_down>
             <div
                 class="thaw-color-picker-popover__layer"
                 style:background-image=move || {
@@ -271,7 +271,7 @@ fn HueSlider(hue: RwSignal<f32>) -> impl IntoView {
         });
     };
     view! {
-        <div class="thaw-color-picker-slider" ref=rail_ref on:mousedown=on_mouse_down>
+        <div class="thaw-color-picker-slider" node_ref=rail_ref on:mousedown=on_mouse_down>
             <div
                 class="thaw-color-picker-slider__handle"
                 style=move || format!("left: calc({}% - 6px)", f32::from(hue.get()) / 359.0 * 100.0)

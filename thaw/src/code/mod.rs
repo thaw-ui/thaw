@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
 #[component]
@@ -14,9 +14,9 @@ pub fn Code(
         ]>
 
             {if let Some(inner_html) = inner_html {
-                view! { <pre inner_html=inner_html></pre> }.into()
+                view! { <pre inner_html=inner_html></pre> }.into_any().into()
             } else if let Some(text) = text {
-                view! { <pre>{text}</pre> }.into()
+                view! { <pre>{text}</pre> }.into_any().into()
             } else {
                 None
             }}

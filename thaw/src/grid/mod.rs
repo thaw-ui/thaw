@@ -1,7 +1,7 @@
 mod grid_item;
 
 pub use grid_item::*;
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use thaw_utils::{class_list, OptionalProp};
 
 #[component]
@@ -12,7 +12,7 @@ pub fn Grid(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
-    let style = create_memo(move |_| {
+    let style = Memo::new(move |_| {
         let mut style = String::from("display: grid;");
         style.push_str(&format!(
             "grid-template-columns: repeat({}, minmax(0px, 1fr));",

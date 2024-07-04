@@ -1,5 +1,5 @@
 use crate::ConfigInjection;
-use leptos::{leptos_dom::helpers::TimeoutHandle, *};
+use leptos::{ev, html, leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{add_event_listener, class_list, mount_style};
@@ -77,7 +77,7 @@ pub fn Popover(
                 let Some(popover_el) = popover_ref.get_untracked() else {
                     break;
                 };
-                if current_el == ***popover_el {
+                if current_el == popover_el {
                     return;
                 }
                 el = current_el.parent_element();
@@ -105,7 +105,7 @@ pub fn Popover(
         <Binder target_ref>
             <div
                 class=class_list!["thaw-popover-trigger", trigger_class]
-                ref=target_ref
+                node_ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
             >
@@ -128,7 +128,7 @@ pub fn Popover(
                         data-thaw-id=config_provider.id().clone()
                         style=move || display.get()
 
-                        ref=popover_ref
+                        node_ref=popover_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >

@@ -89,7 +89,7 @@ pub use table::*;
 pub use tag::*;
 pub use text::*;
 pub use textarea::*;
-pub use thaw_utils::{create_component_ref, ComponentRef, SignalWatch};
+pub use thaw_utils::{ComponentRef, SignalWatch};
 pub use theme::*;
 pub use time_picker::*;
 pub use toast::*;

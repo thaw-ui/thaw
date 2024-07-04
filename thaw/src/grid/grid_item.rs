@@ -1,5 +1,5 @@
 use super::use_grid;
-use leptos::*;
+use leptos::prelude::*;
 use thaw_utils::{class_list, OptionalProp};
 
 #[component]
@@ -11,7 +11,7 @@ pub fn GridItem(
 ) -> impl IntoView {
     let grid = use_grid();
 
-    let style = create_memo(move |_| {
+    let style = Memo::new(move |_| {
         let mut style = String::new();
         let offset = offset.get();
         let column = column.get();

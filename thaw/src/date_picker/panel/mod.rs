@@ -5,7 +5,7 @@ mod year_panel;
 use crate::ConfigInjection;
 use chrono::NaiveDate;
 use date_panel::DatePanel;
-use leptos::*;
+use leptos::{ev, html, prelude::*};
 use month_panel::MonthPanel;
 use thaw_components::CSSTransition;
 use thaw_utils::{now_date, ComponentRef};
@@ -74,7 +74,7 @@ pub fn Panel(
                 class="thaw-config-provider thaw-date-picker-panel"
                 data-thaw-id=config_provider.id().clone()
                 style=move || display.get()
-                ref=panel_ref
+                node_ref=panel_ref
             >
 
                 {move || {

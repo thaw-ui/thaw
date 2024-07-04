@@ -2,7 +2,7 @@ mod tab;
 
 pub use tab::*;
 
-use leptos::*;
+use leptos::{context::Provider, html, prelude::*};
 use std::collections::HashMap;
 use thaw_utils::{class_list, mount_style, Model};
 

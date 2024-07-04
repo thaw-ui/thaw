@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[component]
@@ -29,7 +29,7 @@ pub fn Switch(
                 type="checkbox"
                 id=id.clone()
                 checked=checked.get_untracked()
-                ref=input_ref
+                node_ref=input_ref
                 on:change=on_change
             />
             <div aria-hidden="true" class="thaw-switch__indicator thaw-switch__button">

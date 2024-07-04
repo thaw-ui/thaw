@@ -3,7 +3,7 @@ mod button_group;
 pub use button_group::ButtonGroup;
 
 use crate::icon::Icon;
-use leptos::*;
+use leptos::{ev, prelude::*};
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 

@@ -1,5 +1,5 @@
 use crate::use_anchor;
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, OptionalProp, StoredMaybeSignal};
 
@@ -39,7 +39,10 @@ pub fn AnchorLink(
                 });
             });
 
-            title_ref.on_load(move |title_el| {
+            Effect::new(|_| {
+                let Some(title_el) = title_ref.get() else {
+                    return;
+                };
                 let _ = watch(
                     move || is_active.get(),
                     move |is_active, _, _| {
@@ -70,7 +73,7 @@ pub fn AnchorLink(
                 href=href
                 class="thaw-anchor-link__title"
                 on:click=on_click
-                ref=title_ref
+                node_ref=title_ref
                 title=move || title.get()
             >
                 {move || title.get()}

@@ -1,5 +1,5 @@
 use super::{Message, MessageVariant};
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use std::time::Duration;
 use thaw_components::Teleport;
 use thaw_utils::{class_list, mount_style};
@@ -36,7 +36,7 @@ pub fn MessageProvider(
 ) -> impl IntoView {
     mount_style("message", include_str!("./message.css"));
 
-    let message_list = create_rw_signal::<Vec<MessageType>>(vec![]);
+    let message_list = RwSignal::<Vec<MessageType>>::new(vec![]);
 
     let handle_after_leave = move |id| {
         message_list.update(move |message_list| {

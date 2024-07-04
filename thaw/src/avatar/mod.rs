@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, OptionalProp, StoredMaybeSignal};
 
@@ -49,7 +49,7 @@ pub fn Avatar(
     view! {
         <span
             class=class_list!["thaw-avatar", move || format!("thaw-avatar--{}", shape.get().as_str()), class.map(| c | move || c.get())]
-            style=style
+            style=move || style().unwrap_or_default()
             role="img"
             aria-label=move || name.as_ref().map(|n| n.get())
         >

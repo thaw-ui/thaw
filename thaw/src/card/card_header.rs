@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use thaw_components::OptionComp;
 use thaw_utils::mount_style;
 

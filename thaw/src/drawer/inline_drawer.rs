@@ -1,5 +1,5 @@
 use super::{DrawerPosition, DrawerSize};
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_components::CSSTransition;
 use thaw_utils::{class_list, mount_style, Model};
 
@@ -62,7 +62,7 @@ pub fn InlineDrawer(
                         .get()
                         .map_or_else(size, |d| d.to_string())
                 }
-                ref=drawer_ref
+                node_ref=drawer_ref
             >
                 {children()}
             </div>

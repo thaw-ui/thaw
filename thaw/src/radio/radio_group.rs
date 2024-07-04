@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use thaw_utils::Model;
 
 #[component]

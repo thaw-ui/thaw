@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn MessageBarBody(children: Children) -> impl IntoView {

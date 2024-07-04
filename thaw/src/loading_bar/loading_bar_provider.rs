@@ -1,5 +1,5 @@
 use super::{LoadingBar, LoadingBarRef};
-use leptos::*;
+use leptos::{context::Provider, prelude::*};
 use thaw_components::Teleport;
 use thaw_utils::ComponentRef;
 
