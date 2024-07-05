@@ -27,7 +27,6 @@ impl LayoutPosition {
 #[component]
 pub fn Layout(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] style: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] content_class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] content_style: OptionalProp<MaybeSignal<String>>,
     #[prop(optional)] position: LayoutPosition,
@@ -46,7 +45,6 @@ pub fn Layout(
     view! {
         <div
             class=class_list![gen_class(position), class.map(| c | move || c.get())]
-            style=move || style.as_ref().map(|s| s.get())
         >
             <Scrollbar
                 content_class

@@ -2,7 +2,7 @@ use leptos::prelude::*;
 use num_traits::Bounded;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
-use thaw_utils::{mount_style, Model, StoredMaybeSignal};
+use thaw_utils::{mount_style, with, Model, StoredMaybeSignal};
 
 #[component]
 pub fn SpinButton<T>(
@@ -60,7 +60,7 @@ where
             <input
                 autocomplete="off"
                 role="spinbutton"
-                aria-valuenow=move || value.get().to_string()
+                // aria-valuenow=move || value.get().to_string()
                 type="text"
                 disabled=move || disabled.get()
                 value=initialization_value

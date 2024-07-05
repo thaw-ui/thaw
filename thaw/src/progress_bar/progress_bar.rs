@@ -22,9 +22,9 @@ pub fn ProgressBar(
                 move || format!("thaw-progress-bar--{}", color.get().as_str())
             ]
             role="progressbar"
-            aria_valuemax=move || max.get()
-            aria-valuemin="0"
-            aria-valuenow=move || value.get()
+            // aria_valuemax=move || max.get()
+            // aria-valuemin="0"
+            // aria-valuenow=move || value.get()
         >
             <div class="thaw-progress-bar__bar" style=style>
             </div>

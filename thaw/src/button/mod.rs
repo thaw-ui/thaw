@@ -4,6 +4,7 @@ pub use button_group::ButtonGroup;
 
 use crate::icon::Icon;
 use leptos::{ev, prelude::*};
+use send_wrapper::SendWrapper;
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 
@@ -65,7 +66,6 @@ impl ButtonSize {
 
 #[component]
 pub fn Button(
-    #[prop(optional, into)] style: Option<MaybeSignal<String>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] appearance: MaybeSignal<ButtonAppearance>,
     #[prop(optional, into)] shape: MaybeSignal<ButtonShape>,
@@ -74,7 +74,7 @@ pub fn Button(
     #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] disabled_focusable: MaybeSignal<bool>,
-    #[prop(optional, into)] on_click: Option<Callback<ev::MouseEvent>>,
+    #[prop(optional, into)] on_click: Option<Callback<SendWrapper<ev::MouseEvent>>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("button", include_str!("./button.css"));
@@ -91,7 +91,7 @@ pub fn Button(
         let Some(callback) = on_click.as_ref() else {
             return;
         };
-        callback.call(e);
+        callback.call(SendWrapper::new(e));
     };
 
     view! {
@@ -107,7 +107,6 @@ pub fn Button(
                 class.map(| c | move || c.get())
             ]
 
-            style=move || style.as_ref().map(|s| s.get())
             disabled=move || disabled.get().then_some("")
             aria-disabled=move || disabled_focusable.get().then_some("true")
             on:click=on_click

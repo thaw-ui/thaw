@@ -19,7 +19,7 @@ pub fn DialogSurface(children: Children) -> impl IntoView {
                 class="thaw-dialog-surface"
                 node_ref=surface_ref
                 role="dialog"
-                aria-modal="true"
+                // aria-modal="true"
                 style:display=move || display.get().map(|_| "none")
             >
                 {children()}

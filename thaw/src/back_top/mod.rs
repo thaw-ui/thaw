@@ -21,13 +21,12 @@ pub fn BackTop(
     let is_show_back_top = RwSignal::new(false);
     let scroll_top = RwSignal::new(0);
 
-    let _ = watch(
-        move || scroll_top.get(),
-        move |scroll_top, _, _| {
-            is_show_back_top.set(scroll_top > &visibility_height.get());
-        },
-        false,
-    );
+    Effect::new(move |prev| {
+        scroll_top.track();
+        if prev.is_some() {
+            is_show_back_top.set(scroll_top.get() > visibility_height.get_untracked());
+        }
+    });
 
     let scroll_to_top = StoredValue::new(None::<Callback<()>>);
     let scroll_handle = StoredValue::new(None::<EventListenerHandle>);
@@ -42,7 +41,7 @@ pub fn BackTop(
                 .unwrap_or_else(|| document().document_element().unwrap());
 
             {
-                let scroll_el = scroll_el.clone();
+                let scroll_el = send_wrapper::SendWrapper::new(scroll_el.clone());
                 scroll_to_top.set_value(Some(Callback::new(move |_| {
                     scroll_el.scroll_to_with_scroll_to_options(
                         web_sys::ScrollToOptions::new()

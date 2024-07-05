@@ -1,4 +1,4 @@
-use crate::use_anchor;
+use super::AnchorInjection;
 use leptos::{html, prelude::*};
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, OptionalProp, StoredMaybeSignal};
@@ -10,7 +10,7 @@ pub fn AnchorLink(
     #[prop(into)] href: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let anchor = use_anchor();
+    let anchor = AnchorInjection::use_();
 
     let title: StoredMaybeSignal<_> = title.into();
     let title_ref = NodeRef::<html::A>::new();
@@ -39,20 +39,15 @@ pub fn AnchorLink(
                 });
             });
 
-            Effect::new(|_| {
+            Effect::new(move |_| {
                 let Some(title_el) = title_ref.get() else {
                     return;
                 };
-                let _ = watch(
-                    move || is_active.get(),
-                    move |is_active, _, _| {
-                        if *is_active {
-                            let title_rect = title_el.get_bounding_client_rect();
-                            anchor.update_background_position(title_rect);
-                        }
-                    },
-                    true,
-                );
+
+                if is_active.get() {
+                    let title_rect = title_el.get_bounding_client_rect();
+                    anchor.update_background_position(title_rect);
+                }
             });
         }
     }
