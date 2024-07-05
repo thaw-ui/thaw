@@ -104,7 +104,7 @@ pub fn OverlayDrawer(
                             }
                             node_ref=drawer_ref
                             role="dialog"
-                            aria-modal="true"
+                            // aria-modal="true"
                         >
                             {children()}
                         </div>

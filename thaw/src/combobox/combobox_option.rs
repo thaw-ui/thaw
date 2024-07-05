@@ -23,7 +23,7 @@ pub fn ComboboxOption(
     view! {
         <div
             role="option"
-            aria-selected="true"
+            // aria_selected="true"
             class=class_list![
                 "thaw-combobox-option",
                 ("thaw-combobox-option--selected", move || value.with_value(|value| combobox.is_selected(&value)))

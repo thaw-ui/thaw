@@ -33,6 +33,7 @@ cfg-if = "1.0.0"
 chrono = "0.4.35"
 palette = "0.7.5"
 num-traits = "0.2.18"
+send_wrapper = "0.6"
 
 [features]
 csr = ["leptos/csr", "thaw_components/csr", "thaw_utils/csr"]

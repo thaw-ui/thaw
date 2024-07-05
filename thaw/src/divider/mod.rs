@@ -13,7 +13,7 @@ pub fn Divider(
     view! {
         <div
             class=class_list!["thaw-divider", ("thaw-divider--vertical", move || vertical.get()), class.map(| c | move || c.get())]
-            aria-orientation=move || if vertical.get() { "vertical" } else { "horizontal" }
+            // aria-orientation=move || if vertical.get() { "vertical" } else { "horizontal" }
             role="separator"
         >
             <OptionComp value=children let:children>

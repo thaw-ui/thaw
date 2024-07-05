@@ -121,6 +121,10 @@ pub(crate) struct AnchorInjection {
 impl Copy for AnchorInjection {}
 
 impl AnchorInjection {
+    pub fn use_() -> Self {
+        expect_context()
+    }
+
     fn new(
         anchor_ref: NodeRef<html::Div>,
         bar_ref: NodeRef<html::Div>,
@@ -168,10 +172,6 @@ impl AnchorInjection {
             bar_el.style(("height", format!("{}px", title_rect.height())));
         }
     }
-}
-
-pub(crate) fn use_anchor() -> AnchorInjection {
-    expect_context()
 }
 
 struct LinkInfo {
