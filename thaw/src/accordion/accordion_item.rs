@@ -1,7 +1,7 @@
 use crate::AccordionInjection;
 use leptos::{prelude::*, html};
 use thaw_components::CSSTransition;
-use thaw_utils::{mount_style, StoredMaybeSignal};
+use thaw_utils::{mount_style, update, with, StoredMaybeSignal};
 
 #[component]
 pub fn AccordionItem(
@@ -59,7 +59,7 @@ pub fn AccordionItem(
                 <div
                     class="thaw-accordion-panel"
                     node_ref=panel_ref
-                    style=move || display.get().map(|d| d.to_string())
+                    style=("display: none", display.with(|d| d.is_none()))
                 >
                     {children()}
                 </div>

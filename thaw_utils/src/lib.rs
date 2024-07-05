@@ -2,6 +2,7 @@ pub mod class_list;
 mod dom;
 mod event_listener;
 mod hooks;
+pub mod macros;
 mod optional_prop;
 mod signals;
 mod throttle;

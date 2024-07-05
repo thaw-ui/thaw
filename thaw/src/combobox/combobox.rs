@@ -55,10 +55,10 @@ pub fn Combobox(
                         if current_el == *body {
                             break;
                         };
-                        if current_el == listbox_el {
+                        if current_el == **listbox_el {
                             return;
                         }
-                        if current_el == trigger_el {
+                        if current_el == **trigger_el {
                             return;
                         }
                         el = current_el.parent_element();

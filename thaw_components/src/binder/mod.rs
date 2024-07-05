@@ -71,7 +71,7 @@ pub fn Binder<E>(
 ) -> impl IntoView
 where
     E: ElementType + 'static,
-    E::Output: JsCast + Clone + Deref<Target = web_sys::Element> + 'static,
+    E::Output: JsCast + Clone + Deref<Target = web_sys::HtmlElement> + 'static,
 {
     mount_style("binder", include_str!("./binder.css"));
     let Follower {
@@ -186,7 +186,7 @@ fn FollowerContainer<E>(
 ) -> impl IntoView
 where
     E: ElementType + 'static,
-    E::Output: JsCast + Clone + Deref<Target = web_sys::Element> + 'static,
+    E::Output: JsCast + Clone + Deref<Target = web_sys::HtmlElement> + 'static,
 {
     let content_ref = NodeRef::<html::Div>::new();
     let content_style = RwSignal::new(String::new());

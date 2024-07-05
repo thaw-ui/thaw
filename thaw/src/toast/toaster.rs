@@ -21,15 +21,15 @@ pub fn Toaster(
     view! {
         <Teleport>
             <div class="thaw-config-provider thaw-toaster-container">
-                <For
-                    each=move || toast_list.get()
-                    key=|toast| toast.1.id
-                    let:toast
-                >
-                    <div class=class_list!["thaw-toaster", "thaw-toaster"]>
-                        {toast.0}
-                    </div>
-                </For>
+                // <For
+                //     each=move || toast_list.get()
+                //     key=|toast| toast.1.id
+                //     let:toast
+                // >
+                //     <div class=class_list!["thaw-toaster", "thaw-toaster"]>
+                //         {toast.0}
+                //     </div>
+                // </For>
             </div>
         </Teleport>
     }
