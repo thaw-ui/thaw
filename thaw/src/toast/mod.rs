@@ -29,7 +29,10 @@ impl ToasterInjection {
         let trigger = ArcTrigger::new();
 
         (
-            Self { sender, trigger },
+            Self {
+                sender,
+                trigger: trigger.clone(),
+            },
             ToasterReceiver::new(receiver, trigger),
         )
     }

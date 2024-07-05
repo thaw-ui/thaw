@@ -33,7 +33,6 @@ pub fn AutoComplete(
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
@@ -145,7 +144,6 @@ pub fn AutoComplete(
     //                on:keydown=on_keydown
                 >
                     <Input
-                        attrs
                         value
                         placeholder
                         disabled

@@ -11,10 +11,7 @@ pub fn Table(
     mount_style("table", include_str!("./table.css"));
 
     view! {
-        <table
-            class=class_list!["thaw-table", class]
-            style=move || style.get()
-        >
+        <table class=class_list!["thaw-table", class]>
             {children()}
         </table>
     }

@@ -18,8 +18,11 @@ pub fn Upload(
     let input_ref = NodeRef::<html::Input>::new();
     let trigger_ref = NodeRef::<html::Div>::new();
 
-    trigger_ref.on_load(move |trigger_ref| {
-        let handle = add_event_listener(trigger_ref.into_any(), ev::click, move |_| {
+    Effect::new(move |_| {
+        let Some(trigger_el) = trigger_ref.get() else {
+            return;
+        };
+        let handle = add_event_listener(trigger_el.into(), ev::click, move |_| {
             if let Some(input_ref) = input_ref.get_untracked() {
                 input_ref.click();
             }

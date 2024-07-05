@@ -1,5 +1,5 @@
 use crate::{ConfigInjection, Icon};
-use leptos::{ev, html, html::ToHtmlElement, prelude::*};
+use leptos::{ev, html, prelude::*};
 use thaw_components::{CSSTransition, Fallback, OptionComp, Teleport};
 use thaw_utils::{
     add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle,

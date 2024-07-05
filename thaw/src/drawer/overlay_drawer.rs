@@ -1,6 +1,6 @@
 use super::{DrawerPosition, DrawerSize};
 use crate::ConfigInjection;
-use leptos::prelude::*;
+use leptos::{ev, html, prelude::*};
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 

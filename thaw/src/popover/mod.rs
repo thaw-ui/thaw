@@ -77,7 +77,7 @@ pub fn Popover(
                 let Some(popover_el) = popover_ref.get_untracked() else {
                     break;
                 };
-                if current_el == popover_el {
+                if current_el == **popover_el {
                     return;
                 }
                 el = current_el.parent_element();
@@ -87,8 +87,11 @@ pub fn Popover(
         on_cleanup(move || handle.remove());
     }
 
-    target_ref.on_load(move |target_el| {
-        add_event_listener(target_el.into_any(), ev::click, move |event| {
+    Effect::new(move |_| {
+        let Some(target_el) = target_ref.get() else {
+            return;
+        };
+        add_event_listener(target_el.into(), ev::click, move |event| {
             if trigger_type != PopoverTriggerType::Click {
                 return;
             }
@@ -96,6 +99,7 @@ pub fn Popover(
             is_show_popover.update(|show| *show = !*show);
         });
     });
+
     let PopoverTrigger {
         class: trigger_class,
         children: trigger_children,

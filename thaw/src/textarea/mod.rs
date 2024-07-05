@@ -19,15 +19,18 @@ pub fn Textarea(
     mount_style("textarea", include_str!("./textarea.css"));
 
     let value_trigger = ArcTrigger::new();
-    let on_input = move |ev| {
-        let input_value = event_target_value(&ev);
-        if let Some(allow_value) = allow_value.as_ref() {
-            if !allow_value.call(input_value.clone()) {
-                value_trigger.trigger();
-                return;
+    let on_input = {
+        let value_trigger = value_trigger.clone();
+        move |ev| {
+            let input_value = event_target_value(&ev);
+            if let Some(allow_value) = allow_value.as_ref() {
+                if !allow_value.call(input_value.clone()) {
+                    value_trigger.trigger();
+                    return;
+                }
             }
+            value.set(input_value);
         }
-        value.set(input_value);
     };
     let on_internal_focus = move |ev| {
         if let Some(on_focus) = on_focus.as_ref() {

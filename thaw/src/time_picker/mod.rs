@@ -119,12 +119,11 @@ fn Panel(
                 if current_el == *body {
                     break;
                 };
-                if panel_ref.get().is_none() {
+                let Some(panel_el) = panel_ref.get() else {
                     return;
-                }
-                if current_el == ***panel_ref.get_untracked().unwrap()
-                    || current_el == ***time_picker_ref.get_untracked().unwrap()
-                {
+                };
+                let time_picker_el = time_picker_ref.get().unwrap();
+                if current_el == **panel_el || current_el == **time_picker_el {
                     return;
                 }
                 el = current_el.parent_element();

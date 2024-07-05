@@ -4,7 +4,6 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn Caption1(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional)] tag: TextTag,
     children: Children,
 ) -> impl IntoView {
@@ -12,14 +11,13 @@ pub fn Caption1(
         Signal::derive(move || format!("thaw-caption-1 {}", class.get().unwrap_or_default()));
 
     view! {
-        <Text tag children class style/>
+        <Text tag children class/>
     }
 }
 
 #[component]
 pub fn Caption1Strong(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional)] tag: TextTag,
     children: Children,
 ) -> impl IntoView {
@@ -28,28 +26,26 @@ pub fn Caption1Strong(
     });
 
     view! {
-        <Text tag children class style/>
+        <Text tag children class/>
     }
 }
 
 #[component]
 pub fn Body1(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional)] tag: TextTag,
     children: Children,
 ) -> impl IntoView {
     let class = Signal::derive(move || format!("thaw-body-1 {}", class.get().unwrap_or_default()));
 
     view! {
-        <Text tag children class style/>
+        <Text tag children class/>
     }
 }
 
 #[component]
 pub fn Text(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional)] tag: TextTag,
     #[prop(optional)] code: bool,
     children: Children,
@@ -58,79 +54,79 @@ pub fn Text(
 
     match tag {
         TextTag::B => view! {
-            <b class=class_list!["thaw-text", class] style=move || style.get()>
+            <b class=class_list!["thaw-text", class]>
                 {children()}
             </b>
         }
         .into_any(),
         TextTag::Em => view! {
-            <em class=class_list!["thaw-text", class] style=move || style.get()>
+            <em class=class_list!["thaw-text", class]>
                 {children()}
             </em>
         }
         .into_any(),
         TextTag::H1 => view! {
-            <h1 class=class_list!["thaw-text", class] style=move || style.get()>
+            <h1 class=class_list!["thaw-text", class]>
                 {children()}
             </h1>
         }
         .into_any(),
         TextTag::H2 => view! {
-            <h2 class=class_list!["thaw-text", class] style=move || style.get()>
+            <h2 class=class_list!["thaw-text", class]>
                 {children()}
             </h2>
         }
         .into_any(),
         TextTag::H3 => view! {
-            <h3 class=class_list!["thaw-text", class] style=move || style.get()>
+            <h3 class=class_list!["thaw-text", class]>
                 {children()}
             </h3>
         }
         .into_any(),
         TextTag::H4 => view! {
-            <h4 class=class_list!["thaw-text", class] style=move || style.get()>
+            <h4 class=class_list!["thaw-text", class]>
                 {children()}
             </h4>
         }
         .into_any(),
         TextTag::H5 => view! {
-            <h5 class=class_list!["thaw-text", class] style=move || style.get()>
+            <h5 class=class_list!["thaw-text", class]>
                 {children()}
             </h5>
         }
         .into_any(),
         TextTag::H6 => view! {
-            <h6 class=class_list!["thaw-text", class] style=move || style.get()>
+            <h6 class=class_list!["thaw-text", class]>
                 {children()}
             </h6>
         }
         .into_any(),
         TextTag::I => view! {
-            <i class=class_list!["thaw-text", class] style=move || style.get()>
+            <i class=class_list!["thaw-text", class]>
                 {children()}
             </i>
         }
         .into_any(),
         TextTag::P => view! {
-            <p class=class_list!["thaw-text", class] style=move || style.get()>
+            <p class=class_list!["thaw-text", class]>
                 {children()}
             </p>
         }
         .into_any(),
         TextTag::Pre => view! {
-            <pre class=class_list!["thaw-text", class] style=move || style.get()>
+            <pre class=class_list!["thaw-text", class]>
                 {children()}
             </pre>
         }
         .into_any(),
         TextTag::Span => view! {
-            <span class=class_list!["thaw-text", class] style=move || style.get()>
+            <span class=class_list!["thaw-text", class]>
                 {children()}
             </span>
         }
         .into_any(),
         TextTag::Strong => view! {
-            <strong class=class_list!["thaw-text", class] style=move || style.get()>
+            <strong class=class_list!["thaw-text", class]>
                 {children()}
             </strong>
         }

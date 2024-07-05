@@ -39,9 +39,9 @@ pub fn Panel(
                 if panel_ref.get().is_none() {
                     return;
                 }
-                if current_el == ***panel_ref.get_untracked().unwrap()
-                    || current_el == ***date_picker_ref.get_untracked().unwrap()
-                {
+                let panel_el = panel_ref.get_untracked().unwrap();
+                let date_picker_el = date_picker_ref.get_untracked().unwrap();
+                if current_el == **panel_el || current_el == **date_picker_el {
                     return;
                 }
                 el = current_el.parent_element();

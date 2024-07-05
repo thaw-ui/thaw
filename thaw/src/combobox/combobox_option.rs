@@ -42,7 +42,7 @@ pub fn ComboboxOption(
                                 </Then>
                             </If>
                         </span>
-                    }
+                    }.into_any()
                 } else {
                     view! {
                         <span aria-hidden="true" class="thaw-combobox-option__check-icon">
@@ -50,7 +50,7 @@ pub fn ComboboxOption(
                                 <path d="M7.03 13.9 3.56 10a.75.75 0 0 0-1.12 1l4 4.5c.29.32.79.34 1.09.03l10.5-10.5a.75.75 0 0 0-1.06-1.06l-9.94 9.94Z" fill="currentColor"></path>
                             </svg>
                         </span>
-                    }
+                    }.into_any()
                 }
             }
             <OptionComp value=children let:children>

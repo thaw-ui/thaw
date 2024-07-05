@@ -114,8 +114,8 @@ pub fn ColorPicker(
                 if current_el == *body {
                     break;
                 };
-                if current_el == popover_ref.get().unwrap()
-                    || current_el == trigger_ref.get().unwrap()
+                if current_el == **popover_ref.get().unwrap()
+                    || current_el == **trigger_ref.get().unwrap()
                 {
                     return;
                 }

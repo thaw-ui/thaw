@@ -22,7 +22,7 @@ pub fn ProgressBar(
                 move || format!("thaw-progress-bar--{}", color.get().as_str())
             ]
             role="progressbar"
-            aria-valuemax=move || max.get()
+            aria_valuemax=move || max.get()
             aria-valuemin="0"
             aria-valuenow=move || value.get()
         >
