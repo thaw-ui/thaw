@@ -4,13 +4,14 @@ pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
 use leptos::{ev, html, prelude::*};
+use send_wrapper::SendWrapper;
 use thaw_utils::{add_event_listener, mount_style};
 
 #[component]
 pub fn Upload(
     #[prop(optional, into)] accept: MaybeSignal<String>,
     #[prop(optional, into)] multiple: MaybeSignal<bool>,
-    #[prop(optional, into)] custom_request: Option<Callback<FileList, ()>>,
+    #[prop(optional, into)] custom_request: Option<Callback<SendWrapper<FileList>, ()>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));
@@ -34,7 +35,7 @@ pub fn Upload(
 
     let on_file_addition = move |files: FileList| {
         if let Some(custom_request) = custom_request {
-            custom_request.call(files);
+            custom_request.call(SendWrapper::new(files));
         }
     };
 

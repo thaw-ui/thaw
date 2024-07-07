@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use leptos_meta::Style;
 use thaw::*;
 
@@ -6,7 +6,8 @@ use thaw::*;
 pub struct DemoCode {
     #[prop(default = true)]
     is_highlight: bool,
-    children: Children,
+    #[prop(into)]
+    text: String,
 }
 
 #[component]
@@ -38,16 +39,7 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
     let is_show_code = RwSignal::new(children.is_none());
 
     let is_highlight = demo_code.is_highlight;
-    let frag = (demo_code.children)();
-    let mut html = String::new();
-    for node in frag.nodes {
-        match node {
-            View::Text(text) => html.push_str(&text.content),
-            _ => {
-                leptos::logging::warn!("Only text nodes are supported as children of <DemoCode />.")
-            }
-        }
-    }
+    let html = demo_code.text;
 
     view! {
         <Style id="leptos-thaw-syntect-css">
@@ -93,7 +85,7 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
                     None
                 }
             }
-            <div class=move || code_class.get() style:display=move || (!is_show_code.get()).then_some("none")>
+            <div class=move || code_class.get() style:display=move || (!is_show_code.get()).then_some("none").unwrap_or_default()>
                 {
                     if is_highlight {
                         view! {

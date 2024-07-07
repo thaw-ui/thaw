@@ -28,8 +28,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
         quote! {
             <Demo>
                 <#demo />
-                <DemoCode slot is_highlight=#is_highlight>
-                    #literal
+                <DemoCode slot is_highlight=#is_highlight text=#literal>
                 </DemoCode>
             </Demo>
         }
@@ -45,8 +44,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
             });
         quote! {
             <Demo>
-                <DemoCode slot is_highlight=#is_highlight>
-                    #literal
+                <DemoCode slot is_highlight=#is_highlight text=#literal>
                 </DemoCode>
             </Demo>
         }

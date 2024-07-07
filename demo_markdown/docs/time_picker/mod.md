@@ -3,7 +3,7 @@
 ```rust demo
 use chrono::prelude::*;
 
-let value = create_rw_signal(Some(Local::now().time()));
+let value = RwSignal::new(Some(Local::now().time()));
 
 view! {
     <TimePicker value />

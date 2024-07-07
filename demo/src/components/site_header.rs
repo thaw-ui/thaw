@@ -1,14 +1,14 @@
 use super::switch_version::SwitchVersion;
-use leptos::*;
+use leptos::{prelude::*, ev};
 use leptos_meta::Style;
-use leptos_router::use_navigate;
-use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
+use leptos_router::hooks::use_navigate;
+// use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
 use thaw::*;
 
 #[component]
 pub fn SiteHeader() -> impl IntoView {
     let theme = Theme::use_rw_theme();
-    let theme_name = create_memo(move |_| {
+    let theme_name = Memo::new(move |_| {
         theme.with(|theme| {
             if theme.name == *"light" {
                 "Dark".to_string()
@@ -17,21 +17,21 @@ pub fn SiteHeader() -> impl IntoView {
             }
         })
     });
-    let (_, write_theme, _) = use_local_storage::<String, FromToStringCodec>("theme");
+    // let (_, write_theme, _) = use_local_storage::<String, FromToStringCodec>("theme");
     let change_theme = Callback::new(move |_| {
         if theme_name.get_untracked() == "Light" {
             theme.set(Theme::light());
-            write_theme.set("light".to_string());
+            // write_theme.set("light".to_string());
         } else {
             theme.set(Theme::dark());
-            write_theme.set("dark".to_string());
+            // write_theme.set("dark".to_string());
         }
     });
 
-    let search_value = create_rw_signal(String::new());
-    let search_all_options = store_value(gen_search_all_options());
+    let search_value = RwSignal::new(String::new());
+    let search_all_options = StoredValue::new(gen_search_all_options());
 
-    let search_options = create_memo(move |_| {
+    let search_options = Memo::new(move |_| {
         let search_value = search_value.get();
         if search_value.is_empty() {
             return vec![];
@@ -69,7 +69,7 @@ pub fn SiteHeader() -> impl IntoView {
         let navigate = use_navigate();
         navigate(&path, Default::default());
     };
-    let auto_complete_ref = create_component_ref::<AutoCompleteRef>();
+    let auto_complete_ref = ComponentRef::<AutoCompleteRef>::new();
     let handle = window_event_listener(ev::keydown, move |event| {
         let key = event.key();
         if key == *"/" {
@@ -165,7 +165,7 @@ pub fn SiteHeader() -> impl IntoView {
                         <Button
                             appearance=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
-                            style="font-size: 22px; padding: 0px 6px;"
+                            attr:style="font-size: 22px; padding: 0px 6px;"
                         />
                     </PopoverTrigger>
                     <div style="height: 70vh; overflow: auto;">// <Menu value=menu_value>
@@ -192,7 +192,7 @@ pub fn SiteHeader() -> impl IntoView {
                     <Button
                         appearance=ButtonAppearance::Subtle
                         icon=icondata::BiDiscordAlt
-                        style="font-size: 22px; padding: 0px 6px;"
+                        attr:style="font-size: 22px; padding: 0px 6px;"
                         on_click=move |_| {
                             _ = window().open_with_url("https://discord.gg/YPxuprzu6M");
                         }
@@ -201,7 +201,7 @@ pub fn SiteHeader() -> impl IntoView {
                     <Button
                         appearance=ButtonAppearance::Subtle
                         icon=icondata::AiGithubOutlined
-                        style="font-size: 22px; padding: 0px 6px;"
+                        attr:style="font-size: 22px; padding: 0px 6px;"
                         on_click=move |_| {
                             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                         }
