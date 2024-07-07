@@ -61,7 +61,7 @@ pub fn ComponentsPage() -> impl IntoView {
                             gen_menu_data().into_iter().map(|data| {
                                 let MenuGroupOption { label, children } = data;
                                 view! {
-                                    <Caption1Strong attr:style="margin-inline-start: 10px; margin-top: 10px; display: inline-block">
+                                    <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: inline-block">
                                         {label}
                                     </Caption1Strong>
                                     {
@@ -77,7 +77,7 @@ pub fn ComponentsPage() -> impl IntoView {
                         }
                     </NavDrawer>
                 </div>
-                <Layout content_style="padding: 8px 12px 28px; display: flex;" class="doc-content">
+                <Layout content_style="padding: 8px 12px 28px; display: flex;" attr:class="doc-content">
                     <Outlet/>
                 </Layout>
             </Layout>

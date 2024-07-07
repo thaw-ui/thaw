@@ -1,6 +1,7 @@
 use crate::Icon;
 use leptos::{ev, prelude::*};
 use thaw_utils::{class_list, mount_style, OptionalProp};
+use send_wrapper::SendWrapper;
 
 #[derive(Clone, Copy, Default, PartialEq, Eq, Hash)]
 pub enum TagVariant {
@@ -16,7 +17,7 @@ pub fn Tag(
     #[prop(optional, into)] variant: MaybeSignal<TagVariant>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] closable: MaybeSignal<bool>,
-    #[prop(optional, into)] on_close: Option<Callback<ev::MouseEvent>>,
+    #[prop(optional, into)] on_close: Option<Callback<SendWrapper<ev::MouseEvent>>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
@@ -25,7 +26,7 @@ pub fn Tag(
         let Some(callback) = on_close.as_ref() else {
             return;
         };
-        callback.call(event);
+        callback.call(SendWrapper::new(event));
     };
 
     view! {

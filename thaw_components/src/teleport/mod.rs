@@ -58,12 +58,15 @@ pub fn Teleport(
     let owner = Owner::current().unwrap();
     Effect::new(move |_| {
         if immediate.get() {
-            mount_fn.update_value(|mount_fn| {
-                if let Some(f) = mount_fn.take() {
-                    owner.with(|| {
-                        f();
-                    });
-                }
+            let Some(f) = mount_fn
+                .try_update_value(|mount_fn| mount_fn.take())
+                .flatten()
+            else {
+                return;
+            };
+
+            owner.with(|| {
+                f();
             });
         }
     });
