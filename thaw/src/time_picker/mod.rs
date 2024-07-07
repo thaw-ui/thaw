@@ -158,7 +158,7 @@ fn Panel(
             <div
                 class="thaw-config-provider thaw-time-picker-panel"
                 data-thaw-id=config_provider.id().clone()
-                style=move || display.get()
+                style=move || display.get().unwrap_or_default()
                 node_ref=panel_ref
             >
                 <div class="thaw-time-picker-panel__time">
@@ -317,10 +317,8 @@ fn PanelTimeItem(
     comp_ref: ComponentRef<PanelTimeItemRef>,
 ) -> impl IntoView {
     let item_ref = NodeRef::new();
-    item_ref.on_load(move |_| {
-        let item_ref = PanelTimeItemRef { item_ref };
-        comp_ref.load(item_ref);
-    });
+    comp_ref.load(PanelTimeItemRef { item_ref });
+
     view! {
         <div
             class="thaw-time-picker-panel__time-item"

@@ -287,7 +287,7 @@ pub fn Scrollbar(
             <div class="thaw-scrollbar__track--vertical" node_ref=y_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
-                    style:display=move || (!is_show_y_thumb.get()).then_some("none")
+                    style:display=move || (!is_show_y_thumb.get()).then_some("none").unwrap_or_default()
                     style:height=move || format!("{}px", y_thumb_height.get())
                     style:top=move || format!("{}px", y_thumb_top.get())
                     on:mousedown=on_y_thumb_mousedown
@@ -296,7 +296,7 @@ pub fn Scrollbar(
             <div class="thaw-scrollbar__track--horizontal" node_ref=x_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
-                    style:display=move || (!is_show_x_thumb.get()).then_some("none")
+                    style:display=move || (!is_show_x_thumb.get()).then_some("none").unwrap_or_default()
                     style:width=move || format!("{}px", x_thumb_width.get())
                     style:left=move || format!("{}px", x_thumb_left.get())
                     on:mousedown=on_x_thumb_mousedown

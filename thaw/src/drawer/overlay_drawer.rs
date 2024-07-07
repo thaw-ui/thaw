@@ -73,7 +73,7 @@ pub fn OverlayDrawer(
                     >
                         <div
                             class="thaw-overlay-drawer__backdrop"
-                            style=move || display.get()
+                            style=move || display.get().unwrap_or_default()
                             on:click=on_mask_click
                             node_ref=mask_ref
                         ></div>

@@ -130,7 +130,7 @@ pub fn Popover(
                             class
                         ]
                         data-thaw-id=config_provider.id().clone()
-                        style=move || display.get()
+                        style=move || display.get().unwrap_or_default()
 
                         node_ref=popover_ref
                         on:mouseenter=on_mouse_enter

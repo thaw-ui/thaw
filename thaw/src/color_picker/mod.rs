@@ -148,7 +148,7 @@ pub fn ColorPicker(
                     <div
                         class="thaw-config-provider thaw-color-picker-popover"
                         node_ref=popover_ref
-                        style=move || display.get()
+                        style=move || display.get().unwrap_or_default()
                         data-thaw-id=config_provider.id().clone()
                     >
 

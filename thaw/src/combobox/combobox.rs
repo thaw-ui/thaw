@@ -107,7 +107,7 @@ pub fn Combobox(
             >
                 <input
                     type="text"
-                    aria-expanded="true"
+                    // aria-expanded="true"
                     role="combobox"
                     class="thaw-combobox__input"
                     prop:value=move || {
@@ -122,7 +122,7 @@ pub fn Combobox(
                             <span
                                 aria-hidden="true"
                                 class="thaw-combobox__clear-icon"
-                                style=move || (!is_show_clear_icon.get()).then(|| "display: none")
+                                style=move || (!is_show_clear_icon.get()).then(|| "display: none").unwrap_or_default()
                                 node_ref=clear_icon_ref
                             >
                                 <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
@@ -135,11 +135,11 @@ pub fn Combobox(
                     }
                 }
                 <span
-                    aria-expanded="true"
+                    // aria-expanded="true"
                     role="button"
                     aria-label="Open"
                     class="thaw-combobox__expand-icon"
-                    style=move || is_show_clear_icon.get().then(|| "display: none")
+                    style=move || is_show_clear_icon.get().then(|| "display: none").unwrap_or_default()
                 >
                     <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
                         <path d="M15.85 7.65c.2.2.2.5 0 .7l-5.46 5.49a.55.55 0 0 1-.78 0L4.15 8.35a.5.5 0 1 1 .7-.7L10 12.8l5.15-5.16c.2-.2.5-.2.7 0Z" fill="currentColor">
@@ -163,7 +163,7 @@ pub fn Combobox(
                     >
                         <div
                             class="thaw-config-provider thaw-combobox__listbox"
-                            style=move || display.get()
+                            style=move || display.get().unwrap_or_default()
                             data-thaw-id=config_provider.id().clone()
                             node_ref=listbox_ref
                             role="listbox"
