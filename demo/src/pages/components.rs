@@ -1,7 +1,10 @@
 use crate::components::SiteHeader;
-use leptos::*;
+use leptos::prelude::*;
 use leptos_meta::Style;
-use leptos_router::{use_location, use_navigate, Outlet};
+use leptos_router::{
+    components::Outlet,
+    hooks::{use_location, use_navigate},
+};
 use thaw::*;
 
 #[component]
@@ -9,7 +12,7 @@ pub fn ComponentsPage() -> impl IntoView {
     let navigate = use_navigate();
     let loaction = use_location();
 
-    let select_name = create_rw_signal(String::new());
+    let select_name = RwSignal::new(String::new());
     Effect::new(move |_| {
         select_name.set(loaction.pathname.get());
     });
@@ -51,12 +54,27 @@ pub fn ComponentsPage() -> impl IntoView {
         </Style>
         <Layout position=LayoutPosition::Absolute>
             <SiteHeader/>
-            <Layout has_sider=true position=LayoutPosition::Absolute style="top: 64px;">
+            <Layout has_sider=true position=LayoutPosition::Absolute attr:style="top: 64px;">
                 <div class="demo-components__sider">
                     <NavDrawer selected_value=select_name>
-
-                        {gen_menu_data().into_view()}
-
+                        {
+                            gen_menu_data().into_iter().map(|data| {
+                                let MenuGroupOption { label, children } = data;
+                                view! {
+                                    <Caption1Strong attr:style="margin-inline-start: 10px; margin-top: 10px; display: inline-block">
+                                        {label}
+                                    </Caption1Strong>
+                                    {
+                                        children.into_iter().map(|item| {
+                                            let MenuItemOption { label, value } = item;
+                                            view! {
+                                                <NavItem value>{label}</NavItem>
+                                            }
+                                        }).collect_view()
+                                    }
+                                }
+                            }).collect_view()
+                        }
                     </NavDrawer>
                 </div>
                 <Layout content_style="padding: 8px 12px 28px; display: flex;" class="doc-content">
@@ -72,29 +90,9 @@ pub(crate) struct MenuGroupOption {
     pub children: Vec<MenuItemOption>,
 }
 
-impl IntoView for MenuGroupOption {
-    fn into_view(self) -> View {
-        let Self { label, children } = self;
-        view! {
-            <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: inline-block">
-                {label}
-            </Caption1Strong>
-            {children.into_iter().map(|v| v.into_view()).collect_view()}
-        }
-        .into_view()
-    }
-}
-
 pub(crate) struct MenuItemOption {
     pub label: String,
     pub value: String,
-}
-
-impl IntoView for MenuItemOption {
-    fn into_view(self) -> View {
-        let Self { label, value } = self;
-        view! { <NavItem value>{label}</NavItem> }
-    }
 }
 
 pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {

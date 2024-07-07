@@ -59,7 +59,7 @@ view! {
 ### Invalid
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
+let value = RwSignal::new(String::from("o"));
 
 view! {
     <Space vertical=true>
@@ -71,8 +71,8 @@ view! {
 ### Imperative handle
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
-let input_ref = create_component_ref::<InputRef>();
+let value = RwSignal::new(String::from("o"));
+let input_ref = ComponentRef::<InputRef>::new();
 
 let focus = Callback::new(move |_| {
     input_ref.get_untracked().unwrap().focus()

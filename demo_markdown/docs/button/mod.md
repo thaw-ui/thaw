@@ -26,7 +26,7 @@ view! {
 ### Icon
 
 ```rust demo
-let icon = create_rw_signal(Some(icondata::AiCloseOutlined));
+let icon = RwSignal::new(Some(icondata::AiCloseOutlined));
 
 let on_click = move |_| {
     icon.update(|icon| {

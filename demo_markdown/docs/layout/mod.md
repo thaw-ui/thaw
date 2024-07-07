@@ -3,10 +3,10 @@
 ```rust demo
 view! {
     <Layout>
-        <LayoutHeader style="background-color: #0078ffaa; padding: 20px;">
+        <LayoutHeader attr:style="background-color: #0078ffaa; padding: 20px;">
             "Header"
         </LayoutHeader>
-        <Layout style="background-color: #0078ff88; padding: 20px;">"Content"</Layout>
+        <Layout attr:style="background-color: #0078ff88; padding: 20px;">"Content"</Layout>
     </Layout>
 }
 ```
@@ -16,14 +16,14 @@ view! {
 ```rust demo
 view! {
     <Layout has_sider=true>
-        <LayoutSider style="background-color: #0078ff99; padding: 20px;">
+        <LayoutSider attr:style="background-color: #0078ff99; padding: 20px;">
             "Sider"
         </LayoutSider>
         <Layout>
-            <LayoutHeader style="background-color: #0078ffaa; padding: 20px;">
+            <LayoutHeader attr:style="background-color: #0078ffaa; padding: 20px;">
                 "Header"
             </LayoutHeader>
-            <Layout style="background-color: #0078ff88; padding: 20px;">
+            <Layout attr:style="background-color: #0078ff88; padding: 20px;">
                 "Content"
             </Layout>
         </Layout>

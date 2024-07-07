@@ -2,7 +2,7 @@
 
 ```rust demo
 use chrono::prelude::*;
-let value = create_rw_signal(Some(Local::now().date_naive()));
+let value = RwSignal::new(Some(Local::now().date_naive()));
 
 view! {
     <Calendar value />

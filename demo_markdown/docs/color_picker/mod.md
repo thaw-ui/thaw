@@ -3,7 +3,7 @@
 ```rust demo
 use palette::Srgb;
 
-let value = create_rw_signal(Color::from(Srgb::new(0.0, 0.0, 0.0)));
+let value = RwSignal::new(Color::from(Srgb::new(0.0, 0.0, 0.0)));
 
 view! {
     <ColorPicker value/>
@@ -17,9 +17,9 @@ Encoding formats, support RGB, HSV, HSL.
 ```rust demo
 use palette::{Hsl, Hsv, Srgb};
 
-let rgb = create_rw_signal(Color::from(Srgb::new(0.0, 0.0, 0.0)));
-let hsv = create_rw_signal(Color::from(Hsv::new(0.0, 0.0, 0.0)));
-let hsl = create_rw_signal(Color::from(Hsl::new(0.0, 0.0, 0.0)));
+let rgb = RwSignal::new(Color::from(Srgb::new(0.0, 0.0, 0.0)));
+let hsv = RwSignal::new(Color::from(Hsv::new(0.0, 0.0, 0.0)));
+let hsl = RwSignal::new(Color::from(Hsl::new(0.0, 0.0, 0.0)));
 
 view! {
     <Space vertical=true>

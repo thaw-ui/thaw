@@ -1,7 +1,7 @@
 # Select
 
 ```rust demo
-let value = create_rw_signal(None::<String>);
+let value = RwSignal::new(None::<String>);
 
 let options = vec![
     SelectOption::new("RwSignal", String::from("rw_signal")),
@@ -16,7 +16,7 @@ view! {
 # Multiple Select
 
 ```rust demo
-let value = create_rw_signal(vec![
+let value = RwSignal::new(vec![
     "rust".to_string(),
     "javascript".to_string(),
     "zig".to_string(),
