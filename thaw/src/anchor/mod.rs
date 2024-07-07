@@ -19,6 +19,7 @@ pub fn Anchor(
     let element_ids = RwSignal::new(Vec::<String>::new());
     let active_id = RwSignal::new(None::<String>);
 
+    let offset_target = send_wrapper::SendWrapper::new(offset_target);
     let on_scroll = move || {
         element_ids.with(|ids| {
             let offset_target_top = if let Some(offset_target) = offset_target.as_ref() {

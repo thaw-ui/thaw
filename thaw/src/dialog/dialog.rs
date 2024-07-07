@@ -39,7 +39,7 @@ pub fn Dialog(
                     >
                         <div
                             class="thaw-dialog-surface__backdrop"
-                            style=move || display.get()
+                            style=move || display.get().unwrap_or_default()
                             on:click=on_mask_click
                             node_ref=mask_ref
                             aria-hidden="true"

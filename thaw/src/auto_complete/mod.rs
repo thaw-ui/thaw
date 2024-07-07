@@ -3,7 +3,7 @@ mod auto_complete_option;
 pub use auto_complete_option::AutoCompleteOption;
 
 use crate::{ComponentRef, ConfigInjection, Input, InputPrefix, InputRef, InputSuffix};
-use leptos::{prelude::*, html};
+use leptos::{context::Provider, html, prelude::*};
 use thaw_components::{
     Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth, OptionComp,
 };
@@ -189,7 +189,7 @@ pub fn AutoComplete(
                         >
                             <div
                                 class="thaw-config-provider thaw-auto-complete__listbox"
-                                style=move || display.get()
+                                style=move || display.get().unwrap_or_default()
                                 data-thaw-id=config_provider.id().clone()
                                 node_ref=menu_ref
                                 role="listbox"

@@ -83,7 +83,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
         <div
             class="thaw-config-provider thaw-loading-bar-container"
             data-thaw-id=config_provider.id().clone()
-            style=move || (!loading.get()).then_some("display: none;")
+            style=move || (!loading.get()).then_some("display: none;").unwrap_or_default()
         >
             <div
                 class="thaw-loading-bar"

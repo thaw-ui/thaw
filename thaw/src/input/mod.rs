@@ -1,4 +1,5 @@
 use leptos::{ev, html, prelude::*};
+use send_wrapper::SendWrapper;
 use thaw_utils::{class_list, mount_style, ComponentRef, Model, OptionalProp};
 
 #[derive(Default, Clone)]
@@ -37,8 +38,8 @@ pub fn Input(
     #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
     #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
     #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
-    #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
+    #[prop(optional, into)] on_focus: Option<Callback<SendWrapper<ev::FocusEvent>>>,
+    #[prop(optional, into)] on_blur: Option<Callback<SendWrapper<ev::FocusEvent>>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
@@ -50,27 +51,30 @@ pub fn Input(
     mount_style("input", include_str!("./input.css"));
 
     let value_trigger = ArcTrigger::new();
-    let on_input = move |ev| {
-        let input_value = event_target_value(&ev);
-        if let Some(allow_value) = allow_value.as_ref() {
-            if !allow_value.call(input_value.clone()) {
-                value_trigger.trigger();
-                return;
+    let on_input = {
+        let value_trigger = value_trigger.clone();
+        move |ev| {
+            let input_value = event_target_value(&ev);
+            if let Some(allow_value) = allow_value.as_ref() {
+                if !allow_value.call(input_value.clone()) {
+                    value_trigger.trigger();
+                    return;
+                }
             }
+            value.set(input_value);
         }
-        value.set(input_value);
     };
     let is_focus = RwSignal::new(false);
     let on_internal_focus = move |ev| {
         is_focus.set(true);
         if let Some(on_focus) = on_focus.as_ref() {
-            on_focus.call(ev);
+            on_focus.call(SendWrapper::new(ev));
         }
     };
     let on_internal_blur = move |ev| {
         is_focus.set(false);
         if let Some(on_blur) = on_blur.as_ref() {
-            on_blur.call(ev);
+            on_blur.call(SendWrapper::new(ev));
         }
     };
 
@@ -113,12 +117,15 @@ pub fn Input(
     //     });
     // }
 
+    let prefix_if_ = input_prefix.as_ref().map_or(false, |prefix| prefix.if_);
+    let suffix_if_ = input_suffix.as_ref().map_or(false, |suffix| suffix.if_);
+
     view! {
         <span
             class=class_list![
                 "thaw-input",
-                ("thaw-input--prefix", input_prefix.as_ref().map_or(false, |prefix| prefix.if_)),
-                ("thaw-input--suffix", input_suffix.as_ref().map_or(false, |suffix| suffix.if_)),
+                ("thaw-input--prefix", prefix_if_),
+                ("thaw-input--suffix", suffix_if_),
                 ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
                 invalid.get()), class.map(| c | move || c.get())
             ]

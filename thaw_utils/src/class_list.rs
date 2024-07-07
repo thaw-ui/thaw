@@ -140,10 +140,11 @@ impl ClassList {
     }
 }
 
-impl<'a, R> leptos::tachys::html::class::IntoClass<R> for ClassList
+impl<R> leptos::tachys::html::class::IntoClass<R> for ClassList
 where
     R: DomRenderer,
 {
+    type AsyncOutput = Self;
     type State = (R::ClassList, String);
     type Cloneable = Self;
     type CloneableOwned = Self;
@@ -206,6 +207,12 @@ where
     }
 
     fn into_cloneable_owned(self) -> Self::CloneableOwned {
+        self
+    }
+
+    fn dry_resolve(&mut self) {}
+
+    async fn resolve(self) -> Self::AsyncOutput {
         self
     }
 }

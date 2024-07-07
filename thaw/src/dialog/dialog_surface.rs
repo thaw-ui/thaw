@@ -20,7 +20,7 @@ pub fn DialogSurface(children: Children) -> impl IntoView {
                 node_ref=surface_ref
                 role="dialog"
                 // aria-modal="true"
-                style:display=move || display.get().map(|_| "none")
+                style:display=move || display.get().map(|_| "none").unwrap_or_default()
             >
                 {children()}
             </div>

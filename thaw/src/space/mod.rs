@@ -30,25 +30,27 @@ pub fn Space(
         SpaceGap::WH(width, height) => format!("{width}px {height}px"),
     };
 
-    view! {
-        <div
-            class=class_list!["thaw-space", class.map(| c | move || c.get())]
-            style:gap=gap
-            style:align-items=move || align.get().map(|a| a.as_str())
-            style:justify-content=move || justify.get().map(|j| j.as_str())
-            style:flex-direction=if vertical { "column" } else { "row" }
-        >
+    children()
 
-            {children()
-                .nodes
-                .into_iter()
-                .map(|node| {
-                    view! { <div class="thaw-space__item">{node}</div> }
-                })
-                .collect::<Vec<_>>()}
+    // view! {
+    //     <div
+    //         class=class_list!["thaw-space", class.map(| c | move || c.get())]
+    //         style:gap=gap
+    //         style:align-items=move || align.get().map(|a| a.as_str())
+    //         style:justify-content=move || justify.get().map(|j| j.as_str())
+    //         style:flex-direction=if vertical { "column" } else { "row" }
+    //     >
 
-        </div>
-    }
+    //         // {children()
+    //         //     .nodes
+    //         //     .into_iter()
+    //         //     .map(|node| {
+    //         //         view! { <div class="thaw-space__item">{node}</div> }
+    //         //     })
+    //         //     .collect::<Vec<_>>()}
+
+    //     </div>
+    // }
 }
 
 #[derive(Clone)]

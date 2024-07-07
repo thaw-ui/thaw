@@ -9,13 +9,13 @@ pub fn Toaster(
     #[prop(optional)] position: ToastPosition,
 ) -> impl IntoView {
     mount_style("toaster", include_str!("./toaster.css"));
-    let toast_list = RwSignal::new(vec![]);
+    // let toast_list = RwSignal::new(vec![]);
 
     Effect::new(move |_| {
         for view in receiver.try_recv() {
-            toast_list.update(move |list| {
-                list.push(view);
-            });
+            // toast_list.update(move |list| {
+                // list.push(view.0);
+            // });
         }
     });
     view! {
