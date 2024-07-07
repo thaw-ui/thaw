@@ -11,7 +11,7 @@ use thaw_utils::{add_event_listener, mount_style};
 pub fn Upload(
     #[prop(optional, into)] accept: MaybeSignal<String>,
     #[prop(optional, into)] multiple: MaybeSignal<bool>,
-    #[prop(optional, into)] custom_request: Option<Callback<SendWrapper<FileList>, ()>>,
+    #[prop(optional, into)] custom_request: Option<Callback<SendWrapper<FileList>>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));
