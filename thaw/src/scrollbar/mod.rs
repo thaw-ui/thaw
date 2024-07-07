@@ -135,14 +135,19 @@ pub fn Scrollbar(
         sync_scroll_state();
     };
     let on_mouseleave = move |_| {
-        thumb_status.update_value(|thumb_status| {
-            if thumb_status.is_some() {
-                *thumb_status = Some(ThumbStatus::DelayLeave);
-            } else {
-                is_show_y_thumb.set(false);
-                is_show_x_thumb.set(false);
-            }
-        });
+        if Some(true)
+            == thumb_status.try_update_value(|thumb_status| {
+                if thumb_status.is_some() {
+                    *thumb_status = Some(ThumbStatus::DelayLeave);
+                    false
+                } else {
+                    true
+                }
+            })
+        {
+            is_show_y_thumb.set(false);
+            is_show_x_thumb.set(false);
+        }
     };
 
     let on_scroll = move |_| {

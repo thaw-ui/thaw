@@ -30,19 +30,18 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
-    let loading_bar = use_loading_bar();
-    _ = is_routing.watch(move |is_routing| {
-        if *is_routing {
-            loading_bar.start();
-        } else {
-            loading_bar.finish();
-        }
-    });
+    // let loading_bar = use_loading_bar();
+    // _ = is_routing.watch(move |is_routing| {
+    //     if *is_routing {
+    //         loading_bar.start();
+    //     } else {
+    //         loading_bar.finish();
+    //     }
+    // });
 
     view! {
         <Routes fallback=|| "404">
             <Route path=StaticSegment("") view=Home/>
-            <Route path=StaticSegment("/home") view=Home/>
             // <Route path="/guide" view=ComponentsPage>
             //     <Route path="/installation" view=InstallationMdPage/>
             //     <Route path="/usage" view=UsageMdPage/>
@@ -114,9 +113,11 @@ fn TheProvider(children: Children) -> impl IntoView {
 
     view! {
         <ConfigProvider>
-            <ToasterProvider>
-                <LoadingBarProvider>{children()}</LoadingBarProvider>
-            </ToasterProvider>
+            // <ToasterProvider>
+            //     <LoadingBarProvider>
+                    {children()}
+            //     </LoadingBarProvider>
+            // </ToasterProvider>
         </ConfigProvider>
     }
 }
