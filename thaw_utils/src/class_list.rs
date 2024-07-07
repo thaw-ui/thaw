@@ -145,7 +145,7 @@ where
     R: DomRenderer,
 {
     type AsyncOutput = Self;
-    type State = (R::ClassList, String);
+    type State = (R::Element, String);
     type Cloneable = Self;
     type CloneableOwned = Self;
 
@@ -178,26 +178,24 @@ where
         if !FROM_SERVER {
             R::add_class(&class_list, &class);
         }
-        (class_list, class)
+        (el.clone(), class)
     }
 
     fn build(self, el: &R::Element) -> Self::State {
-        let class_list = R::class_list(el);
         let mut class = String::new();
         self.to_class_string(&mut class);
         if !class.is_empty() {
-            R::add_class(&class_list, &class);
+            R::set_attribute(el, "class", &class);
         }
-        (class_list, class)
+        (el.clone(), class)
     }
 
     fn rebuild(self, state: &mut Self::State) {
         let mut class = String::new();
         self.to_class_string(&mut class);
-        let (class_list, prev_class) = state;
+        let (el, prev_class) = state;
         if class != *prev_class {
-            R::remove_class(class_list, prev_class);
-            R::add_class(class_list, &class);
+            R::set_attribute(el, "class", &class);
         }
         *prev_class = class;
     }

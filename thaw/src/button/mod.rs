@@ -3,7 +3,7 @@ mod button_group;
 pub use button_group::ButtonGroup;
 
 use crate::icon::Icon;
-use leptos::{ev, prelude::*};
+use leptos::{either::Either, ev, prelude::*};
 use send_wrapper::SendWrapper;
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
@@ -122,9 +122,13 @@ pub fn Button(
                     }
                 }
             }
-            <OptionComp value=children let:children>
-                {children()}
-            </OptionComp>
+            {
+                if let Some(children) = children {
+                    Either::Left(children())
+                } else {
+                    Either::Right(())
+                }
+            }
         </button>
     }
 }
