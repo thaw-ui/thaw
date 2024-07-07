@@ -45,18 +45,18 @@ view! {
 view! {
     <Space vertical=true>
         <Space align=SpaceAlign::Start>
-            <Button style="height: 60px">"Start"</Button>
-            <Button style="height: 40px">"Start"</Button>
+            <Button attr:style="height: 60px">"Start"</Button>
+            <Button attr:style="height: 40px">"Start"</Button>
             <Button>"Start"</Button>
         </Space>
         <Space align=SpaceAlign::Center>
-            <Button style="height: 60px">"Center"</Button>
-            <Button style="height: 40px">"Center"</Button>
+            <Button attr:style="height: 60px">"Center"</Button>
+            <Button attr:style="height: 40px">"Center"</Button>
             <Button>"Center"</Button>
         </Space>
         <Space align=SpaceAlign::End>
-            <Button style="height: 60px">"End"</Button>
-            <Button style="height: 40px">"End"</Button>
+            <Button attr:style="height: 60px">"End"</Button>
+            <Button attr:style="height: 40px">"End"</Button>
             <Button>"End"</Button>
         </Space>
     </Space>

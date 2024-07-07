@@ -2,7 +2,7 @@ use crate::pages::*;
 use leptos::{prelude::*, reactive_graph::wrappers::write::SignalSetter};
 use leptos_meta::provide_meta_context;
 use leptos_router::{
-    components::{Route, Router, Routes},
+    components::{ParentRoute, Route, Router, Routes},
     StaticSegment,
 };
 // use leptos_use::{
@@ -20,7 +20,7 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        <Router set_is_routing> 
+        <Router set_is_routing>
             <TheProvider>
                 <TheRouter is_routing/>
             </TheProvider>
@@ -30,75 +30,75 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
-    // let loading_bar = use_loading_bar();
-    // _ = is_routing.watch(move |is_routing| {
-    //     if *is_routing {
-    //         loading_bar.start();
-    //     } else {
-    //         loading_bar.finish();
-    //     }
-    // });
+    let loading_bar = use_loading_bar();
+    _ = is_routing.watch(move |is_routing| {
+        if *is_routing {
+            loading_bar.start();
+        } else {
+            loading_bar.finish();
+        }
+    });
 
     view! {
         <Routes fallback=|| "404">
             <Route path=StaticSegment("") view=Home/>
-            // <Route path="/guide" view=ComponentsPage>
-            //     <Route path="/installation" view=InstallationMdPage/>
-            //     <Route path="/usage" view=UsageMdPage/>
-            //     <Route path="/server-sider-rendering" view=ServerSiderRenderingMdPage/>
-            //     <Route path="/development/guide" view=DevelopmentGuideMdPage/>
-            //     <Route path="/development/components" view=DevelopmentComponentsMdPage/>
-            // </Route>
-            // <Route path="/components" view=ComponentsPage>
+            <ParentRoute path=StaticSegment("guide") view=ComponentsPage>
+                <Route path=StaticSegment("installation") view=InstallationMdPage/>
+                <Route path=StaticSegment("usage") view=UsageMdPage/>
+                <Route path=StaticSegment("server-sider-rendering") view=ServerSiderRenderingMdPage/>
+                <Route path=(StaticSegment("development"), StaticSegment("guide")) view=DevelopmentGuideMdPage/>
+                <Route path=(StaticSegment("development"), StaticSegment("components")) view=DevelopmentComponentsMdPage/>
+            </ParentRoute>
+            <ParentRoute path=StaticSegment("components") view=ComponentsPage>
             //     // <Route path="/tabbar" view=TabbarPage/>
             //     // <Route path="/nav-bar" view=NavBarPage/>
             //     // <Route path="/toast" view=ToastPage/>
-            //     <Route path="/accordion" view=AccordionMdPage/>
-            //     <Route path="/anchor" view=AnchorMdPage/>
-            //     <Route path="/auto-complete" view=AutoCompleteMdPage/>
-            //     <Route path="/avatar" view=AvatarMdPage/>
-            //     <Route path="/back-top" view=BackTopMdPage/>
-            //     <Route path="/badge" view=BadgeMdPage/>
-            //     <Route path="/breadcrumb" view=BreadcrumbMdPage/>
-            //     <Route path="/button" view=ButtonMdPage/>
-            //     <Route path="/calendar" view=CalendarMdPage/>
-            //     <Route path="/card" view=CardMdPage/>
-            //     <Route path="/checkbox" view=CheckboxMdPage/>
-            //     <Route path="/color-picker" view=ColorPickerMdPage/>
-            //     <Route path="/combobox" view=ComboboxMdPage/>
-            //     <Route path="/config-provider" view=ConfigProviderMdPage/>
-            //     <Route path="/date-picker" view=DatePickerMdPage/>
-            //     <Route path="/dialog" view=DialogMdPage/>
-            //     <Route path="/divider" view=DividerMdPage/>
-            //     <Route path="/drawer" view=DrawerMdPage/>
-            //     <Route path="/grid" view=GridMdPage/>
-            //     <Route path="/icon" view=IconMdPage/>
-            //     <Route path="/image" view=ImageMdPage/>
-            //     <Route path="/input" view=InputMdPage/>
-            //     <Route path="/layout" view=LayoutMdPage/>
-            //     <Route path="/loading-bar" view=LoadingBarMdPage/>
-            //     // <Route path="/message" view=MessageMdPage/>
-            //     <Route path="/message-bar" view=MessageBarMdPage/>
-            //     <Route path="/popover" view=PopoverMdPage/>
-            //     <Route path="/progress-bar" view=ProgressBarMdPage/>
-            //     <Route path="/radio" view=RadioMdPage/>
-            //     <Route path="/scrollbar" view=ScrollbarMdPage/>
-            //     // <Route path="/select" view=SelectMdPage/>
-            //     <Route path="/skeleton" view=SkeletonMdPage/>
-            //     <Route path="/slider" view=SliderMdPage/>
-            //     <Route path="/space" view=SpaceMdPage/>
-            //     <Route path="/spin-button" view=SpinButtonMdPage/>
-            //     <Route path="/spinner" view=SpinnerMdPage/>
-            //     <Route path="/switch" view=SwitchMdPage/>
-            //     <Route path="/tab-list" view=TabListMdPage/>
-            //     <Route path="/table" view=TableMdPage/>
-            //     <Route path="/tag" view=TagMdPage/>
-            //     <Route path="/text" view=TextMdPage/>
-            //     <Route path="/textarea" view=TextareaMdPage/>
-            //     <Route path="/time-picker" view=TimePickerMdPage/>
-            //     <Route path="/toast" view=ToastMdPage />
-            //     <Route path="/upload" view=UploadMdPage/>
-            // </Route>
+                // <Route path=StaticSegment("accordion") view=AccordionMdPage/>
+                // <Route path=StaticSegment("anchor") view=AnchorMdPage/>
+                // <Route path=StaticSegment("auto-complete") view=AutoCompleteMdPage/>
+                // <Route path=StaticSegment("avatar") view=AvatarMdPage/>
+                // <Route path=StaticSegment("back-top") view=BackTopMdPage/>
+                // <Route path=StaticSegment("badge") view=BadgeMdPage/>
+                // <Route path=StaticSegment("breadcrumb") view=BreadcrumbMdPage/>
+                <Route path=StaticSegment("button") view=ButtonMdPage/>
+                <Route path=StaticSegment("calendar") view=CalendarMdPage/>
+                <Route path=StaticSegment("card") view=CardMdPage/>
+                <Route path=StaticSegment("checkbox") view=CheckboxMdPage/>
+                <Route path=StaticSegment("color-picker") view=ColorPickerMdPage/>
+                <Route path=StaticSegment("combobox") view=ComboboxMdPage/>
+                <Route path=StaticSegment("config-provider") view=ConfigProviderMdPage/>
+                <Route path=StaticSegment("date-picker") view=DatePickerMdPage/>
+                <Route path=StaticSegment("dialog") view=DialogMdPage/>
+                <Route path=StaticSegment("divider") view=DividerMdPage/>
+                <Route path=StaticSegment("drawer") view=DrawerMdPage/>
+                <Route path=StaticSegment("grid") view=GridMdPage/>
+                // <Route path=StaticSegment("icon") view=IconMdPage/>
+                // <Route path=StaticSegment("image") view=ImageMdPage/>
+                // <Route path=StaticSegment("input") view=InputMdPage/>
+                // <Route path=StaticSegment("layout") view=LayoutMdPage/>
+                // <Route path=StaticSegment("loading-bar") view=LoadingBarMdPage/>
+                // <Route path="/message" view=MessageMdPage/>
+                // <Route path=StaticSegment("message-bar") view=MessageBarMdPage/>
+                // <Route path=StaticSegment("popover") view=PopoverMdPage/>
+                // <Route path=StaticSegment("progress-bar") view=ProgressBarMdPage/>
+                // <Route path=StaticSegment("radio") view=RadioMdPage/>
+                // <Route path=StaticSegment("scrollbar") view=ScrollbarMdPage/>
+                // // <Route path="/select" view=SelectMdPage/>
+                // <Route path=StaticSegment("skeleton") view=SkeletonMdPage/>
+                // <Route path=StaticSegment("slider") view=SliderMdPage/>
+                // <Route path=StaticSegment("space") view=SpaceMdPage/>
+                // <Route path=StaticSegment("spin-button") view=SpinButtonMdPage/>
+                // <Route path=StaticSegment("spinner") view=SpinnerMdPage/>
+                // <Route path=StaticSegment("switch") view=SwitchMdPage/>
+                // <Route path=StaticSegment("tab-list") view=TabListMdPage/>
+                // <Route path=StaticSegment("table") view=TableMdPage/>
+                // <Route path=StaticSegment("tag") view=TagMdPage/>
+                // <Route path=StaticSegment("text") view=TextMdPage/>
+                // <Route path=StaticSegment("textarea") view=TextareaMdPage/>
+                // <Route path=StaticSegment("time-picker") view=TimePickerMdPage/>
+                // <Route path=StaticSegment("toast") view=ToastMdPage />
+                // <Route path=StaticSegment("upload") view=UploadMdPage/>
+            </ParentRoute>
             // <Route path="/mobile/tabbar" view=TabbarDemoPage/>
             // <Route path="/mobile/nav-bar" view=NavBarDemoPage/>
             // <Route path="/mobile/toast" view=ToastDemoPage/>
@@ -114,9 +114,9 @@ fn TheProvider(children: Children) -> impl IntoView {
     view! {
         <ConfigProvider>
             // <ToasterProvider>
-            //     <LoadingBarProvider>
+                <LoadingBarProvider>
                     {children()}
-            //     </LoadingBarProvider>
+                </LoadingBarProvider>
             // </ToasterProvider>
         </ConfigProvider>
     }
