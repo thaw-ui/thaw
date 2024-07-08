@@ -65,15 +65,15 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "SpaceMdPage" => "../docs/space/mod.md",
         "SpinButtonMdPage" => "../docs/spin_button/mod.md",
         "SpinnerMdPage" => "../docs/spinner/mod.md",
-        "SwitchMdPage" => "../docs/switch/mod.md"
-        // "TabListMdPage" => "../docs/tab_list/mod.md",
-        // "TableMdPage" => "../docs/table/mod.md",
-        // "TagMdPage" => "../docs/tag/mod.md",
-        // "TextareaMdPage" => "../docs/textarea/mod.md",
-        // "TimePickerMdPage" => "../docs/time_picker/mod.md",
-        // "TextMdPage" => "../docs/text/mod.md",
-        // // "ToastMdPage" => "../docs/toast/mod.md",
-        // // "UploadMdPage" => "../docs/upload/mod.md"
+        "SwitchMdPage" => "../docs/switch/mod.md",
+        "TabListMdPage" => "../docs/tab_list/mod.md",
+        "TableMdPage" => "../docs/table/mod.md",
+        "TagMdPage" => "../docs/tag/mod.md",
+        "TextMdPage" => "../docs/text/mod.md",
+        "TextareaMdPage" => "../docs/textarea/mod.md",
+        "TimePickerMdPage" => "../docs/time_picker/mod.md",
+        "ToastMdPage" => "../docs/toast/mod.md",
+        "UploadMdPage" => "../docs/upload/mod.md"
     };
 
     let mut fn_list = vec![];

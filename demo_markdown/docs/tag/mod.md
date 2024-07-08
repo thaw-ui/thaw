@@ -14,13 +14,14 @@ view! {
 ### Closable
 
 ```rust demo
-let message = use_message();
-let success = move |_| {
-    message.create(
-        "tag close".into(),
-        MessageVariant::Success,
-        Default::default(),
-    );
+use send_wrapper::SendWrapper;
+// let message = use_message();
+let success = move |_: SendWrapper<ev::MouseEvent>| {
+    // message.create(
+    //     "tag close".into(),
+    //     MessageVariant::Success,
+    //     Default::default(),
+    // );
 };
 
 view! {

@@ -3,13 +3,13 @@
 ```rust demo
 use send_wrapper::SendWrapper;
 
-let message = use_message();
+// let message = use_message();
 let custom_request = move |file_list: SendWrapper<FileList>| {
-    message.create(
-        format!("Number of uploaded files: {}", file_list.length()),
-        MessageVariant::Success,
-        Default::default(),
-    );
+    // message.create(
+    //     format!("Number of uploaded files: {}", file_list.length()),
+    //     MessageVariant::Success,
+    //     Default::default(),
+    // );
 };
 
 view!{

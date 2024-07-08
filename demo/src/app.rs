@@ -103,14 +103,14 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                         <Route path=StaticSegment("switch") view=SwitchMdPage/>
                     }
                 }
-                // <Route path=StaticSegment("tab-list") view=TabListMdPage/>
-                // <Route path=StaticSegment("table") view=TableMdPage/>
-                // <Route path=StaticSegment("tag") view=TagMdPage/>
-                // <Route path=StaticSegment("text") view=TextMdPage/>
-                // <Route path=StaticSegment("textarea") view=TextareaMdPage/>
-                // <Route path=StaticSegment("time-picker") view=TimePickerMdPage/>
-                // <Route path=StaticSegment("toast") view=ToastMdPage />
-                // <Route path=StaticSegment("upload") view=UploadMdPage/>
+                <Route path=StaticSegment("tab-list") view=TabListMdPage/>
+                <Route path=StaticSegment("table") view=TableMdPage/>
+                <Route path=StaticSegment("tag") view=TagMdPage/>
+                <Route path=StaticSegment("text") view=TextMdPage/>
+                <Route path=StaticSegment("textarea") view=TextareaMdPage/>
+                <Route path=StaticSegment("time-picker") view=TimePickerMdPage/>
+                <Route path=StaticSegment("toast") view=ToastMdPage />
+                <Route path=StaticSegment("upload") view=UploadMdPage/>
             </ParentRoute>
             // <Route path="/mobile/tabbar" view=TabbarDemoPage/>
             // <Route path="/mobile/nav-bar" view=NavBarDemoPage/>
