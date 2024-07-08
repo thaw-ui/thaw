@@ -138,9 +138,7 @@ view! {
 
 ```rust demo
 view! {
-    <Space vertical=true>
-        <Button block=true>"Primary"</Button>
-    </Space>
+    <Button block=true>"Primary"</Button>
 }
 ```
 

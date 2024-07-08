@@ -1,6 +1,5 @@
 use leptos::{ev, html::ElementType, prelude::*};
 use std::{ops::Deref, time::Duration};
-use tachys::view::any_view::AnyView;
 use thaw_utils::{add_event_listener, EventListenerHandle, NextFrame};
 use web_sys::wasm_bindgen::JsCast;
 
@@ -196,7 +195,7 @@ where
         };
 
         let name = name.clone();
-        RenderEffect::new(move |prev: Option<bool>| {
+        let _ = RenderEffect::new(move |prev: Option<bool>| {
             let show = show.get();
             let prev = if let Some(prev) = prev {
                 prev

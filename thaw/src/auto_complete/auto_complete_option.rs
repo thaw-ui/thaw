@@ -5,7 +5,7 @@ use leptos::prelude::*;
 pub fn AutoCompleteOption(key: String, children: Children) -> impl IntoView {
     let value = key.clone();
     let auto_complete = AutoCompleteInjection::use_();
-    let is_selected = Memo::new(move |_| auto_complete.is_selected(&key));
+    // let is_selected = Memo::new(move |_| auto_complete.is_selected(&key));
 
     view! {
         <div

@@ -33,7 +33,7 @@ impl ClassList {
                     });
                 }
                 #[cfg(not(feature = "ssr"))]
-                RenderEffect::new(move |old_name| {
+                let _ = RenderEffect::new(move |old_name| {
                     let name = f();
                     if let Some(old_name) = old_name {
                         if old_name != name {
@@ -60,7 +60,7 @@ impl ClassList {
                     }
                 }
                 #[cfg(not(feature = "ssr"))]
-                RenderEffect::new(move |old_name| {
+                let _ = RenderEffect::new(move |old_name| {
                     let name = f();
                     if let Some(old_name) = old_name {
                         if old_name != name {
@@ -99,7 +99,7 @@ impl ClassList {
                     });
                 }
                 #[cfg(not(feature = "ssr"))]
-                RenderEffect::new(move |old| {
+                let _ = RenderEffect::new(move |old| {
                     let name = name.clone();
                     let new = f();
                     if old.is_none() {
