@@ -4,9 +4,7 @@
 let value = RwSignal::new(String::from("o"));
 
 view! {
-    <Space vertical=true>
-        <Textarea value placeholder="Textarea"/>
-    </Space>
+    <Textarea value placeholder="Textarea"/>
 }
 ```
 
@@ -16,9 +14,7 @@ view! {
 let value = RwSignal::new(String::from("o"));
 
 view! {
-    <Space vertical=true>
-        <Textarea value disabled=true/>
-    </Space>
+    <Textarea value disabled=true/>
 }
 ```
 

@@ -42,9 +42,7 @@ view! {
 let value = RwSignal::new(String::from("o"));
 
 view! {
-    <Space vertical=true>
-        <Input value disabled=true/>
-    </Space>
+    <Input value disabled=true/>
 }
 ```
 
@@ -62,9 +60,7 @@ view! {
 let value = RwSignal::new(String::from("o"));
 
 view! {
-    <Space vertical=true>
-        <Input value invalid=true/>
-    </Space>
+    <Input value invalid=true/>
 }
 ```
 

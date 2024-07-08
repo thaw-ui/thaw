@@ -19,7 +19,7 @@ pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
             });
         };
 
-        RenderEffect::new(move |_| {
+        let _ = RenderEffect::new(move |_| {
             if is_lock.get() {
                 let head = document().head().expect("head no exist");
                 let style = document()

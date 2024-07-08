@@ -1,4 +1,3 @@
-use crate::Icon;
 use leptos::{either::Either, ev, prelude::*};
 use send_wrapper::SendWrapper;
 use thaw_utils::{class_list, mount_style, OptionalProp};

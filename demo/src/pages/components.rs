@@ -77,7 +77,7 @@ pub fn ComponentsPage() -> impl IntoView {
                         }
                     </NavDrawer>
                 </div>
-                <Layout content_style="padding: 8px 12px 28px; display: flex;" attr:class="doc-content">
+                <Layout content_style="padding: 8px 12px 28px; display: flex;" attr:class=("doc-content", true)>
                     <Outlet/>
                 </Layout>
             </Layout>

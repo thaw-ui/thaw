@@ -1,5 +1,5 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
+use thaw_utils::{class_list, mount_style, OptionalMaybeSignal};
 
 #[derive(Default)]
 pub enum SpaceGap {
@@ -18,8 +18,8 @@ pub fn Space(
     #[prop(optional)] vertical: bool,
     #[prop(optional, into)] align: OptionalMaybeSignal<SpaceAlign>,
     #[prop(optional, into)] justify: OptionalMaybeSignal<SpaceJustify>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    children: Children,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: ChildrenFragment,
 ) -> impl IntoView {
     mount_style("space", include_str!("./space.css"));
     let gap = match gap {
@@ -30,27 +30,25 @@ pub fn Space(
         SpaceGap::WH(width, height) => format!("{width}px {height}px"),
     };
 
-    children()
+    view! {
+        <div
+            class=class_list!["thaw-space", class]
+            style:gap=gap
+            style:align-items=move || align.get().map(|a| a.as_str()).unwrap_or_default()
+            style:justify-content=move || justify.get().map(|j| j.as_str()).unwrap_or_default()
+            style:flex-direction=if vertical { "column" } else { "row" }
+        >
 
-    // view! {
-    //     <div
-    //         class=class_list!["thaw-space", class.map(| c | move || c.get())]
-    //         style:gap=gap
-    //         style:align-items=move || align.get().map(|a| a.as_str())
-    //         style:justify-content=move || justify.get().map(|j| j.as_str())
-    //         style:flex-direction=if vertical { "column" } else { "row" }
-    //     >
+            {children()
+                .nodes
+                .into_iter()
+                .map(|node| {
+                    view! { <div class="thaw-space__item">{node}</div> }
+                })
+                .collect_view()}
 
-    //         // {children()
-    //         //     .nodes
-    //         //     .into_iter()
-    //         //     .map(|node| {
-    //         //         view! { <div class="thaw-space__item">{node}</div> }
-    //         //     })
-    //         //     .collect::<Vec<_>>()}
-
-    //     </div>
-    // }
+        </div>
+    }
 }
 
 #[derive(Clone)]
@@ -102,5 +100,20 @@ impl SpaceJustify {
             Self::SpaceBetween => "space-between",
             Self::SpaceEvenly => "space-evenly",
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    fn main() {
+        use leptos::prelude::*;
+        use super::Space;
+
+        view! {
+            <Space>
+                <p></p>
+                <p></p>
+            </Space>
+        };
     }
 }

@@ -7,26 +7,26 @@ use thaw::*;
 
 #[component]
 pub fn SiteHeader() -> impl IntoView {
-    // let theme = Theme::use_rw_theme();
-    // let theme_name = Memo::new(move |_| {
-    //     theme.with(|theme| {
-    //         if theme.name == *"light" {
-    //             "Dark".to_string()
-    //         } else {
-    //             "Light".to_string()
-    //         }
-    //     })
-    // });
-    // // let (_, write_theme, _) = use_local_storage::<String, FromToStringCodec>("theme");
-    // let change_theme = Callback::new(move |_| {
-    //     if theme_name.get_untracked() == "Light" {
-    //         theme.set(Theme::light());
-    //         // write_theme.set("light".to_string());
-    //     } else {
-    //         theme.set(Theme::dark());
-    //         // write_theme.set("dark".to_string());
-    //     }
-    // });
+    let theme = Theme::use_rw_theme();
+    let theme_name = Memo::new(move |_| {
+        theme.with(|theme| {
+            if theme.name == *"light" {
+                "Dark".to_string()
+            } else {
+                "Light".to_string()
+            }
+        })
+    });
+    // let (_, write_theme, _) = use_local_storage::<String, FromToStringCodec>("theme");
+    let change_theme = Callback::new(move |_| {
+        if theme_name.get_untracked() == "Light" {
+            theme.set(Theme::light());
+            // write_theme.set("light".to_string());
+        } else {
+            theme.set(Theme::dark());
+            // write_theme.set("dark".to_string());
+        }
+    });
 
     let search_value = RwSignal::new(String::new());
     let search_all_options = StoredValue::new(gen_search_all_options());
@@ -130,86 +130,85 @@ pub fn SiteHeader() -> impl IntoView {
                 }
             "
         </Style>
-        <LayoutHeader attr:class="demo-header">
-            "123"
-            // <Space on:click=move |_| {
-            //     let navigate = use_navigate();
-            //     navigate("/", Default::default());
-            // }>
-            //     <img src="/logo.svg" style="width: 36px"/>
-            //     <div class="demo-name">"Thaw UI"</div>
-            // </Space>
-            // <Space>
-            //     <AutoComplete
-            //         value=search_value
-            //         placeholder="Type '/' to search"
-            //         clear_after_select=true
-            //         blur_after_select=true
-            //         on_select=on_search_select
-            //         comp_ref=auto_complete_ref
-            //     >
-            //         <For each=move || search_options.get() key=|option| option.label.clone() let:option>
-            //             <AutoCompleteOption key=option.value>{option.label}</AutoCompleteOption>
-            //         </For>
-            //         <AutoCompletePrefix slot>
-            //             <Icon
-            //                 icon=icondata::AiSearchOutlined
-            //                 style="font-size: 18px; color: var(--thaw-placeholder-color);"
-            //             />
-            //         </AutoCompletePrefix>
-            //     </AutoComplete>
-            //     <Popover
-            //         placement=PopoverPlacement::BottomEnd
-            //         class="demo-header__menu-popover-mobile"
-            //     >
-            //         <PopoverTrigger slot class="demo-header__menu-mobile">
-            //             <Button
-            //                 appearance=ButtonAppearance::Subtle
-            //                 icon=icondata::AiUnorderedListOutlined
-            //                 attr:style="font-size: 22px; padding: 0px 6px;"
-            //             />
-            //         </PopoverTrigger>
-            //         <div style="height: 70vh; overflow: auto;">// <Menu value=menu_value>
-            //         // <MenuItem key=theme_name label=theme_name />
-            //         // <MenuItem key="github" label="Github" />
-            //         // {
-            //         // use crate::pages::{gen_guide_menu_data, gen_menu_data};
-            //         // vec![
-            //         // gen_guide_menu_data().into_view(),
-            //         // gen_menu_data().into_view(),
-            //         // ]
-            //         // }
-            //         // </Menu>
-            //         </div>
-            //     </Popover>
-            //     <Space class="demo-header__right-btn" align=SpaceAlign::Center>
-            //         <Button
-            //             appearance=ButtonAppearance::Subtle
-            //             on_click=Callback::new(move |_| change_theme.call(()))
-            //         >
-            //             {move || theme_name.get()}
-            //         </Button>
-            //         <SwitchVersion/>
-            //         <Button
-            //             appearance=ButtonAppearance::Subtle
-            //             icon=icondata::BiDiscordAlt
-            //             attr:style="font-size: 22px; padding: 0px 6px;"
-            //             on_click=move |_| {
-            //                 _ = window().open_with_url("https://discord.gg/YPxuprzu6M");
-            //             }
-            //         />
+        <LayoutHeader attr:class=("demo-header", true)>
+            <Space on:click=move |_| {
+                let navigate = use_navigate();
+                navigate("/", Default::default());
+            }>
+                <img src="/logo.svg" style="width: 36px"/>
+                <div class="demo-name">"Thaw UI"</div>
+            </Space>
+            <Space>
+                <AutoComplete
+                    value=search_value
+                    placeholder="Type '/' to search"
+                    clear_after_select=true
+                    blur_after_select=true
+                    on_select=on_search_select
+                    comp_ref=auto_complete_ref
+                >
+                    <For each=move || search_options.get() key=|option| option.label.clone() let:option>
+                        <AutoCompleteOption key=option.value>{option.label}</AutoCompleteOption>
+                    </For>
+                    <AutoCompletePrefix slot>
+                        <Icon
+                            icon=icondata::AiSearchOutlined
+                            style="font-size: 18px; color: var(--thaw-placeholder-color);"
+                        />
+                    </AutoCompletePrefix>
+                </AutoComplete>
+                <Popover
+                    placement=PopoverPlacement::BottomEnd
+                    class="demo-header__menu-popover-mobile"
+                >
+                    <PopoverTrigger slot class="demo-header__menu-mobile">
+                        <Button
+                            appearance=ButtonAppearance::Subtle
+                            icon=icondata::AiUnorderedListOutlined
+                            attr:style="font-size: 22px; padding: 0px 6px;"
+                        />
+                    </PopoverTrigger>
+                    <div style="height: 70vh; overflow: auto;">// <Menu value=menu_value>
+                    // <MenuItem key=theme_name label=theme_name />
+                    // <MenuItem key="github" label="Github" />
+                    // {
+                    // use crate::pages::{gen_guide_menu_data, gen_menu_data};
+                    // vec![
+                    // gen_guide_menu_data().into_view(),
+                    // gen_menu_data().into_view(),
+                    // ]
+                    // }
+                    // </Menu>
+                    </div>
+                </Popover>
+                <Space class="demo-header__right-btn" align=SpaceAlign::Center>
+                    <Button
+                        appearance=ButtonAppearance::Subtle
+                        on_click=Callback::new(move |_| change_theme.call(()))
+                    >
+                        {move || theme_name.get()}
+                    </Button>
+                    <SwitchVersion/>
+                    <Button
+                        appearance=ButtonAppearance::Subtle
+                        icon=icondata::BiDiscordAlt
+                        attr:style="font-size: 22px; padding: 0px 6px;"
+                        on_click=move |_| {
+                            _ = window().open_with_url("https://discord.gg/YPxuprzu6M");
+                        }
+                    />
 
-            //         <Button
-            //             appearance=ButtonAppearance::Subtle
-            //             icon=icondata::AiGithubOutlined
-            //             attr:style="font-size: 22px; padding: 0px 6px;"
-            //             on_click=move |_| {
-            //                 _ = window().open_with_url("http://github.com/thaw-ui/thaw");
-            //             }
-            //         />
+                    <Button
+                        appearance=ButtonAppearance::Subtle
+                        icon=icondata::AiGithubOutlined
+                        attr:style="font-size: 22px; padding: 0px 6px;"
+                        on_click=move |_| {
+                            _ = window().open_with_url("http://github.com/thaw-ui/thaw");
+                        }
+                    />
 
-            //     </Space>
-            // </Space>
+                </Space>
+            </Space>
 
         </LayoutHeader>
     }
