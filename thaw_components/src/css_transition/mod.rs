@@ -27,6 +27,10 @@ where
     IV: IntoView + 'static,
 {
     let display = RwSignal::new((!show.get_untracked()).then_some("display: none;"));
+    let next_frame = NextFrame::new();
+    let end_handle = StoredValue::new(None::<EventListenerHandle>);
+    let end_count = StoredValue::new(None::<usize>);
+    let finish = StoredValue::new(None::<Box<dyn FnOnce() + Send + Sync>>);
 
     Effect::new(move |_| {
         let target_ref = node_ref.get();
@@ -35,27 +39,23 @@ where
         };
 
         let class_list = el.class_list();
-        let next_frame = NextFrame::use_();
-        let end_handle = StoredValue::new(None::<EventListenerHandle>);
-        let end_count = StoredValue::new(None::<usize>);
-        let finish = StoredValue::new(None::<Callback<()>>);
 
-        let on_end = Callback::new({
+        let on_end = {
             let el = send_wrapper::SendWrapper::new(el.clone());
-            move |remove: Callback<()>| {
+            move |remove: Box<dyn FnOnce() + Send + Sync>| {
                 let Some(CSSTransitionInfo {
                     types,
                     prop_count,
                     timeout,
                 }) = get_transition_info(&el)
                 else {
-                    remove.call(());
+                    remove();
                     return;
                 };
 
-                finish.set_value(Some(Callback::new(move |_| {
+                finish.set_value(Some(Box::new(move || {
                     end_count.set_value(None);
-                    remove.call(());
+                    remove();
                     end_handle.update_value(|h| {
                         h.take().map(|h| {
                             h.remove();
@@ -65,9 +65,9 @@ where
 
                 set_timeout(
                     move || {
-                        finish.try_update_value(|v| {
-                            v.take().map(|f| f.call(()));
-                        });
+                        if let Some(Some(f)) = finish.try_update_value(|f| f.take()) {
+                            f();
+                        }
                     },
                     Duration::from_millis(timeout + 1),
                 );
@@ -86,9 +86,9 @@ where
                         };
                         *v >= prop_count
                     }) {
-                        finish.update_value(|v| {
-                            v.take().map(|f| f.call(()));
-                        });
+                        if let Some(Some(f)) = finish.try_update_value(|f| f.take()) {
+                            f();
+                        }
                     }
                 };
                 let handle = match types {
@@ -105,97 +105,16 @@ where
                 };
                 end_handle.set_value(Some(handle));
             }
-        });
+        };
 
         let on_finish = move || {
-            finish.update_value(|v| {
-                v.take().map(|f| f.call(()));
-            });
-        };
-
-        let on_enter_fn = {
-            let class_list = class_list.clone();
-            let class_list = send_wrapper::SendWrapper::new(class_list);
-            let on_before_enter = on_before_enter.clone();
-            let on_after_enter = on_after_enter.clone();
-            let on_enter = on_enter.clone();
-            let on_end = on_end.clone();
-            Callback::new(move |name: String| {
-                if let Some(on_before_enter) = on_before_enter.as_ref() {
-                    on_before_enter.call(());
-                }
-                let enter_from = format!("{name}-enter-from");
-                let enter_active = format!("{name}-enter-active");
-                let enter_to = format!("{name}-enter-to");
-
-                let _ = class_list.add_2(&enter_from, &enter_active);
-                display.set(None);
-
-                let class_list = class_list.clone();
-                let on_after_enter = on_after_enter.clone();
-                let on_end = on_end.clone();
-                let on_enter = on_enter.clone();
-                next_frame.run(move || {
-                    let _ = class_list.remove_1(&enter_from);
-                    let _ = class_list.add_1(&enter_to);
-
-                    let remove = Callback::new(move |_| {
-                        let _ = class_list.remove_2(&enter_active, &enter_to);
-                        if let Some(on_after_enter) = on_after_enter.as_ref() {
-                            on_after_enter.call(());
-                        }
-                    });
-                    on_end.call(remove);
-
-                    if let Some(on_enter) = on_enter {
-                        on_enter.call(());
-                    }
-                });
-            })
-        };
-
-        let on_leave_fn = {
-            let class_list = class_list.clone();
-            let class_list = send_wrapper::SendWrapper::new(class_list);
-            let on_before_leave = on_before_leave.clone();
-            let on_after_leave = on_after_leave.clone();
-            let on_leave = on_leave.clone();
-            let on_end = on_end.clone();
-            Callback::new(move |name: String| {
-                if let Some(on_before_leave) = on_before_leave.as_ref() {
-                    on_before_leave.call(());
-                }
-                let leave_from = format!("{name}-leave-from");
-                let leave_active = format!("{name}-leave-active");
-                let leave_to = format!("{name}-leave-to");
-
-                let _ = class_list.add_2(&leave_from, &leave_active);
-
-                let class_list = class_list.clone();
-                let on_after_leave = on_after_leave.clone();
-                let on_end = on_end.clone();
-                let on_leave = on_leave.clone();
-                next_frame.run(move || {
-                    let _ = class_list.remove_1(&leave_from);
-                    let _ = class_list.add_1(&leave_to);
-
-                    let remove = Callback::new(move |_| {
-                        let _ = class_list.remove_2(&leave_active, &leave_to);
-                        display.set(Some("display: none;"));
-                        if let Some(on_after_leave) = on_after_leave.as_ref() {
-                            on_after_leave.call(());
-                        }
-                    });
-                    on_end.call(remove);
-                    if let Some(on_leave) = on_leave {
-                        on_leave.call(());
-                    }
-                });
-            })
+            if let Some(Some(f)) = finish.try_update_value(|f| f.take()) {
+                f();
+            }
         };
 
         let name = name.clone();
-        let _ = RenderEffect::new(move |prev: Option<bool>| {
+        let effect = RenderEffect::new(move |prev: Option<bool>| {
             let show = show.get();
             let prev = if let Some(prev) = prev {
                 prev
@@ -209,16 +128,80 @@ where
 
             if show && !prev {
                 on_finish();
-                on_enter_fn.call(name);
+                {
+                    // on_enter
+                    if let Some(on_before_enter) = on_before_enter.as_ref() {
+                        on_before_enter.call(());
+                    }
+                    let enter_from = format!("{name}-enter-from");
+                    let enter_active = format!("{name}-enter-active");
+                    let enter_to = format!("{name}-enter-to");
+
+                    let _ = class_list.add_2(&enter_from, &enter_active);
+                    display.set(None);
+
+                    let class_list = class_list.clone();
+                    let on_end = on_end.clone();
+                    next_frame.run(move || {
+                        let _ = class_list.remove_1(&enter_from);
+                        let _ = class_list.add_1(&enter_to);
+
+                        let class_list = send_wrapper::SendWrapper::new(class_list);
+                        let remove = Box::new(move || {
+                            let _ = class_list.remove_2(&enter_active, &enter_to);
+                            if let Some(on_after_enter) = on_after_enter.as_ref() {
+                                on_after_enter.call(());
+                            }
+                        });
+                        on_end(remove);
+
+                        if let Some(on_enter) = on_enter.as_ref() {
+                            on_enter.call(());
+                        }
+                    });
+                }
             } else if !show && prev {
                 on_finish();
-                on_leave_fn.call(name);
+                {
+                    // on_leave
+                    if let Some(on_before_leave) = on_before_leave.as_ref() {
+                        on_before_leave.call(());
+                    }
+                    let leave_from = format!("{name}-leave-from");
+                    let leave_active = format!("{name}-leave-active");
+                    let leave_to = format!("{name}-leave-to");
+
+                    let _ = class_list.add_2(&leave_from, &leave_active);
+
+                    let class_list = class_list.clone();
+                    let on_after_leave = on_after_leave.clone();
+                    let on_end = on_end.clone();
+                    let on_leave = on_leave.clone();
+                    next_frame.run(move || {
+                        let _ = class_list.remove_1(&leave_from);
+                        let _ = class_list.add_1(&leave_to);
+
+                        let class_list = send_wrapper::SendWrapper::new(class_list);
+                        let remove = Box::new(move || {
+                            let _ = class_list.remove_2(&leave_active, &leave_to);
+                            display.set(Some("display: none;"));
+                            if let Some(on_after_leave) = on_after_leave.as_ref() {
+                                on_after_leave.call(());
+                            }
+                        });
+                        on_end(remove);
+                        if let Some(on_leave) = on_leave {
+                            on_leave.call(());
+                        }
+                    });
+                }
             }
 
             show
         });
 
         on_cleanup(move || {
+            drop(effect);
             end_handle.update_value(|handle| {
                 if let Some(handle) = handle.take() {
                     handle.remove();

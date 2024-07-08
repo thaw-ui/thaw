@@ -56,7 +56,6 @@ pub fn ComponentsPage() -> impl IntoView {
             <SiteHeader/>
             <Layout has_sider=true position=LayoutPosition::Absolute attr:style="top: 64px;">
                 <div class="demo-components__sider">
-                    {move || select_name.get()}
                     <NavDrawer selected_value=select_name>
                         {
                             gen_menu_data().into_iter().map(|data| {

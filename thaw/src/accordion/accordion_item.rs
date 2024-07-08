@@ -59,7 +59,7 @@ pub fn AccordionItem(
                 <div
                     class="thaw-accordion-panel"
                     node_ref=panel_ref
-                    // style=("display: none", display.with(|d| d.is_none()))
+                    style=move || display.get().unwrap_or_default()
                 >
                     {children()}
                 </div>

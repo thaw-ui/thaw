@@ -1,12 +1,8 @@
 #[cfg(not(feature = "ssr"))]
 use leptos::prelude::RenderEffect;
 use leptos::{
-    logging::log,
     prelude::{MaybeProp, Memo, Oco, RwSignal},
-    reactive_graph::{
-        graph::{AnySubscriber, ToAnySubscriber},
-        traits::{Get, Update, With, WithUntracked},
-    },
+    reactive_graph::traits::{Get, Update, With, WithUntracked},
     tachys::renderer::DomRenderer,
 };
 use std::{collections::HashSet, sync::Arc};
@@ -14,7 +10,8 @@ use std::{collections::HashSet, sync::Arc};
 #[derive(Clone, Default)]
 pub struct ClassList {
     value: RwSignal<HashSet<Oco<'static, str>>>,
-    effects: Vec<AnySubscriber>,
+    effects_oco: Vec<Arc<RenderEffect<Oco<'static, str>>>>,
+    effects_option_oco: Vec<Arc<RenderEffect<Option<Oco<'static, str>>>>>,
     effects_bool: Vec<Arc<RenderEffect<bool>>>,
 }
 
@@ -58,7 +55,7 @@ impl ClassList {
                         }
                         name
                     });
-                    self.effects.push(effect.to_any_subscriber());
+                    self.effects_oco.push(effect.into());
                 }
             }
             Class::FnOptionString(f) => {
@@ -99,7 +96,7 @@ impl ClassList {
                         }
                         name
                     });
-                    self.effects.push(effect.to_any_subscriber());
+                    self.effects_option_oco.push(effect.into());
                 }
             }
             Class::Fn(name, f) => {
@@ -117,7 +114,6 @@ impl ClassList {
                     let effect = RenderEffect::new(move |old| {
                         let name = name.clone();
                         let new = f();
-                        log!("ClassList: {name} {new} {old:#?}");
                         if old.is_none() {
                             if new {
                                 self.value.update(|set| {
@@ -209,11 +205,17 @@ where
     fn build(self, el: &R::Element) -> Self::State {
         let el = el.to_owned();
         RenderEffect::new(move |prev| {
-            if let Some(_) = prev {
-                unreachable!()
+            let mut class = String::new();
+            self.write_class_string(&mut class);
+            if let Some(state) = prev {
+                let (el, prev_class) = state;
+                if class != prev_class {
+                    R::set_attribute(&el, "class", &class);
+                    (el, class)
+                } else {
+                    (el, prev_class)
+                }
             } else {
-                let mut class = String::new();
-                self.write_class_string(&mut class);
                 if !class.is_empty() {
                     R::set_attribute(&el, "class", &class);
                 }

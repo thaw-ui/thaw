@@ -1,10 +1,8 @@
-use leptos::prelude::*;
-use thaw_components::OptionComp;
+use leptos::{either::Either, prelude::*};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn Table(
-    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
@@ -31,9 +29,13 @@ pub fn TableHeaderCell(#[prop(optional)] children: Option<Children>) -> impl Int
     view! {
         <th class="thaw-table-header-cell">
             <button class="thaw-table-header-cell__button" role="presentation">
-                <OptionComp value=children let:children>
-                    {children()}
-                </OptionComp>
+                {
+                    if let Some(children) = children  {
+                        Either::Left(children())
+                    } else {
+                        Either::Right(())
+                    }
+                }
             </button>
         </th>
     }
@@ -61,9 +63,13 @@ pub fn TableRow(children: Children) -> impl IntoView {
 pub fn TableCell(#[prop(optional)] children: Option<Children>) -> impl IntoView {
     view! {
         <td class="thaw-table-cell">
-            <OptionComp value=children let:children>
-                {children()}
-            </OptionComp>
+            {
+                if let Some(children) = children  {
+                    Either::Left(children())
+                } else {
+                    Either::Right(())
+                }
+            }
         </td>
     }
 }

@@ -20,7 +20,7 @@ impl Default for NextFrame {
 impl Copy for NextFrame {}
 
 impl NextFrame {
-    pub fn use_() -> Self {
+    pub fn new() -> Self {
         let next_frame = NextFrame::default();
 
         on_cleanup(move || {
