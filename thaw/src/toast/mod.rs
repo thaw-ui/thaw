@@ -5,13 +5,15 @@ mod toast_title;
 mod toaster;
 mod toaster_provider;
 
-use tachys::view::any_view::AnyView;
 pub use toast::*;
+pub use toast_body::*;
+pub use toast_footer::*;
 pub use toast_title::*;
 pub use toaster_provider::*;
 
 use leptos::prelude::*;
 use std::sync::mpsc::{channel, Receiver, Sender, TryIter};
+use tachys::view::any_view::AnyView;
 
 #[derive(Clone)]
 pub struct ToasterInjection {

@@ -1,26 +1,34 @@
 #[cfg(not(feature = "ssr"))]
 use leptos::prelude::RenderEffect;
 use leptos::{
+    logging::log,
     prelude::{MaybeProp, Memo, Oco, RwSignal},
-    reactive_graph::traits::{Get, Update, With, WithUntracked},
+    reactive_graph::{
+        graph::{AnySubscriber, ToAnySubscriber},
+        traits::{Get, Update, With, WithUntracked},
+    },
     tachys::renderer::DomRenderer,
 };
-use std::collections::HashSet;
+use std::{collections::HashSet, sync::Arc};
 
-#[derive(Clone)]
-pub struct ClassList(RwSignal<HashSet<Oco<'static, str>>>);
+#[derive(Clone, Default)]
+pub struct ClassList {
+    value: RwSignal<HashSet<Oco<'static, str>>>,
+    effects: Vec<AnySubscriber>,
+    effects_bool: Vec<Arc<RenderEffect<bool>>>,
+}
 
 impl ClassList {
     pub fn new() -> Self {
-        Self(RwSignal::new(HashSet::new()))
+        Default::default()
     }
 
-    pub fn add(self, value: impl IntoClass) -> Self {
+    pub fn add(mut self, value: impl IntoClass) -> Self {
         let class = value.into_class();
         match class {
             Class::None => (),
             Class::String(name) => {
-                self.0.update(move |set| {
+                self.value.update(move |set| {
                     set.insert(name);
                 });
             }
@@ -33,22 +41,25 @@ impl ClassList {
                     });
                 }
                 #[cfg(not(feature = "ssr"))]
-                let _ = RenderEffect::new(move |old_name| {
-                    let name = f();
-                    if let Some(old_name) = old_name {
-                        if old_name != name {
-                            self.0.update(|set| {
-                                set.remove(&old_name);
+                {
+                    let effect = RenderEffect::new(move |old_name| {
+                        let name = f();
+                        if let Some(old_name) = old_name {
+                            if old_name != name {
+                                self.value.update(|set| {
+                                    set.remove(&old_name);
+                                    set.insert(name.clone());
+                                });
+                            }
+                        } else {
+                            self.value.update(|set| {
                                 set.insert(name.clone());
                             });
                         }
-                    } else {
-                        self.0.update(|set| {
-                            set.insert(name.clone());
-                        });
-                    }
-                    name
-                });
+                        name
+                    });
+                    self.effects.push(effect.to_any_subscriber());
+                }
             }
             Class::FnOptionString(f) => {
                 #[cfg(feature = "ssr")]
@@ -60,33 +71,36 @@ impl ClassList {
                     }
                 }
                 #[cfg(not(feature = "ssr"))]
-                let _ = RenderEffect::new(move |old_name| {
-                    let name = f();
-                    if let Some(old_name) = old_name {
-                        if old_name != name {
-                            self.0.update(|set| match (old_name, name.clone()) {
-                                (None, Some(name)) => {
-                                    set.insert(name);
-                                }
-                                (Some(old_name), None) => {
-                                    set.remove(&old_name);
-                                }
-                                (Some(old_name), Some(name)) => {
-                                    set.remove(&old_name);
-                                    set.insert(name);
-                                }
-                                _ => {}
-                            });
+                {
+                    let effect = RenderEffect::new(move |old_name| {
+                        let name = f();
+                        if let Some(old_name) = old_name {
+                            if old_name != name {
+                                self.value.update(|set| match (old_name, name.clone()) {
+                                    (None, Some(name)) => {
+                                        set.insert(name);
+                                    }
+                                    (Some(old_name), None) => {
+                                        set.remove(&old_name);
+                                    }
+                                    (Some(old_name), Some(name)) => {
+                                        set.remove(&old_name);
+                                        set.insert(name);
+                                    }
+                                    _ => {}
+                                });
+                            }
+                        } else {
+                            if let Some(name) = name.clone() {
+                                self.value.update(|set| {
+                                    set.insert(name.clone());
+                                });
+                            }
                         }
-                    } else {
-                        if let Some(name) = name.clone() {
-                            self.0.update(|set| {
-                                set.insert(name.clone());
-                            });
-                        }
-                    }
-                    name
-                });
+                        name
+                    });
+                    self.effects.push(effect.to_any_subscriber());
+                }
             }
             Class::Fn(name, f) => {
                 #[cfg(feature = "ssr")]
@@ -99,34 +113,38 @@ impl ClassList {
                     });
                 }
                 #[cfg(not(feature = "ssr"))]
-                let _ = RenderEffect::new(move |old| {
-                    let name = name.clone();
-                    let new = f();
-                    if old.is_none() {
-                        if new {
-                            self.0.update(|set| {
-                                set.insert(name);
+                {
+                    let effect = RenderEffect::new(move |old| {
+                        let name = name.clone();
+                        let new = f();
+                        log!("ClassList: {name} {new} {old:#?}");
+                        if old.is_none() {
+                            if new {
+                                self.value.update(|set| {
+                                    set.insert(name);
+                                });
+                            }
+                        } else if old.as_ref() != Some(&new) {
+                            self.value.update(|set| {
+                                if new {
+                                    set.insert(name);
+                                } else {
+                                    set.remove(&name);
+                                }
                             });
                         }
-                    } else if old.as_ref() != Some(&new) {
-                        self.0.update(|set| {
-                            if new {
-                                set.insert(name);
-                            } else {
-                                set.remove(&name);
-                            }
-                        });
-                    }
-                    new
-                });
+                        new
+                    });
+                    self.effects_bool.push(effect.into());
+                }
             }
         }
 
         self
     }
 
-    fn to_class_string(self, class: &mut String) {
-        self.0.with(|set| {
+    fn write_class_string(&self, class: &mut String) {
+        self.value.with(|set| {
             set.iter().enumerate().for_each(|(index, name)| {
                 if name.is_empty() {
                     return;
@@ -145,12 +163,12 @@ where
     R: DomRenderer,
 {
     type AsyncOutput = Self;
-    type State = (R::Element, String);
+    type State = RenderEffect<(R::Element, String)>;
     type Cloneable = Self;
     type CloneableOwned = Self;
 
     fn html_len(&self) -> usize {
-        self.0.with_untracked(|set| {
+        self.value.with_untracked(|set| {
             let mut len = 0;
             set.iter().enumerate().for_each(|(index, name)| {
                 if name.is_empty() {
@@ -167,37 +185,63 @@ where
     }
 
     fn to_html(self, class: &mut String) {
-        self.to_class_string(class);
+        self.write_class_string(class);
     }
 
     fn hydrate<const FROM_SERVER: bool>(self, el: &R::Element) -> Self::State {
-        let class_list = R::class_list(el);
-        let mut class = String::new();
-        self.to_class_string(&mut class);
-
-        if !FROM_SERVER {
-            R::add_class(&class_list, &class);
-        }
-        (el.clone(), class)
+        let el = el.to_owned();
+        RenderEffect::new(move |prev| {
+            if let Some(_) = prev {
+                unreachable!()
+            } else {
+                let mut class = String::new();
+                self.write_class_string(&mut class);
+                if !class.is_empty() {
+                    if !FROM_SERVER {
+                        R::set_attribute(&el, "class", &class);
+                    }
+                }
+                (el.clone(), class)
+            }
+        })
     }
 
     fn build(self, el: &R::Element) -> Self::State {
-        let mut class = String::new();
-        self.to_class_string(&mut class);
-        if !class.is_empty() {
-            R::set_attribute(el, "class", &class);
-        }
-        (el.clone(), class)
+        let el = el.to_owned();
+        RenderEffect::new(move |prev| {
+            if let Some(_) = prev {
+                unreachable!()
+            } else {
+                let mut class = String::new();
+                self.write_class_string(&mut class);
+                if !class.is_empty() {
+                    R::set_attribute(&el, "class", &class);
+                }
+                (el.clone(), class)
+            }
+        })
     }
 
     fn rebuild(self, state: &mut Self::State) {
-        let mut class = String::new();
-        self.to_class_string(&mut class);
-        let (el, prev_class) = state;
-        if class != *prev_class {
-            R::set_attribute(el, "class", &class);
-        }
-        *prev_class = class;
+        let prev = state.take_value();
+        *state = RenderEffect::new_with_value(
+            move |prev| {
+                if let Some(state) = prev {
+                    let mut class = String::new();
+                    self.write_class_string(&mut class);
+                    let (el, prev_class) = state;
+                    if class != *prev_class {
+                        R::set_attribute(&el, "class", &class);
+                        (el, class)
+                    } else {
+                        (el, prev_class)
+                    }
+                } else {
+                    unreachable!()
+                }
+            },
+            prev,
+        );
     }
 
     fn into_cloneable(self) -> Self::Cloneable {
