@@ -3,7 +3,7 @@ mod auto_complete_option;
 pub use auto_complete_option::AutoCompleteOption;
 
 use crate::{ComponentRef, ConfigInjection, Input, InputPrefix, InputRef, InputSuffix};
-use leptos::{context::Provider, html, prelude::*};
+use leptos::{context::Provider, either::Either, html, prelude::*};
 use thaw_components::{
     Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth, OptionComp,
 };
@@ -194,10 +194,13 @@ pub fn AutoComplete(
                                 node_ref=menu_ref
                                 role="listbox"
                             >
-
-                                <OptionComp value=children let:children>
-                                    {children()}
-                                </OptionComp>
+                                {
+                                    if let Some(children) = children {
+                                        Either::Left(children())
+                                    } else {
+                                        Either::Right(())
+                                    }
+                                }
                             </div>
                         </CSSTransition>
                     </Provider>

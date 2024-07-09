@@ -1,14 +1,14 @@
 use leptos::prelude::*;
 use leptos_router::hooks::{use_navigate, use_query_map};
-// use leptos_router::{use_navigate, use_query_map};
 use thaw::*;
 
 #[component]
 pub fn Home() -> impl IntoView {
     let query_map = use_query_map().get_untracked();
+    let navigate = use_navigate();
+
     // mobile page
     if let Some(path) = query_map.get("path") {
-        let navigate = use_navigate();
         navigate(&path, Default::default());
     }
     view! {
@@ -22,7 +22,6 @@ pub fn Home() -> impl IntoView {
                 <Button
                     appearance=ButtonAppearance::Primary
                     on_click=move |_| {
-                        let navigate = use_navigate();
                         navigate("/components/button", Default::default());
                     }
                 >
