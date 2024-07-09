@@ -1,5 +1,4 @@
-use leptos::prelude::*;
-use thaw_components::OptionComp;
+use leptos::{either::Either, prelude::*};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
@@ -26,9 +25,13 @@ pub fn Badge(
             move || format!("thaw-badge--{}", color.get().as_str()),
             class
         ]>
-            <OptionComp value=children let:children>
-                {children()}
-            </OptionComp>
+            {
+                if let Some(children) = children {
+                    Either::Left(children())
+                } else {
+                    Either::Right(())
+                }
+            }
         </div>
     }
 }

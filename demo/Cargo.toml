@@ -9,14 +9,14 @@ edition = "2021"
 [dependencies]
 leptos = { workspace = true }
 leptos_meta = { workspace = true }
-leptos_router = { git = "https://github.com/leptos-rs/leptos", rev = "ae0dc13c" }
+leptos_router = { git = "https://github.com/leptos-rs/leptos", rev = "e507945c" }
 thaw = { path = "../thaw" }
 demo_markdown = { path = "../demo_markdown" }
 icondata = "0.3.0"
 palette = "0.7.4"
 chrono = "0.4.33"
 cfg-if = "1.0.0"
-leptos-use = "0.10.10"
+# leptos-use = "0.10.10"
 send_wrapper = "0.6"
 
 [features]

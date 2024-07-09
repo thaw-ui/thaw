@@ -3,7 +3,6 @@ use leptos::reactive_graph::wrappers::read::MaybeSignal;
 pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
-        // use leptos::{create_render_effect, document, on_cleanup, SignalGet, StoredValue};
         use leptos::prelude::{
             document, effect::RenderEffect, on_cleanup, traits::Get, StoredValue,
         };
@@ -19,7 +18,7 @@ pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
             });
         };
 
-        let _ = RenderEffect::new(move |_| {
+        let effect = RenderEffect::new(move |_| {
             if is_lock.get() {
                 let head = document().head().expect("head no exist");
                 let style = document()
@@ -36,7 +35,10 @@ pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
             }
         });
 
-        on_cleanup(remove_style_el)
+        on_cleanup(move || {
+            drop(effect);
+            remove_style_el();
+        });
     }
 
     #[cfg(not(any(feature = "csr", feature = "hydrate")))]

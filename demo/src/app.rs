@@ -30,7 +30,7 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
-    let loading_bar = use_loading_bar();
+    let loading_bar = LoadingBarInjection::expect_use();
     _ = is_routing.watch(move |is_routing| {
         if *is_routing {
             loading_bar.start();

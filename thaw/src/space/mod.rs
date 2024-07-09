@@ -105,6 +105,7 @@ impl SpaceJustify {
 
 #[cfg(test)]
 mod test {
+    #[test]
     fn main() {
         use leptos::prelude::*;
         use super::Space;

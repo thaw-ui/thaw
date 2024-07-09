@@ -1,6 +1,6 @@
 mod loading_bar_provider;
 
-pub use loading_bar_provider::{use_loading_bar, LoadingBarProvider};
+pub use loading_bar_provider::*;
 
 use crate::ConfigInjection;
 use leptos::{html, prelude::*};
@@ -26,7 +26,7 @@ impl LoadingBarRef {
 }
 
 #[component]
-pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl IntoView {
+fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl IntoView {
     mount_style("loading-bar", include_str!("./loading-bar.css"));
     let config_provider = ConfigInjection::use_();
     let loading_bar_ref = NodeRef::<html::Div>::new();
@@ -83,7 +83,7 @@ pub(crate) fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>
         <div
             class="thaw-config-provider thaw-loading-bar-container"
             data-thaw-id=config_provider.id().clone()
-            style=move || (!loading.get()).then_some("display: none;").unwrap_or_default()
+            style=move || if loading.get() { "" } else { "display: none;" }
         >
             <div
                 class="thaw-loading-bar"

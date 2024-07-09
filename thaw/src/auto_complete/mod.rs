@@ -132,9 +132,9 @@ pub fn AutoComplete(
     //}
     //}
     //};
-    input_ref.on_load(move |_| {
-        comp_ref.load(AutoCompleteRef { input_ref });
-    });
+    comp_ref.load(AutoCompleteRef { input_ref });
+    // input_ref.on_load(move |_| {
+    // });
 
     view! {
             <Binder target_ref=auto_complete_ref>

@@ -16,7 +16,7 @@ leptos = { workspace = true }
 thaw_utils = { workspace = true }
 web-sys = { version = "0.3.69", features = ["DomRect"] }
 cfg-if = "1.0.0"
-uuid = { version = "1.7.0", features = ["v4"] }
+uuid = { version = "1.10.0", features = ["v4", "js"] }
 send_wrapper = "0.6"
 
 [features]
