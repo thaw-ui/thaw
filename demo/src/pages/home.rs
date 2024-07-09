@@ -22,7 +22,7 @@ pub fn Home() -> impl IntoView {
                 <Button
                     appearance=ButtonAppearance::Primary
                     on_click=move |_| {
-                    let navigate = use_navigate();
+                        let navigate = use_navigate();
                         navigate("/components/button", Default::default());
                     }
                 >

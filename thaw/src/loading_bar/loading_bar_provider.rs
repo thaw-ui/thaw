@@ -26,6 +26,10 @@ pub struct LoadingBarInjection {
 impl Copy for LoadingBarInjection {}
 
 impl LoadingBarInjection {
+    pub fn expect_use() -> Self {
+        expect_context::<Self>()
+    }
+
     pub fn start(&self) {
         if let Some(loading_bar_ref) = self.loading_bar_ref.get_untracked() {
             loading_bar_ref.start();
@@ -43,8 +47,4 @@ impl LoadingBarInjection {
             loading_bar_ref.error();
         }
     }
-}
-
-pub fn use_loading_bar() -> LoadingBarInjection {
-    expect_context::<LoadingBarInjection>()
 }

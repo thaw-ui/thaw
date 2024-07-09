@@ -30,28 +30,35 @@ pub fn Teleport(
             let render_root = element;
             let mut mountable = render_root.build();
             mountable.mount(&mount, None);
-            // TODO
-            // on_cleanup(move || {
-            //     mountable.unmount();
-            // });
+            on_cleanup({
+                let mut mountable = send_wrapper::SendWrapper::new(mountable);
+                move || {
+                    mountable.unmount();
+                }
+            });
         } else if let Some(children) = children.take() {
             let container = document()
                 .create_element("div")
                 .expect("element creation to work");
 
-            thaw_utils::with_hydration_off(|| {
-                // use leptos::leptos_dom::Mountable;
-                // let _ = container.append_child(&children().into_view().get_mountable_node());
+            let mountable = thaw_utils::with_hydration_off(|| {
                 let view = children().into_view();
                 let mut mountable = view.build();
                 mountable.mount(&container, None);
+                mountable
             });
 
             let render_root = container;
             let _ = mount.append_child(&render_root);
-            // on_cleanup(move || {
-            //     let _ = mount.remove_child(&render_root);
-            // });
+            on_cleanup({
+                let mount = send_wrapper::SendWrapper::new(mount);
+                let render_root = send_wrapper::SendWrapper::new(render_root);
+                let mut mountable = send_wrapper::SendWrapper::new(mountable);
+                move || {
+                    mountable.unmount();
+                    let _ = mount.remove_child(&render_root);
+                }
+            });
         }
     })));
 
