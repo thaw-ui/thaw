@@ -1,5 +1,5 @@
 use super::switch_version::SwitchVersion;
-use leptos::{prelude::*, ev};
+use leptos::{ev, prelude::*};
 use leptos_meta::Style;
 use leptos_router::hooks::use_navigate;
 // use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
@@ -7,6 +7,7 @@ use thaw::*;
 
 #[component]
 pub fn SiteHeader() -> impl IntoView {
+    let navigate = use_navigate();
     let theme = Theme::use_rw_theme();
     let theme_name = Memo::new(move |_| {
         theme.with(|theme| {
@@ -65,9 +66,11 @@ pub fn SiteHeader() -> impl IntoView {
                 .collect()
         })
     });
-    let on_search_select = move |path: String| {
-        let navigate = use_navigate();
-        navigate(&path, Default::default());
+    let on_search_select = {
+        let navigate = navigate.clone();
+        move |path: String| {
+            navigate(&path, Default::default());
+        }
     };
     let auto_complete_ref = ComponentRef::<AutoCompleteRef>::new();
     let handle = window_event_listener(ev::keydown, move |event| {
@@ -132,7 +135,6 @@ pub fn SiteHeader() -> impl IntoView {
         </Style>
         <LayoutHeader attr:class=("demo-header", true)>
             <Space on:click=move |_| {
-                let navigate = use_navigate();
                 navigate("/", Default::default());
             }>
                 <img src="/logo.svg" style="width: 36px"/>
@@ -274,5 +276,3 @@ fn gen_search_all_options() -> Vec<AutoCompleteOption> {
 
 //     menu_value
 // }
-
-
