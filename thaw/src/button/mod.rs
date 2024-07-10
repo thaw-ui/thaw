@@ -5,7 +5,6 @@ pub use button_group::ButtonGroup;
 use crate::icon::Icon;
 use leptos::{either::Either, ev, prelude::*};
 use send_wrapper::SendWrapper;
-use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 
 #[derive(Default, PartialEq, Clone, Copy)]
@@ -115,10 +114,10 @@ pub fn Button(
 
                 move || {
                     let icon = icon.get();
-                    view! {
-                        <OptionComp value=icon let:icon>
-                            <Icon icon=icon class="thaw-button__icon"/>
-                        </OptionComp>
+                    if let Some(icon) = icon {
+                        Either::Left(view!{<Icon icon=icon class="thaw-button__icon"/>})
+                    } else {
+                        Either::Right(())
                     }
                 }
             }

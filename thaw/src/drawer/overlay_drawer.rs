@@ -19,35 +19,16 @@ pub fn OverlayDrawer(
     let config_provider = ConfigInjection::use_();
     let drawer_ref = NodeRef::<html::Div>::new();
 
-    let is_css_transition = RwSignal::new(false);
-    let on_after_enter = move |_| {
-        is_css_transition.set(false);
-    };
-    let lazy_position = Memo::new(move |prev| {
-        let position = position.get().as_str();
-        let Some(prev) = prev else {
-            return position;
-        };
-
-        if is_css_transition.get() {
-            prev
-        } else {
-            position
-        }
-    });
-
     let is_lock = RwSignal::new(open.get_untracked());
     Effect::new(move |_| {
         let is_open = open.get();
         if is_open {
             is_lock.set(true);
-            is_css_transition.set(true);
         }
     });
     use_lock_html_scroll(is_lock.into());
     let on_after_leave = move |_| {
         is_lock.set(false);
-        is_css_transition.set(false);
     };
 
     let mask_ref = NodeRef::<html::Div>::new();
@@ -83,17 +64,16 @@ pub fn OverlayDrawer(
                         appear=open.get_untracked()
                         show=open.signal()
                         name=Memo::new(move |_| {
-                            format!("slide-in-from-{}-transition", lazy_position.get())
+                            format!("slide-in-from-{}-transition", position.get().as_str())
                         })
 
-                        on_after_enter
                         on_after_leave
                         let:display
                     >
                         <div
                             class=class_list![
                                 "thaw-overlay-drawer",
-                                move || format!("thaw-overlay-drawer--position-{}", lazy_position.get())
+                                move || format!("thaw-overlay-drawer--position-{}", position.get().as_str())
                             ]
 
                             style=move || {

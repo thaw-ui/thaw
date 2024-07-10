@@ -7,12 +7,12 @@ use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::{ev, html, prelude::*};
 use palette::{Hsv, IntoColor, Srgb};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn ColorPicker(
     #[prop(optional, into)] value: Model<Color>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let config_provider = ConfigInjection::use_();
@@ -106,6 +106,12 @@ pub fn ColorPicker(
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
         let timer = window_event_listener(ev::click, move |ev| {
+            let Some(popovel_el) = popover_ref.get_untracked() else {
+                return;
+            };
+            let Some(trigger_el) = trigger_ref.get_untracked() else {
+                return;
+            };
             let el = ev.target();
             let mut el: Option<web_sys::Element> =
                 el.into_js_result().map_or(None, |el| Some(el.into()));
@@ -114,9 +120,7 @@ pub fn ColorPicker(
                 if current_el == *body {
                     break;
                 };
-                if current_el == **popover_ref.get().unwrap()
-                    || current_el == **trigger_ref.get().unwrap()
-                {
+                if current_el == **popovel_el || current_el == **trigger_el {
                     return;
                 }
                 el = current_el.parent_element();
@@ -129,7 +133,7 @@ pub fn ColorPicker(
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-color-picker-trigger", class.map(| c | move || c.get())]
+                class=class_list!["thaw-color-picker-trigger", class]
                 on:click=show_popover
                 node_ref=trigger_ref
             >

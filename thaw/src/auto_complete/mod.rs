@@ -4,9 +4,7 @@ pub use auto_complete_option::AutoCompleteOption;
 
 use crate::{ComponentRef, ConfigInjection, Input, InputPrefix, InputRef, InputSuffix};
 use leptos::{context::Provider, either::Either, html, prelude::*};
-use thaw_components::{
-    Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth, OptionComp,
-};
+use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, Model, OptionalProp};
 
 #[slot]

@@ -13,9 +13,7 @@ use leptos::{
     leptos_dom::helpers::WindowListenerHandle,
     prelude::*,
 };
-use thaw_utils::{
-    add_event_listener, get_scroll_parent, mount_style, with_hydration_off, EventListenerHandle,
-};
+use thaw_utils::{add_event_listener, get_scroll_parent, mount_style, EventListenerHandle};
 
 #[slot]
 pub struct Follower {
@@ -193,19 +191,19 @@ where
         remove_listener();
     });
 
-    let teleport_children = with_hydration_off(|| {
-        html::div().class("thaw-binder-follower-container").child(
-            html::div()
-                .class("thaw-binder-follower-content")
-                .attr("data-thaw-placement", move || placement_str.get())
-                .node_ref(content_ref)
-                .attr("style", move || content_style.get())
-                .child(follower_children()),
-        )
-    });
-
     view! {
         {children()}
-        <Teleport element=teleport_children.into_any() immediate=follower_show/>
+        <Teleport immediate=follower_show>
+            <div class="thaw-binder-follower-container">
+                <div
+                    class="thaw-binder-follower-content"
+                    data-thaw-placement=move || placement_str.get()
+                    node_ref=content_ref
+                    style=move || content_style.get()
+                >
+                    {follower_children()}
+                </div>
+            </div>
+        </Teleport>
     }
 }
