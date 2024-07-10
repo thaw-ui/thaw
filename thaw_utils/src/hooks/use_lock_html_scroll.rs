@@ -8,14 +8,16 @@ pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
         let remove_style_el = move || {
             style_el.update_value(move |el| {
                 if let Some(el) = el.take() {
-                    let head = document().head().expect("head no exist");
-                    _ = head.remove_child(&el);
+                    el.remove();
                 }
             });
         };
 
-        create_render_effect(move |_| {
-            if is_lock.get() {
+        create_render_effect(move |prev| {
+            let is_lock = is_lock.get();
+            let prev: bool = prev.unwrap_or_default();
+
+            if is_lock && !prev {
                 let head = document().head().expect("head no exist");
                 let style = document()
                     .create_element("style")
@@ -24,9 +26,11 @@ pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
                 style.set_text_content(Some("html { overflow: hidden; }"));
                 _ = head.append_child(&style);
                 style_el.set_value(Some(style));
-            } else {
+            } else if !is_lock && prev {
                 remove_style_el();
             }
+
+            is_lock
         });
 
         on_cleanup(remove_style_el)
