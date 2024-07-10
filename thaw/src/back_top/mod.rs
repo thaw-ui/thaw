@@ -1,6 +1,6 @@
 use crate::{ConfigInjection, Icon};
-use leptos::{ev, html, prelude::*};
-use thaw_components::{CSSTransition, Fallback, OptionComp, Teleport};
+use leptos::{either::Either, ev, html, prelude::*};
+use thaw_components::{CSSTransition, Teleport};
 use thaw_utils::{
     add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle,
     OptionalProp,
@@ -93,12 +93,13 @@ pub fn BackTop(
                         }
                         on:click=on_click
                     >
-                        <OptionComp value=children let:children>
-                            <Fallback slot>
-                                <Icon icon=icondata_ai::AiVerticalAlignTopOutlined/>
-                            </Fallback>
-                            {children()}
-                        </OptionComp>
+                        {
+                            if let Some(children) = children {
+                                Either::Left(children())
+                            } else {
+                                Either::Right(view!{<Icon icon=icondata_ai::AiVerticalAlignTopOutlined/>})
+                            }
+                        }
                     </div>
                 </CSSTransition>
             </Teleport>

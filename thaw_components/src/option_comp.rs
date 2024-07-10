@@ -17,5 +17,5 @@ where
         (fallback.children)().into_any()
     } else {
         ().into_any()
-    };
+    }
 }

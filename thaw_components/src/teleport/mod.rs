@@ -1,74 +1,46 @@
+use std::cell::Cell;
+
 use cfg_if::cfg_if;
-use leptos::{children, prelude::*};
-use tachys::view::any_view::AnyView;
+use leptos::prelude::*;
 
 /// https://github.com/solidjs/solid/blob/main/packages/solid/web/src/index.ts#L56
 #[component]
 pub fn Teleport(
     #[prop(default = true.into(), into)] immediate: MaybeSignal<bool>,
     #[prop(into, optional)] mount: Option<web_sys::Element>,
-    #[prop(optional, into)] element: Option<AnyView<Dom>>,
-    #[prop(optional)] children: Option<Children>,
+    children: Children,
 ) -> impl IntoView {
     // cfg_if! { if #[cfg(all(target_arch = "wasm32", any(feature = "csr", feature = "hydrate")))] {
-    let mount_fn = StoredValue::new(None::<Box<dyn FnOnce() + Send + Sync>>);
-    let mount = send_wrapper::SendWrapper::new(mount);
-    let element = send_wrapper::SendWrapper::new(element);
-    let children = send_wrapper::SendWrapper::new(children);
-    mount_fn.set_value(Some(Box::new(move || {
-        let mount = if let Some(el) = mount.take() {
+    let mount_fn: Cell<Option<Box<dyn FnOnce() -> ()>>> = Cell::new(Some(Box::new(move || {
+        let mount = if let Some(el) = mount.as_ref() {
             el
         } else {
             use leptos::wasm_bindgen::JsCast;
-            document()
+            &document()
                 .body()
                 .expect("body element to exist")
                 .unchecked_into()
         };
 
-        if let Some(element) = element.take() {
-            let render_root = element;
-            let mut mountable = render_root.build();
-            mountable.mount(&mount, None);
-            on_cleanup({
-                let mut mountable = send_wrapper::SendWrapper::new(mountable);
-                move || {
-                    mountable.unmount();
-                }
-            });
-        } else if let Some(children) = children.take() {
-            let container = document()
-                .create_element("div")
-                .expect("element creation to work");
+        let mountable = {
+            let view = children().into_view();
+            let mut mountable = view.build();
+            mountable.mount(mount, None);
+            mountable
+        };
 
-            let mountable = thaw_utils::with_hydration_off(|| {
-                let view = children().into_view();
-                let mut mountable = view.build();
-                mountable.mount(&container, None);
-                mountable
-            });
-
-            let render_root = container;
-            let _ = mount.append_child(&render_root);
-            on_cleanup({
-                let mount = send_wrapper::SendWrapper::new(mount);
-                let render_root = send_wrapper::SendWrapper::new(render_root);
-                let mut mountable = send_wrapper::SendWrapper::new(mountable);
-                move || {
-                    mountable.unmount();
-                    let _ = mount.remove_child(&render_root);
-                }
-            });
-        }
+        on_cleanup({
+            let mut mountable = send_wrapper::SendWrapper::new(mountable);
+            move || {
+                mountable.unmount();
+            }
+        });
     })));
 
     let owner = Owner::current().unwrap();
     Effect::new(move |_| {
         if immediate.get() {
-            let Some(f) = mount_fn
-                .try_update_value(|mount_fn| mount_fn.take())
-                .flatten()
-            else {
+            let Some(f) = mount_fn.take() else {
                 return;
             };
 
