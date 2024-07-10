@@ -18,13 +18,14 @@ pub fn OverlayDrawer(
 
     let config_provider = ConfigInjection::use_();
     let drawer_ref = NodeRef::<html::Div>::new();
-
+    let open_drawer: RwSignal<bool> = RwSignal::new(open.get_untracked());
     let is_lock = RwSignal::new(open.get_untracked());
     Effect::new(move |_| {
         let is_open = open.get();
         if is_open {
             is_lock.set(true);
         }
+        open_drawer.set(is_open);
     });
     use_lock_html_scroll(is_lock.into());
     let on_after_leave = move |_| {
@@ -61,8 +62,8 @@ pub fn OverlayDrawer(
                     </CSSTransition>
                     <CSSTransition
                         node_ref=drawer_ref
-                        appear=open.get_untracked()
-                        show=open.signal()
+                        appear=open_drawer.get_untracked()
+                        show=open_drawer
                         name=Memo::new(move |_| {
                             format!("slide-in-from-{}-transition", position.get().as_str())
                         })
