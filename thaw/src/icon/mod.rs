@@ -83,7 +83,7 @@ pub fn Icon(
     let svg = view! {
         <svg
             class=class_list!["thaw-icon", class.map(|c| move || c.get())]
-            style=move || take_signal(icon_style)
+            style=move || take_signal(icon_style).unwrap_or_default()
             x=move || take(icon_x)
             y=move || take(icon_y)
             width=move || take_signal(icon_width)
@@ -102,18 +102,15 @@ pub fn Icon(
     svg.inner_html(move || take(icon_data))
 }
 
-fn take_signal(signal: RwSignal<Option<MaybeSignal<String>>>) -> String {
+fn take_signal(signal: RwSignal<Option<MaybeSignal<String>>>) -> Option<String> {
     signal.with(|s| match s {
-        Some(MaybeSignal::Static(value)) => value.clone(),
-        Some(MaybeSignal::Dynamic(signal)) => signal.get(),
-        _ => String::new(),
+        Some(MaybeSignal::Static(value)) => Some(value.clone()),
+        Some(MaybeSignal::Dynamic(signal)) => Some(signal.get()),
+        _ => None,
     })
 }
 
-fn take(signal: RwSignal<Option<String>>) -> String {
+fn take(signal: RwSignal<Option<String>>) -> Option<String> {
     signal.track();
-    signal
-        .try_update_untracked(|value| value.take())
-        .flatten()
-        .unwrap_or_default()
+    signal.try_update_untracked(|value| value.take()).flatten()
 }

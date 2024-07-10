@@ -1,5 +1,5 @@
 use crate::AccordionInjection;
-use leptos::{prelude::*, html};
+use leptos::{html, prelude::*};
 use thaw_components::CSSTransition;
 use thaw_utils::{mount_style, update, with, StoredMaybeSignal};
 

@@ -1,4 +1,9 @@
-use leptos::reactive_graph::{effect::Effect, signal::RwSignal, traits::{Dispose, With}, untrack};
+use leptos::reactive_graph::{
+    effect::Effect,
+    signal::RwSignal,
+    traits::{Dispose, With},
+    untrack,
+};
 
 pub trait SignalWatch {
     type Value;

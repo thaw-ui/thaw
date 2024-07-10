@@ -14,7 +14,7 @@ pub fn Toaster(
     Effect::new(move |_| {
         for view in receiver.try_recv() {
             // toast_list.update(move |list| {
-                // list.push(view.0);
+            // list.push(view.0);
             // });
         }
     });

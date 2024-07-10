@@ -50,7 +50,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                 <Route path=(StaticSegment("development"), StaticSegment("components")) view=DevelopmentComponentsMdPage/>
             </ParentRoute>
             <ParentRoute path=StaticSegment("components") view=ComponentsPage>
-                
+
             //     // <Route path="/tabbar" view=TabbarPage/>
             //     // <Route path="/nav-bar" view=NavBarPage/>
             //     // <Route path="/toast" view=ToastPage/>

@@ -24,9 +24,7 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
             } else {
                 css_vars.push_str("--demo-color: #00000060;");
                 css_vars.push_str("--demo-color-hover: #000000e0;");
-                css_vars.push_str(&format!(
-                    "--demo-border-color: var(--colorNeutralStroke2);",
-                ));
+                css_vars.push_str(&format!("--demo-border-color: var(--colorNeutralStroke2);",));
                 css_vars.push_str("--demo-background-color: #f9fafb;");
             }
         });

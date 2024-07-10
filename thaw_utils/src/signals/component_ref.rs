@@ -1,12 +1,10 @@
 use leptos::{
     logging::debug_warn,
     reactive_graph::{
-        effect::RenderEffect,
         signal::RwSignal,
         traits::{Get, GetUntracked, Update},
     },
 };
-use std::cell::Cell;
 
 pub struct ComponentRef<T: 'static>(RwSignal<Option<T>>);
 
@@ -58,17 +56,17 @@ impl<T> ComponentRef<T> {
         });
     }
 
-    pub fn on_load<F>(self, f: F)
-    where
-        T: Clone,
-        F: FnOnce(T) + 'static,
-    {
-        let f = Cell::new(Some(f));
+    // pub fn on_load<F>(self, f: F)
+    // where
+    //     T: Clone,
+    //     F: FnOnce(T) + 'static,
+    // {
+    //     let f = Cell::new(Some(f));
 
-        RenderEffect::new(move |_| {
-            if let Some(comp) = self.get() {
-                f.take().unwrap()(comp);
-            }
-        });
-    }
+    //     RenderEffect::new(move |_| {
+    //         if let Some(comp) = self.get() {
+    //             f.take().unwrap()(comp);
+    //         }
+    //     });
+    // }
 }
