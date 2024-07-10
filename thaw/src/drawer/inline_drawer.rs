@@ -13,48 +13,27 @@ pub fn InlineDrawer(
     mount_style("drawer", include_str!("./drawer.css"));
     mount_style("inline-drawer", include_str!("./inline-drawer.css"));
     let drawer_ref = NodeRef::<html::Div>::new();
-    let is_css_transition = RwSignal::new(false);
-    let on_after_enter = move |_| {
-        is_css_transition.set(false);
-    };
-    let lazy_position = Memo::new(move |prev| {
-        let position = position.get().as_str();
-        let Some(prev) = prev else {
-            return position;
-        };
+    let open_drawer: RwSignal<bool> = RwSignal::new(open.get_untracked());
 
-        if is_css_transition.get() {
-            prev
-        } else {
-            position
-        }
-    });
     Effect::new(move |_| {
         let is_open = open.get();
-        if is_open {
-            is_css_transition.set(true);
-        }
+        open_drawer.set(is_open);
     });
-    let on_after_leave = move |_| {
-        is_css_transition.set(false);
-    };
 
     view! {
         <CSSTransition
             node_ref=drawer_ref
-            appear=open.get_untracked()
-            show=open.signal()
+            appear=open_drawer.get_untracked()
+            show=open_drawer
             name=Memo::new(move |_| {
-                format!("slide-in-from-{}-transition", lazy_position.get())
+                format!("slide-in-from-{}-transition", position.get().as_str())
             })
-            on_after_enter
-            on_after_leave
             let:display
         >
             <div
                 class=class_list![
                     "thaw-inline-drawer",
-                    move || format!("thaw-inline-drawer--position-{}", lazy_position.get())
+                    move || format!("thaw-inline-drawer--position-{}", position.get().as_str())
                 ]
                 style=move || {
                     let size = move || {format!("--thaw-drawer--size: {}", size.get().as_size_str(position))};
