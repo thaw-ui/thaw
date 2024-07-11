@@ -60,7 +60,7 @@ where
             <input
                 autocomplete="off"
                 role="spinbutton"
-                // aria-valuenow=move || value.get().to_string()
+                aria-valuenow=move || value.get().to_string()
                 type="text"
                 disabled=move || disabled.get()
                 value=initialization_value

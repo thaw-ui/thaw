@@ -43,7 +43,7 @@ pub fn AccordionItem(
             <div class="thaw-accordion-header">
                 <button
                     class="thaw-accordion-header__button"
-                    // aria_expanded=move || is_show_panel.get().to_string() #TODO
+                    aria-expanded=move || is_show_panel.get().to_string()
                     type="button"
                     on:click=on_click
                 >

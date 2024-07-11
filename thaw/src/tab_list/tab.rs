@@ -65,7 +65,7 @@ pub fn Tab(
                 "thaw-tab", ("thaw-tab--selected", move || selected.get()), class
             ]
             role="tab"
-            // aria-selected=move || if selected.get() { "true" } else { "false" }
+            aria-selected=move || if selected.get() { "true" } else { "false" }
             node_ref=tab_ref
             on:click=on_select
         >

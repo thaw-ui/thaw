@@ -107,7 +107,7 @@ pub fn Combobox(
             >
                 <input
                     type="text"
-                    // aria-expanded="true"
+                    aria-expanded="true"
                     role="combobox"
                     class="thaw-combobox__input"
                     prop:value=move || {
@@ -135,7 +135,7 @@ pub fn Combobox(
                     }
                 }
                 <span
-                    // aria-expanded="true"
+                    aria-expanded="true"
                     role="button"
                     aria-label="Open"
                     class="thaw-combobox__expand-icon"
