@@ -2,5 +2,9 @@ use leptos::prelude::*;
 
 #[component]
 pub fn ToastFooter(children: Children) -> impl IntoView {
-    children()
+    view! {
+        <div class="thaw-toast-footer">
+            {children()}
+        </div>
+    }
 }

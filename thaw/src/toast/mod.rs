@@ -22,7 +22,7 @@ pub struct ToasterInjection {
 }
 
 impl ToasterInjection {
-    pub fn use_() -> Self {
+    pub fn expect_context() -> Self {
         expect_context()
     }
 

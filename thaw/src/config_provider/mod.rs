@@ -71,6 +71,10 @@ impl ConfigInjection {
     pub fn use_() -> ConfigInjection {
         expect_context()
     }
+
+    pub fn expect_context() -> Self {
+        expect_context()
+    }
 }
 
 #[derive(Clone)]

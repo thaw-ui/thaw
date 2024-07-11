@@ -109,6 +109,7 @@ pub struct ColorTheme {
     pub color_transparent_stroke: String,
 
     pub shadow4: String,
+    pub shadow8: String,
     pub shadow16: String,
 }
 
@@ -223,6 +224,7 @@ impl ColorTheme {
             color_transparent_stroke: "transparent".into(),
 
             shadow4: "0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14)".into(),
+            shadow8: "0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14)".into(),
             shadow16: "0 0 2px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.14)".into(),
         }
     }
@@ -337,6 +339,7 @@ impl ColorTheme {
             color_transparent_stroke: "transparent".into(),
 
             shadow4: "0 0 2px rgba(0,0,0,0.24), 0 2px 4px rgba(0,0,0,0.28)".into(),
+            shadow8: "0 0 2px rgba(0,0,0,0.24), 0 4px 8px rgba(0,0,0,0.28)".into(),
             shadow16: "0 0 2px rgba(0,0,0,0.24), 0 8px 16px rgba(0,0,0,0.28)".into(),
         }
     }
