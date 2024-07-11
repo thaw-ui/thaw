@@ -126,11 +126,11 @@ fn TheProvider(children: Children) -> impl IntoView {
 
     view! {
         <ConfigProvider>
-            // <ToasterProvider>
+            <ToasterProvider>
                 <LoadingBarProvider>
                     {children()}
                 </LoadingBarProvider>
-            // </ToasterProvider>
+            </ToasterProvider>
         </ConfigProvider>
     }
 }

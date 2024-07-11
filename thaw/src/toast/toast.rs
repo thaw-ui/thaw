@@ -1,4 +1,5 @@
 use leptos::prelude::*;
+use std::time::Duration;
 
 #[component]
 pub fn Toast(children: Children) -> impl IntoView {
@@ -9,14 +10,14 @@ pub fn Toast(children: Children) -> impl IntoView {
     }
 }
 
-#[derive(Default, Clone)]
+#[derive(Default, Clone, Copy)]
 pub enum ToastPosition {
     Top,
     TopStart,
-    #[default]
     TopEnd,
     Bottom,
     BottomStart,
+    #[default]
     BottomEnd,
 }
 
@@ -35,15 +36,17 @@ impl ToastPosition {
 
 #[derive(Clone)]
 pub struct ToastOptions {
-    pub id: uuid::Uuid,
-    pub postition: Option<ToastPosition>,
+    pub(crate) id: uuid::Uuid,
+    pub(crate) position: Option<ToastPosition>,
+    pub(crate) timeout: Option<Duration>,
 }
 
 impl Default for ToastOptions {
     fn default() -> Self {
         Self {
             id: uuid::Uuid::new_v4(),
-            postition: None,
+            position: None,
+            timeout: None,
         }
     }
 }

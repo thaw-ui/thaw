@@ -1,4 +1,4 @@
-div.thaw-toaster-container {
+div.thaw-toaster {
     z-index: 1000000;
     position: absolute;
     top: 0px;
@@ -13,13 +13,43 @@ div.thaw-toaster-container {
     color: var(--colorNeutralForeground1);
 }
 
-.thaw-toaster {
+.thaw-toaster-container {
     bottom: 16px;
     right: 20px;
-    
+
     position: fixed;
     width: 292px;
     pointer-events: none;
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-leave-from,
+.thaw-toaster-container.fade-in-height-expand-transition-enter-to {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-leave-to,
+.thaw-toaster-container.fade-in-height-expand-transition-enter-from {
+    transform: scale(0.85);
+    opacity: 0;
+    margin-bottom: 0 !important;
+    max-height: 0 !important;
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-leave-active {
+    overflow: visible;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        opacity 0.3s cubic-bezier(0, 0, 0.2, 1) 0s,
+        margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-enter-active {
+    overflow: visible;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 1, 1),
+        margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .thaw-toast {
