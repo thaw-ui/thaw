@@ -11,6 +11,15 @@
     font-family: var(--fontFamilyBase);
 }
 
+code.thaw-text {
+    padding: 1px 4px;
+    margin: 0 3px 0 3px;
+    background-color: var(--colorNeutralBackground4);
+    color: var(--colorNeutralForeground1);
+    font-family: var(--fontFamilyMonospace);
+    border-radius: var(--borderRadiusMedium);
+}
+
 .thaw-caption-1 {
     line-height: var(--lineHeightBase200);
     font-weight: var(--fontWeightRegular);

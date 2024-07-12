@@ -2,18 +2,8 @@ use leptos::{either::Either, ev, prelude::*};
 use send_wrapper::SendWrapper;
 use thaw_utils::{class_list, mount_style, OptionalProp};
 
-#[derive(Clone, Copy, Default, PartialEq, Eq, Hash)]
-pub enum TagVariant {
-    #[default]
-    Default,
-    Success,
-    Warning,
-    Error,
-}
-
 #[component]
 pub fn Tag(
-    #[prop(optional, into)] variant: MaybeSignal<TagVariant>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] closable: MaybeSignal<bool>,
     #[prop(optional, into)] on_close: Option<Callback<SendWrapper<ev::MouseEvent>>>,

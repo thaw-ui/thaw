@@ -3,6 +3,8 @@ use thaw_macro::WriteCSSVars;
 #[derive(Clone, WriteCSSVars)]
 pub struct CommonTheme {
     pub font_family_base: String,
+    pub font_family_monospace: String,
+    pub font_family_numeric: String,
 
     pub font_size_base_100: String,
     pub font_size_base_200: String,
@@ -67,7 +69,9 @@ impl CommonTheme {
     pub fn new() -> Self {
         Self {
             font_family_base: "'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif".into(),
-            
+            font_family_monospace: "Consolas, 'Courier New', Courier, monospace".into(),
+            font_family_numeric: "Bahnschrift, 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif".into(),
+
             font_size_base_100: "10px".into(),
             font_size_base_200: "12px".into(),
             font_size_base_300: "14px".into(),

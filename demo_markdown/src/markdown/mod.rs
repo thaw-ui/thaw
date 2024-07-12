@@ -146,7 +146,7 @@ fn iter_nodes<'a>(
         NodeValue::Code(node_code) => {
             let code = node_code.literal.clone();
             quote!(
-                <Text code=true>
+                <Text tag=TextTag::Code>
                     #code
                 </Text>
             )

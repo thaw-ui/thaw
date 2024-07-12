@@ -4,7 +4,7 @@
 view! {
     <Space>
         <Text>"text"</Text>
-        <Text code=true>"code"</Text>
+        <Text tag=TextTag::Code>"code"</Text>
         <Caption1>"Caption1"</Caption1>
         <Caption1Strong>"Caption1Strong"</Caption1Strong>
         <Body1>"Body1"</Body1>
