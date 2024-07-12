@@ -10,7 +10,7 @@ use thaw_utils::mount_style;
 pub fn Toaster(
     receiver: ToasterReceiver,
     #[prop(optional)] position: ToastPosition,
-    #[prop(default = Duration::from_secs(3000))] timeout: Duration,
+    #[prop(default = Duration::from_secs(3))] timeout: Duration,
 ) -> impl IntoView {
     mount_style("toaster", include_str!("./toaster.css"));
     let config_provider = ConfigInjection::expect_context();

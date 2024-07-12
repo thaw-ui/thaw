@@ -229,10 +229,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "/components/loading-bar".into(),
                     label: "Loading Bar".into(),
                 },
-                // MenuItemOption {
-                //     value: "/components/message".into(),
-                //     label: "Message".into(),
-                // },
                 MenuItemOption {
                     value: "/components/message-bar".into(),
                     label: "Message Bar".into(),
@@ -253,10 +249,6 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     value: "/components/scrollbar".into(),
                     label: "Scrollbar".into(),
                 },
-                // MenuItemOption {
-                //     value: "/components/select".into(),
-                //     label: "Select".into(),
-                // },
                 MenuItemOption {
                     value: "/components/skeleton".into(),
                     label: "Skeleton".into(),
