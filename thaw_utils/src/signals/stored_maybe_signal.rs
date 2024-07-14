@@ -94,3 +94,12 @@ impl<T> From<MaybeSignal<T>> for StoredMaybeSignal<T> {
         }
     }
 }
+
+impl<T: Clone> From<StoredMaybeSignal<T>> for MaybeSignal<T> {
+    fn from(value: StoredMaybeSignal<T>) -> Self {
+        match value {
+            StoredMaybeSignal::StoredValue(value) => MaybeSignal::Static(value.get_value()),
+            StoredMaybeSignal::Signal(singal) => MaybeSignal::Dynamic(singal),
+        }
+    }
+}

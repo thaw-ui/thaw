@@ -242,6 +242,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Menu".into(),
                 },
                 MenuItemOption {
+                    value: "pagination".into(),
+                    label: "Pagination".into(),
+                },
+                MenuItemOption {
                     value: "tabs".into(),
                     label: "Tabs".into(),
                 },
