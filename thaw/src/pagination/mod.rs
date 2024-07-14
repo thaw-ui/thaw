@@ -90,26 +90,26 @@ pub fn Pagination(
     let no_next = Memo::new(move |_| page.get() == count.get());
     let no_previous = Memo::new(move |_| page.get() == 1);
 
-    let on_click_previous = move |_| {
+    let on_click_previous = Callback::<ev::MouseEvent>::new(move |_| {
         page.update(|val| *val -= 1);
         if let Some(callback) = on_change.as_ref() {
             callback.call(page.get())
         }
-    };
+    });
 
-    let on_click_next = move |_| {
+    let on_click_next = Callback::<ev::MouseEvent>::new(move |_| {
         page.update(|val| *val += 1);
         if let Some(callback) = on_change.as_ref() {
             callback.call(page.get())
         }
-    };
+    });
 
     view! {
         <nav class=class_list!["thaw-pagination", class.map(| c | move || c.get())]>
             <ul>
                 <li>
                     <Button
-                        size=size.clone()
+                        size=size
                         on_click=on_click_previous
                         variant=ButtonVariant::Text
                         icon=icondata_ai::AiLeftOutlined
@@ -132,7 +132,7 @@ pub fn Pagination(
                            view! {
                                 <li>
                                     <Button
-                                        size=size.clone()
+                                        size=size
                                         style=Memo::new(move |_| if page.get() == nb {
                                             "color: var(--thaw-font-color-hover); border-color: var(--thaw-border-color-hover);".to_string()
                                         } else {
@@ -143,14 +143,14 @@ pub fn Pagination(
                                         } else {
                                             ButtonVariant::Text
                                         })
-                                        on_click = move |_| {
+                                        on_click=Callback::new(move |_: ev::MouseEvent| {
                                             if page.get() != nb {
                                                 page.set(nb)
                                             }
                                             if let Some(callback) = on_change.as_ref() {
                                                 callback.call(page.get())
                                             }
-                                        }
+                                        })
                                         round=true
                                     >
                                         {nb}
