@@ -1,11 +1,9 @@
-use std::cmp::{max, min};
-
+use crate::{Button, ButtonSize, ButtonVariant};
 use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use std::cmp::min;
+use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
 
-use crate::{Button, ButtonColor, ButtonSize, ButtonVariant};
-
-fn range(start: i64, end: i64) -> Vec<PaginationItem> {
+fn range(start: usize, end: usize) -> Vec<PaginationItem> {
     let mut ret = vec![];
     for idx in start..=end {
         ret.push(PaginationItem::Number(idx));
@@ -16,10 +14,10 @@ fn range(start: i64, end: i64) -> Vec<PaginationItem> {
 enum PaginationItem {
     DotLeft,
     DotRight,
-    Number(i64),
+    Number(usize),
 }
 
-fn use_pagination(page: i64, count: i64, sibling_count: i64) -> Vec<PaginationItem> {
+fn use_pagination(page: usize, count: usize, sibling_count: usize) -> Vec<PaginationItem> {
     // Pages count is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
     let total_page_numbers = sibling_count + 5;
     // Case 1:
@@ -30,7 +28,11 @@ fn use_pagination(page: i64, count: i64, sibling_count: i64) -> Vec<PaginationIt
     }
     let current_page = page;
     // Calculate left and right sibling index and make sure they are within range 1 and totalPageCount
-    let left_sibling_index = max(current_page - sibling_count, 1);
+    let left_sibling_index = if current_page > sibling_count + 1 {
+        current_page - sibling_count
+    } else {
+        1
+    };
     let right_sibling_index = min(current_page + sibling_count, count);
     // We do not show dots just when there is just one page number to be inserted between the extremes of sibling and the page limits i.e 1 and totalPageCount.
     // Hence we are using leftSiblingIndex > 2 and rightSiblingIndex < totalPageCount - 2
@@ -75,85 +77,101 @@ fn use_pagination(page: i64, count: i64, sibling_count: i64) -> Vec<PaginationIt
 
 #[component]
 pub fn Pagination(
-    #[prop(default = MaybeSignal::Static(1), into)] page: MaybeSignal<i64>,
-    #[prop(into)] count: MaybeSignal<i64>,
-    #[prop(default = MaybeSignal::Static(1), into)] sibling_count: MaybeSignal<i64>,
-    #[prop(optional, into)] on_change: Option<Callback<i64>>,
+    #[prop(default = 1.into(), into)] page: Model<usize>,
+    #[prop(into)] count: MaybeSignal<usize>,
+    #[prop(default = 1.into(), into)] sibling_count: MaybeSignal<usize>,
+    #[prop(optional, into)] on_change: Option<Callback<usize>>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] color: MaybeSignal<ButtonColor>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
 ) -> impl IntoView {
-    let (page_signal, set_page_signal) = create_signal(1);
-    let no_next = MaybeSignal::derive(move || page_signal.get() == count.get());
-    let no_previous = MaybeSignal::derive(move || page_signal.get() == 1);
+    mount_style("pagination", include_str!("./pagination.css"));
+
+    let size: StoredMaybeSignal<_> = size.into();
+    let no_next = Memo::new(move |_| page.get() == count.get());
+    let no_previous = Memo::new(move |_| page.get() == 1);
 
     let on_click_previous = move |_| {
-        set_page_signal.update(|val| *val -= 1);
+        page.update(|val| *val -= 1);
         if let Some(callback) = on_change.as_ref() {
-            callback.call(page_signal.get())
+            callback.call(page.get())
         }
     };
 
     let on_click_next = move |_| {
-        set_page_signal.update(|val| *val += 1);
+        page.update(|val| *val += 1);
         if let Some(callback) = on_change.as_ref() {
-            callback.call(page_signal.get())
+            callback.call(page.get())
         }
     };
-
-    create_effect(move |_| {
-        set_page_signal.update(|val| {
-            let default = page.get();
-            if *val != default {
-                *val = default
-            }
-        });
-    });
-
-    mount_style("pagination", include_str!("./pagination.css"));
 
     view! {
         <nav class=class_list!["thaw-pagination", class.map(| c | move || c.get())]>
             <ul>
                 <li>
                     <Button
-                        color=color.clone() size=size.clone()
+                        size=size.clone()
                         on_click=on_click_previous
                         variant=ButtonVariant::Text
-                        icon=icondata_ai::AiLeftOutlined disabled=no_previous circle=true/>
+                        icon=icondata_ai::AiLeftOutlined
+                        disabled=no_previous
+                        circle=true
+                    />
                 </li>
-                {
-                    let cloned_color = color.clone();
-                    let cloned_size = size.clone();
-                    view! {
-                        <For each=move || use_pagination(page_signal.get(), count.get(), sibling_count.get()) key=|item| match item {
-                                PaginationItem::DotLeft => -2,
-                                PaginationItem::DotRight => -1,
-                                PaginationItem::Number(nb) => nb.clone()
-                            }
-                            children=move |item| match item {
-                            PaginationItem::Number(nb) => view! {<li>
-                                <Button
-                                    color=cloned_color.clone() size=cloned_size.clone()
-                                    variant=MaybeSignal::derive(move || if page_signal.get() == nb {ButtonVariant::Primary} else {ButtonVariant::Text})
-                                    on_click = move |_| {
-                                        if page_signal.get() != nb {set_page_signal.set(nb)}
-                                        if let Some(callback) = on_change.as_ref() {
-                                            callback.call(page_signal.get())
-                                        }
-                                    }
-                                    round=true>{nb}</Button>
-                            </li>},
-                            _ => view! {<li>"..."</li>},
-                        }/>
+
+                <For
+                    each=move || use_pagination(page.get(), count.get(), sibling_count.get())
+                    key=|item| match item {
+                        PaginationItem::DotLeft => -2,
+                        PaginationItem::DotRight => -1,
+                        PaginationItem::Number(nb) => nb.clone() as i64
                     }
-                }
+                    let:item
+                >
+                    {
+                        if let PaginationItem::Number(nb) = item {
+                           view! {
+                                <li>
+                                    <Button
+                                        size=size.clone()
+                                        style=Memo::new(move |_| if page.get() == nb {
+                                            "color: var(--thaw-font-color-hover); border-color: var(--thaw-border-color-hover);".to_string()
+                                        } else {
+                                            "".to_string()
+                                        })
+                                        variant=Memo::new(move |_| if page.get() == nb {
+                                            ButtonVariant::Outlined
+                                        } else {
+                                            ButtonVariant::Text
+                                        })
+                                        on_click = move |_| {
+                                            if page.get() != nb {
+                                                page.set(nb)
+                                            }
+                                            if let Some(callback) = on_change.as_ref() {
+                                                callback.call(page.get())
+                                            }
+                                        }
+                                        round=true
+                                    >
+                                        {nb}
+                                    </Button>
+                                </li>
+                            }
+                        } else {
+                            view! {
+                                <li>"..."</li>
+                            }
+                        }
+                    }
+                </For>
                 <li>
                     <Button
-                        color size
+                        size
                         on_click=on_click_next
                         variant=ButtonVariant::Text
-                        icon=icondata_ai::AiRightOutlined disabled=no_next circle=true/>
+                        icon=icondata_ai::AiRightOutlined disabled=no_next
+                        circle=true
+                    />
                 </li>
             </ul>
         </nav>
