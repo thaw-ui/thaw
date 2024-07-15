@@ -277,6 +277,29 @@ pub fn Scrollbar(
         thumb_status.set_value(Some(ThumbStatus::Enter));
     };
 
+    on_cleanup(move || {
+        x_trumb_mousemove_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.remove();
+            }
+        });
+        x_trumb_mouseup_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.remove();
+            }
+        });
+        y_trumb_mousemove_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.remove();
+            }
+        });
+        y_trumb_mouseup_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.remove();
+            }
+        });
+    });
+
     view! {
         <div
             class=class_list!["thaw-scrollbar", class.map(| c | move || c.get())]
