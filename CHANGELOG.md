@@ -1,3 +1,19 @@
+## [0.3.3](https://github.com/thaw-ui/thaw/compare/v0.3.2...v0.3.3) (2024-07-15)
+
+### Features
+
+* `MenuItem` adds icon prop, closes [#200](https://github.com/thaw-ui/thaw/pull/200).
+* `MenuItem` adds children prop, closes [#207](https://github.com/thaw-ui/thaw/pull/207).
+* `Modal` adds closable prop, closes [#206](https://github.com/thaw-ui/thaw/pull/206).
+* Adds `Dropdown` component, closes [#210](https://github.com/thaw-ui/thaw/pull/210).
+* Added parser and formatter props to input and `InputNumber` components, closes [#209](https://github.com/thaw-ui/thaw/pull/209).
+* Adds `Pagination` component, closes [#212](https://github.com/thaw-ui/thaw/pull/212).
+
+### Bug Fixs
+
+* use_lock_html_scroll, closes [#215](https://github.com/thaw-ui/thaw/pull/215).
+* Events were not removed when the scrollbar cleared, closes [#216](https://github.com/thaw-ui/thaw/pull/216).
+
 ## [0.3.2](https://github.com/thaw-ui/thaw/compare/v0.3.1...v0.3.2) (2024-05-21)
 
 ### Features

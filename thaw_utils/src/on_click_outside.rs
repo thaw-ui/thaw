@@ -25,4 +25,9 @@ pub fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
         });
         on_cleanup(move || handle.remove());
     }
+    #[cfg(not(any(feature = "csr", feature = "hydrate")))]
+    {
+        let _ = element;
+        let _ = on_click;
+    }
 }
