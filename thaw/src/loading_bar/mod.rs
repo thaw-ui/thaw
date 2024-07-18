@@ -1,6 +1,9 @@
 mod loading_bar_provider;
 
+use std::sync::Arc;
+
 pub use loading_bar_provider::*;
+use tachys::renderer::DomRenderer;
 
 use crate::ConfigInjection;
 use leptos::{html, prelude::*};
@@ -8,70 +11,85 @@ use thaw_utils::{mount_style, ComponentRef};
 
 #[derive(Clone)]
 pub(crate) struct LoadingBarRef {
-    start: Callback<()>,
-    finish: Callback<()>,
-    error: Callback<()>,
+    start: Arc<dyn Fn() + Send + Sync + 'static>,
+    finish: Arc<dyn Fn() + Send + Sync + 'static>,
+    error: Arc<dyn Fn() + Send + Sync + 'static>,
 }
 
 impl LoadingBarRef {
+    #[inline]
     pub fn start(&self) {
-        self.start.call(());
+        (self.start)();
     }
+    #[inline]
     pub fn finish(&self) {
-        self.finish.call(());
+        (self.finish)();
     }
+    #[inline]
     pub fn error(&self) {
-        self.error.call(());
+        (self.error)();
     }
 }
 
 #[component]
 fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl IntoView {
     mount_style("loading-bar", include_str!("./loading-bar.css"));
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
+    let container_ref = NodeRef::<html::Div>::new();
     let loading_bar_ref = NodeRef::<html::Div>::new();
-    let loading = RwSignal::new(false);
 
-    let start = Callback::new(move |_| {
-        loading.set(true);
-        if let Some(loading_bar_ref) = loading_bar_ref.get_untracked() {
-            loading_bar_ref.style(("background-color", "var(--colorStatusSuccessForeground1)"));
-            loading_bar_ref.style(("transition", "none"));
-            loading_bar_ref.style(("max-width", "0"));
-            _ = loading_bar_ref.offset_width();
-            loading_bar_ref.style(("transition", "max-width 4s linear"));
-            loading_bar_ref.style(("max-width", "80%"));
-        }
+    let start = Arc::new(move || {
+        let Some(container_el) = container_ref.get_untracked() else {
+            return;
+        };
+        let Some(loading_bar_el) = loading_bar_ref.get_untracked() else {
+            return;
+        };
+        let _ = container_el.set_attribute("style", "");
+        loading_bar_el.style(("background-color", "var(--colorStatusSuccessForeground1)"));
+        loading_bar_el.style(("transition", "none"));
+        loading_bar_el.style(("max-width", "0"));
+        let _ = loading_bar_el.offset_width();
+        loading_bar_el.style(("transition", "max-width 4s linear"));
+        loading_bar_el.style(("max-width", "80%"));
     });
-    let is_on_transitionend = StoredValue::new(false);
     let on_transitionend = move |_| {
-        if is_on_transitionend.get_value() {
-            is_on_transitionend.set_value(false);
-            loading.set(false);
+        let Some(container_el) = container_ref.get_untracked() else {
+            return;
+        };
+        let Some(loading_bar_el) = loading_bar_ref.get_untracked() else {
+            return;
+        };
+        if let Ok(max_width) = Dom::style(&loading_bar_el).get_property_value("max-width") {
+            if max_width == "100%" {
+                let _ = container_el.set_attribute("style", "display: none");
+            }
         }
     };
-    let finish = Callback::new(move |_| {
-        if let Some(loading_bar_ref) = loading_bar_ref.get_untracked() {
-            loading_bar_ref.style(("background-color", "var(--colorStatusSuccessForeground1)"));
-            loading_bar_ref.style(("transition", "max-width 0.5s linear"));
-            loading_bar_ref.style(("max-width", "100%"));
-            is_on_transitionend.set_value(true);
-        }
+    let finish = Arc::new(move || {
+        let Some(loading_bar_el) = loading_bar_ref.get_untracked() else {
+            return;
+        };
+        loading_bar_el.style(("background-color", "var(--colorStatusSuccessForeground1)"));
+        loading_bar_el.style(("transition", "max-width 0.5s linear"));
+        loading_bar_el.style(("max-width", "100%"));
     });
-    let error = Callback::new(move |_| {
-        if let Some(loading_bar_ref) = loading_bar_ref.get_untracked() {
-            if !loading.get() {
-                loading.set(true);
-                let loading_bar_ref = loading_bar_ref.clone();
-                loading_bar_ref.style(("transition", "none"));
-                loading_bar_ref.style(("max-width", "0"));
-                _ = loading_bar_ref.offset_width();
-            }
-            loading_bar_ref.style(("background-color", "var(--colorStatusDangerForeground1)"));
-            loading_bar_ref.style(("transition", "max-width 0.5s linear"));
-            loading_bar_ref.style(("max-width", "100%"));
-            is_on_transitionend.set_value(true);
+    let error = Arc::new(move || {
+        let Some(container_el) = container_ref.get_untracked() else {
+            return;
+        };
+        let Some(loading_bar_el) = loading_bar_ref.get_untracked() else {
+            return;
+        };
+        if container_el.get_attribute("style") != Some(String::new()) {
+            let _ = container_el.set_attribute("style", "");
+            loading_bar_el.style(("transition", "none"));
+            loading_bar_el.style(("max-width", "0"));
+            let _ = loading_bar_el.offset_width();
         }
+        loading_bar_el.style(("background-color", "var(--colorStatusDangerForeground1)"));
+        loading_bar_el.style(("transition", "max-width 0.5s linear"));
+        loading_bar_el.style(("max-width", "100%"));
     });
 
     comp_ref.load(LoadingBarRef {
@@ -83,7 +101,8 @@ fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl I
         <div
             class="thaw-config-provider thaw-loading-bar-container"
             data-thaw-id=config_provider.id().clone()
-            style=move || if loading.get() { "" } else { "display: none;" }
+            style="display: none"
+            node_ref=container_ref
         >
             <div
                 class="thaw-loading-bar"
