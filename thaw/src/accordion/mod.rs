@@ -40,7 +40,7 @@ pub(crate) struct AccordionInjection {
 }
 
 impl AccordionInjection {
-    pub fn use_() -> AccordionInjection {
+    pub fn expect_context() -> AccordionInjection {
         expect_context()
     }
 }

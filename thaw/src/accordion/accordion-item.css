@@ -29,10 +29,23 @@
     cursor: pointer;
 }
 
+.thaw-accordion-header__expand-icon {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-right: var(--spacingHorizontalS);
+    font-size: var(--fontSizeBase500);
+    line-height: var(--lineHeightBase500);
+}
+
+.thaw-accordion-header__expand-icon > svg {
+    display: inline;
+    line-height: 0;
+}
+
 .thaw-accordion-panel {
     margin: 0 var(--spacingHorizontalM);
 }
-
 
 .thaw-accordion-panel-enter-from,
 .thaw-accordion-panel-enter-to {
