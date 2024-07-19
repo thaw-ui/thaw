@@ -1,0 +1,68 @@
+.thaw-dropdown {
+    position: relative;
+    padding: 5px;
+    background-color: var(--thaw-background-color);
+    color: var(--thaw-font-color);
+    border-radius: 3px;
+    transform-origin: inherit;
+}
+
+[data-thaw-placement="top-start"] > .thaw-dropdown,
+[data-thaw-placement="top-end"] > .thaw-dropdown,
+[data-thaw-placement="top"] > .thaw-dropdown {
+    margin-bottom: 4px;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-thaw-placement="bottom-start"] > .thaw-dropdown,
+[data-thaw-placement="bottom-end"] > .thaw-dropdown,
+[data-thaw-placement="bottom"] > .thaw-dropdown {
+    margin-top: 4px;
+    box-shadow: 0 -3px 6px -4px rgba(0, 0, 0, 0.12),
+        0 -6px 16px 0 rgba(0, 0, 0, 0.08), 0 -9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-thaw-placement="left-start"] > .thaw-dropdown,
+[data-thaw-placement="left-end"] > .thaw-dropdown,
+[data-thaw-placement="left"] > .thaw-dropdown {
+    margin-right: 4px;
+    box-shadow: 3px 0 6px -4px rgba(0, 0, 0, 0.12),
+        6px 0 16px 0 rgba(0, 0, 0, 0.08), 9px 0 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-thaw-placement="right-start"] > .thaw-dropdown,
+[data-thaw-placement="right-end"] > .thaw-dropdown,
+[data-thaw-placement="right"] > .thaw-dropdown {
+    margin-left: 4px;
+    box-shadow: -3px 0 6px -4px rgba(0, 0, 0, 0.12),
+        -6px 0 16px 0 rgba(0, 0, 0, 0.08), -9px 0 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.thaw-dropdown.dropdown-transition-enter-from,
+.thaw-dropdown.dropdown-transition-leave-to {
+    opacity: 0;
+    transform: scale(0.85);
+}
+
+.thaw-dropdown.dropdown-transition-enter-to,
+.thaw-dropdown.dropdown-transition-leave-from {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.thaw-dropdown.dropdown-transition-enter-active {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.15s cubic-bezier(0, 0, 0.2, 1),
+        transform 0.15s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.thaw-dropdown.dropdown-transition-leave-active {
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.15s cubic-bezier(0.4, 0, 1, 1),
+        transform 0.15s cubic-bezier(0.4, 0, 1, 1);
+}
