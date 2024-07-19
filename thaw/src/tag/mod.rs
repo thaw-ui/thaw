@@ -1,22 +1,14 @@
 use leptos::{either::Either, ev, prelude::*};
-use send_wrapper::SendWrapper;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style, ArcOneCallback, OptionalProp};
 
 #[component]
 pub fn Tag(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] closable: MaybeSignal<bool>,
-    #[prop(optional, into)] on_close: Option<Callback<SendWrapper<ev::MouseEvent>>>,
+    #[prop(optional, into)] on_close: Option<ArcOneCallback<ev::MouseEvent>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
-
-    let on_close = move |event| {
-        let Some(callback) = on_close.as_ref() else {
-            return;
-        };
-        callback.call(SendWrapper::new(event));
-    };
 
     view! {
         <span
@@ -26,6 +18,13 @@ pub fn Tag(
             <span class="thaw-tag__primary-text">{children()}</span>
 
             {move || {
+                let on_close = on_close.clone();
+                let on_close = move |event| {
+                    let Some(on_close) = on_close.as_ref() else {
+                        return;
+                    };
+                    on_close(event);
+                };
                 if closable.get() {
                     Either::Left(view! {
                         <button class="thaw-tag__close" on:click=on_close>

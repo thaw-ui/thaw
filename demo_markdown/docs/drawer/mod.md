@@ -4,19 +4,19 @@
 let open = RwSignal::new(false);
 let position = RwSignal::new(DrawerPosition::Top);
 
-let open_f = Callback::new(move |new_position: DrawerPosition| {
+let open_f = move |new_position: DrawerPosition| {
     // Note: Since `show` changes are made in real time,
     // please put it in front of `show.set(true)` when changing `placement`.
     position.set(new_position);
     open.set(true);
-});
+};
 
 view! {
     <ButtonGroup>
-        <Button on_click=Callback::new(move |_| open_f.call(DrawerPosition::Top))>"Top"</Button>
-        <Button on_click=Callback::new(move |_| open_f.call(DrawerPosition::Right))>"Right"</Button>
-        <Button on_click=Callback::new(move |_| open_f.call(DrawerPosition::Bottom))>"Bottom"</Button>
-        <Button on_click=Callback::new(move |_| open_f.call(DrawerPosition::Left))>"Left"</Button>
+        <Button on_click=move |_| open_f(DrawerPosition::Top)>"Top"</Button>
+        <Button on_click=move |_| open_f(DrawerPosition::Right)>"Right"</Button>
+        <Button on_click=move |_| open_f(DrawerPosition::Bottom)>"Bottom"</Button>
+        <Button on_click=move |_| open_f(DrawerPosition::Left)>"Left"</Button>
     </ButtonGroup>
     <OverlayDrawer open position>
         <DrawerHeader>

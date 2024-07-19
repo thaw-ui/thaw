@@ -2,8 +2,8 @@ use crate::{ConfigInjection, Icon};
 use leptos::{either::Either, ev, html, prelude::*};
 use thaw_components::{CSSTransition, Teleport};
 use thaw_utils::{
-    add_event_listener, class_list, get_scroll_parent, mount_style, EventListenerHandle,
-    OptionalProp,
+    add_event_listener, class_list, get_scroll_parent, mount_style, BoxCallback,
+    EventListenerHandle, OptionalProp,
 };
 
 #[component]
@@ -28,7 +28,7 @@ pub fn BackTop(
         }
     });
 
-    let scroll_to_top = StoredValue::new(None::<Callback<()>>);
+    let scroll_to_top = StoredValue::new(None::<BoxCallback>);
     let scroll_handle = StoredValue::new(None::<EventListenerHandle>);
 
     Effect::new(move |_| {
@@ -42,7 +42,7 @@ pub fn BackTop(
 
             {
                 let scroll_el = send_wrapper::SendWrapper::new(scroll_el.clone());
-                scroll_to_top.set_value(Some(Callback::new(move |_| {
+                scroll_to_top.set_value(Some(BoxCallback::new(move || {
                     scroll_el.scroll_to_with_scroll_to_options(
                         web_sys::ScrollToOptions::new()
                             .top(0.0)
@@ -69,7 +69,7 @@ pub fn BackTop(
     let on_click = move |_| {
         scroll_to_top.with_value(|scroll_to_top| {
             if let Some(scroll_to_top) = scroll_to_top {
-                scroll_to_top.call(());
+                scroll_to_top();
             }
         });
     };

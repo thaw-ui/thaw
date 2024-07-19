@@ -70,13 +70,13 @@ view! {
 let value = RwSignal::new(String::from("o"));
 let input_ref = ComponentRef::<InputRef>::new();
 
-let focus = Callback::new(move |_| {
+let focus = move |_| {
     input_ref.get_untracked().unwrap().focus()
-});
+};
 
-let blur = Callback::new(move |_| {
+let blur = move |_| {
     input_ref.get_untracked().unwrap().blur()
-});
+};
 
 view! {
     <Space vertical=true>

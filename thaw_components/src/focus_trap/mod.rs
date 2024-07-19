@@ -1,4 +1,5 @@
 use leptos::{ev, prelude::*};
+use thaw_utils::ArcOneCallback;
 
 #[cfg(any(feature = "csr", feature = "hydrate"))]
 thread_local! {
@@ -9,7 +10,7 @@ thread_local! {
 pub fn FocusTrap(
     disabled: bool,
     #[prop(into)] active: MaybeSignal<bool>,
-    #[prop(into)] on_esc: Callback<ev::KeyboardEvent>,
+    #[prop(into)] on_esc: ArcOneCallback<ev::KeyboardEvent>,
     children: Children,
 ) -> impl IntoView {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
@@ -36,7 +37,7 @@ pub fn FocusTrap(
                 let handle = window_event_listener(ev::keydown, move |e| {
                     if &e.code() == "Escape" {
                         if is_current_active() {
-                            on_esc.call(e);
+                            on_esc(e);
                         }
                     }
                 });

@@ -9,9 +9,8 @@ view! {
 ### Closable
 
 ```rust demo
-use send_wrapper::SendWrapper;
 // let message = use_message();
-let success = move |_: SendWrapper<ev::MouseEvent>| {
+let success = move |_: ev::MouseEvent| {
     // message.create(
     //     "tag close".into(),
     //     MessageVariant::Success,

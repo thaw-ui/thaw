@@ -3,7 +3,7 @@ use crate::{
     SignalWatch,
 };
 use chrono::{Local, NaiveTime, Timelike};
-use leptos::{ev, html, prelude::*};
+use leptos::{html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{mount_style, ComponentRef, Model, OptionalProp};
 
@@ -36,7 +36,7 @@ pub fn TimePicker(
         show_time_text.set(text);
     });
 
-    let on_input_blur = Callback::new(move |_| {
+    let on_input_blur = move |_| {
         if let Ok(time) =
             NaiveTime::parse_from_str(&show_time_text.get_untracked(), show_time_format)
         {
@@ -47,7 +47,7 @@ pub fn TimePicker(
         } else {
             update_show_time_text();
         }
-    });
+    };
     let close_panel = Callback::new(move |time: Option<NaiveTime>| {
         if value.get_untracked() != time {
             if time.is_some() {
@@ -58,7 +58,7 @@ pub fn TimePicker(
         is_show_panel.set(false);
     });
 
-    let open_panel = Callback::new(move |_| {
+    let open_panel = move |_| {
         panel_selected_time.set(value.get_untracked());
         is_show_panel.set(true);
         request_animation_frame(move || {
@@ -66,7 +66,7 @@ pub fn TimePicker(
                 panel_ref.scroll_into_view();
             }
         });
-    });
+    };
 
     view! {
         <Binder target_ref=time_picker_ref>
@@ -99,18 +99,18 @@ fn Panel(
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let config_provider = ConfigInjection::use_();
-    let now = Callback::new(move |_| {
+    let now = move |_| {
         close_panel.call(Some(now_time()));
-    });
-    let ok = Callback::new(move |_| {
+    };
+    let ok = move |_| {
         close_panel.call(selected_time.get_untracked());
-    });
+    };
 
     let panel_ref = NodeRef::<html::Div>::new();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
-        let handle = window_event_listener(ev::click, move |ev| {
+        let handle = window_event_listener(leptos::ev::click, move |ev| {
             let el = ev.target();
             let mut el: Option<web_sys::Element> =
                 el.into_js_result().map_or(None, |el| Some(el.into()));

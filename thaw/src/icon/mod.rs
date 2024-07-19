@@ -1,7 +1,7 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
 use leptos::{ev, prelude::*};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::{class_list, mount_style, BoxOneCallback};
 
 /// The Icon component.
 #[component]
@@ -23,7 +23,7 @@ pub fn Icon(
     style: Option<MaybeSignal<String>>,
     /// Callback when clicking on the icon.
     #[prop(optional, into)]
-    on_click: Option<Callback<ev::MouseEvent>>,
+    on_click: Option<BoxOneCallback<ev::MouseEvent>>,
 ) -> impl IntoView {
     mount_style("icon", include_str!("./icon.css"));
 
@@ -41,7 +41,7 @@ pub fn Icon(
     let icon_data = RwSignal::new(None);
     let on_click = move |ev| {
         if let Some(click) = on_click.as_ref() {
-            click.call(ev);
+            click(ev);
         }
     };
 

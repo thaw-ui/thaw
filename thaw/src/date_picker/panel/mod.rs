@@ -5,7 +5,7 @@ mod year_panel;
 use crate::ConfigInjection;
 use chrono::NaiveDate;
 use date_panel::DatePanel;
-use leptos::{ev, html, prelude::*};
+use leptos::{html, prelude::*};
 use month_panel::MonthPanel;
 use thaw_components::CSSTransition;
 use thaw_utils::{now_date, ComponentRef};
@@ -24,7 +24,7 @@ pub fn Panel(
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
-        let handle = window_event_listener(ev::click, move |ev| {
+        let handle = window_event_listener(leptos::ev::click, move |ev| {
             let el = ev.target();
             let mut el: Option<web_sys::Element> =
                 el.into_js_result().map_or(None, |el| Some(el.into()));

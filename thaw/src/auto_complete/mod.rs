@@ -5,7 +5,7 @@ pub use auto_complete_option::AutoCompleteOption;
 use crate::{ComponentRef, ConfigInjection, Input, InputPrefix, InputRef, InputSuffix};
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, BoxOneCallback, Model, OptionalProp};
 
 #[slot]
 pub struct AutoCompletePrefix {
@@ -23,7 +23,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
-    #[prop(optional, into)] on_select: Option<Callback<String>>,
+    #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] allow_free_input: bool,
     #[prop(optional, into)] invalid: MaybeSignal<bool>,
@@ -60,8 +60,8 @@ pub fn AutoComplete(
         } else {
             value.set(option_value.clone());
         }
-        if let Some(on_select) = on_select {
-            on_select.call(option_value);
+        if let Some(on_select) = on_select.as_ref() {
+            on_select(option_value);
         }
         if allow_free_input {
             select_option_index.set(None);

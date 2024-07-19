@@ -1,13 +1,13 @@
 use leptos::{ev, html, prelude::*};
-use thaw_utils::{class_list, mount_style, ComponentRef, Model};
+use thaw_utils::{class_list, mount_style, BoxOneCallback, ComponentRef, Model};
 
 #[component]
 pub fn Textarea(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
+    #[prop(optional, into)] allow_value: Option<BoxOneCallback<String, bool>>,
     #[prop(optional, into)] placeholder: MaybeProp<String>,
-    #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
-    #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
+    #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
+    #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     /// Which direction the Textarea is allowed to be resized.
     #[prop(optional, into)]
@@ -24,7 +24,7 @@ pub fn Textarea(
         move |ev| {
             let input_value = event_target_value(&ev);
             if let Some(allow_value) = allow_value.as_ref() {
-                if !allow_value.call(input_value.clone()) {
+                if !allow_value(input_value.clone()) {
                     value_trigger.trigger();
                     return;
                 }
@@ -34,12 +34,12 @@ pub fn Textarea(
     };
     let on_internal_focus = move |ev| {
         if let Some(on_focus) = on_focus.as_ref() {
-            on_focus.call(ev);
+            on_focus(ev);
         }
     };
     let on_internal_blur = move |ev| {
         if let Some(on_blur) = on_blur.as_ref() {
-            on_blur.call(ev);
+            on_blur(ev);
         }
     };
 

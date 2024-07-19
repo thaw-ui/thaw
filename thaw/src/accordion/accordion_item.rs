@@ -6,7 +6,8 @@ use thaw_utils::{mount_style, update, with, StoredMaybeSignal};
 #[component]
 pub fn AccordionItem(
     /// Required value that identifies this item inside an Accordion component.
-    #[prop(into)] value: MaybeSignal<String>,
+    #[prop(into)]
+    value: MaybeSignal<String>,
     accordion_header: AccordionHeader,
     children: Children,
 ) -> impl IntoView {
@@ -57,10 +58,10 @@ pub fn AccordionItem(
                             aria-hidden="true"
                             width="1em"
                             height="1em"
-                            viewBox="0 0 20 20" 
-                            style=move || if is_show_panel.get() { 
+                            viewBox="0 0 20 20"
+                            style=move || if is_show_panel.get() {
                                 "transform: rotate(90deg)"
-                            } else { 
+                            } else {
                                 "transform: rotate(0deg)"
                             }
                         >

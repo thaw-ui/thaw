@@ -4,8 +4,7 @@ pub use button_group::ButtonGroup;
 
 use crate::icon::Icon;
 use leptos::{either::Either, ev, prelude::*};
-use send_wrapper::SendWrapper;
-use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
+use thaw_utils::{class_list, mount_style, BoxOneCallback, OptionalMaybeSignal, OptionalProp};
 
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonAppearance {
@@ -73,7 +72,7 @@ pub fn Button(
     #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] disabled_focusable: MaybeSignal<bool>,
-    #[prop(optional, into)] on_click: Option<Callback<SendWrapper<ev::MouseEvent>>>,
+    #[prop(optional, into)] on_click: Option<BoxOneCallback<ev::MouseEvent>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("button", include_str!("./button.css"));
@@ -87,10 +86,10 @@ pub fn Button(
             return;
         }
 
-        let Some(callback) = on_click.as_ref() else {
+        let Some(on_click) = on_click.as_ref() else {
             return;
         };
-        callback.call(SendWrapper::new(e));
+        on_click(e);
     };
 
     view! {

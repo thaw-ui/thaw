@@ -19,7 +19,7 @@ pub fn SiteHeader() -> impl IntoView {
         })
     });
     // let (_, write_theme, _) = use_local_storage::<String, FromToStringCodec>("theme");
-    let change_theme = Callback::new(move |_| {
+    let change_theme = move |_| {
         if theme_name.get_untracked() == "Light" {
             theme.set(Theme::light());
             // write_theme.set("light".to_string());
@@ -27,7 +27,7 @@ pub fn SiteHeader() -> impl IntoView {
             theme.set(Theme::dark());
             // write_theme.set("dark".to_string());
         }
-    });
+    };
 
     let search_value = RwSignal::new(String::new());
     let search_all_options = StoredValue::new(gen_search_all_options());
@@ -186,7 +186,7 @@ pub fn SiteHeader() -> impl IntoView {
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
                     <Button
                         appearance=ButtonAppearance::Subtle
-                        on_click=Callback::new(move |_| change_theme.call(()))
+                        on_click=change_theme
                     >
                         {move || theme_name.get()}
                     </Button>

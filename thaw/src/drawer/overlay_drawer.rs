@@ -28,7 +28,7 @@ pub fn OverlayDrawer(
         open_drawer.set(is_open);
     });
     use_lock_html_scroll(is_lock.into());
-    let on_after_leave = move |_| {
+    let on_after_leave = move || {
         is_lock.set(false);
     };
 
@@ -38,9 +38,9 @@ pub fn OverlayDrawer(
             open.set(false);
         }
     };
-    let on_esc = Callback::new(move |_: ev::KeyboardEvent| {
+    let on_esc = move |_: ev::KeyboardEvent| {
         open.set(false);
-    });
+    };
 
     view! {
         <Teleport immediate=open.signal()>

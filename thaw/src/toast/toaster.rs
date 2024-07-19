@@ -190,13 +190,13 @@ fn ToasterContainer(
         );
     }
 
-    let on_before_leave = move |_| {
+    let on_before_leave = move || {
         let Some(el) = container_ref.get_untracked() else {
             return;
         };
         el.style(("max-height", format!("{}px", el.offset_height())));
     };
-    let on_after_leave = move |_| {
+    let on_after_leave = move || {
         request_animation_frame(move || on_close.call((id, position)));
     };
 

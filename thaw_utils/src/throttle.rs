@@ -1,8 +1,8 @@
 use leptos::{leptos_dom::helpers::TimeoutHandle, prelude::*};
-use std::time::Duration;
+use std::{sync::Arc, time::Duration};
 
 pub fn throttle(cb: impl Fn() + Send + Sync + 'static, duration: Duration) -> impl Fn() -> () {
-    let cb = Callback::new(move |_| cb());
+    let cb = Arc::new(cb);
     let timeout_handle = StoredValue::new(None::<TimeoutHandle>);
     on_cleanup(move || {
         timeout_handle.update_value(move |handle| {
@@ -19,7 +19,7 @@ pub fn throttle(cb: impl Fn() + Send + Sync + 'static, duration: Duration) -> im
         let cb = cb.clone();
         let handle = set_timeout_with_handle(
             move || {
-                cb.call(());
+                cb();
                 timeout_handle.update_value(move |handle| {
                     *handle = None;
                 });

@@ -4,14 +4,13 @@ pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
 use leptos::{ev, html, prelude::*};
-use send_wrapper::SendWrapper;
-use thaw_utils::{add_event_listener, mount_style};
+use thaw_utils::{add_event_listener, mount_style, ArcOneCallback};
 
 #[component]
 pub fn Upload(
     #[prop(optional, into)] accept: MaybeSignal<String>,
     #[prop(optional, into)] multiple: MaybeSignal<bool>,
-    #[prop(optional, into)] custom_request: Option<Callback<SendWrapper<FileList>>>,
+    #[prop(optional, into)] custom_request: Option<ArcOneCallback<FileList>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));
@@ -34,17 +33,20 @@ pub fn Upload(
     });
 
     let on_file_addition = move |files: FileList| {
-        if let Some(custom_request) = custom_request {
-            custom_request.call(SendWrapper::new(files));
+        if let Some(custom_request) = custom_request.as_ref() {
+            custom_request(files);
         }
     };
 
-    let on_change = move |_| {
-        if let Some(input_ref) = input_ref.get_untracked() {
-            if let Some(files) = input_ref.files() {
-                on_file_addition(files);
+    let on_change = {
+        let on_file_addition = on_file_addition.clone();
+        move |_| {
+            if let Some(input_ref) = input_ref.get_untracked() {
+                if let Some(files) = input_ref.files() {
+                    on_file_addition(files);
+                }
+                input_ref.set_value("");
             }
-            input_ref.set_value("");
         }
     };
 

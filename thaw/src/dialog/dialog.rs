@@ -19,9 +19,9 @@ pub fn Dialog(
             open.set(false);
         }
     };
-    let on_esc = Callback::new(move |_: ev::KeyboardEvent| {
+    let on_esc = move |_: ev::KeyboardEvent| {
         open.set(false);
-    });
+    };
 
     view! {
         <Teleport immediate=open.signal()>

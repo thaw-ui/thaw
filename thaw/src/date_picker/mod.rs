@@ -34,7 +34,7 @@ pub fn DatePicker(
         show_date_text.set(text);
     });
 
-    let on_input_blur = Callback::new(move |_| {
+    let on_input_blur = move |_| {
         if let Ok(date) =
             NaiveDate::parse_from_str(&show_date_text.get_untracked(), show_date_format)
         {
@@ -45,7 +45,7 @@ pub fn DatePicker(
         } else {
             update_show_date_text();
         }
-    });
+    };
 
     let close_panel = Callback::new(move |date: Option<NaiveDate>| {
         if value.get_untracked() != date {
@@ -57,13 +57,13 @@ pub fn DatePicker(
         is_show_panel.set(false);
     });
 
-    let open_panel = Callback::new(move |_| {
+    let open_panel = move |_| {
         panel_selected_date.set(value.get_untracked());
         if let Some(panel_ref) = panel_ref.get_untracked() {
             panel_ref.init_panel(value.get_untracked().unwrap_or(now_date()));
         }
         is_show_panel.set(true);
-    });
+    };
 
     view! {
         <Binder target_ref=date_picker_ref>
