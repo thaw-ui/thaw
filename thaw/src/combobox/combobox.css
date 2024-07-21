@@ -141,6 +141,19 @@
     border-radius: var(--borderRadiusMedium);
 }
 
+.thaw-combobox-option[data-activedescendant-focusvisible]::after {
+    content: "";
+    position: absolute;
+    right: -2px;
+    left: -2px;
+    bottom: -2px;
+    top: -2px;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: var(--borderRadiusMedium);
+    border: 2px solid var(--colorStrokeFocus2);
+}
+
 .thaw-combobox-option:hover {
     color: var(--colorNeutralForeground1Hover);
     background-color: var(--colorNeutralBackground1Hover);

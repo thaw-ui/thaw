@@ -9,21 +9,31 @@ pub fn ComboboxOption(
     #[prop(into)] text: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let combobox = ComboboxInjection::use_();
+    let combobox = ComboboxInjection::expect_context();
     let value = StoredValue::new(value.unwrap_or_else(|| text.clone()));
     let text = StoredValue::new(text);
+    let id = uuid::Uuid::new_v4().to_string();
     let on_click = move |_| {
         text.with_value(|text| {
             value.with_value(|value| {
-                combobox.on_option_select(value, text);
+                combobox.select_option(value, text);
             });
         });
     };
+
+    {
+        combobox.insert_option(id.clone(), (value.get_value(), text.get_value()));
+        let id = id.clone();
+        on_cleanup(move || {
+            combobox.remove_option(&id);
+        });
+    }
 
     view! {
         <div
             role="option"
             aria-selected="true"
+            id=id
             class=class_list![
                 "thaw-combobox-option",
                 ("thaw-combobox-option--selected", move || value.with_value(|value| combobox.is_selected(&value)))

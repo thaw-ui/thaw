@@ -66,6 +66,8 @@ pub struct ColorTheme {
     pub color_brand_stroke_2: String,
     pub color_brand_stroke_2_contrast: String,
 
+    pub color_stroke_focus_2: String,
+
     pub color_palette_red_background_1: String,
     pub color_palette_red_background_3: String,
     pub color_palette_red_foreground_1: String,
@@ -181,6 +183,8 @@ impl ColorTheme {
             color_brand_stroke_2: "#b4d6fa".into(),
             color_brand_stroke_2_contrast: "#b4d6fa".into(),
 
+            color_stroke_focus_2: "#000000".into(),
+
             color_palette_red_background_1: "#fdf6f6".into(),
             color_palette_red_background_3: "#d13438".into(),
             color_palette_red_foreground_1: "#bc2f32".into(),
@@ -295,6 +299,8 @@ impl ColorTheme {
             color_brand_stroke_1: "#479ef5".into(),
             color_brand_stroke_2: "#0e4775".into(),
             color_brand_stroke_2_contrast: "#0e4775".into(),
+
+            color_stroke_focus_2: "#ffffff".into(),
 
             color_palette_red_background_1: "#3f1011".into(),
             color_palette_red_background_3: "#d13438".into(),

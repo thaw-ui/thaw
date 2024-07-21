@@ -24,6 +24,8 @@ web-sys = { version = "0.3.69", features = [
     "DataTransfer",
     "ScrollToOptions",
     "ScrollBehavior",
+    "TreeWalker",
+    "NodeFilter",
 ] }
 wasm-bindgen = "0.2.92"
 icondata_core = "0.1.0"
