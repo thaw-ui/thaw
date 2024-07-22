@@ -20,7 +20,7 @@ view! {
             key=|option| option.0.clone()
             let:option
         >
-            <AutoCompleteOption key=option.0>
+            <AutoCompleteOption value=option.0>
                 {option.1}
             </AutoCompleteOption>
         </For>
@@ -33,14 +33,6 @@ view! {
 ```rust demo
 view! {
     <AutoComplete placeholder="Email" disabled=true/>
-}
-```
-
-### Invalid
-
-```rust demo
-view! {
-    <AutoComplete placeholder="Email" invalid=true/>
 }
 ```
 

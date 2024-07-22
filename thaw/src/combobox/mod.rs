@@ -1,6 +1,6 @@
 mod combobox;
 mod combobox_option;
-mod listbox;
+pub(crate) mod listbox;
 mod utils;
 
 pub use combobox::*;

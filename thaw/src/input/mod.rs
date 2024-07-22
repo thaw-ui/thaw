@@ -40,7 +40,6 @@ pub fn Input(
     #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
-    #[prop(optional, into)] invalid: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
@@ -125,8 +124,8 @@ pub fn Input(
                 "thaw-input",
                 ("thaw-input--prefix", prefix_if_),
                 ("thaw-input--suffix", suffix_if_),
-                ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
-                invalid.get()), class.map(| c | move || c.get())
+                ("thaw-input--disabled", move || disabled.get()),
+                class.map(| c | move || c.get())
             ]
 
             on:mousedown=on_mousedown

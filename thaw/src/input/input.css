@@ -122,7 +122,3 @@
 .thaw-input--disabled > .thaw-input__input::placeholder {
     color: var(--colorNeutralForegroundDisabled);
 }
-
-.thaw-input--invalid {
-    border-color: var(--thaw-border-color-error);
-}

@@ -1,6 +1,7 @@
 use super::use_option_walker::{use_option_walker, OptionWalker};
 use send_wrapper::SendWrapper;
 use std::{cell::RefCell, sync::Arc};
+use thaw_utils::scroll_into_view;
 use web_sys::{HtmlElement, Node};
 
 /// Applied to the element that is active descendant
@@ -50,7 +51,7 @@ impl ActiveDescendantController {
 
     fn focus_active_descendant(&self, next_active: HtmlElement) {
         self.blur_active_descendant();
-
+        scroll_into_view(&next_active);
         let _ = next_active.set_attribute(ACTIVEDESCENDANT_ATTRIBUTE, "");
         let _ = next_active.set_attribute(ACTIVEDESCENDANT_FOCUSVISIBLE_ATTRIBUTE, "");
 

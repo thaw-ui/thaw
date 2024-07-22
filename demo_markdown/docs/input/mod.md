@@ -54,16 +54,6 @@ view! {
 }
 ```
 
-### Invalid
-
-```rust demo
-let value = RwSignal::new(String::from("o"));
-
-view! {
-    <Input value invalid=true/>
-}
-```
-
 ### Imperative handle
 
 ```rust demo

@@ -150,7 +150,7 @@ pub fn SiteHeader() -> impl IntoView {
                     comp_ref=auto_complete_ref
                 >
                     <For each=move || search_options.get() key=|option| option.label.clone() let:option>
-                        <AutoCompleteOption key=option.value>{option.label}</AutoCompleteOption>
+                        <AutoCompleteOption value=option.value>{option.label}</AutoCompleteOption>
                     </For>
                     <AutoCompletePrefix slot>
                         <Icon

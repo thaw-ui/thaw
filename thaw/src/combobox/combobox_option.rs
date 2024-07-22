@@ -12,7 +12,9 @@ pub fn ComboboxOption(
     let combobox = ComboboxInjection::expect_context();
     let value = StoredValue::new(value.unwrap_or_else(|| text.clone()));
     let text = StoredValue::new(text);
+    let is_selected = Memo::new(move |_| value.with_value(|value| combobox.is_selected(&value)));
     let id = uuid::Uuid::new_v4().to_string();
+
     let on_click = move |_| {
         text.with_value(|text| {
             value.with_value(|value| {
@@ -32,11 +34,11 @@ pub fn ComboboxOption(
     view! {
         <div
             role="option"
-            aria-selected="true"
+            aria-selected=move || if is_selected.get() { "true" } else { "false" }
             id=id
             class=class_list![
                 "thaw-combobox-option",
-                ("thaw-combobox-option--selected", move || value.with_value(|value| combobox.is_selected(&value)))
+                ("thaw-combobox-option--selected", move || is_selected.get())
             ]
             on:click=on_click
         >
@@ -44,7 +46,7 @@ pub fn ComboboxOption(
                 if combobox.multiselect {
                     view! {
                         <span aria-hidden="true" class="thaw-combobox-option__check-icon--multiselect">
-                            <If cond=Signal::derive(move || value.with_value(|value| combobox.is_selected(&value)))>
+                            <If cond=is_selected>
                                 <Then slot>
                                     <svg fill="currentColor" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12">
                                         <path d="M9.76 3.2c.3.29.32.76.04 1.06l-4.25 4.5a.75.75 0 0 1-1.08.02L2.22 6.53a.75.75 0 0 1 1.06-1.06l1.7 1.7L8.7 3.24a.75.75 0 0 1 1.06-.04Z" fill="currentColor"></path>
