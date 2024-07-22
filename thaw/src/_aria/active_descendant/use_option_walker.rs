@@ -4,9 +4,9 @@ use std::sync::Arc;
 use wasm_bindgen::{closure::Closure, JsCast, UnwrapThrowExt};
 use web_sys::{HtmlElement, Node, NodeFilter, TreeWalker};
 
-pub fn use_option_walker<MF>(match_option: MF) -> (Box<dyn Fn(&Node)>, OptionWalker)
+pub fn use_option_walker<MF>(match_option: MF) -> (Box<dyn Fn(&Node) + Send + Sync>, OptionWalker)
 where
-    MF: Fn(HtmlElement) -> bool + 'static,
+    MF: Fn(HtmlElement) -> bool + Send + Sync + 'static,
 {
     let tree_walker = StoredValue::new(
         None::<(

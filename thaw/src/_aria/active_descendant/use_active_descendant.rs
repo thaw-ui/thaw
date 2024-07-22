@@ -11,11 +11,12 @@ const ACTIVEDESCENDANT_FOCUSVISIBLE_ATTRIBUTE: &str = "data-activedescendant-foc
 
 pub fn use_active_descendant<MF>(
     match_option: MF,
-) -> (Arc<dyn Fn(Node)>, ActiveDescendantController)
+) -> (Arc<dyn Fn(Node) + Send + Sync>, ActiveDescendantController)
 where
-    MF: Fn(HtmlElement) -> bool + 'static,
+    MF: Fn(HtmlElement) -> bool + Send + Sync + 'static,
 {
     let (set_listbox, option_walker) = use_option_walker(match_option);
+    //TODO
     let set_listbox = Arc::new(move |node| {
         set_listbox(&node);
     });

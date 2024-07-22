@@ -1,8 +1,8 @@
-use super::utils::{get_dropdown_action_from_key, DropdownAction};
-use crate::{ConfigInjection, _aria::use_active_descendant};
+use super::listbox::{listbox_keyboard_event, Listbox};
+use crate::_aria::use_active_descendant;
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
+use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{add_event_listener, mount_style, Model};
 
 #[component]
@@ -14,7 +14,6 @@ pub fn Combobox(
     children: Children,
 ) -> impl IntoView {
     mount_style("combobox", include_str!("./combobox.css"));
-    let config_provider = ConfigInjection::use_();
     let trigger_ref = NodeRef::<html::Div>::new();
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
@@ -115,51 +114,20 @@ pub fn Combobox(
         }
     };
 
-    let effect = RenderEffect::new(move |_| {
-        if let Some(listbox_el) = listbox_ref.get() {
-            set_listbox(listbox_el.into());
-        }
-    });
-    on_cleanup(move || {
-        drop(effect);
-    });
-
     let on_keydown = move |e| {
-        let open = is_show_listbox.get_untracked();
-        let action = get_dropdown_action_from_key(e, open, multiselect);
-        let active_option = active_descendant_controller.active();
-
-        match action {
-            DropdownAction::Type | DropdownAction::Open => {
-                if !open {
-                    is_show_listbox.set(true);
-                }
-            }
-            DropdownAction::CloseSelect | DropdownAction::Close => {
-                if let Some(option) = active_option {
-                    combobox_injection.options.with_value(|options| {
-                        if let Some((value, text)) = options.get(&option.id()) {
-                            combobox_injection.select_option(value, text);
-                        }
-                    });
-                }
-            }
-            DropdownAction::Next => {
-                if active_option.is_some() {
-                    active_descendant_controller.next();
-                } else {
-                    active_descendant_controller.first();
-                }
-            }
-            DropdownAction::Previous => {
-                if active_option.is_some() {
-                    active_descendant_controller.prev();
-                } else {
-                    active_descendant_controller.first();
-                }
-            }
-            DropdownAction::None => {}
-        };
+        listbox_keyboard_event(
+            e,
+            is_show_listbox,
+            multiselect,
+            &active_descendant_controller,
+            move |option| {
+                combobox_injection.options.with_value(|options| {
+                    if let Some((value, text)) = options.get(&option.id()) {
+                        combobox_injection.select_option(value, text);
+                    }
+                });
+            },
+        );
     };
 
     view! {
@@ -228,23 +196,9 @@ pub fn Combobox(
                 width=FollowerWidth::MinTarget
             >
                 <Provider value=combobox_injection>
-                    <CSSTransition
-                        node_ref=listbox_ref
-                        name="fade-in-scale-up-transition"
-                        appear=is_show_listbox.get_untracked()
-                        show=is_show_listbox
-                        let:display
-                    >
-                        <div
-                            class="thaw-config-provider thaw-combobox__listbox"
-                            style=move || display.get().unwrap_or_default()
-                            data-thaw-id=config_provider.id().clone()
-                            node_ref=listbox_ref
-                            role="listbox"
-                        >
-                            {children()}
-                        </div>
-                    </CSSTransition>
+                    <Listbox open=is_show_listbox.read_only() set_listbox listbox_ref class="thaw-combobox__listbox">
+                        {children()}
+                    </Listbox>
                 </Provider>
             </Follower>
         </Binder>
