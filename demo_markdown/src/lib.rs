@@ -47,6 +47,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "DialogMdPage" => "../docs/dialog/mod.md",
         "DividerMdPage" => "../docs/divider/mod.md",
         "DrawerMdPage" => "../docs/drawer/mod.md",
+        "DropdownMdPage" => "../docs/dropdown/mod.md",
         "GridMdPage" => "../docs/grid/mod.md",
         "IconMdPage" => "../docs/icon/mod.md",
         "ImageMdPage" => "../docs/image/mod.md",

@@ -1,19 +1,17 @@
 mod dropdown_item;
-mod theme;
 
 pub use dropdown_item::*;
 
 use std::time::Duration;
 
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-pub use theme::DropdownTheme;
 
 use leptos::{leptos_dom::helpers::TimeoutHandle, ev, html::Div, prelude::*};
 use thaw_utils::{
     add_event_listener, call_on_click_outside, class_list, mount_style, OptionalProp,
 };
 
-use crate::{use_theme, Theme};
+use crate::ConfigInjection;
 
 #[slot]
 pub struct DropdownTrigger {
@@ -30,26 +28,17 @@ struct OnSelect(Callback<String>);
 
 #[component]
 pub fn Dropdown(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     dropdown_trigger: DropdownTrigger,
     #[prop(optional)] trigger_type: DropdownTriggerType,
     #[prop(optional)] placement: DropdownPlacement,
     #[prop(into)] on_select: Callback<String>,
+    #[prop(optional, into)] appearance: Option<MaybeSignal<DropdownAppearance>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("dropdown", include_str!("./dropdown.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = Memo::new(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.dropdown.background_color
-            ));
-            css_vars.push_str(&format!("--thaw-font-color: {};", theme.common.font_color));
-        });
-        css_vars
-    });
+    let config_provider = ConfigInjection::use_();
+
     let dropdown_ref = NodeRef::<Div>::new();
     let target_ref = NodeRef::<Div>::new();
     let is_show_dropdown = RwSignal::new(false);
@@ -95,13 +84,14 @@ pub fn Dropdown(
         let Some(target_el) = target_ref.get() else {
             return;
         };
-        add_event_listener(target_el.into(), ev::click, move |event| {
+        let handler = add_event_listener(target_el.into(), ev::click, move |event| {
             if trigger_type != DropdownTriggerType::Click {
                 return;
             }
             event.stop_propagation();
             is_show_dropdown.update(|show| *show = !*show);
         });
+        on_cleanup(move || handler.remove());
     });
 
     let DropdownTrigger {
@@ -134,16 +124,19 @@ pub fn Dropdown(
                     let:display
                 >
                     <div
-                        class="thaw-dropdown"
-                        style=move || {
-                            display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
-                        }
+                        class=class_list![
+                            "thaw-config-provider thaw-dropdown",
+                            appearance.map(|appearance| move || format!("thaw-dropdown--{}", appearance.get().as_str())),
+                            class
+                        ]
+                        data-thaw-id=config_provider.id().clone()
+                        style=move || display.get().unwrap_or_default()
 
                         node_ref=dropdown_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >
-                        <div class=class_list![class.map(| c | move || c.get())]>{children()}</div>
+                        {children()}
                     </div>
                 </CSSTransition>
             </Follower>
@@ -159,6 +152,21 @@ pub enum DropdownTriggerType {
 }
 
 impl Copy for DropdownTriggerType {}
+
+#[derive(Clone)]
+pub enum DropdownAppearance {
+    Brand,
+    Inverted,
+}
+
+impl DropdownAppearance {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            DropdownAppearance::Brand => "brand",
+            DropdownAppearance::Inverted => "inverted",
+        }
+    }
+}
 
 #[derive(Default)]
 pub enum DropdownPlacement {

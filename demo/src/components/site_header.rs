@@ -159,30 +159,28 @@ pub fn SiteHeader() -> impl IntoView {
                         />
                     </AutoCompletePrefix>
                 </AutoComplete>
-                <Popover
-                    placement=PopoverPlacement::BottomEnd
+                <Dropdown
+                    on_select= move |value| leptos::logging::warn!("{}", value)
                     class="demo-header__menu-popover-mobile"
                 >
-                    <PopoverTrigger slot class="demo-header__menu-mobile">
+                    <DropdownTrigger slot class="demo-header__menu-mobile">
                         <Button
                             appearance=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
                             attr:style="font-size: 22px; padding: 0px 6px;"
                         />
-                    </PopoverTrigger>
-                    <div style="height: 70vh; overflow: auto;">// <Menu value=menu_value>
-                    // <MenuItem key=theme_name label=theme_name />
-                    // <MenuItem key="github" label="Github" />
-                    // {
-                    // use crate::pages::{gen_guide_menu_data, gen_menu_data};
-                    // vec![
-                    // gen_guide_menu_data().into_view(),
-                    // gen_menu_data().into_view(),
-                    // ]
-                    // }
-                    // </Menu>
-                    </div>
-                </Popover>
+                    </DropdownTrigger>
+                    <DropdownItem key=theme_name label=theme_name/>
+                    <DropdownItem key="github" label="Github"/>
+                    <DropdownItem key="discord" label="Discord"/>
+                    //{
+                    //    use crate::pages::{gen_guide_menu_data, gen_menu_data};
+                    //    vec![
+                    //        gen_guide_menu_data().into_view(),
+                    //        gen_menu_data().into_view(),
+                    //    ]
+                   // }
+                </Dropdown>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
                     <Button
                         appearance=ButtonAppearance::Subtle

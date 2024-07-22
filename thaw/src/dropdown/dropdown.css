@@ -1,10 +1,10 @@
 .thaw-dropdown {
-    position: relative;
-    padding: 5px;
-    background-color: var(--thaw-background-color);
-    color: var(--thaw-font-color);
-    border-radius: 3px;
+    padding: 4px;
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+    border-radius: var(--borderRadiusMedium);
     transform-origin: inherit;
+    position: relative;
 }
 
 [data-thaw-placement="top-start"] > .thaw-dropdown,
