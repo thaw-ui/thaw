@@ -78,7 +78,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                         <Route path=StaticSegment("dialog") view=DialogMdPage/>
                         <Route path=StaticSegment("divider") view=DividerMdPage/>
                         <Route path=StaticSegment("drawer") view=DrawerMdPage/>
-                        <Route path=StaticSegment("dropdown") view=DropdownMdPage/>
+                        <Route path=StaticSegment("menu") view=MenuMdPage/>
                         <Route path=StaticSegment("grid") view=GridMdPage/>
                         <Route path=StaticSegment("icon") view=IconMdPage/>
                         <Route path=StaticSegment("image") view=ImageMdPage/>

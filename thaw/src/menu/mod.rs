@@ -1,6 +1,6 @@
-mod dropdown_item;
+mod menu_item;
 
-pub use dropdown_item::*;
+pub use menu_item::*;
 
 use std::time::Duration;
 
@@ -14,7 +14,7 @@ use thaw_utils::{
 use crate::ConfigInjection;
 
 #[slot]
-pub struct DropdownTrigger {
+pub struct MenuTrigger {
     #[prop(optional, into)]
     class: OptionalProp<MaybeSignal<String>>,
     children: Children,
@@ -27,45 +27,45 @@ struct HasIcon(RwSignal<bool>);
 struct OnSelect(Callback<String>);
 
 #[component]
-pub fn Dropdown(
+pub fn Menu(
     #[prop(optional, into)] class: MaybeProp<String>,
-    dropdown_trigger: DropdownTrigger,
-    #[prop(optional)] trigger_type: DropdownTriggerType,
-    #[prop(optional)] placement: DropdownPlacement,
+    menu_trigger: MenuTrigger,
+    #[prop(optional)] trigger_type: MenuTriggerType,
+    #[prop(optional)] placement: MenuPlacement,
     #[prop(into)] on_select: Callback<String>,
-    #[prop(optional, into)] appearance: Option<MaybeSignal<DropdownAppearance>>,
+    #[prop(optional, into)] appearance: Option<MaybeSignal<MenuAppearance>>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("dropdown", include_str!("./dropdown.css"));
+    mount_style("menu", include_str!("./menu.css"));
     let config_provider = ConfigInjection::use_();
 
-    let dropdown_ref = NodeRef::<Div>::new();
+    let menu_ref = NodeRef::<Div>::new();
     let target_ref = NodeRef::<Div>::new();
-    let is_show_dropdown = RwSignal::new(false);
-    let show_dropdown_handle = StoredValue::new(None::<TimeoutHandle>);
+    let is_show_menu = RwSignal::new(false);
+    let show_menu_handle = StoredValue::new(None::<TimeoutHandle>);
 
     let on_mouse_enter = move |_| {
-        if trigger_type != DropdownTriggerType::Hover {
+        if trigger_type != MenuTriggerType::Hover {
             return;
         }
-        show_dropdown_handle.update_value(|handle| {
+        show_menu_handle.update_value(|handle| {
             if let Some(handle) = handle.take() {
                 handle.clear();
             }
         });
-        is_show_dropdown.set(true);
+        is_show_menu.set(true);
     };
     let on_mouse_leave = move |_| {
-        if trigger_type != DropdownTriggerType::Hover {
+        if trigger_type != MenuTriggerType::Hover {
             return;
         }
-        show_dropdown_handle.update_value(|handle| {
+        show_menu_handle.update_value(|handle| {
             if let Some(handle) = handle.take() {
                 handle.clear();
             }
             *handle = set_timeout_with_handle(
                 move || {
-                    is_show_dropdown.set(false);
+                    is_show_menu.set(false);
                 },
                 Duration::from_millis(100),
             )
@@ -73,10 +73,10 @@ pub fn Dropdown(
         });
     };
 
-    if trigger_type != DropdownTriggerType::Hover {
+    if trigger_type != MenuTriggerType::Hover {
         call_on_click_outside(
-            dropdown_ref,
-            Callback::new(move |_| is_show_dropdown.set(false)),
+            menu_ref,
+            Callback::new(move |_| is_show_menu.set(false)),
         );
     }
 
@@ -85,53 +85,53 @@ pub fn Dropdown(
             return;
         };
         let handler = add_event_listener(target_el.into(), ev::click, move |event| {
-            if trigger_type != DropdownTriggerType::Click {
+            if trigger_type != MenuTriggerType::Click {
                 return;
             }
             event.stop_propagation();
-            is_show_dropdown.update(|show| *show = !*show);
+            is_show_menu.update(|show| *show = !*show);
         });
         on_cleanup(move || handler.remove());
     });
 
-    let DropdownTrigger {
+    let MenuTrigger {
         class: trigger_class,
         children: trigger_children,
-    } = dropdown_trigger;
+    } = menu_trigger;
 
     provide_context(HasIcon(RwSignal::new(false)));
     provide_context(OnSelect(Callback::<String>::new(move |key| {
-        is_show_dropdown.set(false);
+        is_show_menu.set(false);
         on_select.call(key);
     })));
 
     view! {
         <Binder target_ref>
             <div
-                class=class_list!["thaw-dropdown-trigger", trigger_class.map(| c | move || c.get())]
+                class=class_list!["thaw-menu-trigger", trigger_class.map(| c | move || c.get())]
                 node_ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
             >
                 {trigger_children()}
             </div>
-            <Follower slot show=is_show_dropdown placement>
+            <Follower slot show=is_show_menu placement>
                 <CSSTransition
-                    node_ref=dropdown_ref
-                    name="dropdown-transition"
-                    appear=is_show_dropdown.get_untracked()
-                    show=is_show_dropdown
+                    node_ref=menu_ref
+                    name="menu-transition"
+                    appear=is_show_menu.get_untracked()
+                    show=is_show_menu
                     let:display
                 >
                     <div
                         class=class_list![
-                            "thaw-config-provider thaw-dropdown",
-                            appearance.map(|appearance| move || format!("thaw-dropdown--{}", appearance.get().as_str())),
+                            "thaw-config-provider thaw-menu",
+                            appearance.map(|appearance| move || format!("thaw-menu--{}", appearance.get().as_str())),
                             class
                         ]
                         data-thaw-id=config_provider.id().clone()
                         style=move || display.get().unwrap_or_default()
-                        node_ref=dropdown_ref
+                        node_ref=menu_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >
@@ -144,31 +144,31 @@ pub fn Dropdown(
 }
 
 #[derive(Default, PartialEq, Clone)]
-pub enum DropdownTriggerType {
+pub enum MenuTriggerType {
     Hover,
     #[default]
     Click,
 }
 
-impl Copy for DropdownTriggerType {}
+impl Copy for MenuTriggerType {}
 
 #[derive(Clone)]
-pub enum DropdownAppearance {
+pub enum MenuAppearance {
     Brand,
     Inverted,
 }
 
-impl DropdownAppearance {
+impl MenuAppearance {
     pub fn as_str(&self) -> &'static str {
         match self {
-            DropdownAppearance::Brand => "brand",
-            DropdownAppearance::Inverted => "inverted",
+            MenuAppearance::Brand => "brand",
+            MenuAppearance::Inverted => "inverted",
         }
     }
 }
 
 #[derive(Default)]
-pub enum DropdownPlacement {
+pub enum MenuPlacement {
     Top,
     #[default]
     Bottom,
@@ -184,21 +184,21 @@ pub enum DropdownPlacement {
     BottomEnd,
 }
 
-impl From<DropdownPlacement> for FollowerPlacement {
-    fn from(value: DropdownPlacement) -> Self {
+impl From<MenuPlacement> for FollowerPlacement {
+    fn from(value: MenuPlacement) -> Self {
         match value {
-            DropdownPlacement::Top => Self::Top,
-            DropdownPlacement::Bottom => Self::Bottom,
-            DropdownPlacement::Left => Self::Left,
-            DropdownPlacement::Right => Self::Right,
-            DropdownPlacement::TopStart => Self::TopStart,
-            DropdownPlacement::TopEnd => Self::TopEnd,
-            DropdownPlacement::LeftStart => Self::LeftStart,
-            DropdownPlacement::LeftEnd => Self::LeftEnd,
-            DropdownPlacement::RightStart => Self::RightStart,
-            DropdownPlacement::RightEnd => Self::RightEnd,
-            DropdownPlacement::BottomStart => Self::BottomStart,
-            DropdownPlacement::BottomEnd => Self::BottomEnd,
+            MenuPlacement::Top => Self::Top,
+            MenuPlacement::Bottom => Self::Bottom,
+            MenuPlacement::Left => Self::Left,
+            MenuPlacement::Right => Self::Right,
+            MenuPlacement::TopStart => Self::TopStart,
+            MenuPlacement::TopEnd => Self::TopEnd,
+            MenuPlacement::LeftStart => Self::LeftStart,
+            MenuPlacement::LeftEnd => Self::LeftEnd,
+            MenuPlacement::RightStart => Self::RightStart,
+            MenuPlacement::RightEnd => Self::RightEnd,
+            MenuPlacement::BottomStart => Self::BottomStart,
+            MenuPlacement::BottomEnd => Self::BottomEnd,
         }
     }
 }

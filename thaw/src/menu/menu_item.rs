@@ -2,17 +2,17 @@ use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
 use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
 
-use crate::{dropdown::{HasIcon, OnSelect}, Icon};
+use crate::{menu::{HasIcon, OnSelect}, Icon};
 
 #[component]
-pub fn DropdownItem(
+pub fn MenuItem(
     #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
     #[prop(into)] label: MaybeSignal<String>,
     #[prop(into)] key: MaybeSignal<String>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
-    mount_style("dropdown-item", include_str!("./dropdown-item.css"));
+    mount_style("menu-item", include_str!("./menu-item.css"));
 
     let has_icon = use_context::<HasIcon>().expect("HasIcon not provided").0;
 
@@ -32,7 +32,7 @@ pub fn DropdownItem(
     view! {
         <div
             class=class_list![
-                "thaw-dropdown-item", ("thaw-dropdown-item--disabled", move || disabled.get()),
+                "thaw-menu-item", ("thaw-menu-item--disabled", move || disabled.get()),
                 class.map(| c | move || c.get())
             ]
             on:click=on_click

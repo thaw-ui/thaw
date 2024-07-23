@@ -1,4 +1,4 @@
-.thaw-dropdown-item{
+.thaw-menu-item{
     padding: 6px 5px;
     border-radius: 2px;
     cursor: pointer;
@@ -6,11 +6,11 @@
     align-items: center;
 }
 
-.thaw-dropdown-item:hover:not(.thaw-dropdown-item--disabled) {
+.thaw-menu-item:hover:not(.thaw-dropdown-item--disabled) {
     background-color: var(--colorNeutralBackground1Hover);
 }
 
-.thaw-dropdown-item.thaw-dropdown-item--disabled {
+.thaw-menu-item.thaw-dropdown-item--disabled {
     color: var(--colorNeutralForegroundDisabled);
     cursor: not-allowed;
 }

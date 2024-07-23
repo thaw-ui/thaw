@@ -1,6 +1,6 @@
 
 use super::switch_version::SwitchVersion;
-use leptos::{ev, prelude::*};
+use leptos::{ev::{self, MouseEvent}, prelude::*};
 use leptos_meta::Style;
 use leptos_router::hooks::use_navigate;
 // use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
@@ -158,27 +158,27 @@ pub fn SiteHeader() -> impl IntoView {
                         />
                     </AutoCompletePrefix>
                 </AutoComplete>
-                <Dropdown
-                placement=DropdownPlacement::BottomEnd
+                <Menu
+                placement=MenuPlacement::BottomEnd
                 on_select=move |value : String| match value.as_str() {
-                    "Dark" => change_theme.call(()),
-                    "Light" => change_theme.call(()),
+                    "Dark" => change_theme(MouseEvent::new("click").unwrap()),
+                    "Light" => change_theme(MouseEvent::new("click").unwrap()),
                     "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },//FIXME: breaks page
                     "discord" => { _ = window().open_with_url("https://discord.gg/YPxuprzu6M"); },//FIXME: breaks page
                     _ => navigate_signal.get()(&value, Default::default())
 
                 }
                 >
-                    <DropdownTrigger slot class="demo-header__menu-mobile">
+                    <MenuTrigger slot class="demo-header__menu-mobile">
                     <Button
                             appearance=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
                             attr:style="font-size: 22px; padding: 0px 6px;"
                         />
-                    </DropdownTrigger>
-                    <DropdownItem key=theme_name label=theme_name/>
-                    <DropdownItem icon=icondata::AiGithubOutlined key="github" label="Github"/>
-                    <DropdownItem icon=icondata::BiDiscordAlt key="discord" label="Discord"/>
+                    </MenuTrigger>
+                    <MenuItem key=theme_name label=theme_name/>
+                    <MenuItem icon=icondata::AiGithubOutlined key="github" label="Github"/>
+                    <MenuItem icon=icondata::BiDiscordAlt key="discord" label="Discord"/>
                     {
                         use crate::pages::{gen_menu_data, MenuGroupOption, MenuItemOption};
                         gen_menu_data().into_iter().map(|data| {
@@ -191,14 +191,14 @@ pub fn SiteHeader() -> impl IntoView {
                                     children.into_iter().map(|item| {
                                         let MenuItemOption { label, value } = item;
                                         view! {
-                                            <DropdownItem label key=value/>
+                                            <MenuItem label key=value/>
                                         }
                                     }).collect_view()
                                 }
                             }
                         }).collect_view()
                     }
-                </Dropdown>
+                </Menu>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
                     <Button
                         appearance=ButtonAppearance::Subtle
