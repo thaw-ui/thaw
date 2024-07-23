@@ -7,10 +7,10 @@
 }
 
 .thaw-dropdown-item:hover:not(.thaw-dropdown-item--disabled) {
-    background-color: var(--thaw-background-color-hover);
+    background-color: var(--colorNeutralBackground1Hover);
 }
 
 .thaw-dropdown-item.thaw-dropdown-item--disabled {
-    color: var(--thaw-font-color-disabled);
+    color: var(--colorNeutralForegroundDisabled);
     cursor: not-allowed;
 }

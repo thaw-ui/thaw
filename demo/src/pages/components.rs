@@ -206,6 +206,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Drawer".into(),
                 },
                 MenuItemOption {
+                    value: "/components/dropdown".into(),
+                    label: "Dropdown".into(),
+                },
+                MenuItemOption {
                     value: "/components/grid".into(),
                     label: "Grid".into(),
                 },
