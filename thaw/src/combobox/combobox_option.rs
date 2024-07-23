@@ -1,3 +1,4 @@
+use super::listbox::ListboxInjection;
 use crate::ComboboxInjection;
 use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
@@ -10,6 +11,7 @@ pub fn ComboboxOption(
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let combobox = ComboboxInjection::expect_context();
+    let listbox = ListboxInjection::expect_context();
     let value = StoredValue::new(value.unwrap_or_else(|| text.clone()));
     let text = StoredValue::new(text);
     let is_selected = Memo::new(move |_| value.with_value(|value| combobox.is_selected(&value)));
@@ -26,8 +28,10 @@ pub fn ComboboxOption(
     {
         combobox.insert_option(id.clone(), (value.get_value(), text.get_value()));
         let id = id.clone();
+        listbox.trigger();
         on_cleanup(move || {
             combobox.remove_option(&id);
+            listbox.trigger();
         });
     }
 

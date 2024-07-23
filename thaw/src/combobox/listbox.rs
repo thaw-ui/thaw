@@ -1,8 +1,7 @@
-use std::sync::Arc;
-
 use super::utils::{get_dropdown_action_from_key, DropdownAction};
 use crate::{ConfigInjection, _aria::ActiveDescendantController};
-use leptos::{ev, html, prelude::*};
+use leptos::{context::Provider, ev, html, prelude::*};
+use std::sync::Arc;
 use thaw_components::CSSTransition;
 use thaw_utils::mount_style;
 use web_sys::{HtmlElement, Node};
@@ -18,9 +17,14 @@ pub fn Listbox(
     mount_style("listbox", include_str!("./listbox.css"));
 
     let config_provider = ConfigInjection::expect_context();
-    let effect = RenderEffect::new(move |_| {
-        if let Some(listbox_el) = listbox_ref.get() {
-            set_listbox(listbox_el.into());
+    let trigger = ArcTrigger::new();
+    let effect = RenderEffect::new({
+        let trigger = trigger.clone();
+        move |_| {
+            trigger.track();
+            if let Some(listbox_el) = listbox_ref.get() {
+                set_listbox(listbox_el.into());
+            }
         }
     });
     on_cleanup(move || {
@@ -28,23 +32,40 @@ pub fn Listbox(
     });
 
     view! {
-        <CSSTransition
-            node_ref=listbox_ref
-            name="fade-in-scale-up-transition"
-            appear=open.get_untracked()
-            show=open
-            let:display
-        >
-            <div
-                class=format!("thaw-config-provider thaw-listbox {class}")
-                style=move || display.get().unwrap_or_default()
-                data-thaw-id=config_provider.id().clone()
+        <Provider value=ListboxInjection(trigger)>
+            <CSSTransition
                 node_ref=listbox_ref
-                role="listbox"
+                name="fade-in-scale-up-transition"
+                appear=open.get_untracked()
+                show=open
+                let:display
             >
-                {children()}
-            </div>
-        </CSSTransition>
+                <div
+                    class=format!("thaw-config-provider thaw-listbox {class}")
+                    style=move || display.get().unwrap_or_default()
+                    data-thaw-id=config_provider.id().clone()
+                    node_ref=listbox_ref
+                    role="listbox"
+                >
+                    {children()}
+                </div>
+            </CSSTransition>
+        </Provider>
+    }
+}
+
+#[derive(Clone)]
+pub(crate) struct ListboxInjection(ArcTrigger);
+
+impl ListboxInjection {
+    #[inline]
+    pub fn expect_context() -> Self {
+        expect_context()
+    }
+
+    #[inline]
+    pub fn trigger(&self) {
+        self.0.trigger();
     }
 }
 
