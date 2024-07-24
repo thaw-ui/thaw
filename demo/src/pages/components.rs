@@ -230,6 +230,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Loading Bar".into(),
                 },
                 MenuItemOption {
+                    value: "/components/menu".into(),
+                    label: "Menu".into(),
+                },
+                MenuItemOption {
                     value: "/components/message-bar".into(),
                     label: "Message Bar".into(),
                 },

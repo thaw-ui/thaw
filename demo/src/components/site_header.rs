@@ -1,5 +1,8 @@
 use super::switch_version::SwitchVersion;
-use leptos::{ev, prelude::*};
+use leptos::{
+    ev::{self, MouseEvent},
+    prelude::*,
+};
 use leptos_meta::Style;
 use leptos_router::hooks::use_navigate;
 // use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
@@ -8,6 +11,7 @@ use thaw::*;
 #[component]
 pub fn SiteHeader() -> impl IntoView {
     let navigate = use_navigate();
+    let navigate_signal = RwSignal::new(use_navigate());
     let theme = Theme::use_rw_theme();
     let theme_name = Memo::new(move |_| {
         theme.with(|theme| {
@@ -109,9 +113,6 @@ pub fn SiteHeader() -> impl IntoView {
                 .demo-header__menu-mobile {
                     display: none !important;
                 }
-                .demo-header__menu-popover-mobile {
-                    padding: 0;
-                }
                 .demo-header__right-btn .thaw-select {
                     width: 60px;
                 }
@@ -140,7 +141,7 @@ pub fn SiteHeader() -> impl IntoView {
                 <img src="/logo.svg" style="width: 36px"/>
                 <div class="demo-name">"Thaw UI"</div>
             </Space>
-            <Space>
+            <Space align=SpaceAlign::Center>
                 <AutoComplete
                     value=search_value
                     placeholder="Type '/' to search"
@@ -159,30 +160,47 @@ pub fn SiteHeader() -> impl IntoView {
                         />
                     </AutoCompletePrefix>
                 </AutoComplete>
-                <Popover
-                    placement=PopoverPlacement::BottomEnd
-                    class="demo-header__menu-popover-mobile"
+                <Menu
+                placement=MenuPlacement::BottomEnd
+                on_select=move |value : String| match value.as_str() {
+                    "Dark" => change_theme(MouseEvent::new("click").unwrap()),
+                    "Light" => change_theme(MouseEvent::new("click").unwrap()),
+                    "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },//FIXME: breaks page
+                    "discord" => { _ = window().open_with_url("https://discord.gg/YPxuprzu6M"); },//FIXME: breaks page
+                    _ => navigate_signal.get()(&value, Default::default())
+
+                }
                 >
-                    <PopoverTrigger slot class="demo-header__menu-mobile">
-                        <Button
+                    <MenuTrigger slot class="demo-header__menu-mobile">
+                    <Button
                             appearance=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
                             attr:style="font-size: 22px; padding: 0px 6px;"
                         />
-                    </PopoverTrigger>
-                    <div style="height: 70vh; overflow: auto;">// <Menu value=menu_value>
-                    // <MenuItem key=theme_name label=theme_name />
-                    // <MenuItem key="github" label="Github" />
-                    // {
-                    // use crate::pages::{gen_guide_menu_data, gen_menu_data};
-                    // vec![
-                    // gen_guide_menu_data().into_view(),
-                    // gen_menu_data().into_view(),
-                    // ]
-                    // }
-                    // </Menu>
-                    </div>
-                </Popover>
+                    </MenuTrigger>
+                    <MenuItem key=theme_name label=theme_name/>
+                    <MenuItem icon=icondata::AiGithubOutlined key="github" label="Github"/>
+                    <MenuItem icon=icondata::BiDiscordAlt key="discord" label="Discord"/>
+                    {
+                        use crate::pages::{gen_menu_data, MenuGroupOption, MenuItemOption};
+                        gen_menu_data().into_iter().map(|data| {
+                            let MenuGroupOption { label, children } = data;
+                            view! {
+                                <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: block">
+                                {label}
+                                </Caption1Strong>
+                                {
+                                    children.into_iter().map(|item| {
+                                        let MenuItemOption { label, value } = item;
+                                        view! {
+                                            <MenuItem label key=value/>
+                                        }
+                                    }).collect_view()
+                                }
+                            }
+                        }).collect_view()
+                    }
+                </Menu>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
                     <Button
                         appearance=ButtonAppearance::Subtle
