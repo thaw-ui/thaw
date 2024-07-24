@@ -1,4 +1,4 @@
-use leptos::{html::Div, ev, prelude::*};
+use leptos::{ev, html::Div, prelude::*};
 use tachys::reactive_graph::node_ref::NodeRef;
 
 pub fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
