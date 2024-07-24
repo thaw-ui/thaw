@@ -2,12 +2,12 @@ use crate::{Button, ButtonGroup};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::prelude::*;
 use std::ops::Deref;
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, OptionModel, OptionalProp};
 
 #[component]
 pub fn Calendar(
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] value: Model<Option<NaiveDate>>,
+    #[prop(optional, into)] value: OptionModel<NaiveDate>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
     let show_date = RwSignal::new(value.get_untracked().unwrap_or(now_date()));
@@ -138,13 +138,13 @@ pub fn Calendar(
 
 #[component]
 fn CalendarItem(
-    value: Model<Option<NaiveDate>>,
+    value: OptionModel<NaiveDate>,
     index: usize,
     date: CalendarItemDate,
 ) -> impl IntoView {
     let is_selected = Memo::new({
         let date = date.clone();
-        move |_| value.with(|value_date| value_date.as_ref() == Some(date.deref()))
+        move |_| value.with(|value_date| value_date == Some(date.deref()))
     });
     let weekday_str = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let on_click = {

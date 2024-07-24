@@ -15,17 +15,14 @@ pub fn Radio(
     mount_style("radio", include_str!("./radio.css"));
 
     let id = uuid::Uuid::new_v4().to_string();
-    let group = RadioGroupInjection::use_();
+    let group = RadioGroupInjection::expect_context();
     let item_value = StoredValue::new(value);
 
     let checked = Memo::new({
         let group = group.clone();
         move |_| {
-            item_value.with_value(|value| {
-                group
-                    .value
-                    .with(|group_value| group_value.as_ref() == Some(value))
-            })
+            item_value
+                .with_value(|value| group.value.with(|group_value| group_value == Some(value)))
         }
     });
 

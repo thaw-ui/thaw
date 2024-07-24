@@ -2,10 +2,14 @@
 
 ```rust demo
 use chrono::prelude::*;
-let value = RwSignal::new(Some(Local::now().date_naive()));
+let value = RwSignal::new(Local::now().date_naive());
+let option_value = RwSignal::new(Some(Local::now().date_naive()));
 
 view! {
-    <Calendar value />
+    <Space vertical=true>
+        <Calendar value />
+        <Calendar value=option_value />
+    </Space>
 }
 ```
 

@@ -1,3 +1,7 @@
+mod option_model;
+
+pub use option_model::OptionModel;
+
 use leptos::reactive_graph::{
     computed::Memo,
     signal::{ReadSignal, RwSignal, WriteSignal},

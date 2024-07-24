@@ -5,11 +5,11 @@ use crate::{
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{mount_style, ComponentRef, Model, OptionalProp};
+use thaw_utils::{mount_style, ComponentRef, OptionModel, OptionalProp};
 
 #[component]
 pub fn TimePicker(
-    #[prop(optional, into)] value: Model<Option<NaiveTime>>,
+    #[prop(optional, into)] value: OptionModel<NaiveTime>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {

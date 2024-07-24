@@ -4,11 +4,11 @@ use chrono::NaiveDate;
 use leptos::{html, prelude::*};
 use panel::{Panel, PanelRef};
 use thaw_components::{Binder, Follower, FollowerPlacement};
-use thaw_utils::{mount_style, now_date, ComponentRef, Model, OptionalProp};
+use thaw_utils::{mount_style, now_date, ComponentRef, OptionModel, OptionalProp};
 
 #[component]
 pub fn DatePicker(
-    #[prop(optional, into)] value: Model<Option<NaiveDate>>,
+    #[prop(optional, into)] value: OptionModel<NaiveDate>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
 ) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));
@@ -18,7 +18,7 @@ pub fn DatePicker(
     let show_date_format = "%Y-%m-%d";
     let update_show_date_text = move || {
         value.with_untracked(move |date| {
-            let text = date.as_ref().map_or(String::new(), |date| {
+            let text = date.map_or(String::new(), |date| {
                 date.format(show_date_format).to_string()
             });
             show_date_text.set(text);
@@ -28,7 +28,7 @@ pub fn DatePicker(
     let panel_ref = ComponentRef::<PanelRef>::default();
     let panel_selected_date = RwSignal::new(None::<NaiveDate>);
     _ = panel_selected_date.watch(move |date| {
-        let text = date.as_ref().map_or(String::new(), |date| {
+        let text = date.map_or(String::new(), |date| {
             date.format(show_date_format).to_string()
         });
         show_date_text.set(text);

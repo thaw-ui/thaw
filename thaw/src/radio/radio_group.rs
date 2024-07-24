@@ -1,9 +1,9 @@
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::Model;
+use thaw_utils::OptionModel;
 
 #[component]
 pub fn RadioGroup(
-    #[prop(optional, into)] value: Model<Option<String>>,
+    #[prop(optional, into)] value: OptionModel<String>,
     /// The name of this radio group.
     #[prop(optional, into)]
     name: Option<String>,
@@ -22,12 +22,12 @@ pub fn RadioGroup(
 
 #[derive(Clone)]
 pub(crate) struct RadioGroupInjection {
-    pub value: Model<Option<String>>,
+    pub value: OptionModel<String>,
     pub name: String,
 }
 
 impl RadioGroupInjection {
-    pub fn use_() -> RadioGroupInjection {
+    pub fn expect_context() -> Self {
         expect_context()
     }
 }

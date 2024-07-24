@@ -3,10 +3,14 @@
 ```rust demo
 use chrono::prelude::*;
 
-let value = RwSignal::new(Some(Local::now().time()));
+let value = RwSignal::new(Local::now().time());
+let option_value = RwSignal::new(Local::now().time());
 
 view! {
-    <TimePicker value />
+    <Space vertical=true>
+        <TimePicker value />
+        <TimePicker value=option_value />
+    </Space>
 }
 ```
 
