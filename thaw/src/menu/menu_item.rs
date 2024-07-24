@@ -1,8 +1,10 @@
+use crate::{
+    menu::{HasIcon, OnSelect},
+    Icon,
+};
 use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
 use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
-
-use crate::{menu::{HasIcon, OnSelect}, Icon};
 
 #[component]
 pub fn MenuItem(
@@ -26,7 +28,7 @@ pub fn MenuItem(
         if disabled.get() {
             return;
         }
-        on_select.call(key.get());
+        on_select(key.get());
     };
 
     view! {

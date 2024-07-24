@@ -2,16 +2,14 @@ mod menu_item;
 
 pub use menu_item::*;
 
-use std::time::Duration;
-
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-
-use leptos::{leptos_dom::helpers::TimeoutHandle, ev, html::Div, prelude::*};
-use thaw_utils::{
-    add_event_listener, call_on_click_outside, class_list, mount_style, OptionalProp,
-};
-
 use crate::ConfigInjection;
+use leptos::{ev, html::Div, leptos_dom::helpers::TimeoutHandle, prelude::*};
+use std::time::Duration;
+use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_utils::{
+    add_event_listener, call_on_click_outside, class_list, mount_style, ArcOneCallback,
+    OptionalProp,
+};
 
 #[slot]
 pub struct MenuTrigger {
@@ -23,8 +21,8 @@ pub struct MenuTrigger {
 #[derive(Copy, Clone)]
 struct HasIcon(RwSignal<bool>);
 
-#[derive(Copy, Clone)]
-struct OnSelect(Callback<String>);
+#[derive(Clone)]
+struct OnSelect(ArcOneCallback<String>);
 
 #[component]
 pub fn Menu(
@@ -32,7 +30,7 @@ pub fn Menu(
     menu_trigger: MenuTrigger,
     #[prop(optional)] trigger_type: MenuTriggerType,
     #[prop(optional)] placement: MenuPlacement,
-    #[prop(into)] on_select: Callback<String>,
+    #[prop(into)] on_select: ArcOneCallback<String>,
     #[prop(optional, into)] appearance: Option<MaybeSignal<MenuAppearance>>,
     children: Children,
 ) -> impl IntoView {
@@ -74,10 +72,7 @@ pub fn Menu(
     };
 
     if trigger_type != MenuTriggerType::Hover {
-        call_on_click_outside(
-            menu_ref,
-            Callback::new(move |_| is_show_menu.set(false)),
-        );
+        call_on_click_outside(menu_ref, Callback::new(move |_| is_show_menu.set(false)));
     }
 
     Effect::new(move |_| {
@@ -100,9 +95,9 @@ pub fn Menu(
     } = menu_trigger;
 
     provide_context(HasIcon(RwSignal::new(false)));
-    provide_context(OnSelect(Callback::<String>::new(move |key| {
+    provide_context(OnSelect(ArcOneCallback::<String>::new(move |key| {
         is_show_menu.set(false);
-        on_select.call(key);
+        on_select(key);
     })));
 
     view! {
