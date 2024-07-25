@@ -3,13 +3,12 @@ use crate::_aria::use_active_descendant;
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{add_event_listener, mount_style, Model};
+use thaw_utils::{add_event_listener, mount_style, Model, VecModel};
 
 #[component]
 pub fn Combobox(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] selected_options: Model<Vec<String>>,
-    #[prop(optional)] multiselect: bool,
+    #[prop(optional, into)] selected_options: VecModel<String>,
     #[prop(optional)] clearable: bool,
     children: Children,
 ) -> impl IntoView {
@@ -23,7 +22,12 @@ pub fn Combobox(
     let clear_icon_ref = NodeRef::<html::Span>::new();
     let is_show_clear_icon = Memo::new(move |_| {
         if clearable {
-            selected_options.with(|options| !options.is_empty())
+            selected_options.with(|options| match options {
+                (None, None, Some(v)) => !v.is_empty(),
+                (None, Some(v), None) => v.is_some(),
+                (Some(v), None, None) => !v.is_empty(),
+                _ => unreachable!(),
+            })
         } else {
             false
         }
@@ -75,21 +79,24 @@ pub fn Combobox(
 
     let on_input = move |ev| {
         let input_value = event_target_value(&ev);
-        if !multiselect {
-            if selected_options.with_untracked(|options| {
-                if let Some(option) = options.first() {
-                    if option != &input_value {
-                        return true;
-                    }
+        if selected_options.with_untracked(|options| match options {
+            (None, None, Some(_)) => false,
+            (None, Some(v), None) => {
+                if let Some(v) = v.as_ref() {
+                    v != &input_value
+                } else {
+                    false
                 }
-                false
-            }) {
-                selected_options.set(vec![]);
             }
+            (Some(v), None, None) => v != &input_value,
+            _ => unreachable!(),
+        }) {
+            selected_options.set(vec![]);
         }
         value.set(input_value);
     };
 
+    let multiselect = selected_options.is_vec();
     let combobox_injection = ComboboxInjection {
         value,
         multiselect,
@@ -103,13 +110,20 @@ pub fn Combobox(
     let on_blur = {
         let active_descendant_controller = active_descendant_controller.clone();
         move |_| {
-            if multiselect {
-                value.set(String::new());
-            } else {
-                if selected_options.with_untracked(|options| options.is_empty()) {
-                    value.set(String::new());
+            selected_options.with_untracked(|options| match options {
+                (None, None, Some(_)) => value.set(String::new()),
+                (None, Some(v), None) => {
+                    if v.is_none() {
+                        value.set(String::new())
+                    }
                 }
-            }
+                (Some(v), None, None) => {
+                    if v.is_empty() {
+                        value.set(String::new())
+                    }
+                }
+                _ => unreachable!(),
+            });
             active_descendant_controller.blur();
         }
     };
@@ -208,7 +222,7 @@ pub fn Combobox(
 #[derive(Clone, Copy)]
 pub(crate) struct ComboboxInjection {
     value: Model<String>,
-    selected_options: Model<Vec<String>>,
+    selected_options: VecModel<String>,
     options: StoredValue<HashMap<String, (String, String)>>,
     is_show_listbox: RwSignal<bool>,
     pub multiselect: bool,
@@ -229,23 +243,40 @@ impl ComboboxInjection {
     }
 
     pub fn is_selected(&self, value: &String) -> bool {
-        self.selected_options
-            .with(|options| options.contains(value))
+        self.selected_options.with(|options| match options {
+            (None, None, Some(v)) => v.contains(value),
+            (None, Some(v), None) => {
+                if let Some(v) = v.as_ref() {
+                    v == value
+                } else {
+                    false
+                }
+            }
+            (Some(v), None, None) => v == value,
+            _ => unreachable!(),
+        })
     }
 
     pub fn select_option(&self, value: &String, text: &String) {
-        self.selected_options.update(|options| {
-            if self.multiselect {
-                if let Some(index) = options.iter().position(|v| v == value) {
-                    options.remove(index);
+        self.selected_options.update(|options| match options {
+            (None, None, Some(v)) => {
+                if let Some(index) = v.iter().position(|v| v == value) {
+                    v.remove(index);
                     return;
                 }
-                options.push(value.clone());
-            } else {
-                *options = vec![value.clone()];
+                v.push(value.clone());
+            }
+            (None, Some(v), None) => {
+                *v = Some(value.clone());
                 self.value.set(text.clone());
                 self.is_show_listbox.set(false);
             }
+            (Some(v), None, None) => {
+                *v = value.clone();
+                self.value.set(text.clone());
+                self.is_show_listbox.set(false);
+            }
+            _ => unreachable!(),
         });
     }
 }

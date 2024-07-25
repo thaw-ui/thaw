@@ -1,7 +1,7 @@
 # Combobox
 
 ```rust demo
-let selected_options = RwSignal::new(vec![]);
+let selected_options = RwSignal::new(None::<String>);
 
 view! {
     <Combobox selected_options>
@@ -17,7 +17,7 @@ view! {
 let selected_options = RwSignal::new(vec![]);
 
 view! {
-    <Combobox selected_options multiselect=true clearable=true>
+    <Combobox selected_options clearable=true>
         <ComboboxOption value="cat" text="Car" />
         <ComboboxOption value="dog" text="Dog" />
     </Combobox>
@@ -30,7 +30,7 @@ view! {
 let selected_options = RwSignal::new(vec![]);
 
 view! {
-    <Combobox selected_options multiselect=true>
+    <Combobox selected_options>
         <ComboboxOption value="cat" text="Car" />
         <ComboboxOption value="dog" text="Dog" />
     </Combobox>
