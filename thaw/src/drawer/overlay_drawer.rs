@@ -6,6 +6,7 @@ use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 
 #[component]
 pub fn OverlayDrawer(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into)] open: Model<bool>,
     #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
     #[prop(optional, into)] close_on_esc: bool,
@@ -16,7 +17,7 @@ pub fn OverlayDrawer(
     mount_style("drawer", include_str!("./drawer.css"));
     mount_style("overlay-drawer", include_str!("./overlay-drawer.css"));
 
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
     let drawer_ref = NodeRef::<html::Div>::new();
     let open_drawer: RwSignal<bool> = RwSignal::new(open.get_untracked());
     let is_lock = RwSignal::new(open.get_untracked());
@@ -45,7 +46,7 @@ pub fn OverlayDrawer(
     view! {
         <Teleport immediate=open.signal()>
             <FocusTrap disabled=!close_on_esc active=open.signal() on_esc>
-                <div class="thaw-config-provider thaw-overlay-drawer-container" data-thaw-id=config_provider.id().clone()>
+                <div class=class_list!["thaw-config-provider thaw-overlay-drawer-container", class] data-thaw-id=config_provider.id().clone()>
                     <CSSTransition
                         node_ref=mask_ref
                         appear=open.get_untracked()

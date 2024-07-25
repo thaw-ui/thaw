@@ -1,8 +1,9 @@
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::OptionModel;
+use thaw_utils::{class_list, OptionModel};
 
 #[component]
 pub fn RadioGroup(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: OptionModel<String>,
     /// The name of this radio group.
     #[prop(optional, into)]
@@ -13,7 +14,7 @@ pub fn RadioGroup(
 
     view! {
         <Provider value=RadioGroupInjection{ value, name }>
-            <div class="thaw-radio-group" role="radiogroup" style="display: flex;align-items: flex-start">
+            <div class=class_list!["thaw-radio-group", class] role="radiogroup" style="display: flex;align-items: flex-start">
                 {children()}
             </div>
         </Provider>

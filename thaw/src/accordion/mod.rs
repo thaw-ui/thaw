@@ -4,10 +4,11 @@ pub use accordion_item::*;
 
 use leptos::{context::Provider, prelude::*};
 use std::collections::HashSet;
-use thaw_utils::Model;
+use thaw_utils::{class_list, Model};
 
 #[component]
 pub fn Accordion(
+    #[prop(optional, into)] class: MaybeProp<String>,
     /// Controls the state of the panel.
     #[prop(optional, into)]
     open_items: Model<HashSet<String>>,
@@ -25,7 +26,7 @@ pub fn Accordion(
             collapsible,
             multiple
         }>
-            <div class="thaw-accordion">
+            <div class=class_list!["thaw-accordion", class]>
                 {children()}
             </div>
         </Provider>

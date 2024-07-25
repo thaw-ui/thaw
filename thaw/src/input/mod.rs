@@ -43,7 +43,7 @@ pub fn Input(
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
@@ -125,7 +125,7 @@ pub fn Input(
                 ("thaw-input--prefix", prefix_if_),
                 ("thaw-input--suffix", suffix_if_),
                 ("thaw-input--disabled", move || disabled.get()),
-                class.map(| c | move || c.get())
+                class
             ]
 
             on:mousedown=on_mousedown

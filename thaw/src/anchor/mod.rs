@@ -4,12 +4,12 @@ pub use anchor_link::AnchorLink;
 
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::cmp::Ordering;
-use thaw_utils::{add_event_listener_with_bool, class_list, mount_style, throttle, OptionalProp};
+use thaw_utils::{add_event_listener_with_bool, class_list, mount_style, throttle};
 use web_sys::{DomRect, Element};
 
 #[component]
 pub fn Anchor(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into, optional)] offset_target: Option<OffsetTarget>,
     children: Children,
 ) -> impl IntoView {
@@ -87,7 +87,7 @@ pub fn Anchor(
     });
     view! {
         <div
-            class=class_list!["thaw-anchor", class.map(| c | move || c.get())]
+            class=class_list!["thaw-anchor", class]
             node_ref=anchor_ref
         >
             <div class="thaw-anchor-rail">
@@ -122,7 +122,7 @@ pub(crate) struct AnchorInjection {
 impl Copy for AnchorInjection {}
 
 impl AnchorInjection {
-    pub fn use_() -> Self {
+    pub fn expect_context() -> Self {
         expect_context()
     }
 

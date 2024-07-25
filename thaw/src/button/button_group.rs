@@ -1,16 +1,16 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn ButtonGroup(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] vertical: bool,
     children: Children,
 ) -> impl IntoView {
     mount_style("button-group", include_str!("./button-group.css"));
     view! {
         <div
-            class=class_list!["thaw-button-group", class.map(| c | move || c.get())]
+            class=class_list!["thaw-button-group", class]
             class=("thaw-button-group--vertical", vertical)
         >
             {children()}

@@ -7,18 +7,15 @@ pub use card_header::*;
 pub use card_preview::*;
 
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
-pub fn Card(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    children: Children,
-) -> impl IntoView {
+pub fn Card(#[prop(optional, into)] class: MaybeProp<String>, children: Children) -> impl IntoView {
     mount_style("card", include_str!("./card.css"));
 
     view! {
         <div
-            class=class_list!["thaw-card", class.map(| c | move || c.get())]
+            class=class_list!["thaw-card", class]
             role="group"
         >
             {children()}

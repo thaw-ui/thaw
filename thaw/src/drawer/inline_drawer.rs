@@ -5,6 +5,7 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn InlineDrawer(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into)] open: Model<bool>,
     #[prop(optional, into)] position: MaybeSignal<DrawerPosition>,
     #[prop(optional, into)] size: MaybeSignal<DrawerSize>,
@@ -33,7 +34,8 @@ pub fn InlineDrawer(
             <div
                 class=class_list![
                     "thaw-inline-drawer",
-                    move || format!("thaw-inline-drawer--position-{}", position.get().as_str())
+                    move || format!("thaw-inline-drawer--position-{}", position.get().as_str()),
+                    class
                 ]
                 style=move || {
                     let size = move || {format!("--thaw-drawer--size: {}", size.get().as_size_str(position))};

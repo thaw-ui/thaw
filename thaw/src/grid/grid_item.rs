@@ -1,12 +1,12 @@
 use super::use_grid;
 use leptos::prelude::*;
-use thaw_utils::{class_list, OptionalProp};
+use thaw_utils::class_list;
 
 #[component]
 pub fn GridItem(
     #[prop(default = MaybeSignal::Static(1u16), into)] column: MaybeSignal<u16>,
     #[prop(optional, into)] offset: MaybeSignal<u16>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
     let grid = use_grid();
@@ -37,7 +37,7 @@ pub fn GridItem(
 
     view! {
         <div
-            class=class_list!["thaw-grid-item", class.map(| c | move || c.get())]
+            class=class_list!["thaw-grid-item", class]
             style=move || style.get()
         >
             {children()}

@@ -1,16 +1,17 @@
 use leptos::prelude::*;
 use thaw_components::OptionComp;
-use thaw_utils::mount_style;
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn CardHeader(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] card_header_description: Option<CardHeaderDescription>,
     #[prop(optional)] card_header_action: Option<CardHeaderAction>,
     children: Children,
 ) -> impl IntoView {
     mount_style("card-header", include_str!("./card-header.css"));
     view! {
-        <div class="thaw-card-header">
+        <div class=class_list!["thaw-card-header", class]>
             <div class="thaw-card-header__header">
                 {children()}
             </div>

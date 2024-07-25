@@ -4,10 +4,11 @@ pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
 use leptos::{ev, html, prelude::*};
-use thaw_utils::{add_event_listener, mount_style, ArcOneCallback};
+use thaw_utils::{add_event_listener, class_list, mount_style, ArcOneCallback};
 
 #[component]
 pub fn Upload(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] accept: MaybeSignal<String>,
     #[prop(optional, into)] multiple: MaybeSignal<bool>,
     #[prop(optional, into)] custom_request: Option<ArcOneCallback<FileList>>,
@@ -74,8 +75,10 @@ pub fn Upload(
 
     view! {
         <div
-            class="thaw-upload"
-            class=("thaw-upload--drag-over", move || is_trigger_dragover.get())
+            class=class_list!["thaw-upload",
+                ("thaw-upload--drag-over", move || is_trigger_dragover.get()),
+                class
+            ]
         >
             <input
                 class="thaw-upload__input"

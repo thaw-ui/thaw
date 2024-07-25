@@ -19,7 +19,7 @@ pub fn Panel(
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
     let panel_ref = NodeRef::<html::Div>::new();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {

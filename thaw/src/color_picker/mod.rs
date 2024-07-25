@@ -15,7 +15,7 @@ pub fn ColorPicker(
     #[prop(optional, into)] class: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
     let hue = RwSignal::new(0f32);
     let sv = RwSignal::new((0f32, 0f32));
     let label = RwSignal::new(String::new());

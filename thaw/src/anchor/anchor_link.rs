@@ -1,16 +1,16 @@
 use super::AnchorInjection;
 use leptos::{html, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, OptionalProp, StoredMaybeSignal};
+use thaw_utils::{class_list, StoredMaybeSignal};
 
 #[component]
 pub fn AnchorLink(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into)] title: MaybeSignal<String>,
     #[prop(into)] href: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let anchor = AnchorInjection::use_();
+    let anchor = AnchorInjection::expect_context();
 
     let title: StoredMaybeSignal<_> = title.into();
     let title_ref = NodeRef::<html::A>::new();
@@ -61,9 +61,7 @@ pub fn AnchorLink(
 
     view! {
         <div class=class_list![
-            "thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get()), class.map(| c
-            | move || c.get())
-        ]>
+            "thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get()), class]>
             <a
                 href=href
                 class="thaw-anchor-link__title"

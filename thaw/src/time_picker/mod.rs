@@ -5,12 +5,12 @@ use crate::{
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{mount_style, ComponentRef, OptionModel, OptionalProp};
+use thaw_utils::{class_list, mount_style, ComponentRef, OptionModel};
 
 #[component]
 pub fn TimePicker(
     #[prop(optional, into)] value: OptionModel<NaiveTime>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
@@ -70,8 +70,8 @@ pub fn TimePicker(
 
     view! {
         <Binder target_ref=time_picker_ref>
-            <div node_ref=time_picker_ref>
-                <Input class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
+            <div node_ref=time_picker_ref class=class_list!["thaw-time-picker", class]>
+                <Input value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px"/>
                     </InputSuffix>
@@ -98,7 +98,7 @@ fn Panel(
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
     let now = move |_| {
         close_panel.call(Some(now_time()));
     };

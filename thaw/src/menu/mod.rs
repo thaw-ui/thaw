@@ -35,7 +35,7 @@ pub fn Menu(
     children: Children,
 ) -> impl IntoView {
     mount_style("menu", include_str!("./menu.css"));
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
 
     let menu_ref = NodeRef::<Div>::new();
     let target_ref = NodeRef::<Div>::new();

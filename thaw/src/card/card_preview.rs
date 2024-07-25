@@ -1,9 +1,13 @@
 use leptos::prelude::*;
+use thaw_utils::class_list;
 
 #[component]
-pub fn CardPreview(children: Children) -> impl IntoView {
+pub fn CardPreview(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <div class="thaw-card-preview" style="position: relative">
+        <div class=class_list!["thaw-card-preview", class] style="position: relative">
             {children()}
         </div>
     }

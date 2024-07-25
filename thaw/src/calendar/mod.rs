@@ -2,11 +2,11 @@ use crate::{Button, ButtonGroup};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::prelude::*;
 use std::ops::Deref;
-use thaw_utils::{class_list, mount_style, OptionModel, OptionalProp};
+use thaw_utils::{class_list, mount_style, OptionModel};
 
 #[component]
 pub fn Calendar(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: OptionModel<NaiveDate>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
@@ -87,7 +87,7 @@ pub fn Calendar(
 
     view! {
         <div
-            class=class_list!["thaw-calendar", class.map(| c | move || c.get())]
+            class=class_list!["thaw-calendar", class]
         >
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">

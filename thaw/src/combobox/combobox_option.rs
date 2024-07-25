@@ -6,6 +6,7 @@ use thaw_utils::class_list;
 
 #[component]
 pub fn ComboboxOption(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Option<String>,
     #[prop(into)] text: String,
     #[prop(optional)] children: Option<Children>,
@@ -42,7 +43,8 @@ pub fn ComboboxOption(
             id=id
             class=class_list![
                 "thaw-combobox-option",
-                ("thaw-combobox-option--selected", move || is_selected.get())
+                ("thaw-combobox-option--selected", move || is_selected.get()),
+                class
             ]
             on:click=on_click
         >

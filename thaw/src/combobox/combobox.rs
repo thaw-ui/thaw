@@ -3,10 +3,11 @@ use crate::_aria::use_active_descendant;
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{add_event_listener, mount_style, Model, VecModel};
+use thaw_utils::{add_event_listener, class_list, mount_style, Model, VecModel};
 
 #[component]
 pub fn Combobox(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] selected_options: VecModel<String>,
     #[prop(optional)] clearable: bool,
@@ -147,7 +148,7 @@ pub fn Combobox(
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class="thaw-combobox"
+                class=class_list!["thaw-combobox", class]
                 node_ref=trigger_ref
             >
                 <input

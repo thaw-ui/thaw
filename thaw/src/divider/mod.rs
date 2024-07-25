@@ -1,10 +1,10 @@
 use leptos::prelude::*;
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn Divider(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] vertical: MaybeSignal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
@@ -12,7 +12,7 @@ pub fn Divider(
 
     view! {
         <div
-            class=class_list!["thaw-divider", ("thaw-divider--vertical", move || vertical.get()), class.map(| c | move || c.get())]
+            class=class_list!["thaw-divider", ("thaw-divider--vertical", move || vertical.get()), class]
             aria-orientation=move || if vertical.get() { "vertical" } else { "horizontal" }
             role="separator"
         >

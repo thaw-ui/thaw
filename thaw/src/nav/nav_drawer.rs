@@ -1,10 +1,11 @@
 use crate::Scrollbar;
 use leptos::{context::Provider, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{mount_style, Model};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn NavDrawer(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] selected_value: Model<String>,
     children: Children,
     #[prop(optional)] nav_drawer_header: Option<NavDrawerHeader>,
@@ -14,7 +15,7 @@ pub fn NavDrawer(
 
     view! {
         <Provider value=NavDrawerInjection(selected_value)>
-            <div class="thaw-nav-drawer">
+            <div class=class_list!["thaw-nav-drawer", class]>
                 <OptionComp value=nav_drawer_header let:header>
                     <header class="thaw-nav-drawer__header">{(header.children)()}</header>
                 </OptionComp>

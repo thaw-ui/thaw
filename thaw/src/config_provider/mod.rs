@@ -1,9 +1,10 @@
 use crate::Theme;
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::{mount_dynamic_style, mount_style};
+use thaw_utils::{class_list, mount_dynamic_style, mount_style};
 
 #[component]
 pub fn ConfigProvider(
+    #[prop(optional, into)] class: MaybeProp<String>,
     /// Sets the theme used in a scope.
     #[prop(optional, into)]
     theme: Option<RwSignal<Theme>>,
@@ -46,7 +47,7 @@ pub fn ConfigProvider(
     view! {
         <Provider value=config_injection>
             <div
-                class="thaw-config-provider"
+                class=class_list!["thaw-config-provider", class]
                 data-thaw-id=id.get_value()
                 dir=move || dir.get().map(move |dir| dir.as_str())
             >
@@ -66,10 +67,6 @@ pub struct ConfigInjection {
 impl ConfigInjection {
     pub fn id(&self) -> &String {
         &self.id
-    }
-
-    pub fn use_() -> ConfigInjection {
-        expect_context()
     }
 
     pub fn expect_context() -> Self {

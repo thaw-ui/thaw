@@ -4,11 +4,11 @@ pub use radio_group::RadioGroup;
 
 use leptos::prelude::*;
 use radio_group::RadioGroupInjection;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn Radio(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: String,
     #[prop(optional, into)] label: MaybeProp<String>,
 ) -> impl IntoView {
@@ -31,11 +31,7 @@ pub fn Radio(
     };
 
     view! {
-        <span
-            class=class_list![
-                "thaw-radio", class.map(| c | move || c.get())
-            ]
-        >
+        <span class=class_list!["thaw-radio", class]>
             <input
                 class="thaw-radio__input"
                 type="radio"

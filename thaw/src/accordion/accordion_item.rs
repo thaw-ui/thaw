@@ -1,10 +1,11 @@
 use crate::AccordionInjection;
 use leptos::{html, prelude::*};
 use thaw_components::CSSTransition;
-use thaw_utils::{mount_style, update, with, StoredMaybeSignal};
+use thaw_utils::{class_list, mount_style, update, with, StoredMaybeSignal};
 
 #[component]
 pub fn AccordionItem(
+    #[prop(optional, into)] class: MaybeProp<String>,
     /// Required value that identifies this item inside an Accordion component.
     #[prop(into)]
     value: MaybeSignal<String>,
@@ -41,7 +42,7 @@ pub fn AccordionItem(
     };
 
     view! {
-        <div class="thaw-accordion-item">
+        <div class=class_list!["thaw-accordion-item", class]>
             <div class="thaw-accordion-header">
                 <button
                     class="thaw-accordion-header__button"

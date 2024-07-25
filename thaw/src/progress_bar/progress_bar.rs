@@ -3,6 +3,7 @@ use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn ProgressBar(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into, optional)] value: MaybeSignal<f64>,
     #[prop(default = 1.0.into(), optional)] max: MaybeSignal<f64>,
     #[prop(into, optional)] color: MaybeSignal<ProgressBarColor>,
@@ -19,7 +20,8 @@ pub fn ProgressBar(
         <div
             class=class_list![
                 "thaw-progress-bar",
-                move || format!("thaw-progress-bar--{}", color.get().as_str())
+                move || format!("thaw-progress-bar--{}", color.get().as_str()),
+                class
             ]
             role="progressbar"
             aria_valuemax=move || max.get()

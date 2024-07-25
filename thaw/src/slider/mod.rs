@@ -4,7 +4,7 @@ pub use slider_label::SliderLabel;
 
 use leptos::{context::Provider, ev, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Slider(
@@ -12,7 +12,7 @@ pub fn Slider(
     #[prop(default = 0f64.into(), into)] min: MaybeSignal<f64>,
     #[prop(default = 100f64.into(), into)] max: MaybeSignal<f64>,
     #[prop(optional, into)] step: MaybeProp<f64>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));
@@ -69,7 +69,7 @@ pub fn Slider(
     view! {
         <Provider value=SliderInjection { max, min }>
             <div
-                class=class_list!["thaw-slider", class.map(| c | move || c.get())]
+                class=class_list!["thaw-slider", class]
                 style=css_vars
             >
                 <input
@@ -104,7 +104,7 @@ pub(crate) struct SliderInjection {
 }
 
 impl SliderInjection {
-    pub fn use_() -> Self {
+    pub fn expect_context() -> Self {
         expect_context()
     }
 }

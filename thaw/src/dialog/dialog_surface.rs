@@ -1,9 +1,13 @@
 use super::dialog::DialogInjection;
 use leptos::{html, prelude::*};
 use thaw_components::CSSTransition;
+use thaw_utils::class_list;
 
 #[component]
-pub fn DialogSurface(children: Children) -> impl IntoView {
+pub fn DialogSurface(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     let dialog = DialogInjection::expect_use();
     let surface_ref = NodeRef::<html::Div>::new();
 
@@ -16,7 +20,7 @@ pub fn DialogSurface(children: Children) -> impl IntoView {
             let:display
         >
             <div
-                class="thaw-dialog-surface"
+                class=class_list!["thaw-dialog-surface", class]
                 node_ref=surface_ref
                 role="dialog"
                 aria-modal="true"

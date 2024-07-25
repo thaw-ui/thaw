@@ -1,13 +1,15 @@
 use leptos::prelude::*;
 use thaw_components::OptionComp;
+use thaw_utils::class_list;
 
 #[component]
 pub fn DrawerHeaderTitle(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] drawer_header_title_action: Option<DrawerHeaderTitleAction>,
     children: Children,
 ) -> impl IntoView {
     view! {
-        <div class="thaw-drawer-header-title">
+        <div class=class_list!["thaw-drawer-header-title", class]>
             <h2 class="thaw-drawer-header-title__heading">
                 {children()}
             </h2>

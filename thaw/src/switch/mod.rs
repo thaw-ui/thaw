@@ -1,10 +1,10 @@
 use leptos::{html, prelude::*};
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Switch(
     #[prop(optional, into)] checked: Model<bool>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] label: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("switch", include_str!("./switch.css"));
@@ -17,12 +17,7 @@ pub fn Switch(
     };
 
     view! {
-        <div
-            class=class_list![
-                "thaw-switch", class.map(| c | move ||
-                c.get())
-            ]
-        >
+        <div class=class_list!["thaw-switch", class]>
             <input
                 class="thaw-switch__input"
                 role="switch"

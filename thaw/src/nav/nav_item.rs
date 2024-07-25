@@ -3,7 +3,11 @@ use leptos::prelude::*;
 use thaw_utils::{class_list, StoredMaybeSignal};
 
 #[component]
-pub fn NavItem(#[prop(into)] value: MaybeSignal<String>, children: Children) -> impl IntoView {
+pub fn NavItem(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(into)] value: MaybeSignal<String>,
+    children: Children,
+) -> impl IntoView {
     let nav_drawer = use_nav_drawer();
     let value: StoredMaybeSignal<_> = value.into();
     let on_click = move |_| {
@@ -13,7 +17,7 @@ pub fn NavItem(#[prop(into)] value: MaybeSignal<String>, children: Children) -> 
         }
     };
     view! {
-        <a class=class_list!["thaw-nav-item", ("thaw-nav-item--selected", move || nav_drawer.0.get() == value.get())]
+        <a class=class_list!["thaw-nav-item", ("thaw-nav-item--selected", move || nav_drawer.0.get() == value.get()), class]
             role="nav"
             type="navigation"
             on:click=on_click

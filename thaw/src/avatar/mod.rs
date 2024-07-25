@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, OptionalProp, StoredMaybeSignal};
+use thaw_utils::{class_list, mount_style, StoredMaybeSignal};
 
 #[component]
 pub fn Avatar(
@@ -19,7 +19,7 @@ pub fn Avatar(
     /// Size of the avatar in pixels.
     #[prop(optional, into)]
     size: Option<MaybeSignal<u8>>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("avatar", include_str!("./avatar.css"));
 
@@ -48,7 +48,7 @@ pub fn Avatar(
 
     view! {
         <span
-            class=class_list!["thaw-avatar", move || format!("thaw-avatar--{}", shape.get().as_str()), class.map(| c | move || c.get())]
+            class=class_list!["thaw-avatar", move || format!("thaw-avatar--{}", shape.get().as_str()), class]
             style=move || style().unwrap_or_default()
             role="img"
             aria-label=move || name.as_ref().map(|n| n.get())

@@ -16,18 +16,24 @@ pub fn Table(
 }
 
 #[component]
-pub fn TableHeader(children: Children) -> impl IntoView {
+pub fn TableHeader(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <thead class="thaw-table-header">
+        <thead class=class_list!["thaw-table-header", class]>
             {children()}
         </thead>
     }
 }
 
 #[component]
-pub fn TableHeaderCell(#[prop(optional)] children: Option<Children>) -> impl IntoView {
+pub fn TableHeaderCell(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional)] children: Option<Children>,
+) -> impl IntoView {
     view! {
-        <th class="thaw-table-header-cell">
+        <th class=class_list!["thaw-table-header-cell", class]>
             <button class="thaw-table-header-cell__button" role="presentation">
                 {
                     if let Some(children) = children  {
@@ -42,27 +48,36 @@ pub fn TableHeaderCell(#[prop(optional)] children: Option<Children>) -> impl Int
 }
 
 #[component]
-pub fn TableBody(children: Children) -> impl IntoView {
+pub fn TableBody(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <tbody class="thaw-table-body">
+        <tbody class=class_list!["thaw-table-body", class]>
             {children()}
         </tbody>
     }
 }
 
 #[component]
-pub fn TableRow(children: Children) -> impl IntoView {
+pub fn TableRow(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <tr class="thaw-table-row">
+        <tr class=class_list!["thaw-table-row", class]>
             {children()}
         </tr>
     }
 }
 
 #[component]
-pub fn TableCell(#[prop(optional)] children: Option<Children>) -> impl IntoView {
+pub fn TableCell(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional)] children: Option<Children>,
+) -> impl IntoView {
     view! {
-        <td class="thaw-table-cell">
+        <td class=class_list!["thaw-table-cell", class]>
             {
                 if let Some(children) = children  {
                     Either::Left(children())
@@ -75,9 +90,12 @@ pub fn TableCell(#[prop(optional)] children: Option<Children>) -> impl IntoView 
 }
 
 #[component]
-pub fn TableCellLayout(children: Children) -> impl IntoView {
+pub fn TableCellLayout(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <div class="thaw-table-cell-layout">
+        <div class=class_list!["thaw-table-cell-layout", class]>
             {children()}
         </div>
     }

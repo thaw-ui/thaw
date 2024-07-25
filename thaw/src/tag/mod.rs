@@ -1,9 +1,9 @@
 use leptos::{either::Either, ev, prelude::*};
-use thaw_utils::{class_list, mount_style, ArcOneCallback, OptionalProp};
+use thaw_utils::{class_list, mount_style, ArcOneCallback};
 
 #[component]
 pub fn Tag(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] closable: MaybeSignal<bool>,
     #[prop(optional, into)] on_close: Option<ArcOneCallback<ev::MouseEvent>>,
     children: Children,
@@ -12,7 +12,7 @@ pub fn Tag(
 
     view! {
         <span
-            class=class_list!["thaw-tag", ("thaw-tag--closable", move || closable.get()), class.map(| c | move || c.get())]
+            class=class_list!["thaw-tag", ("thaw-tag--closable", move || closable.get()), class]
 
         >
             <span class="thaw-tag__primary-text">{children()}</span>

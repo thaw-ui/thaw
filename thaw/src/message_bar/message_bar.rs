@@ -3,6 +3,7 @@ use thaw_utils::{class_list, mount_style, StoredMaybeSignal};
 
 #[component]
 pub fn MessageBar(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] layout: MaybeSignal<MessageBarLayout>,
     #[prop(optional, into)] intent: MaybeSignal<MessageBarIntent>,
     children: Children,
@@ -15,7 +16,8 @@ pub fn MessageBar(
             class=class_list![
                 "thaw-message-bar",
                 move || format!("thaw-message-bar--{}", intent.get().as_str()),
-                move || format!("thaw-message-bar--{}", layout.get().as_str())
+                move || format!("thaw-message-bar--{}", layout.get().as_str()),
+                class
             ]
             role="group"
         >

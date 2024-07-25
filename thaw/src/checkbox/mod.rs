@@ -4,12 +4,12 @@ pub use checkbox_group::CheckboxGroup;
 
 use checkbox_group::CheckboxGroupInjection;
 use leptos::{html, prelude::*};
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Checkbox(
     #[prop(optional, into)] checked: Model<bool>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Option<String>,
     #[prop(optional, into)] label: MaybeProp<String>,
 ) -> impl IntoView {
@@ -17,7 +17,7 @@ pub fn Checkbox(
 
     let id = uuid::Uuid::new_v4().to_string();
     let input_ref = NodeRef::<html::Input>::new();
-    let group = CheckboxGroupInjection::use_();
+    let group = CheckboxGroupInjection::use_context();
     let item_value = StoredValue::new(value);
 
     let group_checked = Memo::new(move |_| {
@@ -58,8 +58,8 @@ pub fn Checkbox(
     view! {
         <span
             class=class_list![
-                "thaw-checkbox", ("thaw-checkbox--checked", checked), class.map(| c |
-                move || c.get())
+                "thaw-checkbox", ("thaw-checkbox--checked", checked),
+                class
             ]
         >
             <input

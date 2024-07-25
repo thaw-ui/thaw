@@ -12,7 +12,7 @@ pub fn Tab(
     mount_style("tab", include_str!("./tab.css"));
 
     let tab_ref = NodeRef::<html::Button>::new();
-    let tab_list = TabListInjection::use_();
+    let tab_list = TabListInjection::expect_context();
     let value = StoredValue::new(value);
     tab_list.register(TabRegisterData {
         value: value.get_value(),

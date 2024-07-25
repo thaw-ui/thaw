@@ -30,7 +30,7 @@ pub fn AutoComplete(
     #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
@@ -98,7 +98,7 @@ pub fn AutoComplete(
     view! {
         <Binder target_ref=auto_complete_ref>
             <div
-                class=class_list!["thaw-auto-complete", class.map(| c | move || c.get())]
+                class=class_list!["thaw-auto-complete", class]
                 node_ref=auto_complete_ref
                 on:keydown=on_keydown
             >

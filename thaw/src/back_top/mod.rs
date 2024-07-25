@@ -3,19 +3,19 @@ use leptos::{either::Either, ev, html, prelude::*};
 use thaw_components::{CSSTransition, Teleport};
 use thaw_utils::{
     add_event_listener, class_list, get_scroll_parent, mount_style, BoxCallback,
-    EventListenerHandle, OptionalProp,
+    EventListenerHandle,
 };
 
 #[component]
 pub fn BackTop(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(default=40.into(), into)] right: MaybeSignal<i32>,
     #[prop(default=40.into(), into)] bottom: MaybeSignal<i32>,
     #[prop(default=180.into(), into)] visibility_height: MaybeSignal<i32>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("back-top", include_str!("./back-top.css"));
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
     let placeholder_ref = NodeRef::<html::Div>::new();
     let back_top_ref = NodeRef::<html::Div>::new();
     let is_show_back_top = RwSignal::new(false);
@@ -85,7 +85,7 @@ pub fn BackTop(
                     let:display
                 >
                     <div
-                        class=class_list!["thaw-config-provider thaw-back-top", class.map(| c | move || c.get())]
+                        class=class_list!["thaw-config-provider thaw-back-top", class]
                         data-thaw-id=config_provider.id().clone()
                         node_ref=back_top_ref
                         style=move || {

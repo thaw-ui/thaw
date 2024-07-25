@@ -2,10 +2,11 @@ use leptos::prelude::*;
 use num_traits::Bounded;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
-use thaw_utils::{mount_style, with, Model, StoredMaybeSignal};
+use thaw_utils::{class_list, mount_style, with, Model, StoredMaybeSignal};
 
 #[component]
 pub fn SpinButton<T>(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Model<T>,
     #[prop(into)] step_page: MaybeSignal<T>,
     #[prop(default = T::min_value().into(), into)] min: MaybeSignal<T>,
@@ -54,8 +55,7 @@ where
 
     view! {
         <span
-            class="thaw-spin-button"
-            class=("thaw-spin-button--disabled", move || disabled.get())
+            class=class_list!["thaw-spin-button", ("thaw-spin-button--disabled", move || disabled.get()), class]
         >
             <input
                 autocomplete="off"

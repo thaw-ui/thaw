@@ -4,7 +4,7 @@ use crate::{
 };
 use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
-use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
+use thaw_utils::{class_list, mount_style, OptionalMaybeSignal};
 
 #[component]
 pub fn MenuItem(
@@ -12,7 +12,7 @@ pub fn MenuItem(
     #[prop(into)] label: MaybeSignal<String>,
     #[prop(into)] key: MaybeSignal<String>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("menu-item", include_str!("./menu-item.css"));
 
@@ -35,7 +35,7 @@ pub fn MenuItem(
         <div
             class=class_list![
                 "thaw-menu-item", ("thaw-menu-item--disabled", move || disabled.get()),
-                class.map(| c | move || c.get())
+                class
             ]
             on:click=on_click
         >

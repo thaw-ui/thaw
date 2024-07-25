@@ -1,11 +1,14 @@
 use leptos::prelude::*;
-use thaw_utils::mount_style;
+use thaw_utils::{class_list, mount_style};
 
 #[component]
-pub fn CardFooter(children: Children) -> impl IntoView {
+pub fn CardFooter(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     mount_style("card-footer", include_str!("./card-footer.css"));
     view! {
-        <div class="thaw-card-footer">
+        <div class=class_list!["thaw-card-footer", class]>
             {children()}
         </div>
     }

@@ -2,14 +2,14 @@ mod grid_item;
 
 pub use grid_item::*;
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::{class_list, OptionalProp};
+use thaw_utils::class_list;
 
 #[component]
 pub fn Grid(
     #[prop(default = MaybeSignal::Static(1u16), into)] cols: MaybeSignal<u16>,
     #[prop(optional, into)] x_gap: MaybeSignal<u16>,
     #[prop(optional, into)] y_gap: MaybeSignal<u16>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
     let style = Memo::new(move |_| {
@@ -25,7 +25,7 @@ pub fn Grid(
     view! {
         <Provider value=GridInjection::new(x_gap)>
             <div
-                class=class_list!["thaw-grid", class.map(| c | move || c.get())]
+                class=class_list!["thaw-grid", class]
                 style=move || style.get()
             >
                 {children()}

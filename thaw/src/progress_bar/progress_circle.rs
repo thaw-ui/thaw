@@ -1,9 +1,9 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn ProgressCircle(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into, optional)] value: MaybeSignal<f64>,
     #[prop(into, optional)] color: MaybeSignal<ProgressCircleColor>,
     #[prop(into, default = "120px".into())] size: MaybeSignal<String>,
@@ -40,7 +40,7 @@ pub fn ProgressCircle(
 
     view! {
         <div
-            class=class_list!["thaw-progress-circle", class.map(| c | move || c.get())]
+            class=class_list!["thaw-progress-circle", class]
             role="progressbar"
             aria-valuemax="100"
             aria-valuemin="0"

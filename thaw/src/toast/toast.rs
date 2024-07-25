@@ -1,10 +1,14 @@
 use leptos::prelude::*;
 use std::time::Duration;
+use thaw_utils::class_list;
 
 #[component]
-pub fn Toast(children: Children) -> impl IntoView {
+pub fn Toast(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <div class="thaw-toast">
+        <div class=class_list!["thaw-toast", class]>
             {children()}
         </div>
     }

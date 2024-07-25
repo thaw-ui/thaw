@@ -6,7 +6,7 @@ pub use layout_sider::*;
 
 use crate::Scrollbar;
 use leptos::prelude::*;
-use thaw_utils::{mount_style, OptionalProp};
+use thaw_utils::{class_list, mount_style};
 
 #[derive(Default, PartialEq)]
 pub enum LayoutPosition {
@@ -26,8 +26,9 @@ impl LayoutPosition {
 
 #[component]
 pub fn Layout(
-    #[prop(optional, into)] content_class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] content_style: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] content_class: MaybeProp<String>,
+    #[prop(optional, into)] content_style: MaybeProp<String>,
     #[prop(optional)] position: LayoutPosition,
     #[prop(optional, into)] has_sider: MaybeSignal<bool>,
     children: Children,
@@ -42,14 +43,14 @@ pub fn Layout(
         }
     });
     view! {
-        <div class=gen_class(position)>
+        <div class=class_list![gen_class(position), class]>
             <Scrollbar
                 content_class
                 content_style=Signal::derive(move || {
                     format!(
                         "{} {}",
                         sider_style.get().unwrap_or_default(),
-                        content_style.as_ref().map_or(String::new(), |s| s.get()),
+                        content_style.get().unwrap_or_default(),
                     )
                 })
             >

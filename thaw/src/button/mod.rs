@@ -4,7 +4,7 @@ pub use button_group::ButtonGroup;
 
 use crate::icon::Icon;
 use leptos::{either::Either, ev, prelude::*};
-use thaw_utils::{class_list, mount_style, BoxOneCallback, OptionalMaybeSignal, OptionalProp};
+use thaw_utils::{class_list, mount_style, BoxOneCallback, OptionalMaybeSignal};
 
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonAppearance {
@@ -64,7 +64,7 @@ impl ButtonSize {
 
 #[component]
 pub fn Button(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] appearance: MaybeSignal<ButtonAppearance>,
     #[prop(optional, into)] shape: MaybeSignal<ButtonShape>,
     #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
@@ -102,7 +102,7 @@ pub fn Button(
                 move || format!("thaw-button--{}", size.get().as_str()),
                 move || format!("thaw-button--{}", appearance.get().as_str()),
                 move || format!("thaw-button--{}", shape.get().as_str()),
-                class.map(| c | move || c.get())
+                class
             ]
 
             disabled=move || disabled.get().then_some("")

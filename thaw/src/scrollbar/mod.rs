@@ -1,12 +1,12 @@
 use leptos::{ev, html, leptos_dom::helpers::WindowListenerHandle, prelude::*};
-use thaw_utils::{class_list, mount_style, ComponentRef, OptionalProp};
+use thaw_utils::{class_list, mount_style, ComponentRef};
 
 #[component]
 pub fn Scrollbar(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] style: Option<MaybeSignal<String>>,
-    #[prop(optional, into)] content_class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] content_style: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] content_class: MaybeProp<String>,
+    #[prop(optional, into)] content_style: MaybeProp<String>,
     #[prop(default = 8)] size: u8,
     #[prop(optional)] comp_ref: Option<ComponentRef<ScrollbarRef>>,
     children: Children,
@@ -285,7 +285,7 @@ pub fn Scrollbar(
 
     view! {
         <div
-            class=class_list!["thaw-scrollbar", class.map(| c | move || c.get())]
+            class=class_list!["thaw-scrollbar", class]
             style=move || {
                 format!("--thaw-scrollbar-size: {}px;{}", size, style.as_ref().map(|s| s.get()).unwrap_or_default())
             }
@@ -297,13 +297,13 @@ pub fn Scrollbar(
             <div class="thaw-scrollbar__container" node_ref=container_ref on:scroll=on_scroll>
                 <div
                     class=class_list![
-                        "thaw-scrollbar__content", content_class.map(| c | move || c.get())
+                        "thaw-scrollbar__content", content_class
                     ]
 
                     style=move || {
                         format!(
                             "width: fit-content; {}",
-                            content_style.as_ref().map_or(String::new(), |s| s.get()),
+                            content_style.get().unwrap_or_default(),
                         )
                     }
 

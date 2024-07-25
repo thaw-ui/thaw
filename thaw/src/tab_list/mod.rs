@@ -44,7 +44,7 @@ pub(crate) struct TabListInjection {
 impl Copy for TabListInjection {}
 
 impl TabListInjection {
-    pub fn use_() -> Self {
+    pub fn expect_context() -> Self {
         expect_context()
     }
 

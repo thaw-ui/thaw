@@ -1,9 +1,13 @@
 use leptos::prelude::*;
+use thaw_utils::class_list;
 
 #[component]
-pub fn LayoutHeader(children: Children) -> impl IntoView {
+pub fn LayoutHeader(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <div class="thaw-layout-header">
+        <div class=class_list!["thaw-layout-header", class]>
             {children()}
         </div>
     }

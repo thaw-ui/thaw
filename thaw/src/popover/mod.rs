@@ -21,7 +21,7 @@ pub fn Popover(
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
 
     let popover_ref = NodeRef::<html::Div>::new();
     let target_ref = NodeRef::<html::Div>::new();

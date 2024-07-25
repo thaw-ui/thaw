@@ -1,17 +1,18 @@
 use crate::ConfigInjection;
 use leptos::{context::Provider, ev, html, prelude::*};
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
-use thaw_utils::{mount_style, Model};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Dialog(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into)] open: Model<bool>,
     #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
     #[prop(default = true, into)] close_on_esc: bool,
     children: Children,
 ) -> impl IntoView {
     mount_style("dialog", include_str!("./dialog.css"));
-    let config_provider = ConfigInjection::use_();
+    let config_provider = ConfigInjection::expect_context();
 
     let mask_ref = NodeRef::<html::Div>::new();
     let on_mask_click = move |_| {
@@ -27,7 +28,7 @@ pub fn Dialog(
         <Teleport immediate=open.signal()>
             <FocusTrap disabled=!close_on_esc active=open.signal() on_esc>
                 <div
-                    class="thaw-config-provider thaw-dialog"
+                    class=class_list!["thaw-config-provider thaw-dialog", class]
                     data-thaw-id=config_provider.id().clone()
                 >
                     <CSSTransition

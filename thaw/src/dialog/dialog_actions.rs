@@ -1,9 +1,13 @@
 use leptos::prelude::*;
+use thaw_utils::class_list;
 
 #[component]
-pub fn DialogActions(children: Children) -> impl IntoView {
+pub fn DialogActions(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     view! {
-        <div class="thaw-dialog-actions">
+        <div class=class_list!["thaw-dialog-actions", class]>
             {children()}
         </div>
     }

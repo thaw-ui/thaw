@@ -1,12 +1,12 @@
 use leptos::prelude::*;
-use thaw_utils::mount_style;
+use thaw_utils::{class_list, mount_style};
 
 #[component]
-pub fn SkeletonItem() -> impl IntoView {
+pub fn SkeletonItem(#[prop(optional, into)] class: MaybeProp<String>) -> impl IntoView {
     mount_style("skeleton-item", include_str!("./skeleton-item.css"));
 
     view! {
-        <div class="thaw-skeleton-item">
+        <div class=class_list!["thaw-skeleton-item", class]>
         </div>
     }
 }
