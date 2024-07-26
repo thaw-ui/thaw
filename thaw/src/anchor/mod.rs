@@ -10,6 +10,8 @@ use web_sys::{DomRect, Element};
 #[component]
 pub fn Anchor(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The element or selector used to calc offset of link elements. 
+    /// If you are not scrolling the entire document but only a part of it, you may need to set this.
     #[prop(into, optional)] offset_target: Option<OffsetTarget>,
     children: Children,
 ) -> impl IntoView {

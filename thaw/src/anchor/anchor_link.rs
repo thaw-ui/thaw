@@ -6,7 +6,9 @@ use thaw_utils::{class_list, StoredMaybeSignal};
 #[component]
 pub fn AnchorLink(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The content of link.
     #[prop(into)] title: MaybeSignal<String>,
+    /// The target of link.
     #[prop(into)] href: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {

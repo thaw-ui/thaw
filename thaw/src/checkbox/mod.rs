@@ -8,9 +8,12 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Checkbox(
+    /// The controlled value for the checkbox.
     #[prop(optional, into)] checked: Model<bool>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The value of the checkbox to be used in a checkbox group.
     #[prop(optional, into)] value: Option<String>,
+    /// The Checkbox's label.
     #[prop(optional, into)] label: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("checkbox", include_str!("./checkbox.css"));

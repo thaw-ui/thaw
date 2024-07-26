@@ -10,6 +10,7 @@ pub fn Combobox(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] selected_options: VecModel<String>,
+    /// If set, the combobox will show an icon to clear the current value.
     #[prop(optional)] clearable: bool,
     children: Children,
 ) -> impl IntoView {

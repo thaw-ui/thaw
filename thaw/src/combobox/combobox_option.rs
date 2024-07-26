@@ -7,7 +7,9 @@ use thaw_utils::class_list;
 #[component]
 pub fn ComboboxOption(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Defines a unique identifier for the option. Defaults to `text` if not provided.
     #[prop(optional, into)] value: Option<String>,
+    /// An optional override the string value of the Option's display text, defaulting to the Option's child content.
     #[prop(into)] text: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {

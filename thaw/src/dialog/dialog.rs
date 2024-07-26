@@ -6,6 +6,7 @@ use thaw_utils::{class_list, mount_style, Model};
 #[component]
 pub fn Dialog(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Controls the open state of the dialog
     #[prop(into)] open: Model<bool>,
     #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
     #[prop(default = true, into)] close_on_esc: bool,

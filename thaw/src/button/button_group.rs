@@ -4,6 +4,7 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn ButtonGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Directions of buttons in the group.
     #[prop(optional)] vertical: bool,
     children: Children,
 ) -> impl IntoView {

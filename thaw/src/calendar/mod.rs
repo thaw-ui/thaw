@@ -7,6 +7,7 @@ use thaw_utils::{class_list, mount_style, OptionModel};
 #[component]
 pub fn Calendar(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Default selected date.
     #[prop(optional, into)] value: OptionModel<NaiveDate>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
