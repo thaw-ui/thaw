@@ -9,10 +9,10 @@ use thaw_utils::{class_list, mount_style, OptionalMaybeSignal};
 #[component]
 pub fn MenuItem(
     #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
-    #[prop(into)] label: MaybeSignal<String>,
-    #[prop(into)] key: MaybeSignal<String>,
+    #[prop(into)] value: MaybeSignal<String>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
 ) -> impl IntoView {
     mount_style("menu-item", include_str!("./menu-item.css"));
 
@@ -28,7 +28,7 @@ pub fn MenuItem(
         if disabled.get() {
             return;
         }
-        on_select(key.get());
+        on_select(value.get());
     };
 
     view! {
@@ -51,7 +51,7 @@ pub fn MenuItem(
 
                 <Icon icon=icon style="font-size: 18px; margin-right: 8px"/>
             </OptionComp>
-            <span style="flex-grow: 1">{label}</span>
+            <span style="flex-grow: 1">{children()}</span>
         </div>
     }
 }

@@ -161,15 +161,15 @@ pub fn SiteHeader() -> impl IntoView {
                     </AutoCompletePrefix>
                 </AutoComplete>
                 <Menu
-                placement=MenuPlacement::BottomEnd
-                on_select=move |value : String| match value.as_str() {
-                    "Dark" => change_theme(MouseEvent::new("click").unwrap()),
-                    "Light" => change_theme(MouseEvent::new("click").unwrap()),
-                    "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },//FIXME: breaks page
-                    "discord" => { _ = window().open_with_url("https://discord.gg/YPxuprzu6M"); },//FIXME: breaks page
-                    _ => navigate_signal.get()(&value, Default::default())
+                    position=MenuPosition::BottomEnd
+                    on_select=move |value : String| match value.as_str() {
+                        "Dark" => change_theme(MouseEvent::new("click").unwrap()),
+                        "Light" => change_theme(MouseEvent::new("click").unwrap()),
+                        "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },//FIXME: breaks page
+                        "discord" => { _ = window().open_with_url("https://discord.gg/YPxuprzu6M"); },//FIXME: breaks page
+                        _ => navigate_signal.get()(&value, Default::default())
 
-                }
+                    }
                 >
                     <MenuTrigger slot class="demo-header__menu-mobile">
                     <Button
@@ -178,9 +178,9 @@ pub fn SiteHeader() -> impl IntoView {
                             attr:style="font-size: 22px; padding: 0px 6px;"
                         />
                     </MenuTrigger>
-                    <MenuItem key=theme_name label=theme_name/>
-                    <MenuItem icon=icondata::AiGithubOutlined key="github" label="Github"/>
-                    <MenuItem icon=icondata::BiDiscordAlt key="discord" label="Discord"/>
+                    <MenuItem value=theme_name>{theme_name}</MenuItem>
+                    <MenuItem icon=icondata::AiGithubOutlined value="github">"Github"</MenuItem>
+                    <MenuItem icon=icondata::BiDiscordAlt value="discord">"Discord"</MenuItem>
                     {
                         use crate::pages::{gen_menu_data, MenuGroupOption, MenuItemOption};
                         gen_menu_data().into_iter().map(|data| {
@@ -193,7 +193,7 @@ pub fn SiteHeader() -> impl IntoView {
                                     children.into_iter().map(|item| {
                                         let MenuItemOption { label, value } = item;
                                         view! {
-                                            <MenuItem label key=value/>
+                                            <MenuItem value=value>{label}</MenuItem>
                                         }
                                     }).collect_view()
                                 }

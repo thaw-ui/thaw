@@ -29,7 +29,7 @@ pub fn Menu(
     #[prop(optional, into)] class: MaybeProp<String>,
     menu_trigger: MenuTrigger,
     #[prop(optional)] trigger_type: MenuTriggerType,
-    #[prop(optional)] placement: MenuPlacement,
+    #[prop(optional)] position: MenuPosition,
     #[prop(into)] on_select: ArcOneCallback<String>,
     #[prop(optional, into)] appearance: Option<MaybeSignal<MenuAppearance>>,
     children: Children,
@@ -110,7 +110,7 @@ pub fn Menu(
             >
                 {trigger_children()}
             </div>
-            <Follower slot show=is_show_menu placement>
+            <Follower slot show=is_show_menu placement=position>
                 <CSSTransition
                     node_ref=menu_ref
                     name="menu-transition"
@@ -163,7 +163,7 @@ impl MenuAppearance {
 }
 
 #[derive(Default)]
-pub enum MenuPlacement {
+pub enum MenuPosition {
     Top,
     #[default]
     Bottom,
@@ -179,21 +179,21 @@ pub enum MenuPlacement {
     BottomEnd,
 }
 
-impl From<MenuPlacement> for FollowerPlacement {
-    fn from(value: MenuPlacement) -> Self {
+impl From<MenuPosition> for FollowerPlacement {
+    fn from(value: MenuPosition) -> Self {
         match value {
-            MenuPlacement::Top => Self::Top,
-            MenuPlacement::Bottom => Self::Bottom,
-            MenuPlacement::Left => Self::Left,
-            MenuPlacement::Right => Self::Right,
-            MenuPlacement::TopStart => Self::TopStart,
-            MenuPlacement::TopEnd => Self::TopEnd,
-            MenuPlacement::LeftStart => Self::LeftStart,
-            MenuPlacement::LeftEnd => Self::LeftEnd,
-            MenuPlacement::RightStart => Self::RightStart,
-            MenuPlacement::RightEnd => Self::RightEnd,
-            MenuPlacement::BottomStart => Self::BottomStart,
-            MenuPlacement::BottomEnd => Self::BottomEnd,
+            MenuPosition::Top => Self::Top,
+            MenuPosition::Bottom => Self::Bottom,
+            MenuPosition::Left => Self::Left,
+            MenuPosition::Right => Self::Right,
+            MenuPosition::TopStart => Self::TopStart,
+            MenuPosition::TopEnd => Self::TopEnd,
+            MenuPosition::LeftStart => Self::LeftStart,
+            MenuPosition::LeftEnd => Self::LeftEnd,
+            MenuPosition::RightStart => Self::RightStart,
+            MenuPosition::RightEnd => Self::RightEnd,
+            MenuPosition::BottomStart => Self::BottomStart,
+            MenuPosition::BottomEnd => Self::BottomEnd,
         }
     }
 }

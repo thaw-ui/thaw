@@ -30,7 +30,7 @@ view! {
     </Style>
     <Grid x_gap=8 y_gap=8 cols=3 class="demo-popover">
         <GridItem>
-            <Popover placement=PopoverPlacement::TopStart>
+            <Popover position=PopoverPosition::TopStart>
                 <PopoverTrigger slot>
                     <Button>"Top Start"</Button>
                 </PopoverTrigger>
@@ -38,7 +38,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::Top>
+            <Popover position=PopoverPosition::Top>
                 <PopoverTrigger slot>
                     <Button>"Top"</Button>
                 </PopoverTrigger>
@@ -46,7 +46,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::TopEnd>
+            <Popover position=PopoverPosition::TopEnd>
                 <PopoverTrigger slot>
                     <Button>"Top End"</Button>
                 </PopoverTrigger>
@@ -54,7 +54,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::LeftStart trigger_type=PopoverTriggerType::Click>
+            <Popover position=PopoverPosition::LeftStart trigger_type=PopoverTriggerType::Click>
                 <PopoverTrigger slot>
                     <Button>"Left Start"</Button>
                 </PopoverTrigger>
@@ -62,7 +62,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem offset=1>
-            <Popover placement=PopoverPlacement::RightStart>
+            <Popover position=PopoverPosition::RightStart>
                 <PopoverTrigger slot>
                     <Button>"Right Start"</Button>
                 </PopoverTrigger>
@@ -70,7 +70,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::Left trigger_type=PopoverTriggerType::Click>
+            <Popover position=PopoverPosition::Left trigger_type=PopoverTriggerType::Click>
                 <PopoverTrigger slot>
                     <Button>"Left"</Button>
                 </PopoverTrigger>
@@ -78,7 +78,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem offset=1>
-            <Popover placement=PopoverPlacement::Right>
+            <Popover position=PopoverPosition::Right>
                 <PopoverTrigger slot>
                     <Button>"Right"</Button>
                 </PopoverTrigger>
@@ -86,7 +86,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::LeftEnd>
+            <Popover position=PopoverPosition::LeftEnd>
                 <PopoverTrigger slot>
                     <Button>"Left End"</Button>
                 </PopoverTrigger>
@@ -94,7 +94,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem offset=1>
-            <Popover placement=PopoverPlacement::RightEnd>
+            <Popover position=PopoverPosition::RightEnd>
                 <PopoverTrigger slot>
                     <Button>"Right End"</Button>
                 </PopoverTrigger>
@@ -102,7 +102,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::BottomStart>
+            <Popover position=PopoverPosition::BottomStart>
                 <PopoverTrigger slot>
                     <Button>"Bottom Start"</Button>
                 </PopoverTrigger>
@@ -110,7 +110,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::Bottom>
+            <Popover position=PopoverPosition::Bottom>
                 <PopoverTrigger slot>
                     <Button>"Bottom"</Button>
                 </PopoverTrigger>
@@ -118,7 +118,7 @@ view! {
             </Popover>
         </GridItem>
         <GridItem>
-            <Popover placement=PopoverPlacement::BottomEnd>
+            <Popover position=PopoverPosition::BottomEnd>
                 <PopoverTrigger slot>
                     <Button>"Bottom End"</Button>
                 </PopoverTrigger>
@@ -152,12 +152,12 @@ view! {
 
 ### Popover Props
 
-| Name      | Type                                | Default                 | Description                   |
-| --------- | ----------------------------------- | ----------------------- | ----------------------------- |
-| class     | `OptionalProp<MaybeSignal<String>>` | `Default::default()`    | Content class of the popover. |
-| placement | `PopoverPlacement`                  | `PopoverPlacement::Top` | Popover placement.            |
-| tooltip   | `bool`                              | `false`                 | Tooltip.                      |
-| children  | `Children`                          |                         | The content inside popover.   |
+| Name     | Type                                | Default                | Description                   |
+| -------- | ----------------------------------- | ---------------------- | ----------------------------- |
+| class    | `OptionalProp<MaybeSignal<String>>` | `Default::default()`   | Content class of the popover. |
+| position | `PopoverPosition`                   | `PopoverPosition::Top` | Popover position.             |
+| tooltip  | `bool`                              | `false`                | Tooltip.                      |
+| children | `Children`                          |                        | The content inside popover.   |
 
 ### Popover Slots
 

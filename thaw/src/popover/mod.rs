@@ -16,9 +16,12 @@ pub fn Popover(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] trigger_type: PopoverTriggerType,
     popover_trigger: PopoverTrigger,
-    #[prop(optional)] placement: PopoverPlacement,
+    /// Configures the position of the Popover.
+    #[prop(optional)]
+    position: PopoverPosition,
     /// A popover can appear styled with brand or inverted. When not specified, the default style is used.
-    #[prop(optional, into)] appearance: Option<MaybeSignal<PopoverAppearance>>,
+    #[prop(optional, into)]
+    appearance: Option<MaybeSignal<PopoverAppearance>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
@@ -117,7 +120,7 @@ pub fn Popover(
             >
                 {trigger_children()}
             </div>
-            <Follower slot show=is_show_popover placement>
+            <Follower slot show=is_show_popover placement=position>
                 <CSSTransition
                     node_ref=popover_ref
                     name="popover-transition"
@@ -173,7 +176,7 @@ pub enum PopoverTriggerType {
 impl Copy for PopoverTriggerType {}
 
 #[derive(Default)]
-pub enum PopoverPlacement {
+pub enum PopoverPosition {
     #[default]
     Top,
     Bottom,
@@ -189,21 +192,21 @@ pub enum PopoverPlacement {
     BottomEnd,
 }
 
-impl From<PopoverPlacement> for FollowerPlacement {
-    fn from(value: PopoverPlacement) -> Self {
+impl From<PopoverPosition> for FollowerPlacement {
+    fn from(value: PopoverPosition) -> Self {
         match value {
-            PopoverPlacement::Top => Self::Top,
-            PopoverPlacement::Bottom => Self::Bottom,
-            PopoverPlacement::Left => Self::Left,
-            PopoverPlacement::Right => Self::Right,
-            PopoverPlacement::TopStart => Self::TopStart,
-            PopoverPlacement::TopEnd => Self::TopEnd,
-            PopoverPlacement::LeftStart => Self::LeftStart,
-            PopoverPlacement::LeftEnd => Self::LeftEnd,
-            PopoverPlacement::RightStart => Self::RightStart,
-            PopoverPlacement::RightEnd => Self::RightEnd,
-            PopoverPlacement::BottomStart => Self::BottomStart,
-            PopoverPlacement::BottomEnd => Self::BottomEnd,
+            PopoverPosition::Top => Self::Top,
+            PopoverPosition::Bottom => Self::Bottom,
+            PopoverPosition::Left => Self::Left,
+            PopoverPosition::Right => Self::Right,
+            PopoverPosition::TopStart => Self::TopStart,
+            PopoverPosition::TopEnd => Self::TopEnd,
+            PopoverPosition::LeftStart => Self::LeftStart,
+            PopoverPosition::LeftEnd => Self::LeftEnd,
+            PopoverPosition::RightStart => Self::RightStart,
+            PopoverPosition::RightEnd => Self::RightEnd,
+            PopoverPosition::BottomStart => Self::BottomStart,
+            PopoverPosition::BottomEnd => Self::BottomEnd,
         }
     }
 }
