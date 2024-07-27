@@ -1,6 +1,7 @@
 use leptos::reactive_graph::{
     effect::Effect,
-    signal::RwSignal,
+    owner::Storage,
+    signal::{ArcReadSignal, ArcRwSignal, RwSignal},
     traits::{Dispose, With},
     untrack,
 };
@@ -11,10 +12,12 @@ pub trait SignalWatch {
     fn watch(&self, f: impl Fn(&Self::Value) + 'static) -> Box<dyn FnOnce()>;
 }
 
-impl<T: 'static> SignalWatch for RwSignal<T> {
+impl<T, S> SignalWatch for RwSignal<T, S>
+where
+    T: 'static,
+    S: Storage<ArcRwSignal<T>> + Storage<ArcReadSignal<T>>,
+{
     type Value = T;
-
-    /// Listens for RwSignal changes and is not executed immediately
     ///
     /// ## Usage
     ///
