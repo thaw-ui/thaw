@@ -5,6 +5,7 @@ use thaw_utils::{class_list, mount_style, StoredMaybeSignal};
 pub fn MessageBar(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] layout: MaybeSignal<MessageBarLayout>,
+    /// Default designs announcement presets.
     #[prop(optional, into)] intent: MaybeSignal<MessageBarIntent>,
     children: Children,
 ) -> impl IntoView {

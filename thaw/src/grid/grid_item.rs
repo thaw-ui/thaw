@@ -4,7 +4,9 @@ use thaw_utils::class_list;
 
 #[component]
 pub fn GridItem(
+    /// The number of columns occupied by the grid. The grid item would be hidden if it's 0.
     #[prop(default = MaybeSignal::Static(1u16), into)] column: MaybeSignal<u16>,
+    /// The number of intervals to the left of the grid.
     #[prop(optional, into)] offset: MaybeSignal<u16>,
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,

@@ -6,8 +6,11 @@ use thaw_utils::{class_list, mount_style, Model};
 #[component]
 pub fn InlineDrawer(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Controls the open state of the Drawer.
     #[prop(into)] open: Model<bool>,
+    /// Position of the drawer.
     #[prop(optional, into)] position: MaybeSignal<DrawerPosition>,
+    /// Size of the drawer.
     #[prop(optional, into)] size: MaybeSignal<DrawerSize>,
     children: Children,
 ) -> impl IntoView {

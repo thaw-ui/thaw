@@ -36,9 +36,11 @@ pub fn Input(
     #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] allow_value: Option<BoxOneCallback<String, bool>>,
     #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
+    /// Placeholder text for the input.
     #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
+    /// Whether the input is disabled
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,

@@ -5,6 +5,8 @@ use thaw_utils::{class_list, mount_style};
 pub fn ProgressBar(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(into, optional)] value: MaybeSignal<f64>,
+    /// The maximum value, which indicates the task is complete.
+    /// The ProgressBar bar will be full when value equals max.
     #[prop(default = 1.0.into(), optional)] max: MaybeSignal<f64>,
     #[prop(into, optional)] color: MaybeSignal<ProgressBarColor>,
 ) -> impl IntoView {

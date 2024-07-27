@@ -17,6 +17,7 @@ pub fn Popover(
     #[prop(optional)] trigger_type: PopoverTriggerType,
     popover_trigger: PopoverTrigger,
     #[prop(optional)] placement: PopoverPlacement,
+    /// A popover can appear styled with brand or inverted. When not specified, the default style is used.
     #[prop(optional, into)] appearance: Option<MaybeSignal<PopoverAppearance>>,
     children: Children,
 ) -> impl IntoView {

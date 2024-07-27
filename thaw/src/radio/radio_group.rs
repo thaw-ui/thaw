@@ -4,6 +4,7 @@ use thaw_utils::{class_list, OptionModel};
 #[component]
 pub fn RadioGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The selected Radio item in this group.
     #[prop(optional, into)] value: OptionModel<String>,
     /// The name of this radio group.
     #[prop(optional, into)]

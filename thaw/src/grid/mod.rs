@@ -6,8 +6,11 @@ use thaw_utils::class_list;
 
 #[component]
 pub fn Grid(
+    /// Number of grids displayed.
     #[prop(default = MaybeSignal::Static(1u16), into)] cols: MaybeSignal<u16>,
+    // Horizontal gap.
     #[prop(optional, into)] x_gap: MaybeSignal<u16>,
+    /// Vertical gap.
     #[prop(optional, into)] y_gap: MaybeSignal<u16>,
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,

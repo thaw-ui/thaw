@@ -10,6 +10,7 @@ use thaw_utils::{class_list, mount_style};
 pub fn Radio(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: String,
+    /// The Radio's label.
     #[prop(optional, into)] label: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("radio", include_str!("./radio.css"));

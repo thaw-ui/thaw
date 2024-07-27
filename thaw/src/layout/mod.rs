@@ -30,6 +30,7 @@ pub fn Layout(
     #[prop(optional, into)] content_class: MaybeProp<String>,
     #[prop(optional, into)] content_style: MaybeProp<String>,
     #[prop(optional)] position: LayoutPosition,
+    /// Whether the component has sider inside. If so it must be true.
     #[prop(optional, into)] has_sider: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {

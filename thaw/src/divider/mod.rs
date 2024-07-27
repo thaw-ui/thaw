@@ -5,6 +5,7 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn Divider(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// A divider can be horizontal (default) or vertical.
     #[prop(optional, into)] vertical: MaybeSignal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
