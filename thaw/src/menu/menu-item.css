@@ -6,11 +6,11 @@
     align-items: center;
 }
 
-.thaw-menu-item:hover:not(.thaw-dropdown-item--disabled) {
+.thaw-menu-item:hover:not(.thaw-menu-item--disabled) {
     background-color: var(--colorNeutralBackground1Hover);
 }
 
-.thaw-menu-item.thaw-dropdown-item--disabled {
+.thaw-menu-item.thaw-menu-item--disabled {
     color: var(--colorNeutralForegroundDisabled);
     cursor: not-allowed;
 }
