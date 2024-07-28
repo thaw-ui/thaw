@@ -1,7 +1,13 @@
 [package]
 name = "thaw_macro"
-version = "0.1.0"
+version = "0.1.0-alpha"
 edition = "2021"
+keywords = ["leptos", "thaw", "macro"]
+readme = "../README.md"
+authors = ["luoxiaozero"]
+description = "Shared Thaw internal macro"
+repository = "https://github.com/thaw-ui/thaw"
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
