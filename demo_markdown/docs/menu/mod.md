@@ -1,11 +1,10 @@
 # Menu
 
 ```rust demo
+let toaster = ToasterInjection::expect_context();
 
-
-let on_select = |key: String| {
+let on_select = move |key: String| {
   leptos::logging::warn!("{}", key);
-  let toaster = ToasterInjection::expect_context();
   toaster.dispatch_toast(view! {
         <Toast>
             <ToastBody>

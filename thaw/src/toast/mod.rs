@@ -16,10 +16,10 @@ use std::sync::mpsc::{channel, Receiver, Sender, TryIter};
 use tachys::view::any_view::AnyView;
 use wasm_bindgen::UnwrapThrowExt;
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct ToasterInjection {
-    sender: Sender<(AnyView<Dom>, ToastOptions)>,
-    trigger: ArcTrigger,
+    sender: StoredValue<Sender<(AnyView<Dom>, ToastOptions)>>,
+    trigger: StoredValue<ArcTrigger>,
 }
 
 impl ToasterInjection {
@@ -33,16 +33,17 @@ impl ToasterInjection {
 
         (
             Self {
-                sender,
-                trigger: trigger.clone(),
+                sender: StoredValue::new(sender),
+                trigger: StoredValue::new(trigger.clone()),
             },
             ToasterReceiver::new(receiver, trigger),
         )
     }
 
     pub fn dispatch_toast(&self, any_view: AnyView<Dom>, options: ToastOptions) {
-        self.sender.send((any_view, options)).unwrap_throw();
-        self.trigger.trigger();
+        self.sender
+            .with_value(|sender| sender.send((any_view, options)).unwrap_throw());
+        self.trigger.with_value(|trigger| trigger.trigger());
     }
 }
 

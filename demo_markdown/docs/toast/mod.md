@@ -30,9 +30,9 @@ view! {
 ### Toast Positions
 
 ```rust demo
-fn dispatch_toast(position: ToastPosition) {
-    let toaster = ToasterInjection::expect_context();
+let toaster = ToasterInjection::expect_context();
 
+fn dispatch_toast(toaster: ToasterInjection, position: ToastPosition) {
     toaster.dispatch_toast(view! {
         <Toast>
             <ToastTitle>"Email sent"</ToastTitle>
@@ -53,12 +53,12 @@ fn dispatch_toast(position: ToastPosition) {
 
 view! {
     <Space>
-        <Button on_click=move |_| dispatch_toast(ToastPosition::Bottom)>"Bottom"</Button>
-        <Button on_click=move |_| dispatch_toast(ToastPosition::BottomStart)>"BottomStart"</Button>
-        <Button on_click=move |_| dispatch_toast(ToastPosition::BottomEnd)>"BottomEnd"</Button>
-        <Button on_click=move |_| dispatch_toast(ToastPosition::Top)>"Top"</Button>
-        <Button on_click=move |_| dispatch_toast(ToastPosition::TopStart)>"Topstart"</Button>
-        <Button on_click=move |_| dispatch_toast(ToastPosition::TopEnd)>"TopEnd"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastPosition::Bottom)>"Bottom"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastPosition::BottomStart)>"BottomStart"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastPosition::BottomEnd)>"BottomEnd"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastPosition::Top)>"Top"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastPosition::TopStart)>"Topstart"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastPosition::TopEnd)>"TopEnd"</Button>
     </Space>
 }
 ```
