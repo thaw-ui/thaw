@@ -23,7 +23,7 @@ pub fn SwitchVersion() -> impl IntoView {
                 }
             });
         } else {
-            let version = RwSignal::new(None::<String>);
+            // let version = RwSignal::new(None::<String>);
         }
     }
 

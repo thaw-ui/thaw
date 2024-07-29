@@ -3,20 +3,20 @@ use cfg_if::cfg_if;
 pub fn mount_style(id: &str, content: &'static str) {
     cfg_if! {
         if #[cfg(feature = "ssr")] {
-            use leptos::html::style;
-            use leptos_meta::use_head;
-            let meta = use_head();
-            let style_el = style().attr("data-thaw-id", id).child(content);
-            meta.tags.register(format!("leptos-thaw-{id}").into(), style_el.into_any());
+            use leptos::{tachys::view::Render, view};
+            use leptos_meta::Style;
+
+            let _ = view! {
+                <Style attr:data-thaw-id=id>
+                    {content}
+                </Style>
+            };
         } else {
             use leptos::prelude::document;
             let head = document().head().expect("head no exist");
             let style = head
                 .query_selector(&format!("style[data-thaw-id=\"{id}\"]"))
                 .expect("query style element error");
-
-            #[cfg(feature = "hydrate")]
-            let _ = leptos::leptos_dom::HydrationCtx::id();
 
             if style.is_some() {
                 return;
@@ -35,12 +35,14 @@ pub fn mount_style(id: &str, content: &'static str) {
 pub fn mount_dynamic_style<T: Fn() -> String + Send + Sync + 'static>(id: String, f: T) {
     cfg_if! {
         if #[cfg(feature = "ssr")] {
-            use leptos::html::style;
-            use leptos_meta::use_head;
-            let meta = use_head();
-            let content = leptos::untrack(|| f());
-            let style_el = style().attr("data-thaw-id", id).child(content);
-            meta.tags.register(format!("leptos-thaw-{id}").into(), style_el.into_any());
+            use leptos::{tachys::view::Render, view};
+            use leptos_meta::Style;
+
+            let _ = view! {
+                <Style attr:data-thaw-id=id>
+                    {f()}
+                </Style>
+            };
         } else {
             use leptos::prelude::document;
             use send_wrapper::SendWrapper;
@@ -57,9 +59,6 @@ pub fn mount_dynamic_style<T: Fn() -> String + Send + Sync + 'static>(id: String
 
                     style
                 });
-
-            #[cfg(feature = "hydrate")]
-            let _ = leptos::leptos_dom::HydrationCtx::id();
 
             let style = SendWrapper::new(style);
             leptos::prelude::Effect::new_isomorphic(move |_| {

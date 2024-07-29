@@ -1,7 +1,5 @@
-#[cfg(not(feature = "ssr"))]
-use leptos::prelude::RenderEffect;
 use leptos::{
-    prelude::{MaybeProp, Memo, Oco, RwSignal},
+    prelude::{MaybeProp, Memo, Oco, RenderEffect, RwSignal},
     reactive_graph::traits::{Get, Update, With, WithUntracked},
     tachys::renderer::DomRenderer,
 };
@@ -10,8 +8,11 @@ use std::{collections::HashSet, sync::Arc};
 #[derive(Clone, Default)]
 pub struct ClassList {
     value: RwSignal<HashSet<Oco<'static, str>>>,
+    #[cfg(not(feature = "ssr"))]
     effects_oco: Vec<Arc<RenderEffect<Oco<'static, str>>>>,
+    #[cfg(not(feature = "ssr"))]
     effects_option_oco: Vec<Arc<RenderEffect<Option<Oco<'static, str>>>>>,
+    #[cfg(not(feature = "ssr"))]
     effects_bool: Vec<Arc<RenderEffect<bool>>>,
 }
 
@@ -33,7 +34,7 @@ impl ClassList {
                 #[cfg(feature = "ssr")]
                 {
                     let name = f();
-                    self.0.update(|set| {
+                    self.value.update(|set| {
                         set.insert(name);
                     });
                 }
@@ -62,7 +63,7 @@ impl ClassList {
                 #[cfg(feature = "ssr")]
                 {
                     if let Some(name) = f() {
-                        self.0.update(|set| {
+                        self.value.update(|set| {
                             set.insert(name);
                         });
                     }
@@ -103,11 +104,11 @@ impl ClassList {
                 #[cfg(feature = "ssr")]
                 {
                     let new = f();
-                    self.0.update(|set| {
-                        if new {
+                    if new {
+                        self.value.update(|set| {
                             set.insert(name);
-                        }
-                    });
+                        });
+                    }
                 }
                 #[cfg(not(feature = "ssr"))]
                 {
