@@ -18,6 +18,9 @@ chrono = "0.4.33"
 cfg-if = "1.0.0"
 # leptos-use = "0.10.10"
 send_wrapper = "0.6"
+console_error_panic_hook = "0.1.7"
+console_log = "1"
+log = "0.4"
 
 [features]
 default = ["csr"]
