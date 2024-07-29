@@ -13,6 +13,7 @@ pub fn AutoCompleteOption(
     let listbox = ListboxInjection::expect_context();
     let is_selected = Memo::new({
         let value = value.clone();
+        let auto_complete = auto_complete.clone();
         move |_| auto_complete.is_selected(&value)
     });
     let id = uuid::Uuid::new_v4().to_string();
@@ -20,6 +21,7 @@ pub fn AutoCompleteOption(
         auto_complete.insert_option(id.clone(), value.clone());
         let id = id.clone();
         listbox.trigger();
+        let auto_complete = auto_complete.clone();
         on_cleanup(move || {
             auto_complete.remove_option(&id);
             listbox.trigger();

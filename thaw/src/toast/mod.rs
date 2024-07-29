@@ -14,6 +14,7 @@ pub use toaster_provider::*;
 use leptos::prelude::*;
 use std::sync::mpsc::{channel, Receiver, Sender, TryIter};
 use tachys::view::any_view::AnyView;
+use wasm_bindgen::UnwrapThrowExt;
 
 #[derive(Clone)]
 pub struct ToasterInjection {
@@ -40,7 +41,7 @@ impl ToasterInjection {
     }
 
     pub fn dispatch_toast(&self, any_view: AnyView<Dom>, options: ToastOptions) {
-        self.sender.send((any_view, options)).unwrap();
+        self.sender.send((any_view, options)).unwrap_throw();
         self.trigger.trigger();
     }
 }

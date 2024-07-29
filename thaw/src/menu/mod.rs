@@ -8,7 +8,7 @@ use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{
     add_event_listener, call_on_click_outside, class_list, mount_style, ArcOneCallback,
-    OptionalProp,
+    BoxCallback, OptionalProp,
 };
 
 #[slot]
@@ -72,7 +72,7 @@ pub fn Menu(
     };
 
     if trigger_type != MenuTriggerType::Hover {
-        call_on_click_outside(menu_ref, Callback::new(move |_| is_show_menu.set(false)));
+        call_on_click_outside(menu_ref, BoxCallback::new(move || is_show_menu.set(false)));
     }
 
     Effect::new(move |_| {

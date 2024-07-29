@@ -3,13 +3,13 @@ use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate};
 use chrono::{Datelike, Days, Month, Months, NaiveDate};
 use leptos::prelude::*;
 use std::ops::Deref;
-use thaw_utils::now_date;
+use thaw_utils::{now_date, ArcOneCallback};
 
 #[component]
 pub fn DatePanel(
     value: RwSignal<Option<NaiveDate>>,
     show_date: RwSignal<NaiveDate>,
-    close_panel: Callback<Option<NaiveDate>>,
+    close_panel: ArcOneCallback<Option<NaiveDate>>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
     let dates = Memo::new(move |_| {
@@ -80,8 +80,11 @@ pub fn DatePanel(
             *date = *date + Months::new(1);
         });
     };
-    let now = move |_| {
-        close_panel.call(Some(now_date()));
+    let now = {
+        let close_panel = close_panel.clone();
+        move |_| {
+            close_panel(Some(now_date()));
+        }
     };
     view! {
         <div>
@@ -145,8 +148,9 @@ pub fn DatePanel(
                             .map(|date| {
                                 let on_click = {
                                     let date = date.clone();
+                                    let close_panel = close_panel.clone();
                                     move |_| {
-                                        close_panel.call(Some(*date.deref()));
+                                        close_panel(Some(*date.deref()));
                                     }
                                 };
                                 view! { <DatePanelItem value date=date on:click=on_click/> }

@@ -47,7 +47,7 @@ pub fn DatePicker(
         }
     };
 
-    let close_panel = Callback::new(move |date: Option<NaiveDate>| {
+    let close_panel = move |date: Option<NaiveDate>| {
         if value.get_untracked() != date {
             if date.is_some() {
                 value.set(date);
@@ -55,7 +55,7 @@ pub fn DatePicker(
             update_show_date_text();
         }
         is_show_panel.set(false);
-    });
+    };
 
     let open_panel = move |_| {
         panel_selected_date.set(value.get_untracked());

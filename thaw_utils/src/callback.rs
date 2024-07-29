@@ -113,3 +113,32 @@ where
         Self::new(value)
     }
 }
+
+#[derive(Clone)]
+pub struct ArcTwoCallback<A, B>(Arc<dyn Fn(A, B) + Send + Sync + 'static>);
+
+impl<A, B> ArcTwoCallback<A, B> {
+    pub fn new<F>(f: F) -> Self
+    where
+        F: Fn(A, B) + Send + Sync + 'static,
+    {
+        Self(Arc::new(f))
+    }
+}
+
+impl<A, B> Deref for ArcTwoCallback<A, B> {
+    type Target = Arc<dyn Fn(A, B) + Send + Sync + 'static>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<F, A, B> From<F> for ArcTwoCallback<A, B>
+where
+    F: Fn(A, B) + Send + Sync + 'static,
+{
+    fn from(value: F) -> Self {
+        Self::new(value)
+    }
+}

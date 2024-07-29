@@ -5,7 +5,7 @@ use crate::{
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{class_list, mount_style, ComponentRef, OptionModel};
+use thaw_utils::{class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel};
 
 #[component]
 pub fn TimePicker(
@@ -48,7 +48,7 @@ pub fn TimePicker(
             update_show_time_text();
         }
     };
-    let close_panel = Callback::new(move |time: Option<NaiveTime>| {
+    let close_panel = move |time: Option<NaiveTime>| {
         if value.get_untracked() != time {
             if time.is_some() {
                 value.set(time);
@@ -56,7 +56,7 @@ pub fn TimePicker(
             update_show_time_text();
         }
         is_show_panel.set(false);
-    });
+    };
 
     let open_panel = move |_| {
         panel_selected_time.set(value.get_untracked());
@@ -94,16 +94,22 @@ pub fn TimePicker(
 fn Panel(
     selected_time: RwSignal<Option<NaiveTime>>,
     time_picker_ref: NodeRef<html::Div>,
-    close_panel: Callback<Option<NaiveTime>>,
+    #[prop(into)] close_panel: ArcOneCallback<Option<NaiveTime>>,
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let config_provider = ConfigInjection::expect_context();
-    let now = move |_| {
-        close_panel.call(Some(now_time()));
+    let now = {
+        let close_panel = close_panel.clone();
+        move |_| {
+            close_panel(Some(now_time()));
+        }
     };
-    let ok = move |_| {
-        close_panel.call(selected_time.get_untracked());
+    let ok = {
+        let close_panel = close_panel.clone();
+        move |_| {
+            close_panel(selected_time.get_untracked());
+        }
     };
 
     let panel_ref = NodeRef::<html::Div>::new();
@@ -128,7 +134,7 @@ fn Panel(
                 }
                 el = current_el.parent_element();
             }
-            close_panel.call(None);
+            close_panel(None);
         });
         on_cleanup(move || handle.remove());
     }

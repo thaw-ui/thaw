@@ -8,14 +8,14 @@ use date_panel::DatePanel;
 use leptos::{html, prelude::*};
 use month_panel::MonthPanel;
 use thaw_components::CSSTransition;
-use thaw_utils::{now_date, ComponentRef};
+use thaw_utils::{now_date, ArcOneCallback, ComponentRef};
 use year_panel::YearPanel;
 
 #[component]
 pub fn Panel(
     selected_date: RwSignal<Option<NaiveDate>>,
     date_picker_ref: NodeRef<html::Div>,
-    close_panel: Callback<Option<NaiveDate>>,
+    #[prop(into)] close_panel: ArcOneCallback<Option<NaiveDate>>,
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
@@ -24,6 +24,7 @@ pub fn Panel(
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
+        let close_panel = close_panel.clone();
         let handle = window_event_listener(leptos::ev::click, move |ev| {
             let el = ev.target();
             let mut el: Option<web_sys::Element> =
@@ -46,7 +47,7 @@ pub fn Panel(
                 }
                 el = current_el.parent_element();
             }
-            close_panel.call(None);
+            close_panel(None);
         });
         on_cleanup(move || handle.remove());
     }
@@ -80,6 +81,7 @@ pub fn Panel(
                 {move || {
                     match panel_variant.get() {
                         PanelVariant::Date => {
+                            let close_panel = close_panel.clone();
                             view! {
                                 <DatePanel value=selected_date show_date close_panel panel_variant/>
                             }.into_any()

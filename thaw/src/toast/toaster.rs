@@ -4,7 +4,8 @@ use leptos::{either::Either, html, prelude::*, tachys::view::any_view::AnyView};
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
 use thaw_components::{CSSTransition, Teleport};
-use thaw_utils::mount_style;
+use thaw_utils::{mount_style, ArcTwoCallback};
+use wasm_bindgen::UnwrapThrowExt;
 
 #[component]
 pub fn Toaster(
@@ -42,7 +43,7 @@ pub fn Toaster(
                 options.timeout = Some(timeout);
             }
 
-            let list = id_list(&options.position.unwrap());
+            let list = id_list(&options.position.unwrap_throw());
             let id = options.id;
             toasts.update_value(|map| {
                 map.insert(id, (SendWrapper::new(view), options));
@@ -53,7 +54,7 @@ pub fn Toaster(
         }
     });
 
-    let on_close = move |(id, position)| {
+    let on_close = StoredValue::new(ArcTwoCallback::new(move |id, position| {
         let list = id_list(&position);
         list.update(move |list| {
             let Some(index) = list.iter().position(|item_id| &id == item_id) else {
@@ -61,7 +62,7 @@ pub fn Toaster(
             };
             list.remove(index);
         });
-    };
+    }));
 
     view! {
         <Teleport>
@@ -168,7 +169,7 @@ pub fn Toaster(
 fn ToasterContainer(
     view: AnyView<Dom>,
     options: ToastOptions,
-    #[prop(into)] on_close: Callback<(uuid::Uuid, ToastPosition)>,
+    #[prop(into)] on_close: StoredValue<ArcTwoCallback<uuid::Uuid, ToastPosition>>,
 ) -> impl IntoView {
     let container_ref = NodeRef::<html::Div>::new();
     let is_show = RwSignal::new(true);
@@ -178,8 +179,8 @@ fn ToasterContainer(
         position,
         ..
     } = options;
-    let timeout = timeout.unwrap();
-    let position = position.unwrap();
+    let timeout = timeout.unwrap_throw();
+    let position = position.unwrap_throw();
 
     if !timeout.is_zero() {
         set_timeout(
@@ -197,7 +198,11 @@ fn ToasterContainer(
         el.style(("max-height", format!("{}px", el.offset_height())));
     };
     let on_after_leave = move || {
-        request_animation_frame(move || on_close.call((id, position)));
+        request_animation_frame(move || {
+            if let Some(f) = on_close.try_with_value(|f| f.clone()) {
+                f(id, position);
+            }
+        });
     };
 
     view! {

@@ -10,7 +10,7 @@ use crate::{
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{class_list, mount_style, BoxOneCallback, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, ArcOneCallback, BoxOneCallback, Model, OptionalProp};
 
 #[slot]
 pub struct AutoCompletePrefix {
@@ -50,7 +50,7 @@ pub fn AutoComplete(
         true
     };
 
-    let select_option = Callback::new(move |option_value: String| {
+    let select_option = ArcOneCallback::new(move |option_value: String| {
         if clear_after_select.get_untracked() {
             value.set(String::new());
         } else {
@@ -77,20 +77,24 @@ pub fn AutoComplete(
             open_listbox.set(false);
         }
     };
-    let on_keydown = move |e| {
-        listbox_keyboard_event(
-            e,
-            open_listbox,
-            false,
-            &active_descendant_controller,
-            move |option| {
-                options.with_value(|options| {
-                    if let Some(value) = options.get(&option.id()) {
-                        select_option.call(value.clone());
-                    }
-                });
-            },
-        );
+    let on_keydown = {
+        let select_option = select_option.clone();
+        move |e| {
+            let select_option = select_option.clone();
+            listbox_keyboard_event(
+                e,
+                open_listbox,
+                false,
+                &active_descendant_controller,
+                move |option| {
+                    options.with_value(|options| {
+                        if let Some(value) = options.get(&option.id()) {
+                            select_option(value.clone());
+                        }
+                    });
+                },
+            );
+        }
     };
 
     comp_ref.load(AutoCompleteRef { input_ref });
@@ -153,10 +157,10 @@ pub fn AutoComplete(
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub(crate) struct AutoCompleteInjection {
     value: Model<String>,
-    select_option: Callback<String>,
+    select_option: ArcOneCallback<String>,
     options: StoredValue<HashMap<String, String>>,
 }
 
@@ -170,7 +174,7 @@ impl AutoCompleteInjection {
     }
 
     pub fn select_option(&self, value: String) {
-        self.select_option.call(value);
+        (self.select_option)(value);
     }
 
     pub fn insert_option(&self, id: String, value: String) {

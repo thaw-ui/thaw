@@ -1,7 +1,8 @@
+use crate::BoxCallback;
 use leptos::{html::Div, prelude::*};
 use tachys::reactive_graph::node_ref::NodeRef;
 
-pub fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
+pub fn call_on_click_outside(element: NodeRef<Div>, on_click: BoxCallback) {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::ev;
@@ -23,7 +24,7 @@ pub fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
                 }
                 el = current_el.parent_element();
             }
-            on_click.call(());
+            on_click();
         });
         on_cleanup(move || handle.remove());
     }
