@@ -1,17 +1,19 @@
 # Menu
 
 ```rust demo
-//let message = use_message();
 
-//let on_select = move |key: String| {
-//    match key.as_str() {
-//        "facebook" => message.create( "Facebook".into(), MessageVariant::Success, Default::default(),),
-//        "twitter" =>  message.create( "Twitter".into(), MessageVariant::Warning, Default::default(),),
-//        _ => ()
-//    }
-//};
 
-let on_select = move |value| println!("{}", value);
+let on_select = |key: String| {
+  leptos::logging::warn!("{}", key);
+  let toaster = ToasterInjection::expect_context();
+  toaster.dispatch_toast(view! {
+        <Toast>
+            <ToastBody>
+                "key"
+            </ToastBody>
+        </Toast>
+  }.into_any(), Default::default());
+};
 
 view! {
     <Space>
@@ -40,7 +42,7 @@ view! {
 ```rust demo
 use leptos_meta::Style;
 
-let on_select = move |value| println!("{}", value);
+let on_select = move |value| leptos::logging::warn!("{}", value);
 
 view! {
     <Style>
@@ -52,7 +54,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Top Start"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -60,7 +62,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Top"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -68,7 +70,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Top End"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -76,7 +78,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Left Start"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem offset=1>
@@ -84,7 +86,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Right Start"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -92,7 +94,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Left"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem offset=1>
@@ -100,7 +102,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Right"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -108,7 +110,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Left End"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem offset=1>
@@ -116,7 +118,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Right End"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -124,7 +126,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Bottom Start"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -132,7 +134,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Bottom"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
         <GridItem>
@@ -140,7 +142,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Bottom End"</Button>
                 </MenuTrigger>
-                "Content"
+                <MenuItem value="content">"Content"</MenuItem>
             </Menu>
         </GridItem>
     </Grid>
