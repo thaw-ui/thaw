@@ -21,10 +21,8 @@ macro_rules! file_path {
 pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let file_list = file_path! {
         "DevelopmentComponentsMdPage" => "../docs/_guide/development/components.md",
-        "DevelopmentGuideMdPage" => "../docs/_guide/development/guide.md",
         "InstallationMdPage" => "../docs/_guide/installation.md",
         "ServerSiderRenderingMdPage" => "../docs/_guide/server_sider_rendering.md",
-        "UsageMdPage" => "../docs/_guide/usage.md",
         // "NavBarMdPage" => "../docs/_mobile/nav_bar/mod.md",
         // "TabbarMdPage" => "../docs/_mobile/tabbar/mod.md",
         // "ToastMdPage" => "../docs/_mobile/toast/mod.md",

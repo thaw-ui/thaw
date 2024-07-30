@@ -44,9 +44,7 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
             <Route path=StaticSegment("") view=Home/>
             <ParentRoute path=StaticSegment("guide") view=ComponentsPage>
                 <Route path=StaticSegment("installation") view=InstallationMdPage/>
-                <Route path=StaticSegment("usage") view=UsageMdPage/>
                 <Route path=StaticSegment("server-sider-rendering") view=ServerSiderRenderingMdPage/>
-                <Route path=(StaticSegment("development"), StaticSegment("guide")) view=DevelopmentGuideMdPage/>
                 <Route path=(StaticSegment("development"), StaticSegment("components")) view=DevelopmentComponentsMdPage/>
             </ParentRoute>
             <ParentRoute path=StaticSegment("components") view=ComponentsPage>

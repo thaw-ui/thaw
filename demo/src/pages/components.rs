@@ -105,31 +105,20 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Installation".into(),
                 },
                 MenuItemOption {
-                    value: "/guide/usage".into(),
-                    label: "Usage".into(),
+                    value: "/guide/server-sider-rendering".into(),
+                    label: "Server Sider Rendering".into(),
                 },
             ],
         },
-        MenuGroupOption {
-            label: "Guides".into(),
-            children: vec![MenuItemOption {
-                value: "/guide/server-sider-rendering".into(),
-                label: "Server Sider Rendering".into(),
-            }],
-        },
-        MenuGroupOption {
-            label: "Development".into(),
-            children: vec![
-                MenuItemOption {
-                    value: "/guide/development/guide".into(),
-                    label: "Guide".into(),
-                },
-                MenuItemOption {
-                    value: "/guide/development/components".into(),
-                    label: "Components".into(),
-                },
-            ],
-        },
+        // MenuGroupOption {
+        //     label: "Development".into(),
+        //     children: vec![
+        //         MenuItemOption {
+        //             value: "/guide/development/components".into(),
+        //             label: "Components".into(),
+        //         },
+        //     ],
+        // },
         MenuGroupOption {
             label: "Components".into(),
             children: vec![
