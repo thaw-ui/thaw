@@ -1,8 +1,5 @@
 use super::switch_version::SwitchVersion;
-use leptos::{
-    ev::{self, MouseEvent},
-    prelude::*,
-};
+use leptos::{ev::MouseEvent, prelude::*};
 use leptos_meta::Style;
 use leptos_router::hooks::use_navigate;
 // use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
@@ -77,16 +74,20 @@ pub fn SiteHeader() -> impl IntoView {
         }
     };
     let auto_complete_ref = ComponentRef::<AutoCompleteRef>::new();
-    let handle = window_event_listener(ev::keydown, move |event| {
-        let key = event.key();
-        if key == *"/" {
-            if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
-                event.prevent_default();
-                auto_complete_ref.focus();
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
+    {
+        use leptos::ev;
+        let handle = window_event_listener(ev::keydown, move |event| {
+            let key = event.key();
+            if key == *"/" {
+                if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
+                    event.prevent_default();
+                    auto_complete_ref.focus();
+                }
             }
-        }
-    });
-    on_cleanup(move || handle.remove());
+        });
+        on_cleanup(move || handle.remove());
+    }
 
     // let menu_value = use_menu_value(change_theme);
     view! {

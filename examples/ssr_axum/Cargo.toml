@@ -20,7 +20,8 @@ wasm-bindgen = "=0.2.92"
 thiserror = "1"
 tracing = { version = "0.1", optional = true }
 http = "1"
-
+console_log = "1"
+log = "0.4"
 demo = { path = "../../demo", default-features = false }
 
 [features]

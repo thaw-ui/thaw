@@ -3,7 +3,9 @@ use leptos::{
     reactive_graph::traits::{Get, Update, With, WithUntracked},
     tachys::renderer::DomRenderer,
 };
-use std::{collections::HashSet, sync::Arc};
+use std::collections::HashSet;
+#[cfg(not(feature = "ssr"))]
+use std::sync::Arc;
 
 #[derive(Clone, Default)]
 pub struct ClassList {
@@ -21,6 +23,7 @@ impl ClassList {
         Default::default()
     }
 
+    #[allow(unused_mut)]
     pub fn add(mut self, value: impl IntoClass) -> Self {
         let class = value.into_class();
         match class {
@@ -188,11 +191,18 @@ where
     fn hydrate<const FROM_SERVER: bool>(self, el: &R::Element) -> Self::State {
         let el = el.to_owned();
         RenderEffect::new(move |prev| {
-            if let Some(_) = prev {
-                unreachable!()
+            let mut class = String::new();
+            self.write_class_string(&mut class);
+
+            if let Some(state) = prev {
+                let (el, prev_class) = state;
+                if class != prev_class {
+                    R::set_attribute(&el, "class", &class);
+                    (el, class)
+                } else {
+                    (el, prev_class)
+                }
             } else {
-                let mut class = String::new();
-                self.write_class_string(&mut class);
                 if !class.is_empty() {
                     if !FROM_SERVER {
                         R::set_attribute(&el, "class", &class);
