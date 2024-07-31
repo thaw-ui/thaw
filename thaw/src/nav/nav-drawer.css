@@ -44,8 +44,9 @@
     position: relative;
     justify-content: start;
     gap: var(--spacingVerticalL);
+    width: 100%;
     padding: var(--spacingVerticalMNudge);
-    /* background-color: var(--colorNeutralBackground4); */
+    background-color: inherit;
     border-radius: var(--borderRadiusMedium);
     color: var(--colorNeutralForeground2);
     text-decoration-line: none;

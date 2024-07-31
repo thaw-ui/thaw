@@ -227,6 +227,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
                     label: "Message Bar".into(),
                 },
                 MenuItemOption {
+                    value: "/components/nav".into(),
+                    label: "Nav".into(),
+                },
+                MenuItemOption {
                     value: "/components/popover".into(),
                     label: "Popover".into(),
                 },
