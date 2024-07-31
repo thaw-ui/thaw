@@ -12,7 +12,7 @@ To enable the hydrate mode, the following configurations are required:
 thaw = { ..., features = ["hydrate"] }
 ```
 
-Remember to add thaw to your `Cargo.toml` fiile in the corresponding feature, e.g.
+Remember to add thaw to your `Cargo.toml` file in the corresponding feature, e.g.
 
 ```toml
 [features]
