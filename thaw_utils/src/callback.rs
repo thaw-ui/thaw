@@ -86,28 +86,28 @@ where
 }
 
 #[derive(Clone)]
-pub struct ArcOneCallback<A>(Arc<dyn Fn(A) + Send + Sync + 'static>);
+pub struct ArcOneCallback<A, Return = ()>(Arc<dyn Fn(A) -> Return + Send + Sync + 'static>);
 
-impl<A> ArcOneCallback<A> {
+impl<A, Return> ArcOneCallback<A, Return> {
     pub fn new<F>(f: F) -> Self
     where
-        F: Fn(A) + Send + Sync + 'static,
+        F: Fn(A) -> Return + Send + Sync + 'static,
     {
         Self(Arc::new(f))
     }
 }
 
-impl<A> Deref for ArcOneCallback<A> {
-    type Target = Arc<dyn Fn(A) + Send + Sync + 'static>;
+impl<A, Return> Deref for ArcOneCallback<A, Return> {
+    type Target = Arc<dyn Fn(A) -> Return + Send + Sync + 'static>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-impl<F, A> From<F> for ArcOneCallback<A>
+impl<F, A, Return> From<F> for ArcOneCallback<A, Return>
 where
-    F: Fn(A) + Send + Sync + 'static,
+    F: Fn(A) -> Return + Send + Sync + 'static,
 {
     fn from(value: F) -> Self {
         Self::new(value)

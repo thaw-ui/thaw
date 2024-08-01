@@ -15,6 +15,8 @@ impl<T: Clone> Clone for OptionalProp<T> {
     }
 }
 
+impl<T: Copy> Copy for OptionalProp<T> {}
+
 impl<T> OptionalProp<T> {
     pub fn map<U, F>(self, f: F) -> Option<U>
     where

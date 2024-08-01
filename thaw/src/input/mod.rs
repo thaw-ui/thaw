@@ -1,21 +1,7 @@
 use leptos::{ev, html, prelude::*};
-use thaw_utils::{class_list, mount_style, BoxOneCallback, ComponentRef, Model, OptionalProp};
-
-#[derive(Default, Clone)]
-pub enum InputVariant {
-    #[default]
-    Text,
-    Password,
-}
-
-impl InputVariant {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            InputVariant::Text => "text",
-            InputVariant::Password => "password",
-        }
-    }
-}
+use thaw_utils::{
+    class_list, mount_style, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp,
+};
 
 #[slot]
 pub struct InputPrefix {
@@ -34,34 +20,58 @@ pub struct InputSuffix {
 #[component]
 pub fn Input(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] allow_value: Option<BoxOneCallback<String, bool>>,
-    #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
+    #[prop(optional, into)] allow_value: Option<ArcOneCallback<String, bool>>,
+    #[prop(optional, into)] input_type: MaybeSignal<InputType>,
     /// Placeholder text for the input.
-    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)]
+    placeholder: OptionalProp<MaybeSignal<String>>,
     #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
     /// Whether the input is disabled
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] parser: OptionalProp<BoxOneCallback<String, String>>,
+    #[prop(optional, into)] format: OptionalProp<BoxOneCallback<String, String>>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
 
     let value_trigger = ArcTrigger::new();
+    let parser_none = parser.is_none();
     let on_input = {
         let value_trigger = value_trigger.clone();
-        move |ev| {
-            let input_value = event_target_value(&ev);
-            if let Some(allow_value) = allow_value.as_ref() {
-                if !allow_value(input_value.clone()) {
-                    value_trigger.trigger();
-                    return;
+        let allow_value = allow_value.clone();
+
+        move |e| {
+            if parser_none {
+                let input_value = event_target_value(&e);
+                if let Some(allow_value) = allow_value.as_ref() {
+                    if !allow_value(input_value.clone()) {
+                        value_trigger.trigger();
+                        return;
+                    }
                 }
+                value.set(input_value);
             }
-            value.set(input_value);
+        }
+    };
+    let on_change = {
+        let value_trigger = value_trigger.clone();
+        move |e| {
+            if let Some(parser) = parser.as_ref() {
+                let parsed_input_value = parser(event_target_value(&e));
+                if let Some(allow_value) = allow_value.as_ref() {
+                    if !allow_value(parsed_input_value.clone()) {
+                        value_trigger.trigger();
+                        return;
+                    }
+                }
+                value.set(parsed_input_value);
+            }
         }
     };
     let is_focus = RwSignal::new(false);
@@ -139,14 +149,15 @@ pub fn Input(
             }}
 
             <input
-                type=move || variant.get().as_str()
+                type=move || input_type.get().as_str()
                 value=input_value
                 prop:value=move || {
                     value_trigger.track();
-                    value.get()
+                    format.as_ref().map_or_else(|| value.get(), |f| f(value.get()))
                 }
 
                 on:input=on_input
+                on:change=on_change
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
                 class="thaw-input__input"
@@ -162,6 +173,40 @@ pub fn Input(
             }}
 
         </span>
+    }
+}
+
+#[derive(Default, Clone)]
+pub enum InputType {
+    #[default]
+    Text,
+    Password,
+    Search,
+    Tel,
+    Url,
+    Email,
+    Time,
+    Date,
+    DatetimeLocal,
+    Month,
+    Week,
+}
+
+impl InputType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Text => "text",
+            Self::Password => "password",
+            Self::Search => "search",
+            Self::Tel => "tel",
+            Self::Url => "url",
+            Self::Email => "email",
+            Self::Time => "time",
+            Self::Date => "date",
+            Self::DatetimeLocal => "datetime-local",
+            Self::Month => "month",
+            Self::Week => "week",
+        }
     }
 }
 
