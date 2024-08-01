@@ -34,45 +34,44 @@ pub fn Input(
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] parser: OptionalProp<BoxOneCallback<String, String>>,
+    #[prop(optional, into)] parser: OptionalProp<BoxOneCallback<String, Option<String>>>,
     #[prop(optional, into)] format: OptionalProp<BoxOneCallback<String, String>>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
 
-    let value_trigger = ArcTrigger::new();
     let parser_none = parser.is_none();
     let on_input = {
-        let value_trigger = value_trigger.clone();
         let allow_value = allow_value.clone();
-
         move |e| {
-            if parser_none {
-                let input_value = event_target_value(&e);
-                if let Some(allow_value) = allow_value.as_ref() {
-                    if !allow_value(input_value.clone()) {
-                        value_trigger.trigger();
-                        return;
-                    }
-                }
-                value.set(input_value);
+            if !parser_none {
+                return;
             }
+            let input_value = event_target_value(&e);
+            if let Some(allow_value) = allow_value.as_ref() {
+                if !allow_value(input_value.clone()) {
+                    value.update(|_| {});
+                    return;
+                }
+            }
+            value.set(input_value);
         }
     };
-    let on_change = {
-        let value_trigger = value_trigger.clone();
-        move |e| {
-            if let Some(parser) = parser.as_ref() {
-                let parsed_input_value = parser(event_target_value(&e));
-                if let Some(allow_value) = allow_value.as_ref() {
-                    if !allow_value(parsed_input_value.clone()) {
-                        value_trigger.trigger();
-                        return;
-                    }
-                }
-                value.set(parsed_input_value);
+    let on_change = move |e| {
+        let Some(parser) = parser.as_ref() else {
+            return;
+        };
+        let Some(parsed_input_value) = parser(event_target_value(&e)) else {
+            value.update(|_| {});
+            return;
+        };
+        if let Some(allow_value) = allow_value.as_ref() {
+            if !allow_value(parsed_input_value.clone()) {
+                value.update(|_| {});
+                return;
             }
         }
+        value.set(parsed_input_value);
     };
     let is_focus = RwSignal::new(false);
     let on_internal_focus = move |ev| {
@@ -152,8 +151,12 @@ pub fn Input(
                 type=move || input_type.get().as_str()
                 value=input_value
                 prop:value=move || {
-                    value_trigger.track();
-                    format.as_ref().map_or_else(|| value.get(), |f| f(value.get()))
+                    let value = value.get();
+                    if let Some(format) = format.as_ref() {
+                        format(value)
+                    } else {
+                        value.to_string()
+                    }
                 }
 
                 on:input=on_input

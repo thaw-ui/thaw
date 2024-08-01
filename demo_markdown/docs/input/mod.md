@@ -6,7 +6,7 @@ let value = RwSignal::new(String::from("o"));
 view! {
     <Space vertical=true>
         <Input value/>
-        <Input value variant=InputVariant::Password placeholder="Password"/>
+        <Input value input_type=InputType::Password placeholder="Password"/>
     </Space>
 }
 ```
@@ -83,18 +83,23 @@ view! {
 }
 ```
 
-### Input attrs
+### Custom parsing
 
 ```rust demo
+let value = RwSignal::new(String::from("loren_ipsun"));
+
+let format = move |v: String| {
+    v.replace("_", " ")
+};
+let parser = move |v: String| {
+    Some(v.replace(" ", "_"))
+};
+
 view! {
-    <Space>
-        <label for="demo-input-attrs">"Do you like cheese?"</label>
-        <Input attr:id="demo-input-attrs"/>
-    </Space>
+    <Input value parser format />
+    <p>"Underlying value: "{ value }</p>
 }
 ```
-
-
 
 ### Input Props
 

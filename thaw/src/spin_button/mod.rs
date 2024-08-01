@@ -2,7 +2,9 @@ use leptos::prelude::*;
 use num_traits::Bounded;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
-use thaw_utils::{class_list, mount_style, with, Model, StoredMaybeSignal};
+use thaw_utils::{
+    class_list, mount_style, with, BoxOneCallback, Model, OptionalProp, StoredMaybeSignal,
+};
 
 #[component]
 pub fn SpinButton<T>(
@@ -12,6 +14,8 @@ pub fn SpinButton<T>(
     #[prop(default = T::min_value().into(), into)] min: MaybeSignal<T>,
     #[prop(default = T::max_value().into(), into)] max: MaybeSignal<T>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] parser: OptionalProp<BoxOneCallback<String, Option<T>>>,
+    #[prop(optional, into)] format: OptionalProp<BoxOneCallback<T, String>>,
 ) -> impl IntoView
 where
     T: Send + Sync,
@@ -24,19 +28,6 @@ where
     let step_page: StoredMaybeSignal<_> = step_page.into();
     let min: StoredMaybeSignal<_> = min.into();
     let max: StoredMaybeSignal<_> = max.into();
-    let input_value = RwSignal::new(String::new());
-
-    Effect::new_isomorphic(move |prev| {
-        value.with(|value| {
-            if let Some(prev) = prev {
-                if value == &prev {
-                    return prev;
-                }
-            }
-            input_value.set(value.to_string());
-            value.clone()
-        })
-    });
 
     let update_value = move |new_value| {
         let min = min.get_untracked();
@@ -53,6 +44,21 @@ where
     let increment_disabled = Memo::new(move |_| disabled.get() || value.get() >= max.get());
     let decrement_disabled = Memo::new(move |_| disabled.get() || value.get() <= min.get());
 
+    let on_change = move |e| {
+        let target_value = event_target_value(&e);
+        let v = if let Some(parser) = parser.as_ref() {
+            parser(target_value)
+        } else {
+            target_value.parse::<T>().ok()
+        };
+
+        if let Some(value) = v {
+            update_value(value);
+        } else {
+            value.update(|_| {});
+        }
+    };
+
     view! {
         <span
             class=class_list!["thaw-spin-button", ("thaw-spin-button--disabled", move || disabled.get()), class]
@@ -64,16 +70,16 @@ where
                 type="text"
                 disabled=move || disabled.get()
                 value=initialization_value
-                prop:value=move || input_value.get()
-                class="thaw-spin-button__input"
-                on:change=move |e| {
-                    let target_value = event_target_value(&e);
-                    let Ok(v) = target_value.parse::<T>() else {
-                        input_value.update(|_| {});
-                        return;
-                    };
-                    update_value(v);
+                prop:value=move || {
+                    let value = value.get();
+                    if let Some(format) = format.as_ref() {
+                        format(value)
+                    } else {
+                        value.to_string()
+                    }
                 }
+                class="thaw-spin-button__input"
+                on:change=on_change
             />
             <button
                 tabindex="-1"

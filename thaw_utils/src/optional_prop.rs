@@ -1,6 +1,8 @@
 use leptos::prelude::{MaybeSignal, Memo, ReadSignal, RwSignal, Signal};
 use std::ops::{Deref, DerefMut};
 
+use crate::BoxOneCallback;
+
 pub struct OptionalProp<T>(Option<T>);
 
 impl<T> Default for OptionalProp<T> {
@@ -89,6 +91,15 @@ impl<T: Send + Sync> From<Memo<T>> for OptionalProp<MaybeSignal<T>> {
 impl<T> From<Signal<T>> for OptionalProp<MaybeSignal<T>> {
     fn from(value: Signal<T>) -> Self {
         Self(Some(MaybeSignal::from(value)))
+    }
+}
+
+impl<F, A, Return> From<F> for OptionalProp<BoxOneCallback<A, Return>>
+where
+    F: Fn(A) -> Return + Send + Sync + 'static,
+{
+    fn from(value: F) -> Self {
+        Self(Some(BoxOneCallback::new(value)))
     }
 }
 
