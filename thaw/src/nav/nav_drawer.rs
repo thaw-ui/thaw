@@ -1,12 +1,13 @@
 use crate::Scrollbar;
 use leptos::{context::Provider, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, mount_style, OptionModel};
 
 #[component]
 pub fn NavDrawer(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] selected_value: Model<String>,
+    #[prop(optional, into)] selected_value: OptionModel<String>,
+    #[prop(optional, into)] selected_category_value: OptionModel<String>,
     children: Children,
     #[prop(optional)] nav_drawer_header: Option<NavDrawerHeader>,
     #[prop(optional)] nav_drawer_footer: Option<NavDrawerFooter>,
@@ -14,7 +15,7 @@ pub fn NavDrawer(
     mount_style("nav-drawer", include_str!("./nav-drawer.css"));
 
     view! {
-        <Provider value=NavDrawerInjection(selected_value)>
+        <Provider value=NavDrawerInjection{ selected_value, selected_category_value }>
             <div class=class_list!["thaw-nav-drawer", class]>
                 <OptionComp value=nav_drawer_header let:header>
                     <header class="thaw-nav-drawer__header">{(header.children)()}</header>
@@ -43,8 +44,13 @@ pub struct NavDrawerFooter {
 }
 
 #[derive(Clone)]
-pub(crate) struct NavDrawerInjection(pub Model<String>);
+pub(crate) struct NavDrawerInjection {
+    pub selected_value: OptionModel<String>,
+    pub selected_category_value: OptionModel<String>,
+}
 
-pub(crate) fn use_nav_drawer() -> NavDrawerInjection {
-    expect_context()
+impl NavDrawerInjection {
+    pub fn expect_context() -> Self {
+        expect_context()
+    }
 }
