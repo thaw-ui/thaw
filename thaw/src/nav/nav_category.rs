@@ -13,23 +13,57 @@ pub fn NavCategory(
     let nav_drawer = NavDrawerInjection::expect_context();
     let value: StoredMaybeSignal<_> = value.into();
     let group_ref = NodeRef::<html::Div>::new();
-    let on_click = move |_| {
-        let value = value.get_untracked();
-        if nav_drawer
-            .selected_category_value
-            .with_untracked(|selected_category_value| selected_category_value != Some(&value))
-        {
-            nav_drawer.selected_category_value.set(Some(value));
-        }
-    };
-
     let is_show_group = Memo::new(move |_| {
         nav_drawer
             .selected_category_value
-            .with_untracked(|selected_category_value| {
-                value.with_untracked(|value| selected_category_value == Some(value))
+            .with(|selected_category_value| {
+                value.with(|value| match selected_category_value {
+                    (None, None, Some(v)) => v.contains(value),
+                    (None, Some(v), None) => v.as_ref() == Some(value),
+                    (Some(v), None, None) => v == value,
+                    _ => unreachable!(),
+                })
             })
     });
+
+    let on_click = move |_| {
+        let value = value.get_untracked();
+        let is_show_group = is_show_group.get_untracked();
+        nav_drawer
+            .selected_category_value
+            .update(|selected_category_value| {
+                match selected_category_value {
+                    (None, None, Some(v)) => {
+                        if is_show_group {
+                            if let Some(index) = v.iter().position(|item| item == &value) {
+                                v.remove(index);
+                            }
+                        } else {
+                            v.push(value);
+                        }
+                    }
+                    (None, Some(v), None) => {
+                        if is_show_group {
+                            *v = None;
+                        } else {
+                            *v = Some(value);
+                        }
+                    }
+                    (Some(v), None, None) => {
+                        if is_show_group {
+                            v.clear();
+                        } else {
+                            *v = value;
+                        }
+                    }
+                    _ => unreachable!(),
+                }
+
+                if is_show_group {
+                } else {
+                }
+            });
+    };
 
     let NavCategoryItem {
         class: item_class,

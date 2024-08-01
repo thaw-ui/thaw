@@ -41,9 +41,9 @@ pub fn NavItem(
     };
 
     let selected = Memo::new(move |_| {
-        nav_drawer.selected_value.with_untracked(|selected_value| {
-            value.with_untracked(|value| selected_value == Some(value))
-        })
+        nav_drawer
+            .selected_value
+            .with(|selected_value| value.with(|value| selected_value == Some(value)))
     });
 
     if let Some(href) = href {

@@ -1,13 +1,13 @@
 use crate::Scrollbar;
 use leptos::{context::Provider, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, OptionModel};
+use thaw_utils::{class_list, mount_style, OptionModel, VecModel};
 
 #[component]
 pub fn NavDrawer(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] selected_value: OptionModel<String>,
-    #[prop(optional, into)] selected_category_value: OptionModel<String>,
+    #[prop(default = vec![].into(), into)] selected_category_value: VecModel<String>,
     children: Children,
     #[prop(optional)] nav_drawer_header: Option<NavDrawerHeader>,
     #[prop(optional)] nav_drawer_footer: Option<NavDrawerFooter>,
@@ -46,7 +46,7 @@ pub struct NavDrawerFooter {
 #[derive(Clone)]
 pub(crate) struct NavDrawerInjection {
     pub selected_value: OptionModel<String>,
-    pub selected_category_value: OptionModel<String>,
+    pub selected_category_value: VecModel<String>,
 }
 
 impl NavDrawerInjection {

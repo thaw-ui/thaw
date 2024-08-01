@@ -104,6 +104,15 @@
         padding-top 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.thaw-nav-category-item__expand-icon {
+    margin-inline-start: auto;
+    height: 20px;
+}
+
 .thaw-nav-sub-item {
     padding-inline-start: 46px;
+}
+
+.thaw-nav-sub-item.thaw-nav-item--selected::after {
+    margin-inline-start: -54px;
 }
