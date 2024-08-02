@@ -85,13 +85,14 @@ fn TheRouter(is_routing: RwSignal<bool>) -> impl IntoView {
                         <Route path=StaticSegment("loading-bar") view=LoadingBarMdPage/>
                         <Route path=StaticSegment("message-bar") view=MessageBarMdPage/>
                         <Route path=StaticSegment("nav") view=NavMdPage/>
+                        <Route path=StaticSegment("pagination") view=PaginationMdPage/>
                         <Route path=StaticSegment("popover") view=PopoverMdPage/>
                         <Route path=StaticSegment("progress-bar") view=ProgressBarMdPage/>
-                        <Route path=StaticSegment("radio") view=RadioMdPage/>
                     }
                 }
                 {
                     view! {
+                        <Route path=StaticSegment("radio") view=RadioMdPage/>
                         <Route path=StaticSegment("scrollbar") view=ScrollbarMdPage/>
                         <Route path=StaticSegment("skeleton") view=SkeletonMdPage/>
                         <Route path=StaticSegment("slider") view=SliderMdPage/>

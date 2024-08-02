@@ -1,0 +1,15 @@
+.thaw-pagination {
+    display: flex;
+    column-gap: 5px;
+}
+
+.thaw-pagination-item,
+.thaw-button.thaw-pagination-item {
+    max-width: 32px;
+    min-width: 32px;
+}
+
+div.thaw-pagination-item {
+    display: flex;
+    justify-content: center;
+}
