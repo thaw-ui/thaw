@@ -4,7 +4,7 @@ pub use button_group::ButtonGroup;
 
 use crate::icon::Icon;
 use leptos::{either::Either, ev, prelude::*};
-use thaw_utils::{class_list, mount_style, BoxOneCallback, OptionalMaybeSignal};
+use thaw_utils::{class_list, mount_style, BoxOneCallback};
 
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonAppearance {
@@ -66,18 +66,24 @@ impl ButtonSize {
 pub fn Button(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// A button can have its content and borders styled for greater emphasis or to be subtle.
-    #[prop(optional, into)] appearance: MaybeSignal<ButtonAppearance>,
+    #[prop(optional, into)]
+    appearance: MaybeSignal<ButtonAppearance>,
     /// A button can be rounded, circular, or square.
-    #[prop(optional, into)] shape: MaybeSignal<ButtonShape>,
+    #[prop(optional, into)]
+    shape: MaybeSignal<ButtonShape>,
     /// A button supports different sizes.
-    #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
+    #[prop(optional, into)]
+    size: MaybeSignal<ButtonSize>,
     /// Whether the button is displayed as block.
-    #[prop(optional, into)] block: MaybeSignal<bool>,
-    #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
+    #[prop(optional, into)]
+    block: MaybeSignal<bool>,
+    #[prop(optional, into)] icon: MaybeProp<icondata_core::Icon>,
     /// Whether the button is disabled.
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
     /// When set, allows the button to be focusable even when it has been disabled.
-    #[prop(optional, into)] disabled_focusable: MaybeSignal<bool>,
+    #[prop(optional, into)]
+    disabled_focusable: MaybeSignal<bool>,
     #[prop(optional, into)] on_click: Option<BoxOneCallback<ev::MouseEvent>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {

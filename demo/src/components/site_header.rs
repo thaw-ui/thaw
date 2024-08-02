@@ -203,26 +203,30 @@ pub fn SiteHeader() -> impl IntoView {
                     }
                 </Menu>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
+                    <SwitchVersion/>
                     <Button
-                        appearance=ButtonAppearance::Subtle
+                        icon=Memo::new(move |_| {
+                            theme.with(|theme| {
+                                if theme.name == "light" {
+                                    icondata::BiMoonRegular
+                                } else {
+                                    icondata::BiSunRegular
+                                }
+                            })
+                        })
                         on_click=change_theme
                     >
                         {move || theme_name.get()}
                     </Button>
-                    <SwitchVersion/>
                     <Button
-                        appearance=ButtonAppearance::Subtle
                         icon=icondata::BiDiscordAlt
-                        attr:style="font-size: 22px; padding: 0px 6px;"
                         on_click=move |_| {
                             _ = window().open_with_url("https://discord.gg/YPxuprzu6M");
                         }
                     />
 
                     <Button
-                        appearance=ButtonAppearance::Subtle
                         icon=icondata::AiGithubOutlined
-                        attr:style="font-size: 22px; padding: 0px 6px;"
                         on_click=move |_| {
                             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                         }
