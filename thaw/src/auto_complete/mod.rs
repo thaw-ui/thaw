@@ -10,7 +10,7 @@ use crate::{
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{class_list, mount_style, ArcOneCallback, BoxOneCallback, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, ArcOneCallback, BoxOneCallback, Model};
 
 #[slot]
 pub struct AutoCompletePrefix {
@@ -25,7 +25,7 @@ pub struct AutoCompleteSuffix {
 #[component]
 pub fn AutoComplete(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] placeholder: MaybeProp<String>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,

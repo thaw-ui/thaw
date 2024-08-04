@@ -1,19 +1,21 @@
 use leptos::reactive_graph::{
     computed::Memo,
+    owner::{Storage, SyncStorage},
     signal::{ReadSignal, RwSignal, WriteSignal},
     traits::{Get, GetUntracked, Set, With, WithUntracked},
     wrappers::read::Signal,
 };
 
-pub enum OptionModel<T>
+pub enum OptionModel<T, S = SyncStorage>
 where
     T: 'static,
+    S: Storage<T> + Storage<Option<T>>,
 {
-    T(Signal<T>, WriteSignal<T>, Option<WriteSignal<T>>),
+    T(Signal<T, S>, WriteSignal<T, S>, Option<WriteSignal<T, S>>),
     Option(
-        Signal<Option<T>>,
-        WriteSignal<Option<T>>,
-        Option<WriteSignal<Option<T>>>,
+        Signal<Option<T>, S>,
+        WriteSignal<Option<T>, S>,
+        Option<WriteSignal<Option<T>, S>>,
     ),
 }
 
@@ -23,13 +25,16 @@ impl<T: Default + Send + Sync> Default for OptionModel<T> {
     }
 }
 
-impl<T> Clone for OptionModel<T> {
+impl<T, S> Clone for OptionModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>>,
+{
     fn clone(&self) -> Self {
         *self
     }
 }
 
-impl<T> Copy for OptionModel<T> {}
+impl<T, S> Copy for OptionModel<T, S> where S: Storage<T> + Storage<Option<T>> {}
 
 impl<T: Send + Sync> OptionModel<T> {
     fn new(value: T) -> Self {
@@ -112,14 +117,20 @@ impl<T: Send + Sync> From<RwSignal<Option<T>>> for OptionModel<T> {
     }
 }
 
-impl<T> From<(Signal<T>, WriteSignal<T>)> for OptionModel<T> {
-    fn from((read, write): (Signal<T>, WriteSignal<T>)) -> Self {
+impl<T, S> From<(Signal<T, S>, WriteSignal<T, S>)> for OptionModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>>,
+{
+    fn from((read, write): (Signal<T, S>, WriteSignal<T, S>)) -> Self {
         Self::T(read, write, None)
     }
 }
 
-impl<T> From<(Signal<Option<T>>, WriteSignal<Option<T>>)> for OptionModel<T> {
-    fn from((read, write): (Signal<Option<T>>, WriteSignal<Option<T>>)) -> Self {
+impl<T, S> From<(Signal<Option<T>, S>, WriteSignal<Option<T>, S>)> for OptionModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>>,
+{
+    fn from((read, write): (Signal<Option<T>, S>, WriteSignal<Option<T>, S>)) -> Self {
         Self::Option(read, write, None)
     }
 }

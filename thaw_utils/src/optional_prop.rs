@@ -1,4 +1,7 @@
-use leptos::prelude::{MaybeSignal, Memo, ReadSignal, RwSignal, Signal};
+use leptos::{
+    prelude::{MaybeSignal, Memo, ReadSignal, RwSignal, Signal},
+    reactive_graph::owner::Storage,
+};
 use std::ops::{Deref, DerefMut};
 
 use crate::BoxOneCallback;
@@ -58,6 +61,7 @@ impl From<&str> for OptionalProp<String> {
     }
 }
 
+/// TODO remove signal
 impl From<&str> for OptionalProp<MaybeSignal<String>> {
     fn from(value: &str) -> Self {
         Self(Some(MaybeSignal::from(value.to_string())))
@@ -88,8 +92,11 @@ impl<T: Send + Sync> From<Memo<T>> for OptionalProp<MaybeSignal<T>> {
     }
 }
 
-impl<T> From<Signal<T>> for OptionalProp<MaybeSignal<T>> {
-    fn from(value: Signal<T>) -> Self {
+impl<T, S> From<Signal<T, S>> for OptionalProp<MaybeSignal<T, S>>
+where
+    S: Storage<T>,
+{
+    fn from(value: Signal<T, S>) -> Self {
         Self(Some(MaybeSignal::from(value)))
     }
 }

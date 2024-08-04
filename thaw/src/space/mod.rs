@@ -1,5 +1,5 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style, OptionalMaybeSignal};
+use thaw_utils::{class_list, mount_style};
 
 #[derive(Default)]
 pub enum SpaceGap {
@@ -16,8 +16,8 @@ pub enum SpaceGap {
 pub fn Space(
     #[prop(optional)] gap: SpaceGap,
     #[prop(optional)] vertical: bool,
-    #[prop(optional, into)] align: OptionalMaybeSignal<SpaceAlign>,
-    #[prop(optional, into)] justify: OptionalMaybeSignal<SpaceJustify>,
+    #[prop(optional, into)] align: MaybeProp<SpaceAlign>,
+    #[prop(optional, into)] justify: MaybeProp<SpaceJustify>,
     #[prop(optional, into)] class: MaybeProp<String>,
     children: ChildrenFragment,
 ) -> impl IntoView {

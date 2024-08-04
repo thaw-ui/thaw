@@ -4,11 +4,11 @@ use crate::{
 };
 use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
-use thaw_utils::{class_list, mount_style, OptionalMaybeSignal};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn MenuItem(
-    #[prop(optional, into)] icon: OptionalMaybeSignal<icondata_core::Icon>,
+    #[prop(optional, into)] icon: MaybeProp<icondata_core::Icon>,
     #[prop(into)] value: MaybeSignal<String>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] class: MaybeProp<String>,

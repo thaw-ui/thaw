@@ -1,21 +1,36 @@
 use leptos::reactive_graph::{
-    owner::StoredValue,
+    owner::{Storage, StoredValue, SyncStorage},
     traits::{DefinedAt, With, WithUntracked},
     wrappers::read::{MaybeSignal, Signal},
 };
 
-#[derive(Clone)]
-pub enum StoredMaybeSignal<T>
+pub enum StoredMaybeSignal<T, S = SyncStorage>
 where
     T: 'static,
+    S: Storage<T>,
 {
-    StoredValue(StoredValue<T>),
-    Signal(Signal<T>),
+    StoredValue(StoredValue<T, S>),
+    Signal(Signal<T, S>),
 }
 
-impl<T: Clone> Copy for StoredMaybeSignal<T> {}
+impl<T, S> Clone for StoredMaybeSignal<T, S>
+where
+    S: Storage<T>,
+{
+    fn clone(&self) -> Self {
+        match self {
+            Self::StoredValue(v) => Self::StoredValue(v.clone()),
+            Self::Signal(s) => Self::Signal(s.clone()),
+        }
+    }
+}
 
-impl<T> DefinedAt for StoredMaybeSignal<T> {
+impl<T: Clone, S> Copy for StoredMaybeSignal<T, S> where S: Storage<T> {}
+
+impl<T, S> DefinedAt for StoredMaybeSignal<T, S>
+where
+    S: Storage<T>,
+{
     fn defined_at(&self) -> Option<&'static std::panic::Location<'static>> {
         match self {
             StoredMaybeSignal::StoredValue(value) => value.defined_at(),

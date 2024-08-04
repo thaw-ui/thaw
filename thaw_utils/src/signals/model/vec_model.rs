@@ -2,26 +2,28 @@ use leptos::{
     prelude::Update,
     reactive_graph::{
         computed::Memo,
+        owner::{Storage, SyncStorage},
         signal::{ReadSignal, RwSignal, WriteSignal},
         traits::{GetUntracked, Set, With, WithUntracked},
         wrappers::read::Signal,
     },
 };
 
-pub enum VecModel<T>
+pub enum VecModel<T, S = SyncStorage>
 where
     T: 'static,
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
 {
-    T(Signal<T>, WriteSignal<T>, Option<WriteSignal<T>>),
+    T(Signal<T, S>, WriteSignal<T, S>, Option<WriteSignal<T, S>>),
     Option(
-        Signal<Option<T>>,
-        WriteSignal<Option<T>>,
-        Option<WriteSignal<Option<T>>>,
+        Signal<Option<T>, S>,
+        WriteSignal<Option<T>, S>,
+        Option<WriteSignal<Option<T>, S>>,
     ),
     Vec(
-        Signal<Vec<T>>,
-        WriteSignal<Vec<T>>,
-        Option<WriteSignal<Vec<T>>>,
+        Signal<Vec<T>, S>,
+        WriteSignal<Vec<T>, S>,
+        Option<WriteSignal<Vec<T>, S>>,
     ),
 }
 
@@ -31,13 +33,16 @@ impl<T: Default + Send + Sync> Default for VecModel<T> {
     }
 }
 
-impl<T> Clone for VecModel<T> {
+impl<T, S> Clone for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
     fn clone(&self) -> Self {
         *self
     }
 }
 
-impl<T> Copy for VecModel<T> {}
+impl<T, S> Copy for VecModel<T, S> where S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>> {}
 
 impl<T: Send + Sync> VecModel<T> {
     fn new(value: T) -> Self {
@@ -192,20 +197,29 @@ impl<T: Send + Sync> From<RwSignal<Vec<T>>> for VecModel<T> {
     }
 }
 
-impl<T> From<(Signal<T>, WriteSignal<T>)> for VecModel<T> {
-    fn from((read, write): (Signal<T>, WriteSignal<T>)) -> Self {
+impl<T, S> From<(Signal<T, S>, WriteSignal<T, S>)> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from((read, write): (Signal<T, S>, WriteSignal<T, S>)) -> Self {
         Self::T(read, write, None)
     }
 }
 
-impl<T> From<(Signal<Option<T>>, WriteSignal<Option<T>>)> for VecModel<T> {
-    fn from((read, write): (Signal<Option<T>>, WriteSignal<Option<T>>)) -> Self {
+impl<T, S> From<(Signal<Option<T>, S>, WriteSignal<Option<T>, S>)> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from((read, write): (Signal<Option<T>, S>, WriteSignal<Option<T>, S>)) -> Self {
         Self::Option(read, write, None)
     }
 }
 
-impl<T> From<(Signal<Vec<T>>, WriteSignal<Vec<T>>)> for VecModel<T> {
-    fn from((read, write): (Signal<Vec<T>>, WriteSignal<Vec<T>>)) -> Self {
+impl<T, S> From<(Signal<Vec<T>, S>, WriteSignal<Vec<T>, S>)> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from((read, write): (Signal<Vec<T>, S>, WriteSignal<Vec<T>, S>)) -> Self {
         Self::Vec(read, write, None)
     }
 }

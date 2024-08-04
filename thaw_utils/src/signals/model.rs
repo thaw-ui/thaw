@@ -6,18 +6,20 @@ pub use vec_model::VecModel;
 
 use leptos::reactive_graph::{
     computed::Memo,
+    owner::{Storage, SyncStorage},
     signal::{ReadSignal, RwSignal, WriteSignal},
     traits::{DefinedAt, IsDisposed, Set, Update, With, WithUntracked},
     wrappers::read::Signal,
 };
 
-pub struct Model<T>
+pub struct Model<T, S = SyncStorage>
 where
     T: 'static,
+    S: Storage<T>,
 {
-    read: Signal<T>,
-    write: WriteSignal<T>,
-    on_write: Option<WriteSignal<T>>,
+    read: Signal<T, S>,
+    write: WriteSignal<T, S>,
+    on_write: Option<WriteSignal<T, S>>,
 }
 
 impl<T: Default + Send + Sync> Default for Model<T> {
@@ -26,13 +28,16 @@ impl<T: Default + Send + Sync> Default for Model<T> {
     }
 }
 
-impl<T> Clone for Model<T> {
+impl<T, S> Clone for Model<T, S>
+where
+    S: Storage<T>,
+{
     fn clone(&self) -> Self {
         *self
     }
 }
 
-impl<T> Copy for Model<T> {}
+impl<T, S> Copy for Model<T, S> where S: Storage<T> {}
 
 impl<T: Send + Sync> Model<T> {
     fn new(value: T) -> Self {
@@ -45,9 +50,12 @@ impl<T: Send + Sync> Model<T> {
     }
 }
 
-impl<T> DefinedAt for Model<T> {
+impl<T, S> DefinedAt for Model<T, S>
+where
+    S: Storage<T>,
+{
     fn defined_at(&self) -> Option<&'static std::panic::Location<'static>> {
-        todo!()
+        self.read.defined_at()
     }
 }
 
@@ -82,7 +90,10 @@ impl<T: Send + Sync + Clone> Update for Model<T> {
     }
 }
 
-impl<T> IsDisposed for Model<T> {
+impl<T, S> IsDisposed for Model<T, S>
+where
+    S: Storage<T>,
+{
     fn is_disposed(&self) -> bool {
         self.write.is_disposed()
     }
@@ -105,8 +116,11 @@ impl<T: Send + Sync> From<RwSignal<T>> for Model<T> {
     }
 }
 
-impl<T> From<(Signal<T>, WriteSignal<T>)> for Model<T> {
-    fn from((read, write): (Signal<T>, WriteSignal<T>)) -> Self {
+impl<T, S> From<(Signal<T, S>, WriteSignal<T, S>)> for Model<T, S>
+where
+    S: Storage<T>,
+{
+    fn from((read, write): (Signal<T, S>, WriteSignal<T, S>)) -> Self {
         Self {
             read,
             write,

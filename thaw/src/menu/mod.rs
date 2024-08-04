@@ -7,14 +7,13 @@ use leptos::{ev, html::Div, leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{
-    add_event_listener, call_on_click_outside, class_list, mount_style, ArcOneCallback,
-    BoxCallback, OptionalProp,
+    add_event_listener, call_on_click_outside, class_list, mount_style, ArcOneCallback, BoxCallback,
 };
 
 #[slot]
 pub struct MenuTrigger {
     #[prop(optional, into)]
-    class: OptionalProp<MaybeSignal<String>>,
+    class: MaybeProp<String>,
     children: Children,
 }
 
@@ -103,7 +102,7 @@ pub fn Menu(
     view! {
         <Binder target_ref>
             <div
-                class=class_list!["thaw-menu-trigger", trigger_class.map(| c | move || c.get())]
+                class=class_list!["thaw-menu-trigger", trigger_class]
                 node_ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave

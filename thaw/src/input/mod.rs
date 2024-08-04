@@ -24,7 +24,7 @@ pub fn Input(
     #[prop(optional, into)] input_type: MaybeSignal<InputType>,
     /// Placeholder text for the input.
     #[prop(optional, into)]
-    placeholder: OptionalProp<MaybeSignal<String>>,
+    placeholder: MaybeProp<String>,
     #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
     /// Whether the input is disabled
@@ -165,7 +165,7 @@ pub fn Input(
                 on:blur=on_internal_blur
                 class="thaw-input__input"
                 disabled=move || disabled.get()
-                placeholder=placeholder.map(|p| move || p.get())
+                placeholder=move || placeholder.get()
                 node_ref=input_ref
             />
 
