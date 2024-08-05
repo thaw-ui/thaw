@@ -166,8 +166,8 @@ pub fn SiteHeader() -> impl IntoView {
                     on_select=move |value : String| match value.as_str() {
                         "Dark" => change_theme(MouseEvent::new("click").unwrap()),
                         "Light" => change_theme(MouseEvent::new("click").unwrap()),
-                        "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },//FIXME: breaks page
-                        "discord" => { _ = window().open_with_url("https://discord.gg/YPxuprzu6M"); },//FIXME: breaks page
+                        "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },
+                        "discord" => { _ = window().open_with_url("https://discord.gg/YPxuprzu6M"); },
                         _ => navigate_signal.get()(&value, Default::default())
 
                     }
@@ -183,16 +183,16 @@ pub fn SiteHeader() -> impl IntoView {
                     <MenuItem icon=icondata::AiGithubOutlined value="github">"Github"</MenuItem>
                     <MenuItem icon=icondata::BiDiscordAlt value="discord">"Discord"</MenuItem>
                     {
-                        use crate::pages::{gen_menu_data, MenuGroupOption, MenuItemOption};
-                        gen_menu_data().into_iter().map(|data| {
-                            let MenuGroupOption { label, children } = data;
+                        use crate::pages::{gen_nav_data, NavGroupOption, NavItemOption};
+                        gen_nav_data().into_iter().map(|data| {
+                            let NavGroupOption { label, children } = data;
                             view! {
                                 <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: block">
                                 {label}
                                 </Caption1Strong>
                                 {
                                     children.into_iter().map(|item| {
-                                        let MenuItemOption { label, value } = item;
+                                        let NavItemOption { label, value } = item;
                                         view! {
                                             <MenuItem value=value>{label}</MenuItem>
                                         }
@@ -246,8 +246,7 @@ struct AutoCompleteOption {
 }
 
 fn gen_search_all_options() -> Vec<AutoCompleteOption> {
-    use crate::pages::gen_menu_data;
-    gen_menu_data()
+    crate::pages::gen_nav_data()
         .into_iter()
         .flat_map(|group| {
             group.children.into_iter().map(|item| AutoCompleteOption {

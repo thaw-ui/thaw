@@ -80,7 +80,7 @@ pub fn Icon(
         icon_data.set(Some(icon.data.to_string()));
     });
 
-    let svg = view! {
+    view! {
         <svg
             class=class_list!["thaw-icon", class.map(|c| move || c.get())]
             style=move || take_signal(icon_style).unwrap_or_default()
@@ -94,12 +94,10 @@ pub fn Icon(
             stroke-width=move || take(icon_stroke_width)
             stroke=move || take(icon_stroke)
             fill=move || take(icon_fill)
-            // inner_html=move || take(icon_data)
+            inner_html=move || take(icon_data)
             on:click=on_click
         ></svg>
-    };
-
-    svg.inner_html(move || take(icon_data))
+    }
 }
 
 fn take_signal(signal: RwSignal<Option<MaybeSignal<String>>>) -> Option<String> {

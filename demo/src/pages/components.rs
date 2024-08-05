@@ -58,15 +58,15 @@ pub fn ComponentsPage() -> impl IntoView {
                 <div class="demo-components__sider">
                     <NavDrawer selected_value=select_name>
                         {
-                            gen_menu_data().into_iter().map(|data| {
-                                let MenuGroupOption { label, children } = data;
+                            gen_nav_data().into_iter().map(|data| {
+                                let NavGroupOption { label, children } = data;
                                 view! {
                                     <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: inline-block">
                                         {label}
                                     </Caption1Strong>
                                     {
                                         children.into_iter().map(|item| {
-                                            let MenuItemOption { label, value } = item;
+                                            let NavItemOption { label, value } = item;
                                             view! {
                                                 <NavItem value>{label}</NavItem>
                                             }
@@ -85,245 +85,228 @@ pub fn ComponentsPage() -> impl IntoView {
     }
 }
 
-pub(crate) struct MenuGroupOption {
+pub(crate) struct NavGroupOption {
     pub label: String,
-    pub children: Vec<MenuItemOption>,
+    pub children: Vec<NavItemOption>,
 }
 
-pub(crate) struct MenuItemOption {
+pub(crate) struct NavItemOption {
     pub label: String,
     pub value: String,
 }
 
-pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
+pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
     vec![
-        MenuGroupOption {
+        NavGroupOption {
             label: "Getting Started".into(),
             children: vec![
-                MenuItemOption {
+                NavItemOption {
                     value: "/guide/installation".into(),
                     label: "Installation".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/guide/server-sider-rendering".into(),
                     label: "Server Sider Rendering".into(),
                 },
             ],
         },
-        // MenuGroupOption {
+        // NavGroupOption {
         //     label: "Development".into(),
         //     children: vec![
-        //         MenuItemOption {
+        //         NavItemOption {
         //             value: "/guide/development/components".into(),
         //             label: "Components".into(),
         //         },
         //     ],
         // },
-        MenuGroupOption {
+        NavGroupOption {
             label: "Components".into(),
             children: vec![
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/accordion".into(),
                     label: "Accordion".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/anchor".into(),
                     label: "Anchor".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/auto-complete".into(),
                     label: "Auto Complete".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/avatar".into(),
                     label: "Avatar".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/back-top".into(),
                     label: "Back Top".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/badge".into(),
                     label: "Badge".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/breadcrumb".into(),
                     label: "Breadcrumb".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/button".into(),
                     label: "Button".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/calendar".into(),
                     label: "Calendar".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/card".into(),
                     label: "Card".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/checkbox".into(),
                     label: "Checkbox".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/color-picker".into(),
                     label: "Color Picker".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/combobox".into(),
                     label: "Combobox".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/config-provider".into(),
                     label: "Config Provider".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/date-picker".into(),
                     label: "Date Picker".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/dialog".into(),
                     label: "Dialog".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/divider".into(),
                     label: "Divider".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/drawer".into(),
                     label: "Drawer".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/grid".into(),
                     label: "Grid".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/icon".into(),
                     label: "Icon".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/image".into(),
                     label: "Image".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/input".into(),
                     label: "Input".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/layout".into(),
                     label: "Layout".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/loading-bar".into(),
                     label: "Loading Bar".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/menu".into(),
                     label: "Menu".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/message-bar".into(),
                     label: "Message Bar".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/nav".into(),
                     label: "Nav".into(),
                 },
-                MenuItemOption {
-                    value: "pagination".into(),
+                NavItemOption {
+                    value: "/components/pagination".into(),
                     label: "Pagination".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/popover".into(),
                     label: "Popover".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/progress-bar".into(),
                     label: "ProgressBar".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/radio".into(),
                     label: "Radio".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/scrollbar".into(),
                     label: "Scrollbar".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/skeleton".into(),
                     label: "Skeleton".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/slider".into(),
                     label: "Slider".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/space".into(),
                     label: "Space".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/spin-button".into(),
                     label: "Spin Button".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/spinner".into(),
                     label: "Spinner".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/switch".into(),
                     label: "Switch".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/tab-list".into(),
                     label: "Tab List".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/table".into(),
                     label: "Table".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/tag".into(),
                     label: "Tag".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/text".into(),
                     label: "Text".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/textarea".into(),
                     label: "Textarea".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/time-picker".into(),
                     label: "Time Picker".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/toast".into(),
                     label: "Toast".into(),
                 },
-                MenuItemOption {
+                NavItemOption {
                     value: "/components/upload".into(),
                     label: "Upload".into(),
                 },
             ],
         },
-        // MenuGroupOption {
-        //     label: "Mobile Components".into(),
-        //     children: vec![
-        //         MenuItemOption {
-        //             value: "/components/nav-bar".into(),
-        //             label: "Nav Bar".into(),
-        //         },
-        //         MenuItemOption {
-        //             value: "/components/tabbar".into(),
-        //             label: "Tabbar".into(),
-        //         },
-        //         MenuItemOption {
-        //             value: "/components/toast".into(),
-        //             label: "Toast".into(),
-        //         },
-        //     ],
-        // },
     ]
 }
