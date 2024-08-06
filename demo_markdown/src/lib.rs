@@ -39,7 +39,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "CardMdPage" => "../docs/card/mod.md",
         "CheckboxMdPage" => "../docs/checkbox/mod.md",
         "ColorPickerMdPage" => "../docs/color_picker/mod.md",
-        "ComboboxMdPage" => "../docs/combobox/mod.md",
+        "ComboboxMdPage" => "../../thaw/src/combobox/docs/mod.md",
         "ConfigProviderMdPage" => "../docs/config_provider/mod.md",
         "DatePickerMdPage" => "../docs/date_picker/mod.md",
         "DialogMdPage" => "../docs/dialog/mod.md",
