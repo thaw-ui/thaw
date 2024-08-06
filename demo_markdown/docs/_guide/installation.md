@@ -30,9 +30,11 @@ fn main() {
 #[component]
 pub fn App() -> impl IntoView {
     view! {
-        <Button appearance=ButtonAppearance::Primary>
-            "Primary"
-        </Button>
+        <ConfigProvider>
+            <Button appearance=ButtonAppearance::Primary>
+                "Primary"
+            </Button>
+        </ConfigProvider>
     }
 }
 ```
