@@ -10,8 +10,11 @@ pub fn Combobox(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Model<String>,
     #[prop(optional, into)] selected_options: VecModel<String>,
+    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] placeholder: MaybeProp<String>,
     /// If set, the combobox will show an icon to clear the current value.
-    #[prop(optional)] clearable: bool,
+    #[prop(optional)]
+    clearable: bool,
     children: Children,
 ) -> impl IntoView {
     mount_style("combobox", include_str!("./combobox.css"));
@@ -19,7 +22,7 @@ pub fn Combobox(
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
     let is_show_listbox = RwSignal::new(false);
-    let options = StoredValue::new(HashMap::<String, (String, String)>::new());
+    let options = StoredValue::new(HashMap::<String, (String, String, MaybeSignal<bool>)>::new());
 
     let clear_icon_ref = NodeRef::<html::Span>::new();
     let is_show_clear_icon = Memo::new(move |_| {
@@ -40,6 +43,9 @@ pub fn Combobox(
                 return;
             };
             let handler = add_event_listener(clear_icon_el.into(), ev::click, move |e| {
+                if disabled.get_untracked() {
+                    return;
+                }
                 e.stop_propagation();
                 selected_options.set(vec![]);
             });
@@ -138,7 +144,10 @@ pub fn Combobox(
             &active_descendant_controller,
             move |option| {
                 combobox_injection.options.with_value(|options| {
-                    if let Some((value, text)) = options.get(&option.id()) {
+                    if let Some((value, text, disabled)) = options.get(&option.id()) {
+                        if disabled.get_untracked() {
+                            return;
+                        }
                         combobox_injection.select_option(value, text);
                     }
                 });
@@ -149,7 +158,11 @@ pub fn Combobox(
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-combobox", class]
+                class=class_list![
+                    "thaw-combobox",
+                    ("thaw-combobox--disabled", move || disabled.get()),
+                    class
+                ]
                 node_ref=trigger_ref
             >
                 <input
@@ -160,6 +173,8 @@ pub fn Combobox(
                     prop:value=move || {
                         value.get()
                     }
+                    placeholder=move || placeholder.get()
+                    disabled=move || disabled.get()
                     node_ref=input_ref
                     on:input=on_input
                     on:blur=on_blur
@@ -187,12 +202,16 @@ pub fn Combobox(
                     }
                 }
                 <span
-                    aria-expanded="true"
+                    aria-disabled=move || if disabled.get() { "true" } else { "" }
+                    aria-expanded=move || is_show_listbox.get().to_string()
                     role="button"
                     aria-label="Open"
                     class="thaw-combobox__expand-icon"
                     style=move || is_show_clear_icon.get().then(|| "display: none").unwrap_or_default()
                     on:click=move |_| {
+                        if disabled.get_untracked() {
+                            return;
+                        }
                         is_show_listbox.update(|show| *show = !*show);
                         if let Some(el) = input_ref.get_untracked() {
                             let _ = el.focus();
@@ -225,7 +244,7 @@ pub fn Combobox(
 pub(crate) struct ComboboxInjection {
     value: Model<String>,
     selected_options: VecModel<String>,
-    options: StoredValue<HashMap<String, (String, String)>>,
+    options: StoredValue<HashMap<String, (String, String, MaybeSignal<bool>)>>,
     is_show_listbox: RwSignal<bool>,
     pub multiselect: bool,
 }
@@ -235,7 +254,7 @@ impl ComboboxInjection {
         expect_context()
     }
 
-    pub fn insert_option(&self, id: String, value: (String, String)) {
+    pub fn insert_option(&self, id: String, value: (String, String, MaybeSignal<bool>)) {
         self.options
             .update_value(|options| options.insert(id, value));
     }

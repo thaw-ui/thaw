@@ -78,6 +78,11 @@
     outline-style: none;
 }
 
+.thaw-combobox__input::placeholder {
+    color: var(--colorNeutralForeground4);
+    opacity: 1;
+}
+
 .thaw-combobox__clear-icon,
 .thaw-combobox__expand-icon {
     display: block;
@@ -86,6 +91,28 @@
     box-sizing: border-box;
     cursor: pointer;
     font-size: 20px;
+}
+
+.thaw-combobox.thaw-combobox--disabled {
+    border-color: var(--colorNeutralStrokeDisabled);
+    border-bottom-color: var(--colorNeutralStrokeDisabled);
+    background-color: var(--colorTransparentBackground);
+    cursor: not-allowed;
+}
+
+.thaw-combobox--disabled > .thaw-combobox__input {
+    background-color: var(--colorTransparentBackground);
+    color: var(--colorNeutralForegroundDisabled);
+    cursor: not-allowed;
+}
+
+.thaw-combobox--disabled > .thaw-combobox__input::placeholder {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+.thaw-combobox--disabled > .thaw-combobox__clear-icon,
+.thaw-combobox--disabled > .thaw-combobox__expand-icon {
+    cursor: not-allowed;
 }
 
 .thaw-combobox__listbox {
@@ -180,4 +207,14 @@
     border-color: var(--colorCompoundBrandBackground);
     color: var(--colorNeutralForegroundInverted);
     background-color: var(--colorCompoundBrandBackground);
+}
+
+.thaw-combobox-option--disabled {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+.thaw-combobox-option--disabled:active,
+.thaw-combobox-option--disabled:hover {
+    background-color: var(--colorTransparentBackground);
+    color: var(--colorNeutralForegroundDisabled);
 }

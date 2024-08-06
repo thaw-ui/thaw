@@ -7,10 +7,16 @@ use thaw_utils::class_list;
 #[component]
 pub fn ComboboxOption(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Sets an option to the disabled state. Disabled options cannot be selected,
+    /// but are still keyboard navigable.
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
     /// Defines a unique identifier for the option. Defaults to `text` if not provided.
-    #[prop(optional, into)] value: Option<String>,
+    #[prop(optional, into)]
+    value: Option<String>,
     /// An optional override the string value of the Option's display text, defaulting to the Option's child content.
-    #[prop(into)] text: String,
+    #[prop(into)]
+    text: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let combobox = ComboboxInjection::expect_context();
@@ -21,6 +27,9 @@ pub fn ComboboxOption(
     let id = uuid::Uuid::new_v4().to_string();
 
     let on_click = move |_| {
+        if disabled.get_untracked() {
+            return;
+        }
         text.with_value(|text| {
             value.with_value(|value| {
                 combobox.select_option(value, text);
@@ -29,7 +38,7 @@ pub fn ComboboxOption(
     };
 
     {
-        combobox.insert_option(id.clone(), (value.get_value(), text.get_value()));
+        combobox.insert_option(id.clone(), (value.get_value(), text.get_value(), disabled));
         let id = id.clone();
         listbox.trigger();
         on_cleanup(move || {
@@ -41,11 +50,13 @@ pub fn ComboboxOption(
     view! {
         <div
             role="option"
-            aria-selected=move || if is_selected.get() { "true" } else { "false" }
+            aria-disabled=move || if disabled.get() { "true" } else { "" }
+            aria-selected=move || is_selected.get().to_string()
             id=id
             class=class_list![
                 "thaw-combobox-option",
                 ("thaw-combobox-option--selected", move || is_selected.get()),
+                ("thaw-combobox-option--disabled", move || disabled.get()),
                 class
             ]
             on:click=on_click

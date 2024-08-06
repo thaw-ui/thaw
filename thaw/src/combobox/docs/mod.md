@@ -4,8 +4,8 @@
 let selected_options = RwSignal::new(None::<String>);
 
 view! {
-    <Combobox selected_options>
-        <ComboboxOption value="cat" text="Car" />
+    <Combobox selected_options placeholder="Select an animal">
+        <ComboboxOption value="cat" text="Cat" disabled=true/>
         <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
@@ -18,7 +18,7 @@ let selected_options = RwSignal::new(vec![]);
 
 view! {
     <Combobox selected_options clearable=true>
-        <ComboboxOption value="cat" text="Car" />
+        <ComboboxOption value="cat" text="Cat" disabled=true/>
         <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
@@ -31,7 +31,7 @@ let selected_options = RwSignal::new(vec![]);
 
 view! {
     <Combobox selected_options>
-        <ComboboxOption value="cat" text="Car" />
+        <ComboboxOption value="cat" text="Cat" disabled=true/>
         <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
@@ -49,21 +49,28 @@ view! {
         <ComboboxOptionGroup label="Land">
             {
                 land.into_iter().map(|option| view!{
-                    <ComboboxOption value={option.clone()}>
-                        {option}
-                    </ComboboxOption>
+                    <ComboboxOption text={option} />
                 }).collect_view()
             }
         </ComboboxOptionGroup>
-        <OptionGroup label="Sea">
+        <ComboboxOptionGroup label="Sea">
             {
                 water.into_iter().map(|option| view!{
-                    <ComboboxOption value={option.clone()}>
-                        {option}
-                    </ComboboxOption>
+                    <ComboboxOption text={option} />
                 }).collect_view()
             }
-        </OptionGroup>
+        </ComboboxOptionGroup>
+    </Combobox>
+}
+```
+
+### Disabled
+
+```rust demo
+view! {
+    <Combobox disabled=true>
+        <ComboboxOption value="cat" text="Car" />
+        <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
 ```
