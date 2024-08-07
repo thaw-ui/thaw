@@ -10,11 +10,14 @@ use thaw_utils::{
 pub fn BackTop(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The width of BackTop from the right side of the page.
-    #[prop(default=40.into(), into)] right: MaybeSignal<i32>,
+    #[prop(default=40.into(), into)]
+    right: MaybeSignal<i32>,
     /// The height of BackTop from the bottom of the page.
-    #[prop(default=40.into(), into)] bottom: MaybeSignal<i32>,
+    #[prop(default=40.into(), into)]
+    bottom: MaybeSignal<i32>,
     /// BackTop's trigger scroll top.
-    #[prop(default=180.into(), into)] visibility_height: MaybeSignal<i32>,
+    #[prop(default=180.into(), into)]
+    visibility_height: MaybeSignal<i32>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("back-top", include_str!("./back-top.css"));
@@ -24,7 +27,7 @@ pub fn BackTop(
     let is_show_back_top = RwSignal::new(false);
     let scroll_top = RwSignal::new(0);
 
-    Effect::new(move |prev| {
+    Effect::new(move |prev: Option<()>| {
         scroll_top.track();
         if prev.is_some() {
             is_show_back_top.set(scroll_top.get() > visibility_height.get_untracked());

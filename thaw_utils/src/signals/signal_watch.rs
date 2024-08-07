@@ -39,7 +39,7 @@ where
     fn watch(&self, f: impl Fn(&Self::Value) + 'static) -> Box<dyn FnOnce()> {
         let signal = *self;
 
-        let effect = Effect::new(move |prev| {
+        let effect = Effect::new(move |prev: Option<()>| {
             signal.with(|value| {
                 if prev.is_some() {
                     untrack(|| f(value));

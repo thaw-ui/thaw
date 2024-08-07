@@ -66,7 +66,7 @@ pub fn ColorPicker(
         style
     });
 
-    Effect::new(move |prev| {
+    Effect::new(move |prev: Option<()>| {
         let (s, v) = sv.get();
         let hue_value = hue.get();
         if prev.is_none() {

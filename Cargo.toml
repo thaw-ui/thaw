@@ -16,6 +16,6 @@ thaw_components = { version = "0.2.0-alpha", path = "./thaw_components" }
 thaw_macro = { version = "0.1.0-alpha", path = "./thaw_macro" }
 thaw_utils = { version = "0.1.0-alpha", path = "./thaw_utils" }
 
-leptos = { git = "https://github.com/leptos-rs/leptos", rev = "3dbedfc8710add4bc9a94fe27fa000fb180f393b" }
-leptos_meta = { git = "https://github.com/leptos-rs/leptos", rev = "3dbedfc8710add4bc9a94fe27fa000fb180f393b" }
-leptos_router = { git = "https://github.com/leptos-rs/leptos", rev = "3dbedfc8710add4bc9a94fe27fa000fb180f393b" }
+leptos = { git = "https://github.com/leptos-rs/leptos", rev = "867036559489e86c1f25cdf7133d803d88b0579b" }
+leptos_meta = { git = "https://github.com/leptos-rs/leptos", rev = "867036559489e86c1f25cdf7133d803d88b0579b" }
+leptos_router = { git = "https://github.com/leptos-rs/leptos", rev = "867036559489e86c1f25cdf7133d803d88b0579b" }

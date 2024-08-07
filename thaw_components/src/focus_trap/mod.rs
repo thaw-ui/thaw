@@ -30,7 +30,7 @@ pub fn FocusTrap(
             STACK.with_borrow_mut(|stack| stack.retain(|value| id.with_value(|id| id != value)));
         };
 
-        Effect::new(move |prev| {
+        Effect::new(move |prev: Option<bool>| {
             let is_active = active.get();
             if is_active && !prev.unwrap_or(false) {
                 let on_esc = on_esc.clone();
