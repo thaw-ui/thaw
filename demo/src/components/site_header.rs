@@ -167,7 +167,7 @@ pub fn SiteHeader() -> impl IntoView {
                         "Dark" => change_theme(MouseEvent::new("click").unwrap()),
                         "Light" => change_theme(MouseEvent::new("click").unwrap()),
                         "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },
-                        "discord" => { _ = window().open_with_url("https://discord.gg/YPxuprzu6M"); },
+                        "discord" => { _ = window().open_with_url("https://discord.com/channels/1031524867910148188/1270735289437913108"); },
                         _ => navigate_signal.get()(&value, Default::default())
 
                     }
