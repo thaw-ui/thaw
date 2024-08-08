@@ -1,7 +1,7 @@
 mod code_block;
 
 use comrak::{
-    nodes::{AstNode, LineColumn, NodeValue},
+    nodes::{AstNode, LineColumn, NodeLink, NodeValue},
     parse_document, Arena,
 };
 use proc_macro2::{Ident, Span, TokenStream};
@@ -156,7 +156,15 @@ fn iter_nodes<'a>(
         NodeValue::Strong => quote!("Strong todo!!!"),
         NodeValue::Strikethrough => quote!("Strikethrough todo!!!"),
         NodeValue::Superscript => quote!("Superscript todo!!!"),
-        NodeValue::Link(_) => quote!("Link todo!!!"),
+        NodeValue::Link(node_link) => {
+            let NodeLink { url, title } = node_link;
+            
+            quote!(
+                <a href=#url title=#title>
+                    #(#children)*
+                </a>
+            )
+        }
         NodeValue::Image(_) => quote!("Image todo!!!"),
         NodeValue::FootnoteReference(_) => quote!("FootnoteReference todo!!!"),
         NodeValue::MultilineBlockQuote(_) => quote!("FootnoteReference todo!!!"),

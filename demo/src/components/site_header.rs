@@ -221,7 +221,7 @@ pub fn SiteHeader() -> impl IntoView {
                     <Button
                         icon=icondata::BiDiscordAlt
                         on_click=move |_| {
-                            _ = window().open_with_url("https://discord.gg/YPxuprzu6M");
+                            _ = window().open_with_url("https://discord.com/channels/1031524867910148188/1270735289437913108");
                         }
                     />
 
