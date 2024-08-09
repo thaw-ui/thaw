@@ -32,18 +32,6 @@ pub fn Anchor(
             id: String,
         }
 
-        impl OffsetTarget {
-            fn get_bounding_client_rect(&self) -> Option<DomRect> {
-                match self {
-                    OffsetTarget::Selector(selector) => {
-                        let el = document().query_selector(selector).ok().flatten()?;
-                        Some(el.get_bounding_client_rect())
-                    }
-                    OffsetTarget::Element(el) => Some(el.get_bounding_client_rect()),
-                }
-            }
-        }
-
         let offset_target = send_wrapper::SendWrapper::new(offset_target);
 
         let on_scroll = move || {
@@ -212,7 +200,18 @@ pub enum OffsetTarget {
     Element(Element),
 }
 
-
+#[cfg(any(feature = "csr", feature = "hydrate"))]
+impl OffsetTarget {
+    fn get_bounding_client_rect(&self) -> Option<DomRect> {
+        match self {
+            OffsetTarget::Selector(selector) => {
+                let el = document().query_selector(selector).ok().flatten()?;
+                Some(el.get_bounding_client_rect())
+            }
+            OffsetTarget::Element(el) => Some(el.get_bounding_client_rect()),
+        }
+    }
+}
 
 impl From<&'static str> for OffsetTarget {
     fn from(value: &'static str) -> Self {

@@ -42,3 +42,4 @@ send_wrapper = "0.6"
 csr = ["leptos/csr", "thaw_components/csr", "thaw_utils/csr"]
 ssr = ["leptos/ssr", "thaw_components/ssr", "thaw_utils/ssr"]
 hydrate = ["leptos/hydrate", "thaw_components/hydrate", "thaw_utils/hydrate"]
+nightly = ["leptos/nightly", "thaw_utils/nightly"]

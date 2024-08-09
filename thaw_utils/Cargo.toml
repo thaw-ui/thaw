@@ -24,3 +24,4 @@ send_wrapper = "0.6"
 csr = ["leptos/csr"]
 ssr = ["leptos/ssr", "leptos_meta/ssr"]
 hydrate = ["leptos/hydrate"]
+nightly = ["leptos/nightly"]

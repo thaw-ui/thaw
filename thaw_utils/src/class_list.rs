@@ -1,6 +1,11 @@
+#[cfg(not(feature = "nightly"))]
 use leptos::{
-    prelude::{MaybeProp, Memo, Oco, RenderEffect, RwSignal},
-    reactive_graph::traits::{Get, Update, With, WithUntracked},
+    prelude::{MaybeProp, Memo},
+    reactive_graph::traits::Get,
+};
+use leptos::{
+    prelude::{Oco, RenderEffect, RwSignal},
+    reactive_graph::traits::{Update, With, WithUntracked},
     tachys::renderer::DomRenderer,
 };
 use std::collections::HashSet;
@@ -280,6 +285,22 @@ pub enum Class {
     Fn(Oco<'static, str>, Box<dyn Fn() -> bool>),
 }
 
+pub trait IntoClassValue {
+    fn into_class_value(self) -> Option<Oco<'static, str>>;
+}
+
+impl IntoClassValue for String {
+    fn into_class_value(self) -> Option<Oco<'static, str>> {
+        Some(self.into())
+    }
+}
+
+impl IntoClassValue for Option<String> {
+    fn into_class_value(self) -> Option<Oco<'static, str>> {
+        self.map(|v| v.into())
+    }
+}
+
 pub trait IntoClass {
     fn into_class(self) -> Class;
 }
@@ -299,10 +320,10 @@ impl IntoClass for &'static str {
 impl<T, U> IntoClass for T
 where
     T: Fn() -> U + 'static,
-    U: ToString,
+    U: IntoClassValue,
 {
     fn into_class(self) -> Class {
-        Class::FnString(Box::new(move || (self)().to_string().into()))
+        Class::FnOptionString(Box::new(move || (self)().into_class_value()))
     }
 }
 
@@ -317,6 +338,13 @@ where
         } else {
             Class::None
         }
+    }
+}
+
+#[cfg(not(feature = "nightly"))]
+impl IntoClass for MaybeProp<String> {
+    fn into_class(self) -> Class {
+        Class::FnOptionString(Box::new(move || self.get().map(|c| Oco::from(c))))
     }
 }
 
@@ -339,15 +367,10 @@ impl IntoClass for (&'static str, bool) {
     }
 }
 
+#[cfg(not(feature = "nightly"))]
 impl IntoClass for (&'static str, Memo<bool>) {
     fn into_class(self) -> Class {
         Class::Fn(self.0.into(), Box::new(move || self.1.get()))
-    }
-}
-
-impl IntoClass for MaybeProp<String> {
-    fn into_class(self) -> Class {
-        Class::FnOptionString(Box::new(move || self.get().map(|c| Oco::from(c))))
     }
 }
 

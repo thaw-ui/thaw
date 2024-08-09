@@ -27,11 +27,8 @@ default = ["csr"]
 tracing = ["leptos/tracing"]
 csr = ["leptos/csr", "thaw/csr"]
 ssr = ["leptos/ssr", "leptos_meta/ssr", "leptos_router/ssr", "thaw/ssr"]
-hydrate = [
-    "leptos/hydrate",
-    "thaw/hydrate",
-]
-nightly = ["leptos/nightly", "leptos_router/nightly"]
+hydrate = ["leptos/hydrate", "thaw/hydrate"]
+nightly = ["leptos/nightly", "leptos_router/nightly", "thaw/nightly"]
 
 # https://benw.is/posts/how-i-improved-my-rust-compile-times-by-seventy-five-percent#optimization-level
 
