@@ -30,7 +30,8 @@ pub fn ConfigProvider(
         )
     });
 
-    on_cleanup(move || {
+    #[cfg(not(feature = "ssr"))]
+    Owner::on_cleanup(move || {
         if let Ok(Some(style)) =
             document().query_selector(&format!("head style[data-thaw-id=\"{}\"]", id.get_value()))
         {

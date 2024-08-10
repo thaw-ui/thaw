@@ -9,10 +9,10 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 axum = { version = "0.7.4", optional = true }
 console_error_panic_hook = "0.1"
-leptos = { version = "0.7.0-beta" }
-leptos_axum = { version = "0.7.0-beta", optional = true }
-leptos_meta = { version = "0.7.0-beta" }
-leptos_router = { version = "0.7.0-beta" }
+leptos = { git = "https://github.com/leptos-rs/leptos", rev = "867036559489e86c1f25cdf7133d803d88b0579b" }
+leptos_axum = { git = "https://github.com/leptos-rs/leptos", rev = "867036559489e86c1f25cdf7133d803d88b0579b", optional = true }
+leptos_meta = { git = "https://github.com/leptos-rs/leptos", rev = "867036559489e86c1f25cdf7133d803d88b0579b" }
+leptos_router = { git = "https://github.com/leptos-rs/leptos", rev = "867036559489e86c1f25cdf7133d803d88b0579b" }
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 tower = { version = "0.4", optional = true }
 tower-http = { version = "0.5", features = ["fs"], optional = true }
@@ -25,10 +25,7 @@ log = "0.4"
 demo = { path = "../../demo", default-features = false }
 
 [features]
-hydrate = [
-    "leptos/hydrate",
-    "demo/hydrate",
-]
+hydrate = ["leptos/hydrate", "demo/hydrate"]
 ssr = [
     "dep:axum",
     "dep:tokio",
