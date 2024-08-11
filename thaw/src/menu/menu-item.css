@@ -1,13 +1,20 @@
-.thaw-menu-item{
-    padding: 6px 5px;
-    border-radius: 2px;
-    cursor: pointer;
+.thaw-menu-item {
     display: flex;
     align-items: center;
+    padding: var(--spacingVerticalSNudge) var(--spacingHorizontalS);
+    color: var(--colorNeutralForeground1);
+    cursor: pointer;
+    border-radius: var(--borderRadiusMedium);
 }
 
 .thaw-menu-item:hover:not(.thaw-menu-item--disabled) {
     background-color: var(--colorNeutralBackground1Hover);
+    color: var(--colorNeutralForeground1Hover);
+}
+
+.thaw-menu-item:active:not(.thaw-menu-item--disabled) {
+    background-color: var(--colorNeutralBackground1Pressed);
+    color: var(--colorNeutralForeground1Pressed);
 }
 
 .thaw-menu-item.thaw-menu-item--disabled {

@@ -5,6 +5,9 @@ use thaw::*;
 pub fn SwitchVersion() -> impl IntoView {
     let options = vec![
         ("main", "https://thawui.vercel.app"),
+        ("0.3.3", "https://thaw-85fsrigp0-thaw.vercel.app"),
+        ("0.3.2", "https://thaw-czldv7au5-thaw.vercel.app"),
+        ("0.3.1", "https://thaw-bwh2r7eok-thaw.vercel.app"),
         ("0.3.0", "https://thaw-gxcwse9r5-thaw.vercel.app"),
         ("0.2.6", "https://thaw-mzh1656cm-thaw.vercel.app"),
         ("0.2.5", "https://thaw-8og1kv8zs-thaw.vercel.app"),
