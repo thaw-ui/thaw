@@ -12,10 +12,10 @@
 
 ## Leptos compatibility
 
-| Crate version                                                        | Compatible Leptos version |
-| -------------------------------------------------------------------- | ------------------------- |
-| 0.2 / 0.3                                                            | 0.6                       |
-| 0.4([thaw/fluent](https://github.com/thaw-ui/thaw/tree/thaw/fluent)) | 0.7                       |
+| Crate version                                                            | Compatible Leptos version |
+| ------------------------------------------------------------------------ | ------------------------- |
+| 0.3 / [thaw-v0.3 branch](https://github.com/thaw-ui/thaw/tree/thaw-v0.3) | 0.6                       |
+| 0.4 / main branch                                                        | 0.7                       |
 
 ## Resources
 
