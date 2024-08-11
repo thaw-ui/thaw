@@ -1,3 +1,32 @@
+## [0.3.3](https://github.com/thaw-ui/thaw/compare/v0.3.2...v0.3.3) (2024-07-15)
+
+### Features
+
+* `MenuItem` adds icon prop, closes [#200](https://github.com/thaw-ui/thaw/pull/200).
+* `MenuItem` adds children prop, closes [#207](https://github.com/thaw-ui/thaw/pull/207).
+* `Modal` adds closable prop, closes [#206](https://github.com/thaw-ui/thaw/pull/206).
+* Adds `Dropdown` component, closes [#210](https://github.com/thaw-ui/thaw/pull/210).
+* Added parser and formatter props to input and `InputNumber` components, closes [#209](https://github.com/thaw-ui/thaw/pull/209).
+* Adds `Pagination` component, closes [#212](https://github.com/thaw-ui/thaw/pull/212).
+
+### Bug Fixs
+
+* use_lock_html_scroll, closes [#215](https://github.com/thaw-ui/thaw/pull/215).
+* Events were not removed when the scrollbar cleared, closes [#216](https://github.com/thaw-ui/thaw/pull/216).
+
+## [0.3.2](https://github.com/thaw-ui/thaw/compare/v0.3.1...v0.3.2) (2024-05-21)
+
+### Features
+
+* `Switch` adds on_change prop, closes [#196](https://github.com/thaw-ui/thaw/pull/196).
+
+### Bug Fixs
+
+* `Image` object-fit, closes [#195](https://github.com/thaw-ui/thaw/pull/195).
+* `Icon` missaligment in message fix, closes [#194](https://github.com/thaw-ui/thaw/pull/194).
+* fix `Scrollbar` panic, closes [#193](https://github.com/thaw-ui/thaw/pull/193).
+* interchange the icons of MessageVariant::Success and MessageVariant::Error, closes [#188](https://github.com/thaw-ui/thaw/pull/188).
+
 ## [0.3.1](https://github.com/thaw-ui/thaw/compare/v0.3.0...v0.3.1) (2024-04-27)
 
 ### Features
