@@ -6,7 +6,7 @@
 
 ## Documentation & Community
 
-[https://next-thawui.vercel.app](https://next-thawui.vercel.app)
+[https://thawui.vercel.app](https://thawui.vercel.app)
 
 [Discord](https://discord.com/channels/1031524867910148188/1270735289437913108)
 
