@@ -1,39 +1,17 @@
-mod theme;
-
-pub use theme::ScrollbarTheme;
-
-use crate::{use_theme, Theme};
-use leptos::{leptos_dom::helpers::WindowListenerHandle, *};
-use thaw_utils::{class_list, mount_style, ComponentRef, OptionalProp};
+use leptos::{ev, html, leptos_dom::helpers::WindowListenerHandle, prelude::*};
+use thaw_utils::{class_list, mount_style, ComponentRef};
 
 #[component]
 pub fn Scrollbar(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] style: Option<MaybeSignal<String>>,
-    #[prop(optional, into)] content_class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] content_style: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] content_class: MaybeProp<String>,
+    #[prop(optional, into)] content_style: MaybeProp<String>,
     #[prop(default = 8)] size: u8,
     #[prop(optional)] comp_ref: Option<ComponentRef<ScrollbarRef>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("scrollbar", include_str!("./scrollbar.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = Memo::new(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-scrollbar-background-color: {};",
-                theme.scrollbar.background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-scrollbar-background-color-hover: {};",
-                theme.scrollbar.background_color_hover
-            ));
-            css_vars.push_str(&format!("--thaw-scrollbar-size: {}px;", size));
-        });
-        css_vars
-    });
-
     let container_ref = NodeRef::<html::Div>::new();
     let content_ref = NodeRef::<html::Div>::new();
     let x_track_ref = NodeRef::<html::Div>::new();
@@ -157,14 +135,19 @@ pub fn Scrollbar(
         sync_scroll_state();
     };
     let on_mouseleave = move |_| {
-        thumb_status.try_update_value(|thumb_status| {
-            if thumb_status.is_some() {
-                *thumb_status = Some(ThumbStatus::DelayLeave);
-            } else {
-                is_show_y_thumb.set(false);
-                is_show_x_thumb.set(false);
-            }
-        });
+        if Some(true)
+            == thumb_status.try_update_value(|thumb_status| {
+                if thumb_status.is_some() {
+                    *thumb_status = Some(ThumbStatus::DelayLeave);
+                    false
+                } else {
+                    true
+                }
+            })
+        {
+            is_show_y_thumb.set(false);
+            is_show_x_thumb.set(false);
+        }
     };
 
     let on_scroll = move |_| {
@@ -302,46 +285,46 @@ pub fn Scrollbar(
 
     view! {
         <div
-            class=class_list!["thaw-scrollbar", class.map(| c | move || c.get())]
+            class=class_list!["thaw-scrollbar", class]
             style=move || {
-                format!("{}{}", css_vars.get(), style.as_ref().map(|s| s.get()).unwrap_or_default())
+                format!("--thaw-scrollbar-size: {}px;{}", size, style.as_ref().map(|s| s.get()).unwrap_or_default())
             }
 
             on:mouseenter=on_mouseenter
             on:mouseleave=on_mouseleave
         >
 
-            <div class="thaw-scrollbar__container" ref=container_ref on:scroll=on_scroll>
+            <div class="thaw-scrollbar__container" node_ref=container_ref on:scroll=on_scroll>
                 <div
                     class=class_list![
-                        "thaw-scrollbar__content", content_class.map(| c | move || c.get())
+                        "thaw-scrollbar__content", content_class
                     ]
 
                     style=move || {
                         format!(
                             "width: fit-content; {}",
-                            content_style.as_ref().map_or(String::new(), |s| s.get()),
+                            content_style.get().unwrap_or_default(),
                         )
                     }
 
-                    ref=content_ref
+                    node_ref=content_ref
                 >
                     {children()}
                 </div>
             </div>
-            <div class="thaw-scrollbar__track--vertical" ref=y_track_ref>
+            <div class="thaw-scrollbar__track--vertical" node_ref=y_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
-                    style:display=move || (!is_show_y_thumb.get()).then_some("none")
+                    style:display=move || (!is_show_y_thumb.get()).then_some("none").unwrap_or_default()
                     style:height=move || format!("{}px", y_thumb_height.get())
                     style:top=move || format!("{}px", y_thumb_top.get())
                     on:mousedown=on_y_thumb_mousedown
                 ></div>
             </div>
-            <div class="thaw-scrollbar__track--horizontal" ref=x_track_ref>
+            <div class="thaw-scrollbar__track--horizontal" node_ref=x_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
-                    style:display=move || (!is_show_x_thumb.get()).then_some("none")
+                    style:display=move || (!is_show_x_thumb.get()).then_some("none").unwrap_or_default()
                     style:width=move || format!("{}px", x_thumb_width.get())
                     style:left=move || format!("{}px", x_thumb_left.get())
                     on:mousedown=on_x_thumb_mousedown

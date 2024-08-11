@@ -3,23 +3,22 @@
 ```rust demo
 view! {
     <Space>
-        <Button variant=ButtonVariant::Primary>"Primary"</Button>
-        <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-        <Button variant=ButtonVariant::Text>"Text"</Button>
-        <Button variant=ButtonVariant::Link>"Link"</Button>
+        <Button>"Secondary"</Button>
+        <Button appearance=ButtonAppearance::Primary>"Primary"</Button>
+        <Button appearance=ButtonAppearance::Subtle>"Subtle"</Button>
+        <Button appearance=ButtonAppearance::Transparent>"Transparent"</Button>
     </Space>
 }
 ```
 
-### Color
+### Shape
 
 ```rust demo
 view! {
     <Space>
-        <Button color=ButtonColor::Primary>"Primary Color"</Button>
-        <Button color=ButtonColor::Success>"Success Color"</Button>
-        <Button color=ButtonColor::Warning>"Warning Color"</Button>
-        <Button color=ButtonColor::Error>"Error Color"</Button>
+        <Button>"Rounded"</Button>
+        <Button shape=ButtonShape::Circular>"Circular"</Button>
+        <Button shape=ButtonShape::Square>"Square"</Button>
     </Space>
 }
 ```
@@ -27,7 +26,7 @@ view! {
 ### Icon
 
 ```rust demo
-let icon = create_rw_signal(Some(icondata::AiCloseOutlined));
+let icon = RwSignal::new(Some(icondata::AiCloseOutlined));
 
 let on_click = move |_| {
     icon.update(|icon| {
@@ -55,70 +54,12 @@ view! {
             </Button>
         </Space>
         <Space>
-            <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
+            <Button icon=icondata::AiCloseOutlined>
                 "Error Color Icon"
             </Button>
-            <Button color=ButtonColor::Error icon=icondata::AiCloseOutlined>
-                "Error Color Icon"
+            <Button icon=icondata::AiCloseOutlined>
             </Button>
-            <Button
-                color=ButtonColor::Error
-                icon=icondata::AiCloseOutlined
-                round=true
-            />
-            <Button
-                color=ButtonColor::Error
-                icon=icondata::AiCloseOutlined
-                circle=true
-            />
         </Space>
-    </Space>
-}
-```
-
-### Loading
-
-```rust demo
-let loading = create_rw_signal(false);
-let on_click = move |_| {
-    loading.set(true);
-    set_timeout(
-        move || {
-            loading.set(false);
-        },
-        std::time::Duration::new(2, 0),
-    );
-};
-
-view! {
-    <Space>
-        <Button loading on_click icon=icondata::AiCloseOutlined>
-            "Click Me"
-        </Button>
-        <Button loading on_click>
-            "Click Me"
-        </Button>
-    </Space>
-}
-```
-
-### Disabled
-
-```rust demo
-view! {
-    <Space>
-        <Button variant=ButtonVariant::Primary disabled=true>
-            "Primary"
-        </Button>
-        <Button variant=ButtonVariant::Outlined disabled=true>
-            "Outlined"
-        </Button>
-        <Button variant=ButtonVariant::Text disabled=true>
-            "Text"
-        </Button>
-        <Button variant=ButtonVariant::Link disabled=true>
-            "Link"
-        </Button>
     </Space>
 }
 ```
@@ -127,11 +68,68 @@ view! {
 
 ```rust demo
 view! {
-    <Space>
-        <Button size=ButtonSize::Tiny>"Primary"</Button>
-        <Button size=ButtonSize::Small>"Primary"</Button>
-        <Button size=ButtonSize::Medium>"Primary"</Button>
-        <Button size=ButtonSize::Large>"Primary"</Button>
+    <Space vertical=true>
+        <Space>
+            <Button size=ButtonSize::Small>"Small"</Button>
+            <Button size=ButtonSize::Small icon=icondata::AiCloseOutlined>
+                "Small with calendar icon"
+            </Button>
+            <Button size=ButtonSize::Small icon=icondata::AiCloseOutlined>
+            </Button>
+        </Space>
+        <Space>
+            <Button>"Medium"</Button>
+            <Button icon=icondata::AiCloseOutlined>
+                "Medium with calendar icon"
+            </Button>
+            <Button icon=icondata::AiCloseOutlined>
+            </Button>
+        </Space>
+        <Space>
+            <Button size=ButtonSize::Large>"Large"</Button>
+            <Button size=ButtonSize::Large icon=icondata::AiCloseOutlined>
+                "Large with calendar icon"
+            </Button>
+            <Button size=ButtonSize::Large icon=icondata::AiCloseOutlined>
+            </Button>
+        </Space>
+    </Space>
+}
+```
+
+### Disabled
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Space>
+            <Button disabled=true>
+                "Secondary"
+            </Button>
+            <Button appearance=ButtonAppearance::Primary disabled=true>
+                "Primary"
+            </Button>
+            <Button appearance=ButtonAppearance::Subtle disabled=true>
+                "Subtle"
+            </Button>
+            <Button appearance=ButtonAppearance::Transparent disabled=true>
+                "Transparent"
+            </Button>
+        </Space>
+        <Space>
+            <Button disabled_focusable=true>
+                "Secondary"
+            </Button>
+            <Button appearance=ButtonAppearance::Primary disabled_focusable=true>
+                "Primary"
+            </Button>
+            <Button appearance=ButtonAppearance::Subtle disabled_focusable=true>
+                "Subtle"
+            </Button>
+            <Button appearance=ButtonAppearance::Transparent disabled_focusable=true>
+                "Transparent"
+            </Button>
+        </Space>
     </Space>
 }
 ```
@@ -140,9 +138,7 @@ view! {
 
 ```rust demo
 view! {
-    <Space vertical=true>
-        <Button block=true>"Primary"</Button>
-    </Space>
+    <Button block=true>"Primary"</Button>
 }
 ```
 
@@ -152,14 +148,14 @@ view! {
 view! {
     <Space>
         <ButtonGroup>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
         </ButtonGroup>
         <ButtonGroup vertical=true>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
-            <Button variant=ButtonVariant::Outlined>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
+            <Button>"Outlined"</Button>
         </ButtonGroup>
     </Space>
 }
@@ -171,7 +167,7 @@ view! {
 | --- | --- | --- | --- |
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the button element. |
 | style | `Option<MaybeSignal<String>>` | `Default::default()` | Button's style. |
-| variant | `MaybeSignal<ButtonVariant>` | `ButtonVariant::Primary` | Button's variant. |
+| appearance | `MaybeSignal<ButtonAppearance>` | `ButtonAppearance::Primary` | Button's variant. |
 | color | `MaybeSignal<ButtonColor>` | `ButtonColor::Primary` | Button's color. |
 | block | `MaybeSignal<bool>` | `false` | Whether the button is displayed as block. |
 | round | `MaybeSignal<bool>` | `false` | Whether the button shows rounded corners. |

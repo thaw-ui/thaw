@@ -1,19 +1,30 @@
-use leptos::*;
-use thaw_utils::mount_style;
+use crate::SliderInjection;
+use leptos::prelude::*;
+use thaw_utils::{class_list, mount_style};
 
 #[component]
-pub fn SliderLabel(#[prop(into)] value: MaybeSignal<f64>, children: Children) -> impl IntoView {
+pub fn SliderLabel(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(into)] value: MaybeSignal<f64>,
+    children: Children,
+) -> impl IntoView {
     mount_style("slider-label", include_str!("./slider_label.css"));
 
+    let slider = SliderInjection::expect_context();
+
+    let style = move || {
+        let value = (value.get() - slider.min.get()) / (slider.max.get() - slider.min.get());
+        format!("left: calc({} * (100% - var(--thaw-slider__thumb--size)) + var(--thaw-slider__thumb--size) / 2)", value)
+    };
+
     view! {
-        <div
-            class:thaw-slider-label=true
-            style=move || {
-                format!("left: calc(calc({} / var(--thaw-slider-max)) * 100%)", value.get())
-            }
+        <option
+            class=class_list!["thaw-slider-label", class]
+            style=style
+            value=move || value.get()
         >
 
             {children()}
-        </div>
+        </option>
     }
 }

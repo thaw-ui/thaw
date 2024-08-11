@@ -1,39 +1,79 @@
 .thaw-table {
+    display: table;
+    table-layout: fixed;
+    vertical-align: middle;
+    border-collapse: collapse;
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: var(--thaw-background-color);
-    border: 1px solid var(--thaw-border-color);
-    border-radius: var(--thaw-border-radius);
+    background-color: var(--colorSubtleBackground);
 }
 
-.thaw-table th {
-    text-align: inherit;
-    background-color: var(--thaw-background-color-striped);
+.thaw-table-header {
+    display: table-row-group;
 }
 
-.thaw-table td,
-.thaw-table th {
-    padding: 12px;
-    border-right: 1px solid var(--thaw-border-color);
-    border-bottom: 1px solid var(--thaw-border-color);
+.thaw-table-header-cell {
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: var(--fontWeightRegular);
+    padding: 0px var(--spacingHorizontalS);
 }
 
-.thaw-table.thaw-table--single-row td,
-.thaw-table.thaw-table--single-row th {
-    border-right: none;
-}
-.thaw-table.thaw-table--single-column td {
-    border-bottom: none;
-}
-.thaw-table td:last-child,
-.thaw-table th:last-child {
-    border-right: none;
+.thaw-table-header-cell__button {
+    position: relative;
+    display: flex;
+    flex: 1 1 0px;
+    align-items: center;
+    gap: var(--spacingHorizontalXS);
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    min-height: 32px;
+    text-align: unset;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: normal;
+    color: inherit;
+    background-color: inherit;
+    box-sizing: content-box;
+    resize: horizontal;
+    overflow: visible;
+    outline-style: none;
+    border: none;
 }
 
-.thaw-table tbody tr:last-child td {
-    border-bottom: none;
+.thaw-table-body {
+    display: table-row-group;
 }
-.thaw-table tr {
-    border-bottom: 1px solid var(--thaw-border-color);
+
+.thaw-table-row {
+    display: table-row;
+    box-sizing: border-box;
+    color: var(--colorNeutralForeground1);
+    border-bottom: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+}
+
+.thaw-table-body > .thaw-table-row:hover {
+    color: var(--colorNeutralForeground1Hover);
+    background-color: var(--colorSubtleBackgroundHover);
+}
+
+.thaw-table-body > .thaw-table-row:active {
+    color: var(--colorNeutralForeground1Pressed);
+    background-color: var(--colorSubtleBackgroundPressed);
+}
+
+.thaw-table-cell {
+    position: relative;
+    height: 44px;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0px var(--spacingHorizontalS);
+}
+
+.thaw-table-cell-layout {
+    display: flex;
+    flex: 1 1 0px;
+    align-items: center;
+    gap: var(--spacingHorizontalS);
 }

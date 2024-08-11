@@ -21,15 +21,11 @@ macro_rules! file_path {
 pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let file_list = file_path! {
         "DevelopmentComponentsMdPage" => "../docs/_guide/development/components.md",
-        "DevelopmentGuideMdPage" => "../docs/_guide/development/guide.md",
         "InstallationMdPage" => "../docs/_guide/installation.md",
         "ServerSiderRenderingMdPage" => "../docs/_guide/server_sider_rendering.md",
-        "UsageMdPage" => "../docs/_guide/usage.md",
-        "NavBarMdPage" => "../docs/_mobile/nav_bar/mod.md",
-        "TabbarMdPage" => "../docs/_mobile/tabbar/mod.md",
-        "ToastMdPage" => "../docs/_mobile/toast/mod.md",
-        "AlertMdPage" => "../docs/alert/mod.md",
-        "AnchorMdPage" => "../docs/anchor/mod.md",
+        "AccordionMdPage" => "../../thaw/src/accordion/docs/mod.md",
+        // "AlertMdPage" => "../docs/alert/mod.md",
+        "AnchorMdPage" => "../../thaw/src/anchor/docs/mod.md",
         "AutoCompleteMdPage" => "../docs/auto_complete/mod.md",
         "AvatarMdPage" => "../docs/avatar/mod.md",
         "BackTopMdPage" => "../docs/back_top/mod.md",
@@ -39,40 +35,41 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "CalendarMdPage" => "../docs/calendar/mod.md",
         "CardMdPage" => "../docs/card/mod.md",
         "CheckboxMdPage" => "../docs/checkbox/mod.md",
-        "CollapseMdPage" => "../docs/collapse/mod.md",
         "ColorPickerMdPage" => "../docs/color_picker/mod.md",
+        "ComboboxMdPage" => "../../thaw/src/combobox/docs/mod.md",
+        "ConfigProviderMdPage" => "../docs/config_provider/mod.md",
         "DatePickerMdPage" => "../docs/date_picker/mod.md",
+        "DialogMdPage" => "../docs/dialog/mod.md",
         "DividerMdPage" => "../docs/divider/mod.md",
         "DrawerMdPage" => "../docs/drawer/mod.md",
         "GridMdPage" => "../docs/grid/mod.md",
         "IconMdPage" => "../docs/icon/mod.md",
         "ImageMdPage" => "../docs/image/mod.md",
         "InputMdPage" => "../docs/input/mod.md",
-        "InputNumberMdPage" => "../docs/input_number/mod.md",
         "LayoutMdPage" => "../docs/layout/mod.md",
         "LoadingBarMdPage" => "../docs/loading_bar/mod.md",
         "MenuMdPage" => "../docs/menu/mod.md",
-        "MessageMdPage" => "../docs/message/mod.md",
-        "ModalMdPage" => "../docs/modal/mod.md",
-        "PaginationMdPage" => "../docs/pagination/mod.md",
+        "MessageBarMdPage" => "../docs/message_bar/mod.md",
+        "NavMdPage" => "../docs/nav/mod.md",
+        "PaginationMdPage" => "../../thaw/src/pagination/docs/mod.md",
         "PopoverMdPage" => "../docs/popover/mod.md",
-        "ProgressMdPage" => "../docs/progress/mod.md",
+        "ProgressBarMdPage" => "../docs/progress_bar/mod.md",
         "RadioMdPage" => "../docs/radio/mod.md",
         "ScrollbarMdPage" => "../docs/scrollbar/mod.md",
-        "SelectMdPage" => "../docs/select/mod.md",
         "SkeletonMdPage" => "../docs/skeleton/mod.md",
         "SliderMdPage" => "../docs/slider/mod.md",
         "SpaceMdPage" => "../docs/space/mod.md",
+        "SpinButtonMdPage" => "../docs/spin_button/mod.md",
         "SpinnerMdPage" => "../docs/spinner/mod.md",
         "SwitchMdPage" => "../docs/switch/mod.md",
+        "TabListMdPage" => "../docs/tab_list/mod.md",
         "TableMdPage" => "../docs/table/mod.md",
-        "TabsMdPage" => "../docs/tabs/mod.md",
         "TagMdPage" => "../docs/tag/mod.md",
-        "ThemeMdPage" => "../docs/theme/mod.md",
+        "TextMdPage" => "../docs/text/mod.md",
+        "TextareaMdPage" => "../docs/textarea/mod.md",
         "TimePickerMdPage" => "../docs/time_picker/mod.md",
-        "TypographyMdPage" => "../docs/typography/mod.md",
-        "UploadMdPage" => "../docs/upload/mod.md",
-        "DropdownMdPage" => "../docs/dropdown/mod.md"
+        "ToastMdPage" => "../docs/toast/mod.md",
+        "UploadMdPage" => "../docs/upload/mod.md"
     };
 
     let mut fn_list = vec![];
@@ -98,7 +95,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
                 links
             );
             syn::parse_str::<ItemFn>(&toc)
-                .unwrap_or_else(|_| panic!("Cannot be resolved as a function: \n {toc}"))
+                .expect(&format!("Cannot be resolved as a function: \n {toc}"))
         };
 
         let demos: Vec<ItemFn> = demos

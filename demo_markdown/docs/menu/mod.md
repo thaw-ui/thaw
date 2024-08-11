@@ -1,25 +1,150 @@
 # Menu
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
+let toaster = ToasterInjection::expect_context();
+
+let on_select = move |key: String| {
+  leptos::logging::warn!("{}", key);
+  toaster.dispatch_toast(view! {
+        <Toast>
+            <ToastBody>
+                "key"
+            </ToastBody>
+        </Toast>
+  }.into_any(), Default::default());
+};
 
 view! {
-    <Menu value default_expanded_keys=vec![String::from("area")]>
-        <MenuItem key="a" label="And"/>
-        <MenuItem key="o" label="Or"/>
-        <MenuItem icon=icondata::AiAreaChartOutlined key="area" label="Area Chart">
-            <MenuItem key="target" label="Target"/>
-            <MenuItem key="above" label="Above"/>
-            <MenuItem key="below" label="Below"/>
-        </MenuItem>
-        <MenuItem icon=icondata::AiPieChartOutlined key="pie" label="Pie Chart">
-            <MenuItem key="pie-target" label="Target"/>
-            <MenuItem key="pie-above" label="Above"/>
-            <MenuItem key="pie-below" label="Below"/>
-        </MenuItem>
-        <MenuItem icon=icondata::AiGithubOutlined key="github" label="Github"/>
-        <MenuItem icon=icondata::AiChromeOutlined key="chrome" label="Chrome"/>
-    </Menu>
+    <Space>
+        <Menu on_select trigger_type=MenuTriggerType::Hover>
+            <MenuTrigger slot>
+                <Button>"Hover"</Button>
+            </MenuTrigger>
+            <MenuItem value="facebook" icon=icondata::AiFacebookOutlined>"Facebook"</MenuItem>
+            <MenuItem value="twitter" disabled=true icon=icondata::AiTwitterOutlined>"Twitter"</MenuItem>
+        </Menu>
+
+        <Menu on_select>
+            <MenuTrigger slot>
+                <Button>"Click"</Button>
+            </MenuTrigger>
+            <MenuItem value="facebook" icon=icondata::AiFacebookOutlined>"Facebook"</MenuItem>
+            <MenuItem value="twitter" icon=icondata::AiTwitterOutlined>"Twitter"</MenuItem>
+            <MenuItem value="no_icon" disabled=true>"Mastodon"</MenuItem>
+        </Menu>
+    </Space>
+}
+```
+
+### Placement
+
+```rust demo
+use leptos_meta::Style;
+
+let on_select = move |value| leptos::logging::warn!("{}", value);
+
+view! {
+    <Style>
+        ".demo-menu .thaw-button { width: 100% } .demo-menu .thaw-menu-trigger { display: block }"
+    </Style>
+    <Grid x_gap=8 y_gap=8 cols=3 class="demo-menu">
+        <GridItem>
+            <Menu on_select position=MenuPosition::TopStart>
+                <MenuTrigger slot>
+                    <Button>"Top Start"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::Top>
+                <MenuTrigger slot>
+                    <Button>"Top"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::TopEnd>
+                <MenuTrigger slot>
+                    <Button>"Top End"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::LeftStart>
+                <MenuTrigger slot>
+                    <Button>"Left Start"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem offset=1>
+            <Menu on_select position=MenuPosition::RightStart>
+                <MenuTrigger slot>
+                    <Button>"Right Start"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::Left>
+                <MenuTrigger slot>
+                    <Button>"Left"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem offset=1>
+            <Menu on_select position=MenuPosition::Right>
+                <MenuTrigger slot>
+                    <Button>"Right"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::LeftEnd>
+                <MenuTrigger slot>
+                    <Button>"Left End"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem offset=1>
+            <Menu on_select position=MenuPosition::RightEnd>
+                <MenuTrigger slot>
+                    <Button>"Right End"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::BottomStart>
+                <MenuTrigger slot>
+                    <Button>"Bottom Start"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::Bottom>
+                <MenuTrigger slot>
+                    <Button>"Bottom"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+        <GridItem>
+            <Menu on_select position=MenuPosition::BottomEnd>
+                <MenuTrigger slot>
+                    <Button>"Bottom End"</Button>
+                </MenuTrigger>
+                <MenuItem value="content">"Content"</MenuItem>
+            </Menu>
+        </GridItem>
+    </Grid>
 }
 ```
 
@@ -28,24 +153,30 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the menu element. |
-| value | `Model<String>` | `Default::default()` | The selected item key of the menu. |
-| default_expanded_keys | `Vec<String>` | `Default::default()` | The default expanded submenu keys. |
-| children | `Children` |  | Menu's content. |
-
-### MenuGroup Props
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the menu group element. |
-| label | `String` |  | The label of the menu group. |
-| children | `Children` |  | MenuGroup's content. |
+| on_select | `Callback<String>` |  | Called when item is selected. |
+| trigger_type | `MenuTriggerType` | `MenuTriggerType::Click` | Action that displays the menu. |
+| position | `MenuPosition` | `MenuPosition::Bottom` | Menu position. |
+| children | `Children` |  | The content inside menu. |
 
 ### MenuItem Props
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the menu item element. |
+| value | `MaybeSignal<String>` | `Default::default()` | The value of the menu item. |
 | label | `MaybeSignal<String>` | `Default::default()` | The label of the menu item. |
-| key | `MaybeSignal<String>` | `Default::default()` | The indentifier of the menu item. |
 | icon | `OptionalMaybeSignal<icondata_core::Icon>` | `None` | The icon of the menu item. |
-| children | `Option<Children>` | `None` | MenuItem's content. |
+| disabled | `MaybeSignal<bool>` | `false` | Whether the menu item is disabled. |
+
+### Menu Slots
+
+| Name        | Default | Description                                  |
+| ----------- | ------- | -------------------------------------------- |
+| MenuTrigger | `None`  | The element or component that triggers menu. |
+
+### MenuTriger Props
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the menu trigger element. |
+| children | `Children` |  | The content inside menu trigger. |

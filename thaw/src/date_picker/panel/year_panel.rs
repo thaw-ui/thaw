@@ -1,7 +1,7 @@
 use super::PanelVariant;
-use crate::{Button, ButtonSize, ButtonVariant};
+use crate::{Button, ButtonAppearance, ButtonSize};
 use chrono::{Datelike, NaiveDate};
-use leptos::*;
+use leptos::prelude::*;
 
 const MAX_YEAR: i32 = (i32::MAX >> 13) / 10 - 1;
 const MIN_YEAR: i32 = (i32::MIN >> 13) / 10 + 1;
@@ -11,7 +11,7 @@ pub fn YearPanel(
     date_panel_show_date: RwSignal<NaiveDate>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
-    let show_min_year = create_rw_signal(date_panel_show_date.get_untracked().year() / 10);
+    let show_min_year = RwSignal::new(date_panel_show_date.get_untracked().year() / 10);
     let previous_year_range = move |_| {
         show_min_year.update(|year| {
             if *year > MIN_YEAR {
@@ -30,7 +30,7 @@ pub fn YearPanel(
         <div>
             <div class="thaw-date-picker-year-panel__header">
                 <Button
-                    variant=ButtonVariant::Link
+                    appearance=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowLeftOutlined
                     on_click=previous_year_range
@@ -43,7 +43,7 @@ pub fn YearPanel(
 
                 </div>
                 <Button
-                    variant=ButtonVariant::Link
+                    appearance=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowRightOutlined
                     on_click=next_year_range
@@ -74,7 +74,7 @@ pub fn YearPanel(
 
 #[component]
 fn YearPanelItem(date_panel_show_date: RwSignal<NaiveDate>, year: i32) -> impl IntoView {
-    let is_selected = create_memo(move |_| date_panel_show_date.with(|date| date.year() == year));
+    let is_selected = Memo::new(move |_| date_panel_show_date.with(|date| date.year() == year));
 
     view! {
         <div

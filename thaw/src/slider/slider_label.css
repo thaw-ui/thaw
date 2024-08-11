@@ -1,6 +1,5 @@
 .thaw-slider-label {
     position: absolute;
-    display: inline-block;        
+    display: inline-block;
     transform: translateX(-50%);
-    margin-top: 8px;
 }

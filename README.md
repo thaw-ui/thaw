@@ -6,19 +6,20 @@
 
 ## Documentation & Community
 
-[https://thawui.vercel.app](https://thawui.vercel.app)
+[https://next-thawui.vercel.app](https://next-thawui.vercel.app)
 
-[Discord](https://discord.gg/YPxuprzu6M)
+[Discord](https://discord.com/channels/1031524867910148188/1270735289437913108)
 
 ## Leptos compatibility
 
-| Crate version                                                   | Compatible Leptos version |
-| --------------------------------------------------------------- | ------------------------- |
-| 0.1                                                             | 0.5                       |
-| 0.2 / 0.3                                                       | 0.6                       |
-| [thaw/fluent](https://github.com/thaw-ui/thaw/tree/thaw/fluent) | 0.7                       |
+| Crate version                                                        | Compatible Leptos version |
+| -------------------------------------------------------------------- | ------------------------- |
+| 0.2 / 0.3                                                            | 0.6                       |
+| 0.4([thaw/fluent](https://github.com/thaw-ui/thaw/tree/thaw/fluent)) | 0.7                       |
 
 ## Resources
+
+[Fluent UI](https://react.fluentui.dev)
 
 [Pigment](https://github.com/kobaltedev/pigment)
 

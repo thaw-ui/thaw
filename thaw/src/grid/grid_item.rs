@@ -1,17 +1,19 @@
 use super::use_grid;
-use leptos::*;
-use thaw_utils::{class_list, OptionalProp};
+use leptos::prelude::*;
+use thaw_utils::class_list;
 
 #[component]
 pub fn GridItem(
+    /// The number of columns occupied by the grid. The grid item would be hidden if it's 0.
     #[prop(default = MaybeSignal::Static(1u16), into)] column: MaybeSignal<u16>,
+    /// The number of intervals to the left of the grid.
     #[prop(optional, into)] offset: MaybeSignal<u16>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
     let grid = use_grid();
 
-    let style = create_memo(move |_| {
+    let style = Memo::new(move |_| {
         let mut style = String::new();
         let offset = offset.get();
         let column = column.get();
@@ -37,7 +39,7 @@ pub fn GridItem(
 
     view! {
         <div
-            class=class_list!["thaw-grid-item", class.map(| c | move || c.get())]
+            class=class_list!["thaw-grid-item", class]
             style=move || style.get()
         >
             {children()}

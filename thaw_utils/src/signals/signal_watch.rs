@@ -1,4 +1,10 @@
-use leptos::{create_effect, untrack, RwSignal, SignalDispose, SignalWith};
+use leptos::reactive_graph::{
+    effect::Effect,
+    owner::Storage,
+    signal::{ArcReadSignal, ArcRwSignal, RwSignal},
+    traits::{Dispose, With},
+    untrack,
+};
 
 pub trait SignalWatch {
     type Value;
@@ -6,10 +12,12 @@ pub trait SignalWatch {
     fn watch(&self, f: impl Fn(&Self::Value) + 'static) -> Box<dyn FnOnce()>;
 }
 
-impl<T> SignalWatch for RwSignal<T> {
+impl<T, S> SignalWatch for RwSignal<T, S>
+where
+    T: 'static,
+    S: Storage<ArcRwSignal<T>> + Storage<ArcReadSignal<T>>,
+{
     type Value = T;
-
-    /// Listens for RwSignal changes and is not executed immediately
     ///
     /// ## Usage
     ///
@@ -31,7 +39,7 @@ impl<T> SignalWatch for RwSignal<T> {
     fn watch(&self, f: impl Fn(&Self::Value) + 'static) -> Box<dyn FnOnce()> {
         let signal = *self;
 
-        let effect = create_effect(move |prev| {
+        let effect = Effect::new(move |prev: Option<()>| {
             signal.with(|value| {
                 if prev.is_some() {
                     untrack(|| f(value));

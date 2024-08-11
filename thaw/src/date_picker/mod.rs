@@ -1,29 +1,24 @@
 mod panel;
-mod theme;
-
-pub use theme::DatePickerTheme;
-
 use crate::{Icon, Input, InputSuffix, SignalWatch};
 use chrono::NaiveDate;
-use leptos::*;
+use leptos::{html, prelude::*};
 use panel::{Panel, PanelRef};
 use thaw_components::{Binder, Follower, FollowerPlacement};
-use thaw_utils::{mount_style, now_date, ComponentRef, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, now_date, ComponentRef, OptionModel};
 
 #[component]
 pub fn DatePicker(
-    #[prop(optional, into)] value: Model<Option<NaiveDate>>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional, into)] value: OptionModel<NaiveDate>,
+    #[prop(optional, into)] class: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));
-    let date_picker_ref = create_node_ref::<html::Div>();
-    let is_show_panel = create_rw_signal(false);
-    let show_date_text = create_rw_signal(String::new());
+    let date_picker_ref = NodeRef::<html::Div>::new();
+    let is_show_panel = RwSignal::new(false);
+    let show_date_text = RwSignal::new(String::new());
     let show_date_format = "%Y-%m-%d";
     let update_show_date_text = move || {
         value.with_untracked(move |date| {
-            let text = date.as_ref().map_or(String::new(), |date| {
+            let text = date.map_or(String::new(), |date| {
                 date.format(show_date_format).to_string()
             });
             show_date_text.set(text);
@@ -31,15 +26,15 @@ pub fn DatePicker(
     };
     update_show_date_text();
     let panel_ref = ComponentRef::<PanelRef>::default();
-    let panel_selected_date = create_rw_signal(None::<NaiveDate>);
+    let panel_selected_date = RwSignal::new(None::<NaiveDate>);
     _ = panel_selected_date.watch(move |date| {
-        let text = date.as_ref().map_or(String::new(), |date| {
+        let text = date.map_or(String::new(), |date| {
             date.format(show_date_format).to_string()
         });
         show_date_text.set(text);
     });
 
-    let on_input_blur = Callback::new(move |_| {
+    let on_input_blur = move |_| {
         if let Ok(date) =
             NaiveDate::parse_from_str(&show_date_text.get_untracked(), show_date_format)
         {
@@ -50,9 +45,9 @@ pub fn DatePicker(
         } else {
             update_show_date_text();
         }
-    });
+    };
 
-    let close_panel = Callback::new(move |date: Option<NaiveDate>| {
+    let close_panel = move |date: Option<NaiveDate>| {
         if value.get_untracked() != date {
             if date.is_some() {
                 value.set(date);
@@ -60,20 +55,20 @@ pub fn DatePicker(
             update_show_date_text();
         }
         is_show_panel.set(false);
-    });
+    };
 
-    let open_panel = Callback::new(move |_| {
+    let open_panel = move |_| {
         panel_selected_date.set(value.get_untracked());
         if let Some(panel_ref) = panel_ref.get_untracked() {
             panel_ref.init_panel(value.get_untracked().unwrap_or(now_date()));
         }
         is_show_panel.set(true);
-    });
+    };
 
     view! {
         <Binder target_ref=date_picker_ref>
-            <div ref=date_picker_ref>
-                <Input attrs class value=show_date_text on_focus=open_panel on_blur=on_input_blur>
+            <div node_ref=date_picker_ref class=class_list!["thaw-date-picker", class]>
+                <Input value=show_date_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiCalendarOutlined style="font-size: 18px"/>
                     </InputSuffix>

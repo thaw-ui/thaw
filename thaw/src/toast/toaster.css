@@ -1,0 +1,163 @@
+div.thaw-toaster-wrapper {
+    z-index: 1000000;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    text-align: left;
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+}
+
+.thaw-toaster {
+    position: fixed;
+    width: 292px;
+    pointer-events: none;
+}
+
+.thaw-toaster--top {
+    top: 16px;
+    left: calc(50% + 20px);
+    transform: translateX(-50%);
+}
+
+.thaw-toaster--top-start {
+    top: 16px;
+    left: 20px;
+}
+
+.thaw-toaster--top-end {
+    top: 16px;
+    right: 20px;
+}
+
+.thaw-toaster--bottom {
+    bottom: 16px;
+    left: calc(50% + 20px);
+    transform: translateX(-50%);
+}
+
+.thaw-toaster--bottom-start {
+    bottom: 16px;
+    left: 20px;
+}
+
+.thaw-toaster--bottom-end {
+    bottom: 16px;
+    right: 20px;
+}
+
+.thaw-toaster-container {
+    box-sizing: border-box;
+    margin-top: 16px;
+    pointer-events: all;
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-leave-from,
+.thaw-toaster-container.fade-in-height-expand-transition-enter-to {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-leave-to,
+.thaw-toaster-container.fade-in-height-expand-transition-enter-from {
+    transform: scale(0.85);
+    opacity: 0;
+    margin-bottom: 0 !important;
+    max-height: 0 !important;
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-leave-active {
+    overflow: visible;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        opacity 0.3s cubic-bezier(0, 0, 0.2, 1) 0s,
+        margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-toaster-container.fade-in-height-expand-transition-enter-active {
+    overflow: visible;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s cubic-bezier(0.4, 0, 1, 1),
+        margin-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-toast {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    padding: 12px;
+    border-radius: var(--borderRadiusMedium);
+    border: 1px solid var(--colorTransparentStroke);
+    box-shadow: var(--shadow8);
+    font-size: var(--fontSizeBase300);
+    line-height: 20px;
+    font-weight: var(--fontWeightSemibold);
+    color: var(--colorNeutralForeground1);
+    background-color: var(--colorNeutralBackground1);
+}
+
+.thaw-toast-title__media {
+    display: flex;
+    padding-top: 2px;
+    grid-column-end: 2;
+    padding-right: 8px;
+    font-size: 16px;
+    color: var(--colorNeutralForeground1);
+    color: var(--colorNeutralForeground2);
+}
+
+.thaw-toast-title__media > svg {
+    display: inline;
+    line-height: 0;
+}
+
+.thaw-toast-title {
+    display: flex;
+    grid-column-end: 3;
+    color: var(--colorNeutralForeground1);
+    word-break: break-word;
+}
+
+.thaw-toast-title__action {
+    display: flex;
+    align-items: start;
+    padding-left: 12px;
+    grid-column-end: -1;
+    color: var(--colorBrandForeground1);
+}
+
+.thaw-toast-body {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    padding-top: 6px;
+    font-size: var(--fontSizeBase300);
+    line-height: var(--fontSizeBase300);
+    font-weight: var(--fontWeightRegular);
+    color: var(--colorNeutralForeground1);
+    word-break: break-word;
+}
+
+.thaw-toast-body__subtitle {
+    padding-top: 4px;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    font-size: var(--fontSizeBase200);
+    line-height: var(--fontSizeBase200);
+    font-weight: var(--fontWeightRegular);
+    color: var(--colorNeutralForeground2);
+}
+
+.thaw-toast-footer {
+    padding-top: 16px;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}

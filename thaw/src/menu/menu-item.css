@@ -1,70 +1,16 @@
-.thaw-menu {
-    padding-bottom: 0.3rem;
-}
-
-.thaw-menu-item__content {
+.thaw-menu-item{
+    padding: 6px 5px;
+    border-radius: 2px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    margin: 0.3rem 0.4rem 0;
-    padding: 0.5rem 0.75rem;
-    color: var(--thaw-font-color);
-    cursor: pointer;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-
-    transition-property: color, background-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 0.15s;
 }
 
-.thaw-menu-item__content:hover:not(.thaw-menu-item__content--selected) {
-    background-color: var(--thaw-background-color-hover);
+.thaw-menu-item:hover:not(.thaw-menu-item--disabled) {
+    background-color: var(--colorNeutralBackground1Hover);
 }
 
-.thaw-menu-item__content--selected {
-    color: var(--thaw-font-color-active);
-    background-color: var(--thaw-background-color);
-}
-
-.thaw-menu-item__content--submenu-selected {
-    color: var(--thaw-font-color-active);
-}
-
-.thaw-menu-item__arrow {
-    font-size: 18px;
-    margin-inline-start: auto;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: rotate(0deg);
-}
-
-.thaw-menu-item__arrow--open {
-    transform: rotate(90deg);
-}
-
-.thaw-menu-submenu {
-    margin-left: 1.6rem;
-}
-
-.thaw-menu-submenu.fade-in-height-expand-transition-leave-from,
-.thaw-menu-submenu.fade-in-height-expand-transition-enter-to {
-    opacity: 1;
-}
-
-.thaw-menu-submenu.fade-in-height-expand-transition-leave-to,
-.thaw-menu-submenu.fade-in-height-expand-transition-enter-from {
-    opacity: 0;
-    max-height: 0;
-}
-
-.thaw-menu-submenu.fade-in-height-expand-transition-leave-active {
-    overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) 0s,
-        opacity 0.2s cubic-bezier(0, 0, 0.2, 1) 0s;
-}
-
-.thaw-menu-submenu.fade-in-height-expand-transition-enter-active {
-    overflow: hidden;
-    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.2s cubic-bezier(0.4, 0, 1, 1);
+.thaw-menu-item.thaw-menu-item--disabled {
+    color: var(--colorNeutralForegroundDisabled);
+    cursor: not-allowed;
 }

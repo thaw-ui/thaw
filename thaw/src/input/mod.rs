@@ -1,28 +1,7 @@
-mod text_area;
-mod theme;
-
-pub use text_area::{TextArea, TextAreaRef};
-pub use theme::InputTheme;
-
-use crate::theme::{use_theme, Theme};
-use leptos::*;
-use thaw_utils::{class_list, mount_style, ComponentRef, Model, OptionalProp};
-
-#[derive(Default, Clone)]
-pub enum InputVariant {
-    #[default]
-    Text,
-    Password,
-}
-
-impl InputVariant {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            InputVariant::Text => "text",
-            InputVariant::Password => "password",
-        }
-    }
-}
+use leptos::{ev, html, prelude::*};
+use thaw_utils::{
+    class_list, mount_style, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp,
+};
 
 #[slot]
 pub struct InputPrefix {
@@ -41,107 +20,75 @@ pub struct InputSuffix {
 #[component]
 pub fn Input(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] allow_value: Option<Callback<String, bool>>,
-    #[prop(optional, into)] variant: MaybeSignal<InputVariant>,
-    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] on_focus: Option<Callback<ev::FocusEvent>>,
-    #[prop(optional, into)] on_blur: Option<Callback<ev::FocusEvent>>,
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
-    #[prop(optional, into)] invalid: MaybeSignal<bool>,
+    #[prop(optional, into)] allow_value: Option<ArcOneCallback<String, bool>>,
+    #[prop(optional, into)] input_type: MaybeSignal<InputType>,
+    /// Placeholder text for the input.
+    #[prop(optional, into)]
+    placeholder: MaybeProp<String>,
+    #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
+    #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
+    /// Whether the input is disabled
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    #[prop(optional, into)] parser: OptionalProp<Callback<String, String>>,
-    #[prop(optional, into)] formatter: OptionalProp<Callback<String, String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] parser: OptionalProp<BoxOneCallback<String, Option<String>>>,
+    #[prop(optional, into)] format: OptionalProp<BoxOneCallback<String, String>>,
+    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
     mount_style("input", include_str!("./input.css"));
 
-    let value_trigger = create_trigger();
-    let on_input = move |ev| {
-        if parser.is_none() {
-            let input_value = event_target_value(&ev);
+    let parser_none = parser.is_none();
+    let on_input = {
+        let allow_value = allow_value.clone();
+        move |e| {
+            if !parser_none {
+                return;
+            }
+            let input_value = event_target_value(&e);
             if let Some(allow_value) = allow_value.as_ref() {
-                if !allow_value.call(input_value.clone()) {
-                    value_trigger.notify();
+                if !allow_value(input_value.clone()) {
+                    value.update(|_| {});
                     return;
                 }
             }
             value.set(input_value);
         }
     };
-    let on_change = move |ev| {
-        if let Some(parser) = parser.or_else(|| None) {
-            let parsed_input_value = parser.call(event_target_value(&ev));
-            if let Some(allow_value) = allow_value.as_ref() {
-                if !allow_value.call(parsed_input_value.clone()) {
-                    value_trigger.notify();
-                    return;
-                }
+    let on_change = move |e| {
+        let Some(parser) = parser.as_ref() else {
+            return;
+        };
+        let Some(parsed_input_value) = parser(event_target_value(&e)) else {
+            value.update(|_| {});
+            return;
+        };
+        if let Some(allow_value) = allow_value.as_ref() {
+            if !allow_value(parsed_input_value.clone()) {
+                value.update(|_| {});
+                return;
             }
-            value.set(parsed_input_value);
         }
+        value.set(parsed_input_value);
     };
-    let is_focus = create_rw_signal(false);
+    let is_focus = RwSignal::new(false);
     let on_internal_focus = move |ev| {
         is_focus.set(true);
         if let Some(on_focus) = on_focus.as_ref() {
-            on_focus.call(ev);
+            on_focus(ev);
         }
     };
     let on_internal_blur = move |ev| {
         is_focus.set(false);
         if let Some(on_blur) = on_blur.as_ref() {
-            on_blur.call(ev);
+            on_blur(ev);
         }
     };
 
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            let border_color_hover = theme.common.color_primary.clone();
-            css_vars.push_str(&format!("--thaw-border-color-hover: {border_color_hover};"));
-            css_vars.push_str(&format!("--thaw-box-shadow-color: {border_color_hover}33;"));
-            let border_radius = theme.common.border_radius.clone();
-            css_vars.push_str(&format!("--thaw-border-radius: {border_radius};"));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.input.background_color
-            ));
-            css_vars.push_str(&format!("--thaw-font-color: {};", theme.input.font_color));
-            css_vars.push_str(&format!(
-                "--thaw-border-color: {};",
-                theme.input.border_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-border-color-error: {};",
-                theme.common.color_error
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-placeholder-color: {};",
-                theme.input.placeholder_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-disabled: {};",
-                theme.input.background_color_disabled
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-font-color-disabled: {};",
-                theme.input.font_color_disabled
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-box-shadow-color-invalid: {}33;",
-                theme.common.color_error
-            ));
-        });
-        css_vars
-    });
-    let input_ref = create_node_ref::<html::Input>();
-    input_ref.on_load(move |_| {
-        comp_ref.load(InputRef { input_ref });
-    });
+    let input_ref = NodeRef::<html::Input>::new();
+    comp_ref.load(InputRef { input_ref });
 
     let on_mousedown = move |event: ev::MouseEvent| {
         let el: web_sys::HtmlElement = event_target(&event);
@@ -166,28 +113,32 @@ pub fn Input(
         input_value = None;
     }
 
-    #[cfg(debug_assertions)]
-    {
-        const INNER_ATTRS: [&str; 4] = ["type", "class", "disabled", "placeholder"];
-        attrs.iter().for_each(|attr| {
-            if INNER_ATTRS.contains(&attr.0) {
-                logging::warn!(
-                    "Thaw: The '{}' attribute already exists on elements inside the Input component, which may cause conflicts.",
-                    attr.0
-                );
-            }
-        });
-    }
+    // #[cfg(debug_assertions)]
+    // {
+    //     const INNER_ATTRS: [&str; 4] = ["type", "class", "disabled", "placeholder"];
+    //     attrs.iter().for_each(|attr| {
+    //         if INNER_ATTRS.contains(&attr.0) {
+    //             logging::warn!(
+    //                 "Thaw: The '{}' attribute already exists on elements inside the Input component, which may cause conflicts.",
+    //                 attr.0
+    //             );
+    //         }
+    //     });
+    // }
+
+    let prefix_if_ = input_prefix.as_ref().map_or(false, |prefix| prefix.if_);
+    let suffix_if_ = input_suffix.as_ref().map_or(false, |suffix| suffix.if_);
 
     view! {
-        <div
+        <span
             class=class_list![
-                "thaw-input", ("thaw-input--focus", move || is_focus.get()),
-                ("thaw-input--disabled", move || disabled.get()), ("thaw-input--invalid", move ||
-                invalid.get()), class.map(| c | move || c.get())
+                "thaw-input",
+                ("thaw-input--prefix", prefix_if_),
+                ("thaw-input--suffix", suffix_if_),
+                ("thaw-input--disabled", move || disabled.get()),
+                class
             ]
 
-            style=move || css_vars.get()
             on:mousedown=on_mousedown
         >
             {if let Some(prefix) = input_prefix.and_then(|prefix| prefix.if_.then_some(prefix)) {
@@ -197,22 +148,25 @@ pub fn Input(
             }}
 
             <input
-                {..attrs}
-                type=move || variant.get().as_str()
+                type=move || input_type.get().as_str()
                 value=input_value
                 prop:value=move || {
-                    value_trigger.track();
-                    formatter.map_or_else(|| value.get(), |c| c.call(value.get()))
+                    let value = value.get();
+                    if let Some(format) = format.as_ref() {
+                        format(value)
+                    } else {
+                        value.to_string()
+                    }
                 }
 
-                on:change=on_change
                 on:input=on_input
+                on:change=on_change
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
-                class="thaw-input__input-el"
+                class="thaw-input__input"
                 disabled=move || disabled.get()
-                placeholder=placeholder.map(|p| move || p.get())
-                ref=input_ref
+                placeholder=move || placeholder.get()
+                node_ref=input_ref
             />
 
             {if let Some(suffix) = input_suffix.and_then(|suffix| suffix.if_.then_some(suffix)) {
@@ -221,7 +175,41 @@ pub fn Input(
                 None
             }}
 
-        </div>
+        </span>
+    }
+}
+
+#[derive(Default, Clone)]
+pub enum InputType {
+    #[default]
+    Text,
+    Password,
+    Search,
+    Tel,
+    Url,
+    Email,
+    Time,
+    Date,
+    DatetimeLocal,
+    Month,
+    Week,
+}
+
+impl InputType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Text => "text",
+            Self::Password => "password",
+            Self::Search => "search",
+            Self::Tel => "tel",
+            Self::Url => "url",
+            Self::Email => "email",
+            Self::Time => "time",
+            Self::Date => "date",
+            Self::DatetimeLocal => "datetime-local",
+            Self::Month => "month",
+            Self::Week => "week",
+        }
     }
 }
 

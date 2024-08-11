@@ -1,21 +1,17 @@
 use crate::Scrollbar;
-use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
+use leptos::prelude::*;
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn LayoutSider(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] style: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] content_class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] content_style: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] content_class: MaybeProp<String>,
+    #[prop(optional, into)] content_style: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("layout-sider", include_str!("./layout-sider.css"));
     view! {
-        <div
-            class=class_list!["thaw-layout-sider", class.map(| c | move || c.get())]
-            style=style.map(|s| move || s.get())
-        >
+        <div class=class_list!["thaw-layout-sider", class]>
             <Scrollbar content_class content_style>
                 {children()}
             </Scrollbar>

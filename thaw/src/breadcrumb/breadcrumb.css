@@ -1,41 +1,82 @@
-.thaw-breadcrumb > ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.thaw-breadcrumb__list {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
 }
 
 .thaw-breadcrumb-item {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    color: var(--colorNeutralForeground2);
+    box-sizing: border-box;
+    flex-wrap: nowrap;
 }
 
-.thaw-breadcrumb-item__separator {
-    margin: 0 8px;
-    color: var(--thaw-font-color);
+.thaw-breadcrumb-button {
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    text-decoration-line: none;
+    vertical-align: middle;
+    margin: 0px;
+    overflow: hidden;
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    font-family: var(--fontFamilyBase);
+    outline-style: none;
+    border-radius: var(--borderRadiusMedium);
+    font-size: var(--fontSizeBase300);
+    line-height: var(--lineHeightBase300);
+    transition-duration: var(--durationFaster);
+    transition-property: background, border, color;
+    transition-timing-function: var(--curveEasyEase);
+
+    flex-wrap: nowrap;
+    min-width: unset;
+    height: 32px;
+    color: var(--colorNeutralForeground2);
+    background-color: var(--colorSubtleBackground);
+    border-color: transparent;
+    font-weight: var(--fontWeightRegular);
+    padding: var(--spacingHorizontalSNudge);
 }
 
-.thaw-breadcrumb
-    .thaw-breadcrumb-item:last-child
-    .thaw-breadcrumb-item__separator {
-    display: none;
-}
-
-.thaw-breadcrumb-item__link {
-    padding: 4px;
-    border-radius: 3px;
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: var(--thaw-font-color);
+.thaw-breadcrumb-button:hover {
+    color: var(--colorNeutralForeground2Hover);
+    background-color: var(--colorSubtleBackgroundHover);
     cursor: pointer;
 }
 
-.thaw-breadcrumb
-    .thaw-breadcrumb-item:not(:last-child)
-    .thaw-breadcrumb-item__link:hover {
-    color: var(--thaw-font-color-hover);
-    background-color: var(--thaw-background-color-hover);
+.thaw-breadcrumb-button:hover:active {
+    color: var(--colorNeutralForeground2Pressed);
+    background-color: var(--colorSubtleBackgroundPressed);
+    outline-style: none;
 }
 
-.thaw-breadcrumb .thaw-breadcrumb-item:last-child .thaw-breadcrumb-item__link {
-    color: var(--thaw-font-color-hover);
+.thaw-breadcrumb-button--current {
+    font-weight: var(--fontWeightSemibold);
+}
+
+.thaw-breadcrumb-button--current:hover {
+    color: var(--colorNeutralForeground2);
+    background-color: var(--colorTransparentBackground);
+    cursor: auto;
+}
+
+.thaw-breadcrumb-button--current:hover:active {
+    color: var(--colorNeutralForeground2);
+    background-color: var(--colorTransparentBackground);
+    outline-style: none;
+}
+
+.thaw-breadcrumb-divider {
+    font-size: 16px;
+    display: flex;
+}
+
+.thaw-breadcrumb-divider > svg {
+    display: inline;
+    line-height: 0;
 }

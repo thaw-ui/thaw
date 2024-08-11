@@ -1,55 +1,100 @@
 mod checkbox_group;
-mod checkbox_item;
 
 pub use checkbox_group::CheckboxGroup;
-pub use checkbox_item::CheckboxItem;
 
-use crate::{icon::*, theme::use_theme, Theme};
-use leptos::*;
-use thaw_components::*;
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use checkbox_group::CheckboxGroupInjection;
+use leptos::{html, prelude::*};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Checkbox(
-    #[prop(optional, into)] value: Model<bool>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional)] children: Option<Children>,
+    /// The controlled value for the checkbox.
+    #[prop(optional, into)] checked: Model<bool>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    /// The value of the checkbox to be used in a checkbox group.
+    #[prop(optional, into)] value: Option<String>,
+    /// The Checkbox's label.
+    #[prop(optional, into)] label: MaybeProp<String>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
     mount_style("checkbox", include_str!("./checkbox.css"));
 
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color-checked: {};",
-                theme.common.color_primary
-            ));
-        });
-        css_vars
+    let id = uuid::Uuid::new_v4().to_string();
+    let input_ref = NodeRef::<html::Input>::new();
+    let group = CheckboxGroupInjection::use_context();
+    let item_value = StoredValue::new(value);
+
+    let group_checked = Memo::new(move |_| {
+        let Some(group) = group.as_ref() else {
+            return None;
+        };
+        group.0.with(|group_value| {
+            item_value.with_value(|value| {
+                let Some(value) = value else {
+                    return None;
+                };
+                Some(group_value.contains(value))
+            })
+        })
     });
 
-    view! {
-        <div
-            class=class_list![
-                "thaw-checkbox", ("thaw-checkbox--checked", move || value.get()), class.map(| c |
-                move || c.get())
-            ]
+    let on_change = move |_| {
+        let input = input_ref.get_untracked().unwrap();
+        if group_checked.get_untracked().is_some() {
+            if input.checked() {
+                group.as_ref().unwrap().0.update(move |group_value| {
+                    group_value.insert(item_value.get_value().unwrap());
+                });
+            } else {
+                group.as_ref().unwrap().0.update(move |group_value| {
+                    item_value.with_value(|value| {
+                        group_value.remove(value.as_ref().unwrap());
+                    });
+                });
+            }
+        } else {
+            checked.set(input.checked())
+        }
+    };
 
-            style=move || css_vars.get()
-            on:click=move |_| value.set(!value.get_untracked())
+    let checked = move || group_checked.get().unwrap_or_else(|| checked.get());
+
+    view! {
+        <span
+            class=class_list![
+                "thaw-checkbox", ("thaw-checkbox--checked", checked),
+                class
+            ]
         >
-            <input class="thaw-checkbox__input" type="checkbox"/>
-            <div class="thaw-checkbox__dot">
-                <If cond=value.signal()>
-                    <Then slot>
-                        <Icon icon=icondata_ai::AiCheckOutlined style="color: white"/>
-                    </Then>
-                </If>
+            <input
+                class="thaw-checkbox__input"
+                type="checkbox"
+                id=id.clone()
+                checked=checked
+                node_ref=input_ref
+                on:change=on_change
+            />
+            <div aria-hidden="true" class="thaw-checkbox__indicator">
+                {
+                    move || if checked() {
+                        view! {
+                            <svg fill="currentColor" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" style="display: inline;line-height: 0">
+                                <path d="M9.76 3.2c.3.29.32.76.04 1.06l-4.25 4.5a.75.75 0 0 1-1.08.02L2.22 6.53a.75.75 0 0 1 1.06-1.06l1.7 1.7L8.7 3.24a.75.75 0 0 1 1.06-.04Z" fill="currentColor"></path>
+                            </svg>
+                        }.into()
+                    } else {
+                        None
+                    }
+                }
             </div>
-            <OptionComp value=children let:children>
-                <div class="thaw-checkbox__label">{children()}</div>
-            </OptionComp>
-        </div>
+            {
+                move || if let Some(label) = label.get() {
+                    view! {
+                        <label class="thaw-checkbox__label" for=id.clone()>{label}</label>
+                    }.into()
+                } else {
+                    None
+                }
+            }
+        </span>
     }
 }

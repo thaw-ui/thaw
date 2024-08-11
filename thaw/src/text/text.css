@@ -1,0 +1,39 @@
+.thaw-text {
+    text-overflow: clip;
+    overflow-y: visible;
+    overflow-x: visible;
+    white-space: normal;
+    text-align: start;
+    display: inline;
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+}
+
+code.thaw-text {
+    padding: 1px 4px;
+    margin: 0 3px 0 3px;
+    background-color: var(--colorNeutralBackground4);
+    color: var(--colorNeutralForeground1);
+    font-family: var(--fontFamilyMonospace);
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-caption-1 {
+    line-height: var(--lineHeightBase200);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase200);
+}
+
+.thaw-caption-1-strong {
+    line-height: var(--lineHeightBase200);
+    font-weight: var(--fontWeightSemibold);
+    font-size: var(--fontSizeBase200);
+}
+
+.thaw-body-1 {
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+}

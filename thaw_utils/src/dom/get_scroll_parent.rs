@@ -1,10 +1,10 @@
-use leptos::{
-    html::{AnyElement, ToHtmlElement},
-    *,
-};
+use leptos::prelude::*;
+use web_sys::Element;
 
-pub fn get_scroll_parent(element: &HtmlElement<AnyElement>) -> Option<HtmlElement<AnyElement>> {
-    let parent_element = get_parent_element(element)?;
+pub fn get_scroll_parent(element: &Element) -> Option<Element> {
+    let Some(parent_element) = get_parent_element(element) else {
+        return None;
+    };
 
     if parent_element.node_type() == 9 {
         return Some(parent_element);
@@ -28,15 +28,15 @@ pub fn get_scroll_parent(element: &HtmlElement<AnyElement>) -> Option<HtmlElemen
     get_scroll_parent(&parent_element)
 }
 
-fn get_parent_element(element: &HtmlElement<AnyElement>) -> Option<HtmlElement<AnyElement>> {
+fn get_parent_element(element: &Element) -> Option<Element> {
     if element.node_type() == 9 {
         None
     } else {
-        element.parent_element().map(|ele| ele.to_leptos_element())
+        element.parent_element()
     }
 }
 
-fn get_overflow(parent_element: &HtmlElement<AnyElement>) -> Option<(String, String, String)> {
+fn get_overflow(parent_element: &Element) -> Option<(String, String, String)> {
     let Ok(Some(css_style_declaration)) = window().get_computed_style(parent_element) else {
         return None;
     };

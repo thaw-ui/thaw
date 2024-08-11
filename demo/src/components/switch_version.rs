@@ -1,16 +1,13 @@
-use leptos::*;
+use leptos::prelude::*;
 use thaw::*;
 
 #[component]
 pub fn SwitchVersion() -> impl IntoView {
     let options = vec![
-        SelectOption::new("main", "https://thawui.vercel.app".into()),
-        SelectOption::new("0.3.3", "https://thaw-npgo2zdtv-thaw.vercel.app".into()),
-        SelectOption::new("0.3.2", "https://thaw-czldv7au5-thaw.vercel.app".into()),
-        SelectOption::new("0.3.1", "https://thaw-bwh2r7eok-thaw.vercel.app".into()),
-        SelectOption::new("0.3.0", "https://thaw-gxcwse9r5-thaw.vercel.app".into()),
-        SelectOption::new("0.2.6", "https://thaw-mzh1656cm-thaw.vercel.app".into()),
-        SelectOption::new("0.2.5", "https://thaw-8og1kv8zs-thaw.vercel.app".into()),
+        ("main", "https://thawui.vercel.app"),
+        ("0.3.0", "https://thaw-gxcwse9r5-thaw.vercel.app"),
+        ("0.2.6", "https://thaw-mzh1656cm-thaw.vercel.app"),
+        ("0.2.5", "https://thaw-8og1kv8zs-thaw.vercel.app"),
     ];
 
     cfg_if::cfg_if! {
@@ -26,11 +23,17 @@ pub fn SwitchVersion() -> impl IntoView {
                 }
             });
         } else {
-            let version = RwSignal::new(None::<String>);
+            // let version = RwSignal::new(None::<String>);
         }
     }
 
     view! {
-        <Select value=version options/>
+        <Combobox>
+            {
+                options.into_iter().map(|option| view! {
+                    <ComboboxOption value=option.1 text=option.0 />
+                }).collect_view()
+            }
+        </Combobox>
     }
 }

@@ -1,0 +1,95 @@
+.thaw-tab {
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    outline-style: none;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: auto;
+    grid-auto-flow: column;
+    column-gap: var(--spacingHorizontalSNudge);
+    background-color: var(--colorTransparentBackground);
+    line-height: var(--lineHeightBase300);
+    font-family: var(--fontFamilyBase);
+    text-transform: none;
+    padding: var(--spacingVerticalM) var(--spacingHorizontalMNudge);
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: var(--borderRadiusMedium);
+    border: none;
+}
+
+.thaw-tab::before {
+    right: var(--spacingHorizontalM);
+    left: var(--spacingHorizontalM);
+    height: var(--strokeWidthThicker);
+    bottom: 0px;
+}
+
+.thaw-tab:hover::before {
+    position: absolute;
+    content: "";
+    background-color: var(--colorNeutralStroke1Hover);
+    border-radius: var(--borderRadiusCircular);
+}
+
+.thaw-tab:active::before {
+    position: absolute;
+    content: "";
+    background-color: var(--colorNeutralStroke1Pressed);
+    border-radius: var(--borderRadiusCircular);
+}
+
+.thaw-tab__content {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    padding: var(--spacingVerticalNone) var(--spacingHorizontalXXS);
+    color: var(--colorNeutralForeground2);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    overflow: hidden;
+}
+
+.thaw-tab:hover .thaw-tab__content {
+    color: var(--colorNeutralForeground2Hover);
+}
+
+.thaw-tab:active .thaw-tab__content {
+    color: var(--colorNeutralForeground2Pressed);
+}
+
+.thaw-tab--selected {
+    overflow: visible;
+}
+
+/* https://stackoverflow.com/questions/5687035/css-bolding-some-text-without-changing-its-containers-size/46452396#46452396 */
+.thaw-tab--selected .thaw-tab__content {
+    /* font-weight: var(--fontWeightSemibold); */
+    text-shadow: -0.06ex 0 0 currentColor, 0.06ex 0 0 currentColor;
+}
+
+@supports (-webkit-text-stroke-width: 0.04ex) {
+    .thaw-tab--selected .thaw-tab__content {
+        text-shadow: -0.03ex 0 0 currentColor, 0.03ex 0 0 currentColor;
+        -webkit-text-stroke-width: 0.04ex;
+    }
+}
+
+.thaw-tab--selected::after {
+    position: absolute;
+    content: "";
+    transform: translateX(var(--thaw-tab__indicator--offset))
+        scaleX(var(--thaw-tab__indicator--scale));
+    transform-origin: left center;
+    transition-timing-function: var(--curveDecelerateMax);
+    transition-duration: var(--durationSlow);
+    transition-property: transform;
+    right: var(--spacingHorizontalM);
+    left: var(--spacingHorizontalM);
+    height: var(--strokeWidthThicker);
+    bottom: 0px;
+    background-color: var(--colorCompoundBrandStroke);
+    border-radius: var(--borderRadiusCircular);
+}

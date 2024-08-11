@@ -1,0 +1,23 @@
+.thaw-combobox-option-group {
+    display: flex;
+    row-gap: var(--spacingHorizontalXXS);
+    flex-direction: column;
+}
+
+.thaw-combobox-option-group__label {
+    display: block;
+    color: var(--colorNeutralForeground3);
+    font-weight: var(--fontWeightSemibold);
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+    padding: var(--spacingHorizontalS) var(--spacingHorizontalSNudge);
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-combobox-option-group:not(:last-child)::after {
+    content: "";
+    display: block;
+    margin: 0 calc(var(--spacingHorizontalXS) * -1) var(--spacingVerticalXS);
+    padding-bottom: var(--spacingHorizontalXS);
+    border-bottom: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+}

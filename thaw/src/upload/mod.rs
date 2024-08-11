@@ -1,27 +1,29 @@
-mod theme;
 mod upload_dragger;
 
-pub use theme::UploadTheme;
 pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
-use leptos::*;
-use thaw_utils::{add_event_listener, mount_style};
+use leptos::{ev, html, prelude::*};
+use thaw_utils::{add_event_listener, class_list, mount_style, ArcOneCallback};
 
 #[component]
 pub fn Upload(
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] accept: MaybeSignal<String>,
     #[prop(optional, into)] multiple: MaybeSignal<bool>,
-    #[prop(optional, into)] custom_request: Option<Callback<FileList, ()>>,
+    #[prop(optional, into)] custom_request: Option<ArcOneCallback<FileList>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));
 
-    let input_ref = create_node_ref::<html::Input>();
-    let trigger_ref = create_node_ref::<html::Div>();
+    let input_ref = NodeRef::<html::Input>::new();
+    let trigger_ref = NodeRef::<html::Div>::new();
 
-    trigger_ref.on_load(move |trigger_ref| {
-        let handle = add_event_listener(trigger_ref.into_any(), ev::click, move |_| {
+    Effect::new(move |_| {
+        let Some(trigger_el) = trigger_ref.get() else {
+            return;
+        };
+        let handle = add_event_listener(trigger_el.into(), ev::click, move |_| {
             if let Some(input_ref) = input_ref.get_untracked() {
                 input_ref.click();
             }
@@ -32,21 +34,24 @@ pub fn Upload(
     });
 
     let on_file_addition = move |files: FileList| {
-        if let Some(custom_request) = custom_request {
-            custom_request.call(files);
+        if let Some(custom_request) = custom_request.as_ref() {
+            custom_request(files);
         }
     };
 
-    let on_change = move |_| {
-        if let Some(input_ref) = input_ref.get_untracked() {
-            if let Some(files) = input_ref.files() {
-                on_file_addition(files);
+    let on_change = {
+        let on_file_addition = on_file_addition.clone();
+        move |_| {
+            if let Some(input_ref) = input_ref.get_untracked() {
+                if let Some(files) = input_ref.files() {
+                    on_file_addition(files);
+                }
+                input_ref.set_value("");
             }
-            input_ref.set_value("");
         }
     };
 
-    let is_trigger_dragover = create_rw_signal(false);
+    let is_trigger_dragover = RwSignal::new(false);
     let on_trigger_drop = move |event: ev::DragEvent| {
         event.prevent_default();
         if let Some(data) = event.data_transfer() {
@@ -70,12 +75,14 @@ pub fn Upload(
 
     view! {
         <div
-            class="thaw-upload"
-            class=("thaw-upload--drag-over", move || is_trigger_dragover.get())
+            class=class_list!["thaw-upload",
+                ("thaw-upload--drag-over", move || is_trigger_dragover.get()),
+                class
+            ]
         >
             <input
                 class="thaw-upload__input"
-                ref=input_ref
+                node_ref=input_ref
                 type="file"
                 accept=move || accept.get()
                 multiple=move || multiple.get()
@@ -83,7 +90,7 @@ pub fn Upload(
             />
             <div
                 class="thaw-upload__trigger"
-                ref=trigger_ref
+                node_ref=trigger_ref
                 on:drop=on_trigger_drop
                 on:dragover=on_trigger_dragover
                 on:dragenter=on_trigger_dragenter

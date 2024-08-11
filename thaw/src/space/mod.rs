@@ -1,5 +1,5 @@
-use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalMaybeSignal, OptionalProp};
+use leptos::prelude::*;
+use thaw_utils::{class_list, mount_style};
 
 #[derive(Default)]
 pub enum SpaceGap {
@@ -16,10 +16,10 @@ pub enum SpaceGap {
 pub fn Space(
     #[prop(optional)] gap: SpaceGap,
     #[prop(optional)] vertical: bool,
-    #[prop(optional, into)] align: OptionalMaybeSignal<SpaceAlign>,
-    #[prop(optional, into)] justify: OptionalMaybeSignal<SpaceJustify>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    children: Children,
+    #[prop(optional, into)] align: MaybeProp<SpaceAlign>,
+    #[prop(optional, into)] justify: MaybeProp<SpaceJustify>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: ChildrenFragment,
 ) -> impl IntoView {
     mount_style("space", include_str!("./space.css"));
     let gap = match gap {
@@ -32,10 +32,10 @@ pub fn Space(
 
     view! {
         <div
-            class=class_list!["thaw-space", class.map(| c | move || c.get())]
+            class=class_list!["thaw-space", class]
             style:gap=gap
-            style:align-items=move || align.get().map(|a| a.as_str())
-            style:justify-content=move || justify.get().map(|j| j.as_str())
+            style:align-items=move || align.get().map(|a| a.as_str()).unwrap_or_default()
+            style:justify-content=move || justify.get().map(|j| j.as_str()).unwrap_or_default()
             style:flex-direction=if vertical { "column" } else { "row" }
         >
 
@@ -45,7 +45,7 @@ pub fn Space(
                 .map(|node| {
                     view! { <div class="thaw-space__item">{node}</div> }
                 })
-                .collect::<Vec<_>>()}
+                .collect_view()}
 
         </div>
     }
@@ -100,5 +100,21 @@ impl SpaceJustify {
             Self::SpaceBetween => "space-between",
             Self::SpaceEvenly => "space-evenly",
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn main() {
+        use super::Space;
+        use leptos::prelude::*;
+
+        view! {
+            <Space>
+                <p></p>
+                <p></p>
+            </Space>
+        };
     }
 }

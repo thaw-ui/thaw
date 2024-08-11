@@ -1,0 +1,25 @@
+.thaw-card-header {
+    display: grid;
+    grid-auto-columns: min-content 1fr min-content;
+    align-items: center;
+    --thaw-card-header--gap: 12px;
+}
+
+.thaw-card-header__header {
+    grid-row-start: 1;
+    grid-column-start: 2;
+    display: flex;
+}
+
+.thaw-card-header__description  {
+    grid-row-start: 2;
+    grid-column-start: 2;
+    display: flex;
+}
+
+.thaw-card-header__action {
+    grid-column-start: 3;
+    grid-row-start: span 2;
+    display: flex;
+    margin-left: var(--thaw-card-header--gap);
+}

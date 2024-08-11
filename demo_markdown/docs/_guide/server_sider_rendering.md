@@ -12,7 +12,9 @@ To enable the hydrate mode, the following configurations are required:
 thaw = { ..., features = ["hydrate"] }
 ```
 
-Remember to add thaw to your `Cargo.toml` file in the corresponding feature, e.g.
+### cargo-leptos
+
+if you use [cargo-leptos](https://github.com/leptos-rs/cargo-leptos), Remember to add thaw to your `Cargo.toml` file in the corresponding feature, e.g.
 
 ```toml
 [features]

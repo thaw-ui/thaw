@@ -1,0 +1,38 @@
+.thaw-image {
+    display: inline-block;
+    box-sizing: border-box;
+    border-color: var(--colorNeutralStroke1);
+    border-radius: var(--borderRadiusNone);
+}
+
+.thaw-image--rounded {
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-image--circular {
+    border-radius: var(--borderRadiusCircular);
+}
+
+.thaw-image--block {
+    width: 100%;
+}
+
+.thaw-image-fit-none {
+    object-fit: none;
+}
+.thaw-image-fit-contain {
+    object-fit: contain;
+}
+.thaw-image-fit-cover {
+    object-fit: cover;
+}
+.thaw-image-fit-fill {
+    object-fit: fill;
+}
+.thaw-image-fit-scale-down {
+    object-fit: scale-down;
+}
+
+.thaw-image--shadow {
+    box-shadow: var(--shadow4);
+}

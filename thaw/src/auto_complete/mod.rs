@@ -1,17 +1,16 @@
-mod theme;
+mod auto_complete_option;
 
-pub use theme::AutoCompleteTheme;
+pub use auto_complete_option::AutoCompleteOption;
 
-use crate::{use_theme, ComponentRef, Input, InputPrefix, InputRef, InputSuffix, Theme};
-use leptos::*;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
-
-#[derive(Clone, PartialEq)]
-pub struct AutoCompleteOption {
-    pub label: String,
-    pub value: String,
-}
+use crate::{
+    combobox::listbox::{listbox_keyboard_event, Listbox},
+    ComponentRef, Input, InputPrefix, InputRef, InputSuffix,
+    _aria::use_active_descendant,
+};
+use leptos::{context::Provider, either::Either, html, prelude::*};
+use std::collections::HashMap;
+use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
+use thaw_utils::{class_list, mount_style, ArcOneCallback, BoxOneCallback, Model};
 
 #[slot]
 pub struct AutoCompletePrefix {
@@ -26,152 +25,93 @@ pub struct AutoCompleteSuffix {
 #[component]
 pub fn AutoComplete(
     #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] placeholder: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] options: MaybeSignal<Vec<AutoCompleteOption>>,
+    #[prop(optional, into)] placeholder: MaybeProp<String>,
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
-    #[prop(optional, into)] on_select: Option<Callback<String>>,
+    #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,
     #[prop(optional, into)] disabled: MaybeSignal<bool>,
-    #[prop(optional, into)] allow_free_input: bool,
-    #[prop(optional, into)] invalid: MaybeSignal<bool>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("auto-complete", include_str!("./auto-complete.css"));
-    let theme = use_theme(Theme::light);
-    let menu_css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.select.menu_background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color-hover: {};",
-                theme.select.menu_background_color_hover
-            ));
-        });
-        css_vars
-    });
-
     let input_ref = ComponentRef::<InputRef>::new();
+    let listbox_ref = NodeRef::<html::Div>::new();
+    let auto_complete_ref = NodeRef::<html::Div>::new();
+    let open_listbox = RwSignal::new(false);
+    let options = StoredValue::new(HashMap::<String, String>::new());
 
-    let default_index = if allow_free_input { None } else { Some(0) };
-
-    let select_option_index = create_rw_signal::<Option<usize>>(default_index);
-    let menu_ref = create_node_ref::<html::Div>();
-    let is_show_menu = create_rw_signal(false);
-    let auto_complete_ref = create_node_ref::<html::Div>();
-    let options = StoredMaybeSignal::from(options);
-    let open_menu = move || {
-        select_option_index.set(default_index);
-        is_show_menu.set(true);
-    };
     let allow_value = move |_| {
-        if !is_show_menu.get_untracked() {
-            open_menu();
+        if !open_listbox.get_untracked() {
+            open_listbox.set(true);
         }
         true
     };
 
-    let select_value = move |option_value: String| {
+    let select_option = ArcOneCallback::new(move |option_value: String| {
         if clear_after_select.get_untracked() {
             value.set(String::new());
         } else {
             value.set(option_value.clone());
         }
-        if let Some(on_select) = on_select {
-            on_select.call(option_value);
+        if let Some(on_select) = on_select.as_ref() {
+            on_select(option_value);
         }
-        if allow_free_input {
-            select_option_index.set(None);
-        }
-        is_show_menu.set(false);
+
+        open_listbox.set(false);
         if blur_after_select.get_untracked() {
             if let Some(input_ref) = input_ref.get_untracked() {
                 input_ref.blur();
             }
         }
-    };
-
-    // we unset selection index whenever options get changed
-    // otherwise e.g. selection could move from one item to
-    // another staying on the same index
-    create_effect(move |_| {
-        options.track();
-        select_option_index.set(default_index);
     });
 
-    let on_keydown = move |event: ev::KeyboardEvent| {
-        if !is_show_menu.get_untracked() {
-            return;
+    let (set_listbox, active_descendant_controller) =
+        use_active_descendant(move |el| el.class_list().contains("thaw-auto-complete-option"));
+    let on_blur = {
+        let active_descendant_controller = active_descendant_controller.clone();
+        move |_| {
+            active_descendant_controller.blur();
+            open_listbox.set(false);
         }
-        let key = event.key();
-        if key == *"ArrowDown" {
-            select_option_index.update(|index| {
-                if *index == Some(options.with_untracked(|options| options.len()) - 1) {
-                    *index = default_index
-                } else {
-                    *index = Some(index.map_or(0, |index| index + 1))
-                }
-            });
-        } else if key == *"ArrowUp" {
-            select_option_index.update(|index| {
-                match *index {
-                    None => *index = Some(options.with_untracked(|options| options.len()) - 1),
-                    Some(0) => {
-                        if allow_free_input {
-                            *index = None
-                        } else {
-                            *index = Some(options.with_untracked(|options| options.len()) - 1)
+    };
+    let on_keydown = {
+        let select_option = select_option.clone();
+        move |e| {
+            let select_option = select_option.clone();
+            listbox_keyboard_event(
+                e,
+                open_listbox,
+                false,
+                &active_descendant_controller,
+                move |option| {
+                    options.with_value(|options| {
+                        if let Some(value) = options.get(&option.id()) {
+                            select_option(value.clone());
                         }
-                    }
-                    Some(prev_index) => *index = Some(prev_index - 1),
-                };
-            });
-        } else if key == *"Enter" {
-            event.prevent_default();
-            let option_value = options.with_untracked(|options| {
-                let index = select_option_index.get_untracked();
-                match index {
-                    None if allow_free_input => {
-                        let value = value.get_untracked();
-                        (!value.is_empty()).then_some(value)
-                    }
-                    Some(index) if options.len() > index => {
-                        let option = &options[index];
-                        Some(option.value.clone())
-                    }
-                    _ => None,
-                }
-            });
-            if let Some(option_value) = option_value {
-                select_value(option_value);
-            }
+                    });
+                },
+            );
         }
     };
-    input_ref.on_load(move |_| {
-        comp_ref.load(AutoCompleteRef { input_ref });
-    });
+
+    comp_ref.load(AutoCompleteRef { input_ref });
 
     view! {
         <Binder target_ref=auto_complete_ref>
             <div
-                class=class_list!["thaw-auto-complete", class.map(| c | move || c.get())]
-                ref=auto_complete_ref
+                class=class_list!["thaw-auto-complete", class]
+                node_ref=auto_complete_ref
                 on:keydown=on_keydown
             >
                 <Input
-                    attrs
                     value
                     placeholder
                     disabled
-                    invalid
-                    on_focus=move |_| open_menu()
-                    on_blur=move |_| is_show_menu.set(false)
+                    on_focus=move |_| open_listbox.set(true)
+                    on_blur=on_blur
                     allow_value
                     comp_ref=input_ref
                 >
@@ -197,89 +137,53 @@ pub fn AutoComplete(
             </div>
             <Follower
                 slot
-                show=is_show_menu
+                show=open_listbox
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::Target
             >
-                <CSSTransition
-                    node_ref=menu_ref
-                    name="fade-in-scale-up-transition"
-                    appear=is_show_menu.get_untracked()
-                    show=is_show_menu
-                    let:display
-                >
-                    <div
-                        class="thaw-auto-complete__menu"
-                        style=move || {
-                            display
-                                .get()
-                                .map(|d| d.to_string())
-                                .unwrap_or_else(|| menu_css_vars.get())
+                <Provider value=AutoCompleteInjection{value, select_option, options}>
+                    <Listbox open=open_listbox.read_only() set_listbox listbox_ref class="thaw-auto-complete__listbox">
+                        {
+                            if let Some(children) = children {
+                                Either::Left(children())
+                            } else {
+                                Either::Right(())
+                            }
                         }
-
-                        ref=menu_ref
-                    >
-
-                        {move || {
-                            options
-                                .get()
-                                .into_iter()
-                                .enumerate()
-                                .map(|(index, v)| {
-                                    let AutoCompleteOption { value: option_value, label } = v;
-                                    let menu_item_ref = create_node_ref::<html::Div>();
-                                    let on_click = move |_| {
-                                        select_value(option_value.clone());
-                                    };
-                                    let on_mouseenter = move |_| {
-                                        select_option_index.set(Some(index));
-                                    };
-                                    let on_mousedown = move |ev: ev::MouseEvent| {
-                                        ev.prevent_default();
-                                    };
-                                    create_effect(move |_| {
-                                        if Some(index) == select_option_index.get() {
-                                            if !is_show_menu.get() {
-                                                return;
-                                            }
-                                            if let Some(menu_item_ref) = menu_item_ref.get() {
-                                                let menu_ref = menu_ref.get().unwrap();
-                                                let menu_rect = menu_ref.get_bounding_client_rect();
-                                                let item_rect = menu_item_ref.get_bounding_client_rect();
-                                                if item_rect.y() < menu_rect.y() {
-                                                    menu_item_ref.scroll_into_view_with_bool(true);
-                                                } else if item_rect.y() + item_rect.height()
-                                                    > menu_rect.y() + menu_rect.height()
-                                                {
-                                                    menu_item_ref.scroll_into_view_with_bool(false);
-                                                }
-                                            }
-                                        }
-                                    });
-                                    view! {
-                                        <div
-                                            class="thaw-auto-complete__menu-item"
-                                            class=(
-                                                "thaw-auto-complete__menu-item--selected",
-                                                move || Some(index) == select_option_index.get(),
-                                            )
-
-                                            on:click=on_click
-                                            on:mousedown=on_mousedown
-                                            on:mouseenter=on_mouseenter
-                                            ref=menu_item_ref
-                                        >
-                                            {label}
-                                        </div>
-                                    }
-                                })
-                                .collect_view()
-                        }}
-
-                    </div>
-                </CSSTransition>
+                    </Listbox>
+                </Provider>
             </Follower>
         </Binder>
+    }
+}
+
+#[derive(Clone)]
+pub(crate) struct AutoCompleteInjection {
+    value: Model<String>,
+    select_option: ArcOneCallback<String>,
+    options: StoredValue<HashMap<String, String>>,
+}
+
+impl AutoCompleteInjection {
+    pub fn expect_context() -> Self {
+        expect_context()
+    }
+
+    pub fn is_selected(&self, key: &String) -> bool {
+        self.value.with(|value| value == key)
+    }
+
+    pub fn select_option(&self, value: String) {
+        (self.select_option)(value);
+    }
+
+    pub fn insert_option(&self, id: String, value: String) {
+        self.options
+            .update_value(|options| options.insert(id, value));
+    }
+
+    pub fn remove_option(&self, id: &String) {
+        self.options.update_value(|options| options.remove(id));
     }
 }
 

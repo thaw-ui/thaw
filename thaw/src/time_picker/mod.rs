@@ -1,28 +1,24 @@
-mod theme;
-
-pub use theme::TimePickerTheme;
-
 use crate::{
-    use_theme, Button, ButtonSize, ButtonVariant, Icon, Input, InputSuffix, Scrollbar,
-    ScrollbarRef, SignalWatch, Theme,
+    Button, ButtonSize, ConfigInjection, Icon, Input, InputSuffix, Scrollbar, ScrollbarRef,
+    SignalWatch,
 };
 use chrono::{Local, NaiveTime, Timelike};
-use leptos::*;
+use leptos::{html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{mount_style, ComponentRef, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel};
 
 #[component]
 pub fn TimePicker(
-    #[prop(optional, into)] value: Model<Option<NaiveTime>>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional, into)] value: OptionModel<NaiveTime>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
-    let time_picker_ref = create_node_ref::<html::Div>();
+    let time_picker_ref = NodeRef::<html::Div>::new();
     let panel_ref = ComponentRef::<PanelRef>::default();
-    let is_show_panel = create_rw_signal(false);
+    let is_show_panel = RwSignal::new(false);
     let show_time_format = "%H:%M:%S";
-    let show_time_text = create_rw_signal(String::new());
+    let show_time_text = RwSignal::new(String::new());
     let update_show_time_text = move || {
         value.with_untracked(move |time| {
             let text = time.as_ref().map_or(String::new(), |time| {
@@ -32,7 +28,7 @@ pub fn TimePicker(
         });
     };
     update_show_time_text();
-    let panel_selected_time = create_rw_signal(None::<NaiveTime>);
+    let panel_selected_time = RwSignal::new(None::<NaiveTime>);
     _ = panel_selected_time.watch(move |time| {
         let text = time.as_ref().map_or(String::new(), |time| {
             time.format(show_time_format).to_string()
@@ -40,7 +36,7 @@ pub fn TimePicker(
         show_time_text.set(text);
     });
 
-    let on_input_blur = Callback::new(move |_| {
+    let on_input_blur = move |_| {
         if let Ok(time) =
             NaiveTime::parse_from_str(&show_time_text.get_untracked(), show_time_format)
         {
@@ -51,8 +47,8 @@ pub fn TimePicker(
         } else {
             update_show_time_text();
         }
-    });
-    let close_panel = Callback::new(move |time: Option<NaiveTime>| {
+    };
+    let close_panel = move |time: Option<NaiveTime>| {
         if value.get_untracked() != time {
             if time.is_some() {
                 value.set(time);
@@ -60,9 +56,9 @@ pub fn TimePicker(
             update_show_time_text();
         }
         is_show_panel.set(false);
-    });
+    };
 
-    let open_panel = Callback::new(move |_| {
+    let open_panel = move |_| {
         panel_selected_time.set(value.get_untracked());
         is_show_panel.set(true);
         request_animation_frame(move || {
@@ -70,12 +66,12 @@ pub fn TimePicker(
                 panel_ref.scroll_into_view();
             }
         });
-    });
+    };
 
     view! {
         <Binder target_ref=time_picker_ref>
-            <div ref=time_picker_ref>
-                <Input attrs class value=show_time_text on_focus=open_panel on_blur=on_input_blur>
+            <div node_ref=time_picker_ref class=class_list!["thaw-time-picker", class]>
+                <Input value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px"/>
                     </InputSuffix>
@@ -98,45 +94,29 @@ pub fn TimePicker(
 fn Panel(
     selected_time: RwSignal<Option<NaiveTime>>,
     time_picker_ref: NodeRef<html::Div>,
-    close_panel: Callback<Option<NaiveTime>>,
+    #[prop(into)] close_panel: ArcOneCallback<Option<NaiveTime>>,
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-item-font-color: {};",
-                theme.common.color_primary
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.time_picker.panel_background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-background-color-hover: {};",
-                theme.time_picker.panel_time_item_background_color_hover
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-border-color: {};",
-                theme.time_picker.panel_border_color
-            ));
-        });
-        css_vars
-    });
-    let now = Callback::new(move |_| {
-        close_panel.call(Some(now_time()));
-    });
-    let ok = Callback::new(move |_| {
-        close_panel.call(selected_time.get_untracked());
-    });
+    let config_provider = ConfigInjection::expect_context();
+    let now = {
+        let close_panel = close_panel.clone();
+        move |_| {
+            close_panel(Some(now_time()));
+        }
+    };
+    let ok = {
+        let close_panel = close_panel.clone();
+        move |_| {
+            close_panel(selected_time.get_untracked());
+        }
+    };
 
-    let panel_ref = create_node_ref::<html::Div>();
+    let panel_ref = NodeRef::<html::Div>::new();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
-        let handle = window_event_listener(ev::click, move |ev| {
+        let handle = window_event_listener(leptos::ev::click, move |ev| {
             let el = ev.target();
             let mut el: Option<web_sys::Element> =
                 el.into_js_result().map_or(None, |el| Some(el.into()));
@@ -145,17 +125,16 @@ fn Panel(
                 if current_el == *body {
                     break;
                 };
-                if panel_ref.get().is_none() {
+                let Some(panel_el) = panel_ref.get() else {
                     return;
-                }
-                if current_el == ***panel_ref.get_untracked().unwrap()
-                    || current_el == ***time_picker_ref.get_untracked().unwrap()
-                {
+                };
+                let time_picker_el = time_picker_ref.get().unwrap();
+                if current_el == **panel_el || current_el == **time_picker_el {
                     return;
                 }
                 el = current_el.parent_element();
             }
-            close_panel.call(None);
+            close_panel(None);
         });
         on_cleanup(move || handle.remove());
     }
@@ -183,9 +162,10 @@ fn Panel(
             let:display
         >
             <div
-                class="thaw-time-picker-panel"
-                style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
-                ref=panel_ref
+                class="thaw-config-provider thaw-time-picker-panel"
+                data-thaw-id=config_provider.id().clone()
+                style=move || display.get().unwrap_or_default()
+                node_ref=panel_ref
             >
                 <div class="thaw-time-picker-panel__time">
                     <div class="thaw-time-picker-panel__time-hour">
@@ -286,10 +266,10 @@ fn Panel(
                     </div>
                 </div>
                 <div class="thaw-time-picker-panel__footer">
-                    <Button variant=ButtonVariant::Outlined size=ButtonSize::Tiny on_click=now>
+                    <Button size=ButtonSize::Small on_click=now>
                         "Now"
                     </Button>
-                    <Button size=ButtonSize::Tiny on_click=ok>
+                    <Button size=ButtonSize::Small on_click=ok>
                         "OK"
                     </Button>
                 </div>
@@ -342,16 +322,14 @@ fn PanelTimeItem(
     is_selected: Memo<bool>,
     comp_ref: ComponentRef<PanelTimeItemRef>,
 ) -> impl IntoView {
-    let item_ref = create_node_ref();
-    item_ref.on_load(move |_| {
-        let item_ref = PanelTimeItemRef { item_ref };
-        comp_ref.load(item_ref);
-    });
+    let item_ref = NodeRef::new();
+    comp_ref.load(PanelTimeItemRef { item_ref });
+
     view! {
         <div
             class="thaw-time-picker-panel__time-item"
             class=("thaw-time-picker-panel__time-item--slected", move || is_selected.get())
-            ref=item_ref
+            node_ref=item_ref
         >
 
             {format!("{value:02}")}

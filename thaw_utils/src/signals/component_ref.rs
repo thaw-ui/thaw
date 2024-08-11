@@ -1,44 +1,59 @@
 use leptos::{
-    create_render_effect, create_rw_signal, logging::debug_warn, RwSignal, SignalGet,
-    SignalGetUntracked, SignalUpdate,
+    logging::debug_warn,
+    reactive_graph::{
+        owner::{Storage, SyncStorage},
+        signal::{ArcReadSignal, ArcRwSignal, ArcWriteSignal, RwSignal},
+        traits::{Get, GetUntracked, Update},
+    },
 };
-use std::cell::Cell;
 
-pub struct ComponentRef<T: 'static>(RwSignal<Option<T>>);
+pub struct ComponentRef<T, S = SyncStorage>(RwSignal<Option<T>, S>);
 
-impl<T> Default for ComponentRef<T> {
+impl<T> Default for ComponentRef<T>
+where
+    T: Send + Sync + 'static,
+{
     fn default() -> Self {
-        Self(create_rw_signal(None))
+        Self(RwSignal::new(None))
     }
 }
 
-impl<T> Clone for ComponentRef<T> {
+impl<T, S> Clone for ComponentRef<T, S> {
     fn clone(&self) -> Self {
-        *self
+        Self(self.0.clone())
     }
 }
 
-impl<T: 'static> Copy for ComponentRef<T> {}
+impl<T, S> Copy for ComponentRef<T, S> {}
 
-impl<T> ComponentRef<T> {
+impl<T> ComponentRef<T>
+where
+    T: Send + Sync + 'static,
+{
     pub fn new() -> Self {
         Self::default()
     }
+}
 
-    pub fn get(&self) -> Option<T>
-    where
-        T: Clone,
-    {
+impl<T, S> ComponentRef<T, S>
+where
+    T: Clone + 'static,
+    S: Storage<ArcRwSignal<Option<T>>> + Storage<ArcReadSignal<Option<T>>>,
+{
+    pub fn get(&self) -> Option<T> {
         self.0.get()
     }
 
-    pub fn get_untracked(&self) -> Option<T>
-    where
-        T: Clone,
-    {
+    pub fn get_untracked(&self) -> Option<T> {
         self.0.get_untracked()
     }
+}
 
+impl<T, S> ComponentRef<T, S>
+where
+    T: 'static,
+    S: Storage<ArcRwSignal<Option<T>>> + Storage<ArcWriteSignal<Option<T>>>,
+{
     pub fn load(&self, comp: T) {
         self.0.update(|current| {
             if current.is_some() {
@@ -51,21 +66,17 @@ impl<T> ComponentRef<T> {
         });
     }
 
-    pub fn on_load<F>(self, f: F)
-    where
-        T: Clone,
-        F: FnOnce(T) + 'static,
-    {
-        let f = Cell::new(Some(f));
+    // pub fn on_load<F>(self, f: F)
+    // where
+    //     T: Clone,
+    //     F: FnOnce(T) + 'static,
+    // {
+    //     let f = Cell::new(Some(f));
 
-        create_render_effect(move |_| {
-            if let Some(comp) = self.get() {
-                f.take().unwrap()(comp);
-            }
-        });
-    }
-}
-
-pub fn create_component_ref<T>() -> ComponentRef<T> {
-    ComponentRef::default()
+    //     RenderEffect::new(move |_| {
+    //         if let Some(comp) = self.get() {
+    //             f.take().unwrap()(comp);
+    //         }
+    //     });
+    // }
 }

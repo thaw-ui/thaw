@@ -1,64 +1,46 @@
-use leptos::{
-    MaybeSignal, Signal, SignalGet, SignalGetUntracked, SignalWith, SignalWithUntracked,
-    StoredValue,
+use leptos::reactive_graph::{
+    owner::{Storage, StoredValue, SyncStorage},
+    traits::{DefinedAt, With, WithUntracked},
+    wrappers::read::{MaybeSignal, Signal},
 };
 
-#[derive(Clone)]
-pub enum StoredMaybeSignal<T>
+pub enum StoredMaybeSignal<T, S = SyncStorage>
 where
     T: 'static,
+    S: Storage<T>,
 {
-    StoredValue(StoredValue<T>),
-    Signal(Signal<T>),
+    StoredValue(StoredValue<T, S>),
+    Signal(Signal<T, S>),
 }
 
-impl<T: Clone> Copy for StoredMaybeSignal<T> {}
-
-impl<T: Clone> SignalGet for StoredMaybeSignal<T> {
-    type Value = T;
-
-    fn get(&self) -> Self::Value {
+impl<T, S> Clone for StoredMaybeSignal<T, S>
+where
+    S: Storage<T>,
+{
+    fn clone(&self) -> Self {
         match self {
-            StoredMaybeSignal::StoredValue(value) => value.get_value(),
-            StoredMaybeSignal::Signal(signal) => signal.get(),
-        }
-    }
-
-    fn try_get(&self) -> Option<Self::Value> {
-        match self {
-            StoredMaybeSignal::StoredValue(value) => value.try_get_value(),
-            StoredMaybeSignal::Signal(signal) => signal.try_get(),
+            Self::StoredValue(v) => Self::StoredValue(v.clone()),
+            Self::Signal(s) => Self::Signal(s.clone()),
         }
     }
 }
 
-impl<T: Clone> SignalGetUntracked for StoredMaybeSignal<T> {
-    type Value = T;
+impl<T: Clone, S> Copy for StoredMaybeSignal<T, S> where S: Storage<T> {}
 
-    fn get_untracked(&self) -> Self::Value {
+impl<T, S> DefinedAt for StoredMaybeSignal<T, S>
+where
+    S: Storage<T>,
+{
+    fn defined_at(&self) -> Option<&'static std::panic::Location<'static>> {
         match self {
-            StoredMaybeSignal::StoredValue(value) => value.get_value(),
-            StoredMaybeSignal::Signal(signal) => signal.get_untracked(),
-        }
-    }
-
-    fn try_get_untracked(&self) -> Option<Self::Value> {
-        match self {
-            StoredMaybeSignal::StoredValue(value) => value.try_get_value(),
-            StoredMaybeSignal::Signal(signal) => signal.try_get_untracked(),
+            StoredMaybeSignal::StoredValue(value) => value.defined_at(),
+            StoredMaybeSignal::Signal(signal) => signal.defined_at(),
         }
     }
 }
 
-impl<T> SignalWith for StoredMaybeSignal<T> {
+impl<T: Send + Sync> With for StoredMaybeSignal<T> {
     type Value = T;
-
-    fn with<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> O {
-        match self {
-            StoredMaybeSignal::StoredValue(value) => value.with_value(f),
-            StoredMaybeSignal::Signal(signal) => signal.with(f),
-        }
-    }
 
     fn try_with<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> Option<O> {
         match self {
@@ -68,15 +50,8 @@ impl<T> SignalWith for StoredMaybeSignal<T> {
     }
 }
 
-impl<T> SignalWithUntracked for StoredMaybeSignal<T> {
+impl<T: Send + Sync> WithUntracked for StoredMaybeSignal<T> {
     type Value = T;
-
-    fn with_untracked<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> O {
-        match self {
-            StoredMaybeSignal::StoredValue(value) => value.with_value(f),
-            StoredMaybeSignal::Signal(signal) => signal.with_untracked(f),
-        }
-    }
 
     fn try_with_untracked<O>(&self, f: impl FnOnce(&Self::Value) -> O) -> Option<O> {
         match self {
@@ -86,20 +61,11 @@ impl<T> SignalWithUntracked for StoredMaybeSignal<T> {
     }
 }
 
-impl<T> From<MaybeSignal<T>> for StoredMaybeSignal<T> {
+impl<T: Send + Sync> From<MaybeSignal<T>> for StoredMaybeSignal<T> {
     fn from(value: MaybeSignal<T>) -> Self {
         match value {
             MaybeSignal::Static(value) => Self::StoredValue(StoredValue::new(value)),
             MaybeSignal::Dynamic(signal) => Self::Signal(signal),
-        }
-    }
-}
-
-impl<T: Clone> From<StoredMaybeSignal<T>> for MaybeSignal<T> {
-    fn from(value: StoredMaybeSignal<T>) -> Self {
-        match value {
-            StoredMaybeSignal::StoredValue(value) => MaybeSignal::Static(value.get_value()),
-            StoredMaybeSignal::Signal(singal) => MaybeSignal::Dynamic(singal),
         }
     }
 }

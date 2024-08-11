@@ -1,36 +1,25 @@
 mod color;
-mod theme;
 
 pub use color::*;
-pub use theme::ColorPickerTheme;
 
-use crate::{use_theme, Theme};
+use crate::ConfigInjection;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
-use leptos::*;
+use leptos::{ev, html, prelude::*};
 use palette::{Hsv, IntoColor, Srgb};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{class_list, mount_style, Model, OptionalProp};
+use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn ColorPicker(
     #[prop(optional, into)] value: Model<Color>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
-    let theme = use_theme(Theme::light);
-    let popover_css_vars = create_memo(move |_| {
-        theme.with(|theme| {
-            format!(
-                "--thaw-background-color: {};",
-                theme.color_picker.popover_background_color
-            )
-        })
-    });
-
-    let hue = create_rw_signal(0f32);
-    let sv = create_rw_signal((0f32, 0f32));
-    let label = create_rw_signal(String::new());
-    let style = create_memo(move |_| {
+    let config_provider = ConfigInjection::expect_context();
+    let hue = RwSignal::new(0f32);
+    let sv = RwSignal::new((0f32, 0f32));
+    let label = RwSignal::new(String::new());
+    let style = Memo::new(move |_| {
         let mut style = String::new();
 
         value.with(|color| {
@@ -77,7 +66,7 @@ pub fn ColorPicker(
         style
     });
 
-    create_effect(move |prev| {
+    Effect::new(move |prev: Option<()>| {
         let (s, v) = sv.get();
         let hue_value = hue.get();
         if prev.is_none() {
@@ -106,9 +95,9 @@ pub fn ColorPicker(
         }
     });
 
-    let is_show_popover = create_rw_signal(false);
-    let trigger_ref = create_node_ref::<html::Div>();
-    let popover_ref = create_node_ref::<html::Div>();
+    let is_show_popover = RwSignal::new(false);
+    let trigger_ref = NodeRef::<html::Div>::new();
+    let popover_ref = NodeRef::<html::Div>::new();
     let show_popover = move |_| {
         is_show_popover.set(true);
     };
@@ -117,6 +106,12 @@ pub fn ColorPicker(
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
         let timer = window_event_listener(ev::click, move |ev| {
+            let Some(popovel_el) = popover_ref.get_untracked() else {
+                return;
+            };
+            let Some(trigger_el) = trigger_ref.get_untracked() else {
+                return;
+            };
             let el = ev.target();
             let mut el: Option<web_sys::Element> =
                 el.into_js_result().map_or(None, |el| Some(el.into()));
@@ -125,9 +120,7 @@ pub fn ColorPicker(
                 if current_el == *body {
                     break;
                 };
-                if current_el == ***popover_ref.get().unwrap()
-                    || current_el == ***trigger_ref.get().unwrap()
-                {
+                if current_el == **popovel_el || current_el == **trigger_el {
                     return;
                 }
                 el = current_el.parent_element();
@@ -140,9 +133,9 @@ pub fn ColorPicker(
     view! {
         <Binder target_ref=trigger_ref>
             <div
-                class=class_list!["thaw-color-picker-trigger", class.map(| c | move || c.get())]
+                class=class_list!["thaw-color-picker-trigger", class]
                 on:click=show_popover
-                ref=trigger_ref
+                node_ref=trigger_ref
             >
                 <div class="thaw-color-picker-trigger__content" style=move || style.get()>
                     {move || label.get()}
@@ -157,14 +150,10 @@ pub fn ColorPicker(
                     let:display
                 >
                     <div
-                        class="thaw-color-picker-popover"
-                        ref=popover_ref
-                        style=move || {
-                            display
-                                .get()
-                                .map(|d| d.to_string())
-                                .unwrap_or_else(|| popover_css_vars.get())
-                        }
+                        class="thaw-config-provider thaw-color-picker-popover"
+                        node_ref=popover_ref
+                        style=move || display.get().unwrap_or_default()
+                        data-thaw-id=config_provider.id().clone()
                     >
 
                         <ColorPanel hue=hue.read_only() sv/>
@@ -178,8 +167,8 @@ pub fn ColorPicker(
 
 #[component]
 fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
-    let panel_ref = create_node_ref::<html::Div>();
-    let mouse = store_value(Vec::<WindowListenerHandle>::new());
+    let panel_ref = NodeRef::<html::Div>::new();
+    let mouse = StoredValue::new(Vec::<WindowListenerHandle>::new());
 
     let on_mouse_down = move |ev| {
         let cb = move |ev: ev::MouseEvent| {
@@ -225,7 +214,7 @@ fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
     };
 
     view! {
-        <div class="thaw-color-picker-popover__panel" ref=panel_ref on:mousedown=on_mouse_down>
+        <div class="thaw-color-picker-popover__panel" node_ref=panel_ref on:mousedown=on_mouse_down>
             <div
                 class="thaw-color-picker-popover__layer"
                 style:background-image=move || {
@@ -251,8 +240,8 @@ fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
 
 #[component]
 fn HueSlider(hue: RwSignal<f32>) -> impl IntoView {
-    let rail_ref = create_node_ref::<html::Div>();
-    let mouse = store_value(Vec::<WindowListenerHandle>::new());
+    let rail_ref = NodeRef::<html::Div>::new();
+    let mouse = StoredValue::new(Vec::<WindowListenerHandle>::new());
 
     let on_mouse_down = move |ev| {
         let cb = move |ev: ev::MouseEvent| {
@@ -286,7 +275,7 @@ fn HueSlider(hue: RwSignal<f32>) -> impl IntoView {
         });
     };
     view! {
-        <div class="thaw-color-picker-slider" ref=rail_ref on:mousedown=on_mouse_down>
+        <div class="thaw-color-picker-slider" node_ref=rail_ref on:mousedown=on_mouse_down>
             <div
                 class="thaw-color-picker-slider__handle"
                 style=move || format!("left: calc({}% - 6px)", f32::from(hue.get()) / 359.0 * 100.0)

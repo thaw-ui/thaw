@@ -1,16 +1,18 @@
-use crate::use_anchor;
-use leptos::*;
+use super::AnchorInjection;
+use leptos::{html, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, OptionalProp, StoredMaybeSignal};
+use thaw_utils::{class_list, StoredMaybeSignal};
 
 #[component]
 pub fn AnchorLink(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    /// The content of link.
     #[prop(into)] title: MaybeSignal<String>,
+    /// The target of link.
     #[prop(into)] href: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    let anchor = use_anchor();
+    let anchor = AnchorInjection::expect_context();
 
     let title: StoredMaybeSignal<_> = title.into();
     let title_ref = NodeRef::<html::A>::new();
@@ -39,17 +41,15 @@ pub fn AnchorLink(
                 });
             });
 
-            title_ref.on_load(move |title_el| {
-                let _ = watch(
-                    move || is_active.get(),
-                    move |is_active, _, _| {
-                        if *is_active {
-                            let title_rect = title_el.get_bounding_client_rect();
-                            anchor.update_background_position(title_rect);
-                        }
-                    },
-                    true,
-                );
+            Effect::new(move |_| {
+                let Some(title_el) = title_ref.get() else {
+                    return;
+                };
+
+                if is_active.get() {
+                    let title_rect = title_el.get_bounding_client_rect();
+                    anchor.update_background_position(title_rect);
+                }
             });
         }
     }
@@ -63,14 +63,12 @@ pub fn AnchorLink(
 
     view! {
         <div class=class_list![
-            "thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get()), class.map(| c
-            | move || c.get())
-        ]>
+            "thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get()), class]>
             <a
                 href=href
                 class="thaw-anchor-link__title"
                 on:click=on_click
-                ref=title_ref
+                node_ref=title_ref
                 title=move || title.get()
             >
                 {move || title.get()}

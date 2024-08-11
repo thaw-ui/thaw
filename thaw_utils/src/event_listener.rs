@@ -1,14 +1,14 @@
 use ::wasm_bindgen::{prelude::Closure, JsCast};
-use leptos::{html::AnyElement, *};
-use std::ops::Deref;
-use web_sys::EventTarget;
+use leptos::ev;
+use web_sys::{Element, EventTarget};
 
-pub fn add_event_listener<E: ev::EventDescriptor + 'static>(
-    target: HtmlElement<AnyElement>,
+pub fn add_event_listener<E>(
+    target: Element,
     event: E,
     cb: impl Fn(E::EventType) + 'static,
 ) -> EventListenerHandle
 where
+    E: ev::EventDescriptor + 'static,
     E::EventType: JsCast,
 {
     add_event_listener_untyped(target, &event.name(), move |e| {
@@ -16,7 +16,7 @@ where
     })
 }
 
-pub struct EventListenerHandle(Box<dyn FnOnce()>);
+pub struct EventListenerHandle(Box<dyn FnOnce() + Send + Sync>);
 
 impl std::fmt::Debug for EventListenerHandle {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -26,26 +26,32 @@ impl std::fmt::Debug for EventListenerHandle {
 
 impl EventListenerHandle {
     pub fn remove(self) {
-        (self.0)()
+        (self.0)();
     }
 }
 
 fn add_event_listener_untyped(
-    target: HtmlElement<AnyElement>,
+    target: Element,
     event_name: &str,
     cb: impl Fn(web_sys::Event) + 'static,
 ) -> EventListenerHandle {
     fn wel(
-        target: HtmlElement<AnyElement>,
+        target: Element,
         cb: Box<dyn FnMut(web_sys::Event)>,
         event_name: &str,
     ) -> EventListenerHandle {
-        let cb = Closure::wrap(cb).into_js_value();
-        _ = target.add_event_listener_with_callback(event_name, cb.unchecked_ref());
-        let event_name = event_name.to_string();
-        EventListenerHandle(Box::new(move || {
-            _ = target.remove_event_listener_with_callback(&event_name, cb.unchecked_ref());
-        }))
+        let cb = Closure::wrap(cb);
+        _ = target.add_event_listener_with_callback(event_name, cb.as_ref().unchecked_ref());
+
+        EventListenerHandle({
+            let event_name = event_name.to_string();
+            let cb = send_wrapper::SendWrapper::new(cb);
+            let target = send_wrapper::SendWrapper::new(target);
+            Box::new(move || {
+                let _ = target
+                    .remove_event_listener_with_callback(&event_name, cb.as_ref().unchecked_ref());
+            })
+        })
     }
 
     wel(target, Box::new(cb), event_name)
@@ -86,14 +92,19 @@ fn add_event_listener_untyped_with_bool(
             cb.unchecked_ref(),
             use_capture,
         );
-        let event_name = event_name.to_string();
-        EventListenerHandle(Box::new(move || {
-            _ = target.remove_event_listener_with_callback_and_bool(
-                &event_name,
-                cb.unchecked_ref(),
-                use_capture,
-            );
-        }))
+
+        EventListenerHandle({
+            let event_name = event_name.to_string();
+            let cb = send_wrapper::SendWrapper::new(cb);
+            let target = send_wrapper::SendWrapper::new(target);
+            Box::new(move || {
+                let _ = target.remove_event_listener_with_callback_and_bool(
+                    &event_name,
+                    cb.unchecked_ref(),
+                    use_capture,
+                );
+            })
+        })
     }
 
     wel(target, Box::new(cb), event_name, use_capture)
@@ -115,8 +126,8 @@ impl IntoEventTarget for web_sys::Document {
     }
 }
 
-impl IntoEventTarget for HtmlElement<AnyElement> {
-    fn into_event_target(self) -> EventTarget {
-        self.deref().deref().deref().deref().clone()
-    }
-}
+// impl IntoEventTarget for HtmlElement<AnyElement> {
+//     fn into_event_target(self) -> EventTarget {
+//         self.deref().deref().deref().deref().clone()
+//     }
+// }

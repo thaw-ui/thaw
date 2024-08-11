@@ -1,17 +1,13 @@
-use leptos::*;
-use thaw_utils::{class_list, OptionalProp};
+use leptos::prelude::*;
+use thaw_utils::class_list;
 
 #[component]
 pub fn LayoutHeader(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] style: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
     view! {
-        <div
-            class=class_list!["thaw-layout-header", class.map(| c | move || c.get())]
-            style=style.map(|s| move || s.get())
-        >
+        <div class=class_list!["thaw-layout-header", class]>
             {children()}
         </div>
     }

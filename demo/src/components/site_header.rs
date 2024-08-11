@@ -1,13 +1,16 @@
 use super::switch_version::SwitchVersion;
-use leptos::*;
+use leptos::{ev::MouseEvent, prelude::*};
 use leptos_meta::Style;
-use leptos_router::{use_location, use_navigate};
+use leptos_router::hooks::use_navigate;
+// use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
 use thaw::*;
 
 #[component]
 pub fn SiteHeader() -> impl IntoView {
-    let theme = use_rw_theme();
-    let theme_name = create_memo(move |_| {
+    let navigate = use_navigate();
+    let navigate_signal = RwSignal::new(use_navigate());
+    let theme = Theme::use_rw_theme();
+    let theme_name = Memo::new(move |_| {
         theme.with(|theme| {
             if theme.name == *"light" {
                 "Dark".to_string()
@@ -16,19 +19,21 @@ pub fn SiteHeader() -> impl IntoView {
             }
         })
     });
-    let change_theme = Callback::new(move |_| {
+    // let (_, write_theme, _) = use_local_storage::<String, FromToStringCodec>("theme");
+    let change_theme = move |_| {
         if theme_name.get_untracked() == "Light" {
             theme.set(Theme::light());
+            // write_theme.set("light".to_string());
         } else {
             theme.set(Theme::dark());
+            // write_theme.set("dark".to_string());
         }
-    });
-    let style = create_memo(move |_| {
-        theme.with(|theme| format!("border-bottom: 1px solid {}", theme.common.border_color))
-    });
-    let search_value = create_rw_signal(String::new());
-    let search_all_options = store_value(gen_search_all_options());
-    let search_options = create_memo(move |_| {
+    };
+
+    let search_value = RwSignal::new(String::new());
+    let search_all_options = StoredValue::new(gen_search_all_options());
+
+    let search_options = Memo::new(move |_| {
         let search_value = search_value.get();
         if search_value.is_empty() {
             return vec![];
@@ -62,23 +67,29 @@ pub fn SiteHeader() -> impl IntoView {
                 .collect()
         })
     });
-    let on_search_select = move |path: String| {
-        let navigate = use_navigate();
-        navigate(&path, Default::default());
-    };
-    let auto_complete_ref = create_component_ref::<AutoCompleteRef>();
-    let handle = window_event_listener(ev::keydown, move |event| {
-        let key = event.key();
-        if key == *"/" {
-            if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
-                event.prevent_default();
-                auto_complete_ref.focus();
-            }
+    let on_search_select = {
+        let navigate = navigate.clone();
+        move |path: String| {
+            navigate(&path, Default::default());
         }
-    });
-    on_cleanup(move || handle.remove());
+    };
+    let auto_complete_ref = ComponentRef::<AutoCompleteRef>::new();
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
+    {
+        use leptos::ev;
+        let handle = window_event_listener(ev::keydown, move |event| {
+            let key = event.key();
+            if key == *"/" {
+                if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
+                    event.prevent_default();
+                    auto_complete_ref.focus();
+                }
+            }
+        });
+        on_cleanup(move || handle.remove());
+    }
 
-    let menu_value = use_menu_value(change_theme);
+    // let menu_value = use_menu_value(change_theme);
     view! {
         <Style id="demo-header">
             "
@@ -88,6 +99,9 @@ pub fn SiteHeader() -> impl IntoView {
                     align-items: center;
                     justify-content: space-between;
                     padding: 0 20px;
+                    z-index: 1000;
+                    position: relative;
+                    border-bottom: 1px solid var(--colorNeutralStroke2);
                 }
                 .demo-name {
                     cursor: pointer;
@@ -100,8 +114,8 @@ pub fn SiteHeader() -> impl IntoView {
                 .demo-header__menu-mobile {
                     display: none !important;
                 }
-                .demo-header__menu-popover-mobile {
-                    padding: 0;
+                .demo-header__right-btn .thaw-select {
+                    width: 60px;
                 }
                 @media screen and (max-width: 600px) {
                     .demo-header {
@@ -121,87 +135,103 @@ pub fn SiteHeader() -> impl IntoView {
                 }
             "
         </Style>
-        <LayoutHeader class="demo-header" style>
-            <Space
-                on:click=move |_| {
-                let navigate = use_navigate();
+        <LayoutHeader attr:class=("demo-header", true)>
+            <Space on:click=move |_| {
                 navigate("/", Default::default());
             }>
                 <img src="/logo.svg" style="width: 36px"/>
-                <div class="demo-name">
-                    "Thaw UI"
-                </div>
+                <div class="demo-name">"Thaw UI"</div>
             </Space>
-            <Space>
+            <Space align=SpaceAlign::Center>
                 <AutoComplete
                     value=search_value
                     placeholder="Type '/' to search"
-                    options=search_options
                     clear_after_select=true
                     blur_after_select=true
                     on_select=on_search_select
                     comp_ref=auto_complete_ref
                 >
+                    <For each=move || search_options.get() key=|option| option.label.clone() let:option>
+                        <AutoCompleteOption value=option.value>{option.label}</AutoCompleteOption>
+                    </For>
                     <AutoCompletePrefix slot>
-                        <Icon icon=icondata::AiSearchOutlined style="font-size: 18px; color: var(--thaw-placeholder-color);"/>
+                        <Icon
+                            icon=icondata::AiSearchOutlined
+                            style="font-size: 18px; color: var(--thaw-placeholder-color);"
+                        />
                     </AutoCompletePrefix>
                 </AutoComplete>
-                <Popover placement=PopoverPlacement::BottomEnd class="demo-header__menu-popover-mobile">
-                    <PopoverTrigger slot class="demo-header__menu-mobile">
-                        <Button
-                            variant=ButtonVariant::Text
+                <Menu
+                    position=MenuPosition::BottomEnd
+                    on_select=move |value : String| match value.as_str() {
+                        "Dark" => change_theme(MouseEvent::new("click").unwrap()),
+                        "Light" => change_theme(MouseEvent::new("click").unwrap()),
+                        "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },
+                        "discord" => { _ = window().open_with_url("https://discord.com/channels/1031524867910148188/1270735289437913108"); },
+                        _ => navigate_signal.get()(&value, Default::default())
+
+                    }
+                >
+                    <MenuTrigger slot class="demo-header__menu-mobile">
+                    <Button
+                            appearance=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
-                            style="font-size: 22px; padding: 0px 6px;"
+                            attr:style="font-size: 22px; padding: 0px 6px;"
                         />
-                    </PopoverTrigger>
-                    <div style="height: 70vh; overflow: auto;">
-                        <Menu value=menu_value>
-                            <MenuItem key=theme_name label=theme_name />
-                            <MenuItem key="github" label="Github" />
-                            {
-                                use crate::pages::{gen_guide_menu_data, gen_menu_data};
-                                vec![
-                                    gen_guide_menu_data().into_view(),
-                                    gen_menu_data().into_view(),
-                                ]
+                    </MenuTrigger>
+                    <MenuItem value=theme_name>{theme_name}</MenuItem>
+                    <MenuItem icon=icondata::AiGithubOutlined value="github">"Github"</MenuItem>
+                    <MenuItem icon=icondata::BiDiscordAlt value="discord">"Discord"</MenuItem>
+                    {
+                        use crate::pages::{gen_nav_data, NavGroupOption, NavItemOption};
+                        gen_nav_data().into_iter().map(|data| {
+                            let NavGroupOption { label, children } = data;
+                            view! {
+                                <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: block">
+                                {label}
+                                </Caption1Strong>
+                                {
+                                    children.into_iter().map(|item| {
+                                        let NavItemOption { label, value } = item;
+                                        view! {
+                                            <MenuItem value=value>{label}</MenuItem>
+                                        }
+                                    }).collect_view()
+                                }
                             }
-                        </Menu>
-                    </div>
-                </Popover>
+                        }).collect_view()
+                    }
+                </Menu>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
+                    <SwitchVersion/>
                     <Button
-                        variant=ButtonVariant::Text
-                        on_click=move |_| {
-                            let navigate = use_navigate();
-                            navigate("/guide/installation", Default::default());
-                        }
+                        icon=Memo::new(move |_| {
+                            theme.with(|theme| {
+                                if theme.name == "light" {
+                                    icondata::BiMoonRegular
+                                } else {
+                                    icondata::BiSunRegular
+                                }
+                            })
+                        })
+                        on_click=change_theme
                     >
-
-                        "Guide"
-                    </Button>
-                    <Button
-                        variant=ButtonVariant::Text
-                        on_click=move |_| {
-                            let navigate = use_navigate();
-                            navigate("/components/button", Default::default());
-                        }
-                    >
-
-                        "Components"
-                    </Button>
-                    <Button variant=ButtonVariant::Text on_click=Callback::new(move |_| change_theme.call(()))>
                         {move || theme_name.get()}
                     </Button>
-                    <SwitchVersion />
                     <Button
-                        variant=ButtonVariant::Text
+                        icon=icondata::BiDiscordAlt
+                        on_click=move |_| {
+                            _ = window().open_with_url("https://discord.com/channels/1031524867910148188/1270735289437913108");
+                        }
+                    />
+
+                    <Button
                         icon=icondata::AiGithubOutlined
-                        round=true
-                        style="font-size: 22px; padding: 0px 6px;"
                         on_click=move |_| {
                             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                         }
                     />
+
                 </Space>
             </Space>
 
@@ -209,63 +239,62 @@ pub fn SiteHeader() -> impl IntoView {
     }
 }
 
+#[derive(Clone, PartialEq)]
+struct AutoCompleteOption {
+    pub label: String,
+    pub value: String,
+}
+
 fn gen_search_all_options() -> Vec<AutoCompleteOption> {
-    use crate::pages::{gen_guide_menu_data, gen_menu_data};
-    let mut options: Vec<_> = gen_menu_data()
+    crate::pages::gen_nav_data()
         .into_iter()
         .flat_map(|group| {
             group.children.into_iter().map(|item| AutoCompleteOption {
-                value: format!("/components/{}", item.value),
+                value: item.value,
                 label: item.label,
             })
         })
-        .collect();
-    options.extend(gen_guide_menu_data().into_iter().flat_map(|group| {
-        group.children.into_iter().map(|item| AutoCompleteOption {
-            value: format!("/guide/{}", item.value),
-            label: item.label,
-        })
-    }));
-    options
+        .collect()
 }
 
-fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
-    use crate::pages::gen_guide_menu_data;
-    let guide = store_value(gen_guide_menu_data());
-    let navigate = use_navigate();
-    let loaction = use_location();
+// TODO
+// fn use_menu_value(change_theme: Callback<()>) -> RwSignal<String> {
+//     use crate::pages::gen_guide_menu_data;
+//     let guide = store_value(gen_guide_menu_data());
+//     let navigate = use_navigate();
+//     let loaction = use_location();
 
-    let menu_value = create_rw_signal({
-        let mut pathname = loaction.pathname.get_untracked();
-        if pathname.starts_with("/components/") {
-            pathname.drain(12..).collect()
-        } else if pathname.starts_with("/guide/") {
-            pathname.drain(7..).collect()
-        } else {
-            String::new()
-        }
-    });
+//     let menu_value = create_rw_signal({
+//         let mut pathname = loaction.pathname.get_untracked();
+//         if pathname.starts_with("/components/") {
+//             pathname.drain(12..).collect()
+//         } else if pathname.starts_with("/guide/") {
+//             pathname.drain(7..).collect()
+//         } else {
+//             String::new()
+//         }
+//     });
 
-    _ = menu_value.watch(move |name| {
-        if name == "Dark" || name == "Light" {
-            change_theme.call(());
-            return;
-        } else if name == "github" {
-            _ = window().open_with_url("http://github.com/thaw-ui/thaw");
-            return;
-        }
-        let pathname = loaction.pathname.get_untracked();
-        if guide.with_value(|menu| {
-            menu.iter()
-                .any(|group| group.children.iter().any(|item| &item.value == name))
-        }) {
-            if !pathname.eq(&format!("/guide/{name}")) {
-                navigate(&format!("/guide/{name}"), Default::default());
-            }
-        } else if !pathname.eq(&format!("/components/{name}")) {
-            navigate(&format!("/components/{name}"), Default::default());
-        }
-    });
+//     _ = menu_value.watch(move |name| {
+//         if name == "Dark" || name == "Light" {
+//             change_theme.call(());
+//             return;
+//         } else if name == "github" {
+//             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
+//             return;
+//         }
+//         let pathname = loaction.pathname.get_untracked();
+//         if guide.with_value(|menu| {
+//             menu.iter()
+//                 .any(|group| group.children.iter().any(|item| &item.value == name))
+//         }) {
+//             if !pathname.eq(&format!("/guide/{name}")) {
+//                 navigate(&format!("/guide/{name}"), Default::default());
+//             }
+//         } else if !pathname.eq(&format!("/components/{name}")) {
+//             navigate(&format!("/components/{name}"), Default::default());
+//         }
+//     });
 
-    menu_value
-}
+//     menu_value
+// }

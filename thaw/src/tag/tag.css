@@ -1,33 +1,60 @@
 .thaw-tag {
-    display: inline-flex;
-    height: 28px;
+    display: inline-grid;
     align-items: center;
-    font-size: 14px;
-    line-height: 1;
-    padding: 0 8px;
-    background-color: var(--thaw-background-color);
-    color: var(--thaw-font-color);
-    border: 1px solid var(--thaw-border-color);
-    border-radius: 3px;
+    grid-template-areas:
+        "media primary dismissIcon"
+        "media secondary dismissIcon";
+    width: fit-content;
+    height: 32px;
+    padding: 0 7px;
+    background-color: var(--colorNeutralBackground3);
+    color: var(--colorNeutralForeground2);
+    font-family: inherit;
+    appearance: button;
+    text-align: unset;
+    box-sizing: border-box;
+    border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-tag--closable {
+    padding-right: 0;
+}
+
+.thaw-tag__primary-text {
+    grid-row-end: secondary;
+    grid-row-start: primary;
+    grid-column-start: primary;
+    white-space: nowrap;
+    padding: 0 var(--spacingHorizontalXXS) var(--spacingHorizontalXXS);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    color: var(--colorNeutralForeground2);
 }
 
 .thaw-tag__close {
-    position: relative;
-    right: -3px;
+    grid-area: dismissIcon;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0;
+    padding-right: 7px;
+    padding-left: var(--spacingHorizontalXS);
+    font-size: 20px;
     background-color: transparent;
-    padding: 1px;
-    width: 16px;
-    height: 16px;
-    color: var(--thaw-font-color);
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.thaw-tag__close > svg {
+    display: inline;
+    line-height: 0;
 }
 
 .thaw-tag__close:hover {
-    background-color: var(--thaw-border-color);
-    border-radius: 3px;
+    color: var(--colorCompoundBrandForeground1Hover);
+}
+
+.thaw-tag__close:active {
+    color: var(--colorCompoundBrandForeground1Pressed);
 }

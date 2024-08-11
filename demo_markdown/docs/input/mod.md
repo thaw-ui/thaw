@@ -1,13 +1,37 @@
 # Input
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
+let value = RwSignal::new(String::from("o"));
 
 view! {
     <Space vertical=true>
         <Input value/>
-        <Input value variant=InputVariant::Password placeholder="Password"/>
-        <TextArea value placeholder="Textarea"/>
+        <Input value input_type=InputType::Password placeholder="Password"/>
+    </Space>
+}
+```
+
+## Prefix & Suffix
+
+```rust demo
+let value = RwSignal::new(String::from("o"));
+
+view! {
+    <Space vertical=true>
+        <Input value>
+            <InputPrefix slot>
+                <Icon icon=icondata::AiUserOutlined/>
+            </InputPrefix>
+        </Input>
+        <Input value>
+            <InputSuffix slot>
+                <Icon icon=icondata::AiGithubOutlined/>
+            </InputSuffix>
+        </Input>
+        <Input value>
+            <InputPrefix slot>"$"</InputPrefix>
+            <InputSuffix slot>".00"</InputSuffix>
+        </Input>
     </Space>
 }
 ```
@@ -15,42 +39,34 @@ view! {
 ### Disabled
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
+let value = RwSignal::new(String::from("o"));
 
 view! {
-    <Space vertical=true>
-        <Input value disabled=true/>
-        <TextArea value disabled=true/>
-    </Space>
+    <Input value disabled=true/>
 }
 ```
 
-### Invalid
+### Placeholder
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
-
 view! {
-    <Space vertical=true>
-        <Input value invalid=true/>
-        <TextArea value invalid=true/>
-    </Space>
+    <Input placeholder="This is a placeholder"/>
 }
 ```
 
 ### Imperative handle
 
 ```rust demo
-let value = create_rw_signal(String::from("o"));
-let input_ref = create_component_ref::<InputRef>();
+let value = RwSignal::new(String::from("o"));
+let input_ref = ComponentRef::<InputRef>::new();
 
-let focus = Callback::new(move |_| {
+let focus = move |_| {
     input_ref.get_untracked().unwrap().focus()
-});
+};
 
-let blur = Callback::new(move |_| {
+let blur = move |_| {
     input_ref.get_untracked().unwrap().blur()
-});
+};
 
 view! {
     <Space vertical=true>
@@ -67,56 +83,20 @@ view! {
 }
 ```
 
-### Input attrs
+### Custom parsing
 
 ```rust demo
-view! {
-    <Space>
-        <label for="demo-input-attrs">"Do you like cheese?"</label>
-        <Input attr:id="demo-input-attrs"/>
-    </Space>
-}
-```
+let value = RwSignal::new(String::from("loren_ipsun"));
 
-## Prefix & Suffix
-
-```rust demo
-let value = create_rw_signal(String::from("o"));
-
-view! {
-    <Space vertical=true>
-        <Input value>
-            <InputPrefix slot>
-                <Icon icon=icondata::AiUserOutlined/>
-            </InputPrefix>
-        </Input>
-        <Input value>
-            <InputSuffix slot>"$"</InputSuffix>
-        </Input>
-        <Input value>
-            <InputSuffix slot>
-                <Icon icon=icondata::AiGithubOutlined/>
-            </InputSuffix>
-        </Input>
-    </Space>
-}
-```
-
-### Formatter
-
-```rust demo
-let value = create_rw_signal(String::from("loren_ipsun"));
-
-let formatter = Callback::<String, String>::new(move |v: String| {
+let format = move |v: String| {
     v.replace("_", " ")
-});
-
-let parser = Callback::<String, String>::new(move |v: String| {
-    v.replace(" ", "_")
-});
+};
+let parser = move |v: String| {
+    Some(v.replace(" ", "_"))
+};
 
 view! {
-    <Input value parser formatter />
+    <Input value parser format />
     <p>"Underlying value: "{ value }</p>
 }
 ```
@@ -135,8 +115,6 @@ view! {
 | on_focus | `Option<Callback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
 | on_blur | `Option<Callback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
 | attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |
-| parser | `OptionalProp<Callback<String, String>>` | `Default::default()` | Modifies the user input before assigning it to the value |
-| formatter | `OptionalProp<Callback<String, String>>` | `Default::default()` | Formats the value to be shown to the user |
 
 ### Input Slots
 

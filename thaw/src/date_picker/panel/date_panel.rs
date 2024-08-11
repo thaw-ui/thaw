@@ -1,18 +1,18 @@
 use super::PanelVariant;
-use crate::{Button, ButtonSize, ButtonVariant, CalendarItemDate};
+use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate};
 use chrono::{Datelike, Days, Month, Months, NaiveDate};
-use leptos::*;
+use leptos::prelude::*;
 use std::ops::Deref;
-use thaw_utils::now_date;
+use thaw_utils::{now_date, ArcOneCallback};
 
 #[component]
 pub fn DatePanel(
     value: RwSignal<Option<NaiveDate>>,
     show_date: RwSignal<NaiveDate>,
-    close_panel: Callback<Option<NaiveDate>>,
+    close_panel: ArcOneCallback<Option<NaiveDate>>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
-    let dates = create_memo(move |_| {
+    let dates = Memo::new(move |_| {
         let show_date = show_date.get();
         let show_date_month = show_date.month();
         let mut dates = vec![];
@@ -80,35 +80,38 @@ pub fn DatePanel(
             *date = *date + Months::new(1);
         });
     };
-    let now = Callback::new(move |_| {
-        close_panel.call(Some(now_date()));
-    });
+    let now = {
+        let close_panel = close_panel.clone();
+        move |_| {
+            close_panel(Some(now_date()));
+        }
+    };
     view! {
         <div>
             <div class="thaw-date-picker-date-panel__calendar">
                 <div class="thaw-date-picker-date-panel__header">
                     <Button
-                        variant=ButtonVariant::Link
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiArrowLeftOutlined
                         on_click=previous_year
                     />
                     <Button
-                        variant=ButtonVariant::Link
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiLeftOutlined
                         on_click=previous_month
                     />
                     <div class="thaw-date-picker-date-panel__header-month-year">
                         <Button
-                            variant=ButtonVariant::Text
+                            appearance=ButtonAppearance::Subtle
                             size=ButtonSize::Small
                             on_click=move |_| panel_variant.set(PanelVariant::Month)
                         >
                             {move || Month::try_from(show_date.get().month() as u8).unwrap().name()}
                         </Button>
                         <Button
-                            variant=ButtonVariant::Text
+                            appearance=ButtonAppearance::Subtle
                             size=ButtonSize::Small
                             on_click=move |_| panel_variant.set(PanelVariant::Year)
                         >
@@ -116,13 +119,13 @@ pub fn DatePanel(
                         </Button>
                     </div>
                     <Button
-                        variant=ButtonVariant::Link
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiRightOutlined
                         on_click=next_month
                     />
                     <Button
-                        variant=ButtonVariant::Link
+                        appearance=ButtonAppearance::Transparent
                         size=ButtonSize::Small
                         icon=icondata_ai::AiArrowRightOutlined
                         on_click=next_year
@@ -145,8 +148,9 @@ pub fn DatePanel(
                             .map(|date| {
                                 let on_click = {
                                     let date = date.clone();
+                                    let close_panel = close_panel.clone();
                                     move |_| {
-                                        close_panel.call(Some(*date.deref()));
+                                        close_panel(Some(*date.deref()));
                                     }
                                 };
                                 view! { <DatePanelItem value date=date on:click=on_click/> }
@@ -157,7 +161,7 @@ pub fn DatePanel(
                 </div>
             </div>
             <div class="thaw-date-picker-date-panel__footer">
-                <Button variant=ButtonVariant::Outlined size=ButtonSize::Tiny on_click=now>
+                <Button size=ButtonSize::Small on_click=now>
                     "Now"
                 </Button>
             </div>
@@ -167,7 +171,7 @@ pub fn DatePanel(
 
 #[component]
 fn DatePanelItem(value: RwSignal<Option<NaiveDate>>, date: CalendarItemDate) -> impl IntoView {
-    let is_selected = create_memo({
+    let is_selected = Memo::new({
         let date = date.clone();
         move |_| value.with(|value_date| value_date.as_ref() == Some(date.deref()))
     });

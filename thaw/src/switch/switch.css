@@ -1,42 +1,75 @@
 .thaw-switch {
+    align-items: flex-start;
+    box-sizing: border-box;
+    display: inline-flex;
     position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 22px;
-    background-color: var(--thaw-background-color);
-    border-radius: 11px;
-    cursor: pointer;
-    box-shadow: inset 0 0 1px 0 rgba(0, 0, 0, 0.05);
-    transition: all 0.4s ease;
-    user-select: none;
 }
 
-.thaw-switch__button {
+.thaw-switch__input {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border-radius: 9px;
-    background-color: #fff;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3),
-        inset 0 0 1px 0 rgba(0, 0, 0, 0.05);
-    transition: all 0.4s ease;
+    top: 0px;
+    left: 0px;
+    width: calc(40px + 2 * var(--spacingHorizontalS));
+    height: 100%;
+    margin: 0px;
+    opacity: 0;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
-.thaw-switch--active {
-    background-color: var(--thaw-background-color-active);
+.thaw-switch__indicator {
+    flex-shrink: 0;
+    width: 40px;
+    height: 20px;
+    margin: var(--spacingVerticalS) var(--spacingHorizontalS);
+    font-size: 18px;
+    line-height: 0;
+    border-radius: var(--borderRadiusCircular);
+    border: 1px solid;
+    box-sizing: border-box;
+    fill: currentcolor;
+    pointer-events: none;
+    transition-duration: var(--durationNormal);
+    transition-timing-function: var(--curveEasyEase);
+    transition-property: background, border, color;
 }
 
-.thaw-switch--active .thaw-switch__button {
-    left: 20px;
+.thaw-switch__input:enabled:not(:checked) ~ .thaw-switch__indicator {
+    color: var(--colorNeutralStrokeAccessible);
+    border-color: var(--colorNeutralStrokeAccessible);
 }
 
-.thaw-switch--active:active .thaw-switch__button {
-    left: 14px;
+.thaw-switch__input:enabled:checked ~ .thaw-switch__indicator {
+    background-color: var(--colorCompoundBrandBackground);
+    color: var(--colorNeutralForegroundInverted);
+    border-color: var(--colorTransparentStroke);
 }
 
-.thaw-switch:active .thaw-switch__button {
-    width: 24px;
+.thaw-switch__indicator > svg {
+    display: inline;
+    line-height: 0;
+
+    transition-duration: var(--durationNormal);
+    transition-timing-function: var(--curveEasyEase);
+    transition-property: transform;
+}
+
+.thaw-switch__input:checked ~ .thaw-switch__indicator > svg {
+    transform: translateX(20px);
+}
+
+.thaw-switch__label {
+    margin-top: calc((20px - var(--lineHeightBase300)) / 2);
+    margin-bottom: calc((20px - var(--lineHeightBase300)) / 2);
+    padding: var(--spacingVerticalS) var(--spacingHorizontalS);
+    padding-left: var(--spacingHorizontalXS);
+    line-height: var(--lineHeightBase300);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    color: var(--colorNeutralForeground1);
+    cursor: pointer;
+}
+
+.thaw-switch__input:enabled:not(:checked) ~ .thaw-switch__label {
+    color: var(--colorNeutralForeground1);
 }

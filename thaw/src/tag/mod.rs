@@ -1,104 +1,43 @@
-mod theme;
-
-pub use theme::TagTheme;
-
-use crate::{theme::use_theme, Icon, Theme};
-use leptos::*;
-use thaw_utils::{class_list, mount_style, OptionalProp};
-
-#[derive(Clone, Copy, Default, PartialEq, Eq, Hash)]
-pub enum TagVariant {
-    #[default]
-    Default,
-    Success,
-    Warning,
-    Error,
-}
-
-impl TagVariant {
-    fn theme_font_color(&self, theme: &Theme) -> String {
-        match self {
-            TagVariant::Default => theme.tag.default_font_color.clone(),
-            TagVariant::Success => theme.common.color_success.clone(),
-            TagVariant::Warning => theme.common.color_warning.clone(),
-            TagVariant::Error => theme.common.color_error.clone(),
-        }
-    }
-    fn theme_background_color(&self, theme: &Theme) -> String {
-        match self {
-            TagVariant::Default => theme.tag.default_background_color.clone(),
-            TagVariant::Success => theme.tag.success_background_color.clone(),
-            TagVariant::Warning => theme.tag.warning_background_color.clone(),
-            TagVariant::Error => theme.tag.error_background_color.clone(),
-        }
-    }
-    fn theme_border_color(&self, theme: &Theme) -> String {
-        match self {
-            TagVariant::Default => theme.tag.default_border_color.clone(),
-            TagVariant::Success => theme.tag.success_border_color.clone(),
-            TagVariant::Warning => theme.tag.warning_border_color.clone(),
-            TagVariant::Error => theme.tag.error_border_color.clone(),
-        }
-    }
-}
+use leptos::{either::Either, ev, prelude::*};
+use thaw_utils::{class_list, mount_style, ArcOneCallback};
 
 #[component]
 pub fn Tag(
-    #[prop(optional, into)] variant: MaybeSignal<TagVariant>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] closable: MaybeSignal<bool>,
-    #[prop(optional, into)] on_close: Option<Callback<ev::MouseEvent>>,
+    #[prop(optional, into)] on_close: Option<ArcOneCallback<ev::MouseEvent>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            let variant = variant.get();
-            css_vars.push_str(&format!(
-                "--thaw-font-color: {};",
-                variant.theme_font_color(theme)
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                variant.theme_background_color(theme)
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-border-color: {};",
-                variant.theme_border_color(theme)
-            ));
-        });
-        css_vars
-    });
-
-    let on_close = move |event| {
-        let Some(callback) = on_close.as_ref() else {
-            return;
-        };
-        callback.call(event);
-    };
 
     view! {
-        <div
-            class=class_list!["thaw-tag", class.map(| c | move || c.get())]
-            style=move || css_vars.get()
+        <span
+            class=class_list!["thaw-tag", ("thaw-tag--closable", move || closable.get()), class]
+
         >
-            <span class="thaw-tag__content">{children()}</span>
+            <span class="thaw-tag__primary-text">{children()}</span>
 
             {move || {
+                let on_close = on_close.clone();
+                let on_close = move |event| {
+                    let Some(on_close) = on_close.as_ref() else {
+                        return;
+                    };
+                    on_close(event);
+                };
                 if closable.get() {
-                    view! {
+                    Either::Left(view! {
                         <button class="thaw-tag__close" on:click=on_close>
-                            <Icon icon=icondata_ai::AiCloseOutlined style="font-size: 14px"/>
+                            <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
+                                <path d="m4.09 4.22.06-.07a.5.5 0 0 1 .63-.06l.07.06L10 9.29l5.15-5.14a.5.5 0 0 1 .63-.06l.07.06c.18.17.2.44.06.63l-.06.07L10.71 10l5.14 5.15c.18.17.2.44.06.63l-.06.07a.5.5 0 0 1-.63.06l-.07-.06L10 10.71l-5.15 5.14a.5.5 0 0 1-.63.06l-.07-.06a.5.5 0 0 1-.06-.63l.06-.07L9.29 10 4.15 4.85a.5.5 0 0 1-.06-.63l.06-.07-.06.07Z" fill="currentColor"></path>
+                            </svg>
                         </button>
-                    }
-                        .into()
+                    })
                 } else {
-                    None
+                    Either::Right(())
                 }
             }}
 
-        </div>
+        </span>
     }
 }

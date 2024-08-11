@@ -2,10 +2,14 @@
 
 ```rust demo
 use chrono::prelude::*;
-let value = create_rw_signal(Some(Local::now().date_naive()));
+let value = RwSignal::new(Local::now().date_naive());
+let option_value = RwSignal::new(Some(Local::now().date_naive()));
 
 view! {
-    <DatePicker value/>
+    <Space vertical=true>
+        <DatePicker value/>
+        <DatePicker value=option_value/>
+    </Space>
 }
 ```
 

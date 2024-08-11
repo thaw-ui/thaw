@@ -1,55 +1,36 @@
-mod theme;
-
-pub use theme::PopoverTheme;
-
-use crate::{use_theme, Theme};
-use leptos::{leptos_dom::helpers::TimeoutHandle, *};
+use crate::ConfigInjection;
+use leptos::{ev, html, leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{
-    add_event_listener, call_on_click_outside, class_list, mount_style, OptionalProp,
-};
+use thaw_utils::{add_event_listener, class_list, mount_style};
 
 #[slot]
 pub struct PopoverTrigger {
     #[prop(optional, into)]
-    class: OptionalProp<MaybeSignal<String>>,
+    class: MaybeProp<String>,
     children: Children,
 }
 
 #[component]
 pub fn Popover(
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional)] trigger_type: PopoverTriggerType,
     popover_trigger: PopoverTrigger,
-    #[prop(optional)] placement: PopoverPlacement,
-    #[prop(optional)] tooltip: bool,
+    /// Configures the position of the Popover.
+    #[prop(optional)]
+    position: PopoverPosition,
+    /// A popover can appear styled with brand or inverted. When not specified, the default style is used.
+    #[prop(optional, into)]
+    appearance: Option<MaybeSignal<PopoverAppearance>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            let background_color = if tooltip {
-                &theme.popover.tooltip_background_color
-            } else {
-                &theme.popover.background_color
-            };
-            css_vars.push_str(&format!("--thaw-background-color: {};", background_color));
-            let font_color = if tooltip {
-                "#fff"
-            } else {
-                &theme.common.font_color
-            };
-            css_vars.push_str(&format!("--thaw-font-color: {};", font_color));
-        });
-        css_vars
-    });
-    let popover_ref = create_node_ref::<html::Div>();
-    let target_ref = create_node_ref::<html::Div>();
-    let is_show_popover = create_rw_signal(false);
-    let show_popover_handle = store_value(None::<TimeoutHandle>);
+    let config_provider = ConfigInjection::expect_context();
+
+    let popover_ref = NodeRef::<html::Div>::new();
+    let target_ref = NodeRef::<html::Div>::new();
+    let is_show_popover = RwSignal::new(false);
+    let show_popover_handle = StoredValue::new(None::<TimeoutHandle>);
 
     let on_mouse_enter = move |_| {
         if trigger_type != PopoverTriggerType::Hover {
@@ -79,22 +60,51 @@ pub fn Popover(
             .ok();
         });
     };
-
-    if trigger_type != PopoverTriggerType::Hover {
-        call_on_click_outside(
-            popover_ref,
-            Callback::new(move |_| is_show_popover.set(false)),
-        );
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
+    {
+        let handle = window_event_listener(ev::click, move |ev| {
+            use leptos::wasm_bindgen::__rt::IntoJsResult;
+            if trigger_type != PopoverTriggerType::Click {
+                return;
+            }
+            if !is_show_popover.get_untracked() {
+                return;
+            }
+            let el = ev.target();
+            let mut el: Option<web_sys::Element> =
+                el.into_js_result().map_or(None, |el| Some(el.into()));
+            let body = document().body().unwrap();
+            while let Some(current_el) = el {
+                if current_el == *body {
+                    break;
+                };
+                let Some(popover_el) = popover_ref.get_untracked() else {
+                    break;
+                };
+                if current_el == **popover_el {
+                    return;
+                }
+                el = current_el.parent_element();
+            }
+            is_show_popover.set(false);
+        });
+        on_cleanup(move || handle.remove());
     }
-    target_ref.on_load(move |target_el| {
-        add_event_listener(target_el.into_any(), ev::click, move |event| {
+
+    Effect::new(move |_| {
+        let Some(target_el) = target_ref.get() else {
+            return;
+        };
+        let handler = add_event_listener(target_el.into(), ev::click, move |event| {
             if trigger_type != PopoverTriggerType::Click {
                 return;
             }
             event.stop_propagation();
             is_show_popover.update(|show| *show = !*show);
         });
+        on_cleanup(move || handler.remove());
     });
+
     let PopoverTrigger {
         class: trigger_class,
         children: trigger_children,
@@ -103,14 +113,14 @@ pub fn Popover(
     view! {
         <Binder target_ref>
             <div
-                class=class_list!["thaw-popover-trigger", trigger_class.map(| c | move || c.get())]
-                ref=target_ref
+                class=class_list!["thaw-popover-trigger", trigger_class]
+                node_ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
             >
                 {trigger_children()}
             </div>
-            <Follower slot show=is_show_popover placement>
+            <Follower slot show=is_show_popover placement=position>
                 <CSSTransition
                     node_ref=popover_ref
                     name="popover-transition"
@@ -119,23 +129,40 @@ pub fn Popover(
                     let:display
                 >
                     <div
-                        class=if tooltip { "thaw-popover thaw-popover--tooltip" } else { "thaw-popover" }
-                        style=move || {
-                            display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
-                        }
+                        class=class_list![
+                            "thaw-config-provider thaw-popover-surface",
+                            appearance.map(|appearance| move || format!("thaw-popover-surface--{}", appearance.get().as_str())),
+                            class
+                        ]
+                        data-thaw-id=config_provider.id().clone()
+                        style=move || display.get().unwrap_or_default()
 
-                        ref=popover_ref
+                        node_ref=popover_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >
-                        <div class=class.map(|c| move || c.get())>{children()}</div>
-                        <div class="thaw-popover__angle-container">
-                            <div class="thaw-popover__angle"></div>
+                        {children()}
+                        <div class="thaw-popover-surface__angle">
                         </div>
                     </div>
                 </CSSTransition>
             </Follower>
         </Binder>
+    }
+}
+
+#[derive(Clone)]
+pub enum PopoverAppearance {
+    Brand,
+    Inverted,
+}
+
+impl PopoverAppearance {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            PopoverAppearance::Brand => "brand",
+            PopoverAppearance::Inverted => "inverted",
+        }
     }
 }
 
@@ -149,7 +176,7 @@ pub enum PopoverTriggerType {
 impl Copy for PopoverTriggerType {}
 
 #[derive(Default)]
-pub enum PopoverPlacement {
+pub enum PopoverPosition {
     #[default]
     Top,
     Bottom,
@@ -165,21 +192,21 @@ pub enum PopoverPlacement {
     BottomEnd,
 }
 
-impl From<PopoverPlacement> for FollowerPlacement {
-    fn from(value: PopoverPlacement) -> Self {
+impl From<PopoverPosition> for FollowerPlacement {
+    fn from(value: PopoverPosition) -> Self {
         match value {
-            PopoverPlacement::Top => Self::Top,
-            PopoverPlacement::Bottom => Self::Bottom,
-            PopoverPlacement::Left => Self::Left,
-            PopoverPlacement::Right => Self::Right,
-            PopoverPlacement::TopStart => Self::TopStart,
-            PopoverPlacement::TopEnd => Self::TopEnd,
-            PopoverPlacement::LeftStart => Self::LeftStart,
-            PopoverPlacement::LeftEnd => Self::LeftEnd,
-            PopoverPlacement::RightStart => Self::RightStart,
-            PopoverPlacement::RightEnd => Self::RightEnd,
-            PopoverPlacement::BottomStart => Self::BottomStart,
-            PopoverPlacement::BottomEnd => Self::BottomEnd,
+            PopoverPosition::Top => Self::Top,
+            PopoverPosition::Bottom => Self::Bottom,
+            PopoverPosition::Left => Self::Left,
+            PopoverPosition::Right => Self::Right,
+            PopoverPosition::TopStart => Self::TopStart,
+            PopoverPosition::TopEnd => Self::TopEnd,
+            PopoverPosition::LeftStart => Self::LeftStart,
+            PopoverPosition::LeftEnd => Self::LeftEnd,
+            PopoverPosition::RightStart => Self::RightStart,
+            PopoverPosition::RightEnd => Self::RightEnd,
+            PopoverPosition::BottomStart => Self::BottomStart,
+            PopoverPosition::BottomEnd => Self::BottomEnd,
         }
     }
 }

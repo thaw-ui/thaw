@@ -1,14 +1,14 @@
 use super::PanelVariant;
-use crate::{Button, ButtonSize, ButtonVariant};
+use crate::{Button, ButtonAppearance, ButtonSize};
 use chrono::{Datelike, Month, Months, NaiveDate};
-use leptos::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn MonthPanel(
     date_panel_show_date: RwSignal<NaiveDate>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
-    let show_date = create_rw_signal(date_panel_show_date.get_untracked());
+    let show_date = RwSignal::new(date_panel_show_date.get_untracked());
     let previous_year = move |_| {
         show_date.update(|date| {
             *date = *date - Months::new(12);
@@ -23,14 +23,14 @@ pub fn MonthPanel(
         <div class="thaw-date-picker-month-panel">
             <div class="thaw-date-picker-month-panel__header">
                 <Button
-                    variant=ButtonVariant::Link
+                    appearance=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowLeftOutlined
                     on_click=previous_year
                 />
                 <div class="thaw-date-picker-date-panel__header-year">
                     <Button
-                        variant=ButtonVariant::Text
+                        appearance=ButtonAppearance::Subtle
                         size=ButtonSize::Small
                         on_click=move |_| panel_variant.set(PanelVariant::Year)
                     >
@@ -38,7 +38,7 @@ pub fn MonthPanel(
                     </Button>
                 </div>
                 <Button
-                    variant=ButtonVariant::Link
+                    appearance=ButtonAppearance::Transparent
                     size=ButtonSize::Small
                     icon=icondata_ai::AiArrowRightOutlined
                     on_click=next_year
@@ -72,7 +72,7 @@ pub fn MonthPanel(
 
 #[component]
 fn MonthPanelItem(date_panel_show_date: RwSignal<NaiveDate>, month: Month) -> impl IntoView {
-    let is_selected = create_memo(move |_| {
+    let is_selected = Memo::new(move |_| {
         date_panel_show_date.with(|date| date.month() == month.number_from_month())
     });
 

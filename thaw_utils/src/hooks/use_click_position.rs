@@ -1,10 +1,13 @@
-use leptos::{ReadSignal, RwSignal};
+use leptos::reactive_graph::signal::{ReadSignal, RwSignal};
 
 pub fn use_click_position() -> ReadSignal<Option<(i32, i32)>> {
     let mouse_position = RwSignal::new(None);
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
-        use leptos::{ev, on_cleanup, window_event_listener, SignalSet};
+        use leptos::{
+            ev,
+            prelude::{on_cleanup, window_event_listener, Set},
+        };
         use wasm_bindgen::JsCast;
         use web_sys::MouseEvent;
 
@@ -12,7 +15,9 @@ pub fn use_click_position() -> ReadSignal<Option<(i32, i32)>> {
             if event.client_x() > 0 || event.client_y() > 0 {
                 return Some((event.client_x(), event.client_y()));
             }
-            let target = event.target()?;
+            let Some(target) = event.target() else {
+                return None;
+            };
 
             let Ok(target) = target.dyn_into::<web_sys::Element>() else {
                 return None;

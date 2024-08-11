@@ -1,7 +1,74 @@
-use crate::{Button, ButtonSize, ButtonVariant};
-use leptos::*;
+use crate::{Button, ButtonAppearance};
+use leptos::{either::Either, prelude::*};
 use std::cmp::min;
-use thaw_utils::{class_list, mount_style, Model, OptionalProp, StoredMaybeSignal};
+use thaw_utils::{class_list, mount_style, Model};
+
+#[component]
+pub fn Pagination(
+    #[prop(default = 1.into(), into)] page: Model<usize>,
+    #[prop(into)] page_count: MaybeSignal<usize>,
+    #[prop(default = 1.into(), into)] sibling_count: MaybeSignal<usize>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+) -> impl IntoView {
+    mount_style("pagination", include_str!("./pagination.css"));
+
+    let no_next = Memo::new(move |_| page.get() == page_count.get());
+    let no_previous = Memo::new(move |_| page.get() == 1);
+
+    let on_click_previous = move |_| {
+        page.update(|val| *val -= 1);
+    };
+
+    let on_click_next = move |_| {
+        page.update(|val| *val += 1);
+    };
+
+    view! {
+        <div class=class_list!["thaw-pagination", class]>
+            <Button
+                class="thaw-pagination-item"
+                on_click=on_click_previous
+                icon=icondata_ai::AiLeftOutlined
+                disabled=no_previous
+            />
+            {
+                move || {
+                    use_pagination(page.get(), page_count.get(), sibling_count.get()).into_iter().map(|item| {
+                        if let PaginationItem::Number(nb) = item {
+                            Either::Left(view! {
+                                <Button
+                                    class="thaw-pagination-item"
+                                    appearance=Memo::new(move |_| if page.get() == nb {
+                                        ButtonAppearance::Primary
+                                    } else {
+                                        ButtonAppearance::Secondary
+                                    })
+                                    on_click=move |_| {
+                                        if page.get() != nb {
+                                            page.set(nb)
+                                        }
+                                    }
+                                >
+                                    {nb}
+                                </Button>
+                            })
+                        } else {
+                            Either::Right(view! {
+                                <div class="thaw-pagination-item">"..."</div>
+                            })
+                        }
+                    }).collect_view()
+                }
+            }
+            <Button
+                class="thaw-pagination-item"
+                on_click=on_click_next
+                icon=icondata_ai::AiRightOutlined
+                disabled=no_next
+            />
+        </div>
+    }
+}
 
 fn range(start: usize, end: usize) -> Vec<PaginationItem> {
     let mut ret = vec![];
@@ -72,108 +139,5 @@ fn use_pagination(page: usize, count: usize, sibling_count: usize) -> Vec<Pagina
             PaginationItem::Number(last_page_index),
         ]);
         range
-    }
-}
-
-#[component]
-pub fn Pagination(
-    #[prop(default = 1.into(), into)] page: Model<usize>,
-    #[prop(into)] count: MaybeSignal<usize>,
-    #[prop(default = 1.into(), into)] sibling_count: MaybeSignal<usize>,
-    #[prop(optional, into)] on_change: Option<Callback<usize>>,
-    #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
-    #[prop(optional, into)] size: MaybeSignal<ButtonSize>,
-) -> impl IntoView {
-    mount_style("pagination", include_str!("./pagination.css"));
-
-    let size: StoredMaybeSignal<_> = size.into();
-    let no_next = Memo::new(move |_| page.get() == count.get());
-    let no_previous = Memo::new(move |_| page.get() == 1);
-
-    let on_click_previous = Callback::<ev::MouseEvent>::new(move |_| {
-        page.update(|val| *val -= 1);
-        if let Some(callback) = on_change.as_ref() {
-            callback.call(page.get())
-        }
-    });
-
-    let on_click_next = Callback::<ev::MouseEvent>::new(move |_| {
-        page.update(|val| *val += 1);
-        if let Some(callback) = on_change.as_ref() {
-            callback.call(page.get())
-        }
-    });
-
-    view! {
-        <nav class=class_list!["thaw-pagination", class.map(| c | move || c.get())]>
-            <ul>
-                <li>
-                    <Button
-                        size=size
-                        on_click=on_click_previous
-                        variant=ButtonVariant::Text
-                        icon=icondata_ai::AiLeftOutlined
-                        disabled=no_previous
-                        circle=true
-                    />
-                </li>
-
-                <For
-                    each=move || use_pagination(page.get(), count.get(), sibling_count.get())
-                    key=|item| match item {
-                        PaginationItem::DotLeft => -2,
-                        PaginationItem::DotRight => -1,
-                        PaginationItem::Number(nb) => nb.clone() as i64
-                    }
-                    let:item
-                >
-                    {
-                        if let PaginationItem::Number(nb) = item {
-                           view! {
-                                <li>
-                                    <Button
-                                        size=size
-                                        style=Memo::new(move |_| if page.get() == nb {
-                                            "color: var(--thaw-font-color-hover); border-color: var(--thaw-border-color-hover);".to_string()
-                                        } else {
-                                            "".to_string()
-                                        })
-                                        variant=Memo::new(move |_| if page.get() == nb {
-                                            ButtonVariant::Outlined
-                                        } else {
-                                            ButtonVariant::Text
-                                        })
-                                        on_click=Callback::new(move |_: ev::MouseEvent| {
-                                            if page.get() != nb {
-                                                page.set(nb)
-                                            }
-                                            if let Some(callback) = on_change.as_ref() {
-                                                callback.call(page.get())
-                                            }
-                                        })
-                                        round=true
-                                    >
-                                        {nb}
-                                    </Button>
-                                </li>
-                            }
-                        } else {
-                            view! {
-                                <li>"..."</li>
-                            }
-                        }
-                    }
-                </For>
-                <li>
-                    <Button
-                        size
-                        on_click=on_click_next
-                        variant=ButtonVariant::Text
-                        icon=icondata_ai::AiRightOutlined disabled=no_next
-                        circle=true
-                    />
-                </li>
-            </ul>
-        </nav>
     }
 }

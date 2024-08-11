@@ -1,5 +1,10 @@
-use leptos::{MaybeSignal, Memo, ReadSignal, RwSignal, Signal};
+use leptos::{
+    prelude::{MaybeSignal, Memo, ReadSignal, RwSignal, Signal},
+    reactive_graph::owner::Storage,
+};
 use std::ops::{Deref, DerefMut};
+
+use crate::BoxOneCallback;
 
 pub struct OptionalProp<T>(Option<T>);
 
@@ -14,6 +19,8 @@ impl<T: Clone> Clone for OptionalProp<T> {
         Self(self.0.clone())
     }
 }
+
+impl<T: Copy> Copy for OptionalProp<T> {}
 
 impl<T> OptionalProp<T> {
     pub fn map<U, F>(self, f: F) -> Option<U>
@@ -54,6 +61,7 @@ impl From<&str> for OptionalProp<String> {
     }
 }
 
+/// TODO remove signal
 impl From<&str> for OptionalProp<MaybeSignal<String>> {
     fn from(value: &str) -> Self {
         Self(Some(MaybeSignal::from(value.to_string())))
@@ -66,27 +74,39 @@ impl From<String> for OptionalProp<MaybeSignal<String>> {
     }
 }
 
-impl<T> From<ReadSignal<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T: Send + Sync> From<ReadSignal<T>> for OptionalProp<MaybeSignal<T>> {
     fn from(value: ReadSignal<T>) -> Self {
         Self(Some(MaybeSignal::from(value)))
     }
 }
 
-impl<T> From<RwSignal<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T: Send + Sync> From<RwSignal<T>> for OptionalProp<MaybeSignal<T>> {
     fn from(value: RwSignal<T>) -> Self {
         Self(Some(MaybeSignal::from(value)))
     }
 }
 
-impl<T> From<Memo<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T: Send + Sync> From<Memo<T>> for OptionalProp<MaybeSignal<T>> {
     fn from(value: Memo<T>) -> Self {
         Self(Some(MaybeSignal::from(value)))
     }
 }
 
-impl<T> From<Signal<T>> for OptionalProp<MaybeSignal<T>> {
-    fn from(value: Signal<T>) -> Self {
+impl<T, S> From<Signal<T, S>> for OptionalProp<MaybeSignal<T, S>>
+where
+    S: Storage<T>,
+{
+    fn from(value: Signal<T, S>) -> Self {
         Self(Some(MaybeSignal::from(value)))
+    }
+}
+
+impl<F, A, Return> From<F> for OptionalProp<BoxOneCallback<A, Return>>
+where
+    F: Fn(A) -> Return + Send + Sync + 'static,
+{
+    fn from(value: F) -> Self {
+        Self(Some(BoxOneCallback::new(value)))
     }
 }
 
@@ -96,12 +116,10 @@ impl<T> From<Option<T>> for OptionalProp<T> {
     }
 }
 
-impl<T: Copy> Copy for OptionalProp<T> {}
-
 #[cfg(test)]
 mod test {
     use super::OptionalProp;
-    use leptos::MaybeSignal;
+    use leptos::prelude::MaybeSignal;
 
     #[test]
     fn from() {

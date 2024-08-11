@@ -1,10 +1,10 @@
 # Checkbox
 
 ```rust demo
-let value = create_rw_signal(false);
+let checked = RwSignal::new(false);
 
 view! {
-    <Checkbox value>"Click"</Checkbox>
+    <Checkbox checked label="Click"/>
     <Checkbox />
 }
 ```
@@ -14,13 +14,13 @@ view! {
 ```rust demo
 use std::collections::HashSet;
 
-let value = create_rw_signal(HashSet::new());
+let value = RwSignal::new(HashSet::new());
 
 view! {
     <CheckboxGroup value>
-        <CheckboxItem label="apple" key="a"/>
-        <CheckboxItem label="b" key="b"/>
-        <CheckboxItem label="c" key="c"/>
+        <Checkbox label="apple" value="a"/>
+        <Checkbox label="b" value="b"/>
+        <Checkbox label="c" value="c"/>
     </CheckboxGroup>
     <div style="margin-top: 1rem">"value: " {move || format!("{:?}", value.get())}</div>
 }

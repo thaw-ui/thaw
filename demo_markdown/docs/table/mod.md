@@ -3,25 +3,37 @@
 ```rust demo
 view! {
     <Table>
-        <thead>
-            <tr>
-                <th>"tag"</th>
-                <th>"count"</th>
-                <th>"date"</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>"div"</td>
-                <td>"2"</td>
-                <td>"2023-10-08"</td>
-            </tr>
-            <tr>
-                <td>"span"</td>
-                <td>"2"</td>
-                <td>"2023-10-08"</td>
-            </tr>
-        </tbody>
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell>"Tag"</TableHeaderCell>
+                <TableHeaderCell>"Count"</TableHeaderCell>
+                <TableHeaderCell>"Date"</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            <TableRow>
+                <TableCell>
+                    <TableCellLayout>
+                        "div"
+                    </TableCellLayout>
+                </TableCell>
+                <TableCell>
+                    <TableCellLayout>
+                        "2"
+                    </TableCellLayout>
+                </TableCell>
+                <TableCell>
+                    <TableCellLayout>
+                        "2023-10-08"
+                    </TableCellLayout>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell>"span"</TableCell>
+                <TableCell>"2"</TableCell>
+                <TableCell>"2023-10-08"</TableCell>
+            </TableRow>
+        </TableBody>
     </Table>
 }
 ```

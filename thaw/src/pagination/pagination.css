@@ -1,8 +1,15 @@
-.thaw-pagination > ul {
-    list-style-type: none;
+.thaw-pagination {
     display: flex;
-    padding: 0;
-    margin: 0;
     column-gap: 5px;
-    align-items: center;
+}
+
+.thaw-pagination-item,
+.thaw-button.thaw-pagination-item {
+    max-width: 32px;
+    min-width: 32px;
+}
+
+div.thaw-pagination-item {
+    display: flex;
+    justify-content: center;
 }

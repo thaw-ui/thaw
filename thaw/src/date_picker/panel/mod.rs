@@ -2,56 +2,30 @@ mod date_panel;
 mod month_panel;
 mod year_panel;
 
-use crate::{use_theme, Theme};
+use crate::ConfigInjection;
 use chrono::NaiveDate;
 use date_panel::DatePanel;
-use leptos::*;
+use leptos::{html, prelude::*};
 use month_panel::MonthPanel;
 use thaw_components::CSSTransition;
-use thaw_utils::{now_date, ComponentRef};
+use thaw_utils::{now_date, ArcOneCallback, ComponentRef};
 use year_panel::YearPanel;
 
 #[component]
 pub fn Panel(
     selected_date: RwSignal<Option<NaiveDate>>,
     date_picker_ref: NodeRef<html::Div>,
-    close_panel: Callback<Option<NaiveDate>>,
+    #[prop(into)] close_panel: ArcOneCallback<Option<NaiveDate>>,
     #[prop(into)] is_show_panel: MaybeSignal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let theme = use_theme(Theme::light);
-    let css_vars = create_memo(move |_| {
-        let mut css_vars = String::new();
-        theme.with(|theme| {
-            css_vars.push_str(&format!(
-                "--thaw-background-color-today: {};",
-                theme.common.color_primary
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-font-color-other-month: {};",
-                theme.date_picker.panel_other_month_font_color,
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-background-color: {};",
-                theme.date_picker.panel_background_color
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-background-color-hover: {};",
-                theme.date_picker.panel_date_item_background_color_hover
-            ));
-            css_vars.push_str(&format!(
-                "--thaw-item-border-color: {};",
-                theme.date_picker.panel_border_color
-            ));
-        });
-        css_vars
-    });
-
-    let panel_ref = create_node_ref::<html::Div>();
+    let config_provider = ConfigInjection::expect_context();
+    let panel_ref = NodeRef::<html::Div>::new();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::wasm_bindgen::__rt::IntoJsResult;
-        let handle = window_event_listener(ev::click, move |ev| {
+        let close_panel = close_panel.clone();
+        let handle = window_event_listener(leptos::ev::click, move |ev| {
             let el = ev.target();
             let mut el: Option<web_sys::Element> =
                 el.into_js_result().map_or(None, |el| Some(el.into()));
@@ -66,14 +40,14 @@ pub fn Panel(
                 if panel_ref.get().is_none() {
                     return;
                 }
-                if current_el == ***panel_ref.get_untracked().unwrap()
-                    || current_el == ***date_picker_ref.get_untracked().unwrap()
-                {
+                let panel_el = panel_ref.get_untracked().unwrap();
+                let date_picker_el = date_picker_ref.get_untracked().unwrap();
+                if current_el == **panel_el || current_el == **date_picker_el {
                     return;
                 }
                 el = current_el.parent_element();
             }
-            close_panel.call(None);
+            close_panel(None);
         });
         on_cleanup(move || handle.remove());
     }
@@ -82,8 +56,8 @@ pub fn Panel(
         _ = date_picker_ref;
         _ = panel_ref;
     }
-    let panel_variant = create_rw_signal(PanelVariant::Date);
-    let show_date = create_rw_signal(selected_date.get_untracked().unwrap_or(now_date()));
+    let panel_variant = RwSignal::new(PanelVariant::Date);
+    let show_date = RwSignal::new(selected_date.get_untracked().unwrap_or(now_date()));
     comp_ref.load(PanelRef {
         show_date,
         variant: panel_variant,
@@ -98,23 +72,25 @@ pub fn Panel(
             let:display
         >
             <div
-                class="thaw-date-picker-panel"
-                style=move || display.get().map(|d| d.to_string()).unwrap_or_else(|| css_vars.get())
-                ref=panel_ref
+                class="thaw-config-provider thaw-date-picker-panel"
+                data-thaw-id=config_provider.id().clone()
+                style=move || display.get().unwrap_or_default()
+                node_ref=panel_ref
             >
 
                 {move || {
                     match panel_variant.get() {
                         PanelVariant::Date => {
+                            let close_panel = close_panel.clone();
                             view! {
                                 <DatePanel value=selected_date show_date close_panel panel_variant/>
-                            }
+                            }.into_any()
                         }
                         PanelVariant::Month => {
-                            view! { <MonthPanel date_panel_show_date=show_date panel_variant/> }
+                            view! { <MonthPanel date_panel_show_date=show_date panel_variant/> }.into_any()
                         }
                         PanelVariant::Year => {
-                            view! { <YearPanel date_panel_show_date=show_date panel_variant/> }
+                            view! { <YearPanel date_panel_show_date=show_date panel_variant/> }.into_any()
                         }
                     }
                 }}

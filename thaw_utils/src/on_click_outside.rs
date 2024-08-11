@@ -1,8 +1,11 @@
-use leptos::{html::Div, *};
+use crate::BoxCallback;
+use leptos::{html::Div, prelude::*};
+use tachys::reactive_graph::node_ref::NodeRef;
 
-pub fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
+pub fn call_on_click_outside(element: NodeRef<Div>, on_click: BoxCallback) {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
+        use leptos::ev;
         let handle = window_event_listener(ev::click, move |ev| {
             use leptos::wasm_bindgen::__rt::IntoJsResult;
             let el = ev.target();
@@ -16,12 +19,12 @@ pub fn call_on_click_outside(element: NodeRef<Div>, on_click: Callback<()>) {
                 let Some(displayed_el) = element.get_untracked() else {
                     break;
                 };
-                if current_el == ***displayed_el {
+                if current_el == **displayed_el {
                     return;
                 }
                 el = current_el.parent_element();
             }
-            on_click.call(());
+            on_click();
         });
         on_cleanup(move || handle.remove());
     }
