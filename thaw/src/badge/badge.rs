@@ -4,7 +4,7 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn Badge(
     #[prop(optional, into)] class: MaybeProp<String>,
-    /// A Badge can be filled, outline, ghost, inverted
+    /// A Badge can be filled, outline, ghost, inverted.
     #[prop(optional, into)]
     appearance: MaybeSignal<BadgeAppearance>,
     /// A Badge can be on of several preset sizes.

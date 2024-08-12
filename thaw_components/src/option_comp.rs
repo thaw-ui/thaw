@@ -1,5 +1,5 @@
 use super::Fallback;
-use leptos::{prelude::*, tachys::view::any_view::IntoAny};
+use leptos::{either::EitherOf3, prelude::*};
 
 #[component]
 pub fn OptionComp<T, CF, IV>(
@@ -12,10 +12,10 @@ where
     IV: IntoView + 'static,
 {
     if let Some(value) = value {
-        children(value).into_any()
+        EitherOf3::A(children(value))
     } else if let Some(fallback) = fallback {
-        (fallback.children)().into_any()
+        EitherOf3::B((fallback.children)())
     } else {
-        ().into_any()
+        EitherOf3::C(())
     }
 }

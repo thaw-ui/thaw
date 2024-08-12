@@ -95,7 +95,7 @@ pub struct AccordionHeader {
     children: Children,
 }
 
-#[slot]
-pub struct AccordionPanel {
-    children: Children,
-}
+// #[slot]
+// pub struct AccordionPanel {
+//     children: Children,
+// }

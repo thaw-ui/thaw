@@ -27,7 +27,7 @@ pub fn Input(
     placeholder: MaybeProp<String>,
     #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
     #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
-    /// Whether the input is disabled
+    /// Whether the input is disabled.
     #[prop(optional, into)]
     disabled: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,

@@ -8,9 +8,9 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Checkbox(
+    #[prop(optional, into)] class: MaybeProp<String>,
     /// The controlled value for the checkbox.
     #[prop(optional, into)] checked: Model<bool>,
-    #[prop(optional, into)] class: MaybeProp<String>,
     /// The value of the checkbox to be used in a checkbox group.
     #[prop(optional, into)] value: Option<String>,
     /// The Checkbox's label.

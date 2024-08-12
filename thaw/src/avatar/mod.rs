@@ -1,30 +1,30 @@
-use leptos::prelude::*;
+use leptos::{either::Either, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, StoredMaybeSignal};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn Avatar(
+    #[prop(optional, into)] class: MaybeProp<String>,
     /// The Avatar's image.
     #[prop(optional, into)]
-    src: Option<MaybeSignal<String>>,
+    src: MaybeProp<String>,
     /// The name of the person or entity represented by this Avatar.
     #[prop(optional, into)]
-    name: Option<MaybeSignal<String>>,
+    name: MaybeProp<String>,
     /// Custom initials.
     #[prop(optional, into)]
-    initials: Option<MaybeSignal<String>>,
+    initials: MaybeProp<String>,
     /// The avatar can have a circular or square shape.
     #[prop(optional, into)]
     shape: MaybeSignal<AvatarShape>,
     /// Size of the avatar in pixels.
     #[prop(optional, into)]
-    size: Option<MaybeSignal<u8>>,
-    #[prop(optional, into)] class: MaybeProp<String>,
+    size: MaybeProp<u8>,
 ) -> impl IntoView {
     mount_style("avatar", include_str!("./avatar.css"));
 
     let style = move || {
-        let size = size?.get();
+        let size = size.get()?;
 
         let mut style = format!("width: {0}px; height: {0}px;", size);
 
@@ -43,43 +43,70 @@ pub fn Avatar(
         Some(style)
     };
 
-    let is_show_default_icon = src.is_none() && initials.is_none() && name.is_none();
-    let name: Option<StoredMaybeSignal<_>> = name.map(|n| n.into());
+    let name = StoredValue::new(name);
+    let src = StoredValue::new(src);
+    let initials = StoredValue::new(initials);
+    let is_show_default_icon = Memo::new(move |_| {
+        if name.with_value(|n| n.with(|n| n.is_some())) {
+            false
+        } else if src.with_value(|s| s.with(|s| s.is_some())) {
+            false
+        } else if initials.with_value(|i| i.with(|i| i.is_some())) {
+            false
+        } else {
+            true
+        }
+    });
 
     view! {
         <span
             class=class_list!["thaw-avatar", move || format!("thaw-avatar--{}", shape.get().as_str()), class]
             style=move || style().unwrap_or_default()
             role="img"
-            aria-label=move || name.as_ref().map(|n| n.get())
+            aria-label=move || name.with_value(|n| n.get())
         >
             {
                 move || {
-                    if let Some(initials) = initials.as_ref().map_or_else(|| name.as_ref().map(|n| initials_name(n.get())), |i| Some(i.get())) {
-                        view! {
+                    let mut initials = initials.with_value(|i| i.get());
+                    if initials.is_none() {
+                        name.with_value(|name| {
+                            if let Some(name) = name.get() {
+                                initials = Some(initials_name(name));
+                            }
+                        });
+                    }
+                    view! {
+                        <OptionComp value=initials let:initials>
                             <span class="thaw-avatar__initials">
                                 {initials}
                             </span>
-                        }.into()
-                    } else {
-                        None
+                        </OptionComp>
                     }
                 }
             }
-            <OptionComp value=src let:src>
-                <img src=move || src.get() class="thaw-avatar__image"/>
-            </OptionComp>
             {
-                if is_show_default_icon {
+                move || {
+                    let src = src.with_value(|s| s.get());
                     view! {
-                        <span aria-hidden="true" class="thaw-avatar__icon">
-                            <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
-                                <path d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM7 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-2 5a2 2 0 0 0-2 2c0 1.7.83 2.97 2.13 3.8A9.14 9.14 0 0 0 10 18c1.85 0 3.58-.39 4.87-1.2A4.35 4.35 0 0 0 17 13a2 2 0 0 0-2-2H5Zm-1 2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1c0 1.3-.62 2.28-1.67 2.95A8.16 8.16 0 0 1 10 17a8.16 8.16 0 0 1-4.33-1.05A3.36 3.36 0 0 1 4 13Z" fill="currentColor"></path>
-                            </svg>
-                        </span>
-                    }.into()
-                } else {
-                    None
+                        <OptionComp value=src let:src>
+                            <img src=src class="thaw-avatar__image"/>
+                        </OptionComp>
+                    }
+                }
+            }
+            {
+                move || {
+                    if is_show_default_icon.get() {
+                        Either::Left(view! {
+                            <span aria-hidden="true" class="thaw-avatar__icon">
+                                <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
+                                    <path d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM7 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-2 5a2 2 0 0 0-2 2c0 1.7.83 2.97 2.13 3.8A9.14 9.14 0 0 0 10 18c1.85 0 3.58-.39 4.87-1.2A4.35 4.35 0 0 0 17 13a2 2 0 0 0-2-2H5Zm-1 2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1c0 1.3-.62 2.28-1.67 2.95A8.16 8.16 0 0 1 10 17a8.16 8.16 0 0 1-4.33-1.05A3.36 3.36 0 0 1 4 13Z" fill="currentColor"></path>
+                                </svg>
+                            </span>
+                        })
+                    } else {
+                        Either::Right(())
+                    }
                 }
             }
         </span>
@@ -88,7 +115,11 @@ pub fn Avatar(
 
 // TODO
 fn initials_name(name: String) -> String {
-    name.split_at(2).0.to_string().to_ascii_uppercase()
+    if name.len() < 2 {
+        name.to_ascii_uppercase()
+    } else {
+        name.split_at(2).0.to_string().to_ascii_uppercase()
+    }
 }
 
 #[derive(Default, Clone)]

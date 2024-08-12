@@ -11,8 +11,10 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn ColorPicker(
-    #[prop(optional, into)] value: Model<Color>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Value of the picker.
+    #[prop(optional, into)]
+    value: Model<Color>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let config_provider = ConfigInjection::expect_context();

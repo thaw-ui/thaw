@@ -6,10 +6,15 @@ use thaw_utils::{class_list, mount_style, Model};
 #[component]
 pub fn Dialog(
     #[prop(optional, into)] class: MaybeProp<String>,
-    /// Controls the open state of the dialog
-    #[prop(into)] open: Model<bool>,
-    #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
-    #[prop(default = true, into)] close_on_esc: bool,
+    /// Controls the open state of the dialog.
+    #[prop(into)]
+    open: Model<bool>,
+    /// Whether to emit hide event when click mask.
+    #[prop(default = true.into(), into)]
+    mask_closeable: MaybeSignal<bool>,
+    /// Whether to close modal on Esc is pressed.
+    #[prop(default = true, into)]
+    close_on_esc: bool,
     children: Children,
 ) -> impl IntoView {
     mount_style("dialog", include_str!("./dialog.css"));
