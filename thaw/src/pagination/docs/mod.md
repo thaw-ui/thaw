@@ -23,3 +23,12 @@ view! {
     </Space>
 }
 ```
+
+### Pagination Props
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| page | `Model<usize>` | `1` | The current page starts from 1. |
+| page_count | `MaybeSignal<usize>` |  | The total numbers of pages. |
+| sibling_count | `MaybeSignal<usize>` | `1` | Number of visible pages after and before the current page. |

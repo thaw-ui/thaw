@@ -27,8 +27,16 @@ impl LayoutPosition {
 #[component]
 pub fn Layout(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Addtional classes for the layout element.
     #[prop(optional, into)] content_class: MaybeProp<String>,
+    /// Style of scrollable content node.
     #[prop(optional, into)] content_style: MaybeProp<String>,
+    /// static position will make it css position set to static.
+    /// absolute position will make it css position set to absolute and left,
+    /// right, top, bottom to 0. absolute position is very useful
+    /// when you want to make content scroll in a fixed container or make
+    /// the whole page's layout in a fixed position. You may need to change
+    /// the style of the component to make it display as you expect.
     #[prop(optional)] position: LayoutPosition,
     /// Whether the component has sider inside. If so it must be true.
     #[prop(optional, into)] has_sider: MaybeSignal<bool>,

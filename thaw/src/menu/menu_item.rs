@@ -1,34 +1,39 @@
-use crate::{
-    menu::{HasIcon, OnSelect},
-    Icon,
-};
+use crate::{Icon, MenuInjection};
 use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn MenuItem(
-    #[prop(optional, into)] icon: MaybeProp<icondata_core::Icon>,
-    #[prop(into)] value: MaybeSignal<String>,
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The icon of the menu item.
+    #[prop(optional, into)]
+    icon: MaybeProp<icondata_core::Icon>,
+    /// The value of the menu item.
+    #[prop(into)]
+    value: MaybeSignal<String>,
+    /// Whether the menu item is disabled.
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("menu-item", include_str!("./menu-item.css"));
 
-    let has_icon = use_context::<HasIcon>().expect("HasIcon not provided").0;
+    let MenuInjection {
+        has_icon,
+        on_select,
+    } = MenuInjection::expect_context();
 
-    if icon.get().is_some() {
+    if icon.with_untracked(|i| i.is_some()) {
         has_icon.set(true);
     }
 
-    let on_select = use_context::<OnSelect>().expect("OnSelect not provided").0;
-
     let on_click = move |_| {
-        if disabled.get() {
+        if disabled.get_untracked() {
             return;
         }
-        on_select(value.get());
+
+        on_select(value.get_untracked());
     };
 
     view! {

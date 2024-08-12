@@ -3,18 +3,21 @@ use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn Image(
-    /// path to the image you want to display
+    #[prop(optional, into)] class: MaybeProp<String>,
+    /// path to the image you want to display.
     #[prop(optional, into)]
     src: MaybeProp<String>,
-    /// description of the image, which isn't mandatory but is incredibly useful for accessibility
+    /// description of the image, which isn't mandatory but is incredibly useful for accessibility.
     #[prop(optional, into)]
     alt: MaybeProp<String>,
+    /// Image width.
     #[prop(optional, into)] width: MaybeProp<String>,
+    /// Image height.
     #[prop(optional, into)] height: MaybeProp<String>,
     /// An image can appear square, circular, or rounded.
     #[prop(optional, into)]
     shape: MaybeSignal<ImageShape>,
-    /// An image can set how it should be resized to fit its container.
+    /// An image can take up the width of its container.
     #[prop(optional, into)]
     block: MaybeSignal<bool>,
     /// An image can appear elevated with shadow.
@@ -23,7 +26,6 @@ pub fn Image(
     /// An image can set how it should be resized to fit its container.
     #[prop(optional, into)]
     fit: MaybeSignal<ImageFit>,
-    #[prop(optional, into)] class: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("image", include_str!("./image.css"));
 

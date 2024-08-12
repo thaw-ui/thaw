@@ -65,3 +65,38 @@ view! {
     </MessageBar>
 }
 ```
+
+### MessageBar Props
+
+| Name     | Type                            | Default                        | Description                           |
+| -------- | ------------------------------- | ------------------------------ | ------------------------------------- |
+| class    | `MaybeProp<String>,`            | `Default::default()`           |                                       |
+| layout   | `MaybeSignal<MessageBarLayout>` | `MessageBarLayout::Singleline` |                                       |
+| intent   | `MaybeSignal<MessageBarIntent>` | `MessageBarIntent::Info`       | Default designs announcement presets. |
+| children | `Children`                      |                                |                                       |
+
+### MessageBarTitle Props
+
+| Name     | Type                | Default              | Description |
+| -------- | ------------------- | -------------------- | ----------- |
+| class    | `MaybeProp<String>` | `Default::default()` |             |
+| children | `Children`          |                      |             |
+
+### MessageBarBody Props
+
+| Name     | Type       | Default | Description |
+| -------- | ---------- | ------- | ----------- |
+| children | `Children` |         |             |
+
+### MessageBarActions Props
+
+| Name                         | Type                             | Default | Description |
+| ---------------------------- | -------------------------------- | ------- | ----------- |
+| message_bar_container_action | slot `MessageBarContainerAction` |         |             |
+| children                     | `Children`                       |         |             |
+
+### MessageBarContainerAction Props
+
+| Name     | Type       | Default | Description |
+| -------- | ---------- | ------- | ----------- |
+| children | `Children` |         |             |
