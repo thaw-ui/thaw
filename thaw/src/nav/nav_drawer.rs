@@ -6,8 +6,12 @@ use thaw_utils::{class_list, mount_style, OptionModel, VecModel};
 #[component]
 pub fn NavDrawer(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] selected_value: OptionModel<String>,
-    #[prop(default = vec![].into(), into)] selected_category_value: VecModel<String>,
+    /// The value of the currently selected navItem.
+    #[prop(optional, into)]
+    selected_value: OptionModel<String>,
+    /// Indicates a category that has a selected child Will show the category as selected if it is closed.
+    #[prop(default = vec![].into(), into)]
+    selected_category_value: VecModel<String>,
     children: Children,
     #[prop(optional)] nav_drawer_header: Option<NavDrawerHeader>,
     #[prop(optional)] nav_drawer_footer: Option<NavDrawerFooter>,

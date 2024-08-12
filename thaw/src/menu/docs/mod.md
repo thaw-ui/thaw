@@ -150,33 +150,29 @@ view! {
 
 ### Menu Props
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the menu element. |
-| on_select | `Callback<String>` |  | Called when item is selected. |
-| trigger_type | `MenuTriggerType` | `MenuTriggerType::Click` | Action that displays the menu. |
-| position | `MenuPosition` | `MenuPosition::Bottom` | Menu position. |
-| children | `Children` |  | The content inside menu. |
-
-### MenuItem Props
-
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the menu item element. |
-| value | `MaybeSignal<String>` | `Default::default()` | The value of the menu item. |
-| label | `MaybeSignal<String>` | `Default::default()` | The label of the menu item. |
-| icon | `OptionalMaybeSignal<icondata_core::Icon>` | `None` | The icon of the menu item. |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the menu item is disabled. |
-
-### Menu Slots
-
-| Name        | Default | Description                                  |
-| ----------- | ------- | -------------------------------------------- |
-| MenuTrigger | `None`  | The element or component that triggers menu. |
+| Name         | Type                        | Default                  | Description                                  |
+| ------------ | --------------------------- | ------------------------ | -------------------------------------------- |
+| class        | `MaybeProp<String>,`        | `Default::default()`     |                                              |
+| on_select    | `BoxOneCallback<String>`    |                          | Called when item is selected.                |
+| trigger_type | `MenuTriggerType`           | `MenuTriggerType::Click` | Action that displays the menu.               |
+| position     | `MenuPosition`              | `MenuPosition::Bottom`   | Menu position.                               |
+| appearance   | `MaybeProp<MenuAppearance>` | `Default::default()`     |                                              |
+| menu_trigger | slot `MenuTrigger`          |                          | The element or component that triggers menu. |
+| children     | `Children`                  |                          |                                              |
 
 ### MenuTriger Props
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the menu trigger element. |
-| children | `Children` |  | The content inside menu trigger. |
+| Name     | Type                | Default              | Description |
+| -------- | ------------------- | -------------------- | ----------- |
+| class    | `MaybeProp<String>` | `Default::default()` |             |
+| children | `Children`          |                      |             |
+
+### MenuItem Props
+
+| Name     | Type                             | Default              | Description                        |
+| -------- | -------------------------------- | -------------------- | ---------------------------------- |
+| class    | `MaybeProp<String>`              | `Default::default()` |                                    |
+| value    | `MaybeSignal<String>`            | `Default::default()` | The value of the menu item.        |
+| icon     | `MaybeProp<icondata_core::Icon>` | `None`               | The icon of the menu item.         |
+| disabled | `MaybeSignal<bool>`              | `false`              | Whether the menu item is disabled. |
+| children | `Children`                       |                      |                                    |

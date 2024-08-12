@@ -19,23 +19,37 @@ pub struct InputSuffix {
 
 #[component]
 pub fn Input(
-    #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] allow_value: Option<ArcOneCallback<String, bool>>,
-    #[prop(optional, into)] input_type: MaybeSignal<InputType>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    /// Set the input value.
+    #[prop(optional, into)]
+    value: Model<String>,
+    /// Check the incoming value, if it returns false, input will not be accepted.
+    #[prop(optional, into)]
+    allow_value: Option<ArcOneCallback<String, bool>>,
+    /// An input can have different text-based types based on the type of value the user will enter.
+    #[prop(optional, into)]
+    input_type: MaybeSignal<InputType>,
     /// Placeholder text for the input.
     #[prop(optional, into)]
     placeholder: MaybeProp<String>,
-    #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
-    #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
+    /// Callback triggered when the input is focussed on.
+    #[prop(optional, into)]
+    on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
+    /// Callback triggered when the input is blurred.
+    #[prop(optional, into)]
+    on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
     /// Whether the input is disabled.
     #[prop(optional, into)]
     disabled: MaybeSignal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
-    #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] parser: OptionalProp<BoxOneCallback<String, Option<String>>>,
-    #[prop(optional, into)] format: OptionalProp<BoxOneCallback<String, String>>,
+    /// Modifies the user input before assigning it to the value.
+    #[prop(optional, into)]
+    parser: OptionalProp<BoxOneCallback<String, Option<String>>>,
+    /// Formats the value to be shown to the user.
+    #[prop(optional, into)]
+    format: OptionalProp<BoxOneCallback<String, String>>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
@@ -219,12 +233,14 @@ pub struct InputRef {
 }
 
 impl InputRef {
+    /// Focus the input element.
     pub fn focus(&self) {
         if let Some(input_el) = self.input_ref.get_untracked() {
             _ = input_el.focus();
         }
     }
 
+    /// Blur the input element.
     pub fn blur(&self) {
         if let Some(input_el) = self.input_ref.get_untracked() {
             _ = input_el.blur();

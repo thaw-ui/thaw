@@ -105,31 +105,35 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the input element. |
+| class | `MaybeProp<String>` | `Default::default()` |  |
 | value | `Model<String>` | `Default::default()` | Set the input value. |
-| variant | `MaybeSignal<InputVariant>` | `InputVariant::Text` | Input's variant. |
-| placeholder | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Placeholder of input. |
+| allow_value | `Option<ArcOneCallback<String, bool>>` | `None` | Check the incoming value, if it returns false, input will not be accepted. |
+| input_type | `MaybeSignal<InputType>` | `InputType::Text` | An input can have different text-based types based on the type of value the user will enter. |
+| placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder text for the input. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
-| invalid | `MaybeSignal<bool>` | `false` | Whether the input is invalid. |
-| allow_value | `Option<Callback<String, bool>>` | `None` | Check the incoming value, if it returns false, input will not be accepted. |
-| on_focus | `Option<Callback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
-| on_blur | `Option<Callback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
-| attr: | `Vec<(&'static str, Attribute)>` | `Default::default()` | The dom attrs of the input element inside the component. |
+| on_focus | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
+| on_blur | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
+| parser | `OptionalProp<BoxOneCallback<String, Option<String>>>` | `None` | Modifies the user input before assigning it to the value. |
+| format | `OptionalProp<BoxOneCallback<String, String>>` | `None` | Formats the value to be shown to the user |
+| input_prefix | slot `Option<InputPrefix>` | `None` |  |
+| input_suffix | slot `Option<InputSuffix>` | `None` |  |
+| comp_ref | ref `ComponentRef<InputRef>` | `Default::default()` |  |
 
-### Input Slots
+### InputPrefix Props
 
-| Name        | Default | Description          |
-| ----------- | ------- | -------------------- |
-| InputPrefix | `None`  | InputPrefix content. |
-| InputSuffix | `None`  | InputSuffix content. |
+| Name     | Type       | Default | Description |
+| -------- | ---------- | ------- | ----------- |
+| children | `Children` |         |             |
 
-### Input Ref
+### InputSuffix Props
+
+| Name     | Type       | Default | Description |
+| -------- | ---------- | ------- | ----------- |
+| children | `Children` |         |             |
+
+### InputRef Props
 
 | Name  | Type        | Description              |
 | ----- | ----------- | ------------------------ |
 | focus | `Fn(&self)` | Focus the input element. |
 | blur  | `Fn(&self)` | Blur the input element.  |
-
-### TextArea Props
-
-Removes variant and slot from Input component.

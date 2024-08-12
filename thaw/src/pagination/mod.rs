@@ -5,10 +5,13 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Pagination(
-    #[prop(default = 1.into(), into)] page: Model<usize>,
-    #[prop(into)] page_count: MaybeSignal<usize>,
-    #[prop(default = 1.into(), into)] sibling_count: MaybeSignal<usize>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The current page starts from 1.
+    #[prop(default = 1.into(), into)] page: Model<usize>,
+    /// The total numbers of pages.
+    #[prop(into)] page_count: MaybeSignal<usize>,
+    /// Number of visible pages after and before the current page.
+    #[prop(default = 1.into(), into)] sibling_count: MaybeSignal<usize>,
 ) -> impl IntoView {
     mount_style("pagination", include_str!("./pagination.css"));
 

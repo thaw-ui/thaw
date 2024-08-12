@@ -30,18 +30,21 @@ impl LoadingBarInjection {
         expect_context::<Self>()
     }
 
+    /// Callback function for loading bar to start loading.
     pub fn start(&self) {
         if let Some(loading_bar_ref) = self.loading_bar_ref.get_untracked() {
             loading_bar_ref.start();
         }
     }
 
+    /// The callback function when the loading bar finishes loading.
     pub fn finish(&self) {
         if let Some(loading_bar_ref) = self.loading_bar_ref.get_untracked() {
             loading_bar_ref.finish();
         }
     }
 
+    /// Callback function for loading bar error.
     pub fn error(&self) {
         if let Some(loading_bar_ref) = self.loading_bar_ref.get_untracked() {
             loading_bar_ref.error();

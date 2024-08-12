@@ -3,11 +3,12 @@ mod menu_item;
 pub use menu_item::*;
 
 use crate::ConfigInjection;
-use leptos::{ev, html::Div, leptos_dom::helpers::TimeoutHandle, prelude::*};
+use leptos::{context::Provider, ev, html::Div, leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{
-    add_event_listener, call_on_click_outside, class_list, mount_style, ArcOneCallback, BoxCallback,
+    add_event_listener, call_on_click_outside, class_list, mount_style, ArcOneCallback,
+    BoxCallback, BoxOneCallback,
 };
 
 #[slot]
@@ -17,20 +18,21 @@ pub struct MenuTrigger {
     children: Children,
 }
 
-#[derive(Copy, Clone)]
-struct HasIcon(RwSignal<bool>);
-
-#[derive(Clone)]
-struct OnSelect(ArcOneCallback<String>);
-
 #[component]
 pub fn Menu(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The element or component that triggers menu.
     menu_trigger: MenuTrigger,
-    #[prop(optional)] trigger_type: MenuTriggerType,
-    #[prop(optional)] position: MenuPosition,
-    #[prop(into)] on_select: ArcOneCallback<String>,
-    #[prop(optional, into)] appearance: Option<MaybeSignal<MenuAppearance>>,
+    /// Action that displays the menu.
+    #[prop(optional)]
+    trigger_type: MenuTriggerType,
+    /// Menu position.
+    #[prop(optional)]
+    position: MenuPosition,
+    /// Called when item is selected.
+    #[prop(into)]
+    on_select: BoxOneCallback<String>,
+    #[prop(optional, into)] appearance: MaybeProp<MenuAppearance>,
     children: Children,
 ) -> impl IntoView {
     mount_style("menu", include_str!("./menu.css"));
@@ -93,11 +95,13 @@ pub fn Menu(
         children: trigger_children,
     } = menu_trigger;
 
-    provide_context(HasIcon(RwSignal::new(false)));
-    provide_context(OnSelect(ArcOneCallback::<String>::new(move |key| {
-        is_show_menu.set(false);
-        on_select(key);
-    })));
+    let menu_injection = MenuInjection {
+        has_icon: RwSignal::new(false),
+        on_select: ArcOneCallback::new(move |value| {
+            is_show_menu.set(false);
+            on_select(value);
+        }),
+    };
 
     view! {
         <Binder target_ref>
@@ -110,30 +114,44 @@ pub fn Menu(
                 {trigger_children()}
             </div>
             <Follower slot show=is_show_menu placement=position>
-                <CSSTransition
-                    node_ref=menu_ref
-                    name="menu-transition"
-                    appear=is_show_menu.get_untracked()
-                    show=is_show_menu
-                    let:display
-                >
-                    <div
-                        class=class_list![
-                            "thaw-config-provider thaw-menu",
-                            appearance.map(|appearance| move || format!("thaw-menu--{}", appearance.get().as_str())),
-                            class
-                        ]
-                        data-thaw-id=config_provider.id().clone()
-                        style=move || display.get().unwrap_or_default()
+                <Provider value=menu_injection>
+                    <CSSTransition
                         node_ref=menu_ref
-                        on:mouseenter=on_mouse_enter
-                        on:mouseleave=on_mouse_leave
+                        name="menu-transition"
+                        appear=is_show_menu.get_untracked()
+                        show=is_show_menu
+                        let:display
                     >
-                        {children()}
-                    </div>
-                </CSSTransition>
+                        <div
+                            class=class_list![
+                                "thaw-config-provider thaw-menu",
+                                move || appearance.get().map(|a| format!("thaw-menu--{}", a.as_str())),
+                                class
+                            ]
+                            data-thaw-id=config_provider.id().clone()
+                            style=move || display.get().unwrap_or_default()
+                            node_ref=menu_ref
+                            on:mouseenter=on_mouse_enter
+                            on:mouseleave=on_mouse_leave
+                        >
+                            {children()}
+                        </div>
+                    </CSSTransition>
+                </Provider>
             </Follower>
         </Binder>
+    }
+}
+
+#[derive(Clone)]
+pub(crate) struct MenuInjection {
+    has_icon: RwSignal<bool>,
+    on_select: ArcOneCallback<String>,
+}
+
+impl MenuInjection {
+    pub fn expect_context() -> Self {
+        expect_context()
     }
 }
 
