@@ -29,15 +29,15 @@ view! {
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the anchor element. |
+| class | `MaybeProp<String>` | `Default::default()` |  |
 | offset_target | `Option<OffsetTarget>` | `None` | The element or selector used to calc offset of link elements. If you are not scrolling the entire document but only a part of it, you may need to set this. |
-| children | `Children` |  | Anchor's children. |
+| children | `Children` |  |  |
 
 ### AnchorLink Props
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Additional classes for the anchor link element. |
-| title | `MaybeSignal<String>` |  | The content of link. |
-| href | `String` |  | The target of link. |
-| children | `Option<Children>` | `None` | AnchorLink's children. |
+| Name     | Type                  | Default              | Description          |
+| -------- | --------------------- | -------------------- | -------------------- |
+| class    | `MaybeProp<String>`   | `Default::default()` |                      |
+| title    | `MaybeSignal<String>` |                      | The content of link. |
+| href     | `String`              |                      | The target of link.  |
+| children | `Option<Children>`    | `None`               |                      |

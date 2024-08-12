@@ -9,9 +9,14 @@ use thaw_utils::{add_event_listener, class_list, mount_style, Model, VecModel};
 pub fn Combobox(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Model<String>,
+    /// Selected option.
     #[prop(optional, into)] selected_options: VecModel<String>,
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
-    #[prop(optional, into)] placeholder: MaybeProp<String>,
+    /// Whether the input is disabled.
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
+    /// Placeholder text for the input.
+    #[prop(optional, into)]
+    placeholder: MaybeProp<String>,
     /// If set, the combobox will show an icon to clear the current value.
     #[prop(optional)]
     clearable: bool,

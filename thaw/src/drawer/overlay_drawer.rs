@@ -8,13 +8,19 @@ use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 pub fn OverlayDrawer(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Controls the open state of the Drawer.
-    #[prop(into)] open: Model<bool>,
-    #[prop(default = true.into(), into)] mask_closeable: MaybeSignal<bool>,
+    #[prop(into)]
+    open: Model<bool>,
+    /// Whether to emit hide event when click mask.
+    #[prop(default = true.into(), into)]
+    mask_closeable: MaybeSignal<bool>,
+    /// Whether to close drawer on Esc is pressed.
     #[prop(optional, into)] close_on_esc: bool,
     /// Position of the drawer.
-    #[prop(optional, into)] position: MaybeSignal<DrawerPosition>,
+    #[prop(optional, into)]
+    position: MaybeSignal<DrawerPosition>,
     /// Size of the drawer.
-    #[prop(optional, into)] size: MaybeSignal<DrawerSize>,
+    #[prop(optional, into)]
+    size: MaybeSignal<DrawerSize>,
     children: Children,
 ) -> impl IntoView {
     mount_style("drawer", include_str!("./drawer.css"));

@@ -6,6 +6,7 @@ use thaw_utils::class_list;
 #[component]
 pub fn AutoCompleteOption(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Option ID.
     value: String,
     children: Children,
 ) -> impl IntoView {

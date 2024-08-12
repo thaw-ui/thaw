@@ -1,4 +1,4 @@
-use leptos::prelude::*;
+use leptos::{either::EitherOf3, prelude::*};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
@@ -12,11 +12,11 @@ pub fn Code(
         <code class=class_list!["thaw-code", class]>
 
             {if let Some(inner_html) = inner_html {
-                view! { <pre inner_html=inner_html></pre> }.into_any().into()
+                EitherOf3::A(view! { <pre inner_html=inner_html></pre> })
             } else if let Some(text) = text {
-                view! { <pre>{text}</pre> }.into_any().into()
+                EitherOf3::B(view! { <pre>{text}</pre> })
             } else {
-                None
+                EitherOf3::C(())
             }}
 
         </code>

@@ -8,8 +8,9 @@ use thaw_utils::{class_list, mount_style, now_date, ComponentRef, OptionModel};
 
 #[component]
 pub fn DatePicker(
-    #[prop(optional, into)] value: OptionModel<NaiveDate>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Set the date picker value.
+    #[prop(optional, into)] value: OptionModel<NaiveDate>,
 ) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));
     let date_picker_ref = NodeRef::<html::Div>::new();

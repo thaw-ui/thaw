@@ -9,15 +9,17 @@ pub fn Icon(
     /// The icon to render.
     #[prop(into)]
     icon: MaybeSignal<icondata_core::Icon>,
-    /// The width of the icon (horizontal side length of the square surrounding the icon). Defaults to "1em".
-    #[prop(into, optional)]
-    width: Option<MaybeSignal<String>>,
-    /// The height of the icon (vertical side length of the square surrounding the icon). Defaults to "1em".
-    #[prop(into, optional)]
-    height: Option<MaybeSignal<String>>,
+    /// The width of the icon (horizontal side length of the square surrounding the icon).
+    /// Defaults to "1em".
+    #[prop(into, default = "1em".into())]
+    width: MaybeProp<String>,
+    /// The height of the icon (vertical side length of the square surrounding the icon).
+    /// Defaults to "1em".
+    #[prop(into, default = "1em".into())]
+    height: MaybeProp<String>,
     /// HTML class attribute.
     #[prop(into, optional)]
-    class: Option<MaybeSignal<String>>,
+    class: MaybeProp<String>,
     /// HTML style attribute.
     #[prop(into, optional)]
     style: Option<MaybeSignal<String>>,
@@ -30,8 +32,6 @@ pub fn Icon(
     let icon_style = RwSignal::new(None);
     let icon_x = RwSignal::new(None);
     let icon_y = RwSignal::new(None);
-    let icon_width = RwSignal::new(None);
-    let icon_height = RwSignal::new(None);
     let icon_view_box = RwSignal::new(None);
     let icon_stroke_linecap = RwSignal::new(None);
     let icon_stroke_linejoin = RwSignal::new(None);
@@ -49,7 +49,7 @@ pub fn Icon(
         let icon = icon.get();
 
         let style = match (style.clone(), icon.style) {
-            (Some(a), Some(b)) => Some(Memo::new(move |_| format!("{b} {}", a.get())).into()),
+            (Some(a), Some(b)) => Some(ArcMemo::new(move |_| format!("{b} {}", a.get())).into()),
             (Some(a), None) => Some(a),
             (None, Some(b)) => Some(b.into()),
             (None, None) => None,
@@ -58,18 +58,6 @@ pub fn Icon(
 
         icon_x.set(icon.x.map(|x| x.to_string()));
         icon_y.set(icon.y.map(|y| y.to_string()));
-
-        let width = match (width.clone(), icon.width) {
-            (Some(a), _) => a,
-            _ => "1em".into(),
-        };
-        icon_width.set(Some(width));
-
-        let height = match (height.clone(), icon.height) {
-            (Some(a), _) => a,
-            _ => "1em".into(),
-        };
-        icon_height.set(Some(height));
 
         icon_view_box.set(icon.view_box.map(|view_box| view_box.to_string()));
         icon_stroke_linecap.set(icon.stroke_linecap.map(|a| a.to_string()));
@@ -82,12 +70,12 @@ pub fn Icon(
 
     view! {
         <svg
-            class=class_list!["thaw-icon", class.map(|c| move || c.get())]
+            class=class_list!["thaw-icon", class]
             style=move || take_signal(icon_style).unwrap_or_default()
             x=move || take(icon_x)
             y=move || take(icon_y)
-            width=move || take_signal(icon_width)
-            height=move || take_signal(icon_height)
+            width=move || width.get()
+            height=move || height.get()
             viewBox=move || take(icon_view_box)
             stroke-linecap=move || take(icon_stroke_linecap)
             stroke-linejoin=move || take(icon_stroke_linejoin)

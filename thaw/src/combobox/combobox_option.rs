@@ -14,7 +14,8 @@ pub fn ComboboxOption(
     /// Defines a unique identifier for the option. Defaults to `text` if not provided.
     #[prop(optional, into)]
     value: Option<String>,
-    /// An optional override the string value of the Option's display text, defaulting to the Option's child content.
+    /// An optional override the string value of the Option's display text,
+    /// defaulting to the Option's child content.
     #[prop(into)]
     text: String,
     #[prop(optional)] children: Option<Children>,

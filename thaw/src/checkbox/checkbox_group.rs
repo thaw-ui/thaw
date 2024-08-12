@@ -5,7 +5,9 @@ use thaw_utils::{class_list, Model};
 #[component]
 pub fn CheckboxGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] value: Model<HashSet<String>>,
+    /// Sets the value of the checkbox group.
+    #[prop(optional, into)]
+    value: Model<HashSet<String>>,
     children: Children,
 ) -> impl IntoView {
     view! {

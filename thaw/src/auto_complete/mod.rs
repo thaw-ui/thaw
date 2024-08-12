@@ -24,13 +24,19 @@ pub struct AutoCompleteSuffix {
 
 #[component]
 pub fn AutoComplete(
-    #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] placeholder: MaybeProp<String>,
-    #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
-    #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
-    #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Input of autocomplete.
+    #[prop(optional, into)] value: Model<String>,
+    /// Autocomplete's placeholder.
+    #[prop(optional, into)] placeholder: MaybeProp<String>,
+    // Whether to clear after selection.
+    #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
+    /// Whether to blur after selection.
+    #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
+    // On select callback function.
+    #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,
+    /// Whether the input is disabled.
+    #[prop(optional, into)] disabled: MaybeSignal<bool>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
@@ -193,12 +199,14 @@ pub struct AutoCompleteRef {
 }
 
 impl AutoCompleteRef {
+    /// Focus the input element.
     pub fn focus(&self) {
         if let Some(input_ref) = self.input_ref.get_untracked() {
             input_ref.focus();
         }
     }
 
+    /// Blur the input element.
     pub fn blur(&self) {
         if let Some(input_ref) = self.input_ref.get_untracked() {
             input_ref.blur();

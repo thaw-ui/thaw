@@ -62,6 +62,8 @@ impl ButtonSize {
     }
 }
 
+//TODO loading prop
+
 #[component]
 pub fn Button(
     #[prop(optional, into)] class: MaybeProp<String>,
@@ -77,7 +79,9 @@ pub fn Button(
     /// Whether the button is displayed as block.
     #[prop(optional, into)]
     block: MaybeSignal<bool>,
-    #[prop(optional, into)] icon: MaybeProp<icondata_core::Icon>,
+    /// The icon of the button.
+    #[prop(optional, into)]
+    icon: MaybeProp<icondata_core::Icon>,
     /// Whether the button is disabled.
     #[prop(optional, into)]
     disabled: MaybeSignal<bool>,

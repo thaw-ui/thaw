@@ -6,13 +6,15 @@ use thaw_utils::class_list;
 
 #[component]
 pub fn Grid(
+    #[prop(optional, into)] class: MaybeProp<String>,
     /// Number of grids displayed.
-    #[prop(default = MaybeSignal::Static(1u16), into)] cols: MaybeSignal<u16>,
+    #[prop(default = MaybeSignal::Static(1u16), into)]
+    cols: MaybeSignal<u16>,
     // Horizontal gap.
     #[prop(optional, into)] x_gap: MaybeSignal<u16>,
     /// Vertical gap.
-    #[prop(optional, into)] y_gap: MaybeSignal<u16>,
-    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)]
+    y_gap: MaybeSignal<u16>,
     children: Children,
 ) -> impl IntoView {
     let style = Memo::new(move |_| {
