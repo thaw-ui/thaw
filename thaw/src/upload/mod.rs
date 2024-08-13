@@ -9,9 +9,15 @@ use thaw_utils::{add_event_listener, class_list, mount_style, ArcOneCallback};
 #[component]
 pub fn Upload(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] accept: MaybeSignal<String>,
-    #[prop(optional, into)] multiple: MaybeSignal<bool>,
-    #[prop(optional, into)] custom_request: Option<ArcOneCallback<FileList>>,
+    /// The accept type of upload.
+    #[prop(optional, into)]
+    accept: MaybeSignal<String>,
+    /// Allow multiple files to be selected.
+    #[prop(optional, into)]
+    multiple: MaybeSignal<bool>,
+    /// Customize upload request.
+    #[prop(optional, into)]
+    custom_request: Option<ArcOneCallback<FileList>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("upload", include_str!("./upload.css"));

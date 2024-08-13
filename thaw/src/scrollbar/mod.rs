@@ -4,9 +4,12 @@ use thaw_utils::{class_list, mount_style, ComponentRef};
 #[component]
 pub fn Scrollbar(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] style: Option<MaybeSignal<String>>,
+    #[prop(optional, into)] style: MaybeProp<String>,
+    /// Class name of content div.
     #[prop(optional, into)] content_class: MaybeProp<String>,
+    /// Style of content div.
     #[prop(optional, into)] content_style: MaybeProp<String>,
+    /// Size of scrollbar.
     #[prop(default = 8)] size: u8,
     #[prop(optional)] comp_ref: Option<ComponentRef<ScrollbarRef>>,
     children: Children,
@@ -287,7 +290,7 @@ pub fn Scrollbar(
         <div
             class=class_list!["thaw-scrollbar", class]
             style=move || {
-                format!("--thaw-scrollbar-size: {}px;{}", size, style.as_ref().map(|s| s.get()).unwrap_or_default())
+                format!("--thaw-scrollbar-size: {}px;{}", size, style.get().unwrap_or_default())
             }
 
             on:mouseenter=on_mouseenter
@@ -352,6 +355,7 @@ impl ScrollbarRef {
         self.container_scroll_top.get_untracked()
     }
 
+    /// Scroll content.
     pub fn scroll_to_with_scroll_to_options(&self, options: &web_sys::ScrollToOptions) {
         if let Some(el) = self.container_ref.get_untracked() {
             el.scroll_to_with_scroll_to_options(options);

@@ -9,13 +9,31 @@ use thaw_utils::{
 #[component]
 pub fn SpinButton<T>(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] value: Model<T>,
-    #[prop(into)] step_page: MaybeSignal<T>,
-    #[prop(default = T::min_value().into(), into)] min: MaybeSignal<T>,
-    #[prop(default = T::max_value().into(), into)] max: MaybeSignal<T>,
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
-    #[prop(optional, into)] parser: OptionalProp<BoxOneCallback<String, Option<T>>>,
-    #[prop(optional, into)] format: OptionalProp<BoxOneCallback<T, String>>,
+    /// Current value of the control.
+    #[prop(optional, into)]
+    value: Model<T>,
+    /// Large difference between two values. This should be greater
+    /// than step and is used when users hit the Page Up or Page Down keys.
+    #[prop(into)]
+    step_page: MaybeSignal<T>,
+    /// The minimum number that the input value can take.
+    #[prop(default = T::min_value().into(), into)]
+    min: MaybeSignal<T>,
+    /// The maximum number that the input value can take.
+    #[prop(default = T::max_value().into(), into)]
+    max: MaybeSignal<T>,
+    /// Placeholder of input number.
+    #[prop(optional, into)]
+    placeholder: MaybeProp<String>,
+    /// Whether the input is disabled.
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
+    /// Modifies the user input before assigning it to the value.
+    #[prop(optional, into)]
+    parser: OptionalProp<BoxOneCallback<String, Option<T>>>,
+    /// Formats the value to be shown to the user.
+    #[prop(optional, into)]
+    format: OptionalProp<BoxOneCallback<T, String>>,
 ) -> impl IntoView
 where
     T: Send + Sync,
@@ -69,6 +87,7 @@ where
                 aria-valuenow=move || value.get().to_string()
                 type="text"
                 disabled=move || disabled.get()
+                placeholder=move || placeholder.get()
                 value=initialization_value
                 prop:value=move || {
                     let value = value.get();

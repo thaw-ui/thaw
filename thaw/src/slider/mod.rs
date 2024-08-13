@@ -8,11 +8,19 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Slider(
-    #[prop(optional, into)] value: Model<f64>,
-    #[prop(default = 0f64.into(), into)] min: MaybeSignal<f64>,
-    #[prop(default = 100f64.into(), into)] max: MaybeSignal<f64>,
-    #[prop(optional, into)] step: MaybeProp<f64>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The current value of the controlled Slider.
+    #[prop(optional, into)]
+    value: Model<f64>,
+    /// Min value of the slider.
+    #[prop(default = 0f64.into(), into)]
+    min: MaybeSignal<f64>,
+    /// Max value of the slider.
+    #[prop(default = 100f64.into(), into)]
+    max: MaybeSignal<f64>,
+    /// The step in which value is incremented.
+    #[prop(optional, into)]
+    step: MaybeProp<f64>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));

@@ -9,8 +9,10 @@ use thaw_utils::{class_list, mount_style, ArcOneCallback, ComponentRef, OptionMo
 
 #[component]
 pub fn TimePicker(
-    #[prop(optional, into)] value: OptionModel<NaiveTime>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Set the TimePicker value.
+    #[prop(optional, into)]
+    value: OptionModel<NaiveTime>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));

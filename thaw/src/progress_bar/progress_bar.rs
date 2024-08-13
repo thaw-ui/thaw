@@ -4,11 +4,17 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn ProgressBar(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(into, optional)] value: MaybeSignal<f64>,
+    /// A decimal number between 0 and 1 (or between 0 and max if given),
+    /// which specifies how much of the task has been completed.
+    #[prop(into, optional)]
+    value: MaybeSignal<f64>,
     /// The maximum value, which indicates the task is complete.
     /// The ProgressBar bar will be full when value equals max.
-    #[prop(default = 1.0.into(), optional)] max: MaybeSignal<f64>,
-    #[prop(into, optional)] color: MaybeSignal<ProgressBarColor>,
+    #[prop(default = 1.0.into(), optional)]
+    max: MaybeSignal<f64>,
+    /// ProgressBar color.
+    #[prop(into, optional)]
+    color: MaybeSignal<ProgressBarColor>,
 ) -> impl IntoView {
     mount_style("progress-bar", include_str!("./progress-bar.css"));
 

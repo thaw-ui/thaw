@@ -3,8 +3,10 @@ use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Switch(
-    #[prop(optional, into)] checked: Model<bool>,
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Defines the controlled checked state of the Switch.
+    #[prop(optional, into)] checked: Model<bool>,
+    /// The Switch's label.
     #[prop(optional, into)] label: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("switch", include_str!("./switch.css"));

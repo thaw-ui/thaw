@@ -4,8 +4,12 @@ use thaw_utils::{class_list, mount_style, ArcOneCallback};
 #[component]
 pub fn Tag(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] closable: MaybeSignal<bool>,
-    #[prop(optional, into)] on_close: Option<ArcOneCallback<ev::MouseEvent>>,
+    /// Whether the tag shows a close button.
+    #[prop(optional, into)]
+    closable: MaybeSignal<bool>,
+    /// Close clicked callback.
+    #[prop(optional, into)]
+    on_close: Option<ArcOneCallback<ev::MouseEvent>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
