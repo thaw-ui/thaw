@@ -60,55 +60,62 @@ pub fn Avatar(
 
     view! {
         <span
-            class=class_list!["thaw-avatar", move || format!("thaw-avatar--{}", shape.get().as_str()), class]
+            class=class_list![
+                "thaw-avatar",
+                move || format!("thaw-avatar--{}", shape.get().as_str()),
+                class
+            ]
             style=move || style().unwrap_or_default()
             role="img"
             aria-label=move || name.with_value(|n| n.get())
         >
-            {
-                move || {
-                    let mut initials = initials.with_value(|i| i.get());
-                    if initials.is_none() {
-                        name.with_value(|name| {
-                            if let Some(name) = name.get() {
-                                initials = Some(initials_name(name));
-                            }
-                        });
-                    }
-                    view! {
-                        <OptionComp value=initials let:initials>
-                            <span class="thaw-avatar__initials">
-                                {initials}
-                            </span>
-                        </OptionComp>
-                    }
+            {move || {
+                let mut initials = initials.with_value(|i| i.get());
+                if initials.is_none() {
+                    name.with_value(|name| {
+                        if let Some(name) = name.get() {
+                            initials = Some(initials_name(name));
+                        }
+                    });
                 }
-            }
-            {
-                move || {
-                    let src = src.with_value(|s| s.get());
-                    view! {
-                        <OptionComp value=src let:src>
-                            <img src=src class="thaw-avatar__image"/>
-                        </OptionComp>
-                    }
+                view! {
+                    <OptionComp value=initials let:initials>
+                        <span class="thaw-avatar__initials">{initials}</span>
+                    </OptionComp>
                 }
-            }
-            {
-                move || {
-                    if is_show_default_icon.get() {
-                        Either::Left(view! {
+            }}
+            {move || {
+                let src = src.with_value(|s| s.get());
+                view! {
+                    <OptionComp value=src let:src>
+                        <img src=src class="thaw-avatar__image" />
+                    </OptionComp>
+                }
+            }}
+            {move || {
+                if is_show_default_icon.get() {
+                    Either::Left(
+                        view! {
                             <span aria-hidden="true" class="thaw-avatar__icon">
-                                <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
-                                    <path d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM7 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-2 5a2 2 0 0 0-2 2c0 1.7.83 2.97 2.13 3.8A9.14 9.14 0 0 0 10 18c1.85 0 3.58-.39 4.87-1.2A4.35 4.35 0 0 0 17 13a2 2 0 0 0-2-2H5Zm-1 2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1c0 1.3-.62 2.28-1.67 2.95A8.16 8.16 0 0 1 10 17a8.16 8.16 0 0 1-4.33-1.05A3.36 3.36 0 0 1 4 13Z" fill="currentColor"></path>
+                                <svg
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                    width="1em"
+                                    height="1em"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM7 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-2 5a2 2 0 0 0-2 2c0 1.7.83 2.97 2.13 3.8A9.14 9.14 0 0 0 10 18c1.85 0 3.58-.39 4.87-1.2A4.35 4.35 0 0 0 17 13a2 2 0 0 0-2-2H5Zm-1 2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1c0 1.3-.62 2.28-1.67 2.95A8.16 8.16 0 0 1 10 17a8.16 8.16 0 0 1-4.33-1.05A3.36 3.36 0 0 1 4 13Z"
+                                        fill="currentColor"
+                                    ></path>
                                 </svg>
                             </span>
-                        })
-                    } else {
-                        Either::Right(())
-                    }
+                        },
+                    )
+                } else {
+                    Either::Right(())
                 }
-            }
+            }}
         </span>
     }
 }

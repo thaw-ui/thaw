@@ -76,10 +76,7 @@ pub fn Slider(
 
     view! {
         <Provider value=SliderInjection { max, min }>
-            <div
-                class=class_list!["thaw-slider", class]
-                style=css_vars
-            >
+            <div class=class_list!["thaw-slider", class] style=css_vars>
                 <input
                     min=move || min.get()
                     max=move || max.get()
@@ -91,10 +88,8 @@ pub fn Slider(
                     prop:value=move || current_value.get()
                     list=list_id.clone()
                 />
-                <div class="thaw-slider__rail">
-                </div>
-                <div class="thaw-slider__thumb">
-                </div>
+                <div class="thaw-slider__rail"></div>
+                <div class="thaw-slider__thumb"></div>
                 <OptionComp value=children let:children>
                     <datalist id=list_id class="thaw-slider__datalist">
                         {children()}

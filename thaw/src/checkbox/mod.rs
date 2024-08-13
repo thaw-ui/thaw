@@ -10,11 +10,14 @@ use thaw_utils::{class_list, mount_style, Model};
 pub fn Checkbox(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The controlled value for the checkbox.
-    #[prop(optional, into)] checked: Model<bool>,
+    #[prop(optional, into)]
+    checked: Model<bool>,
     /// The value of the checkbox to be used in a checkbox group.
-    #[prop(optional, into)] value: Option<String>,
+    #[prop(optional, into)]
+    value: Option<String>,
     /// The Checkbox's label.
-    #[prop(optional, into)] label: MaybeProp<String>,
+    #[prop(optional, into)]
+    label: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("checkbox", include_str!("./checkbox.css"));
 
@@ -59,12 +62,11 @@ pub fn Checkbox(
     let checked = move || group_checked.get().unwrap_or_else(|| checked.get());
 
     view! {
-        <span
-            class=class_list![
-                "thaw-checkbox", ("thaw-checkbox--checked", checked),
-                class
-            ]
-        >
+        <span class=class_list![
+            "thaw-checkbox",
+            ("thaw-checkbox--checked", checked),
+            class
+        ]>
             <input
                 class="thaw-checkbox__input"
                 type="checkbox"
@@ -74,27 +76,41 @@ pub fn Checkbox(
                 on:change=on_change
             />
             <div aria-hidden="true" class="thaw-checkbox__indicator">
-                {
-                    move || if checked() {
+                {move || {
+                    if checked() {
                         view! {
-                            <svg fill="currentColor" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" style="display: inline;line-height: 0">
-                                <path d="M9.76 3.2c.3.29.32.76.04 1.06l-4.25 4.5a.75.75 0 0 1-1.08.02L2.22 6.53a.75.75 0 0 1 1.06-1.06l1.7 1.7L8.7 3.24a.75.75 0 0 1 1.06-.04Z" fill="currentColor"></path>
+                            <svg
+                                fill="currentColor"
+                                aria-hidden="true"
+                                width="12"
+                                height="12"
+                                viewBox="0 0 12 12"
+                                style="display: inline;line-height: 0"
+                            >
+                                <path
+                                    d="M9.76 3.2c.3.29.32.76.04 1.06l-4.25 4.5a.75.75 0 0 1-1.08.02L2.22 6.53a.75.75 0 0 1 1.06-1.06l1.7 1.7L8.7 3.24a.75.75 0 0 1 1.06-.04Z"
+                                    fill="currentColor"
+                                ></path>
                             </svg>
-                        }.into()
+                        }
+                            .into()
                     } else {
                         None
                     }
-                }
+                }}
             </div>
-            {
-                move || if let Some(label) = label.get() {
+            {move || {
+                if let Some(label) = label.get() {
                     view! {
-                        <label class="thaw-checkbox__label" for=id.clone()>{label}</label>
-                    }.into()
+                        <label class="thaw-checkbox__label" for=id.clone()>
+                            {label}
+                        </label>
+                    }
+                        .into()
                 } else {
                     None
                 }
-            }
+            }}
         </span>
     }
 }

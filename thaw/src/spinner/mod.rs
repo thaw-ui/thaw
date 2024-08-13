@@ -55,26 +55,29 @@ pub fn Spinner(
 
     view! {
         <div
-            class=class_list!["thaw-spinner", move || format!("thaw-spinner--{}", size.get().as_str()), class]
+            class=class_list![
+                "thaw-spinner",
+                move || format!("thaw-spinner--{}", size.get().as_str()),
+                class
+            ]
             role="progressbar"
             aria-labelledby=labelledby
         >
             <span class="thaw-spinner__spinner">
                 <span class="thaw-spinner__spinner-tail"></span>
             </span>
-            {
-                move || {
-                    if let Some(label) = label.get() {
-                        view! {
-                            <label class="thaw-spinner__label" id=id.get_value()>
-                                {label}
-                            </label>
-                        }.into()
-                    } else {
-                        None
+            {move || {
+                if let Some(label) = label.get() {
+                    view! {
+                        <label class="thaw-spinner__label" id=id.get_value()>
+                            {label}
+                        </label>
                     }
+                        .into()
+                } else {
+                    None
                 }
-            }
+            }}
         </div>
     }
 }

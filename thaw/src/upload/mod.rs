@@ -80,12 +80,11 @@ pub fn Upload(
     };
 
     view! {
-        <div
-            class=class_list!["thaw-upload",
+        <div class=class_list![
+            "thaw-upload",
                 ("thaw-upload--drag-over", move || is_trigger_dragover.get()),
                 class
-            ]
-        >
+        ]>
             <input
                 class="thaw-upload__input"
                 node_ref=input_ref

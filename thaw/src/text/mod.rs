@@ -11,9 +11,7 @@ pub fn Caption1(
     let class =
         Signal::derive(move || format!("thaw-caption-1 {}", class.get().unwrap_or_default()));
 
-    view! {
-        <Text tag children class style/>
-    }
+    view! { <Text tag children class style /> }
 }
 
 #[component]
@@ -27,9 +25,7 @@ pub fn Caption1Strong(
         format!("thaw-caption-1-strong {}", class.get().unwrap_or_default())
     });
 
-    view! {
-        <Text tag children class style/>
-    }
+    view! { <Text tag children class style /> }
 }
 
 #[component]
@@ -41,9 +37,7 @@ pub fn Body1(
 ) -> impl IntoView {
     let class = Signal::derive(move || format!("thaw-body-1 {}", class.get().unwrap_or_default()));
 
-    view! {
-        <Text tag children class style/>
-    }
+    view! { <Text tag children class style /> }
 }
 
 #[component]

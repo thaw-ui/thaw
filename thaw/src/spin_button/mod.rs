@@ -78,9 +78,11 @@ where
     };
 
     view! {
-        <span
-            class=class_list!["thaw-spin-button", ("thaw-spin-button--disabled", move || disabled.get()), class]
-        >
+        <span class=class_list![
+            "thaw-spin-button",
+            ("thaw-spin-button--disabled", move || disabled.get()),
+            class
+        ]>
             <input
                 autocomplete="off"
                 role="spinbutton"
@@ -105,7 +107,10 @@ where
                 aria-label="Increment value"
                 type="button"
                 class="thaw-spin-button__increment-button"
-                class=("thaw-spin-button__increment-button--disabled", move || increment_disabled.get())
+                class=(
+                    "thaw-spin-button__increment-button--disabled",
+                    move || increment_disabled.get(),
+                )
                 disabled=move || disabled.get()
                 on:click=move |_| {
                     if !increment_disabled.get_untracked() {
@@ -113,8 +118,17 @@ where
                     }
                 }
             >
-                <svg fill="currentColor" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
-                    <path d="M3.15 10.35c.2.2.5.2.7 0L8 6.21l4.15 4.14a.5.5 0 0 0 .7-.7l-4.5-4.5a.5.5 0 0 0-.7 0l-4.5 4.5a.5.5 0 0 0 0 .7Z" fill="currentColor"></path>
+                <svg
+                    fill="currentColor"
+                    aria-hidden="true"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                >
+                    <path
+                        d="M3.15 10.35c.2.2.5.2.7 0L8 6.21l4.15 4.14a.5.5 0 0 0 .7-.7l-4.5-4.5a.5.5 0 0 0-.7 0l-4.5 4.5a.5.5 0 0 0 0 .7Z"
+                        fill="currentColor"
+                    ></path>
                 </svg>
             </button>
             <button
@@ -123,15 +137,27 @@ where
                 type="button"
                 class="thaw-spin-button__decrement-button"
                 disabled=move || disabled.get()
-                class=("thaw-spin-button__decrement-button--disabled", move || decrement_disabled.get())
+                class=(
+                    "thaw-spin-button__decrement-button--disabled",
+                    move || decrement_disabled.get(),
+                )
                 on:click=move |_| {
                     if !decrement_disabled.get_untracked() {
                         update_value(value.get_untracked() - step_page.get_untracked());
                     }
                 }
             >
-                <svg fill="currentColor" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16">
-                    <path d="M3.15 5.65c.2-.2.5-.2.7 0L8 9.79l4.15-4.14a.5.5 0 0 1 .7.7l-4.5 4.5a.5.5 0 0 1-.7 0l-4.5-4.5a.5.5 0 0 1 0-.7Z" fill="currentColor"></path>
+                <svg
+                    fill="currentColor"
+                    aria-hidden="true"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                >
+                    <path
+                        d="M3.15 5.65c.2-.2.5-.2.7 0L8 9.79l4.15-4.14a.5.5 0 0 1 .7.7l-4.5 4.5a.5.5 0 0 1-.7 0l-4.5-4.5a.5.5 0 0 1 0-.7Z"
+                        fill="currentColor"
+                    ></path>
                 </svg>
             </button>
         </span>

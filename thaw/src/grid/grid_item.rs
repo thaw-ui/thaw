@@ -41,10 +41,7 @@ pub fn GridItem(
     });
 
     view! {
-        <div
-            class=class_list!["thaw-grid-item", class]
-            style=move || style.get()
-        >
+        <div class=class_list!["thaw-grid-item", class] style=move || style.get()>
             {children()}
         </div>
     }

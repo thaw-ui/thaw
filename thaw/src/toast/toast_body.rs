@@ -7,13 +7,9 @@ pub fn ToastBody(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <div class="thaw-toast-body">
-            {children()}
-        </div>
+        <div class="thaw-toast-body">{children()}</div>
         <OptionComp value=toast_body_subtitle let:subtitle>
-            <div class="thaw-toast-body__subtitle">
-                {(subtitle.children)()}
-            </div>
+            <div class="thaw-toast-body__subtitle">{(subtitle.children)()}</div>
         </OptionComp>
     }
 }

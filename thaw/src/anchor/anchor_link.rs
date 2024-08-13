@@ -7,9 +7,11 @@ use thaw_utils::{class_list, StoredMaybeSignal};
 pub fn AnchorLink(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The content of link.
-    #[prop(into)] title: MaybeSignal<String>,
+    #[prop(into)]
+    title: MaybeSignal<String>,
     /// The target of link.
-    #[prop(into)] href: String,
+    #[prop(into)]
+    href: String,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let anchor = AnchorInjection::expect_context();
@@ -63,7 +65,10 @@ pub fn AnchorLink(
 
     view! {
         <div class=class_list![
-            "thaw-anchor-link", ("thaw-anchor-link--active", move || is_active.get()), class]>
+            "thaw-anchor-link",
+            ("thaw-anchor-link--active", move || is_active.get()),
+            class
+        ]>
             <a
                 href=href
                 class="thaw-anchor-link__title"

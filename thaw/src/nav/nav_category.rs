@@ -77,17 +77,13 @@ pub fn NavCategory(
             on:click=on_click
             aria-expanded=move || is_show_group.get()
         >
-            {
-                move || {
-                    if let Some(icon) = item_icon.get() {
-                        Either::Left(view! {
-                            <Icon icon=icon style="font-size: 20px"/>
-                        })
-                    } else {
-                        Either::Right(())
-                    }
+            {move || {
+                if let Some(icon) = item_icon.get() {
+                    Either::Left(view! { <Icon icon=icon style="font-size: 20px" /> })
+                } else {
+                    Either::Right(())
                 }
-            }
+            }}
             {item_children()}
             <span aria-hidden="true" class="thaw-nav-category-item__expand-icon">
                 <svg
@@ -96,13 +92,18 @@ pub fn NavCategory(
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"
-                    style=move || if is_show_group.get() {
-                        "transform: rotate(90deg)"
-                    } else {
-                        "transform: rotate(0deg)"
+                    style=move || {
+                        if is_show_group.get() {
+                            "transform: rotate(90deg)"
+                        } else {
+                            "transform: rotate(0deg)"
+                        }
                     }
                 >
-                    <path d="M7.65 4.15c.2-.2.5-.2.7 0l5.49 5.46c.21.22.21.57 0 .78l-5.49 5.46a.5.5 0 0 1-.7-.7L12.8 10 7.65 4.85a.5.5 0 0 1 0-.7Z" fill="currentColor"></path>
+                    <path
+                        d="M7.65 4.15c.2-.2.5-.2.7 0l5.49 5.46c.21.22.21.57 0 .78l-5.49 5.46a.5.5 0 0 1-.7-.7L12.8 10 7.65 4.85a.5.5 0 0 1 0-.7Z"
+                        fill="currentColor"
+                    ></path>
                 </svg>
             </span>
         </button>

@@ -6,9 +6,7 @@ pub fn MessageBarActions(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <div class="thaw-message-bar-actions">
-            {children()}
-        </div>
+        <div class="thaw-message-bar-actions">{children()}</div>
         <div class="tha-message-bar-actions__container-action">
             {(message_bar_container_action.children)()}
         </div>

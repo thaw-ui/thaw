@@ -14,7 +14,8 @@ pub fn OverlayDrawer(
     #[prop(default = true.into(), into)]
     mask_closeable: MaybeSignal<bool>,
     /// Whether to close drawer on Esc is pressed.
-    #[prop(optional, into)] close_on_esc: bool,
+    #[prop(optional, into)]
+    close_on_esc: bool,
     /// Position of the drawer.
     #[prop(optional, into)]
     position: MaybeSignal<DrawerPosition>,
@@ -55,7 +56,10 @@ pub fn OverlayDrawer(
     view! {
         <Teleport immediate=open.signal()>
             <FocusTrap disabled=!close_on_esc active=open.signal() on_esc>
-                <div class=class_list!["thaw-config-provider thaw-overlay-drawer-container", class] data-thaw-id=config_provider.id().clone()>
+                <div
+                    class=class_list!["thaw-config-provider thaw-overlay-drawer-container", class]
+                    data-thaw-id=config_provider.id().clone()
+                >
                     <CSSTransition
                         node_ref=mask_ref
                         appear=open.get_untracked()
@@ -88,10 +92,13 @@ pub fn OverlayDrawer(
                             ]
 
                             style=move || {
-                                let size = move || {format!("--thaw-drawer--size: {}", size.get().as_size_str(position))};
-                                display
-                                    .get()
-                                    .map_or_else(size, |d| d.to_string())
+                                let size = move || {
+                                    format!(
+                                        "--thaw-drawer--size: {}",
+                                        size.get().as_size_str(position),
+                                    )
+                                };
+                                display.get().map_or_else(size, |d| d.to_string())
                             }
                             node_ref=drawer_ref
                             role="dialog"

@@ -52,9 +52,7 @@ pub fn Dialog(
                             aria-hidden="true"
                         ></div>
                     </CSSTransition>
-                    <Provider value=DialogInjection{open}>
-                        {children()}
-                    </Provider>
+                    <Provider value=DialogInjection { open }>{children()}</Provider>
                 </div>
             </FocusTrap>
         </Teleport>

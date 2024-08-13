@@ -158,8 +158,8 @@ pub fn ColorPicker(
                         data-thaw-id=config_provider.id().clone()
                     >
 
-                        <ColorPanel hue=hue.read_only() sv/>
-                        <HueSlider hue/>
+                        <ColorPanel hue=hue.read_only() sv />
+                        <HueSlider hue />
                     </div>
                 </CSSTransition>
             </Follower>
@@ -222,8 +222,7 @@ fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
                 style:background-image=move || {
                     format!("linear-gradient(90deg, white, hsl({}, 100%, 50%))", hue.get())
                 }
-            >
-            </div>
+            ></div>
             <div class="thaw-color-picker-popover__layer--shadowed"></div>
             <div
                 class="thaw-color-picker-popover__handle"
@@ -234,8 +233,7 @@ fn ColorPanel(hue: ReadSignal<f32>, sv: RwSignal<(f32, f32)>) -> impl IntoView {
                         sv.get().1 * 100.0,
                     )
                 }
-            >
-            </div>
+            ></div>
         </div>
     }
 }

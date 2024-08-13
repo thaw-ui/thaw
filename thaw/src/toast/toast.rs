@@ -7,11 +7,7 @@ pub fn Toast(
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
-    view! {
-        <div class=class_list!["thaw-toast", class]>
-            {children()}
-        </div>
-    }
+    view! { <div class=class_list!["thaw-toast", class]>{children()}</div> }
 }
 
 #[derive(Default, Clone, Copy)]

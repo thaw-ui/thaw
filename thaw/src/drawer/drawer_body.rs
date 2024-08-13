@@ -9,9 +9,7 @@ pub fn DrawerBody(
 ) -> impl IntoView {
     view! {
         <Scrollbar>
-            <div class=class_list!["thaw-drawer-body", class]>
-                {children()}
-            </div>
+            <div class=class_list!["thaw-drawer-body", class]>{children()}</div>
         </Scrollbar>
     }
 }

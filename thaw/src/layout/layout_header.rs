@@ -6,9 +6,5 @@ pub fn LayoutHeader(
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
-    view! {
-        <div class=class_list!["thaw-layout-header", class]>
-            {children()}
-        </div>
-    }
+    view! { <div class=class_list!["thaw-layout-header", class]>{children()}</div> }
 }

@@ -5,7 +5,8 @@ use thaw_utils::{class_list, mount_style};
 pub fn ButtonGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Directions of buttons in the group.
-    #[prop(optional)] vertical: bool,
+    #[prop(optional)]
+    vertical: bool,
     children: Children,
 ) -> impl IntoView {
     mount_style("button-group", include_str!("./button-group.css"));

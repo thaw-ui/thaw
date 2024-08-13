@@ -10,7 +10,8 @@ pub fn Combobox(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] value: Model<String>,
     /// Selected option.
-    #[prop(optional, into)] selected_options: VecModel<String>,
+    #[prop(optional, into)]
+    selected_options: VecModel<String>,
     /// Whether the input is disabled.
     #[prop(optional, into)]
     disabled: MaybeSignal<bool>,
@@ -175,9 +176,7 @@ pub fn Combobox(
                     aria-expanded="true"
                     role="combobox"
                     class="thaw-combobox__input"
-                    prop:value=move || {
-                        value.get()
-                    }
+                    prop:value=move || { value.get() }
                     placeholder=move || placeholder.get()
                     disabled=move || disabled.get()
                     node_ref=input_ref
@@ -188,31 +187,45 @@ pub fn Combobox(
                         is_show_listbox.update(|show| *show = !*show);
                     }
                 />
-                {
-                    if clearable {
-                        view! {
-                            <span
+                {if clearable {
+                    view! {
+                        <span
+                            aria-hidden="true"
+                            class="thaw-combobox__clear-icon"
+                            style=move || {
+                                (!is_show_clear_icon.get())
+                                    .then(|| "display: none")
+                                    .unwrap_or_default()
+                            }
+                            node_ref=clear_icon_ref
+                        >
+                            <svg
+                                fill="currentColor"
                                 aria-hidden="true"
-                                class="thaw-combobox__clear-icon"
-                                style=move || (!is_show_clear_icon.get()).then(|| "display: none").unwrap_or_default()
-                                node_ref=clear_icon_ref
+                                width="1em"
+                                height="1em"
+                                viewBox="0 0 20 20"
                             >
-                                <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
-                                    <path d="m4.09 4.22.06-.07a.5.5 0 0 1 .63-.06l.07.06L10 9.29l5.15-5.14a.5.5 0 0 1 .63-.06l.07.06c.18.17.2.44.06.63l-.06.07L10.71 10l5.14 5.15c.18.17.2.44.06.63l-.06.07a.5.5 0 0 1-.63.06l-.07-.06L10 10.71l-5.15 5.14a.5.5 0 0 1-.63.06l-.07-.06a.5.5 0 0 1-.06-.63l.06-.07L9.29 10 4.15 4.85a.5.5 0 0 1-.06-.63l.06-.07-.06.07Z" fill="currentColor"></path>
-                                </svg>
-                            </span>
-                        }.into()
-                    } else {
-                        None
+                                <path
+                                    d="m4.09 4.22.06-.07a.5.5 0 0 1 .63-.06l.07.06L10 9.29l5.15-5.14a.5.5 0 0 1 .63-.06l.07.06c.18.17.2.44.06.63l-.06.07L10.71 10l5.14 5.15c.18.17.2.44.06.63l-.06.07a.5.5 0 0 1-.63.06l-.07-.06L10 10.71l-5.15 5.14a.5.5 0 0 1-.63.06l-.07-.06a.5.5 0 0 1-.06-.63l.06-.07L9.29 10 4.15 4.85a.5.5 0 0 1-.06-.63l.06-.07-.06.07Z"
+                                    fill="currentColor"
+                                ></path>
+                            </svg>
+                        </span>
                     }
-                }
+                        .into()
+                } else {
+                    None
+                }}
                 <span
                     aria-disabled=move || if disabled.get() { "true" } else { "" }
                     aria-expanded=move || is_show_listbox.get().to_string()
                     role="button"
                     aria-label="Open"
                     class="thaw-combobox__expand-icon"
-                    style=move || is_show_clear_icon.get().then(|| "display: none").unwrap_or_default()
+                    style=move || {
+                        is_show_clear_icon.get().then(|| "display: none").unwrap_or_default()
+                    }
                     on:click=move |_| {
                         if disabled.get_untracked() {
                             return;
@@ -223,9 +236,17 @@ pub fn Combobox(
                         }
                     }
                 >
-                    <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20">
-                        <path d="M15.85 7.65c.2.2.2.5 0 .7l-5.46 5.49a.55.55 0 0 1-.78 0L4.15 8.35a.5.5 0 1 1 .7-.7L10 12.8l5.15-5.16c.2-.2.5-.2.7 0Z" fill="currentColor">
-                        </path>
+                    <svg
+                        fill="currentColor"
+                        aria-hidden="true"
+                        width="1em"
+                        height="1em"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            d="M15.85 7.65c.2.2.2.5 0 .7l-5.46 5.49a.55.55 0 0 1-.78 0L4.15 8.35a.5.5 0 1 1 .7-.7L10 12.8l5.15-5.16c.2-.2.5-.2.7 0Z"
+                            fill="currentColor"
+                        ></path>
                     </svg>
                 </span>
             </div>
@@ -236,7 +257,12 @@ pub fn Combobox(
                 width=FollowerWidth::MinTarget
             >
                 <Provider value=combobox_injection>
-                    <Listbox open=is_show_listbox.read_only() set_listbox listbox_ref class="thaw-combobox__listbox">
+                    <Listbox
+                        open=is_show_listbox.read_only()
+                        set_listbox
+                        listbox_ref
+                        class="thaw-combobox__listbox"
+                    >
                         {children()}
                     </Listbox>
                 </Provider>

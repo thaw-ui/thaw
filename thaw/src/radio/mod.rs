@@ -46,15 +46,18 @@ pub fn Radio(
                 on:change=on_change
             />
             <div aria-hidden="true" class="thaw-radio__indicator"></div>
-            {
-                move || if let Some(label) = label.get() {
+            {move || {
+                if let Some(label) = label.get() {
                     view! {
-                        <label class="thaw-radio__label" for=id.clone()>{label}</label>
-                    }.into()
+                        <label class="thaw-radio__label" for=id.clone()>
+                            {label}
+                        </label>
+                    }
+                        .into()
                 } else {
                     None
                 }
-            }
+            }}
         </span>
     }
 }

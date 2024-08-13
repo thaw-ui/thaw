@@ -7,11 +7,14 @@ use thaw_utils::{class_list, mount_style, Model};
 pub fn Pagination(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The current page starts from 1.
-    #[prop(default = 1.into(), into)] page: Model<usize>,
+    #[prop(default = 1.into(), into)]
+    page: Model<usize>,
     /// The total numbers of pages.
-    #[prop(into)] page_count: MaybeSignal<usize>,
+    #[prop(into)]
+    page_count: MaybeSignal<usize>,
     /// Number of visible pages after and before the current page.
-    #[prop(default = 1.into(), into)] sibling_count: MaybeSignal<usize>,
+    #[prop(default = 1.into(), into)]
+    sibling_count: MaybeSignal<usize>,
 ) -> impl IntoView {
     mount_style("pagination", include_str!("./pagination.css"));
 
@@ -34,35 +37,38 @@ pub fn Pagination(
                 icon=icondata_ai::AiLeftOutlined
                 disabled=no_previous
             />
-            {
-                move || {
-                    use_pagination(page.get(), page_count.get(), sibling_count.get()).into_iter().map(|item| {
+            {move || {
+                use_pagination(page.get(), page_count.get(), sibling_count.get())
+                    .into_iter()
+                    .map(|item| {
                         if let PaginationItem::Number(nb) = item {
-                            Either::Left(view! {
-                                <Button
-                                    class="thaw-pagination-item"
-                                    appearance=Memo::new(move |_| if page.get() == nb {
-                                        ButtonAppearance::Primary
-                                    } else {
-                                        ButtonAppearance::Secondary
-                                    })
-                                    on_click=move |_| {
-                                        if page.get() != nb {
-                                            page.set(nb)
+                            Either::Left(
+                                view! {
+                                    <Button
+                                        class="thaw-pagination-item"
+                                        appearance=Memo::new(move |_| {
+                                            if page.get() == nb {
+                                                ButtonAppearance::Primary
+                                            } else {
+                                                ButtonAppearance::Secondary
+                                            }
+                                        })
+                                        on_click=move |_| {
+                                            if page.get() != nb {
+                                                page.set(nb)
+                                            }
                                         }
-                                    }
-                                >
-                                    {nb}
-                                </Button>
-                            })
+                                    >
+                                        {nb}
+                                    </Button>
+                                },
+                            )
                         } else {
-                            Either::Right(view! {
-                                <div class="thaw-pagination-item">"..."</div>
-                            })
+                            Either::Right(view! { <div class="thaw-pagination-item">"..."</div> })
                         }
-                    }).collect_view()
-                }
-            }
+                    })
+                    .collect_view()
+            }}
             <Button
                 class="thaw-pagination-item"
                 on_click=on_click_next

@@ -6,11 +6,14 @@ pub fn Scrollbar(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] style: MaybeProp<String>,
     /// Class name of content div.
-    #[prop(optional, into)] content_class: MaybeProp<String>,
+    #[prop(optional, into)]
+    content_class: MaybeProp<String>,
     /// Style of content div.
-    #[prop(optional, into)] content_style: MaybeProp<String>,
+    #[prop(optional, into)]
+    content_style: MaybeProp<String>,
     /// Size of scrollbar.
-    #[prop(default = 8)] size: u8,
+    #[prop(default = 8)]
+    size: u8,
     #[prop(optional)] comp_ref: Option<ComponentRef<ScrollbarRef>>,
     children: Children,
 ) -> impl IntoView {
@@ -299,15 +302,10 @@ pub fn Scrollbar(
 
             <div class="thaw-scrollbar__container" node_ref=container_ref on:scroll=on_scroll>
                 <div
-                    class=class_list![
-                        "thaw-scrollbar__content", content_class
-                    ]
+                    class=class_list!["thaw-scrollbar__content", content_class]
 
                     style=move || {
-                        format!(
-                            "width: fit-content; {}",
-                            content_style.get().unwrap_or_default(),
-                        )
+                        format!("width: fit-content; {}", content_style.get().unwrap_or_default())
                     }
 
                     node_ref=content_ref
@@ -318,7 +316,9 @@ pub fn Scrollbar(
             <div class="thaw-scrollbar__track--vertical" node_ref=y_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
-                    style:display=move || (!is_show_y_thumb.get()).then_some("none").unwrap_or_default()
+                    style:display=move || {
+                        (!is_show_y_thumb.get()).then_some("none").unwrap_or_default()
+                    }
                     style:height=move || format!("{}px", y_thumb_height.get())
                     style:top=move || format!("{}px", y_thumb_top.get())
                     on:mousedown=on_y_thumb_mousedown
@@ -327,7 +327,9 @@ pub fn Scrollbar(
             <div class="thaw-scrollbar__track--horizontal" node_ref=x_track_ref>
                 <div
                     class="thaw-scrollabr__thumb"
-                    style:display=move || (!is_show_x_thumb.get()).then_some("none").unwrap_or_default()
+                    style:display=move || {
+                        (!is_show_x_thumb.get()).then_some("none").unwrap_or_default()
+                    }
                     style:width=move || format!("{}px", x_thumb_width.get())
                     style:left=move || format!("{}px", x_thumb_left.get())
                     on:mousedown=on_x_thumb_mousedown

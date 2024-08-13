@@ -71,93 +71,87 @@ pub fn Toaster(
                 data-thaw-id=config_provider.id().clone()
             >
                 <div class="thaw-toaster thaw-toaster--top">
-                    <For
-                        each=move || top_id_list.get()
-                        key=|id| id.clone()
-                        let:id
-                    >
+                    <For each=move || top_id_list.get() key=|id| id.clone() let:id>
+                        {if let Some((view, options)) = toasts
+                            .try_update_value(|map| { map.remove(&id) })
+                            .flatten()
                         {
-                            if let Some((view, options)) = toasts.try_update_value(|map| { map.remove(&id) }).flatten() {
-                                Either::Left(view! { <ToasterContainer on_close view=view.take() options/> })
-                            } else {
-                                Either::Right(())
-                            }
-                        }
+                            Either::Left(
+                                view! { <ToasterContainer on_close view=view.take() options /> },
+                            )
+                        } else {
+                            Either::Right(())
+                        }}
                     </For>
                 </div>
                 <div class="thaw-toaster thaw-toaster--top-start">
-                    <For
-                        each=move || top_start_id_list.get()
-                        key=|id| id.clone()
-                        let:id
-                    >
+                    <For each=move || top_start_id_list.get() key=|id| id.clone() let:id>
+                        {if let Some((view, options)) = toasts
+                            .try_update_value(|map| { map.remove(&id) })
+                            .flatten()
                         {
-                            if let Some((view, options)) = toasts.try_update_value(|map| { map.remove(&id) }).flatten() {
-                                Either::Left(view! { <ToasterContainer on_close view=view.take() options/> })
-                            } else {
-                                Either::Right(())
-                            }
-                        }
+                            Either::Left(
+                                view! { <ToasterContainer on_close view=view.take() options /> },
+                            )
+                        } else {
+                            Either::Right(())
+                        }}
                     </For>
                 </div>
                 <div class="thaw-toaster thaw-toaster--top-end">
-                    <For
-                        each=move || top_end_id_list.get()
-                        key=|id| id.clone()
-                        let:id
-                    >
+                    <For each=move || top_end_id_list.get() key=|id| id.clone() let:id>
+                        {if let Some((view, options)) = toasts
+                            .try_update_value(|map| { map.remove(&id) })
+                            .flatten()
                         {
-                            if let Some((view, options)) = toasts.try_update_value(|map| { map.remove(&id) }).flatten() {
-                                Either::Left(view! { <ToasterContainer on_close view=view.take() options/> })
-                            } else {
-                                Either::Right(())
-                            }
-                        }
+                            Either::Left(
+                                view! { <ToasterContainer on_close view=view.take() options /> },
+                            )
+                        } else {
+                            Either::Right(())
+                        }}
                     </For>
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom">
-                    <For
-                        each=move || bottom_id_list.get()
-                        key=|id| id.clone()
-                        let:id
-                    >
+                    <For each=move || bottom_id_list.get() key=|id| id.clone() let:id>
+                        {if let Some((view, options)) = toasts
+                            .try_update_value(|map| { map.remove(&id) })
+                            .flatten()
                         {
-                            if let Some((view, options)) = toasts.try_update_value(|map| { map.remove(&id) }).flatten() {
-                                Either::Left(view! { <ToasterContainer on_close view=view.take() options/> })
-                            } else {
-                                Either::Right(())
-                            }
-                        }
+                            Either::Left(
+                                view! { <ToasterContainer on_close view=view.take() options /> },
+                            )
+                        } else {
+                            Either::Right(())
+                        }}
                     </For>
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom-start">
-                    <For
-                        each=move || bottom_start_id_list.get()
-                        key=|id| id.clone()
-                        let:id
-                    >
+                    <For each=move || bottom_start_id_list.get() key=|id| id.clone() let:id>
+                        {if let Some((view, options)) = toasts
+                            .try_update_value(|map| { map.remove(&id) })
+                            .flatten()
                         {
-                            if let Some((view, options)) = toasts.try_update_value(|map| { map.remove(&id) }).flatten() {
-                                Either::Left(view! { <ToasterContainer on_close view=view.take() options/> })
-                            } else {
-                                Either::Right(())
-                            }
-                        }
+                            Either::Left(
+                                view! { <ToasterContainer on_close view=view.take() options /> },
+                            )
+                        } else {
+                            Either::Right(())
+                        }}
                     </For>
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom-end">
-                    <For
-                        each=move || bottom_end_id_list.get()
-                        key=|id| id.clone()
-                        let:id
-                    >
+                    <For each=move || bottom_end_id_list.get() key=|id| id.clone() let:id>
+                        {if let Some((view, options)) = toasts
+                            .try_update_value(|map| { map.remove(&id) })
+                            .flatten()
                         {
-                            if let Some((view, options)) = toasts.try_update_value(|map| { map.remove(&id) }).flatten() {
-                                Either::Left(view! { <ToasterContainer on_close view=view.take() options/> })
-                            } else {
-                                Either::Right(())
-                            }
-                        }
+                            Either::Left(
+                                view! { <ToasterContainer on_close view=view.take() options /> },
+                            )
+                        } else {
+                            Either::Right(())
+                        }}
                     </For>
                 </div>
             </div>

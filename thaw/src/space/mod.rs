@@ -16,13 +16,17 @@ pub enum SpaceGap {
 pub fn Space(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Space's gap.
-    #[prop(optional)] gap: SpaceGap,
+    #[prop(optional)]
+    gap: SpaceGap,
     /// Whether to lay out vertically.
-    #[prop(optional)] vertical: bool,
+    #[prop(optional)]
+    vertical: bool,
     ///  Vertical arrangement.
-    #[prop(optional, into)] align: MaybeProp<SpaceAlign>,
+    #[prop(optional, into)]
+    align: MaybeProp<SpaceAlign>,
     /// Horizontal arrangement.
-    #[prop(optional, into)] justify: MaybeProp<SpaceJustify>,
+    #[prop(optional, into)]
+    justify: MaybeProp<SpaceJustify>,
     children: ChildrenFragment,
 ) -> impl IntoView {
     mount_style("space", include_str!("./space.css"));

@@ -8,9 +8,5 @@ pub fn UploadDragger(
 ) -> impl IntoView {
     mount_style("upload-dragger", include_str!("./upload-dragger.css"));
 
-    view! {
-        <div class=class_list!["thaw-upload-dragger", class]>
-            {children()}
-        </div>
-    }
+    view! { <div class=class_list!["thaw-upload-dragger", class]>{children()}</div> }
 }

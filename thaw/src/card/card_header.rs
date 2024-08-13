@@ -12,18 +12,12 @@ pub fn CardHeader(
     mount_style("card-header", include_str!("./card-header.css"));
     view! {
         <div class=class_list!["thaw-card-header", class]>
-            <div class="thaw-card-header__header">
-                {children()}
-            </div>
+            <div class="thaw-card-header__header">{children()}</div>
             <OptionComp value=card_header_description let:description>
-                <div class="thaw-card-header__description">
-                    {(description.children)()}
-                </div>
+                <div class="thaw-card-header__description">{(description.children)()}</div>
             </OptionComp>
             <OptionComp value=card_header_action let:action>
-                <div class="thaw-card-header__action">
-                    {(action.children)()}
-                </div>
+                <div class="thaw-card-header__action">{(action.children)()}</div>
             </OptionComp>
         </div>
     }

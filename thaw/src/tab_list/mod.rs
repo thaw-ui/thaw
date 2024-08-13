@@ -24,10 +24,7 @@ pub fn TabList(
             selected_value,
             registered_tabs,
         }>
-            <div
-                class=class_list!["thaw-tab-list", class]
-                role="tablist"
-            >
+            <div class=class_list!["thaw-tab-list", class] role="tablist">
                 {children()}
             </div>
         </Provider>

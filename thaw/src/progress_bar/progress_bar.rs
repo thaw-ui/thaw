@@ -36,8 +36,7 @@ pub fn ProgressBar(
             aria-valuemin="0"
             aria-valuenow=move || value.get()
         >
-            <div class="thaw-progress-bar__bar" style=style>
-            </div>
+            <div class="thaw-progress-bar__bar" style=style></div>
         </div>
     }
 }

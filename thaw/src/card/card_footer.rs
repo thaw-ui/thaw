@@ -7,9 +7,5 @@ pub fn CardFooter(
     children: Children,
 ) -> impl IntoView {
     mount_style("card-footer", include_str!("./card-footer.css"));
-    view! {
-        <div class=class_list!["thaw-card-footer", class]>
-            {children()}
-        </div>
-    }
+    view! { <div class=class_list!["thaw-card-footer", class]>{children()}</div> }
 }

@@ -86,7 +86,8 @@ pub fn ProgressCircle(
                     <div class="thaw-progress-circle__content thaw-progress-circle__content--text">
                         {move || value.get()} "%"
                     </div>
-                }.into_any()
+                }
+                    .into_any()
             }}
 
         </div>
