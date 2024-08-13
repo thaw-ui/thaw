@@ -153,7 +153,7 @@ pub fn DatePanel(
                                         close_panel(Some(*date.deref()));
                                     }
                                 };
-                                view! { <DatePanelItem value date=date on:click=on_click/> }
+                                view! { <DatePanelItem value date=date on:click=on_click /> }
                             })
                             .collect_view()
                     }}

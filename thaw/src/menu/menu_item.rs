@@ -54,7 +54,7 @@ pub fn MenuItem(
                     </If>
                 </Fallback>
 
-                <Icon icon=icon style="font-size: 18px; margin-right: 8px"/>
+                <Icon icon=icon style="font-size: 18px; margin-right: 8px" />
             </OptionComp>
             <span style="flex-grow: 1">{children()}</span>
         </div>

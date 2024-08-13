@@ -7,7 +7,8 @@ use thaw_utils::{class_list, mount_style};
 pub fn Tab(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The indentifier of the tab.
-    #[prop(into)] value: String,
+    #[prop(into)]
+    value: String,
     children: Children,
 ) -> impl IntoView {
     mount_style("tab", include_str!("./tab.css"));
@@ -62,17 +63,13 @@ pub fn Tab(
 
     view! {
         <button
-            class=class_list![
-                "thaw-tab", ("thaw-tab--selected", move || selected.get()), class
-            ]
+            class=class_list!["thaw-tab", ("thaw-tab--selected", move || selected.get()), class]
             role="tab"
             aria-selected=move || if selected.get() { "true" } else { "false" }
             node_ref=tab_ref
             on:click=on_select
         >
-            <span class="thaw-tab__content">
-                {children()}
-            </span>
+            <span class="thaw-tab__content">{children()}</span>
         </button>
     }
 }

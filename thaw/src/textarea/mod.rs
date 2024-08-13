@@ -72,14 +72,12 @@ pub fn Textarea(
     // }
 
     view! {
-        <span
-            class=class_list![
-                "thaw-textarea",
-                ("thaw-textarea--disabled", move || disabled.get()),
-                move || format!("thaw-textarea--resize-{}", resize.get().as_str()),
-                class
-            ]
-        >
+        <span class=class_list![
+            "thaw-textarea",
+            ("thaw-textarea--disabled", move || disabled.get()),
+            move || format!("thaw-textarea--resize-{}", resize.get().as_str()),
+            class
+        ]>
             <textarea
                 prop:value=move || {
                     value_trigger.track();

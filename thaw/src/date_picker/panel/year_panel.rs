@@ -62,7 +62,7 @@ pub fn YearPanel(
                                     });
                                 panel_variant.set(PanelVariant::Month);
                             };
-                            view! { <YearPanelItem date_panel_show_date year on:click=on_click/> }
+                            view! { <YearPanelItem date_panel_show_date year on:click=on_click /> }
                         })
                         .collect_view()
                 }}

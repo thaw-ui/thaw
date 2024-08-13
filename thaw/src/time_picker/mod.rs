@@ -75,7 +75,7 @@ pub fn TimePicker(
             <div node_ref=time_picker_ref class=class_list!["thaw-time-picker", class]>
                 <Input value=show_time_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
-                        <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px"/>
+                        <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px" />
                     </InputSuffix>
                 </Input>
             </div>

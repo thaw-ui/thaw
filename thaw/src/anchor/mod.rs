@@ -107,10 +107,7 @@ pub fn Anchor(
     }
 
     view! {
-        <div
-            class=class_list!["thaw-anchor", class]
-            node_ref=anchor_ref
-        >
+        <div class=class_list!["thaw-anchor", class] node_ref=anchor_ref>
             <div class="thaw-anchor-rail">
                 <div
                     class="thaw-anchor-rail__bar"

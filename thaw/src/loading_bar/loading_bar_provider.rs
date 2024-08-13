@@ -12,7 +12,7 @@ pub fn LoadingBarProvider(children: Children) -> impl IntoView {
             loading_bar_ref,
         }>
             {children()} <Teleport>
-                <LoadingBar comp_ref=loading_bar_ref/>
+                <LoadingBar comp_ref=loading_bar_ref />
             </Teleport>
         </Provider>
     }

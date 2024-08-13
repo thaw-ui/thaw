@@ -19,15 +19,16 @@ pub fn NavDrawer(
     mount_style("nav-drawer", include_str!("./nav-drawer.css"));
 
     view! {
-        <Provider value=NavDrawerInjection{ selected_value, selected_category_value }>
+        <Provider value=NavDrawerInjection {
+            selected_value,
+            selected_category_value,
+        }>
             <div class=class_list!["thaw-nav-drawer", class]>
                 <OptionComp value=nav_drawer_header let:header>
                     <header class="thaw-nav-drawer__header">{(header.children)()}</header>
                 </OptionComp>
                 <div class="thaw-nav-drawer__body">
-                    <Scrollbar>
-                        {children()}
-                    </Scrollbar>
+                    <Scrollbar>{children()}</Scrollbar>
                 </div>
                 <OptionComp value=nav_drawer_footer let:footer>
                     <footer class="thaw-nav-drawer__footer">{(footer.children)()}</footer>

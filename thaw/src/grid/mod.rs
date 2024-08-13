@@ -29,10 +29,7 @@ pub fn Grid(
 
     view! {
         <Provider value=GridInjection::new(x_gap)>
-            <div
-                class=class_list!["thaw-grid", class]
-                style=move || style.get()
-            >
+            <div class=class_list!["thaw-grid", class] style=move || style.get()>
                 {children()}
             </div>
         </Provider>

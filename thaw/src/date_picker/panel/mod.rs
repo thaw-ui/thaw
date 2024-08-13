@@ -83,14 +83,22 @@ pub fn Panel(
                         PanelVariant::Date => {
                             let close_panel = close_panel.clone();
                             view! {
-                                <DatePanel value=selected_date show_date close_panel panel_variant/>
-                            }.into_any()
+                                <DatePanel
+                                    value=selected_date
+                                    show_date
+                                    close_panel
+                                    panel_variant
+                                />
+                            }
+                                .into_any()
                         }
                         PanelVariant::Month => {
-                            view! { <MonthPanel date_panel_show_date=show_date panel_variant/> }.into_any()
+                            view! { <MonthPanel date_panel_show_date=show_date panel_variant /> }
+                                .into_any()
                         }
                         PanelVariant::Year => {
-                            view! { <YearPanel date_panel_show_date=show_date panel_variant/> }.into_any()
+                            view! { <YearPanel date_panel_show_date=show_date panel_variant /> }
+                                .into_any()
                         }
                     }
                 }}

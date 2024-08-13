@@ -95,17 +95,28 @@ pub fn BackTop(
                         data-thaw-id=config_provider.id().clone()
                         node_ref=back_top_ref
                         style=move || {
-                            display.get().map_or_else(|| format!("right: {}px; bottom: {}px", right.get(), bottom.get()), |d| d.to_string())
+                            display
+                                .get()
+                                .map_or_else(
+                                    || {
+                                        format!(
+                                            "right: {}px; bottom: {}px",
+                                            right.get(),
+                                            bottom.get(),
+                                        )
+                                    },
+                                    |d| d.to_string(),
+                                )
                         }
                         on:click=on_click
                     >
-                        {
-                            if let Some(children) = children {
-                                Either::Left(children())
-                            } else {
-                                Either::Right(view!{<Icon icon=icondata_ai::AiVerticalAlignTopOutlined/>})
-                            }
-                        }
+                        {if let Some(children) = children {
+                            Either::Left(children())
+                        } else {
+                            Either::Right(
+                                view! { <Icon icon=icondata_ai::AiVerticalAlignTopOutlined /> },
+                            )
+                        }}
                     </div>
                 </CSSTransition>
             </Teleport>

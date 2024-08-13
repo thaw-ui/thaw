@@ -5,7 +5,8 @@ use thaw_utils::{class_list, mount_style};
 pub fn ComboboxOptionGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Label of the group.
-    #[prop(into)] label: String,
+    #[prop(into)]
+    label: String,
     children: Children,
 ) -> impl IntoView {
     mount_style(

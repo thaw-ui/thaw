@@ -5,8 +5,5 @@ use thaw_utils::{class_list, mount_style};
 pub fn SkeletonItem(#[prop(optional, into)] class: MaybeProp<String>) -> impl IntoView {
     mount_style("skeleton-item", include_str!("./skeleton-item.css"));
 
-    view! {
-        <div class=class_list!["thaw-skeleton-item", class]>
-        </div>
-    }
+    view! { <div class=class_list!["thaw-skeleton-item", class]></div> }
 }

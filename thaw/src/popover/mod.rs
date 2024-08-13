@@ -146,8 +146,7 @@ pub fn Popover(
                         on:mouseleave=on_mouse_leave
                     >
                         {children()}
-                        <div class="thaw-popover-surface__angle">
-                        </div>
+                        <div class="thaw-popover-surface__angle"></div>
                     </div>
                 </CSSTransition>
             </Follower>

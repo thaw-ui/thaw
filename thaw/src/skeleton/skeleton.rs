@@ -7,11 +7,7 @@ pub fn Skeleton(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <div
-            role="progressbar"
-            aria-busy="true"
-            class=class_list!["thaw-skeleton", class]
-        >
+        <div role="progressbar" aria-busy="true" class=class_list!["thaw-skeleton", class]>
             {children()}
         </div>
     }

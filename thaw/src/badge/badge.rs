@@ -25,13 +25,11 @@ pub fn Badge(
             move || format!("thaw-badge--{}", color.get().as_str()),
             class
         ]>
-            {
-                if let Some(children) = children {
-                    Either::Left(children())
-                } else {
-                    Either::Right(())
-                }
-            }
+            {if let Some(children) = children {
+                Either::Left(children())
+            } else {
+                Either::Right(())
+            }}
         </div>
     }
 }

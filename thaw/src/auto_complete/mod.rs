@@ -26,17 +26,21 @@ pub struct AutoCompleteSuffix {
 pub fn AutoComplete(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Input of autocomplete.
-    #[prop(optional, into)] value: Model<String>,
+    #[prop(optional, into)]
+    value: Model<String>,
     /// Autocomplete's placeholder.
-    #[prop(optional, into)] placeholder: MaybeProp<String>,
+    #[prop(optional, into)]
+    placeholder: MaybeProp<String>,
     // Whether to clear after selection.
     #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
     /// Whether to blur after selection.
-    #[prop(optional, into)] blur_after_select: MaybeSignal<bool>,
+    #[prop(optional, into)]
+    blur_after_select: MaybeSignal<bool>,
     // On select callback function.
     #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,
     /// Whether the input is disabled.
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
@@ -147,15 +151,22 @@ pub fn AutoComplete(
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::Target
             >
-                <Provider value=AutoCompleteInjection{value, select_option, options}>
-                    <Listbox open=open_listbox.read_only() set_listbox listbox_ref class="thaw-auto-complete__listbox">
-                        {
-                            if let Some(children) = children {
-                                Either::Left(children())
-                            } else {
-                                Either::Right(())
-                            }
-                        }
+                <Provider value=AutoCompleteInjection {
+                    value,
+                    select_option,
+                    options,
+                }>
+                    <Listbox
+                        open=open_listbox.read_only()
+                        set_listbox
+                        listbox_ref
+                        class="thaw-auto-complete__listbox"
+                    >
+                        {if let Some(children) = children {
+                            Either::Left(children())
+                        } else {
+                            Either::Right(())
+                        }}
                     </Listbox>
                 </Provider>
             </Follower>

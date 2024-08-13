@@ -125,24 +125,19 @@ pub fn Button(
             aria-disabled=move || disabled_focusable.get().then_some("true")
             on:click=on_click
         >
-             {
-
-                move || {
-                    let icon = icon.get();
-                    if let Some(icon) = icon {
-                        Either::Left(view!{<Icon icon=icon class="thaw-button__icon"/>})
-                    } else {
-                        Either::Right(())
-                    }
-                }
-            }
-            {
-                if let Some(children) = children {
-                    Either::Left(children())
+            {move || {
+                let icon = icon.get();
+                if let Some(icon) = icon {
+                    Either::Left(view! { <Icon icon=icon class="thaw-button__icon" /> })
                 } else {
                     Either::Right(())
                 }
-            }
+            }}
+            {if let Some(children) = children {
+                Either::Left(children())
+            } else {
+                Either::Right(())
+            }}
         </button>
     }
 }

@@ -9,7 +9,10 @@ pub fn Code(
 ) -> impl IntoView {
     mount_style("code", include_str!("./code.css"));
     view! {
-        <code class=class_list!["thaw-code", class]>
+        <code class=class_list![
+            "thaw-code",
+            class
+        ]>
 
             {if let Some(inner_html) = inner_html {
                 EitherOf3::A(view! { <pre inner_html=inner_html></pre> })

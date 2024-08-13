@@ -8,7 +8,8 @@ use thaw_utils::{class_list, mount_style, OptionModel};
 pub fn Calendar(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// selected date.
-    #[prop(optional, into)] value: OptionModel<NaiveDate>,
+    #[prop(optional, into)]
+    value: OptionModel<NaiveDate>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
     let show_date = RwSignal::new(value.get_untracked().unwrap_or(now_date()));
@@ -87,9 +88,7 @@ pub fn Calendar(
     };
 
     view! {
-        <div
-            class=class_list!["thaw-calendar", class]
-        >
+        <div class=class_list!["thaw-calendar", class]>
             <div class="thaw-calendar__header">
                 <span class="thaw-calendar__header-title">
 
@@ -106,17 +105,9 @@ pub fn Calendar(
 
                 </span>
                 <ButtonGroup>
-                    <Button
-                        icon=icondata_ai::AiLeftOutlined
-                        on_click=previous_month
-                    />
-                    <Button on_click=today>
-                        "Today"
-                    </Button>
-                    <Button
-                        icon=icondata_ai::AiRightOutlined
-                        on_click=next_month
-                    />
+                    <Button icon=icondata_ai::AiLeftOutlined on_click=previous_month />
+                    <Button on_click=today>"Today"</Button>
+                    <Button icon=icondata_ai::AiRightOutlined on_click=next_month />
                 </ButtonGroup>
             </div>
             <div class="thaw-calendar__dates">
@@ -127,7 +118,7 @@ pub fn Calendar(
                         .into_iter()
                         .enumerate()
                         .map(|(index, date)| {
-                            view! { <CalendarItem value index=index date=date/> }
+                            view! { <CalendarItem value index=index date=date /> }
                         })
                         .collect_view()
                 }}

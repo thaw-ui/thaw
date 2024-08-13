@@ -24,11 +24,9 @@ pub fn Accordion(
         <Provider value=AccordionInjection {
             open_items,
             collapsible,
-            multiple
+            multiple,
         }>
-            <div class=class_list!["thaw-accordion", class]>
-                {children()}
-            </div>
+            <div class=class_list!["thaw-accordion", class]>{children()}</div>
         </Provider>
     }
 }

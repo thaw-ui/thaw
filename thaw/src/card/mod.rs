@@ -14,10 +14,7 @@ pub fn Card(#[prop(optional, into)] class: MaybeProp<String>, children: Children
     mount_style("card", include_str!("./card.css"));
 
     view! {
-        <div
-            class=class_list!["thaw-card", class]
-            role="group"
-        >
+        <div class=class_list!["thaw-card", class] role="group">
             {children()}
         </div>
     }

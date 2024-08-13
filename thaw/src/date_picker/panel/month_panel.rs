@@ -61,7 +61,7 @@ pub fn MonthPanel(
                                 });
                             panel_variant.set(PanelVariant::Date);
                         };
-                        view! { <MonthPanelItem date_panel_show_date month on:click=on_click/> }
+                        view! { <MonthPanelItem date_panel_show_date month on:click=on_click /> }
                     })
                     .collect_view()}
 

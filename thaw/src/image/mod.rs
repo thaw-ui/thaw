@@ -11,9 +11,11 @@ pub fn Image(
     #[prop(optional, into)]
     alt: MaybeProp<String>,
     /// Image width.
-    #[prop(optional, into)] width: MaybeProp<String>,
+    #[prop(optional, into)]
+    width: MaybeProp<String>,
     /// Image height.
-    #[prop(optional, into)] height: MaybeProp<String>,
+    #[prop(optional, into)]
+    height: MaybeProp<String>,
     /// An image can appear square, circular, or rounded.
     #[prop(optional, into)]
     shape: MaybeSignal<ImageShape>,

@@ -10,7 +10,8 @@ use thaw_utils::{class_list, mount_style, now_date, ComponentRef, OptionModel};
 pub fn DatePicker(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Set the date picker value.
-    #[prop(optional, into)] value: OptionModel<NaiveDate>,
+    #[prop(optional, into)]
+    value: OptionModel<NaiveDate>,
 ) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));
     let date_picker_ref = NodeRef::<html::Div>::new();
@@ -71,7 +72,7 @@ pub fn DatePicker(
             <div node_ref=date_picker_ref class=class_list!["thaw-date-picker", class]>
                 <Input value=show_date_text on_focus=open_panel on_blur=on_input_blur>
                     <InputSuffix slot>
-                        <Icon icon=icondata_ai::AiCalendarOutlined style="font-size: 18px"/>
+                        <Icon icon=icondata_ai::AiCalendarOutlined style="font-size: 18px" />
                     </InputSuffix>
                 </Input>
             </div>

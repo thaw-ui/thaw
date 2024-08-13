@@ -25,17 +25,13 @@ pub fn NavItem(
 
     let children = || {
         view! {
-            {
-                move || {
-                    if let Some(icon) = icon.get() {
-                        Either::Left(view! {
-                            <Icon icon=icon style="font-size: 20px"/>
-                        })
-                    } else {
-                        Either::Right(())
-                    }
+            {move || {
+                if let Some(icon) = icon.get() {
+                    Either::Left(view! { <Icon icon=icon style="font-size: 20px" /> })
+                } else {
+                    Either::Right(())
                 }
-            }
+            }}
             {children()}
         }
     };
@@ -49,7 +45,11 @@ pub fn NavItem(
     if let Some(href) = href {
         Either::Left(view! {
             <a
-                class=class_list!["thaw-nav-item", ("thaw-nav-item--selected", move || selected.get()), class]
+                class=class_list![
+                    "thaw-nav-item",
+                    ("thaw-nav-item--selected", move || selected.get()),
+                    class
+                ]
                 href=move || href.get()
                 on:click=on_click
             >
@@ -59,7 +59,11 @@ pub fn NavItem(
     } else {
         Either::Right(view! {
             <button
-                class=class_list!["thaw-nav-item", ("thaw-nav-item--selected", move || selected.get()), class]
+                class=class_list![
+                    "thaw-nav-item",
+                    ("thaw-nav-item--selected", move || selected.get()),
+                    class
+                ]
                 on:click=on_click
             >
                 {children()}
@@ -81,8 +85,8 @@ pub fn NavSubItem(
     });
 
     if let Some(href) = href {
-        Either::Left(view! { <NavItem class href icon value children/> })
+        Either::Left(view! { <NavItem class href icon value children /> })
     } else {
-        Either::Right(view! { <NavItem class icon value children/> })
+        Either::Right(view! { <NavItem class icon value children /> })
     }
 }
