@@ -3,17 +3,29 @@ use thaw_utils::{class_list, mount_style, BoxOneCallback, ComponentRef, Model};
 
 #[component]
 pub fn Textarea(
-    #[prop(optional, into)] value: Model<String>,
-    #[prop(optional, into)] allow_value: Option<BoxOneCallback<String, bool>>,
-    #[prop(optional, into)] placeholder: MaybeProp<String>,
-    #[prop(optional, into)] on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
-    #[prop(optional, into)] on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
-    #[prop(optional, into)] disabled: MaybeSignal<bool>,
+    #[prop(optional, into)] class: MaybeProp<String>,
+    /// The value of the Textarea.
+    #[prop(optional, into)]
+    value: Model<String>,
+    /// Check the incoming value, if it returns false, input will not be accepted.
+    #[prop(optional, into)]
+    allow_value: Option<BoxOneCallback<String, bool>>,
+    /// Placeholder text for the input.
+    #[prop(optional, into)]
+    placeholder: MaybeProp<String>,
+    /// Callback triggered when the input is focussed on.
+    #[prop(optional, into)]
+    on_focus: Option<BoxOneCallback<ev::FocusEvent>>,
+    /// Callback triggered when the input is blurred.
+    #[prop(optional, into)]
+    on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
+    /// Whether the input is disabled.
+    #[prop(optional, into)]
+    disabled: MaybeSignal<bool>,
     /// Which direction the Textarea is allowed to be resized.
     #[prop(optional, into)]
     resize: MaybeSignal<TextareaResize>,
     #[prop(optional)] comp_ref: ComponentRef<TextareaRef>,
-    #[prop(optional, into)] class: MaybeProp<String>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("textarea", include_str!("./textarea.css"));
@@ -92,12 +104,14 @@ pub struct TextareaRef {
 }
 
 impl TextareaRef {
+    /// Focus the input element.
     pub fn focus(&self) {
         if let Some(textarea_el) = self.textarea_ref.get_untracked() {
             _ = textarea_el.focus();
         }
     }
 
+    /// Blur the input element.
     pub fn blur(&self) {
         if let Some(textarea_el) = self.textarea_ref.get_untracked() {
             _ = textarea_el.blur();

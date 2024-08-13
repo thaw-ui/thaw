@@ -14,14 +14,18 @@ pub struct PopoverTrigger {
 #[component]
 pub fn Popover(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional)] trigger_type: PopoverTriggerType,
+    /// Action that displays the popover.
+    #[prop(optional)]
+    trigger_type: PopoverTriggerType,
+    /// The element or component that triggers popover.
     popover_trigger: PopoverTrigger,
     /// Configures the position of the Popover.
     #[prop(optional)]
     position: PopoverPosition,
-    /// A popover can appear styled with brand or inverted. When not specified, the default style is used.
+    /// A popover can appear styled with brand or inverted.
+    /// When not specified, the default style is used.
     #[prop(optional, into)]
-    appearance: Option<MaybeSignal<PopoverAppearance>>,
+    appearance: MaybeProp<PopoverAppearance>,
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
@@ -131,7 +135,7 @@ pub fn Popover(
                     <div
                         class=class_list![
                             "thaw-config-provider thaw-popover-surface",
-                            appearance.map(|appearance| move || format!("thaw-popover-surface--{}", appearance.get().as_str())),
+                            move || appearance.get().map(|a| format!("thaw-popover-surface--{}", a.as_str())),
                             class
                         ]
                         data-thaw-id=config_provider.id().clone()

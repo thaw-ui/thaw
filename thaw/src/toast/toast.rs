@@ -66,16 +66,19 @@ impl Default for ToastOptions {
 }
 
 impl ToastOptions {
+    /// The position the toast should render.
     pub fn with_position(mut self, position: ToastPosition) -> Self {
         self.position = Some(position);
         self
     }
 
+    /// Auto dismiss timeout in milliseconds.
     pub fn with_timeout(mut self, timeout: Duration) -> Self {
         self.timeout = Some(timeout);
         self
     }
 
+    /// Intent.
     pub fn with_intent(mut self, intent: ToastIntent) -> Self {
         self.intent = Some(intent);
         self

@@ -4,9 +4,15 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn ProgressCircle(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(into, optional)] value: MaybeSignal<f64>,
-    #[prop(into, optional)] color: MaybeSignal<ProgressCircleColor>,
-    #[prop(into, default = "120px".into())] size: MaybeSignal<String>,
+    /// Percentage value.
+    #[prop(into, optional)]
+    value: MaybeSignal<f64>,
+    /// ProgressCircle color.
+    #[prop(into, optional)]
+    color: MaybeSignal<ProgressCircleColor>,
+    /// ProgressCircle size.
+    #[prop(into, default = "120px".into())]
+    size: MaybeSignal<String>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("progress-circle", include_str!("./progress-circle.css"));

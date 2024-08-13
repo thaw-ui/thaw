@@ -6,6 +6,7 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn Tab(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// The indentifier of the tab.
     #[prop(into)] value: String,
     children: Children,
 ) -> impl IntoView {
