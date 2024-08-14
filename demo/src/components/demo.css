@@ -14,27 +14,19 @@
 }
 
 .demo-demo__toolbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.4rem;
+    height: 26px;
+    box-sizing: border-box;
+    text-align: center;
     border-top: 1px dashed var(--demo-border-color);
     border-bottom: 1px dashed var(--demo-border-color);
 }
 
+.demo-demo__toolbar > .thaw-tooltip {
+    height: 24px;
+}
+
 .demo-demo__toolbar--code {
     border-bottom-width: 0;
-}
-
-.demo-demo__toolbar-btn {
-    display: flex;
-    cursor: pointer;
-    color: var(--demo-color);
-    transition: color .3s;
-}
-
-.demo-demo__toolbar-btn:hover {
-    color: var(--demo-color-hover);
 }
 
 .demo-demo__code {

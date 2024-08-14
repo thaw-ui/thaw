@@ -17,13 +17,9 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
         let mut css_vars = String::new();
         theme.with(|theme| {
             if theme.color.color_scheme == "dark" {
-                css_vars.push_str("--demo-color: #ffffff60;");
-                css_vars.push_str("--demo-color-hover: #ffffffe0;");
                 css_vars.push_str("--demo-border-color: #383f52;");
                 css_vars.push_str("--demo-background-color: #242832;");
             } else {
-                css_vars.push_str("--demo-color: #00000060;");
-                css_vars.push_str("--demo-color-hover: #000000e0;");
                 css_vars.push_str(&format!("--demo-border-color: var(--colorNeutralStroke2);",));
                 css_vars.push_str("--demo-background-color: #f9fafb;");
             }
@@ -52,31 +48,24 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
                     view! {
                         <div class="demo-demo__view">{children()}</div>
                         <div class="demo-demo__toolbar" class=("demo-demo__toolbar--code", move || !is_show_code.get())>
-                            <Popover appearance=PopoverAppearance::Inverted>
-                                <PopoverTrigger slot>
-                                    <span on:click=move |_| is_show_code.update(|show| *show = !*show) class="demo-demo__toolbar-btn">
-                                        {
-                                            move || if is_show_code.get() {
-                                                view! {
-                                                    <Icon icon=icondata::LuCode2/>
-                                                }
-                                            } else {
-                                                view! {
-                                                    <Icon icon=icondata::LuCode/>
-                                                }
-                                            }
-                                        }
-                                    </span>
-                                </PopoverTrigger>
-                                {
-                                    move || if is_show_code.get() {
-                                        "Hide code"
+                            <Tooltip
+                                content=MaybeSignal::derive(move || if is_show_code.get() {
+                                    "Hide code".to_string()
+                                } else {
+                                    "Show code".to_string()
+                                })
+                                appearance=TooltipAppearance::Inverted
+                            >
+                                <Button icon=MaybeProp::derive(move || if is_show_code.get() {
+                                        Some(icondata::LuCode2)
                                     } else {
-                                        "Show code"
-                                    }
-                                }
-                            </Popover>
-
+                                        Some(icondata::LuCode)
+                                    })
+                                    on:click=move |_| is_show_code.update(|show| *show = !*show)
+                                    appearance=ButtonAppearance::Transparent
+                                    size=ButtonSize::Small
+                                />
+                            </Tooltip>
                         </div>
                     }.into()
                 } else {

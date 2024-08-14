@@ -44,6 +44,9 @@ pub struct ColorTheme {
     pub color_neutral_stroke_accessible_hover: String,
     pub color_neutral_stroke_accessible_pressed: String,
 
+    pub color_neutral_shadow_ambient: String,
+    pub color_neutral_shadow_key: String,
+
     pub color_neutral_stencil_1: String,
     pub color_neutral_stencil_2: String,
 
@@ -159,6 +162,9 @@ impl ColorTheme {
             color_neutral_stroke_accessible: "#616161".into(),
             color_neutral_stroke_accessible_hover: "#575757".into(),
             color_neutral_stroke_accessible_pressed: "#4d4d4d".into(),
+
+            color_neutral_shadow_ambient: "rgba(0,0,0,0.12)".into(),
+            color_neutral_shadow_key: "rgba(0,0,0,0.14)".into(),
 
             color_neutral_stencil_1: "#e6e6e6".into(),
             color_neutral_stencil_2: "#fafafa".into(),
@@ -276,6 +282,9 @@ impl ColorTheme {
             color_neutral_stroke_accessible: "#adadad".into(),
             color_neutral_stroke_accessible_hover: "#bdbdbd".into(),
             color_neutral_stroke_accessible_pressed: "#b3b3b3".into(),
+
+            color_neutral_shadow_ambient: "rgba(0,0,0,0.24)".into(),
+            color_neutral_shadow_key: "rgba(0,0,0,0.28)".into(),
 
             color_neutral_stencil_1: "#575757".into(),
             color_neutral_stencil_2: "#333333".into(),
