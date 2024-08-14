@@ -46,6 +46,7 @@ mod textarea;
 mod theme;
 mod time_picker;
 mod toast;
+mod tooltip;
 mod upload;
 
 pub use accordion::*;
@@ -96,4 +97,5 @@ pub use thaw_utils::{ComponentRef, SignalWatch};
 pub use theme::*;
 pub use time_picker::*;
 pub use toast::*;
+pub use tooltip::*;
 pub use upload::*;

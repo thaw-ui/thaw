@@ -1,0 +1,160 @@
+use crate::ConfigInjection;
+use leptos::{html, leptos_dom::helpers::TimeoutHandle, prelude::*};
+use std::time::Duration;
+use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_utils::{class_list, mount_style};
+
+#[slot]
+pub struct TooltipContent {
+    #[prop(optional, into)]
+    class: MaybeProp<String>,
+    children: Children,
+}
+
+#[component]
+pub fn Tooltip(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional)] tooltip_content: Option<TooltipContent>,
+    /// The text of the tooltip.
+    #[prop(optional, into)]
+    content: MaybeProp<String>,
+    /// Configure the positioning of the tooltip
+    #[prop(optional)]
+    position: TooltipPosition,
+    /// The tooltip's visual appearance.
+    #[prop(optional, into)]
+    appearance: MaybeProp<TooltipAppearance>,
+    children: Children,
+) -> impl IntoView {
+    mount_style("tooltip", include_str!("./tooltip.css"));
+    let config_provider = ConfigInjection::expect_context();
+
+    let content_ref = NodeRef::<html::Div>::new();
+    let tooltip_ref = NodeRef::<html::Div>::new();
+    let is_show_content = RwSignal::new(false);
+    let content_handle = StoredValue::new(None::<TimeoutHandle>);
+
+    let on_mouse_enter = move |_| {
+        content_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.clear();
+            }
+        });
+        is_show_content.set(true);
+    };
+    let on_mouse_leave = move |_| {
+        content_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.clear();
+            }
+            *handle = set_timeout_with_handle(
+                move || {
+                    is_show_content.set(false);
+                },
+                Duration::from_millis(100),
+            )
+            .ok();
+        });
+    };
+
+    Owner::on_cleanup(move || {
+        content_handle.update_value(|handle| {
+            if let Some(handle) = handle.take() {
+                handle.clear();
+            }
+        });
+    });
+
+    view! {
+        <Binder target_ref=tooltip_ref>
+            <div
+                class=class_list!["thaw-tooltip", class]
+                node_ref=tooltip_ref
+                on:mouseenter=on_mouse_enter
+                on:mouseleave=on_mouse_leave
+            >
+                {children()}
+            </div>
+            <Follower slot show=is_show_content placement=position>
+                <CSSTransition
+                    node_ref=content_ref
+                    name="tooltip-transition"
+                    appear=is_show_content.get_untracked()
+                    show=is_show_content
+                    let:display
+                >
+                    <div
+                        class=class_list![
+                            "thaw-config-provider thaw-tooltip-content",
+                            move || appearance.get().map(|a| format!("thaw-tooltip-content--{}", a.as_str()))
+                        ]
+                        data-thaw-id=config_provider.id().clone()
+                        style=move || display.get().unwrap_or_default()
+                        role="tooltip"
+                        node_ref=content_ref
+                        on:mouseenter=on_mouse_enter
+                        on:mouseleave=on_mouse_leave
+                    >
+                        {
+                            move || {
+                                content.get()
+                            }
+                        }
+                        <div class="thaw-tooltip-content__angle"></div>
+                    </div>
+                </CSSTransition>
+            </Follower>
+        </Binder>
+    }
+}
+
+#[derive(Clone)]
+pub enum TooltipAppearance {
+    Normal,
+    Inverted,
+}
+
+impl TooltipAppearance {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Normal => "normal",
+            Self::Inverted => "inverted",
+        }
+    }
+}
+
+#[derive(Default)]
+pub enum TooltipPosition {
+    #[default]
+    Top,
+    Bottom,
+    Left,
+    Right,
+    TopStart,
+    TopEnd,
+    LeftStart,
+    LeftEnd,
+    RightStart,
+    RightEnd,
+    BottomStart,
+    BottomEnd,
+}
+
+impl From<TooltipPosition> for FollowerPlacement {
+    fn from(value: TooltipPosition) -> Self {
+        match value {
+            TooltipPosition::Top => Self::Top,
+            TooltipPosition::Bottom => Self::Bottom,
+            TooltipPosition::Left => Self::Left,
+            TooltipPosition::Right => Self::Right,
+            TooltipPosition::TopStart => Self::TopStart,
+            TooltipPosition::TopEnd => Self::TopEnd,
+            TooltipPosition::LeftStart => Self::LeftStart,
+            TooltipPosition::LeftEnd => Self::LeftEnd,
+            TooltipPosition::RightStart => Self::RightStart,
+            TooltipPosition::RightEnd => Self::RightEnd,
+            TooltipPosition::BottomStart => Self::BottomStart,
+            TooltipPosition::BottomEnd => Self::BottomEnd,
+        }
+    }
+}

@@ -69,6 +69,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "TextareaMdPage" => "../../thaw/src/textarea/docs/mod.md",
         "TimePickerMdPage" => "../../thaw/src/time_picker/docs/mod.md",
         "ToastMdPage" => "../../thaw/src/toast/docs/mod.md",
+        "TooltipMdPage" => "../../thaw/src/tooltip/docs/mod.md",
         "UploadMdPage" => "../../thaw/src/upload/docs/mod.md"
     };
 

@@ -250,8 +250,8 @@ fn gen_search_all_options() -> Vec<AutoCompleteOption> {
         .into_iter()
         .flat_map(|group| {
             group.children.into_iter().map(|item| AutoCompleteOption {
-                value: item.value,
-                label: item.label,
+                value: item.value.to_string(),
+                label: item.label.to_string(),
             })
         })
         .collect()
