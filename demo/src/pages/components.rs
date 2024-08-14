@@ -86,225 +86,229 @@ pub fn ComponentsPage() -> impl IntoView {
 }
 
 pub(crate) struct NavGroupOption {
-    pub label: String,
+    pub label: &'static str,
     pub children: Vec<NavItemOption>,
 }
 
 pub(crate) struct NavItemOption {
-    pub label: String,
-    pub value: String,
+    pub label: &'static str,
+    pub value: &'static str,
 }
 
 pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
     vec![
         NavGroupOption {
-            label: "Getting Started".into(),
+            label: "Getting Started",
             children: vec![
                 NavItemOption {
-                    value: "/guide/installation".into(),
-                    label: "Installation".into(),
+                    value: "/guide/installation",
+                    label: "Installation",
                 },
                 NavItemOption {
-                    value: "/guide/server-sider-rendering".into(),
-                    label: "Server Sider Rendering".into(),
+                    value: "/guide/server-sider-rendering",
+                    label: "Server Sider Rendering",
                 },
             ],
         },
         // NavGroupOption {
-        //     label: "Development".into(),
+        //     label: "Development",
         //     children: vec![
         //         NavItemOption {
-        //             value: "/guide/development/components".into(),
-        //             label: "Components".into(),
+        //             value: "/guide/development/components",
+        //             label: "Components",
         //         },
         //     ],
         // },
         NavGroupOption {
-            label: "Components".into(),
+            label: "Components",
             children: vec![
                 NavItemOption {
-                    value: "/components/accordion".into(),
-                    label: "Accordion".into(),
+                    value: "/components/accordion",
+                    label: "Accordion",
                 },
                 NavItemOption {
-                    value: "/components/anchor".into(),
-                    label: "Anchor".into(),
+                    value: "/components/anchor",
+                    label: "Anchor",
                 },
                 NavItemOption {
-                    value: "/components/auto-complete".into(),
-                    label: "Auto Complete".into(),
+                    value: "/components/auto-complete",
+                    label: "Auto Complete",
                 },
                 NavItemOption {
-                    value: "/components/avatar".into(),
-                    label: "Avatar".into(),
+                    value: "/components/avatar",
+                    label: "Avatar",
                 },
                 NavItemOption {
-                    value: "/components/back-top".into(),
-                    label: "Back Top".into(),
+                    value: "/components/back-top",
+                    label: "Back Top",
                 },
                 NavItemOption {
-                    value: "/components/badge".into(),
-                    label: "Badge".into(),
+                    value: "/components/badge",
+                    label: "Badge",
                 },
                 NavItemOption {
-                    value: "/components/breadcrumb".into(),
-                    label: "Breadcrumb".into(),
+                    value: "/components/breadcrumb",
+                    label: "Breadcrumb",
                 },
                 NavItemOption {
-                    value: "/components/button".into(),
-                    label: "Button".into(),
+                    value: "/components/button",
+                    label: "Button",
                 },
                 NavItemOption {
-                    value: "/components/calendar".into(),
-                    label: "Calendar".into(),
+                    value: "/components/calendar",
+                    label: "Calendar",
                 },
                 NavItemOption {
-                    value: "/components/card".into(),
-                    label: "Card".into(),
+                    value: "/components/card",
+                    label: "Card",
                 },
                 NavItemOption {
-                    value: "/components/checkbox".into(),
-                    label: "Checkbox".into(),
+                    value: "/components/checkbox",
+                    label: "Checkbox",
                 },
                 NavItemOption {
-                    value: "/components/color-picker".into(),
-                    label: "Color Picker".into(),
+                    value: "/components/color-picker",
+                    label: "Color Picker",
                 },
                 NavItemOption {
-                    value: "/components/combobox".into(),
-                    label: "Combobox".into(),
+                    value: "/components/combobox",
+                    label: "Combobox",
                 },
                 NavItemOption {
-                    value: "/components/config-provider".into(),
-                    label: "Config Provider".into(),
+                    value: "/components/config-provider",
+                    label: "Config Provider",
                 },
                 NavItemOption {
-                    value: "/components/date-picker".into(),
-                    label: "Date Picker".into(),
+                    value: "/components/date-picker",
+                    label: "Date Picker",
                 },
                 NavItemOption {
-                    value: "/components/dialog".into(),
-                    label: "Dialog".into(),
+                    value: "/components/dialog",
+                    label: "Dialog",
                 },
                 NavItemOption {
-                    value: "/components/divider".into(),
-                    label: "Divider".into(),
+                    value: "/components/divider",
+                    label: "Divider",
                 },
                 NavItemOption {
-                    value: "/components/drawer".into(),
-                    label: "Drawer".into(),
+                    value: "/components/drawer",
+                    label: "Drawer",
                 },
                 NavItemOption {
-                    value: "/components/grid".into(),
-                    label: "Grid".into(),
+                    value: "/components/grid",
+                    label: "Grid",
                 },
                 NavItemOption {
-                    value: "/components/icon".into(),
-                    label: "Icon".into(),
+                    value: "/components/icon",
+                    label: "Icon",
                 },
                 NavItemOption {
-                    value: "/components/image".into(),
-                    label: "Image".into(),
+                    value: "/components/image",
+                    label: "Image",
                 },
                 NavItemOption {
-                    value: "/components/input".into(),
-                    label: "Input".into(),
+                    value: "/components/input",
+                    label: "Input",
                 },
                 NavItemOption {
-                    value: "/components/layout".into(),
-                    label: "Layout".into(),
+                    value: "/components/layout",
+                    label: "Layout",
                 },
                 NavItemOption {
-                    value: "/components/loading-bar".into(),
-                    label: "Loading Bar".into(),
+                    value: "/components/loading-bar",
+                    label: "Loading Bar",
                 },
                 NavItemOption {
-                    value: "/components/menu".into(),
-                    label: "Menu".into(),
+                    value: "/components/menu",
+                    label: "Menu",
                 },
                 NavItemOption {
-                    value: "/components/message-bar".into(),
-                    label: "Message Bar".into(),
+                    value: "/components/message-bar",
+                    label: "Message Bar",
                 },
                 NavItemOption {
-                    value: "/components/nav".into(),
-                    label: "Nav".into(),
+                    value: "/components/nav",
+                    label: "Nav",
                 },
                 NavItemOption {
-                    value: "/components/pagination".into(),
-                    label: "Pagination".into(),
+                    value: "/components/pagination",
+                    label: "Pagination",
                 },
                 NavItemOption {
-                    value: "/components/popover".into(),
-                    label: "Popover".into(),
+                    value: "/components/popover",
+                    label: "Popover",
                 },
                 NavItemOption {
-                    value: "/components/progress-bar".into(),
-                    label: "ProgressBar".into(),
+                    value: "/components/progress-bar",
+                    label: "ProgressBar",
                 },
                 NavItemOption {
-                    value: "/components/radio".into(),
-                    label: "Radio".into(),
+                    value: "/components/radio",
+                    label: "Radio",
                 },
                 NavItemOption {
-                    value: "/components/scrollbar".into(),
-                    label: "Scrollbar".into(),
+                    value: "/components/scrollbar",
+                    label: "Scrollbar",
                 },
                 NavItemOption {
-                    value: "/components/skeleton".into(),
-                    label: "Skeleton".into(),
+                    value: "/components/skeleton",
+                    label: "Skeleton",
                 },
                 NavItemOption {
-                    value: "/components/slider".into(),
-                    label: "Slider".into(),
+                    value: "/components/slider",
+                    label: "Slider",
                 },
                 NavItemOption {
-                    value: "/components/space".into(),
-                    label: "Space".into(),
+                    value: "/components/space",
+                    label: "Space",
                 },
                 NavItemOption {
-                    value: "/components/spin-button".into(),
-                    label: "Spin Button".into(),
+                    value: "/components/spin-button",
+                    label: "Spin Button",
                 },
                 NavItemOption {
-                    value: "/components/spinner".into(),
-                    label: "Spinner".into(),
+                    value: "/components/spinner",
+                    label: "Spinner",
                 },
                 NavItemOption {
-                    value: "/components/switch".into(),
-                    label: "Switch".into(),
+                    value: "/components/switch",
+                    label: "Switch",
                 },
                 NavItemOption {
-                    value: "/components/tab-list".into(),
-                    label: "Tab List".into(),
+                    value: "/components/tab-list",
+                    label: "Tab List",
                 },
                 NavItemOption {
-                    value: "/components/table".into(),
-                    label: "Table".into(),
+                    value: "/components/table",
+                    label: "Table",
                 },
                 NavItemOption {
-                    value: "/components/tag".into(),
-                    label: "Tag".into(),
+                    value: "/components/tag",
+                    label: "Tag",
                 },
                 NavItemOption {
-                    value: "/components/text".into(),
-                    label: "Text".into(),
+                    value: "/components/text",
+                    label: "Text",
                 },
                 NavItemOption {
-                    value: "/components/textarea".into(),
-                    label: "Textarea".into(),
+                    value: "/components/textarea",
+                    label: "Textarea",
                 },
                 NavItemOption {
-                    value: "/components/time-picker".into(),
-                    label: "Time Picker".into(),
+                    value: "/components/time-picker",
+                    label: "Time Picker",
                 },
                 NavItemOption {
-                    value: "/components/toast".into(),
-                    label: "Toast".into(),
+                    value: "/components/toast",
+                    label: "Toast",
                 },
                 NavItemOption {
-                    value: "/components/upload".into(),
-                    label: "Upload".into(),
+                    value: "/components/tooltip",
+                    label: "Tooltip",
+                },
+                NavItemOption {
+                    value: "/components/upload",
+                    label: "Upload",
                 },
             ],
         },
