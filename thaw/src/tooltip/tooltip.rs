@@ -4,26 +4,18 @@ use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style};
 
-#[slot]
-pub struct TooltipContent {
-    #[prop(optional, into)]
-    class: MaybeProp<String>,
-    children: Children,
-}
-
 #[component]
 pub fn Tooltip(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional)] tooltip_content: Option<TooltipContent>,
     /// The text of the tooltip.
     #[prop(optional, into)]
-    content: MaybeProp<String>,
-    /// Configure the positioning of the tooltip
+    content: Option<MaybeSignal<String>>,
+    /// Configure the position of the tooltip.
     #[prop(optional)]
     position: TooltipPosition,
     /// The tooltip's visual appearance.
     #[prop(optional, into)]
-    appearance: MaybeProp<TooltipAppearance>,
+    appearance: MaybeSignal<TooltipAppearance>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tooltip", include_str!("./tooltip.css"));
@@ -86,7 +78,7 @@ pub fn Tooltip(
                     <div
                         class=class_list![
                             "thaw-config-provider thaw-tooltip-content",
-                            move || appearance.get().map(|a| format!("thaw-tooltip-content--{}", a.as_str()))
+                            move || format!("thaw-tooltip-content--{}", appearance.get().as_str())
                         ]
                         data-thaw-id=config_provider.id().clone()
                         style=move || display.get().unwrap_or_default()
@@ -95,11 +87,7 @@ pub fn Tooltip(
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >
-                        {
-                            move || {
-                                content.get()
-                            }
-                        }
+                        {move || { content.as_ref().map(|c| c.get()).unwrap_or_default() }}
                         <div class="thaw-tooltip-content__angle"></div>
                     </div>
                 </CSSTransition>
@@ -108,8 +96,9 @@ pub fn Tooltip(
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub enum TooltipAppearance {
+    #[default]
     Normal,
     Inverted,
 }
