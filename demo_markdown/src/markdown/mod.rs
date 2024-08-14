@@ -168,6 +168,12 @@ fn iter_nodes<'a>(
         NodeValue::Image(_) => quote!("Image todo!!!"),
         NodeValue::FootnoteReference(_) => quote!("FootnoteReference todo!!!"),
         NodeValue::MultilineBlockQuote(_) => quote!("FootnoteReference todo!!!"),
+        NodeValue::Math(_) => quote!("Math todo!!!"),
+        NodeValue::Escaped => quote!("Escaped todo!!!"),
+        NodeValue::WikiLink(_) => quote!("WikiLink todo!!!"),
+        NodeValue::Underline => quote!("Underline todo!!!"),
+        NodeValue::SpoileredText => quote!("SpoileredText todo!!!"),
+        NodeValue::EscapedTag(_) => quote!("EscapedTag todo!!!"),
     }
 }
 

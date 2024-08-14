@@ -299,9 +299,9 @@ impl PanelRef {
         };
         use wasm_bindgen::JsCast;
         if let Ok(slected_el) = slected_el.dyn_into::<web_sys::HtmlElement>() {
-            scrollbar_ref.scroll_to_with_scroll_to_options(
-                web_sys::ScrollToOptions::new().top(f64::from(slected_el.offset_top())),
-            );
+            let options = web_sys::ScrollToOptions::new();
+            options.set_top(f64::from(slected_el.offset_top()));
+            scrollbar_ref.scroll_to_with_scroll_to_options(&options);
         }
     }
 

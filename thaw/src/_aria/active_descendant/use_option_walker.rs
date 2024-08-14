@@ -27,8 +27,8 @@ where
 
             3u32
         });
-        let mut node_filter = NodeFilter::new();
-        node_filter.accept_node(cb.as_ref().unchecked_ref());
+        let node_filter = NodeFilter::new();
+        node_filter.set_accept_node(cb.as_ref().unchecked_ref());
 
         let tw = document()
             .create_tree_walker_with_what_to_show_and_filter(el, 0x1, Some(&node_filter))
