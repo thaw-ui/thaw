@@ -1,3 +1,5 @@
+tabWidth = 4
+
 [[overrides]]
 files = "*.md"
 options = { proseWrap = "never", printWidth = 120 }
