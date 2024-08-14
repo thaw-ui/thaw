@@ -14,10 +14,10 @@ license = "MIT"
 [dependencies]
 leptos = { workspace = true }
 leptos_meta = { workspace = true, optional = true }
-web-sys = "0.3.69"
-wasm-bindgen = "0.2.92"
+web-sys = "0.3.70"
+wasm-bindgen = "0.2.93"
 cfg-if = "1.0.0"
-chrono = "0.4.35"
+chrono = "0.4.38"
 send_wrapper = "0.6"
 
 [features]

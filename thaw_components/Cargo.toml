@@ -14,7 +14,7 @@ license = "MIT"
 [dependencies]
 leptos = { workspace = true }
 thaw_utils = { workspace = true }
-web-sys = { version = "0.3.69", features = ["DomRect"] }
+web-sys = { version = "0.3.70", features = ["DomRect"] }
 cfg-if = "1.0.0"
 uuid = { version = "1.10.0", features = ["v4", "js"] }
 send_wrapper = "0.6"

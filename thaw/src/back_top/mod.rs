@@ -49,11 +49,10 @@ pub fn BackTop(
             {
                 let scroll_el = send_wrapper::SendWrapper::new(scroll_el.clone());
                 scroll_to_top.set_value(Some(BoxCallback::new(move || {
-                    scroll_el.scroll_to_with_scroll_to_options(
-                        web_sys::ScrollToOptions::new()
-                            .top(0.0)
-                            .behavior(web_sys::ScrollBehavior::Smooth),
-                    );
+                    let options = web_sys::ScrollToOptions::new();
+                    options.set_top(0.0);
+                    options.set_behavior(web_sys::ScrollBehavior::Smooth);
+                    scroll_el.scroll_to_with_scroll_to_options(&options);
                 })));
             }
 
