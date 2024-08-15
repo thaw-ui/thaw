@@ -3,6 +3,7 @@ publish = false
 name = "demo"
 version = "0.1.0"
 edition = "2021"
+build = "./build/mod.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -21,6 +22,13 @@ send_wrapper = "0.6"
 console_error_panic_hook = "0.1.7"
 console_log = "1"
 log = "0.4"
+
+[build-dependencies]
+quote = "1.0.36"
+comrak = "0.26.0"
+proc-macro2 = "1.0.86"
+syn = "2.0.74"
+syntect = "5.2.0"
 
 [features]
 default = ["csr"]

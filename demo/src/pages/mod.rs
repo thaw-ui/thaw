@@ -1,4 +1,5 @@
 mod components;
+mod docs;
 mod home;
 mod markdown;
 // mod mobile;
