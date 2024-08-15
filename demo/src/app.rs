@@ -55,7 +55,7 @@ fn TheRouter() -> impl IntoView {
                 <ParentRoute path=path!("/guide") view=ComponentsPage>
                     <Route path=path!("/installation") view=InstallationMdPage/>
                     <Route path=path!("/server-sider-rendering") view=ServerSiderRenderingMdPage/>
-                    <Route path=path!("/development/components") view=DevelopmentComponentsMdPage/>
+                    // <Route path=path!("/development/components") view=DevelopmentComponentsMdPage/>
                 </ParentRoute>
                 <ParentRoute path=path!("/components") view=ComponentsPage>
                     <Route path=path!("/accordion") view=AccordionMdPage/>

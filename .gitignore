@@ -11,7 +11,7 @@ Cargo.lock
 
 /examples/**/dist
 /demo/dist
-/demo/src/pages/docs
+/demo/src/pages/docs/*.rs
 /docs
 
 .DS_Store

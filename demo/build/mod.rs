@@ -9,25 +9,78 @@ use std::{
 };
 use syn::ItemFn;
 
-static FILE_LIST: &'static [&'static str] = &["Accordion"];
+static GUIDE_LIST: &'static [&'static str] = &["installation", "server_sider_rendering"];
+
+static COMPONENT_LIST: &'static [&'static str] = &[
+    "accordion",
+    "anchor",
+    "auto_complete",
+    "avatar",
+    "back_top",
+    "badge",
+    "breadcrumb",
+    "button",
+    "calendar",
+    "card",
+    "checkbox",
+    "color_picker",
+    "combobox",
+    "config_provider",
+    "date_picker",
+    "dialog",
+    "divider",
+    "drawer",
+    "grid",
+    "icon",
+    "image",
+    "input",
+    "layout",
+    "loading_bar",
+    "menu",
+    "message_bar",
+    "nav",
+    "pagination",
+    "popover",
+    "progress_bar",
+    "radio",
+    "scrollbar",
+    "skeleton",
+    "slider",
+    "space",
+    "spin_button",
+    "spinner",
+    "switch",
+    "tab_list",
+    "table",
+    "tag",
+    "text",
+    "textarea",
+    "time_picker",
+    "toast",
+    "tooltip",
+    "upload",
+];
 
 fn main() {
     let mut mod_text = String::new();
     let mut pub_text = String::new();
-    for name in FILE_LIST.iter() {
-        let name_lowercase = name.to_ascii_lowercase();
-        mod_text.push_str(&format!("mod {name_lowercase};\n"));
-        pub_text.push_str(&format!("pub use {name_lowercase}::*;\n"));
+    let mut docs = vec![];
+    for file_name in GUIDE_LIST.iter() {
+        let comp_name = format!("{}MdPage", snake_to_pascal(file_name));
+        let path = format!("./src/pages/docs/_guide/{}.md", file_name);
+        docs.push((file_name, comp_name, path))
+    }
+    for file_name in COMPONENT_LIST.iter() {
+        let comp_name = format!("{}MdPage", snake_to_pascal(file_name));
+        let path = format!("../thaw/src/{}/docs/mod.md", file_name);
+        docs.push((file_name, comp_name, path))
+    }
+    for (file_name, comp_name, path) in docs.iter() {
+        let mut file = File::open(path).expect(&format!("Failed to open file! path -> {path}"));
+        let mut md_text = String::new();
+        file.read_to_string(&mut md_text).unwrap();
 
-        let path = format!("../thaw/src/{}/docs/mod.md", name_lowercase);
-        let mut file = File::open(path).unwrap();
-        let mut file_str = String::new();
-        file.read_to_string(&mut file_str).unwrap();
-
-        let fn_name = format!("{}MdPage", name);
-        let fn_name = Ident::new(&fn_name, Span::call_site());
-
-        let (body, demos, toc) = parse_markdown(&file_str).unwrap();
+        let (body, demos, toc) = parse_markdown(&md_text).unwrap();
 
         let toc = {
             let links = toc
@@ -59,13 +112,14 @@ fn main() {
             })
             .collect();
 
+        let comp_name = Ident::new(&comp_name, Span::call_site());
         let token = quote! {
             use crate::components::{Demo, DemoCode};
             use leptos::{ev, prelude::*};
             use thaw::*;
 
             #[component]
-            pub fn #fn_name() -> impl IntoView {
+            pub fn #comp_name() -> impl IntoView {
                 #(#demos)*
 
                 #toc
@@ -81,7 +135,9 @@ fn main() {
             }
         };
 
-        let path = format!("./src/pages/docs/{}.rs", name_lowercase);
+        mod_text.push_str(&format!("mod {file_name};\n"));
+        pub_text.push_str(&format!("pub use {file_name}::*;\n"));
+        let path = format!("./src/pages/docs/{}.rs", file_name);
         let mut file = File::create(path).unwrap();
         file.write_all(token.to_string().as_bytes()).unwrap();
     }
@@ -89,4 +145,13 @@ fn main() {
     let mut file = File::create("./src/pages/docs/mod.rs").unwrap();
     file.write_all(format!("{mod_text}\n{pub_text}").as_bytes())
         .unwrap();
+}
+
+fn snake_to_pascal(s: &str) -> String {
+    s.split('_')
+        .map(|word| {
+            let (first, word) = word.split_at(1);
+            format!("{}{word}", first.to_ascii_uppercase())
+        })
+        .collect()
 }

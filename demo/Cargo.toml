@@ -12,7 +12,7 @@ leptos = { workspace = true }
 leptos_meta = { workspace = true }
 leptos_router = { workspace = true }
 thaw = { path = "../thaw" }
-demo_markdown = { path = "../demo_markdown" }
+# demo_markdown = { path = "../demo_markdown" }
 icondata = "0.3.1"
 palette = "0.7.6"
 chrono = "0.4.38"
