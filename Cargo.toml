@@ -11,10 +11,10 @@ members = [
 exclude = ["examples"]
 
 [workspace.dependencies]
-thaw = { version = "0.4.0-alpha", path = "./thaw" }
-thaw_components = { version = "0.2.0-alpha", path = "./thaw_components" }
-thaw_macro = { version = "0.1.0-alpha", path = "./thaw_macro" }
-thaw_utils = { version = "0.1.0-alpha", path = "./thaw_utils" }
+thaw = { version = "0.4.0-beta", path = "./thaw" }
+thaw_components = { version = "0.2.0-beta", path = "./thaw_components" }
+thaw_macro = { version = "0.1.0-beta", path = "./thaw_macro" }
+thaw_utils = { version = "0.1.0-beta", path = "./thaw_utils" }
 
 leptos = { version = "0.7.0-beta2" }
 leptos_meta = { version = "0.7.0-beta2" }
