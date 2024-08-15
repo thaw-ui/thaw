@@ -74,7 +74,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/config-provider") view=ConfigProviderMdPage/>
                 </ParentRoute>
                 <ParentRoute path=path!("/components") view=ComponentsPage>
-                    <Route path=path!("date-picker") view=DatePickerMdPage/>
+                    <Route path=path!("/date-picker") view=DatePickerMdPage/>
                     <Route path=path!("/dialog") view=DialogMdPage/>
                     <Route path=path!("/divider") view=DividerMdPage/>
                     <Route path=path!("/drawer") view=DrawerMdPage/>
