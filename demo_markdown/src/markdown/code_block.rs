@@ -17,7 +17,7 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
         let mut is_highlight = true;
         let literal = langs
             .iter()
-            .find(|lang| lang != &&"demo")
+            .find(|lang| lang != &&"demo" && lang != &&"remove-scrollbar")
             .map(|lang| highlight_to_html(&code_block.literal, lang))
             .flatten()
             .unwrap_or_else(|| {
@@ -25,8 +25,10 @@ pub fn to_tokens(code_block: &NodeCodeBlock, demos: &mut Vec<String>) -> TokenSt
                 code_block.literal.clone()
             });
 
+        let remove_scrollbar = langs.iter().any(|lang| lang == &"remove-scrollbar");
+
         quote! {
-            <Demo>
+            <Demo remove_scrollbar=#remove_scrollbar>
                 <#demo />
                 <DemoCode slot is_highlight=#is_highlight text=#literal>
                 </DemoCode>

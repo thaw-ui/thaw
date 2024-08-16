@@ -1,4 +1,4 @@
-use leptos::prelude::*;
+use leptos::{either::Either, prelude::*};
 use leptos_meta::Style;
 use thaw::*;
 
@@ -11,7 +11,11 @@ pub struct DemoCode {
 }
 
 #[component]
-pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -> impl IntoView {
+pub fn Demo(
+    #[prop(optional)] remove_scrollbar: bool,
+    demo_code: DemoCode,
+    #[prop(optional)] children: Option<Children>,
+) -> impl IntoView {
     let theme = Theme::use_theme(Theme::light);
     let css_vars = Memo::new(move |_| {
         let mut css_vars = String::new();
@@ -52,9 +56,19 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
             {
                 if let Some(children) = children {
                     view! {
-                        <Scrollbar>
-                            <div class="demo-demo__view">{children()}</div>
-                        </Scrollbar>
+                        {
+                            if remove_scrollbar {
+                                Either::Left(view! {
+                                    <div class="demo-demo__view">{children()}</div>
+                                })
+                            } else {
+                                Either::Right(view! {
+                                    <Scrollbar>
+                                        <div class="demo-demo__view">{children()}</div>
+                                    </Scrollbar>
+                                })
+                            }
+                        }
                         <div class="demo-demo__toolbar" class=("demo-demo__toolbar--code", move || !is_show_code.get())>
                             <Tooltip
                                 content=MaybeSignal::derive(move || if is_show_code.get() {
