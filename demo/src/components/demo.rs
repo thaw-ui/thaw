@@ -34,19 +34,27 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
 
     let is_highlight = demo_code.is_highlight;
     let html = demo_code.text;
+    let styles = use_context::<DemoStyle>().is_none().then(|| {
+        view! {
+            <Style id="leptos-thaw-syntect-css">
+                {include_str!("./syntect-css.css")}
+            </Style>
+            <Style id="demo-demo">
+                {include_str!("./demo.css")}
+            </Style>
+        }
+    });
+    provide_context(DemoStyle);
 
     view! {
-        <Style id="leptos-thaw-syntect-css">
-            {include_str!("./syntect-css.css")}
-        </Style>
-        <Style id="demo-demo">
-            {include_str!("./demo.css")}
-        </Style>
+        {styles}
         <div class="demo-demo" style=move || css_vars.get()>
             {
                 if let Some(children) = children {
                     view! {
-                        <div class="demo-demo__view">{children()}</div>
+                        <Scrollbar>
+                            <div class="demo-demo__view">{children()}</div>
+                        </Scrollbar>
                         <div class="demo-demo__toolbar" class=("demo-demo__toolbar--code", move || !is_show_code.get())>
                             <Tooltip
                                 content=MaybeSignal::derive(move || if is_show_code.get() {
@@ -72,19 +80,24 @@ pub fn Demo(demo_code: DemoCode, #[prop(optional)] children: Option<Children>) -
                     None
                 }
             }
-            <div class=move || code_class.get() style:display=move || (!is_show_code.get()).then_some("none").unwrap_or_default()>
-                {
-                    if is_highlight {
-                        view! {
-                            <Code inner_html=html />
-                        }
-                    } else {
-                        view! {
-                            <Code text=html />
+            <Scrollbar>
+                <div class=move || code_class.get() style:display=move || (!is_show_code.get()).then_some("none").unwrap_or_default()>
+                    {
+                        if is_highlight {
+                            view! {
+                                <Code inner_html=html />
+                            }
+                        } else {
+                            view! {
+                                <Code text=html />
+                            }
                         }
                     }
-                }
-            </div>
+                </div>
+            </Scrollbar>
         </div>
     }
 }
+
+#[derive(Clone)]
+pub struct DemoStyle;
