@@ -2,7 +2,7 @@
 
 BackTop will find its first scrollable ascendant element and listen scroll event on it.
 
-```rust demo
+```rust demo remove-scrollbar
 view! {
     <BackTop />
 }
@@ -10,7 +10,7 @@ view! {
 
 ### Visibility height
 
-```rust demo
+```rust demo remove-scrollbar
 view! {
     <BackTop bottom=100 visibility_height=280>
         <div style="width: 200px; text-align: center;">
@@ -22,7 +22,7 @@ view! {
 
 ### Change position
 
-```rust demo
+```rust demo remove-scrollbar
 view! {
     <BackTop right=40 bottom=160>
         <div style="width: 200px; text-align: center;">
