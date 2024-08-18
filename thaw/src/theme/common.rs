@@ -68,9 +68,9 @@ pub struct CommonTheme {
 impl CommonTheme {
     pub fn new() -> Self {
         Self {
-            font_family_base: "'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif".into(),
-            font_family_monospace: "Consolas, 'Courier New', Courier, monospace".into(),
-            font_family_numeric: "Bahnschrift, 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif".into(),
+            font_family_base: "'Segoe UI', 'Segoe UI Web (West European)', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif".into(),
+            font_family_monospace: "Consolas, ui-monospace, 'Courier New', Courier, monospace".into(),
+            font_family_numeric: "Bahnschrift, 'Segoe UI', 'Segoe UI Web (West European)', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif".into(),
 
             font_size_base_100: "10px".into(),
             font_size_base_200: "12px".into(),
