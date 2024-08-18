@@ -78,6 +78,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/dialog") view=DialogMdPage/>
                     <Route path=path!("/divider") view=DividerMdPage/>
                     <Route path=path!("/drawer") view=DrawerMdPage/>
+                    <Route path=path!("/field") view=FieldMdPage/>
                     <Route path=path!("/menu") view=MenuMdPage/>
                     <Route path=path!("/grid") view=GridMdPage/>
                     <Route path=path!("/icon") view=IconMdPage/>
@@ -89,9 +90,9 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/nav") view=NavMdPage/>
                     <Route path=path!("/pagination") view=PaginationMdPage/>
                     <Route path=path!("/popover") view=PopoverMdPage/>
-                    <Route path=path!("/progress-bar") view=ProgressBarMdPage/>
                 </ParentRoute>
                 <ParentRoute path=path!("/components") view=ComponentsPage>
+                    <Route path=path!("/progress-bar") view=ProgressBarMdPage/>
                     <Route path=path!("/radio") view=RadioMdPage/>
                     <Route path=path!("/scrollbar") view=ScrollbarMdPage/>
                     <Route path=path!("/skeleton") view=SkeletonMdPage/>
@@ -107,9 +108,9 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/textarea") view=TextareaMdPage/>
                     <Route path=path!("/time-picker") view=TimePickerMdPage/>
                     <Route path=path!("/toast") view=ToastMdPage />
-                    <Route path=path!("/tooltip") view=TooltipMdPage />
                 </ParentRoute>
                 <ParentRoute path=path!("/components") view=ComponentsPage>
+                    <Route path=path!("/tooltip") view=TooltipMdPage />
                     <Route path=path!("/upload") view=UploadMdPage/>
                 </ParentRoute>
             </Routes>
