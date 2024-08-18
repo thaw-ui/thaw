@@ -197,6 +197,10 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Drawer",
                 },
                 NavItemOption {
+                    value: "/components/field",
+                    label: "Field",
+                },
+                NavItemOption {
                     value: "/components/grid",
                     label: "Grid",
                 },

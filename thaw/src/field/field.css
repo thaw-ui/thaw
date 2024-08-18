@@ -1,0 +1,28 @@
+.thaw-field {
+    display: grid;
+}
+
+.thaw-field__label {
+    margin-bottom: var(--spacingVerticalXXS);
+    padding-bottom: var(--spacingVerticalXXS);
+    padding-top: var(--spacingVerticalXXS);
+    line-height: var(--lineHeightBase300);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    color: var(--colorNeutralForeground1);
+}
+
+.thaw-field--horizontal {
+    grid-template-columns: 33% 1fr;
+    grid-template-rows: auto auto auto 1fr;
+}
+
+.thaw-field--horizontal > .thaw-field__label {
+    grid-row-end: -1;
+    grid-row-start: 1;
+
+    margin-bottom: 0;
+    margin-right: var(--spacingHorizontalM);
+    padding-bottom: var(--spacingVerticalSNudge);
+    padding-top: var(--spacingVerticalSNudge);
+}
