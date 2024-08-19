@@ -37,6 +37,7 @@ chrono = "0.4.38"
 palette = "0.7.6"
 num-traits = "0.2.19"
 send_wrapper = "0.6"
+slotmap = "1.0"
 
 [features]
 csr = ["leptos/csr", "thaw_components/csr", "thaw_utils/csr"]

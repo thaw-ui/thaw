@@ -1,3 +1,4 @@
+use crate::{FieldContextInjection, FieldInjection, FieldValidationState};
 use leptos::{ev, html, prelude::*};
 use thaw_utils::{
     class_list, mount_style, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp,
@@ -20,6 +21,12 @@ pub struct InputSuffix {
 #[component]
 pub fn Input(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] id: MaybeProp<String>,
+    /// A string specifying a name for the input control.
+    /// This name is submitted along with the control's value when the form data is submitted.
+    #[prop(optional, into)]
+    name: MaybeProp<String>,
+    #[prop(optional, into)] rules: Vec<InputRule>,
     /// Set the input value.
     #[prop(optional, into)]
     value: Model<String>,
@@ -53,12 +60,43 @@ pub fn Input(
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
+    let (id, name) = FieldInjection::use_id_and_name(id, name);
+    let field_injection = FieldInjection::use_context();
+    let rules = StoredValue::new(rules);
+    let validate = Callback::new(move |trigger| {
+        let state = rules.with_value(move |rules| {
+            if rules.is_empty() {
+                return None;
+            }
+    
+            let mut rules_iter = rules.iter();
+            loop {
+                let Some(rule) = rules_iter.next() else {
+                    return None;
+                };
+    
+                if let Err(state) = rule.call_validator(trigger, value) {
+                    return Some(state);
+                }
+            }
+        });
+
+        let rt = state.is_some();
+            if let Some(field_injection) = field_injection.as_ref() {
+                field_injection.update_validation_state(state);
+            };
+            rt
+    });
+    if let Some(field_context) = FieldContextInjection::use_context() {
+        field_context.register_field(name, move || validate.run(None));
+    }
 
     let parser_none = parser.is_none();
     let on_input = {
         let allow_value = allow_value.clone();
         move |e| {
             if !parser_none {
+                validate.run(Some(InputRuleTrigger::Input));
                 return;
             }
             let input_value = event_target_value(&e);
@@ -69,10 +107,12 @@ pub fn Input(
                 }
             }
             value.set(input_value);
+            validate.run(Some(InputRuleTrigger::Input));
         }
     };
     let on_change = move |e| {
         let Some(parser) = parser.as_ref() else {
+            validate.run(Some(InputRuleTrigger::Change));
             return;
         };
         let Some(parsed_input_value) = parser(event_target_value(&e)) else {
@@ -86,6 +126,7 @@ pub fn Input(
             }
         }
         value.set(parsed_input_value);
+        validate.run(Some(InputRuleTrigger::Change));
     };
     let is_focus = RwSignal::new(false);
     let on_internal_focus = move |ev| {
@@ -93,12 +134,14 @@ pub fn Input(
         if let Some(on_focus) = on_focus.as_ref() {
             on_focus(ev);
         }
+        validate.run(Some(InputRuleTrigger::Focus));
     };
     let on_internal_blur = move |ev| {
         is_focus.set(false);
         if let Some(on_blur) = on_blur.as_ref() {
             on_blur(ev);
         }
+        validate.run(Some(InputRuleTrigger::Blur));
     };
 
     let input_ref = NodeRef::<html::Input>::new();
@@ -127,19 +170,6 @@ pub fn Input(
         input_value = None;
     }
 
-    // #[cfg(debug_assertions)]
-    // {
-    //     const INNER_ATTRS: [&str; 4] = ["type", "class", "disabled", "placeholder"];
-    //     attrs.iter().for_each(|attr| {
-    //         if INNER_ATTRS.contains(&attr.0) {
-    //             logging::warn!(
-    //                 "Thaw: The '{}' attribute already exists on elements inside the Input component, which may cause conflicts.",
-    //                 attr.0
-    //             );
-    //         }
-    //     });
-    // }
-
     let prefix_if_ = input_prefix.as_ref().map_or(false, |prefix| prefix.if_);
     let suffix_if_ = input_suffix.as_ref().map_or(false, |suffix| suffix.if_);
 
@@ -162,7 +192,9 @@ pub fn Input(
             }}
 
             <input
+                id=id
                 type=move || input_type.get().as_str()
+                name=name
                 value=input_value
                 prop:value=move || {
                     let value = value.get();
@@ -245,5 +277,87 @@ impl InputRef {
         if let Some(input_el) = self.input_ref.get_untracked() {
             _ = input_el.blur();
         }
+    }
+}
+
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
+pub enum InputRuleTrigger {
+    #[default]
+    Blur,
+    Focus,
+    Input,
+    Change,
+}
+
+enum InputRuleValidator {
+    Required(MaybeSignal<bool>),
+    RequiredMessage(MaybeSignal<bool>, MaybeSignal<String>),
+    Validator(Callback<String, Result<(), FieldValidationState>>),
+}
+
+pub struct InputRule {
+    validator: InputRuleValidator,
+    trigger: InputRuleTrigger,
+}
+
+impl InputRule {
+    pub fn required(required: MaybeSignal<bool>) -> Self {
+        Self {
+            trigger: Default::default(),
+            validator: InputRuleValidator::Required(required),
+        }
+    }
+
+    pub fn required_with_message(
+        required: MaybeSignal<bool>,
+        message: MaybeSignal<String>,
+    ) -> Self {
+        Self {
+            trigger: Default::default(),
+            validator: InputRuleValidator::RequiredMessage(required, message),
+        }
+    }
+
+    pub fn validator(f: impl Fn(&String) -> Result<(), FieldValidationState> + Send + Sync + 'static) -> Self {
+        Self {
+            trigger: Default::default(),
+            validator: InputRuleValidator::Validator(Callback::from(move |v| f(&v))),
+        }
+    }
+
+    pub fn with_trigger(mut self, trigger: InputRuleTrigger) -> Self {
+        self.trigger = trigger;
+
+        self
+    }
+
+    fn call_validator(
+        &self,
+        trigger: Option<InputRuleTrigger>,
+        value: Model<String>,
+    ) -> Result<(), FieldValidationState> {
+        if let Some(trigger) = trigger {
+            if self.trigger != trigger {
+                return Ok(());
+            }
+        }
+
+        value.with_untracked(|value| match &self.validator {
+            InputRuleValidator::Required(required) => {
+                if required.get_untracked() && value.is_empty() {
+                    Err(FieldValidationState::Error(String::from("")))
+                } else {
+                    Ok(())
+                }
+            }
+            InputRuleValidator::RequiredMessage(required, message) => {
+                if required.get_untracked() && value.is_empty() {
+                    Err(FieldValidationState::Error(message.get_untracked()))
+                } else {
+                    Ok(())
+                }
+            }
+            InputRuleValidator::Validator(f) => f.run(value.clone()),
+        })
     }
 }
