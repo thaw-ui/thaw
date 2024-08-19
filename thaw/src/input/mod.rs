@@ -68,24 +68,24 @@ pub fn Input(
             if rules.is_empty() {
                 return None;
             }
-    
+
             let mut rules_iter = rules.iter();
             loop {
                 let Some(rule) = rules_iter.next() else {
                     return None;
                 };
-    
-                if let Err(state) = rule.call_validator(trigger, value) {
+
+                if let Err(state) = rule.call_validator(trigger, value, name) {
                     return Some(state);
                 }
             }
         });
 
-        let rt = state.is_some();
-            if let Some(field_injection) = field_injection.as_ref() {
-                field_injection.update_validation_state(state);
-            };
-            rt
+        let rt = state.is_none();
+        if let Some(field_injection) = field_injection.as_ref() {
+            field_injection.update_validation_state(state);
+        };
+        rt
     });
     if let Some(field_context) = FieldContextInjection::use_context() {
         field_context.register_field(name, move || validate.run(None));
@@ -318,7 +318,9 @@ impl InputRule {
         }
     }
 
-    pub fn validator(f: impl Fn(&String) -> Result<(), FieldValidationState> + Send + Sync + 'static) -> Self {
+    pub fn validator(
+        f: impl Fn(&String) -> Result<(), FieldValidationState> + Send + Sync + 'static,
+    ) -> Self {
         Self {
             trigger: Default::default(),
             validator: InputRuleValidator::Validator(Callback::from(move |v| f(&v))),
@@ -335,6 +337,7 @@ impl InputRule {
         &self,
         trigger: Option<InputRuleTrigger>,
         value: Model<String>,
+        name: Signal<Option<String>>,
     ) -> Result<(), FieldValidationState> {
         if let Some(trigger) = trigger {
             if self.trigger != trigger {
@@ -345,7 +348,11 @@ impl InputRule {
         value.with_untracked(|value| match &self.validator {
             InputRuleValidator::Required(required) => {
                 if required.get_untracked() && value.is_empty() {
-                    Err(FieldValidationState::Error(String::from("")))
+                    let message = name.get_untracked().map_or_else(
+                        || String::from("Please input!"),
+                        |name| format!("Please input {name}!"),
+                    );
+                    Err(FieldValidationState::Error(message))
                 } else {
                     Ok(())
                 }

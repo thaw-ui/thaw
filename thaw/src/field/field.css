@@ -37,6 +37,10 @@
     line-height: var(--lineHeightBase200);
 }
 
+.thaw-field--error > .thaw-field__validation-message {
+    color: var(--colorPaletteRedForeground1);
+}
+
 .thaw-field__validation-message-icon {
     display: inline-block;
     font-size: 12px;

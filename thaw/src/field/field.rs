@@ -25,6 +25,15 @@ pub fn Field(
             move || {
                 format!("thaw-field--{}", orientation.get().as_str())
             },
+            move || {
+                validation_state.with(|state| {
+                    if let Some(state) = state {
+                        Some(format!("thaw-field--{}", state.as_str()))
+                    } else {
+                        None
+                    }
+                })
+            },
             class
         ]>
             {
@@ -200,4 +209,14 @@ pub enum FieldValidationState {
     Error(String),
     Success(String),
     Warning(String),
+}
+
+impl FieldValidationState {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Error(_) => "error",
+            Self::Success(_) => "success",
+            Self::Warning(_) => "warning",
+        }
+    }
 }

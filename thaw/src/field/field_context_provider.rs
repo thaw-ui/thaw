@@ -26,11 +26,18 @@ impl FieldContextInjection {
         use_context()
     }
 
-    pub(crate) fn register_field(&self, name: Signal<Option<String>>, validate: impl Fn() -> bool + Send + Sync + 'static) {
+    pub(crate) fn register_field(
+        &self,
+        name: Signal<Option<String>>,
+        validate: impl Fn() -> bool + Send + Sync + 'static,
+    ) {
         let mut key = None;
-        self.0
-            .update_value(|map| key = Some(map.insert((name, Callback::from(move |_| validate())))));
-    
+        let validate = Callback::from(move |_| validate());
+        self.0.update_value(|map| {
+            key = Some(map.insert((name, validate)));
+            ()
+        });
+
         let map = self.0.clone();
         Owner::on_cleanup(move || {
             map.update_value(|map| map.remove(key.unwrap()));
@@ -39,12 +46,13 @@ impl FieldContextInjection {
 
     pub fn validate(&self) -> bool {
         self.0.with_value(|map| {
+            let mut rt = true;
             for (_, (_, validate)) in map.iter() {
                 if !validate.run(()) {
-                    return false;
+                    rt = false;
                 }
             }
-            true
+            rt
         })
     }
 

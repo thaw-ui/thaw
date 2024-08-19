@@ -27,8 +27,11 @@ view! {
 view! {
     <form>
         <FieldContextProvider>
-            <Field label="Example field">
-                <Input />
+            <Field label="Username" name="username">
+                <Input rules=vec![InputRule::required(true.into())]/>
+            </Field>
+            <Field label="Password" name="password">
+                <Input input_type=InputType::Password rules=vec![InputRule::required(true.into())]/>
             </Field>
             <button
                 type="submit"
