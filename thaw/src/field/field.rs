@@ -11,7 +11,8 @@ pub fn Field(
     label: MaybeProp<String>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
-    #[prop(optional, into)] name: MaybeProp<String>,
+    #[prop(optional, into)]
+    name: MaybeProp<String>,
     /// The orientation of the label relative to the field component.
     #[prop(optional, into)]
     orientation: MaybeSignal<FieldOrientation>,

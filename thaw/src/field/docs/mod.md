@@ -33,6 +33,11 @@ view! {
             <Field label="Password" name="password">
                 <Input input_type=InputType::Password rules=vec![InputRule::required(true.into())]/>
             </Field>
+            <Field name="remember">
+                <CheckboxGroup rules=vec![CheckboxGroupRule::required(true.into())] >
+                    <Checkbox label="Remember me" value="true"/>
+                </CheckboxGroup>
+            </Field>
             <button
                 type="submit"
                 on:click={

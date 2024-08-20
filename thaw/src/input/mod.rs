@@ -1,4 +1,5 @@
-use crate::{FieldContextInjection, FieldInjection, FieldValidationState};
+use std::ops::Deref;
+use crate::{FieldInjection, FieldValidationState, Rule};
 use leptos::{ev, html, prelude::*};
 use thaw_utils::{
     class_list, mount_style, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp,
@@ -61,52 +62,7 @@ pub fn Input(
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
-    let field_injection = FieldInjection::use_context();
-    let rules = StoredValue::new(rules);
-    let validate = Callback::new(move |trigger: Option<InputRuleTrigger>| {
-        let state = rules.with_value(move |rules| {
-            if rules.is_empty() {
-                return Some(Ok(()));
-            }
-
-            let mut rules_iter = rules.iter();
-            let mut call_count = 0;
-            loop {
-                let Some(rule) = rules_iter.next() else {
-                    if call_count == 0 {
-                        return None;
-                    } else {
-                        return Some(Ok(()));
-                    }
-                };
-
-                if let Some(trigger) = trigger.as_ref() {
-                    if &rule.trigger != trigger {
-                        continue;
-                    }
-                }
-                call_count += 1;
-
-                let state = rule.call_validator(value, name);
-                if state.is_err() {
-                    return Some(state);
-                }
-            }
-        });
-
-        let Some(state) = state else {
-            return true;
-        };
-
-        let rt = state.is_ok();
-        if let Some(field_injection) = field_injection.as_ref() {
-            field_injection.update_validation_state(state);
-        };
-        rt
-    });
-    if let Some(field_context) = FieldContextInjection::use_context() {
-        field_context.register_field(name, move || validate.run(None));
-    }
+    let validate = Rule::validate(rules, value, name);
 
     let parser_none = parser.is_none();
     let on_input = {
@@ -306,75 +262,37 @@ pub enum InputRuleTrigger {
     Change,
 }
 
-enum InputRuleValidator {
-    Required(MaybeSignal<bool>),
-    RequiredMessage(MaybeSignal<bool>, MaybeSignal<String>),
-    Validator(Callback<String, Result<(), FieldValidationState>>),
-}
+pub struct InputRule(Rule<String, InputRuleTrigger>);
 
-pub struct InputRule {
-    validator: InputRuleValidator,
-    trigger: InputRuleTrigger,
-}
-
-impl InputRule {
+impl InputRule { 
     pub fn required(required: MaybeSignal<bool>) -> Self {
-        Self {
-            trigger: Default::default(),
-            validator: InputRuleValidator::Required(required),
-        }
+        Self(Rule::required(required))
     }
 
     pub fn required_with_message(
         required: MaybeSignal<bool>,
         message: MaybeSignal<String>,
     ) -> Self {
-        Self {
-            trigger: Default::default(),
-            validator: InputRuleValidator::RequiredMessage(required, message),
-        }
+        Self(Rule::required_with_message(required,message))
     }
 
     pub fn validator(
         f: impl Fn(&String) -> Result<(), FieldValidationState> + Send + Sync + 'static,
     ) -> Self {
-        Self {
-            trigger: Default::default(),
-            validator: InputRuleValidator::Validator(Callback::from(move |v| f(&v))),
-        }
+        Self(Rule::validator(f))
     }
 
     pub fn with_trigger(mut self, trigger: InputRuleTrigger) -> Self {
-        self.trigger = trigger;
+        self.0.trigger = trigger;
 
         self
     }
+}
 
-    fn call_validator(
-        &self,
-        value: Model<String>,
-        name: Signal<Option<String>>,
-    ) -> Result<(), FieldValidationState> {
-        value.with_untracked(|value| match &self.validator {
-            InputRuleValidator::Required(required) => {
-                if required.get_untracked() && value.is_empty() {
-                    let message = name.get_untracked().map_or_else(
-                        || String::from("Please input!"),
-                        |name| format!("Please input {name}!"),
-                    );
-                    Err(FieldValidationState::Error(message))
-                } else {
-                    Ok(())
-                }
-            }
-            InputRuleValidator::RequiredMessage(required, message) => {
-                if required.get_untracked() && value.is_empty() {
-                    Err(FieldValidationState::Error(message.get_untracked()))
-                } else {
-                    Ok(())
-                }
-            }
-            InputRuleValidator::Validator(f) => f.run(value.clone()),
-        })
+impl Deref for InputRule {
+    type Target = Rule<String, InputRuleTrigger>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
