@@ -63,25 +63,42 @@ pub fn Input(
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let field_injection = FieldInjection::use_context();
     let rules = StoredValue::new(rules);
-    let validate = Callback::new(move |trigger| {
+    let validate = Callback::new(move |trigger: Option<InputRuleTrigger>| {
         let state = rules.with_value(move |rules| {
             if rules.is_empty() {
-                return None;
+                return Some(Ok(()));
             }
 
             let mut rules_iter = rules.iter();
+            let mut call_count = 0;
             loop {
                 let Some(rule) = rules_iter.next() else {
-                    return None;
+                    if call_count == 0 {
+                        return None;
+                    } else {
+                        return Some(Ok(()));
+                    }
                 };
 
-                if let Err(state) = rule.call_validator(trigger, value, name) {
+                if let Some(trigger) = trigger.as_ref() {
+                    if &rule.trigger != trigger {
+                        continue;
+                    }
+                }
+                call_count += 1;
+
+                let state = rule.call_validator(value, name);
+                if state.is_err() {
                     return Some(state);
                 }
             }
         });
 
-        let rt = state.is_none();
+        let Some(state) = state else {
+            return true;
+        };
+
+        let rt = state.is_ok();
         if let Some(field_injection) = field_injection.as_ref() {
             field_injection.update_validation_state(state);
         };
@@ -335,16 +352,9 @@ impl InputRule {
 
     fn call_validator(
         &self,
-        trigger: Option<InputRuleTrigger>,
         value: Model<String>,
         name: Signal<Option<String>>,
     ) -> Result<(), FieldValidationState> {
-        if let Some(trigger) = trigger {
-            if self.trigger != trigger {
-                return Ok(());
-            }
-        }
-
         value.with_untracked(|value| match &self.validator {
             InputRuleValidator::Required(required) => {
                 if required.get_untracked() && value.is_empty() {

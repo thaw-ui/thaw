@@ -41,6 +41,10 @@
     color: var(--colorPaletteRedForeground1);
 }
 
+.thaw-field--error .thaw-input:not(:focus-within) {
+    border-color: var(--colorPaletteRedBorder2);
+}
+
 .thaw-field__validation-message-icon {
     display: inline-block;
     font-size: 12px;
