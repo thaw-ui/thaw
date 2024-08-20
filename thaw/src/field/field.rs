@@ -9,6 +9,8 @@ pub fn Field(
     /// The label associated with the field.
     #[prop(optional, into)]
     label: MaybeProp<String>,
+    /// A string specifying a name for the input control.
+    /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)] name: MaybeProp<String>,
     /// The orientation of the label relative to the field component.
     #[prop(optional, into)]
@@ -176,7 +178,8 @@ impl FieldInjection {
         (id, name)
     }
 
-    pub fn update_validation_state(&self, state: Option<FieldValidationState>) {
+    pub fn update_validation_state(&self, state: Result<(), FieldValidationState>) {
+        let state = state.err();
         self.validation_state.try_maybe_update(|validation_state| {
             if validation_state == &state {
                 (false, ())
