@@ -3,86 +3,40 @@ use leptos::prelude::*;
 use send_wrapper::SendWrapper;
 use std::ops::Deref;
 
-enum RuleValidator<T> {
-    Required(MaybeSignal<bool>),
-    RequiredMessage(MaybeSignal<bool>, MaybeSignal<String>),
-    Validator(Box<dyn Fn(&T) -> Result<(), FieldValidationState>>),
-}
+type RuleValidator<T> = Box<dyn Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState>>;
 
 pub struct Rule<T, Trigger> {
     validator: RuleValidator<T>,
-    pub trigger: Trigger,
-}
-
-impl<T, Trigger> Rule<T, Trigger>
-where
-    Trigger: Default,
-{
-    pub fn required(required: MaybeSignal<bool>) -> Self {
-        Self {
-            trigger: Default::default(),
-            validator: RuleValidator::Required(required),
-        }
-    }
-
-    pub fn required_with_message(
-        required: MaybeSignal<bool>,
-        message: MaybeSignal<String>,
-    ) -> Self {
-        Self {
-            trigger: Default::default(),
-            validator: RuleValidator::RequiredMessage(required, message),
-        }
-    }
-
-    pub fn validator(
-        f: impl Fn(&T) -> Result<(), FieldValidationState> + Send + Sync + 'static,
-    ) -> Self {
-        Self {
-            trigger: Default::default(),
-            validator: RuleValidator::Validator(Box::new(f)),
-        }
-    }
+    trigger: Trigger,
 }
 
 impl<T, Trigger> Rule<T, Trigger> {
+    pub fn validator(
+        f: impl Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState>
+            + Send
+            + Sync
+            + 'static,
+    ) -> Self
+    where
+        Trigger: Default,
+    {
+        Self {
+            trigger: Default::default(),
+            validator: Box::new(f),
+        }
+    }
+
     pub fn with_trigger(mut self, trigger: Trigger) -> Self {
         self.trigger = trigger;
 
         self
     }
-}
 
-impl<T: RuleValueIsEmpty, Trigger> Rule<T, Trigger> {
-    pub fn call_validator<V: WithUntracked<Value = T>>(
-        &self,
+    pub fn validate<V, R>(
+        rules: Vec<R>,
         value: V,
         name: Signal<Option<String>>,
-    ) -> Result<(), FieldValidationState> {
-        value.with_untracked(|value| match &self.validator {
-            RuleValidator::Required(required) => {
-                if required.get_untracked() && RuleValueIsEmpty::is_empty(value) {
-                    let message = name.get_untracked().map_or_else(
-                        || String::from("Please input!"),
-                        |name| format!("Please input {name}!"),
-                    );
-                    Err(FieldValidationState::Error(message))
-                } else {
-                    Ok(())
-                }
-            }
-            RuleValidator::RequiredMessage(required, message) => {
-                if required.get_untracked() && RuleValueIsEmpty::is_empty(value) {
-                    Err(FieldValidationState::Error(message.get_untracked()))
-                } else {
-                    Ok(())
-                }
-            }
-            RuleValidator::Validator(f) => f(value),
-        })
-    }
-
-    pub fn validate<V, R>(rules: Vec<R>, value: V, name: Signal<Option<String>>) -> Callback<Option<Trigger>, bool>
+    ) -> Callback<Option<Trigger>, bool>
     where
         V: WithUntracked<Value = T>,
         V: Send + Sync + Copy + 'static,
@@ -115,7 +69,7 @@ impl<T: RuleValueIsEmpty, Trigger> Rule<T, Trigger> {
                     }
                     call_count += 1;
 
-                    let state = rule.call_validator(value, name);
+                    let state = value.with_untracked(|value| (rule.validator)(value, name));
                     if state.is_err() {
                         return Some(state);
                     }
@@ -137,15 +91,5 @@ impl<T: RuleValueIsEmpty, Trigger> Rule<T, Trigger> {
         }
 
         validate
-    }
-}
-
-pub trait RuleValueIsEmpty {
-    fn is_empty(&self) -> bool;
-}
-
-impl RuleValueIsEmpty for String {
-    fn is_empty(&self) -> bool {
-        self.is_empty()
     }
 }
