@@ -1,6 +1,6 @@
 mod checkbox_group;
 
-pub use checkbox_group::CheckboxGroup;
+pub use checkbox_group::{CheckboxGroup, CheckboxGroupRule, CheckboxGroupRuleTrigger};
 
 use checkbox_group::CheckboxGroupInjection;
 use leptos::{html, prelude::*};
@@ -30,7 +30,7 @@ pub fn Checkbox(
         let Some(group) = group.as_ref() else {
             return None;
         };
-        group.0.with(|group_value| {
+        group.value.with(|group_value| {
             item_value.with_value(|value| {
                 let Some(value) = value else {
                     return None;
@@ -44,11 +44,11 @@ pub fn Checkbox(
         let input = input_ref.get_untracked().unwrap();
         if group_checked.get_untracked().is_some() {
             if input.checked() {
-                group.as_ref().unwrap().0.update(move |group_value| {
+                group.as_ref().unwrap().value.update(move |group_value| {
                     group_value.insert(item_value.get_value().unwrap());
                 });
             } else {
-                group.as_ref().unwrap().0.update(move |group_value| {
+                group.as_ref().unwrap().value.update(move |group_value| {
                     item_value.with_value(|value| {
                         group_value.remove(value.as_ref().unwrap());
                     });
@@ -71,6 +71,8 @@ pub fn Checkbox(
                 class="thaw-checkbox__input"
                 type="checkbox"
                 id=id.clone()
+                name=move || group.map(|g| g.name.get()).flatten()
+                value=item_value.get_value()
                 checked=checked
                 node_ref=input_ref
                 on:change=on_change
