@@ -1,4 +1,4 @@
-use crate::{FieldInjection, FieldValidationState, Rule, RuleValueIsEmpty};
+use crate::{FieldInjection, FieldValidationState, Rule};
 use leptos::{context::Provider, prelude::*};
 use std::{collections::HashSet, ops::Deref};
 use thaw_utils::{class_list, Model};
@@ -63,26 +63,43 @@ pub struct CheckboxGroupRule(Rule<HashSet<String>, CheckboxGroupRuleTrigger>);
 
 impl CheckboxGroupRule {
     pub fn required(required: MaybeSignal<bool>) -> Self {
-        Self(Rule::required(required))
+        Self::validator(move |value, name| {
+            if required.get_untracked() && value.is_empty() {
+                let message = name.get_untracked().map_or_else(
+                    || String::from("Please select!"),
+                    |name| format!("Please select {name}!"),
+                );
+                Err(FieldValidationState::Error(message))
+            } else {
+                Ok(())
+            }
+        })
     }
 
     pub fn required_with_message(
         required: MaybeSignal<bool>,
         message: MaybeSignal<String>,
     ) -> Self {
-        Self(Rule::required_with_message(required, message))
+        Self::validator(move |value, _| {
+            if required.get_untracked() && value.is_empty() {
+                Err(FieldValidationState::Error(message.get_untracked()))
+            } else {
+                Ok(())
+            }
+        })
     }
 
     pub fn validator(
-        f: impl Fn(&HashSet<String>) -> Result<(), FieldValidationState> + Send + Sync + 'static,
+        f: impl Fn(&HashSet<String>, Signal<Option<String>>) -> Result<(), FieldValidationState>
+            + Send
+            + Sync
+            + 'static,
     ) -> Self {
         Self(Rule::validator(f))
     }
 
-    pub fn with_trigger(mut self, trigger: CheckboxGroupRuleTrigger) -> Self {
-        self.0.trigger = trigger;
-
-        self
+    pub fn with_trigger(self, trigger: CheckboxGroupRuleTrigger) -> Self {
+        Self(Rule::with_trigger(self.0, trigger))
     }
 }
 
@@ -91,11 +108,5 @@ impl Deref for CheckboxGroupRule {
 
     fn deref(&self) -> &Self::Target {
         &self.0
-    }
-}
-
-impl RuleValueIsEmpty for HashSet<String> {
-    fn is_empty(&self) -> bool {
-        self.is_empty()
     }
 }

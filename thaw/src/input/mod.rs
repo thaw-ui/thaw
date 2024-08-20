@@ -1,6 +1,6 @@
-use std::ops::Deref;
 use crate::{FieldInjection, FieldValidationState, Rule};
 use leptos::{ev, html, prelude::*};
+use std::ops::Deref;
 use thaw_utils::{
     class_list, mount_style, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp,
 };
@@ -264,28 +264,45 @@ pub enum InputRuleTrigger {
 
 pub struct InputRule(Rule<String, InputRuleTrigger>);
 
-impl InputRule { 
+impl InputRule {
     pub fn required(required: MaybeSignal<bool>) -> Self {
-        Self(Rule::required(required))
+        Self::validator(move |value, name| {
+            if required.get_untracked() && value.is_empty() {
+                let message = name.get_untracked().map_or_else(
+                    || String::from("Please input!"),
+                    |name| format!("Please input {name}!"),
+                );
+                Err(FieldValidationState::Error(message))
+            } else {
+                Ok(())
+            }
+        })
     }
 
     pub fn required_with_message(
         required: MaybeSignal<bool>,
         message: MaybeSignal<String>,
     ) -> Self {
-        Self(Rule::required_with_message(required,message))
+        Self::validator(move |value, _| {
+            if required.get_untracked() && value.is_empty() {
+                Err(FieldValidationState::Error(message.get_untracked()))
+            } else {
+                Ok(())
+            }
+        })
     }
 
     pub fn validator(
-        f: impl Fn(&String) -> Result<(), FieldValidationState> + Send + Sync + 'static,
+        f: impl Fn(&String, Signal<Option<String>>) -> Result<(), FieldValidationState>
+            + Send
+            + Sync
+            + 'static,
     ) -> Self {
         Self(Rule::validator(f))
     }
 
-    pub fn with_trigger(mut self, trigger: InputRuleTrigger) -> Self {
-        self.0.trigger = trigger;
-
-        self
+    pub fn with_trigger(self, trigger: InputRuleTrigger) -> Self {
+        Self(Rule::with_trigger(self.0, trigger))
     }
 }
 
