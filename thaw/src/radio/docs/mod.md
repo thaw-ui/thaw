@@ -38,5 +38,5 @@ view! {
 | -------- | --------------------- | -------------------- | -------------------------------------- |
 | class    | `MaybeProp<String>`   | `Default::default()` |                                        |
 | value    | `OptionModel<String>` | `Default::default()` | The selected Radio item in this group. |
-| name     | `Option<String>`      | `None`               | The name of this radio group.          |
+| name     | `MaybeProp<String>`   | `None`               | The name of this radio group.          |
 | children | `Children`            |                      |                                        |

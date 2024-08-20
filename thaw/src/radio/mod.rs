@@ -1,6 +1,6 @@
 mod radio_group;
 
-pub use radio_group::RadioGroup;
+pub use radio_group::{RadioGroup, RadioGroupRule, RadioGroupRuleTrigger};
 
 use leptos::prelude::*;
 use radio_group::RadioGroupInjection;

@@ -1,3 +1,8 @@
+.thaw-radio-group {
+    display: flex;
+    align-items: flex-start;
+}
+
 .thaw-radio {
     display: inline-flex;
     position: relative;
