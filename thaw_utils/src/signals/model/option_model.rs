@@ -6,6 +6,7 @@ use leptos::reactive_graph::{
     wrappers::read::Signal,
 };
 
+#[derive(Debug)]
 pub enum OptionModel<T, S = SyncStorage>
 where
     T: 'static,
@@ -21,7 +22,7 @@ where
 
 impl<T: Default + Send + Sync> Default for OptionModel<T> {
     fn default() -> Self {
-        Self::new(Default::default())
+        Self::new_option(None)
     }
 }
 

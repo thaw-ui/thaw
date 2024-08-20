@@ -2,6 +2,7 @@ use super::{FieldContextInjection, FieldInjection, FieldValidationState};
 use leptos::prelude::*;
 use send_wrapper::SendWrapper;
 use std::ops::Deref;
+use thaw_utils::{Model, OptionModel};
 
 type RuleValidator<T> = Box<dyn Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState>>;
 
@@ -38,7 +39,8 @@ impl<T, Trigger> Rule<T, Trigger> {
         name: Signal<Option<String>>,
     ) -> Callback<Option<Trigger>, bool>
     where
-        V: WithUntracked<Value = T>,
+        V: RuleValueWithUntracked<T>,
+        // V: WithUntracked<Value = T>,
         V: Send + Sync + Copy + 'static,
         R: Deref<Target = Rule<T, Trigger>> + 'static,
         Trigger: PartialEq + 'static,
@@ -69,7 +71,7 @@ impl<T, Trigger> Rule<T, Trigger> {
                     }
                     call_count += 1;
 
-                    let state = value.with_untracked(|value| (rule.validator)(value, name));
+                    let state = value.value_with_untracked(|value| (rule.validator)(value, name));
                     if state.is_err() {
                         return Some(state);
                     }
@@ -91,5 +93,33 @@ impl<T, Trigger> Rule<T, Trigger> {
         }
 
         validate
+    }
+}
+
+pub trait RuleValueWithUntracked<T> {
+    fn value_with_untracked(
+        &self,
+        f: impl FnOnce(&T) -> Result<(), FieldValidationState>,
+    ) -> Result<(), FieldValidationState>;
+}
+
+impl<T: Send + Sync> RuleValueWithUntracked<T> for Model<T> {
+    fn value_with_untracked(
+        &self,
+        f: impl FnOnce(&T) -> Result<(), FieldValidationState>,
+    ) -> Result<(), FieldValidationState> {
+        self.with_untracked(move |v| f(v))
+    }
+}
+
+impl<T: Send + Sync + Clone> RuleValueWithUntracked<Option<T>> for OptionModel<T> {
+    fn value_with_untracked(
+        &self,
+        f: impl FnOnce(&Option<T>) -> Result<(), FieldValidationState>,
+    ) -> Result<(), FieldValidationState> {
+        self.with_untracked(move |v| {
+            let v = v.map(|v| v.clone());
+            f(&v)
+        })
     }
 }

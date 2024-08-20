@@ -21,7 +21,7 @@ view! {
 }
 ```
 
-### validate
+### Validation rules
 
 ```rust demo
 view! {
@@ -37,6 +37,12 @@ view! {
                 <CheckboxGroup rules=vec![CheckboxGroupRule::required(true.into())] >
                     <Checkbox label="Remember me" value="true"/>
                 </CheckboxGroup>
+            </Field>
+            <Field name="radio">
+                <RadioGroup rules=vec![RadioGroupRule::required(true.into())] >
+                    <Radio label="0" value="false"/>
+                    <Radio label="1" value="true"/>
+                </RadioGroup>
             </Field>
             <button
                 type="submit"
