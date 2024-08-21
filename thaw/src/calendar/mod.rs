@@ -2,7 +2,7 @@ use crate::{Button, ButtonGroup};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::prelude::*;
 use std::ops::Deref;
-use thaw_utils::{class_list, mount_style, OptionModel};
+use thaw_utils::{class_list, mount_style, OptionModel, OptionModelWithValue};
 
 #[component]
 pub fn Calendar(
@@ -136,7 +136,12 @@ fn CalendarItem(
 ) -> impl IntoView {
     let is_selected = Memo::new({
         let date = date.clone();
-        move |_| value.with(|value_date| value_date == Some(date.deref()))
+        move |_| value.with(|value_date| {
+            match value_date {
+                OptionModelWithValue::T(v) => v == date.deref(), 
+                OptionModelWithValue::Option(v) => v.as_ref() == Some(date.deref()), 
+            }
+        })
     });
     let weekday_str = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let on_click = {

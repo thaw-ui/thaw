@@ -48,19 +48,24 @@ impl<T: Send + Sync> OptionModel<T> {
         rw_signal.into()
     }
 
-    pub fn with<O>(&self, fun: impl FnOnce(Option<&T>) -> O) -> O {
+    pub fn with<O>(&self, fun: impl FnOnce(OptionModelWithValue<T>) -> O) -> O {
         match self {
-            Self::T(read, _, _) => read.with(|value| fun(Some(value))),
-            Self::Option(read, _, _) => read.with(|value| fun(value.as_ref())),
+            Self::T(read, _, _) => read.with(|value| fun(OptionModelWithValue::T(value))),
+            Self::Option(read, _, _) => read.with(|value| fun(OptionModelWithValue::Option(value))),
         }
     }
 
-    pub fn with_untracked<O>(&self, fun: impl FnOnce(Option<&T>) -> O) -> O {
+    pub fn with_untracked<O>(&self, fun: impl FnOnce(OptionModelWithValue<T>) -> O) -> O {
         match self {
-            Self::T(read, _, _) => read.with_untracked(|value| fun(Some(value))),
-            Self::Option(read, _, _) => read.with_untracked(|value| fun(value.as_ref())),
+            Self::T(read, _, _) => read.with_untracked(|value| fun(OptionModelWithValue::T(value))),
+            Self::Option(read, _, _) => read.with_untracked(|value| fun(OptionModelWithValue::Option(value))),
         }
     }
+}
+
+pub enum OptionModelWithValue<'a, T> {
+    T(&'a T),
+    Option(&'a Option<T>),
 }
 
 impl<T: Send + Sync + Clone> OptionModel<T> {

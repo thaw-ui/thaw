@@ -1,8 +1,8 @@
 mod option_model;
 mod vec_model;
 
-pub use option_model::OptionModel;
-pub use vec_model::VecModel;
+pub use option_model::{OptionModel, OptionModelWithValue};
+pub use vec_model::{VecModel, VecModelWithValue};
 
 use leptos::reactive_graph::{
     computed::Memo,

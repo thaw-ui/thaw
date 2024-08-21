@@ -1,7 +1,7 @@
 use super::NavDrawerInjection;
 use crate::Icon;
 use leptos::{either::Either, prelude::*};
-use thaw_utils::{class_list, StoredMaybeSignal};
+use thaw_utils::{class_list, OptionModelWithValue, StoredMaybeSignal};
 
 #[component]
 pub fn NavItem(
@@ -17,7 +17,12 @@ pub fn NavItem(
         let value = value.get_untracked();
         if nav_drawer
             .selected_value
-            .with_untracked(|selected_value| selected_value != Some(&value))
+            .with_untracked(|selected_value|
+                match selected_value {
+                    OptionModelWithValue::T(v) => v != &value, 
+                    OptionModelWithValue::Option(v) => v.as_ref() != Some(&value),
+                }
+            )
         {
             nav_drawer.selected_value.set(Some(value));
         }
@@ -39,7 +44,10 @@ pub fn NavItem(
     let selected = Memo::new(move |_| {
         nav_drawer
             .selected_value
-            .with(|selected_value| value.with(|value| selected_value == Some(value)))
+            .with(|selected_value| value.with(|value| match selected_value {
+                OptionModelWithValue::T(v) => v == value, 
+                OptionModelWithValue::Option(v) => v.as_ref() == Some(&value),
+            }))
     });
 
     if let Some(href) = href {

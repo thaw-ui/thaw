@@ -2,7 +2,7 @@ use super::{FieldContextInjection, FieldInjection, FieldValidationState};
 use leptos::prelude::*;
 use send_wrapper::SendWrapper;
 use std::ops::Deref;
-use thaw_utils::{Model, OptionModel};
+use thaw_utils::{Model, OptionModel, OptionModelWithValue};
 
 type RuleValidator<T> = Box<dyn Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState>>;
 
@@ -112,14 +112,20 @@ impl<T: Send + Sync> RuleValueWithUntracked<T> for Model<T> {
     }
 }
 
-impl<T: Send + Sync + Clone> RuleValueWithUntracked<Option<T>> for OptionModel<T> {
+impl RuleValueWithUntracked<Option<String>> for OptionModel<String> {
     fn value_with_untracked(
         &self,
-        f: impl FnOnce(&Option<T>) -> Result<(), FieldValidationState>,
+        f: impl FnOnce(&Option<String>) -> Result<(), FieldValidationState>,
     ) -> Result<(), FieldValidationState> {
-        self.with_untracked(move |v| {
-            let v = v.map(|v| v.clone());
-            f(&v)
+        self.with_untracked(move |v| match v {
+            OptionModelWithValue::T(v) => {
+                if v.is_empty() {
+                    f(&None)
+                } else {
+                    f(&Some(v.clone()))
+                }
+            }
+            OptionModelWithValue::Option(v) => f(v),
         })
     }
 }

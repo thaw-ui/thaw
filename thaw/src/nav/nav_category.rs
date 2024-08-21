@@ -2,7 +2,7 @@ use super::NavDrawerInjection;
 use crate::Icon;
 use leptos::{either::Either, html, prelude::*};
 use thaw_components::CSSTransition;
-use thaw_utils::{class_list, StoredMaybeSignal};
+use thaw_utils::{class_list, StoredMaybeSignal, VecModelWithValue};
 
 #[component]
 pub fn NavCategory(
@@ -18,10 +18,9 @@ pub fn NavCategory(
             .selected_category_value
             .with(|selected_category_value| {
                 value.with(|value| match selected_category_value {
-                    (None, None, Some(v)) => v.contains(value),
-                    (None, Some(v), None) => v.as_ref() == Some(value),
-                    (Some(v), None, None) => v == value,
-                    _ => unreachable!(),
+                    VecModelWithValue::T(v) => v == value,
+                    VecModelWithValue::Option(v) => v.as_ref() == Some(value),
+                    VecModelWithValue::Vec(v) => v.contains(value),
                 })
             })
     });
