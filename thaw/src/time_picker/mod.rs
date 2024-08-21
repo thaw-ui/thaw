@@ -5,7 +5,9 @@ use crate::{
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue};
+use thaw_utils::{
+    class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue,
+};
 
 #[component]
 pub fn TimePicker(
@@ -24,7 +26,7 @@ pub fn TimePicker(
     let update_show_time_text = move || {
         value.with_untracked(move |time| {
             let text = match time {
-                OptionModelWithValue::T(v) => v.format(show_time_format).to_string(), 
+                OptionModelWithValue::T(v) => v.format(show_time_format).to_string(),
                 OptionModelWithValue::Option(v) => v.map_or(String::new(), |time| {
                     time.format(show_time_format).to_string()
                 }),

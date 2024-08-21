@@ -33,11 +33,7 @@ pub fn RadioGroup(
 
     view! {
         <Provider value=RadioGroupInjection { value, name }>
-            <div
-                class=class_list!["thaw-radio-group", class]
-                id=id
-                role="radiogroup"
-            >
+            <div class=class_list!["thaw-radio-group", class] id=id role="radiogroup">
                 {children()}
             </div>
         </Provider>

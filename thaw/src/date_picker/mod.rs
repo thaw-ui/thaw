@@ -4,7 +4,9 @@ use chrono::NaiveDate;
 use leptos::{html, prelude::*};
 use panel::{Panel, PanelRef};
 use thaw_components::{Binder, Follower, FollowerPlacement};
-use thaw_utils::{class_list, mount_style, now_date, ComponentRef, OptionModel, OptionModelWithValue};
+use thaw_utils::{
+    class_list, mount_style, now_date, ComponentRef, OptionModel, OptionModelWithValue,
+};
 
 #[component]
 pub fn DatePicker(
@@ -21,12 +23,12 @@ pub fn DatePicker(
     let update_show_date_text = move || {
         value.with_untracked(move |date| {
             let text = match date {
-                OptionModelWithValue::T(v) => v.format(show_date_format).to_string(), 
+                OptionModelWithValue::T(v) => v.format(show_date_format).to_string(),
                 OptionModelWithValue::Option(v) => v.map_or(String::new(), |date| {
                     date.format(show_date_format).to_string()
                 }),
             };
-        
+
             show_date_text.set(text);
         });
     };

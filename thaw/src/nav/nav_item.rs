@@ -17,12 +17,10 @@ pub fn NavItem(
         let value = value.get_untracked();
         if nav_drawer
             .selected_value
-            .with_untracked(|selected_value|
-                match selected_value {
-                    OptionModelWithValue::T(v) => v != &value, 
-                    OptionModelWithValue::Option(v) => v.as_ref() != Some(&value),
-                }
-            )
+            .with_untracked(|selected_value| match selected_value {
+                OptionModelWithValue::T(v) => v != &value,
+                OptionModelWithValue::Option(v) => v.as_ref() != Some(&value),
+            })
         {
             nav_drawer.selected_value.set(Some(value));
         }
@@ -42,12 +40,12 @@ pub fn NavItem(
     };
 
     let selected = Memo::new(move |_| {
-        nav_drawer
-            .selected_value
-            .with(|selected_value| value.with(|value| match selected_value {
-                OptionModelWithValue::T(v) => v == value, 
+        nav_drawer.selected_value.with(|selected_value| {
+            value.with(|value| match selected_value {
+                OptionModelWithValue::T(v) => v == value,
                 OptionModelWithValue::Option(v) => v.as_ref() == Some(&value),
-            }))
+            })
+        })
     });
 
     if let Some(href) = href {

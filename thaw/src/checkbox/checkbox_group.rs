@@ -27,12 +27,11 @@ pub fn CheckboxGroup(
     });
 
     view! {
-        <Provider value=CheckboxGroupInjection{ value, name }>
-            <div
-                class=class_list!["thaw-checkbox-group", class]
-                id=id
-                role="group"
-            >
+        <Provider value=CheckboxGroupInjection {
+            value,
+            name,
+        }>
+            <div class=class_list!["thaw-checkbox-group", class] id=id role="group">
                 {children()}
             </div>
         </Provider>
