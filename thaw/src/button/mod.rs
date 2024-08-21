@@ -76,6 +76,9 @@ pub fn Button(
     /// A button supports different sizes.
     #[prop(optional, into)]
     size: MaybeSignal<ButtonSize>,
+    /// The default behavior of the button.
+    #[prop(optional, into)]
+    button_type: MaybeProp<ButtonType>,
     /// Whether the button is displayed as block.
     #[prop(optional, into)]
     block: MaybeSignal<bool>,
@@ -120,7 +123,7 @@ pub fn Button(
                 move || format!("thaw-button--{}", shape.get().as_str()),
                 class
             ]
-
+            type=move || button_type.get().map(|t| t.as_str())
             disabled=move || disabled.get().then_some("")
             aria-disabled=move || disabled_focusable.get().then_some("true")
             on:click=on_click
@@ -139,5 +142,22 @@ pub fn Button(
                 Either::Right(())
             }}
         </button>
+    }
+}
+
+#[derive(Debug, Clone)]
+pub enum ButtonType {
+    Submit,
+    Reset,
+    Button,
+}
+
+impl ButtonType {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Submit => "submit",
+            Self::Reset => "reset",
+            Self::Button => "button",
+        }
     }
 }
