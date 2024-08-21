@@ -50,19 +50,21 @@ view! {
                     <ComboboxOption value="dog" text="Dog" />
                 </Combobox>
             </Field>
-            <button
-                type="submit"
-                on:click={
-                    let field_context = FieldContextInjection::expect_context();
-                    move |e| {
-                        if !field_context.validate() {
-                            e.prevent_default();
+            <div style="margin-top: 8px">
+                <Button
+                    button_type=ButtonType::Submit
+                    on_click={
+                        let field_context = FieldContextInjection::expect_context();
+                        move |e: ev::MouseEvent| {
+                            if !field_context.validate() {
+                                e.prevent_default();
+                            }
                         }
                     }
-                }
-            >
-                "Submit"
-            </button>
+                >
+                    "Submit"
+                </Button>
+            </div>
         </FieldContextProvider>
     </form>
 }
