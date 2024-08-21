@@ -4,7 +4,7 @@ pub use radio_group::{RadioGroup, RadioGroupRule, RadioGroupRuleTrigger};
 
 use leptos::prelude::*;
 use radio_group::RadioGroupInjection;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::{class_list, mount_style, OptionModelWithValue};
 
 #[component]
 pub fn Radio(
@@ -26,7 +26,10 @@ pub fn Radio(
         let group = group.clone();
         move |_| {
             item_value
-                .with_value(|value| group.value.with(|group_value| group_value == Some(value)))
+                .with_value(|value| group.value.with(|group_value| match group_value {
+                    OptionModelWithValue::T(v) => v == value, 
+                    OptionModelWithValue::Option(v) => v.as_ref() == Some(value),
+                }))
         }
     });
 

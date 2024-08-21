@@ -3,7 +3,7 @@ use crate::_aria::use_active_descendant;
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{add_event_listener, class_list, mount_style, Model, VecModel};
+use thaw_utils::{add_event_listener, class_list, mount_style, Model, VecModel, VecModelWithValue};
 
 #[component]
 pub fn Combobox(
@@ -34,10 +34,9 @@ pub fn Combobox(
     let is_show_clear_icon = Memo::new(move |_| {
         if clearable {
             selected_options.with(|options| match options {
-                (None, None, Some(v)) => !v.is_empty(),
-                (None, Some(v), None) => v.is_some(),
-                (Some(v), None, None) => !v.is_empty(),
-                _ => unreachable!(),
+                VecModelWithValue::T(v) => !v.is_empty(),
+                VecModelWithValue::Option(v) => v.is_some(),
+                VecModelWithValue::Vec(v) => !v.is_empty(),
             })
         } else {
             false
@@ -94,16 +93,15 @@ pub fn Combobox(
     let on_input = move |ev| {
         let input_value = event_target_value(&ev);
         if selected_options.with_untracked(|options| match options {
-            (None, None, Some(_)) => false,
-            (None, Some(v), None) => {
+            VecModelWithValue::T(v) => v != &input_value,
+            VecModelWithValue::Option(v) => {
                 if let Some(v) = v.as_ref() {
                     v != &input_value
                 } else {
                     false
                 }
             }
-            (Some(v), None, None) => v != &input_value,
-            _ => unreachable!(),
+            VecModelWithValue::Vec(_) => false,
         }) {
             selected_options.set(vec![]);
         }
@@ -125,18 +123,17 @@ pub fn Combobox(
         let active_descendant_controller = active_descendant_controller.clone();
         move |_| {
             selected_options.with_untracked(|options| match options {
-                (None, None, Some(_)) => value.set(String::new()),
-                (None, Some(v), None) => {
-                    if v.is_none() {
-                        value.set(String::new())
-                    }
-                }
-                (Some(v), None, None) => {
+                VecModelWithValue::T(v) => {
                     if v.is_empty() {
                         value.set(String::new())
                     }
                 }
-                _ => unreachable!(),
+                VecModelWithValue::Option(v) => {
+                    if v.is_none() {
+                        value.set(String::new())
+                    }
+                }
+                VecModelWithValue::Vec(_) => value.set(String::new()),
             });
             active_descendant_controller.blur();
         }
@@ -297,16 +294,15 @@ impl ComboboxInjection {
 
     pub fn is_selected(&self, value: &String) -> bool {
         self.selected_options.with(|options| match options {
-            (None, None, Some(v)) => v.contains(value),
-            (None, Some(v), None) => {
+            VecModelWithValue::T(v) => v == value,
+            VecModelWithValue::Option(v) => {
                 if let Some(v) = v.as_ref() {
                     v == value
                 } else {
                     false
                 }
             }
-            (Some(v), None, None) => v == value,
-            _ => unreachable!(),
+            VecModelWithValue::Vec(v) => v.contains(value),
         })
     }
 

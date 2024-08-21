@@ -69,25 +69,32 @@ impl<T: Send + Sync> VecModel<T> {
 
     pub fn with<O>(
         &self,
-        fun: impl FnOnce((Option<&T>, Option<&Option<T>>, Option<&Vec<T>>)) -> O,
+        fun: impl FnOnce(VecModelWithValue<T>) -> O,
     ) -> O {
         match self {
-            Self::T(read, _, _) => read.with(|value| fun((Some(value), None, None))),
-            Self::Option(read, _, _) => read.with(|value| fun((None, Some(value), None))),
-            Self::Vec(read, _, _) => read.with(|value| fun((None, None, Some(value)))),
+            Self::T(read, _, _) => read.with(|value| fun(VecModelWithValue::T(value))),
+            Self::Option(read, _, _) => read.with(|value| fun(VecModelWithValue::Option(value))),
+            Self::Vec(read, _, _) => read.with(|value| fun(VecModelWithValue::Vec(value))),
         }
     }
 
-    pub fn with_untracked<O>(
-        &self,
-        fun: impl FnOnce((Option<&T>, Option<&Option<T>>, Option<&Vec<T>>)) -> O,
-    ) -> O {
+    pub fn with_untracked<O>(&self, fun: impl FnOnce(VecModelWithValue<T>) -> O) -> O {
         match self {
-            Self::T(read, _, _) => read.with_untracked(|value| fun((Some(value), None, None))),
-            Self::Option(read, _, _) => read.with_untracked(|value| fun((None, Some(value), None))),
-            Self::Vec(read, _, _) => read.with_untracked(|value| fun((None, None, Some(value)))),
+            Self::T(read, _, _) => read.with_untracked(|value| fun(VecModelWithValue::T(value))),
+            Self::Option(read, _, _) => {
+                read.with_untracked(|value| fun(VecModelWithValue::Option(value)))
+            }
+            Self::Vec(read, _, _) => {
+                read.with_untracked(|value| fun(VecModelWithValue::Vec(value)))
+            }
         }
     }
+}
+
+pub enum VecModelWithValue<'a, T> {
+    T(&'a T),
+    Option(&'a Option<T>),
+    Vec(&'a Vec<T>),
 }
 
 impl<T: Send + Sync + Clone + Default> VecModel<T> {
