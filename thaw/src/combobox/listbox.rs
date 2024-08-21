@@ -46,6 +46,7 @@ pub fn Listbox(
                     data-thaw-id=config_provider.id().clone()
                     node_ref=listbox_ref
                     role="listbox"
+                    on:mousedown=|e| e.prevent_default()
                 >
                     {children()}
                 </div>

@@ -29,7 +29,7 @@ where
 
 impl<T: Default + Send + Sync> Default for VecModel<T> {
     fn default() -> Self {
-        Self::new(Default::default())
+        Self::new_option(None)
     }
 }
 
