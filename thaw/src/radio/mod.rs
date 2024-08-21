@@ -25,11 +25,12 @@ pub fn Radio(
     let checked = Memo::new({
         let group = group.clone();
         move |_| {
-            item_value
-                .with_value(|value| group.value.with(|group_value| match group_value {
-                    OptionModelWithValue::T(v) => v == value, 
+            item_value.with_value(|value| {
+                group.value.with(|group_value| match group_value {
+                    OptionModelWithValue::T(v) => v == value,
                     OptionModelWithValue::Option(v) => v.as_ref() == Some(value),
-                }))
+                })
+            })
         }
     });
 

@@ -136,12 +136,12 @@ fn CalendarItem(
 ) -> impl IntoView {
     let is_selected = Memo::new({
         let date = date.clone();
-        move |_| value.with(|value_date| {
-            match value_date {
-                OptionModelWithValue::T(v) => v == date.deref(), 
-                OptionModelWithValue::Option(v) => v.as_ref() == Some(date.deref()), 
-            }
-        })
+        move |_| {
+            value.with(|value_date| match value_date {
+                OptionModelWithValue::T(v) => v == date.deref(),
+                OptionModelWithValue::Option(v) => v.as_ref() == Some(date.deref()),
+            })
+        }
     });
     let weekday_str = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let on_click = {

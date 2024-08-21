@@ -3,9 +3,7 @@ use slotmap::{DefaultKey, SlotMap};
 
 #[component]
 pub fn FieldContextProvider(children: Children) -> impl IntoView {
-    view! {
-        <Provider value=FieldContextInjection::new()>{children()}</Provider>
-    }
+    view! { <Provider value=FieldContextInjection::new()>{children()}</Provider> }
 }
 
 #[derive(Clone)]
