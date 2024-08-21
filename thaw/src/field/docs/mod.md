@@ -44,6 +44,12 @@ view! {
                     <Radio label="1" value="true"/>
                 </RadioGroup>
             </Field>
+            <Field name="combobox">
+                <Combobox rules=vec![ComboboxRule::required(true.into())] placeholder="Select an animal" clearable=true>
+                    <ComboboxOption value="cat" text="Cat"/>
+                    <ComboboxOption value="dog" text="Dog" />
+                </Combobox>
+            </Field>
             <button
                 type="submit"
                 on:click={

@@ -1,13 +1,19 @@
 use super::listbox::{listbox_keyboard_event, Listbox};
-use crate::_aria::use_active_descendant;
+use crate::{FieldInjection, FieldValidationState, Rule, _aria::use_active_descendant};
 use leptos::{context::Provider, ev, html, prelude::*};
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::Deref};
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{add_event_listener, class_list, mount_style, Model, VecModel, VecModelWithValue};
 
 #[component]
 pub fn Combobox(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] id: MaybeProp<String>,
+    #[prop(optional, into)] rules: Vec<ComboboxRule>,
+    /// A string specifying a name for the input control.
+    /// This name is submitted along with the control's value when the form data is submitted.
+    #[prop(optional, into)]
+    name: MaybeProp<String>,
     #[prop(optional, into)] value: Model<String>,
     /// Selected option.
     #[prop(optional, into)]
@@ -24,6 +30,8 @@ pub fn Combobox(
     children: Children,
 ) -> impl IntoView {
     mount_style("combobox", include_str!("./combobox.css"));
+    let (id, name) = FieldInjection::use_id_and_name(id, name);
+    let validate = Rule::validate(rules, selected_options, name);
     let trigger_ref = NodeRef::<html::Div>::new();
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
@@ -53,6 +61,8 @@ pub fn Combobox(
                 }
                 e.stop_propagation();
                 selected_options.set(vec![]);
+                value.set(String::new());
+                validate.run(Some(ComboboxRuleTrigger::Change));
             });
             on_cleanup(move || handler.remove());
         });
@@ -115,6 +125,7 @@ pub fn Combobox(
         selected_options,
         options,
         is_show_listbox,
+        validate,
     };
     let (set_listbox, active_descendant_controller) =
         use_active_descendant(move |el| el.class_list().contains("thaw-combobox-option"));
@@ -136,6 +147,7 @@ pub fn Combobox(
                 VecModelWithValue::Vec(_) => value.set(String::new()),
             });
             active_descendant_controller.blur();
+            validate.run(Some(ComboboxRuleTrigger::Blur));
         }
     };
 
@@ -170,9 +182,11 @@ pub fn Combobox(
             >
                 <input
                     type="text"
-                    aria-expanded="true"
+                    aria-expanded=move || if is_show_listbox.get() { "true" } else { "false" }
                     role="combobox"
                     class="thaw-combobox__input"
+                    id=id
+                    name=name
                     prop:value=move || { value.get() }
                     placeholder=move || placeholder.get()
                     disabled=move || disabled.get()
@@ -274,6 +288,7 @@ pub(crate) struct ComboboxInjection {
     selected_options: VecModel<String>,
     options: StoredValue<HashMap<String, (String, String, MaybeSignal<bool>)>>,
     is_show_listbox: RwSignal<bool>,
+    validate: Callback<Option<ComboboxRuleTrigger>, bool>,
     pub multiselect: bool,
 }
 
@@ -327,5 +342,65 @@ impl ComboboxInjection {
             }
             _ => unreachable!(),
         });
+        self.validate.run(Some(ComboboxRuleTrigger::Change));
+    }
+}
+
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
+pub enum ComboboxRuleTrigger {
+    #[default]
+    Change,
+    Blur,
+}
+
+pub struct ComboboxRule(Rule<Vec<String>, ComboboxRuleTrigger>);
+
+impl ComboboxRule {
+    pub fn required(required: MaybeSignal<bool>) -> Self {
+        Self::validator(move |value, name| {
+            if required.get_untracked() && value.is_empty() {
+                let message = name.get_untracked().map_or_else(
+                    || String::from("Please select!"),
+                    |name| format!("Please select {name}!"),
+                );
+                Err(FieldValidationState::Error(message))
+            } else {
+                Ok(())
+            }
+        })
+    }
+
+    pub fn required_with_message(
+        required: MaybeSignal<bool>,
+        message: MaybeSignal<String>,
+    ) -> Self {
+        Self::validator(move |value, _| {
+            if required.get_untracked() && value.is_empty() {
+                Err(FieldValidationState::Error(message.get_untracked()))
+            } else {
+                Ok(())
+            }
+        })
+    }
+
+    pub fn validator(
+        f: impl Fn(&Vec<String>, Signal<Option<String>>) -> Result<(), FieldValidationState>
+            + Send
+            + Sync
+            + 'static,
+    ) -> Self {
+        Self(Rule::validator(f))
+    }
+
+    pub fn with_trigger(self, trigger: ComboboxRuleTrigger) -> Self {
+        Self(Rule::with_trigger(self.0, trigger))
+    }
+}
+
+impl Deref for ComboboxRule {
+    type Target = Rule<Vec<String>, ComboboxRuleTrigger>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
