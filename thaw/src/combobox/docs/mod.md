@@ -80,6 +80,9 @@ view! {
 | Name | Type | Default | Desciption |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
+| id | `MaybeProp<String>` | `Default::default()` |  |
+| name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
+| rules | `Vec<ComboboxRule>` | `vec![]` | The rules to validate Field. |
 | value | `Model<String>` | `Default::default()` |  |
 | selected_options | `VecModel<String>` | `Default::default()` | Selected option. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |

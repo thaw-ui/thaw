@@ -34,9 +34,12 @@ view! {
 
 ### RadioGroup Props
 
-| Name     | Type                  | Default              | Description                            |
-| -------- | --------------------- | -------------------- | -------------------------------------- |
-| class    | `MaybeProp<String>`   | `Default::default()` |                                        |
-| value    | `OptionModel<String>` | `Default::default()` | The selected Radio item in this group. |
-| name     | `MaybeProp<String>`   | `None`               | The name of this radio group.          |
-| children | `Children`            |                      |                                        |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| id | `MaybeProp<String>` | `Default::default()` |  |
+| name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
+| rules | `Vec<RadioGroupRule>` | `vec![]` | The rules to validate Field. |
+| value | `OptionModel<String>` | `Default::default()` | The selected Radio item in this group. |
+| name | `MaybeProp<String>` | `None` | The name of this radio group. |
+| children | `Children` |  |  |
