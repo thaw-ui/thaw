@@ -41,19 +41,19 @@ view! {
             <Field label="Textarea" name="textarea">
                 <Textarea rules=vec![TextareaRule::required(true.into())]/>
             </Field>
-            <Field name="radio">
+            <Field label="Radio" name="radio">
                 <RadioGroup rules=vec![RadioGroupRule::required(true.into())] >
                     <Radio label="0" value="false"/>
                     <Radio label="1" value="true"/>
                 </RadioGroup>
             </Field>
-            <Field name="combobox">
+            <Field label="Combobox" name="combobox">
                 <Combobox rules=vec![ComboboxRule::required(true.into())] placeholder="Select an animal" clearable=true>
                     <ComboboxOption value="cat" text="Cat"/>
                     <ComboboxOption value="dog" text="Dog" />
                 </Combobox>
             </Field>
-            <Field name="spinbutton">
+            <Field label="SpinButton" name="spinbutton">
                 <SpinButton
                     step_page=1
                     rules=vec![SpinButtonRule::validator(move |v, _| {
@@ -86,6 +86,9 @@ view! {
                         "50"
                     </SliderLabel>
                 </Slider>
+            </Field>
+            <Field label="Switch" name="switch">
+                <Switch/>
             </Field>
             <div style="margin-top: 8px">
                 <Button

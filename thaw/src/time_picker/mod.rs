@@ -94,8 +94,18 @@ pub fn TimePicker(
 
     view! {
         <Binder target_ref=time_picker_ref>
-            <div node_ref=time_picker_ref class=class_list!["thaw-time-picker", class] on:click=move |_| open_panel()>
-                <Input id name value=show_time_text on_focus=move |_| open_panel() on_blur=on_input_blur>
+            <div
+                node_ref=time_picker_ref
+                class=class_list!["thaw-time-picker", class]
+                on:click=move |_| open_panel()
+            >
+                <Input
+                    id
+                    name
+                    value=show_time_text
+                    on_focus=move |_| open_panel()
+                    on_blur=on_input_blur
+                >
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px" />
                     </InputSuffix>
