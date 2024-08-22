@@ -2,13 +2,23 @@ mod slider_label;
 
 pub use slider_label::SliderLabel;
 
+use crate::{FieldInjection, FieldValidationState, Rule};
 use leptos::{context::Provider, ev, prelude::*};
+use std::ops::Deref;
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn Slider(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] id: MaybeProp<String>,
+    /// A string specifying a name for the input control.
+    /// This name is submitted along with the control's value when the form data is submitted.
+    #[prop(optional, into)]
+    name: MaybeProp<String>,
+    /// The rules to validate Field.
+    #[prop(optional, into)]
+    rules: Vec<SliderRule>,
     /// The current value of the controlled Slider.
     #[prop(optional, into)]
     value: Model<f64>,
@@ -24,7 +34,8 @@ pub fn Slider(
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));
-
+    let (id, name) = FieldInjection::use_id_and_name(id, name);
+    let validate = Rule::validate(rules, value, name);
     let is_chldren = children.is_some();
     let list_id = is_chldren.then(|| uuid::Uuid::new_v4().to_string());
     let current_value = Memo::new(move |_| {
@@ -43,6 +54,7 @@ pub fn Slider(
     let on_input = move |e: ev::Event| {
         if let Ok(range_value) = event_target_value(&e).parse::<f64>() {
             value.set(range_value);
+            validate.run(Some(SliderRuleTrigger::Input));
         }
     };
 
@@ -83,6 +95,8 @@ pub fn Slider(
                     step=move || step.get()
                     type="range"
                     class="thaw-slider__input"
+                    id=id
+                    name=name
                     on:input=on_input
                     value=current_value.get_untracked()
                     prop:value=move || current_value.get()
@@ -109,5 +123,36 @@ pub(crate) struct SliderInjection {
 impl SliderInjection {
     pub fn expect_context() -> Self {
         expect_context()
+    }
+}
+
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
+pub enum SliderRuleTrigger {
+    #[default]
+    Input,
+}
+
+pub struct SliderRule(Rule<f64, SliderRuleTrigger>);
+
+impl SliderRule {
+    pub fn validator(
+        f: impl Fn(&f64, Signal<Option<String>>) -> Result<(), FieldValidationState>
+            + Send
+            + Sync
+            + 'static,
+    ) -> Self {
+        Self(Rule::validator(f))
+    }
+
+    pub fn with_trigger(self, trigger: SliderRuleTrigger) -> Self {
+        Self(Rule::with_trigger(self.0, trigger))
+    }
+}
+
+impl Deref for SliderRule {
+    type Target = Rule<f64, SliderRuleTrigger>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }

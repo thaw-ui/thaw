@@ -71,6 +71,22 @@ view! {
             <Field label="Time" name="time">
                 <TimePicker rules=vec![TimePickerRule::required(true.into())]/>
             </Field>
+            <Field label="Slider" name="slider">
+                <Slider
+                    step=25.0
+                    rules=vec![SliderRule::validator(move |v, _| {
+                        if v % 2.0 == 0.0 {
+                            Err(FieldValidationState::Error("It has to be odd!".to_string()))
+                        } else {
+                            Ok(())
+                        }
+                    })]
+                >
+                    <SliderLabel value=50.0>
+                        "50"
+                    </SliderLabel>
+                </Slider>
+            </Field>
             <div style="margin-top: 8px">
                 <Button
                     button_type=ButtonType::Submit
