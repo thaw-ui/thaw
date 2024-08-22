@@ -1,7 +1,7 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
 use leptos::{ev, prelude::*};
-use thaw_utils::{class_list, mount_style, BoxOneCallback};
+use thaw_utils::{class_list, mount_style, ArcOneCallback};
 
 /// The Icon component.
 #[component]
@@ -25,27 +25,12 @@ pub fn Icon(
     style: Option<MaybeSignal<String>>,
     /// Callback when clicking on the icon.
     #[prop(optional, into)]
-    on_click: Option<BoxOneCallback<ev::MouseEvent>>,
+    on_click: Option<ArcOneCallback<ev::MouseEvent>>,
 ) -> impl IntoView {
     mount_style("icon", include_str!("./icon.css"));
+    let class = class_list!["thaw-icon", class];
 
-    let icon_style = RwSignal::new(None);
-    let icon_x = RwSignal::new(None);
-    let icon_y = RwSignal::new(None);
-    let icon_view_box = RwSignal::new(None);
-    let icon_stroke_linecap = RwSignal::new(None);
-    let icon_stroke_linejoin = RwSignal::new(None);
-    let icon_stroke_width = RwSignal::new(None);
-    let icon_stroke = RwSignal::new(None);
-    let icon_fill = RwSignal::new(None);
-    let icon_data = RwSignal::new(None);
-    let on_click = move |ev| {
-        if let Some(click) = on_click.as_ref() {
-            click(ev);
-        }
-    };
-
-    Effect::new_isomorphic(move |_| {
+    move || {
         let icon = icon.get();
 
         let style = match (style.clone(), icon.style) {
@@ -54,49 +39,32 @@ pub fn Icon(
             (None, Some(b)) => Some(b.into()),
             (None, None) => None,
         };
-        icon_style.set(style);
+        let width = width.clone();
+        let height = height.clone();
+        let on_click = on_click.clone();
+        let on_click = move |ev| {
+            if let Some(click) = on_click.as_ref() {
+                click(ev);
+            }
+        };
 
-        icon_x.set(icon.x.map(|x| x.to_string()));
-        icon_y.set(icon.y.map(|y| y.to_string()));
-
-        icon_view_box.set(icon.view_box.map(|view_box| view_box.to_string()));
-        icon_stroke_linecap.set(icon.stroke_linecap.map(|a| a.to_string()));
-        icon_stroke_linejoin.set(icon.stroke_linejoin.map(|a| a.to_string()));
-        icon_stroke_width.set(icon.stroke_width.map(|a| a.to_string()));
-        icon_stroke.set(icon.stroke.map(|a| a.to_string()));
-        icon_fill.set(Some(icon.fill.unwrap_or("currentColor").to_string()));
-        icon_data.set(Some(icon.data.to_string()));
-    });
-
-    view! {
-        <svg
-            class=class_list!["thaw-icon", class]
-            style=move || take_signal(icon_style).unwrap_or_default()
-            x=move || take(icon_x)
-            y=move || take(icon_y)
-            width=move || width.get()
-            height=move || height.get()
-            viewBox=move || take(icon_view_box)
-            stroke-linecap=move || take(icon_stroke_linecap)
-            stroke-linejoin=move || take(icon_stroke_linejoin)
-            stroke-width=move || take(icon_stroke_width)
-            stroke=move || take(icon_stroke)
-            fill=move || take(icon_fill)
-            inner_html=move || take(icon_data)
-            on:click=on_click
-        ></svg>
+        view! {
+            <svg
+                class=class.clone()
+                style=move || if let Some(s) = style.as_ref() { s.get() } else { String::new() }
+                x=icon.x
+                y=icon.y
+                width=move || width.get()
+                height=move || height.get()
+                viewBox=icon.view_box
+                stroke-linecap=icon.stroke_linecap
+                stroke-linejoin=icon.stroke_linejoin
+                stroke-width=icon.stroke_width
+                stroke=icon.stroke
+                fill=icon.fill.unwrap_or("currentColor")
+                inner_html=icon.data
+                on:click=on_click
+            ></svg>
+        }
     }
-}
-
-fn take_signal(signal: RwSignal<Option<MaybeSignal<String>>>) -> Option<String> {
-    signal.with(|s| match s {
-        Some(MaybeSignal::Static(value)) => Some(value.clone()),
-        Some(MaybeSignal::Dynamic(signal)) => Some(signal.get()),
-        _ => None,
-    })
-}
-
-fn take(signal: RwSignal<Option<String>>) -> Option<String> {
-    signal.track();
-    signal.try_update_untracked(|value| value.take()).flatten()
 }
