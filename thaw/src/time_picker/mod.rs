@@ -1,13 +1,15 @@
 use crate::{
-    Button, ButtonSize, ConfigInjection, Icon, Input, InputSuffix, Scrollbar, ScrollbarRef, FieldInjection, FieldValidationState, Rule 
+    Button, ButtonSize, ConfigInjection, FieldInjection, FieldValidationState, Icon, Input,
+    InputSuffix, Rule, Scrollbar, ScrollbarRef,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
+use std::ops::Deref;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{
-    class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue, SignalWatch
+    class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue,
+    SignalWatch,
 };
-use std::ops::Deref;
 
 #[component]
 pub fn TimePicker(
