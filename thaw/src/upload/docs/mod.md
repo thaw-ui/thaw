@@ -46,13 +46,15 @@ view! {
 
 ### Upload Props
 
-| Name           | Type                               | Default              | Description                          |
-| -------------- | ---------------------------------- | -------------------- | ------------------------------------ |
-| class          | `MaybeProp<String>`                | `Default::default()` |                                      |
-| accept         | `MaybeSignal<String>`              | `Default::default()` | The accept type of upload.           |
-| multiple       | `MaybeSignal<bool>`                | `false`              | Allow multiple files to be selected. |
-| custom_request | `Option<ArcOneCallback<FileList>>` | `None`               | Customize upload request.            |
-| children       | `Children`                         |                      |                                      |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| id | `MaybeProp<String>` | `Default::default()` |  |
+| name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
+| accept | `MaybeSignal<String>` | `Default::default()` | The accept type of upload. |
+| multiple | `MaybeSignal<bool>` | `false` | Allow multiple files to be selected. |
+| custom_request | `Option<ArcOneCallback<FileList>>` | `None` | Customize upload request. |
+| children | `Children` |  |  |
 
 ### UploadDragger Props
 
