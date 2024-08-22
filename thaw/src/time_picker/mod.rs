@@ -1,23 +1,33 @@
 use crate::{
-    Button, ButtonSize, ConfigInjection, Icon, Input, InputSuffix, Scrollbar, ScrollbarRef,
-    SignalWatch,
+    Button, ButtonSize, ConfigInjection, Icon, Input, InputSuffix, Scrollbar, ScrollbarRef, FieldInjection, FieldValidationState, Rule 
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{
-    class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue,
+    class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue, SignalWatch
 };
+use std::ops::Deref;
 
 #[component]
 pub fn TimePicker(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] id: MaybeProp<String>,
+    /// A string specifying a name for the input control.
+    /// This name is submitted along with the control's value when the form data is submitted.
+    #[prop(optional, into)]
+    name: MaybeProp<String>,
+    /// The rules to validate Field.
+    #[prop(optional, into)]
+    rules: Vec<TimePickerRule>,
     /// Set the TimePicker value.
     #[prop(optional, into)]
     value: OptionModel<NaiveTime>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
+    let (id, name) = FieldInjection::use_id_and_name(id, name);
+    let validate = Rule::validate(rules, value, name);
     let time_picker_ref = NodeRef::<html::Div>::new();
     let panel_ref = ComponentRef::<PanelRef>::default();
     let is_show_panel = RwSignal::new(false);
@@ -55,6 +65,7 @@ pub fn TimePicker(
         } else {
             update_show_time_text();
         }
+        validate.run(Some(TimePickerRuleTrigger::Blur));
     };
     let close_panel = move |time: Option<NaiveTime>| {
         if value.get_untracked() != time {
@@ -66,7 +77,10 @@ pub fn TimePicker(
         is_show_panel.set(false);
     };
 
-    let open_panel = move |_| {
+    let open_panel = move || {
+        if is_show_panel.get() {
+            return;
+        }
         panel_selected_time.set(value.get_untracked());
         is_show_panel.set(true);
         request_animation_frame(move || {
@@ -78,8 +92,8 @@ pub fn TimePicker(
 
     view! {
         <Binder target_ref=time_picker_ref>
-            <div node_ref=time_picker_ref class=class_list!["thaw-time-picker", class]>
-                <Input value=show_time_text on_focus=open_panel on_blur=on_input_blur>
+            <div node_ref=time_picker_ref class=class_list!["thaw-time-picker", class] on:click=move |_| open_panel()>
+                <Input id name value=show_time_text on_focus=move |_| open_panel() on_blur=on_input_blur>
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px" />
                     </InputSuffix>
@@ -95,6 +109,64 @@ pub fn TimePicker(
                 />
             </Follower>
         </Binder>
+    }
+}
+
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
+pub enum TimePickerRuleTrigger {
+    #[default]
+    Blur,
+}
+
+pub struct TimePickerRule(Rule<Option<NaiveTime>, TimePickerRuleTrigger>);
+
+impl TimePickerRule {
+    pub fn required(required: MaybeSignal<bool>) -> Self {
+        Self::validator(move |value, name| {
+            if required.get_untracked() && value.is_none() {
+                let message = name.get_untracked().map_or_else(
+                    || String::from("Please select!"),
+                    |name| format!("Please select {name}!"),
+                );
+                Err(FieldValidationState::Error(message))
+            } else {
+                Ok(())
+            }
+        })
+    }
+
+    pub fn required_with_message(
+        required: MaybeSignal<bool>,
+        message: MaybeSignal<String>,
+    ) -> Self {
+        Self::validator(move |value, _| {
+            if required.get_untracked() && value.is_none() {
+                Err(FieldValidationState::Error(message.get_untracked()))
+            } else {
+                Ok(())
+            }
+        })
+    }
+
+    pub fn validator(
+        f: impl Fn(&Option<NaiveTime>, Signal<Option<String>>) -> Result<(), FieldValidationState>
+            + Send
+            + Sync
+            + 'static,
+    ) -> Self {
+        Self(Rule::validator(f))
+    }
+
+    pub fn with_trigger(self, trigger: TimePickerRuleTrigger) -> Self {
+        Self(Rule::with_trigger(self.0, trigger))
+    }
+}
+
+impl Deref for TimePickerRule {
+    type Target = Rule<Option<NaiveTime>, TimePickerRuleTrigger>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
@@ -174,6 +246,7 @@ fn Panel(
                 data-thaw-id=config_provider.id().clone()
                 style=move || display.get().unwrap_or_default()
                 node_ref=panel_ref
+                on:mousedown=|e| e.prevent_default()
             >
                 <div class="thaw-time-picker-panel__time">
                     <div class="thaw-time-picker-panel__time-hour">

@@ -65,10 +65,12 @@ view! {
                     })]
                 />
             </Field>
-            <Field name="date">
+            <Field label="Date" name="date">
                 <DatePicker rules=vec![DatePickerRule::required(true.into())]/>
             </Field>
-
+            <Field label="Time" name="time">
+                <TimePicker rules=vec![TimePickerRule::required(true.into())]/>
+            </Field>
             <div style="margin-top: 8px">
                 <Button
                     button_type=ButtonType::Submit
