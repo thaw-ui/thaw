@@ -1,4 +1,5 @@
 use super::{FieldContextInjection, FieldInjection, FieldValidationState};
+use chrono::NaiveDate;
 use leptos::prelude::*;
 use send_wrapper::SendWrapper;
 use std::ops::Deref;
@@ -46,11 +47,12 @@ impl<T, Trigger> Rule<T, Trigger> {
         Trigger: PartialEq + 'static,
     {
         let field_injection = FieldInjection::use_context();
+        let rules_is_empty = rules.is_empty();
         let rules = StoredValue::new(SendWrapper::new(rules));
         let validate = Callback::new(move |trigger: Option<Trigger>| {
             let state = rules.with_value(move |rules| {
                 if rules.is_empty() {
-                    return Some(Ok(()));
+                    return None;
                 }
 
                 let mut rules_iter = rules.iter();
@@ -88,8 +90,11 @@ impl<T, Trigger> Rule<T, Trigger> {
             };
             rt
         });
-        if let Some(field_context) = FieldContextInjection::use_context() {
-            field_context.register_field(name, move || validate.run(None));
+
+        if !rules_is_empty {
+            if let Some(field_context) = FieldContextInjection::use_context() {
+                field_context.register_field(name, move || validate.run(None));
+            }
         }
 
         validate
@@ -125,6 +130,18 @@ impl RuleValueWithUntracked<Option<String>> for OptionModel<String> {
                     f(&Some(v.clone()))
                 }
             }
+            OptionModelWithValue::Option(v) => f(v),
+        })
+    }
+}
+
+impl RuleValueWithUntracked<Option<NaiveDate>> for OptionModel<NaiveDate> {
+    fn value_with_untracked(
+        &self,
+        f: impl FnOnce(&Option<NaiveDate>) -> Result<(), FieldValidationState>,
+    ) -> Result<(), FieldValidationState> {
+        self.with_untracked(move |v| match v {
+            OptionModelWithValue::T(v) => f(&Some(v.clone())),
             OptionModelWithValue::Option(v) => f(v),
         })
     }

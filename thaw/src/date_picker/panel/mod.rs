@@ -76,6 +76,7 @@ pub fn Panel(
                 data-thaw-id=config_provider.id().clone()
                 style=move || display.get().unwrap_or_default()
                 node_ref=panel_ref
+                on:mousedown=|e| e.prevent_default()
             >
 
                 {move || {
