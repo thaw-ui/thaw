@@ -27,7 +27,9 @@ pub fn Input(
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
     name: MaybeProp<String>,
-    #[prop(optional, into)] rules: Vec<InputRule>,
+    /// The rules to validate Field.
+    #[prop(optional, into)]
+    rules: Vec<InputRule>,
     /// Set the input value.
     #[prop(optional, into)]
     value: Model<String>,

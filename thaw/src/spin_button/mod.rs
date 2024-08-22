@@ -16,7 +16,8 @@ pub fn SpinButton<T>(
     #[prop(optional, into)]
     name: MaybeProp<String>,
     /// The rules to validate Field.
-    #[prop(optional, into)] rules: Vec<SpinButtonRule<T>>,
+    #[prop(optional, into)]
+    rules: Vec<SpinButtonRule<T>>,
     /// Current value of the control.
     #[prop(optional, into)]
     value: Model<T>,

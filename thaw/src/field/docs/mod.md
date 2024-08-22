@@ -59,8 +59,13 @@ view! {
                         } else {
                             Ok(())
                         }
-                    })]/>
+                    })]
+                />
             </Field>
+            <Field name="date">
+                <DatePicker rules=vec![DatePickerRule::required(true.into())]/>
+            </Field>
+            
             <div style="margin-top: 8px">
                 <Button
                     button_type=ButtonType::Submit
