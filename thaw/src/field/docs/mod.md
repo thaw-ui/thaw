@@ -38,6 +38,9 @@ view! {
                     <Checkbox label="Remember me" value="true"/>
                 </CheckboxGroup>
             </Field>
+            <Field label="Textarea" name="textarea">
+                <Textarea rules=vec![TextareaRule::required(true.into())]/>
+            </Field>
             <Field name="radio">
                 <RadioGroup rules=vec![RadioGroupRule::required(true.into())] >
                     <Radio label="0" value="false"/>
@@ -65,7 +68,7 @@ view! {
             <Field name="date">
                 <DatePicker rules=vec![DatePickerRule::required(true.into())]/>
             </Field>
-            
+
             <div style="margin-top: 8px">
                 <Button
                     button_type=ButtonType::Submit

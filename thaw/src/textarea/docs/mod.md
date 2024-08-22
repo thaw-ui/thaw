@@ -36,6 +36,9 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
+| id | `MaybeProp<String>` | `Default::default()` |  |
+| name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
+| rules | `Vec<TextareaRule>` | `vec![]` | The rules to validate Field. |
 | value | `Model<String>` | `Default::default()` | The value of the Textarea. |
 | allow_value | `Option<BoxOneCallback<String, bool>>` | `None` | Check the incoming value, if it returns false, input will not be accepted. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder text for the input. |
