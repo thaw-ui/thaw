@@ -50,6 +50,17 @@ view! {
                     <ComboboxOption value="dog" text="Dog" />
                 </Combobox>
             </Field>
+            <Field name="spinbutton">
+                <SpinButton
+                    step_page=1
+                    rules=vec![SpinButtonRule::validator(move |v, _| {
+                        if v % 2 == 0 {
+                            Err(FieldValidationState::Error("It has to be odd!".to_string()))
+                        } else {
+                            Ok(())
+                        }
+                    })]/>
+            </Field>
             <div style="margin-top: 8px">
                 <Button
                     button_type=ButtonType::Submit
