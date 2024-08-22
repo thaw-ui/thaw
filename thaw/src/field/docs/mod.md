@@ -106,3 +106,19 @@ view! {
     </form>
 }
 ```
+
+### Field Props
+
+| Name | Type | Default | Desciption |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| label | `MaybeProp<String>` | `Default::default()` | The label associated with the field. |
+| name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
+| orientation | `MaybeSignal<FieldOrientation>` | `FieldOrientation::Vertical` | The orientation of the label relative to the field component. |
+| children | `Children` |  |  |
+
+### FieldContextProvider Props
+
+| Name     | Type       | Default | Desciption |
+| -------- | ---------- | ------- | ---------- |
+| children | `Children` |         |            |
