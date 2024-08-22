@@ -77,14 +77,17 @@ pub fn SiteHeader() -> impl IntoView {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::ev;
-        let handle = window_event_listener(ev::keydown, move |event| {
-            let key = event.key();
-            if key == *"/" {
-                if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
-                    event.prevent_default();
-                    auto_complete_ref.focus();
+        let handle = window_event_listener(ev::keydown, move |e| {
+            if js_sys::Reflect::has(&e, &js_sys::wasm_bindgen::JsValue::from_str("key")).unwrap_or_default() {
+                let key = e.key();
+                if key == *"/" {
+                    if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
+                        e.prevent_default();
+                        auto_complete_ref.focus();
+                    }
                 }
             }
+            
         });
         on_cleanup(move || handle.remove());
     }

@@ -21,6 +21,7 @@ send_wrapper = "0.6"
 console_error_panic_hook = "0.1.7"
 console_log = "1"
 log = "0.4"
+js-sys = "0.3.70"
 
 [features]
 default = ["csr"]
