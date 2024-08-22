@@ -81,6 +81,9 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
+| id | `MaybeProp<String>` | `Default::default()` |  |
+| name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
+| rules | `Vec<SpinButtonRule<T>>` | `vec![]` | The rules to validate Field. |
 | value | `Model<T>` | `T::default()` | Current value of the control. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder of input number. |
 | step_page | `MaybeSignal<T>` |  | Large difference between two values. This should be greater than step and is used when users hit the Page Up or Page Down keys. |

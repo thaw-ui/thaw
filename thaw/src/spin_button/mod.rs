@@ -1,6 +1,7 @@
+use crate::{FieldInjection, FieldValidationState, Rule};
 use leptos::prelude::*;
 use num_traits::Bounded;
-use std::ops::{Add, Sub};
+use std::ops::{Add, Deref, Sub};
 use std::str::FromStr;
 use thaw_utils::{
     class_list, mount_style, with, BoxOneCallback, Model, OptionalProp, StoredMaybeSignal,
@@ -9,6 +10,13 @@ use thaw_utils::{
 #[component]
 pub fn SpinButton<T>(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] id: MaybeProp<String>,
+    /// A string specifying a name for the input control.
+    /// This name is submitted along with the control's value when the form data is submitted.
+    #[prop(optional, into)]
+    name: MaybeProp<String>,
+    /// The rules to validate Field.
+    #[prop(optional, into)] rules: Vec<SpinButtonRule<T>>,
     /// Current value of the control.
     #[prop(optional, into)]
     value: Model<T>,
@@ -41,22 +49,28 @@ where
     T: Default + Clone + FromStr + ToString + 'static,
 {
     mount_style("spin-button", include_str!("./spin-button.css"));
-
+    let (id, name) = FieldInjection::use_id_and_name(id, name);
+    let validate = Rule::validate(rules, value, name);
     let initialization_value = value.get_untracked().to_string();
     let step_page: StoredMaybeSignal<_> = step_page.into();
     let min: StoredMaybeSignal<_> = min.into();
     let max: StoredMaybeSignal<_> = max.into();
 
     let update_value = move |new_value| {
+        if with!(|value| value == &new_value) {
+            return;
+        }
         let min = min.get_untracked();
         let max = max.get_untracked();
+
         if new_value < min {
             value.set(min);
         } else if new_value > max {
             value.set(max);
-        } else if with!(|value| value != &new_value) {
+        } else {
             value.set(new_value);
         }
+        validate.run(Some(SpinButtonRuleTrigger::Change));
     };
 
     let increment_disabled = Memo::new(move |_| disabled.get() || value.get() >= max.get());
@@ -100,6 +114,8 @@ where
                     }
                 }
                 class="thaw-spin-button__input"
+                id=id
+                name=name
                 on:change=on_change
             />
             <button
@@ -161,5 +177,36 @@ where
                 </svg>
             </button>
         </span>
+    }
+}
+
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
+pub enum SpinButtonRuleTrigger {
+    #[default]
+    Change,
+}
+
+pub struct SpinButtonRule<T>(Rule<T, SpinButtonRuleTrigger>);
+
+impl<T> SpinButtonRule<T> {
+    pub fn validator(
+        f: impl Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState>
+            + Send
+            + Sync
+            + 'static,
+    ) -> Self {
+        Self(Rule::validator(f))
+    }
+
+    pub fn with_trigger(self, trigger: SpinButtonRuleTrigger) -> Self {
+        Self(Rule::with_trigger(self.0, trigger))
+    }
+}
+
+impl<T> Deref for SpinButtonRule<T> {
+    type Target = Rule<T, SpinButtonRuleTrigger>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
