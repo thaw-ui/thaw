@@ -9,6 +9,11 @@ use thaw_utils::{add_event_listener, class_list, mount_style, ArcOneCallback};
 #[component]
 pub fn Upload(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] id: MaybeProp<String>,
+    /// A string specifying a name for the input control.
+    /// This name is submitted along with the control's value when the form data is submitted.
+    #[prop(optional, into)]
+    name: MaybeProp<String>,
     /// The accept type of upload.
     #[prop(optional, into)]
     accept: MaybeSignal<String>,
@@ -87,6 +92,8 @@ pub fn Upload(
         ]>
             <input
                 class="thaw-upload__input"
+                id=move || id.get()
+                name=move || name.get()
                 node_ref=input_ref
                 type="file"
                 accept=move || accept.get()
