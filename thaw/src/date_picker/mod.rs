@@ -91,8 +91,18 @@ pub fn DatePicker(
 
     view! {
         <Binder target_ref=date_picker_ref>
-            <div node_ref=date_picker_ref class=class_list!["thaw-date-picker", class] on:click=move |_| open_panel()>
-                <Input id name value=show_date_text on_focus=move |_| open_panel() on_blur=on_input_blur>
+            <div
+                node_ref=date_picker_ref
+                class=class_list!["thaw-date-picker", class]
+                on:click=move |_| open_panel()
+            >
+                <Input
+                    id
+                    name
+                    value=show_date_text
+                    on_focus=move |_| open_panel()
+                    on_blur=on_input_blur
+                >
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiCalendarOutlined style="font-size: 18px" />
                     </InputSuffix>
