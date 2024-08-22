@@ -1,5 +1,5 @@
 use super::{FieldContextInjection, FieldInjection, FieldValidationState};
-use chrono::NaiveDate;
+use chrono::{NaiveDate, NaiveTime};
 use leptos::prelude::*;
 use send_wrapper::SendWrapper;
 use std::ops::Deref;
@@ -139,6 +139,18 @@ impl RuleValueWithUntracked<Option<NaiveDate>> for OptionModel<NaiveDate> {
     fn value_with_untracked(
         &self,
         f: impl FnOnce(&Option<NaiveDate>) -> Result<(), FieldValidationState>,
+    ) -> Result<(), FieldValidationState> {
+        self.with_untracked(move |v| match v {
+            OptionModelWithValue::T(v) => f(&Some(v.clone())),
+            OptionModelWithValue::Option(v) => f(v),
+        })
+    }
+}
+
+impl RuleValueWithUntracked<Option<NaiveTime>> for OptionModel<NaiveTime> {
+    fn value_with_untracked(
+        &self,
+        f: impl FnOnce(&Option<NaiveTime>) -> Result<(), FieldValidationState>,
     ) -> Result<(), FieldValidationState> {
         self.with_untracked(move |v| match v {
             OptionModelWithValue::T(v) => f(&Some(v.clone())),
