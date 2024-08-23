@@ -198,14 +198,14 @@ pub fn Scrollbar(
                     handle.remove();
                 }
             });
-            thumb_status.update_value(|thumb_status| {
-                if let Some(status) = thumb_status.take() {
-                    if status == ThumbStatus::DelayLeave {
-                        is_show_x_thumb.set(false);
-                        is_show_y_thumb.set(false);
-                    }
+            if let Some(Some(status)) =
+                thumb_status.try_update_value(|thumb_status| thumb_status.take())
+            {
+                if status == ThumbStatus::DelayLeave {
+                    is_show_x_thumb.set(false);
+                    is_show_y_thumb.set(false);
                 }
-            });
+            }
         });
         x_trumb_mouseup_handle.set_value(Some(handle));
         memo_x_left.set_value(container_scroll_left.get());
@@ -251,14 +251,14 @@ pub fn Scrollbar(
                     handle.remove();
                 }
             });
-            thumb_status.update_value(|thumb_status| {
-                if let Some(status) = thumb_status.take() {
-                    if status == ThumbStatus::DelayLeave {
-                        is_show_x_thumb.set(false);
-                        is_show_y_thumb.set(false);
-                    }
+            if let Some(Some(status)) =
+                thumb_status.try_update_value(|thumb_status| thumb_status.take())
+            {
+                if status == ThumbStatus::DelayLeave {
+                    is_show_x_thumb.set(false);
+                    is_show_y_thumb.set(false);
                 }
-            });
+            }
         });
         y_trumb_mouseup_handle.set_value(Some(handle));
         memo_y_top.set_value(container_scroll_top.get());
