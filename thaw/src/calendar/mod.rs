@@ -1,7 +1,8 @@
 use crate::{Button, ButtonGroup};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::prelude::*;
-use std::ops::Deref;
+use std::{ops::Deref, sync::Arc};
+use tachys::view::any_view::AnyView;
 use thaw_utils::{class_list, mount_style, OptionModel, OptionModelWithValue};
 
 #[component]
@@ -10,6 +11,7 @@ pub fn Calendar(
     /// selected date.
     #[prop(optional, into)]
     value: OptionModel<NaiveDate>,
+    #[prop(optional, into)] children: Option<CalendarChildrenFn>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
     let show_date = RwSignal::new(value.get_untracked().unwrap_or(now_date()));
@@ -118,7 +120,14 @@ pub fn Calendar(
                         .into_iter()
                         .enumerate()
                         .map(|(index, date)| {
-                            view! { <CalendarItem value index=index date=date /> }
+                            view! {
+                                <CalendarItem
+                                    value
+                                    index=index
+                                    date=date
+                                    children=children.clone()
+                                />
+                            }
                         })
                         .collect_view()
                 }}
@@ -133,6 +142,7 @@ fn CalendarItem(
     value: OptionModel<NaiveDate>,
     index: usize,
     date: CalendarItemDate,
+    children: Option<CalendarChildrenFn>,
 ) -> impl IntoView {
     let is_selected = Memo::new({
         let date = date.clone();
@@ -171,6 +181,7 @@ fn CalendarItem(
                 }}
 
             </div>
+            {children.map(|c| c(date.deref()))}
             <div class="thaw-calendar-item__bar"></div>
         </div>
     }
@@ -212,4 +223,25 @@ impl Deref for CalendarItemDate {
 
 pub(crate) fn now_date() -> NaiveDate {
     Local::now().date_naive()
+}
+
+#[derive(Clone)]
+pub struct CalendarChildrenFn(Arc<dyn Fn(&NaiveDate) -> AnyView<Dom> + Send + Sync>);
+
+impl Deref for CalendarChildrenFn {
+    type Target = Arc<dyn Fn(&NaiveDate) -> AnyView<Dom> + Send + Sync>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl<F, C> From<F> for CalendarChildrenFn
+where
+    F: Fn(&NaiveDate) -> C + Send + Sync + 'static,
+    C: RenderHtml<Dom> + Send + 'static,
+{
+    fn from(f: F) -> Self {
+        Self(Arc::new(move |date| f(date).into_any()))
+    }
 }
