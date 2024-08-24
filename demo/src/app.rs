@@ -86,13 +86,14 @@ fn TheRouter() -> impl IntoView {
                         <Route path=path!("/image") view=ImageMdPage/>
                         <Route path=path!("/input") view=InputMdPage/>
                         <Route path=path!("/layout") view=LayoutMdPage/>
+                        <Route path=path!("/link") view=LinkMdPage/>
                         <Route path=path!("/loading-bar") view=LoadingBarMdPage/>
                         <Route path=path!("/message-bar") view=MessageBarMdPage/>
                         <Route path=path!("/nav") view=NavMdPage/>
-                        <Route path=path!("/pagination") view=PaginationMdPage/>
-                        <Route path=path!("/popover") view=PopoverMdPage/>
                     }.into_inner()}
                     {view!{
+                        <Route path=path!("/pagination") view=PaginationMdPage/>
+                        <Route path=path!("/popover") view=PopoverMdPage/>
                         <Route path=path!("/progress-bar") view=ProgressBarMdPage/>
                         <Route path=path!("/radio") view=RadioMdPage/>
                         <Route path=path!("/scrollbar") view=ScrollbarMdPage/>
@@ -107,10 +108,10 @@ fn TheRouter() -> impl IntoView {
                         <Route path=path!("/tag") view=TagMdPage/>
                         <Route path=path!("/text") view=TextMdPage/>
                         <Route path=path!("/textarea") view=TextareaMdPage/>
-                        <Route path=path!("/time-picker") view=TimePickerMdPage/>
-                        <Route path=path!("/toast") view=ToastMdPage />
                     }.into_inner()}
                     {view!{
+                        <Route path=path!("/time-picker") view=TimePickerMdPage/>
+                        <Route path=path!("/toast") view=ToastMdPage />
                         <Route path=path!("/tooltip") view=TooltipMdPage />
                         <Route path=path!("/upload") view=UploadMdPage/>
                     }.into_inner()}

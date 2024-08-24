@@ -47,6 +47,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "ImageMdPage" => "../../thaw/src/image/docs/mod.md",
         "InputMdPage" => "../../thaw/src/input/docs/mod.md",
         "LayoutMdPage" => "../../thaw/src/layout/docs/mod.md",
+        "LinkMdPage" => "../../thaw/src/link/docs/mod.md",
         "LoadingBarMdPage" => "../../thaw/src/loading_bar/docs/mod.md",
         "MenuMdPage" => "../../thaw/src/menu/docs/mod.md",
         "MessageBarMdPage" => "../../thaw/src/message_bar/docs/mod.md",

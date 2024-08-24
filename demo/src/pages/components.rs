@@ -221,6 +221,10 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Layout",
                 },
                 NavItemOption {
+                    value: "/components/link",
+                    label: "Link",
+                },
+                NavItemOption {
                     value: "/components/loading-bar",
                     label: "Loading Bar",
                 },
