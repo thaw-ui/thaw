@@ -1,8 +1,9 @@
 use super::PanelVariant;
 use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate};
 use chrono::{Datelike, Days, Month, Months, NaiveDate};
-use leptos::prelude::*;
+use leptos::{html, prelude::*};
 use std::ops::Deref;
+use thaw_components::FollowerInjection;
 use thaw_utils::{now_date, ArcOneCallback};
 
 #[component]
@@ -12,6 +13,14 @@ pub fn DatePanel(
     close_panel: ArcOneCallback<Option<NaiveDate>>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
+    let follower = FollowerInjection::expect_context();
+    let panel_ref = NodeRef::<html::Div>::new();
+    Effect::new(move || {
+        let Some(_) = panel_ref.get() else {
+            return;
+        };
+        follower.refresh_position();
+    });
     let dates = Memo::new(move |_| {
         let show_date = show_date.get();
         let show_date_month = show_date.month();
@@ -87,7 +96,7 @@ pub fn DatePanel(
         }
     };
     view! {
-        <div>
+        <div class="thaw-date-picker-date-panel" node_ref=panel_ref>
             <div class="thaw-date-picker-date-panel__calendar">
                 <div class="thaw-date-picker-date-panel__header">
                     <Button
