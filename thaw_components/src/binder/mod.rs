@@ -8,6 +8,7 @@ use web_sys::wasm_bindgen::JsCast;
 use crate::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
 use leptos::{
+    context::Provider,
     ev,
     html::{self, ElementType},
     leptos_dom::helpers::WindowListenerHandle,
@@ -187,23 +188,40 @@ where
         }
     });
 
-    on_cleanup(move || {
+    Owner::on_cleanup(move || {
         remove_listener();
     });
+
+    let follower_injection = FollowerInjection(Callback::new(move |_| sync_position()));
 
     view! {
         {children()}
         <Teleport immediate=follower_show>
-            <div class="thaw-binder-follower-container">
-                <div
-                    class="thaw-binder-follower-content"
-                    data-thaw-placement=move || placement_str.get()
-                    node_ref=content_ref
-                    style=move || content_style.get()
-                >
-                    {follower_children()}
+            <Provider value=follower_injection>
+                <div class="thaw-binder-follower-container">
+                    <div
+                        class="thaw-binder-follower-content"
+                        data-thaw-placement=move || placement_str.get()
+                        node_ref=content_ref
+                        style=move || content_style.get()
+                    >
+                        {follower_children()}
+                    </div>
                 </div>
-            </div>
+            </Provider>
         </Teleport>
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct FollowerInjection(Callback<()>);
+
+impl FollowerInjection {
+    pub fn expect_context() -> Self {
+        expect_context()
+    }
+
+    pub fn refresh_position(&self) {
+        self.0.run(());
     }
 }

@@ -1,7 +1,8 @@
 use super::PanelVariant;
 use crate::{Button, ButtonAppearance, ButtonSize};
 use chrono::{Datelike, NaiveDate};
-use leptos::prelude::*;
+use leptos::{html, prelude::*};
+use thaw_components::FollowerInjection;
 
 const MAX_YEAR: i32 = (i32::MAX >> 13) / 10 - 1;
 const MIN_YEAR: i32 = (i32::MIN >> 13) / 10 + 1;
@@ -11,6 +12,14 @@ pub fn YearPanel(
     date_panel_show_date: RwSignal<NaiveDate>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
+    let follower = FollowerInjection::expect_context();
+    let panel_ref = NodeRef::<html::Div>::new();
+    Effect::new(move || {
+        let Some(_) = panel_ref.get() else {
+            return;
+        };
+        follower.refresh_position();
+    });
     let show_min_year = RwSignal::new(date_panel_show_date.get_untracked().year() / 10);
     let previous_year_range = move |_| {
         show_min_year.update(|year| {
@@ -27,7 +36,7 @@ pub fn YearPanel(
         });
     };
     view! {
-        <div>
+        <div class="thaw-date-picker-year-panel" node_ref=panel_ref>
             <div class="thaw-date-picker-year-panel__header">
                 <Button
                     appearance=ButtonAppearance::Transparent

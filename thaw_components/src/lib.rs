@@ -5,7 +5,7 @@ mod if_comp;
 mod option_comp;
 mod teleport;
 
-pub use binder::{Binder, Follower, FollowerPlacement, FollowerWidth};
+pub use binder::{Binder, Follower, FollowerInjection, FollowerPlacement, FollowerWidth};
 pub use css_transition::CSSTransition;
 pub use focus_trap::FocusTrap;
 pub use if_comp::{ElseIf, If, Then};

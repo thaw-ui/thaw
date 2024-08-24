@@ -1,13 +1,23 @@
 use super::PanelVariant;
 use crate::{Button, ButtonAppearance, ButtonSize};
 use chrono::{Datelike, Month, Months, NaiveDate};
-use leptos::prelude::*;
+use leptos::{html, prelude::*};
+use thaw_components::FollowerInjection;
 
 #[component]
 pub fn MonthPanel(
     date_panel_show_date: RwSignal<NaiveDate>,
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
+    let follower = FollowerInjection::expect_context();
+    let panel_ref = NodeRef::<html::Div>::new();
+    Effect::new(move || {
+        let Some(_) = panel_ref.get() else {
+            return;
+        };
+        follower.refresh_position();
+    });
+
     let show_date = RwSignal::new(date_panel_show_date.get_untracked());
     let previous_year = move |_| {
         show_date.update(|date| {
@@ -20,7 +30,7 @@ pub fn MonthPanel(
         });
     };
     view! {
-        <div class="thaw-date-picker-month-panel">
+        <div class="thaw-date-picker-month-panel" node_ref=panel_ref>
             <div class="thaw-date-picker-month-panel__header">
                 <Button
                     appearance=ButtonAppearance::Transparent
