@@ -9,6 +9,7 @@ use thaw::*;
 pub fn SiteHeader() -> impl IntoView {
     let navigate = use_navigate();
     let navigate_signal = RwSignal::new(use_navigate());
+    let dir = ConfigInjection::expect_context().dir;
     let theme = Theme::use_rw_theme();
     let theme_name = Memo::new(move |_| {
         theme.with(|theme| {
@@ -220,6 +221,32 @@ pub fn SiteHeader() -> impl IntoView {
                         on_click=change_theme
                     >
                         {move || theme_name.get()}
+                    </Button>
+                    <Button
+                        on_click=move |_| {
+                            let Some(dir) = dir else {
+                                return;
+                            };
+                            dir.update(move |dir| {
+                                *dir = match dir {
+                                    ConfigDirection::Auto => ConfigDirection::Ltr,
+                                    ConfigDirection::Ltr => ConfigDirection::Rtl,
+                                    ConfigDirection::Rtl => ConfigDirection::Ltr,
+                                };
+                            });
+                        }
+                    >
+                        {move || {
+                            let Some(dir) = dir else {
+                                return None;
+                            };
+
+                            match dir.get() {
+                                ConfigDirection::Auto => Some("Auto"),
+                                ConfigDirection::Ltr => Some("LTR"),
+                                ConfigDirection::Rtl => Some("RTL"),
+                            }
+                        }}
                     </Button>
                     <Button
                         icon=icondata::BiDiscordAlt

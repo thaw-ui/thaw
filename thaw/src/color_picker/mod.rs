@@ -155,7 +155,7 @@ pub fn ColorPicker(
                         class="thaw-config-provider thaw-color-picker-popover"
                         node_ref=popover_ref
                         style=move || display.get().unwrap_or_default()
-                        data-thaw-id=config_provider.id().clone()
+                        data-thaw-id=config_provider.id()
                     >
 
                         <ColorPanel hue=hue.read_only() sv />

@@ -16,9 +16,10 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
     // let (read_theme, _, _) = use_local_storage::<String, FromToStringCodec>("theme");
     // let theme = RwSignal::new(Theme::from(read_theme.get_untracked()));
+    let dir = RwSignal::new(ConfigDirection::Ltr);
 
     view! {
-        <ConfigProvider>
+        <ConfigProvider dir=dir>
             <ToasterProvider>
                 <LoadingBarProvider>
                     <TheRouter />

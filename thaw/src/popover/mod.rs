@@ -138,7 +138,7 @@ pub fn Popover(
                             move || appearance.get().map(|a| format!("thaw-popover-surface--{}", a.as_str())),
                             class
                         ]
-                        data-thaw-id=config_provider.id().clone()
+                        data-thaw-id=config_provider.id()
                         style=move || display.get().unwrap_or_default()
 
                         node_ref=popover_ref

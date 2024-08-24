@@ -124,7 +124,7 @@
 }
 
 .thaw-button:not(.thaw-button--only-icon) .thaw-button__icon {
-    margin-right: var(--spacingHorizontalSNudge);
+    margin-inline-end: var(--spacingHorizontalSNudge);
 }
 
 .thaw-button__icon {

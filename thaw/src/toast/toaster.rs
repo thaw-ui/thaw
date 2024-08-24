@@ -68,7 +68,7 @@ pub fn Toaster(
         <Teleport>
             <div
                 class="thaw-config-provider thaw-toaster-wrapper"
-                data-thaw-id=config_provider.id().clone()
+                data-thaw-id=config_provider.id()
             >
                 <div class="thaw-toaster thaw-toaster--top">
                     <For each=move || top_id_list.get() key=|id| id.clone() let:id>

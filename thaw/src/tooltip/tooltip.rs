@@ -80,7 +80,7 @@ pub fn Tooltip(
                             "thaw-config-provider thaw-tooltip-content",
                             move || format!("thaw-tooltip-content--{}", appearance.get().as_str())
                         ]
-                        data-thaw-id=config_provider.id().clone()
+                        data-thaw-id=config_provider.id()
                         style=move || display.get().unwrap_or_default()
                         role="tooltip"
                         node_ref=content_ref

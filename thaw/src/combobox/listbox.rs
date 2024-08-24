@@ -43,7 +43,7 @@ pub fn Listbox(
                 <div
                     class=format!("thaw-config-provider thaw-listbox {class}")
                     style=move || display.get().unwrap_or_default()
-                    data-thaw-id=config_provider.id().clone()
+                    data-thaw-id=config_provider.id()
                     node_ref=listbox_ref
                     role="listbox"
                     on:mousedown=|e| e.prevent_default()

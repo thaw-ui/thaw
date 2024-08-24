@@ -10,7 +10,7 @@ pub fn ConfigProvider(
     theme: Option<RwSignal<Theme>>,
     /// Sets the direction of text & generated styles.
     #[prop(optional, into)]
-    dir: RwSignal<Option<ConfigDirection>>,
+    dir: Option<RwSignal<ConfigDirection>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("config-provider", include_str!("./config-provider.css"));
@@ -39,18 +39,14 @@ pub fn ConfigProvider(
         }
     });
 
-    let config_injection = ConfigInjection {
-        theme,
-        dir,
-        id: id.get_value(),
-    };
+    let config_injection = ConfigInjection { theme, dir, id };
 
     view! {
         <Provider value=config_injection>
             <div
                 class=class_list!["thaw-config-provider", class]
                 data-thaw-id=id.get_value()
-                dir=move || dir.get().map(move |dir| dir.as_str())
+                dir=move || dir.map(move |dir| dir.get().as_str())
             >
                 {children()}
             </div>
@@ -61,13 +57,13 @@ pub fn ConfigProvider(
 #[derive(Clone)]
 pub struct ConfigInjection {
     pub theme: RwSignal<Theme>,
-    pub dir: RwSignal<Option<ConfigDirection>>,
-    id: String,
+    pub dir: Option<RwSignal<ConfigDirection>>,
+    id: StoredValue<String>,
 }
 
 impl ConfigInjection {
-    pub fn id(&self) -> &String {
-        &self.id
+    pub fn id(&self) -> String {
+        self.id.get_value()
     }
 
     pub fn expect_context() -> Self {
@@ -75,10 +71,11 @@ impl ConfigInjection {
     }
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone, Copy, Default)]
 pub enum ConfigDirection {
     Ltr,
     Rtl,
+    #[default]
     Auto,
 }
 

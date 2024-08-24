@@ -128,7 +128,7 @@ pub fn Menu(
                                 move || appearance.get().map(|a| format!("thaw-menu--{}", a.as_str())),
                                 class
                             ]
-                            data-thaw-id=config_provider.id().clone()
+                            data-thaw-id=config_provider.id()
                             style=move || display.get().unwrap_or_default()
                             node_ref=menu_ref
                             on:mouseenter=on_mouse_enter

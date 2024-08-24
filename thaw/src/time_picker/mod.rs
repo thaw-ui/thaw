@@ -255,7 +255,7 @@ fn Panel(
         >
             <div
                 class="thaw-config-provider thaw-time-picker-panel"
-                data-thaw-id=config_provider.id().clone()
+                data-thaw-id=config_provider.id()
                 style=move || display.get().unwrap_or_default()
                 node_ref=panel_ref
                 on:mousedown=|e| e.prevent_default()

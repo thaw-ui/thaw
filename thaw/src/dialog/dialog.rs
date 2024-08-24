@@ -35,7 +35,7 @@ pub fn Dialog(
             <FocusTrap disabled=!close_on_esc active=open.signal() on_esc>
                 <div
                     class=class_list!["thaw-config-provider thaw-dialog", class]
-                    data-thaw-id=config_provider.id().clone()
+                    data-thaw-id=config_provider.id()
                 >
                     <CSSTransition
                         node_ref=mask_ref

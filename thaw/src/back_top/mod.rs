@@ -91,7 +91,7 @@ pub fn BackTop(
                 >
                     <div
                         class=class_list!["thaw-config-provider thaw-back-top", class]
-                        data-thaw-id=config_provider.id().clone()
+                        data-thaw-id=config_provider.id()
                         node_ref=back_top_ref
                         style=move || {
                             display

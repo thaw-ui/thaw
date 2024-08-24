@@ -100,7 +100,7 @@ fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl I
     view! {
         <div
             class="thaw-config-provider thaw-loading-bar-container"
-            data-thaw-id=config_provider.id().clone()
+            data-thaw-id=config_provider.id()
             style="display: none"
             node_ref=container_ref
         >
