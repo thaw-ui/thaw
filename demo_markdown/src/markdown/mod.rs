@@ -160,9 +160,9 @@ fn iter_nodes<'a>(
             let NodeLink { url, title } = node_link;
             
             quote!(
-                <a href=#url title=#title>
+                <Link href=#url attr:title=#title>
                     #(#children)*
-                </a>
+                </Link>
             )
         }
         NodeValue::Image(_) => quote!("Image todo!!!"),

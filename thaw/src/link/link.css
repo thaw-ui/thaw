@@ -1,0 +1,69 @@
+.thaw-link {
+    display: inline;
+    background-color: transparent;
+    color: var(--colorBrandForegroundLink);
+    font-size: inherit;
+    font-weight: var(--fontWeightRegular);
+    font-family: var(--fontFamilyBase);
+    text-align: left;
+    overflow: inherit;
+    padding: 0px;
+    margin: 0px;
+    user-select: text;
+    text-overflow: inherit;
+    text-decoration-thickness: var(--strokeWidthThin);
+    text-decoration-line: none;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.thaw-link--disabled {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+button.thaw-link {
+    border-style: none;
+    font-size: var(--fontSizeBase300);
+}
+
+span.thaw-link,
+.thaw-link--inline {
+    text-decoration-line: underline;
+}
+
+.thaw-link:hover {
+    color: var(--colorBrandForegroundLinkHover);
+    text-decoration-line: underline;
+}
+
+.thaw-link--disabled:hover {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+.thaw-link--disabled:not(span):hover {
+    text-decoration-line: none;
+}
+
+.thaw-link:active {
+    color: var(--colorBrandForegroundLinkPressed);
+    text-decoration-line: underline;
+}
+
+.thaw-link--disabled:active {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+.thaw-link--disabled:not(span):active {
+    text-decoration-line: none;
+}
+
+.thaw-link:focus-visible {
+    outline-style: none;
+}
+
+.thaw-link:not(.thaw-link--disabled):focus-visible,
+.thaw-link--disabled-focusable:focus-visible {
+    text-decoration-style: double;
+    text-decoration-line: underline;
+    text-decoration-color: var(--colorStrokeFocus2);
+}
