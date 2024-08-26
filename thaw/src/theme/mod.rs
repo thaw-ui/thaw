@@ -1,7 +1,7 @@
 mod common;
 
-use self::common::CommonTheme;
-use crate::{
+pub use self::common::CommonTheme;
+pub use crate::{
     mobile::{NavBarTheme, TabbarTheme},
     AlertTheme, AnchorTheme, AutoCompleteTheme, AvatarTheme, BackTopTheme, BreadcrumbTheme,
     ButtonTheme, CalendarTheme, CollapseTheme, ColorPickerTheme, DatePickerTheme, DropdownTheme,
