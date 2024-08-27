@@ -87,4 +87,24 @@ impl OptionWalker {
             tree_walker.previous_node().unwrap_throw()?.dyn_into().ok()
         })
     }
+
+    pub fn find(&self, predicate: impl Fn(String) -> bool) -> Option<HtmlElement> {
+        self.0.with_value(|tree_walker| {
+            let Some((tree_walker, _)) = tree_walker.as_ref() else {
+                return None;
+            };
+            tree_walker.set_current_node(&tree_walker.root());
+            let mut current: Option<HtmlElement> =
+                tree_walker.first_child().unwrap_throw()?.dyn_into().ok();
+
+            while let Some(cur) = current.as_ref() {
+                if predicate(cur.id()) {
+                    break;
+                }
+                current = tree_walker.next_node().unwrap_throw()?.dyn_into().ok();
+            }
+
+            current
+        })
+    }
 }

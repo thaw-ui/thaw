@@ -68,24 +68,6 @@ pub fn Combobox(
         });
     }
 
-    let on_input = move |ev| {
-        let input_value = event_target_value(&ev);
-        if selected_options.with_untracked(|options| match options {
-            VecModelWithValue::T(v) => v != &input_value,
-            VecModelWithValue::Option(v) => {
-                if let Some(v) = v.as_ref() {
-                    v != &input_value
-                } else {
-                    false
-                }
-            }
-            VecModelWithValue::Vec(_) => false,
-        }) {
-            selected_options.set(vec![]);
-        }
-        value.set(input_value);
-    };
-
     let multiselect = selected_options.is_vec();
     let combobox_injection = ComboboxInjection {
         value,
@@ -97,6 +79,51 @@ pub fn Combobox(
     };
     let (set_listbox, active_descendant_controller) =
         use_active_descendant(move |el| el.class_list().contains("thaw-combobox-option"));
+
+    let on_input = {
+        let active_descendant_controller = active_descendant_controller.clone();
+        move |ev| {
+            let input_value = event_target_value(&ev);
+            if selected_options.with_untracked(|options| match options {
+                VecModelWithValue::T(v) => v != &input_value,
+                VecModelWithValue::Option(v) => {
+                    if let Some(v) = v.as_ref() {
+                        v != &input_value
+                    } else {
+                        false
+                    }
+                }
+                VecModelWithValue::Vec(_) => false,
+            }) {
+                selected_options.set(vec![]);
+            }
+            value.set(input_value);
+            let Some(value) = value.with_untracked(|value| {
+                let value = value.trim().to_ascii_lowercase();
+                if value.is_empty() {
+                    None
+                } else {
+                    Some(value)
+                }
+            }) else {
+                active_descendant_controller.blur();
+                return;
+            };
+            if active_descendant_controller
+                .find(|id| {
+                    options.with_value(|options| {
+                        let Some((_, text, _)) = options.get(&id) else {
+                            return false;
+                        };
+                        text.to_ascii_lowercase().contains(&value)
+                    })
+                })
+                .is_none()
+            {
+                active_descendant_controller.blur();
+            }
+        }
+    };
 
     let on_blur = {
         let active_descendant_controller = active_descendant_controller.clone();
