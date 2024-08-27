@@ -18,7 +18,7 @@ let selected_options = RwSignal::new(vec![]);
 
 view! {
     <Combobox selected_options clearable=true>
-        <ComboboxOption value="cat" text="Cat" disabled=true/>
+        <ComboboxOption value="cat" text="Cat"/>
         <ComboboxOption value="dog" text="Dog" />
     </Combobox>
 }
