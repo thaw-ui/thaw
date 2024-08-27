@@ -68,56 +68,6 @@ pub fn Combobox(
         });
     }
 
-    #[cfg(any(feature = "csr", feature = "hydrate"))]
-    {
-        let handle = window_event_listener(ev::click, move |ev| {
-            use leptos::wasm_bindgen::__rt::IntoJsResult;
-            if !is_show_listbox.get_untracked() {
-                return;
-            }
-            let el = ev.target();
-            let mut el: Option<web_sys::Element> =
-                el.into_js_result().map_or(None, |el| Some(el.into()));
-            let body = document().body().unwrap();
-            if let Some(listbox_el) = listbox_ref.get_untracked() {
-                if let Some(trigger_el) = trigger_ref.get_untracked() {
-                    while let Some(current_el) = el {
-                        if current_el == *body {
-                            break;
-                        };
-                        if current_el == **listbox_el {
-                            return;
-                        }
-                        if current_el == **trigger_el {
-                            return;
-                        }
-                        el = current_el.parent_element();
-                    }
-                }
-            }
-            is_show_listbox.set(false);
-        });
-        on_cleanup(move || handle.remove());
-    }
-
-    let on_input = move |ev| {
-        let input_value = event_target_value(&ev);
-        if selected_options.with_untracked(|options| match options {
-            VecModelWithValue::T(v) => v != &input_value,
-            VecModelWithValue::Option(v) => {
-                if let Some(v) = v.as_ref() {
-                    v != &input_value
-                } else {
-                    false
-                }
-            }
-            VecModelWithValue::Vec(_) => false,
-        }) {
-            selected_options.set(vec![]);
-        }
-        value.set(input_value);
-    };
-
     let multiselect = selected_options.is_vec();
     let combobox_injection = ComboboxInjection {
         value,
@@ -129,6 +79,51 @@ pub fn Combobox(
     };
     let (set_listbox, active_descendant_controller) =
         use_active_descendant(move |el| el.class_list().contains("thaw-combobox-option"));
+
+    let on_input = {
+        let active_descendant_controller = active_descendant_controller.clone();
+        move |ev| {
+            let input_value = event_target_value(&ev);
+            if selected_options.with_untracked(|options| match options {
+                VecModelWithValue::T(v) => v != &input_value,
+                VecModelWithValue::Option(v) => {
+                    if let Some(v) = v.as_ref() {
+                        v != &input_value
+                    } else {
+                        false
+                    }
+                }
+                VecModelWithValue::Vec(_) => false,
+            }) {
+                selected_options.set(vec![]);
+            }
+            value.set(input_value);
+            let Some(value) = value.with_untracked(|value| {
+                let value = value.trim().to_ascii_lowercase();
+                if value.is_empty() {
+                    None
+                } else {
+                    Some(value)
+                }
+            }) else {
+                active_descendant_controller.blur();
+                return;
+            };
+            if active_descendant_controller
+                .find(|id| {
+                    options.with_value(|options| {
+                        let Some((_, text, _)) = options.get(&id) else {
+                            return false;
+                        };
+                        text.to_ascii_lowercase().contains(&value)
+                    })
+                })
+                .is_none()
+            {
+                active_descendant_controller.blur();
+            }
+        }
+    };
 
     let on_blur = {
         let active_descendant_controller = active_descendant_controller.clone();
@@ -148,6 +143,7 @@ pub fn Combobox(
             });
             active_descendant_controller.blur();
             validate.run(Some(ComboboxRuleTrigger::Blur));
+            is_show_listbox.set(false);
         }
     };
 
@@ -209,6 +205,7 @@ pub fn Combobox(
                                     .unwrap_or_default()
                             }
                             node_ref=clear_icon_ref
+                            on:mousedown=|e| e.prevent_default()
                         >
                             <svg
                                 fill="currentColor"

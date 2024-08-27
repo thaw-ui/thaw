@@ -96,4 +96,11 @@ impl ActiveDescendantController {
             None
         }
     }
+
+    pub fn find(&self, predicate: impl Fn(String) -> bool) -> Option<String> {
+        let target = self.option_walker.find(predicate)?;
+        let id = target.id();
+        self.focus_active_descendant(target);
+        Some(id)
+    }
 }
