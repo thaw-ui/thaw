@@ -53,6 +53,13 @@ view! {
                     <ComboboxOption value="dog" text="Dog" />
                 </Combobox>
             </Field>
+            <Field label="Select" name="select">
+                <Select rules=vec![SelectRule::required(true.into())] >
+                    <option>"Red"</option>
+                    <option>"Green"</option>
+                    <option>"Blue"</option>
+                </Select>
+            </Field>
             <Field label="SpinButton" name="spinbutton">
                 <SpinButton
                     step_page=1

@@ -1,5 +1,9 @@
 // copy https://github.com/Carlosted/leptos-icons
 // leptos updated version causes leptos_icons error
+mod icons;
+
+pub(crate) use icons::*;
+
 use leptos::{ev, prelude::*};
 use thaw_utils::{class_list, mount_style, ArcOneCallback};
 
