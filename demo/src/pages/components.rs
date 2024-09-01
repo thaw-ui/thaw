@@ -261,6 +261,10 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Scrollbar",
                 },
                 NavItemOption {
+                    value: "/components/select",
+                    label: "Select",
+                },
+                NavItemOption {
                     value: "/components/skeleton",
                     label: "Skeleton",
                 },
