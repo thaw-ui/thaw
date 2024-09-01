@@ -234,6 +234,7 @@ pub fn Combobox(
                     style=move || {
                         is_show_clear_icon.get().then(|| "display: none").unwrap_or_default()
                     }
+                    on:mousedown=|e| e.prevent_default()
                     on:click=move |_| {
                         if disabled.get_untracked() {
                             return;
