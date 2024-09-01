@@ -30,7 +30,7 @@ impl FieldContextInjection {
         validate: impl Fn() -> bool + Send + Sync + 'static,
     ) {
         let mut key = None;
-        let validate = Callback::from(move |_| validate());
+        let validate: Callback<(), bool> = Callback::from(move || validate());
         self.0.update_value(|map| {
             key = Some(map.insert((name, validate)));
             ()

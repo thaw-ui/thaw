@@ -3,9 +3,7 @@ use leptos::reactive_graph::wrappers::read::MaybeSignal;
 pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
-        use leptos::prelude::{
-            document, effect::RenderEffect, on_cleanup, traits::Get, StoredValue,
-        };
+        use leptos::prelude::{document, on_cleanup, Get, RenderEffect, StoredValue};
         use send_wrapper::SendWrapper;
 
         let style_el = StoredValue::new(SendWrapper::new(None::<web_sys::Element>));
