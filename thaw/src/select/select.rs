@@ -23,13 +23,13 @@ pub fn Select(
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
     let select_ref = NodeRef::<html::Select>::new();
-    Effect::new(move |prev: Option<()>| {
+    Effect::new(move |prev: Option<bool>| {
         let Some(el) = select_ref.get() else {
-            return;
+            return false;
         };
 
         let el_value = el.value();
-        if prev.is_none() {
+        if !prev.unwrap_or_default() {
             if let Some(default_value) = default_value.as_ref() {
                 el.set_value(default_value);
                 value.set(default_value.clone());
@@ -37,13 +37,14 @@ pub fn Select(
                 value.set(el_value);
             }
             value.with(|_| {});
-            return;
+            return true;
         }
         value.with(|value| {
             if value != &el_value {
                 el.set_value(value);
             }
         });
+        true
     });
 
     let on_change = move |_| {
