@@ -1,8 +1,9 @@
-## [0.4.0-beta2](https://github.com/thaw-ui/thaw/compare/v0.3.2...v0.3.3) (2024-07-15)
+## [0.4.0-beta2](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta...v0.4.0-beta2) (2024-09-02)
 
 ### Features
 
 * Font add ui-* and system-ui.
+* Add id, name and rules to the input class component.
 * `Calendar` adds children prop.
 * `Button` adds button_type prop.
 * Adds `Field` component.
