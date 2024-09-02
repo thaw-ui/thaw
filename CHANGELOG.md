@@ -1,3 +1,25 @@
+## [0.4.0-beta2](https://github.com/thaw-ui/thaw/compare/v0.3.2...v0.3.3) (2024-07-15)
+
+### Features
+
+* Font add ui-* and system-ui.
+* `Calendar` adds children prop.
+* `Button` adds button_type prop.
+* Adds `Field` component.
+* Adss `Link` component.
+* Adss `Select` component.
+
+### Bug Fixs
+
+* Scrollbar nested update value.
+* The position is messed up when switching DatePicker panels.
+* Clicking the ExpandIcon of the Combobox does not close the popup window.
+
+### Breaking Changes
+
+* Change the type of dir in ConfigProvider.
+* Update leptos to v0.7.0-beta4.
+
 ## [0.3.3](https://github.com/thaw-ui/thaw/compare/v0.3.2...v0.3.3) (2024-07-15)
 
 ### Features

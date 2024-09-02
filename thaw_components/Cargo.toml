@@ -1,6 +1,6 @@
 [package]
 name = "thaw_components"
-version = "0.2.0-beta"
+version = "0.2.0-beta2"
 edition = "2021"
 keywords = ["leptos", "thaw", "components"]
 readme = "../README.md"
