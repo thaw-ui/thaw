@@ -6,6 +6,12 @@ Installation thaw
 cargo add thaw --features=csr
 ```
 
+<MessageBar intent=MessageBarIntent::Warning>
+    <MessageBarBody>
+        "If you are using the nightly feature in Leptos, please enable Thaw's nightly as well."
+    </MessageBarBody>
+</MessageBar>
+
 ## Usage
 
 You just need to import thaw and use it.
