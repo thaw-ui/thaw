@@ -110,6 +110,7 @@ fn TheRouter() -> impl IntoView {
                         <Route path=path!("/tag") view=TagMdPage/>
                     }.into_inner()}
                     {view!{
+                        <Route path=path!("/tag-picker") view=TagPickerMdPage/>
                         <Route path=path!("/text") view=TextMdPage/>
                         <Route path=path!("/textarea") view=TextareaMdPage/>
                         <Route path=path!("/time-picker") view=TimePickerMdPage/>
