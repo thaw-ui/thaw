@@ -1,0 +1,83 @@
+.thaw-tag-picker-control {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--spacingHorizontalXXS);
+    min-width: 250px;
+    min-height: 32px;
+    padding-right: calc(var(--spacingHorizontalM) + 18px);
+    padding-left: var(--spacingHorizontalM);
+    background-color: var(--colorNeutralBackground1);
+    border-radius: var(--borderRadiusMedium);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    border-bottom-color: var(--colorNeutralStrokeAccessible);
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-control::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    left: -1px;
+    height: max(2px, var(--borderRadiusMedium));
+    clip-path: inset(calc(100% - 2px) 0px 0px);
+    border-bottom: var(--strokeWidthThick) solid var(--colorCompoundBrandStroke);
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    border-bottom-left-radius: var(--borderRadiusMedium);
+    transition-delay: var(--curveAccelerateMid);
+    transition-duration: var(--durationUltraFast);
+    transition-property: transform;
+    transform: scaleX(0);
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-control:focus-within::after {
+    transition-delay: var(--curveDecelerateMid);
+    transition-duration: var(--durationNormal);
+    transition-property: transform;
+    transform: scaleX(1);
+}
+
+.thaw-tag-picker-control__aside {
+    position: absolute;
+    right: var(--spacingHorizontalM);
+    top: 0px;
+    display: grid;
+    align-items: center;
+    grid-template-rows: minmax(32px, auto) 1fr;
+    grid-template-columns: repeat(2, auto);
+    min-height: 32px;
+    height: 100%;
+    cursor: text;
+}
+
+.thaw-tag-picker-control__expand-icon {
+    display: block;
+    margin-left: var(--spacingHorizontalXXS);
+    color: var(--colorNeutralStrokeAccessible);
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-input {
+    flex-grow: 1;
+    width: 0;
+    min-width: 24px;
+    max-width: 100%;
+    padding: var(--spacingVerticalSNudge) 0 var(--spacingVerticalSNudge) 0;
+    background-color: var(--colorTransparentBackground);
+    color: var(--colorNeutralForeground1);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    box-sizing: border-box;
+    border: none;
+}
+
+.thaw-tag-picker-input:focus {
+    outline-style: none;
+}

@@ -302,7 +302,7 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                 },
                 NavItemOption {
                     value: "/components/tag-picker",
-                    label: "TagPicker",
+                    label: "Tag Picker",
                 },
                 NavItemOption {
                     value: "/components/text",
