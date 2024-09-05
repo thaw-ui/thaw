@@ -13,6 +13,25 @@ view! {
 }
 ```
 
+### Size
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <Space>
+            <Tag >"Medium"</Tag>
+            <Tag size=TagSize::Small>"Small"</Tag>
+            <Tag size=TagSize::ExtraSmall>"Extra small"</Tag>
+        </Space>
+        <Space>
+            <Tag closable=true>"Medium"</Tag>
+            <Tag closable=true size=TagSize::Small>"Small"</Tag>
+            <Tag closable=true size=TagSize::ExtraSmall>"Extra small"</Tag>
+        </Space>
+    </Space>
+}
+```
+
 ### Closable
 
 ```rust demo

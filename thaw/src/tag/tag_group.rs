@@ -1,12 +1,33 @@
-use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style, ArcOneCallback};
+use super::TagSize;
+use leptos::{context::Provider, prelude::*};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn TagGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Tag size.
+    #[prop(optional, into)]
+    size: MaybeSignal<TagSize>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag-group", include_str!("./tag-group.css"));
 
-    view! { <div class=class_list!["thaw-tag-group", class]>{children()}</div> }
+    view! {
+        <div class=class_list!["thaw-tag-group", class]>
+            <Provider value=TagGroupInjection { size }>
+                {children()}
+            </Provider>
+        </div>
+    }
+}
+
+#[derive(Clone, Copy)]
+pub(crate) struct TagGroupInjection {
+    pub size: MaybeSignal<TagSize>,
+}
+
+impl TagGroupInjection {
+    pub fn use_context() -> Option<Self> {
+        use_context()
+    }
 }

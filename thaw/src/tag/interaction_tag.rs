@@ -1,5 +1,5 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style, ArcOneCallback};
+use thaw_utils::{class_list, mount_style};
 
 #[component]
 pub fn InteractionTag(

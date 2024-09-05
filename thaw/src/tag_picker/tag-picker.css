@@ -134,3 +134,13 @@
     color: var(--colorNeutralForeground1Pressed);
     background-color: var(--colorNeutralBackground1Pressed);
 }
+
+.thaw-tag-picker-group {
+    display: inline-flex;
+    gap: var(--spacingHorizontalXS);
+    column-gap: var(--spacingHorizontalXS);
+    flex-wrap: wrap;
+    padding: var(--spacingVerticalSNudge) 0 var(--spacingVerticalSNudge) 0;
+    box-sizing: border-box;
+    cursor: text;
+}

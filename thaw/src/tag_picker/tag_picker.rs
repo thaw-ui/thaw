@@ -11,6 +11,7 @@ use thaw_utils::{class_list, mount_style, Model};
 #[component]
 pub fn TagPicker(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// An array of selected option keys.
     #[prop(optional, into)] selected_options: Model<Vec<String>>,
     tag_picker_control: TagPickerControl,
     children: Children,

@@ -1,8 +1,8 @@
 mod interaction_tag;
 mod tag_group;
 
-pub use tag_group::*;
 pub use interaction_tag::*;
+pub use tag_group::*;
 
 use leptos::{either::Either, ev, prelude::*};
 use thaw_utils::{class_list, mount_style, ArcOneCallback};
@@ -10,6 +10,9 @@ use thaw_utils::{class_list, mount_style, ArcOneCallback};
 #[component]
 pub fn Tag(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Tag size.
+    #[prop(optional, into)]
+    size: Option<MaybeSignal<TagSize>>,
     /// Whether the tag shows a close button.
     #[prop(optional, into)]
     closable: MaybeSignal<bool>,
@@ -19,9 +22,26 @@ pub fn Tag(
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
+    let tag_group = TagGroupInjection::use_context();
+    let size_class = {
+        if let Some(size) = size {
+            Some(size)
+        } else if let Some(tag_group) = tag_group {
+            Some(tag_group.size)
+        } else {
+            None
+        }
+    };
 
     view! {
-        <span class=class_list!["thaw-tag", ("thaw-tag--closable", move || closable.get()), class]>
+        <span
+            class=class_list![
+                "thaw-tag",
+                ("thaw-tag--closable", move || closable.get()),
+                size_class.map(|size| move || format!("thaw-tag--{}", size.get().as_str())),
+                class
+            ]
+        >
 
             <span class="thaw-tag__primary-text">{children()}</span>
 
@@ -58,5 +78,23 @@ pub fn Tag(
             }}
 
         </span>
+    }
+}
+
+#[derive(Debug, Default, Clone, Copy)]
+pub enum TagSize {
+    #[default]
+    Medium,
+    Small,
+    ExtraSmall,
+}
+
+impl TagSize {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Medium => "medium",
+            Self::Small => "small",
+            Self::ExtraSmall => "extra-small",
+        }
     }
 }

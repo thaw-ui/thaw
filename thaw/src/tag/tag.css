@@ -17,6 +17,16 @@
     border-radius: var(--borderRadiusMedium);
 }
 
+.thaw-tag--small {
+    height: 24px;
+    padding: 0 5px;
+}
+
+.thaw-tag--extra-small {
+    height: 20px;
+    padding: 0 5px;
+}
+
 .thaw-tag--closable {
     padding-right: 0;
 }
@@ -34,6 +44,12 @@
     color: var(--colorNeutralForeground2);
 }
 
+.thaw-tag--small .thaw-tag__primary-text,
+.thaw-tag--extra-small .thaw-tag__primary-text {
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+}
+
 .thaw-tag__close {
     grid-area: dismissIcon;
     display: flex;
@@ -44,6 +60,18 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+.thaw-tag--small .thaw-tag__close {
+    padding-left: var(--spacingHorizontalXXS);
+    font-size: 16px;
+    padding-right: 5px;
+}
+
+.thaw-tag--extra-small .thaw-tag__close {
+    padding-left: var(--spacingHorizontalXXS);
+    font-size: 12px;
+    padding-right: 5px;
 }
 
 .thaw-tag__close > svg {
