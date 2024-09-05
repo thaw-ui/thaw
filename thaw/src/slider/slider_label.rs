@@ -20,9 +20,9 @@ pub fn SliderLabel(
     };
 
     view! {
-        <option class=class_list!["thaw-slider-label", class] style=style value=move || value.get()>
+        <div class=class_list!["thaw-slider-label", class] style=style>
 
             {children()}
-        </option>
+        </div>
     }
 }

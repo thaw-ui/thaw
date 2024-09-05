@@ -37,7 +37,6 @@ pub fn Slider(
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
     let is_chldren = children.is_some();
-    let list_id = is_chldren.then(|| uuid::Uuid::new_v4().to_string());
     let current_value = Memo::new(move |_| {
         let max = max.get();
         let min = min.get();
@@ -100,14 +99,13 @@ pub fn Slider(
                     on:input=on_input
                     value=current_value.get_untracked()
                     prop:value=move || current_value.get()
-                    list=list_id.clone()
                 />
                 <div class="thaw-slider__rail"></div>
                 <div class="thaw-slider__thumb"></div>
                 <OptionComp value=children let:children>
-                    <datalist id=list_id class="thaw-slider__datalist">
+                    <div class="thaw-slider__datalist">
                         {children()}
-                    </datalist>
+                    </div>
                 </OptionComp>
             </div>
         </Provider>

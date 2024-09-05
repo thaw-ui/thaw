@@ -33,6 +33,19 @@
     outline-style: none;
 }
 
+.thaw-slider:focus-within::after {
+    content: "";
+    position: absolute;
+    bottom: calc(0px);
+    left: calc(-10px);
+    right: calc(-10px);
+    top: calc(0px);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: var(--borderRadiusMedium);
+    border: 2px solid var(--colorStrokeFocus2);
+}
+
 .thaw-slider__input {
     grid-column-end: -1;
     grid-column-start: 1;
