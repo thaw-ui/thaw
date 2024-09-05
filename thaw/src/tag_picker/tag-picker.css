@@ -81,3 +81,56 @@
 .thaw-tag-picker-input:focus {
     outline-style: none;
 }
+
+.thaw-tag-picker__listbox {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacingHorizontalXXS);
+    overflow-y: auto;
+    min-width: 160px;
+    max-height: 80vh;
+    background-color: var(--colorNeutralBackground1);
+    padding: var(--spacingHorizontalXS);
+    outline: 1px solid var(--colorTransparentStroke);
+    border-radius: var(--borderRadiusMedium);
+    box-shadow: var(--shadow16);
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-option {
+    grid-template-columns: auto 1fr;
+    column-gap: var(--spacingHorizontalXS);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: var(--spacingVerticalSNudge) var(--spacingHorizontalS);
+    line-height: var(--lineHeightBase300);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    color: var(--colorNeutralForeground1);
+    border-radius: var(--borderRadiusMedium);
+    cursor: pointer;
+}
+
+.thaw-tag-picker-option[data-activedescendant-focusvisible]::after {
+    content: "";
+    position: absolute;
+    right: -2px;
+    left: -2px;
+    bottom: -2px;
+    top: -2px;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: var(--borderRadiusMedium);
+    border: 2px solid var(--colorStrokeFocus2);
+}
+
+.thaw-tag-picker-option:hover {
+    color: var(--colorNeutralForeground1Hover);
+    background-color: var(--colorNeutralBackground1Hover);
+}
+
+.thaw-tag-picker-option:active {
+    color: var(--colorNeutralForeground1Pressed);
+    background-color: var(--colorNeutralBackground1Pressed);
+}

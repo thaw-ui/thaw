@@ -4,12 +4,15 @@
 view! {
     <TagPicker>
         <TagPickerControl slot>
+            <TagPickerGroup>
+                "123"
+            </TagPickerGroup>
             <TagPickerInput />
         </TagPickerControl>
-        <TagPickerOption>
+        <TagPickerOption value="cat">
             "Cat"
         </TagPickerOption>
-        <TagPickerOption>
+        <TagPickerOption value="dog">
             "Dog"
         </TagPickerOption>
     </TagPicker>
