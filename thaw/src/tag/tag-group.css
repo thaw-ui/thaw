@@ -1,0 +1,4 @@
+.thaw-tag-group {
+    display: inline-flex;
+    column-gap: var(--spacingHorizontalS);
+}

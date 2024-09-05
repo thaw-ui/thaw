@@ -1,3 +1,9 @@
+mod interaction_tag;
+mod tag_group;
+
+pub use tag_group::*;
+pub use interaction_tag::*;
+
 use leptos::{either::Either, ev, prelude::*};
 use thaw_utils::{class_list, mount_style, ArcOneCallback};
 

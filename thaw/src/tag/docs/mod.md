@@ -2,7 +2,14 @@
 
 ```rust demo
 view! {
-    <Tag>"default"</Tag>
+    <Space>
+        <Tag>"default"</Tag>
+        <InteractionTag>
+            <InteractionTagPrimary>
+                "Interaction Tag"
+            </InteractionTagPrimary>
+        </InteractionTag>
+    </Space>
 }
 ```
 
@@ -23,6 +30,32 @@ view! {
 }
 ```
 
+### Tag Group
+
+```rust demo
+view! {
+    <Space vertical=true>
+        <TagGroup attr:role="list">
+            <Tag attr:role="listitem">"Tag 1"</Tag>
+            <Tag attr:role="listitem">"Tag 2"</Tag>
+            <Tag attr:role="listitem">"Tag 3"</Tag>
+        </TagGroup>
+        <TagGroup>
+            <InteractionTag>
+                <InteractionTagPrimary>"Tag 1"</InteractionTagPrimary>
+            </InteractionTag>
+            <InteractionTag>
+                <InteractionTagPrimary>"Tag 2"</InteractionTagPrimary>
+            </InteractionTag>
+            <InteractionTag>
+                <InteractionTagPrimary>"Tag 3"</InteractionTagPrimary>
+            </InteractionTag>
+        </TagGroup>
+    </Space>
+}
+
+```
+
 ### Tag Props
 
 | Name     | Type                                     | Default              | Description                           |
@@ -31,3 +64,24 @@ view! {
 | closable | `MaybeSignal<bool>`                      | `false`              | Whether the tag shows a close button. |
 | on_close | `Option<ArcOneCallback<ev::MouseEvent>>` | `None`               | Close clicked callback.               |
 | children | `Children`                               |                      |                                       |
+
+### InteractionTag Props
+
+| Name     | Type                | Default              | Description |
+| -------- | ------------------- | -------------------- | ----------- |
+| class    | `MaybeProp<String>` | `Default::default()` |             |
+| children | `Children`          |                      |             |
+
+### InteractionTagPrimary Props
+
+| Name     | Type                | Default              | Description |
+| -------- | ------------------- | -------------------- | ----------- |
+| class    | `MaybeProp<String>` | `Default::default()` |             |
+| children | `Children`          |                      |             |
+
+### TagGroup Props
+
+| Name     | Type                | Default              | Description |
+| -------- | ------------------- | -------------------- | ----------- |
+| class    | `MaybeProp<String>` | `Default::default()` |             |
+| children | `Children`          |                      |             |
