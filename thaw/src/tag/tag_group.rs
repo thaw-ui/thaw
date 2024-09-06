@@ -5,7 +5,7 @@ use thaw_utils::{class_list, mount_style};
 #[component]
 pub fn TagGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
-    /// Tag size.
+    /// Size of the tag.
     #[prop(optional, into)]
     size: MaybeSignal<TagSize>,
     children: Children,

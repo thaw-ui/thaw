@@ -10,7 +10,7 @@ use thaw_utils::{class_list, mount_style, ArcOneCallback};
 #[component]
 pub fn Tag(
     #[prop(optional, into)] class: MaybeProp<String>,
-    /// Tag size.
+    /// Size of the tag.
     #[prop(optional, into)]
     size: Option<MaybeSignal<TagSize>>,
     /// Whether the tag shows a close button.

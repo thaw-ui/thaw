@@ -67,6 +67,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "TabListMdPage" => "../../thaw/src/tab_list/docs/mod.md",
         "TableMdPage" => "../../thaw/src/table/docs/mod.md",
         "TagMdPage" => "../../thaw/src/tag/docs/mod.md",
+        "TagGroupMdPage" => "../../thaw/src/tag/docs/tag_group/mod.md",
         "TagPickerMdPage" => "../../thaw/src/tag_picker/docs/mod.md",
         "TextMdPage" => "../../thaw/src/text/docs/mod.md",
         "TextareaMdPage" => "../../thaw/src/textarea/docs/mod.md",
