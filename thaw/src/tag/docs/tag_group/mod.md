@@ -30,14 +30,14 @@ view! {
     <Space vertical=true>
         <TagGroup size=TagSize::Small>
             <Tag >"Tag 1"</Tag>
-            <Tag closable=true>"Tag 1"</Tag>
+            <Tag dismissible=true>"Tag 1"</Tag>
             <InteractionTag>
                 <InteractionTagPrimary>"Tag 1"</InteractionTagPrimary>
             </InteractionTag>
         </TagGroup>
         <TagGroup size=TagSize::ExtraSmall>
             <Tag >"Tag 1"</Tag>
-            <Tag closable=true>"Tag 1"</Tag>
+            <Tag dismissible=true>"Tag 1"</Tag>
             <InteractionTag>
                 <InteractionTagPrimary>"Tag 1"</InteractionTagPrimary>
             </InteractionTag>
@@ -48,8 +48,10 @@ view! {
 
 ### TagGroup Props
 
-| Name     | Type                   | Default              | Description      |
-| -------- | ---------------------- | -------------------- | ---------------- |
-| class    | `MaybeProp<String>`    | `Default::default()` |                  |
-| size     | `MaybeSignal<TagSize>` | `TagSize::Medium`    | Size of the tag. |
-| children | `Children`             |                      |                  |
+| Name        | Type                             | Default              | Description                           |
+| ----------- | -------------------------------- | -------------------- | ------------------------------------- |
+| class       | `MaybeProp<String>`              | `Default::default()` |                                       |
+| size        | `MaybeSignal<TagSize>`           | `TagSize::Medium`    | Size of the tag.                      |
+| dismissible | `MaybeSignal<bool>`              | `false`              | A Tag can be dismissible.             |
+| on_dismiss  | `Option<ArcOneCallback<String>>` | `None`               | Callback for when a tag is dismissed. |
+| children    | `Children`                       |                      |                                       |

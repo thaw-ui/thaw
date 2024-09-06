@@ -22,16 +22,12 @@ pub fn InteractionTag(
         }
     };
 
-    view! { 
-        <div
-            class=class_list![
-                "thaw-interaction-tag",
+    view! {
+        <div class=class_list![
+            "thaw-interaction-tag",
                 size_class.map(|size| move || format!("thaw-interaction-tag--{}", size.get().as_str())),
                 class
-            ]
-        >
-            {children()}
-        </div>
+        ]>{children()}</div>
     }
 }
 

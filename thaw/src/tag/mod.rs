@@ -13,50 +13,71 @@ pub fn Tag(
     /// Size of the tag.
     #[prop(optional, into)]
     size: Option<MaybeSignal<TagSize>>,
-    /// Whether the tag shows a close button.
+    /// A Tag can be dismissible.
     #[prop(optional, into)]
-    closable: MaybeSignal<bool>,
-    /// Close clicked callback.
+    dismissible: MaybeSignal<bool>,
+    /// Callback for when a tag is dismissed.
     #[prop(optional, into)]
-    on_close: Option<ArcOneCallback<ev::MouseEvent>>,
+    on_dismiss: Option<ArcOneCallback<ev::MouseEvent>>,
+    /// Unique value identifying the tag within a TagGroup.
+    #[prop(optional, into)]
+    value: Option<String>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
-    let tag_group = TagGroupInjection::use_context();
+    let (group_size, group_on_dismiss, group_dismissible) = TagGroupInjection::use_context()
+        .map(
+            |TagGroupInjection {
+                 size,
+                 on_dismiss,
+                 dismissible,
+             }| { 
+                if value.is_none() {
+                    (Some(size), None, None)
+                } else {
+                    (Some(size), on_dismiss, Some(dismissible))
+                }
+            },
+        )
+        .unwrap_or_default();
+
     let size_class = {
         if let Some(size) = size {
             Some(size)
-        } else if let Some(tag_group) = tag_group {
-            Some(tag_group.size)
+        } else if let Some(group_size) = group_size {
+            Some(group_size)
         } else {
             None
         }
     };
 
     view! {
-        <span
-            class=class_list![
-                "thaw-tag",
-                ("thaw-tag--closable", move || closable.get()),
+        <span class=class_list![
+            "thaw-tag",
+                ("thaw-tag--dismissible", move || group_dismissible.map_or_else(|| dismissible.get(), |d| d.get())),
                 size_class.map(|size| move || format!("thaw-tag--{}", size.get().as_str())),
                 class
-            ]
-        >
+        ]>
 
             <span class="thaw-tag__primary-text">{children()}</span>
 
             {move || {
-                let on_close = on_close.clone();
-                let on_close = move |event| {
-                    let Some(on_close) = on_close.as_ref() else {
-                        return;
+                if dismissible.get() {
+                    let on_dismiss = on_dismiss.clone();
+                    let group_on_dismiss = group_on_dismiss.clone();
+                    let value = value.clone();
+                    let on_dismiss = move |event| {
+                        if let Some(on_dismiss) = group_on_dismiss.as_ref() {
+                            on_dismiss(value.clone().unwrap());
+                        }
+                        let Some(on_dismiss) = on_dismiss.as_ref() else {
+                            return;
+                        };
+                        on_dismiss(event);
                     };
-                    on_close(event);
-                };
-                if closable.get() {
                     Either::Left(
                         view! {
-                            <button class="thaw-tag__close" on:click=on_close>
+                            <button class="thaw-tag__dismiss" on:click=on_dismiss>
                                 <svg
                                     fill="currentColor"
                                     aria-hidden="true"
