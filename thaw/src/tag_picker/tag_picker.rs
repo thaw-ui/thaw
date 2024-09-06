@@ -1,5 +1,5 @@
 use crate::{
-    _aria::use_active_descendant,
+    _aria::{use_active_descendant, ActiveDescendantController},
     icon::ChevronDownRegularIcon,
     listbox::{listbox_keyboard_event, Listbox},
 };
@@ -12,7 +12,8 @@ use thaw_utils::{class_list, mount_style, Model};
 pub fn TagPicker(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// An array of selected option keys.
-    #[prop(optional, into)] selected_options: Model<Vec<String>>,
+    #[prop(optional, into)]
+    selected_options: Model<Vec<String>>,
     tag_picker_control: TagPickerControl,
     children: Children,
 ) -> impl IntoView {
@@ -24,10 +25,11 @@ pub fn TagPicker(
     let trigger_ref = NodeRef::<html::Div>::new();
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
-    let options = StoredValue::new(HashMap::<String, (String, MaybeSignal<bool>)>::new());
+    let options = StoredValue::new(HashMap::<String, (String, String, MaybeSignal<bool>)>::new());
     let (set_listbox, active_descendant_controller) =
         use_active_descendant(move |el| el.class_list().contains("thaw-tag-picker-option"));
 
+    let tag_picker_control_injection = TagPickerControlInjection(active_descendant_controller.clone());
     let tag_picker_injection = TagPickerInjection {
         selected_options,
         input_ref,
@@ -50,7 +52,7 @@ pub fn TagPicker(
             &active_descendant_controller,
             move |option| {
                 tag_picker_injection.options.with_value(|options| {
-                    if let Some((value, disabled)) = options.get(&option.id()) {
+                    if let Some((value, _text, disabled)) = options.get(&option.id()) {
                         if disabled.get_untracked() {
                             return;
                         }
@@ -69,7 +71,9 @@ pub fn TagPicker(
                 on:click=on_click
                 on:focusout=on_focusout
             >
-                <Provider value=tag_picker_injection>{control_children()}</Provider>
+                <Provider value=tag_picker_injection>
+                    <Provider value=tag_picker_control_injection>{control_children()}</Provider>
+                </Provider>
                 <span class="thaw-tag-picker-control__aside">
                     <span class="thaw-tag-picker-control__expand-icon">
                         <ChevronDownRegularIcon />
@@ -102,11 +106,20 @@ pub struct TagPickerControl {
     children: Children,
 }
 
+#[derive(Clone)]
+pub(crate) struct TagPickerControlInjection(pub ActiveDescendantController);
+
+impl TagPickerControlInjection {
+    pub fn expect_context() -> Self {
+        expect_context()
+    }
+}
+
 #[derive(Clone, Copy)]
 pub(crate) struct TagPickerInjection {
     pub input_ref: NodeRef<html::Input>,
-    selected_options: Model<Vec<String>>,
-    options: StoredValue<HashMap<String, (String, MaybeSignal<bool>)>>,
+    pub selected_options: Model<Vec<String>>,
+    pub options: StoredValue<HashMap<String, (String, String, MaybeSignal<bool>)>>,
 }
 
 impl TagPickerInjection {
@@ -114,8 +127,8 @@ impl TagPickerInjection {
         expect_context()
     }
 
-    /// value: (value, disabled)
-    pub fn insert_option(&self, id: String, value: (String, MaybeSignal<bool>)) {
+    /// value: (value, text, disabled)
+    pub fn insert_option(&self, id: String, value: (String, String, MaybeSignal<bool>)) {
         self.options
             .update_value(|options| options.insert(id, value));
     }

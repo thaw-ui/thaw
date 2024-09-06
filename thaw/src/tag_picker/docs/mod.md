@@ -9,7 +9,7 @@ view! {
             <TagPickerGroup>
                 {move || {
                     selected_options.get().into_iter().map(|option| view!{
-                        <Tag>
+                        <Tag value=option.clone()>
                             {option}
                         </Tag>
                     }).collect_view()
@@ -17,12 +17,8 @@ view! {
             </TagPickerGroup>
             <TagPickerInput />
         </TagPickerControl>
-        <TagPickerOption value="cat">
-            "Cat"
-        </TagPickerOption>
-        <TagPickerOption value="dog">
-            "Dog"
-        </TagPickerOption>
+        <TagPickerOption value="cat" text="Cat" />
+        <TagPickerOption value="dog" text="Dog" />
     </TagPicker>
 }
 ```

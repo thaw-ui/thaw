@@ -62,7 +62,7 @@ pub fn Tag(
             <span class="thaw-tag__primary-text">{children()}</span>
 
             {move || {
-                if dismissible.get() {
+                if group_dismissible.map_or_else(|| dismissible.get(), |d| d.get()) {
                     let on_dismiss = on_dismiss.clone();
                     let group_on_dismiss = group_on_dismiss.clone();
                     let value = value.clone();
