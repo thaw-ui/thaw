@@ -4,7 +4,9 @@ use thaw_utils::class_list;
 
 #[component]
 pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl IntoView {
-    let tag_picker = TagPickerInjection::expect_context();
+    let TagPickerInjection {
+        input_ref, options, ..
+    } = TagPickerInjection::expect_context();
     let TagPickerControlInjection(active_descendant_controller) =
         TagPickerControlInjection::expect_context();
     let value_trigger = ArcTrigger::new();
@@ -23,7 +25,7 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
         }
         if active_descendant_controller
             .find(|id| {
-                tag_picker.options.with_value(|options| {
+                options.with_value(|options| {
                     let Some((_, text, _)) = options.get(&id) else {
                         return false;
                     };
@@ -38,7 +40,7 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
 
     view! {
         <input
-            node_ref=tag_picker.input_ref
+            node_ref=input_ref
             type="text"
             role="combobox"
             class=class_list!["thaw-tag-picker-input", class]

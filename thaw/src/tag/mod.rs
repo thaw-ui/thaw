@@ -66,8 +66,9 @@ pub fn Tag(
                     let on_dismiss = on_dismiss.clone();
                     let group_on_dismiss = group_on_dismiss.clone();
                     let value = value.clone();
-                    let on_dismiss = move |event| {
+                    let on_dismiss = move |event: ev::MouseEvent| {
                         if let Some(on_dismiss) = group_on_dismiss.as_ref() {
+                            event.prevent_default();
                             on_dismiss(value.clone().unwrap());
                         }
                         let Some(on_dismiss) = on_dismiss.as_ref() else {

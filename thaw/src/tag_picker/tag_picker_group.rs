@@ -1,6 +1,6 @@
+use super::TagPickerInjection;
 use crate::{TagGroup, TagSize};
 use leptos::prelude::*;
-use super::TagPickerInjection;
 
 #[component]
 pub fn TagPickerGroup(
@@ -15,11 +15,7 @@ pub fn TagPickerGroup(
         ))
     });
     let on_dismiss = move |value| {
-        tag_picker.selected_options.update(|options| {
-            if let Some(index) = options.iter().position(|v| v == &value) {
-                options.remove(index);
-            }
-        });
+        tag_picker.remove_selected_option(value);
     };
 
     view! {

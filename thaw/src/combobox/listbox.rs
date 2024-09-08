@@ -3,7 +3,7 @@ use crate::{ConfigInjection, _aria::ActiveDescendantController};
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::sync::Arc;
 use thaw_components::CSSTransition;
-use thaw_utils::mount_style;
+use thaw_utils::{mount_style, BoxCallback};
 use web_sys::{HtmlElement, Node};
 
 #[component]
@@ -12,6 +12,7 @@ pub fn Listbox(
     class: &'static str,
     set_listbox: Arc<dyn Fn(Node) + Send + Sync>,
     listbox_ref: NodeRef<html::Div>,
+    #[prop(optional)] on_hidden: StoredValue<Vec<BoxCallback>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("listbox", include_str!("./listbox.css"));
@@ -27,6 +28,13 @@ pub fn Listbox(
             }
         }
     });
+    let on_after_leave = move || {
+        if let Some(list) =
+            on_hidden.try_update_value(|list| list.drain(..).collect::<Vec<BoxCallback>>())
+        {
+            list.into_iter().for_each(|f| f());
+        }
+    };
     on_cleanup(move || {
         drop(effect);
     });
@@ -39,6 +47,7 @@ pub fn Listbox(
                 appear=open.get_untracked()
                 show=open
                 let:display
+                on_after_leave
             >
                 <div
                     class=format!("thaw-config-provider thaw-listbox {class}")

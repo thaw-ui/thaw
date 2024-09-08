@@ -3,10 +3,10 @@ use crate::{
     icon::ChevronDownRegularIcon,
     listbox::{listbox_keyboard_event, Listbox},
 };
-use leptos::{context::Provider, html, prelude::*};
+use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{call_on_click_outside, class_list, mount_style, BoxCallback, Model};
 
 #[component]
 pub fn TagPicker(
@@ -25,25 +25,46 @@ pub fn TagPicker(
     let trigger_ref = NodeRef::<html::Div>::new();
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
+    let listbox_hidden_callback = StoredValue::new(vec![]);
     let options = StoredValue::new(HashMap::<String, (String, String, MaybeSignal<bool>)>::new());
     let (set_listbox, active_descendant_controller) =
         use_active_descendant(move |el| el.class_list().contains("thaw-tag-picker-option"));
 
-    let tag_picker_control_injection = TagPickerControlInjection(active_descendant_controller.clone());
+    let tag_picker_control_injection =
+        TagPickerControlInjection(active_descendant_controller.clone());
     let tag_picker_injection = TagPickerInjection {
         selected_options,
         input_ref,
         options,
+        is_show_listbox,
+        listbox_hidden_callback,
     };
-    let on_click = move |_| {
-        is_show_listbox.update(|show| *show = !*show);
-        if let Some(el) = input_ref.get_untracked() {
+    let on_click = move |e: ev::MouseEvent| {
+        if e.default_prevented() {
+            if is_show_listbox.get() {
+                is_show_listbox.set(false);
+            }
+            return;
+        }
+        let Some(el) = input_ref.get_untracked() else {
+            return;
+        };
+
+        if document().active_element().as_ref() != Some(&**el) {
             let _ = el.focus();
         }
+        is_show_listbox.update(|show| *show = !*show);
     };
-    let on_focusout = move |_| {
-        is_show_listbox.set(false);
-    };
+    call_on_click_outside(
+        trigger_ref,
+        {
+            move || {
+                is_show_listbox.set(false);
+            }
+        }
+        .into(),
+    );
+
     let on_keydown = move |e| {
         listbox_keyboard_event(
             e,
@@ -69,7 +90,6 @@ pub fn TagPicker(
                 node_ref=trigger_ref
                 on:keydown=on_keydown
                 on:click=on_click
-                on:focusout=on_focusout
             >
                 <Provider value=tag_picker_injection>
                     <Provider value=tag_picker_control_injection>{control_children()}</Provider>
@@ -91,6 +111,7 @@ pub fn TagPicker(
                         open=is_show_listbox.read_only()
                         set_listbox
                         listbox_ref
+                        on_hidden=listbox_hidden_callback
                         class="thaw-tag-picker__listbox"
                     >
                         {children()}
@@ -118,8 +139,10 @@ impl TagPickerControlInjection {
 #[derive(Clone, Copy)]
 pub(crate) struct TagPickerInjection {
     pub input_ref: NodeRef<html::Input>,
-    pub selected_options: Model<Vec<String>>,
+    selected_options: Model<Vec<String>>,
     pub options: StoredValue<HashMap<String, (String, String, MaybeSignal<bool>)>>,
+    is_show_listbox: RwSignal<bool>,
+    listbox_hidden_callback: StoredValue<Vec<BoxCallback>>,
 }
 
 impl TagPickerInjection {
@@ -145,5 +168,27 @@ impl TagPickerInjection {
                 options.push(value.clone());
             }
         });
+        self.is_show_listbox.set(false);
+    }
+
+    pub fn remove_selected_option(&self, value: String) {
+        if self.is_show_listbox.get_untracked() {
+            let selected_options = self.selected_options;
+            self.listbox_hidden_callback.update_value(|list| {
+                list.push(BoxCallback::new(move || {
+                    selected_options.try_update(|options| {
+                        if let Some(index) = options.iter().position(|v| v == &value) {
+                            options.remove(index);
+                        }
+                    });
+                }));
+            });
+        } else {
+            self.selected_options.update(|options| {
+                if let Some(index) = options.iter().position(|v| v == &value) {
+                    options.remove(index);
+                }
+            });
+        }
     }
 }
