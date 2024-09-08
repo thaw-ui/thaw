@@ -1,6 +1,6 @@
+use super::{TagGroupInjection, TagSize};
 use leptos::prelude::*;
 use thaw_utils::{class_list, mount_style};
-use super::{TagSize, TagGroupInjection};
 
 #[component]
 pub fn InteractionTag(

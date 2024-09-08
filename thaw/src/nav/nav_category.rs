@@ -30,7 +30,9 @@ pub fn NavCategory(
                 ("thaw-nav-category-item--selected", move || is_selected_category.get()),
                 item_class
             ]
-            on:click=move |_| { is_show_group.update(|show| *show = !*show); }
+            on:click=move |_| {
+                is_show_group.update(|show| *show = !*show);
+            }
             aria-expanded=move || if is_show_group.get() { "true" } else { "false" }
         >
             {move || {
@@ -74,9 +76,7 @@ pub fn NavCategory(
                 node_ref=group_ref
                 style=move || display.get().unwrap_or_default()
             >
-                <Provider value=NavCategoryInjection { value }>
-                    {children()}
-                </Provider>
+                <Provider value=NavCategoryInjection { value }>{children()}</Provider>
             </div>
         </CSSTransition>
     }

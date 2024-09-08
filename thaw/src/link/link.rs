@@ -51,11 +51,7 @@ pub fn Link(
             </a>
         })
     } else if span {
-        EitherOf3::B(view! {
-            <span class=class>
-                {children()}
-            </span>
-        })
+        EitherOf3::B(view! { <span class=class>{children()}</span> })
     } else {
         EitherOf3::C(view! {
             <button

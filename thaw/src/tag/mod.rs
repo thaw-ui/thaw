@@ -31,7 +31,7 @@ pub fn Tag(
                  size,
                  on_dismiss,
                  dismissible,
-             }| { 
+             }| {
                 if value.is_none() {
                     (Some(size), None, None)
                 } else {

@@ -56,13 +56,11 @@ pub fn Select(
     };
 
     view! {
-        <span
-            class=class_list![
-                "thaw-select",
+        <span class=class_list![
+            "thaw-select",
                 ("thaw-select--disabled", move || disabled.get()),
                 class
-            ]
-        >
+        ]>
             <select
                 class="thaw-select__select"
                 id=id

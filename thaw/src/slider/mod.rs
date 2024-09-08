@@ -103,9 +103,7 @@ pub fn Slider(
                 <div class="thaw-slider__rail"></div>
                 <div class="thaw-slider__thumb"></div>
                 <OptionComp value=children let:children>
-                    <div class="thaw-slider__datalist">
-                        {children()}
-                    </div>
+                    <div class="thaw-slider__datalist">{children()}</div>
                 </OptionComp>
             </div>
         </Provider>
