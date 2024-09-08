@@ -17,7 +17,17 @@
     border-radius: var(--borderRadiusMedium);
 }
 
-.thaw-tag--closable {
+.thaw-tag--small {
+    height: 24px;
+    padding: 0 5px;
+}
+
+.thaw-tag--extra-small {
+    height: 20px;
+    padding: 0 5px;
+}
+
+.thaw-tag--dismissible {
     padding-right: 0;
 }
 
@@ -34,7 +44,13 @@
     color: var(--colorNeutralForeground2);
 }
 
-.thaw-tag__close {
+.thaw-tag--small .thaw-tag__primary-text,
+.thaw-tag--extra-small .thaw-tag__primary-text {
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+}
+
+.thaw-tag__dismiss {
     grid-area: dismissIcon;
     display: flex;
     padding: 0;
@@ -46,15 +62,27 @@
     cursor: pointer;
 }
 
-.thaw-tag__close > svg {
+.thaw-tag--small .thaw-tag__dismiss {
+    padding-left: var(--spacingHorizontalXXS);
+    font-size: 16px;
+    padding-right: 5px;
+}
+
+.thaw-tag--extra-small .thaw-tag__dismiss {
+    padding-left: var(--spacingHorizontalXXS);
+    font-size: 12px;
+    padding-right: 5px;
+}
+
+.thaw-tag__dismiss > svg {
     display: inline;
     line-height: 0;
 }
 
-.thaw-tag__close:hover {
+.thaw-tag__dismiss:hover {
     color: var(--colorCompoundBrandForeground1Hover);
 }
 
-.thaw-tag__close:active {
+.thaw-tag__dismiss:active {
     color: var(--colorCompoundBrandForeground1Pressed);
 }

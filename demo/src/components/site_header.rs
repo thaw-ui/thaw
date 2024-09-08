@@ -196,7 +196,7 @@ pub fn SiteHeader() -> impl IntoView {
                                 </Caption1Strong>
                                 {
                                     children.into_iter().map(|item| {
-                                        let NavItemOption { label, value } = item;
+                                        let NavItemOption { label, value, .. } = item;
                                         view! {
                                             <MenuItem value=value>{label}</MenuItem>
                                         }

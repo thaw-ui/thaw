@@ -1,0 +1,72 @@
+.thaw-interaction-tag {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    width: fit-content;
+    height: 32px;
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-interaction-tag--small {
+    height: 24px;
+}
+
+.thaw-interaction-tag--extra-small {
+    height: 20px;
+}
+
+.thaw-interaction-tag-primary {
+    display: inline-grid;
+    height: 100%;
+    align-items: center;
+    grid-template-areas:
+        "media primary"
+        "media secondary";
+    padding: 0 7px;
+    background-color: var(--colorNeutralBackground3);
+    color: var(--colorNeutralForeground2);
+    font-family: inherit;
+    appearance: button;
+    text-align: unset;
+    border: var(--strokeWidthThin) solid var(--colorTransparentStroke);
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-interaction-tag--small .thaw-interaction-tag-primary {
+    padding: 0 5px;
+}
+
+.thaw-interaction-tag--extra-small .thaw-interaction-tag-primary {
+    padding: 0 5px;
+}
+
+.thaw-interaction-tag-primary:hover {
+    color: var(--colorNeutralForeground2Hover);
+    background-color: var(--colorNeutralBackground3Hover);
+    cursor: pointer;
+}
+
+.thaw-interaction-tag-primary:active {
+    color: var(--colorNeutralForeground2Pressed);
+    background-color: var(--colorNeutralBackground3Pressed);
+}
+
+.thaw-interaction-tag-primary__primary-text {
+    grid-row-end: secondary;
+    grid-row-start: primary;
+    grid-column-start: primary;
+    white-space: nowrap;
+    padding-left: var(--spacingHorizontalXXS);
+    padding-right: var(--spacingHorizontalXXS);
+    padding-bottom: var(--spacingHorizontalXXS);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+}
+
+.thaw-interaction-tag--extra-small .thaw-interaction-tag-primary__primary-text,
+.thaw-interaction-tag--extra-small .thaw-interaction-tag-primary__primary-text {
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+}

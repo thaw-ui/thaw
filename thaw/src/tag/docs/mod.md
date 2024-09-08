@@ -2,32 +2,79 @@
 
 ```rust demo
 view! {
-    <Tag>"default"</Tag>
+    <Space>
+        <Tag>"default"</Tag>
+        <InteractionTag>
+            <InteractionTagPrimary>
+                "Interaction Tag"
+            </InteractionTagPrimary>
+        </InteractionTag>
+    </Space>
 }
 ```
 
-### Closable
+### Size
 
 ```rust demo
-// let message = use_message();
-let success = move |_: ev::MouseEvent| {
-    // message.create(
-    //     "tag close".into(),
-    //     MessageVariant::Success,
-    //     Default::default(),
-    // );
+view! {
+    <Space vertical=true>
+        <Space>
+            <Tag >"Medium"</Tag>
+            <Tag size=TagSize::Small>"Small"</Tag>
+            <Tag size=TagSize::ExtraSmall>"Extra small"</Tag>
+        </Space>
+        <Space>
+            <Tag dismissible=true>"Medium"</Tag>
+            <Tag dismissible=true size=TagSize::Small>"Small"</Tag>
+            <Tag dismissible=true size=TagSize::ExtraSmall>"Extra small"</Tag>
+        </Space>
+    </Space>
+}
+```
+
+### Dismiss
+
+```rust demo
+let toaster = ToasterInjection::expect_context();
+
+let on_dismiss = move |_| {
+    toaster.dispatch_toast(view! {
+        <Toast>
+            <ToastTitle>"Tag"</ToastTitle>
+            <ToastBody>
+                "Tag dismiss"
+            </ToastBody>
+        </Toast>
+     }.into_any(), Default::default());
 };
 
 view! {
-    <Tag closable=true on_close=success>"Default"</Tag>
+    <Tag dismissible=true on_dismiss=on_dismiss>"Default"</Tag>
 }
 ```
 
 ### Tag Props
 
-| Name     | Type                                     | Default              | Description                           |
-| -------- | ---------------------------------------- | -------------------- | ------------------------------------- |
-| class    | `MaybeProp<String>`                      | `Default::default()` |                                       |
-| closable | `MaybeSignal<bool>`                      | `false`              | Whether the tag shows a close button. |
-| on_close | `Option<ArcOneCallback<ev::MouseEvent>>` | `None`               | Close clicked callback.               |
-| children | `Children`                               |                      |                                       |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| size | `Option<MaybeSignal<TagSize>>` | `None` | Size of the tag. |
+| dismissible | `MaybeSignal<bool>` | `false` | A Tag can be dismissible. |
+| on_dismiss | `Option<ArcOneCallback<ev::MouseEvent>>` | `None` | Callback for when a tag is dismissed. |
+| value | `Option<String>` | `None` | Unique value identifying the tag within a TagGroup. |
+| children | `Children` |  |  |
+
+### InteractionTag Props
+
+| Name     | Type                           | Default              | Description      |
+| -------- | ------------------------------ | -------------------- | ---------------- |
+| class    | `MaybeProp<String>`            | `Default::default()` |                  |
+| size     | `Option<MaybeSignal<TagSize>>` | `None`               | Size of the tag. |
+| children | `Children`                     |                      |                  |
+
+### InteractionTagPrimary Props
+
+| Name     | Type                | Default              | Description |
+| -------- | ------------------- | -------------------- | ----------- |
+| class    | `MaybeProp<String>` | `Default::default()` |             |
+| children | `Children`          |                      |             |

@@ -1,0 +1,156 @@
+.thaw-tag-picker-control {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--spacingHorizontalXXS);
+    min-width: 250px;
+    min-height: 32px;
+    padding-right: calc(var(--spacingHorizontalM) + 18px);
+    padding-left: var(--spacingHorizontalM);
+    background-color: var(--colorNeutralBackground1);
+    border-radius: var(--borderRadiusMedium);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    border-bottom-color: var(--colorNeutralStrokeAccessible);
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-control::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    left: -1px;
+    height: max(2px, var(--borderRadiusMedium));
+    clip-path: inset(calc(100% - 2px) 0px 0px);
+    border-bottom: var(--strokeWidthThick) solid var(--colorCompoundBrandStroke);
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    border-bottom-left-radius: var(--borderRadiusMedium);
+    transition-delay: var(--curveAccelerateMid);
+    transition-duration: var(--durationUltraFast);
+    transition-property: transform;
+    transform: scaleX(0);
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-control:focus-within::after {
+    transition-delay: var(--curveDecelerateMid);
+    transition-duration: var(--durationNormal);
+    transition-property: transform;
+    transform: scaleX(1);
+}
+
+.thaw-tag-picker-control__aside {
+    position: absolute;
+    right: var(--spacingHorizontalM);
+    top: 0px;
+    display: grid;
+    align-items: center;
+    grid-template-rows: minmax(32px, auto) 1fr;
+    grid-template-columns: repeat(2, auto);
+    min-height: 32px;
+    height: 100%;
+    cursor: text;
+}
+
+.thaw-tag-picker-control__expand-icon {
+    display: block;
+    margin-left: var(--spacingHorizontalXXS);
+    color: var(--colorNeutralStrokeAccessible);
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-input {
+    flex-grow: 1;
+    width: 0;
+    min-width: 24px;
+    max-width: 100%;
+    padding: var(--spacingVerticalSNudge) 0 var(--spacingVerticalSNudge) 0;
+    background-color: var(--colorTransparentBackground);
+    color: var(--colorNeutralForeground1);
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    box-sizing: border-box;
+    border: none;
+}
+
+.thaw-tag-picker-input:focus {
+    outline-style: none;
+}
+
+.thaw-tag-picker__listbox {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--spacingHorizontalXXS);
+    overflow-y: auto;
+    min-width: 160px;
+    max-height: 80vh;
+    background-color: var(--colorNeutralBackground1);
+    padding: var(--spacingHorizontalXS);
+    outline: 1px solid var(--colorTransparentStroke);
+    border-radius: var(--borderRadiusMedium);
+    box-shadow: var(--shadow16);
+    box-sizing: border-box;
+}
+
+.thaw-tag-picker-option {
+    grid-template-columns: auto 1fr;
+    column-gap: var(--spacingHorizontalXS);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: var(--spacingVerticalSNudge) var(--spacingHorizontalS);
+    line-height: var(--lineHeightBase300);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    color: var(--colorNeutralForeground1);
+    border-radius: var(--borderRadiusMedium);
+    cursor: pointer;
+}
+
+.thaw-tag-picker-option[data-activedescendant-focusvisible]::after {
+    content: "";
+    position: absolute;
+    right: -2px;
+    left: -2px;
+    bottom: -2px;
+    top: -2px;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: var(--borderRadiusMedium);
+    border: 2px solid var(--colorStrokeFocus2);
+}
+
+.thaw-tag-picker-option:hover {
+    color: var(--colorNeutralForeground1Hover);
+    background-color: var(--colorNeutralBackground1Hover);
+}
+
+.thaw-tag-picker-option:active {
+    color: var(--colorNeutralForeground1Pressed);
+    background-color: var(--colorNeutralBackground1Pressed);
+}
+
+.thaw-tag-picker-option.thaw-tag-picker-option--disabled {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+.thaw-tag-picker-option--disabled:active,
+.thaw-tag-picker-option--disabled:hover {
+    background-color: var(--colorTransparentBackground);
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+.thaw-tag-picker-group {
+    display: inline-flex;
+    gap: var(--spacingHorizontalXS);
+    column-gap: var(--spacingHorizontalXS);
+    flex-wrap: wrap;
+    padding: var(--spacingVerticalSNudge) 0 var(--spacingVerticalSNudge) 0;
+    box-sizing: border-box;
+    cursor: text;
+}
