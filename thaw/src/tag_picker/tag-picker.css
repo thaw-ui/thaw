@@ -135,6 +135,16 @@
     background-color: var(--colorNeutralBackground1Pressed);
 }
 
+.thaw-tag-picker-option.thaw-tag-picker-option--disabled {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
+.thaw-tag-picker-option--disabled:active,
+.thaw-tag-picker-option--disabled:hover {
+    background-color: var(--colorTransparentBackground);
+    color: var(--colorNeutralForegroundDisabled);
+}
+
 .thaw-tag-picker-group {
     display: inline-flex;
     gap: var(--spacingHorizontalXS);

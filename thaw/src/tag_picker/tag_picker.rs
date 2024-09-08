@@ -160,6 +160,11 @@ impl TagPickerInjection {
         self.options.update_value(|options| options.remove(id));
     }
 
+    pub fn is_selected(&self, value: &String) -> bool {
+        self.selected_options
+            .with(|options| options.contains(value))
+    }
+
     pub fn select_option(&self, value: &String) {
         self.selected_options.update(|options| {
             if let Some(index) = options.iter().position(|v| v == value) {
