@@ -1,4 +1,4 @@
-use super::NavDrawerInjection;
+use super::{NavCategoryInjection, NavDrawerInjection};
 use crate::Icon;
 use leptos::{either::Either, prelude::*};
 use thaw_utils::{class_list, OptionModelWithValue, StoredMaybeSignal};
@@ -12,6 +12,7 @@ pub fn NavItem(
     children: Children,
 ) -> impl IntoView {
     let nav_drawer = NavDrawerInjection::expect_context();
+    let nav_category = NavCategoryInjection::use_context();
     let value: StoredMaybeSignal<_> = value.into();
     let on_click = move |_| {
         let value = value.get_untracked();
@@ -23,6 +24,9 @@ pub fn NavItem(
             })
         {
             nav_drawer.selected_value.set(Some(value));
+            nav_drawer
+                .selected_category_value
+                .set(nav_category.map(|c| c.value.get_untracked()));
         }
     };
 

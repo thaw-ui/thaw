@@ -53,7 +53,7 @@ view! {
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>,` | `Default::default()` |  |
 | selected_value | `OptionModel<String>` | `Default::default()` | The value of the currently selected navItem. |
-| selected_category_value | `VecModel<String>` | `vec![]` | Indicates a category that has a selected child Will show the category as selected if it is closed. |
+| selected_category_value | `OptionModel<String>` | `None` | Indicates a category that has a selected child Will show the category as selected if it is closed. |
 | nav_drawer_header | slot `Option<NavDrawerHeader>` | `None` |  |
 | nav_drawer_footer | slot `Option<NavDrawerFooter>` | `None` |  |
 | children | `Children` |  |  |

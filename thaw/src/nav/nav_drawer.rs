@@ -1,7 +1,7 @@
 use crate::Scrollbar;
 use leptos::{context::Provider, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, OptionModel, VecModel};
+use thaw_utils::{class_list, mount_style, OptionModel, OptionModelWithValue};
 
 #[component]
 pub fn NavDrawer(
@@ -10,8 +10,8 @@ pub fn NavDrawer(
     #[prop(optional, into)]
     selected_value: OptionModel<String>,
     /// Indicates a category that has a selected child Will show the category as selected if it is closed.
-    #[prop(default = vec![].into(), into)]
-    selected_category_value: VecModel<String>,
+    #[prop(optional, into)]
+    selected_category_value: OptionModel<String>,
     children: Children,
     #[prop(optional)] nav_drawer_header: Option<NavDrawerHeader>,
     #[prop(optional)] nav_drawer_footer: Option<NavDrawerFooter>,
@@ -51,11 +51,19 @@ pub struct NavDrawerFooter {
 #[derive(Clone)]
 pub(crate) struct NavDrawerInjection {
     pub selected_value: OptionModel<String>,
-    pub selected_category_value: VecModel<String>,
+    pub selected_category_value: OptionModel<String>,
 }
 
 impl NavDrawerInjection {
     pub fn expect_context() -> Self {
         expect_context()
+    }
+
+    pub fn is_selected_category(&self, value: &String) -> bool {
+        self.selected_category_value
+            .with(|selected_category_value| match selected_category_value {
+                OptionModelWithValue::T(v) => v == value,
+                OptionModelWithValue::Option(v) => v.as_ref() == Some(value),
+            })
     }
 }
