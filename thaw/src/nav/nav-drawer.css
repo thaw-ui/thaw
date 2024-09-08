@@ -69,7 +69,8 @@
     background-color: var(--colorNeutralBackground4Pressed);
 }
 
-.thaw-nav-item--selected::after {
+.thaw-nav-item--selected::after,
+.thaw-nav-category-item--selected[aria-expanded="false"]::after {
     content: "";
     position: absolute;
     width: 4px;

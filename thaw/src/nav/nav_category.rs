@@ -1,8 +1,8 @@
 use super::NavDrawerInjection;
 use crate::Icon;
-use leptos::{either::Either, html, prelude::*};
+use leptos::{context::Provider, either::Either, html, prelude::*};
 use thaw_components::CSSTransition;
-use thaw_utils::{class_list, StoredMaybeSignal, VecModelWithValue};
+use thaw_utils::{class_list, StoredMaybeSignal};
 
 #[component]
 pub fn NavCategory(
@@ -13,56 +13,9 @@ pub fn NavCategory(
     let nav_drawer = NavDrawerInjection::expect_context();
     let value: StoredMaybeSignal<_> = value.into();
     let group_ref = NodeRef::<html::Div>::new();
-    let is_show_group = Memo::new(move |_| {
-        nav_drawer
-            .selected_category_value
-            .with(|selected_category_value| {
-                value.with(|value| match selected_category_value {
-                    VecModelWithValue::T(v) => v == value,
-                    VecModelWithValue::Option(v) => v.as_ref() == Some(value),
-                    VecModelWithValue::Vec(v) => v.contains(value),
-                })
-            })
-    });
-
-    let on_click = move |_| {
-        let value = value.get_untracked();
-        let is_show_group = is_show_group.get_untracked();
-        nav_drawer
-            .selected_category_value
-            .update(|selected_category_value| {
-                match selected_category_value {
-                    (None, None, Some(v)) => {
-                        if is_show_group {
-                            if let Some(index) = v.iter().position(|item| item == &value) {
-                                v.remove(index);
-                            }
-                        } else {
-                            v.push(value);
-                        }
-                    }
-                    (None, Some(v), None) => {
-                        if is_show_group {
-                            *v = None;
-                        } else {
-                            *v = Some(value);
-                        }
-                    }
-                    (Some(v), None, None) => {
-                        if is_show_group {
-                            v.clear();
-                        } else {
-                            *v = value;
-                        }
-                    }
-                    _ => unreachable!(),
-                }
-
-                if is_show_group {
-                } else {
-                }
-            });
-    };
+    let is_show_group = RwSignal::new(false);
+    let is_selected_category =
+        Memo::new(move |_| value.with(|value| nav_drawer.is_selected_category(value)));
 
     let NavCategoryItem {
         class: item_class,
@@ -72,9 +25,13 @@ pub fn NavCategory(
 
     view! {
         <button
-            class=class_list!["thaw-nav-category-item", item_class]
-            on:click=on_click
-            aria-expanded=move || is_show_group.get()
+            class=class_list![
+                "thaw-nav-category-item",
+                ("thaw-nav-category-item--selected", move || is_selected_category.get()),
+                item_class
+            ]
+            on:click=move |_| { is_show_group.update(|show| *show = !*show); }
+            aria-expanded=move || if is_show_group.get() { "true" } else { "false" }
         >
             {move || {
                 if let Some(icon) = item_icon.get() {
@@ -117,7 +74,9 @@ pub fn NavCategory(
                 node_ref=group_ref
                 style=move || display.get().unwrap_or_default()
             >
-                {children()}
+                <Provider value=NavCategoryInjection { value }>
+                    {children()}
+                </Provider>
             </div>
         </CSSTransition>
     }
@@ -130,4 +89,15 @@ pub struct NavCategoryItem {
     #[prop(optional, into)]
     icon: MaybeProp<icondata_core::Icon>,
     children: Children,
+}
+
+#[derive(Clone, Copy)]
+pub(crate) struct NavCategoryInjection {
+    pub value: StoredMaybeSignal<String>,
+}
+
+impl NavCategoryInjection {
+    pub fn use_context() -> Option<Self> {
+        use_context()
+    }
 }
