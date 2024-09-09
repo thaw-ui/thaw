@@ -78,6 +78,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/divider") view=DividerMdPage/>
                     <Route path=path!("/drawer") view=DrawerMdPage/>
                     <Route path=path!("/field") view=FieldMdPage/>
+                    <Route path=path!("/flex") view=FlexMdPage/>
                     <Route path=path!("/menu") view=MenuMdPage/>
                     <Route path=path!("/grid") view=GridMdPage/>
                     <Route path=path!("/icon") view=IconMdPage/>
