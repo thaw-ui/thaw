@@ -16,7 +16,7 @@ license = "MIT"
 leptos = { version = "0.6.10" }
 thaw_components = { workspace = true }
 thaw_utils = { workspace = true }
-web-sys = { version = "0.3.69", features = [
+web-sys = { version = "0.3.70", features = [
     "DomRect",
     "File",
     "FileList",
@@ -24,7 +24,7 @@ web-sys = { version = "0.3.69", features = [
     "ScrollToOptions",
     "ScrollBehavior",
 ] }
-wasm-bindgen = "0.2.92"
+wasm-bindgen = "0.2.93"
 icondata_core = "0.1.0"
 icondata_ai = "0.0.10"
 uuid = { version = "1.7.0", features = ["v4"] }
