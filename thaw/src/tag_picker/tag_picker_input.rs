@@ -47,7 +47,7 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
             on:blur=on_blur
             on:input=on_input
             prop:value=move || {
-                value_trigger.trigger();
+                value_trigger.notify();
                 ""
             }
         />
