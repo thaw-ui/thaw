@@ -7,9 +7,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { version = "0.6.10" }
-leptos_meta = { version = "0.6.10" }
-leptos_router = { version = "0.6.10" }
+leptos = { version = "0.6.14" }
+leptos_meta = { version = "0.6.14" }
+leptos_router = { version = "0.6.14" }
 leptos_devtools = { version = "0.0.1", optional = true }
 thaw = { path = "../thaw" }
 demo_markdown = { path = "../demo_markdown" }
