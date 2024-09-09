@@ -14,7 +14,7 @@ view! {
 ```rust demo
 use std::collections::HashSet;
 
-let value = create_rw_signal(HashSet::new());
+let value = create_rw_signal(HashSet::from(["a".to_string()]));
 
 view! {
     <CheckboxGroup value>

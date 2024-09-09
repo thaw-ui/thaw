@@ -16,8 +16,11 @@ pub fn CheckboxItem(
         checkbox_group_value.with(|value| item_key.with_value(|key| value.contains(key)))
     });
 
-    Effect::new(move |_| {
+    Effect::new(move |prev| {
         checked.track();
+        if prev.is_none() {
+            return;
+        }
 
         if is_checked.get_untracked() {
             checkbox_group_value.update(move |value| {

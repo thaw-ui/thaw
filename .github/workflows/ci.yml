@@ -12,6 +12,7 @@ on:
             ]
         branches:
             - main
+            - thaw-v0.3
 
 jobs:
     stable:
