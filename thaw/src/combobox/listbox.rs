@@ -75,7 +75,7 @@ impl ListboxInjection {
 
     #[inline]
     pub fn trigger(&self) {
-        self.0.trigger();
+        self.0.notify();
     }
 }
 

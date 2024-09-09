@@ -43,7 +43,7 @@ impl ToasterInjection {
     pub fn dispatch_toast(&self, any_view: AnyView<Dom>, options: ToastOptions) {
         self.sender
             .with_value(|sender| sender.send((any_view, options)).unwrap_throw());
-        self.trigger.with_value(|trigger| trigger.trigger());
+        self.trigger.with_value(|trigger| trigger.notify());
     }
 }
 

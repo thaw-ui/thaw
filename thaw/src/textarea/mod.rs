@@ -48,7 +48,7 @@ pub fn Textarea(
             let input_value = event_target_value(&ev);
             if let Some(allow_value) = allow_value.as_ref() {
                 if !allow_value(input_value.clone()) {
-                    value_trigger.trigger();
+                    value_trigger.notify();
                     return;
                 }
             }
