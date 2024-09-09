@@ -296,6 +296,10 @@ pub(crate) fn gen_menu_data() -> Vec<MenuGroupOption> {
             label: "Layout Components".into(),
             children: vec![
                 MenuItemOption {
+                    value: "flex".into(),
+                    label: "Flex".into(),
+                },
+                MenuItemOption {
                     value: "layout".into(),
                     label: "Layout".into(),
                 },

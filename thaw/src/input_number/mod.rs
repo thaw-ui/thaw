@@ -79,9 +79,7 @@ where
         invalid.get() || value < min.get() || value > max.get()
     });
 
-    let parser = parser.map(|parser| {
-        Callback::new(move |v| parser.call(v).to_string())
-    });
+    let parser = parser.map(|parser| Callback::new(move |v| parser.call(v).to_string()));
     let formatter = formatter.map(|formatter| {
         Callback::new(move |v: String| formatter.call(v.parse::<T>().unwrap_or_default()))
     });
