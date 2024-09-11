@@ -82,16 +82,21 @@ where
 
     let scrollable_element_handle_vec = StoredValue::<Vec<EventListenerHandle>>::new(vec![]);
     let resize_handle = StoredValue::new(None::<WindowListenerHandle>);
+    let follower_ref = NodeRef::<html::Div>::new();
     let content_ref = NodeRef::<html::Div>::new();
     let content_style = RwSignal::new(String::new());
     let placement_str = RwSignal::new(follower_placement.as_str());
     let sync_position = move || {
+        let Some(follower_el) = follower_ref.get_untracked() else {
+            return;
+        };
         let Some(content_ref) = content_ref.get_untracked() else {
             return;
         };
         let Some(target_ref) = target_ref.get_untracked() else {
             return;
         };
+        let follower_rect = follower_el.get_bounding_client_rect();
         let target_rect = target_ref.get_bounding_client_rect();
         let content_rect = content_ref.get_bounding_client_rect();
         let mut style = String::new();
@@ -108,8 +113,12 @@ where
             left,
             transform,
             placement,
-        }) = get_follower_placement_offset(follower_placement, target_rect, content_rect)
-        {
+        }) = get_follower_placement_offset(
+            follower_placement,
+            target_rect,
+            follower_rect,
+            content_rect,
+        ) {
             placement_str.set(placement.as_str());
             style.push_str(&format!(
                 "transform-origin: {};",
@@ -197,18 +206,18 @@ where
     view! {
         {children()}
         <Teleport immediate=follower_show>
-            <Provider value=follower_injection>
-                <div class="thaw-binder-follower-container">
-                    <div
-                        class="thaw-binder-follower-content"
-                        data-thaw-placement=move || placement_str.get()
-                        node_ref=content_ref
-                        style=move || content_style.get()
-                    >
+            <div class="thaw-binder-follower" node_ref=follower_ref>
+                <div
+                    class="thaw-binder-follower-content"
+                    data-thaw-placement=move || placement_str.get()
+                    node_ref=content_ref
+                    style=move || content_style.get()
+                >
+                    <Provider value=follower_injection>
                         {follower_children()}
-                    </div>
+                    </Provider>
                 </div>
-            </Provider>
+            </div>
         </Teleport>
     }
 }

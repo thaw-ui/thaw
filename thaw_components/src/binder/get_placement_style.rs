@@ -1,7 +1,7 @@
 use leptos::prelude::window;
 use web_sys::DomRect;
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum FollowerPlacement {
     Top,
     Bottom,
@@ -66,309 +66,151 @@ pub fn get_follower_placement_offset(
     placement: FollowerPlacement,
     target_rect: DomRect,
     follower_rect: DomRect,
+    content_rect: DomRect,
 ) -> Option<FollowerPlacementOffset> {
-    match placement {
-        FollowerPlacement::Top => {
-            let left = target_rect.x() + target_rect.width() / 2.0;
-            let (top, placement) = {
-                let follower_height = follower_rect.height();
-                let target_y = target_rect.y();
-                let target_height = target_rect.height();
-                let top = target_y - follower_height;
-
-                let Some(inner_height) = window_inner_height() else {
-                    return None;
-                };
-
-                if top < 0.0 && target_y + target_height + follower_height <= inner_height {
-                    (target_y + target_height, FollowerPlacement::Bottom)
+    let (left, placement, top, transform) = match placement {
+        FollowerPlacement::Top | FollowerPlacement::TopStart | FollowerPlacement::TopEnd => {
+            let Some(window_inner_height) = window_inner_height() else {
+                return None;
+            };
+            let content_height = content_rect.height();
+            let target_top = target_rect.top();
+            let target_bottom = target_rect.bottom();
+            let top = target_top - content_height;
+            let (top, new_placement) =
+                if top < 0.0 && target_bottom + content_height <= window_inner_height {
+                    (target_bottom, FollowerPlacement::Bottom)
                 } else {
                     (top, FollowerPlacement::Top)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateX(-50%)"),
-                placement,
-            })
-        }
-        FollowerPlacement::TopStart => {
-            let left = target_rect.x();
-            let (top, placement) = {
-                let follower_height = follower_rect.height();
-                let target_y = target_rect.y();
-                let target_height = target_rect.height();
-                let top = target_y - follower_height;
-
-                let Some(inner_height) = window_inner_height() else {
-                    return None;
                 };
 
-                if top < 0.0 && target_y + target_height + follower_height <= inner_height {
-                    (target_y + target_height, FollowerPlacement::BottomStart)
-                } else {
-                    (top, FollowerPlacement::TopStart)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::new(),
-                placement,
-            })
+            if placement == FollowerPlacement::Top {
+                let left = target_rect.left() + target_rect.width() / 2.0;
+                let transform = String::from("translateX(-50%)");
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::TopStart {
+                let left = target_rect.left();
+                let transform = String::new();
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::TopEnd {
+                let left = target_rect.right();
+                let transform = String::from("translateX(-100%)");
+                (left, new_placement, top, transform)
+            } else {
+                unreachable!()
+            }
         }
-        FollowerPlacement::TopEnd => {
-            let left = target_rect.x() + target_rect.width();
-            let (top, placement) = {
-                let follower_height = follower_rect.height();
-                let target_y = target_rect.y();
-                let target_height = target_rect.height();
-                let top = target_y - follower_height;
-
-                let Some(inner_height) = window_inner_height() else {
-                    return None;
-                };
-
-                if top < 0.0 && target_y + target_height + follower_height <= inner_height {
-                    (target_y + target_height, FollowerPlacement::BottomEnd)
-                } else {
-                    (top, FollowerPlacement::TopEnd)
-                }
+        FollowerPlacement::Bottom
+        | FollowerPlacement::BottomStart
+        | FollowerPlacement::BottomEnd => {
+            let Some(window_inner_height) = window_inner_height() else {
+                return None;
             };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateX(-100%)"),
-                placement,
-            })
+            let content_height = content_rect.height();
+            let target_top = target_rect.top();
+            let target_bottom = target_rect.bottom();
+            let top = target_bottom;
+            let (top, new_placement) = if top + content_height > window_inner_height
+                && target_top - content_height >= 0.0
+            {
+                (target_top - content_height, FollowerPlacement::Top)
+            } else {
+                (top, FollowerPlacement::Bottom)
+            };
+            if placement == FollowerPlacement::Bottom {
+                let left = target_rect.left() + target_rect.width() / 2.0;
+                let transform = String::from("translateX(-50%)");
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::BottomStart {
+                let left = target_rect.left();
+                let transform = String::new();
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::BottomEnd {
+                let left = target_rect.right();
+                let transform = String::from("translateX(-100%)");
+                (left, new_placement, top, transform)
+            } else {
+                unreachable!()
+            }
         }
-        FollowerPlacement::Left => {
-            let top = target_rect.y() + target_rect.height() / 2.0;
-            let (left, placement) = {
-                let follower_width = follower_rect.width();
-                let target_x = target_rect.x();
-                let target_width = target_rect.width();
-                let left = target_x - follower_width;
-
-                let Some(inner_width) = window_inner_width() else {
-                    return None;
-                };
-
-                if left < 0.0 && target_x + target_width + follower_width > inner_width {
-                    (target_x + follower_width, FollowerPlacement::Right)
+        FollowerPlacement::Left | FollowerPlacement::LeftStart | FollowerPlacement::LeftEnd => {
+            let Some(window_inner_width) = window_inner_width() else {
+                return None;
+            };
+            let content_width = content_rect.width();
+            let target_left = target_rect.left();
+            let target_right = target_rect.right();
+            let left = target_left - content_width;
+            leptos::logging::log!(
+                "{}-{} {} {}",
+                left,
+                target_right,
+                content_width,
+                window_inner_width
+            );
+            let (left, new_placement) =
+                if left < 0.0 && target_right + content_width <= window_inner_width {
+                    (target_right, FollowerPlacement::Right)
                 } else {
                     (left, FollowerPlacement::Left)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateY(-50%)"),
-                placement,
-            })
-        }
-        FollowerPlacement::LeftStart => {
-            let top = target_rect.y();
-            let (left, placement) = {
-                let follower_width = follower_rect.width();
-                let target_x = target_rect.x();
-                let target_width = target_rect.width();
-                let left = target_x - follower_width;
-
-                let Some(inner_width) = window_inner_width() else {
-                    return None;
                 };
-
-                if left < 0.0 && target_x + target_width + follower_width > inner_width {
-                    (target_x + follower_width, FollowerPlacement::RightStart)
-                } else {
-                    (left, FollowerPlacement::LeftStart)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::new(),
-                placement,
-            })
+            if placement == FollowerPlacement::Left {
+                let top = target_rect.top() + target_rect.height() / 2.0;
+                let transform = String::from("translateY(-50%)");
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::LeftStart {
+                let top = target_rect.top();
+                let transform = String::new();
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::LeftEnd {
+                let top = target_rect.bottom();
+                let transform = String::from("translateY(-100%)");
+                (left, new_placement, top, transform)
+            } else {
+                unreachable!()
+            }
         }
-        FollowerPlacement::LeftEnd => {
-            let top = target_rect.y() + target_rect.height();
-            let (left, placement) = {
-                let follower_width = follower_rect.width();
-                let target_x = target_rect.x();
-                let target_width = target_rect.width();
-                let left = target_x - follower_width;
-
-                let Some(inner_width) = window_inner_width() else {
-                    return None;
-                };
-
-                if left < 0.0 && target_x + target_width + follower_width > inner_width {
-                    (target_x + follower_width, FollowerPlacement::RightEnd)
-                } else {
-                    (left, FollowerPlacement::LeftEnd)
-                }
+        FollowerPlacement::Right | FollowerPlacement::RightStart | FollowerPlacement::RightEnd => {
+            let Some(window_inner_width) = window_inner_width() else {
+                return None;
             };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateY(-100%)"),
-                placement,
-            })
-        }
-        FollowerPlacement::Right => {
-            let top = target_rect.y() + target_rect.height() / 2.0;
-            let (left, placement) = {
-                let follower_width = follower_rect.width();
-                let target_x = target_rect.x();
-                let target_width = target_rect.width();
-                let left = target_x + target_width;
 
-                let Some(inner_width) = window_inner_width() else {
-                    return None;
-                };
-
-                if left + follower_width > inner_width && target_x - follower_width >= 0.0 {
-                    (target_x - follower_width, FollowerPlacement::Left)
-                } else {
-                    (left, FollowerPlacement::Right)
-                }
+            let content_width = content_rect.width();
+            let target_left = target_rect.left();
+            let target_right = target_rect.right();
+            let left = target_right;
+            let (left, new_placement) = if left + content_width > window_inner_width
+                && target_left - content_width >= 0.0
+            {
+                (target_left - content_width, FollowerPlacement::Left)
+            } else {
+                (left, FollowerPlacement::Right)
             };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateY(-50%)"),
-                placement,
-            })
+
+            if placement == FollowerPlacement::Right {
+                let top = target_rect.top() + target_rect.height() / 2.0;
+                let transform = String::from("translateY(-50%)");
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::RightStart {
+                let top = target_rect.top();
+                let transform = String::new();
+                (left, new_placement, top, transform)
+            } else if placement == FollowerPlacement::RightEnd {
+                let top = target_rect.bottom();
+                let transform = String::from("translateY(-100%)");
+                (left, new_placement, top, transform)
+            } else {
+                unreachable!()
+            }
         }
-        FollowerPlacement::RightStart => {
-            let top = target_rect.y();
-            let (left, placement) = {
-                let follower_width = follower_rect.width();
-                let target_x = target_rect.x();
-                let target_width = target_rect.width();
-                let left = target_x + target_width;
+    };
 
-                let Some(inner_width) = window_inner_width() else {
-                    return None;
-                };
-
-                if left + follower_width > inner_width && target_x - follower_width >= 0.0 {
-                    (target_x - follower_width, FollowerPlacement::LeftStart)
-                } else {
-                    (left, FollowerPlacement::RightStart)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::new(),
-                placement,
-            })
-        }
-        FollowerPlacement::RightEnd => {
-            let top = target_rect.y() + target_rect.height();
-            let (left, placement) = {
-                let follower_width = follower_rect.width();
-                let target_x = target_rect.x();
-                let target_width = target_rect.width();
-                let left = target_x + target_width;
-
-                let Some(inner_width) = window_inner_width() else {
-                    return None;
-                };
-
-                if left + follower_width > inner_width && target_x - follower_width >= 0.0 {
-                    (target_x - follower_width, FollowerPlacement::LeftEnd)
-                } else {
-                    (left, FollowerPlacement::RightEnd)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateY(-100%)"),
-                placement,
-            })
-        }
-        FollowerPlacement::Bottom => {
-            let left = target_rect.x() + target_rect.width() / 2.0;
-            let (top, placement) = {
-                let follower_height = follower_rect.height();
-                let target_y = target_rect.y();
-                let target_height = target_rect.height();
-                let top = target_y + target_height;
-
-                let Some(inner_height) = window_inner_height() else {
-                    return None;
-                };
-
-                if top + follower_height > inner_height && target_y - follower_height >= 0.0 {
-                    (target_y - follower_height, FollowerPlacement::Top)
-                } else {
-                    (top, FollowerPlacement::Bottom)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateX(-50%)"),
-                placement,
-            })
-        }
-        FollowerPlacement::BottomStart => {
-            let left = target_rect.x();
-            let (top, placement) = {
-                let follower_height = follower_rect.height();
-                let target_y = target_rect.y();
-                let target_height = target_rect.height();
-                let top = target_y + target_height;
-
-                let Some(inner_height) = window_inner_height() else {
-                    return None;
-                };
-
-                if top + follower_height > inner_height && target_y - follower_height >= 0.0 {
-                    (target_y - follower_height, FollowerPlacement::TopStart)
-                } else {
-                    (top, FollowerPlacement::BottomStart)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::new(),
-                placement,
-            })
-        }
-        FollowerPlacement::BottomEnd => {
-            let left = target_rect.x() + target_rect.width();
-            let (top, placement) = {
-                let follower_height = follower_rect.height();
-                let target_y = target_rect.y();
-                let target_height = target_rect.height();
-                let top = target_y + target_height;
-
-                let Some(inner_height) = window_inner_height() else {
-                    return None;
-                };
-
-                if top + follower_height > inner_height && target_y - follower_height >= 0.0 {
-                    (target_y - follower_height, FollowerPlacement::TopEnd)
-                } else {
-                    (top, FollowerPlacement::BottomEnd)
-                }
-            };
-            Some(FollowerPlacementOffset {
-                top,
-                left,
-                transform: String::from("translateX(-100%)"),
-                placement,
-            })
-        }
-    }
+    Some(FollowerPlacementOffset {
+        top: top - follower_rect.top(),
+        left: left - follower_rect.left(),
+        placement,
+        transform,
+    })
 }
 
 fn window_inner_width() -> Option<f64> {
