@@ -16,6 +16,7 @@ pub enum FlexGap {
 pub fn Flex(
     #[prop(optional)] gap: FlexGap,
     #[prop(optional)] vertical: bool,
+    #[prop(optional, into)] inline: MaybeSignal<bool>,
     #[prop(optional, into)] align: OptionalMaybeSignal<FlexAlign>,
     #[prop(optional, into)] justify: OptionalMaybeSignal<FlexJustify>,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
@@ -24,7 +25,13 @@ pub fn Flex(
 ) -> impl IntoView {
     let style = style.into_option();
     let style = Memo::new(move |_| {
-        let mut s = String::from("display: flex;");
+        let mut s = String::new();
+        let display = if inline.get() {
+            "display: inline-flex;"
+        } else {
+            "display: flex;"
+        };
+        s.push_str(display);
         let direction = if vertical {
             "flex-direction: column;"
         } else {
@@ -41,9 +48,6 @@ pub fn Flex(
         s.push_str(gap);
         if let Some(align) = align.get() {
             s.push_str(&format!("align-items: {};", align.as_str()));
-        }
-        if let Some(justify) = justify.get() {
-            s.push_str(&format!("justify-content: {};", justify.as_str()));
         }
         if let Some(justify) = justify.get() {
             s.push_str(&format!("justify-content: {};", justify.as_str()));
