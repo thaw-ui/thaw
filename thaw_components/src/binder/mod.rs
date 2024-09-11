@@ -6,7 +6,7 @@ use crate::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
 use leptos::{html::ElementDescriptor, leptos_dom::helpers::WindowListenerHandle, *};
 use thaw_utils::{
-    add_event_listener, get_scroll_parent, mount_style, with_hydration_off, EventListenerHandle,
+    add_event_listener, add_event_listener_with_bool, get_scroll_parent, mount_style, with_hydration_off, EventListenerHandle
 };
 
 #[slot]
@@ -94,6 +94,19 @@ pub fn Binder<El: ElementDescriptor + Clone + 'static>(
                 break;
             }
         }
+        if handle_vec.len() == 0 {
+            let handle = add_event_listener_with_bool(
+                document(),
+                ev::scroll,
+                move |_| {
+                    if let Some(scroll_listener) = scroll_listener.get_value() {
+                        scroll_listener.call(());
+                    }
+                },
+                false,
+            );
+            handle_vec.push(handle);
+        }
         scrollable_element_handle_vec.set_value(handle_vec);
     };
 
@@ -167,10 +180,14 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     #[prop(into)] remove_resize_listener: Callback<()>,
     children: Children,
 ) -> impl IntoView {
+    let container_ref = NodeRef::<html::Div>::new();
     let content_ref = create_node_ref::<html::Div>();
     let content_style = create_rw_signal(String::new());
     let placement_str = create_rw_signal(placement.as_str());
     let sync_position: Callback<()> = Callback::new(move |_| {
+        let Some(container_el) = container_ref.get_untracked() else {
+            return;
+        };
         let Some(content_ref) = content_ref.get_untracked() else {
             return;
         };
@@ -195,6 +212,9 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
             placement,
         }) = get_follower_placement_offset(placement, target_rect, content_rect)
         {
+            let container_rect = container_el.get_bounding_client_rect();
+            let top = top - container_rect.top();
+            let left = left - container_rect.left();
             placement_str.set(placement.as_str());
             style.push_str(&format!(
                 "transform-origin: {};",
@@ -230,7 +250,7 @@ fn FollowerContainer<El: ElementDescriptor + Clone + 'static>(
     });
 
     let children = with_hydration_off(|| {
-        html::div().classes("thaw-binder-follower-container").child(
+        html::div().classes("thaw-binder-follower-container").node_ref(container_ref).child(
             html::div()
                 .classes("thaw-binder-follower-content")
                 .attr("data-thaw-placement", move || placement_str.get())
