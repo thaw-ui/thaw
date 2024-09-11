@@ -23,10 +23,22 @@ view! {
 }
 ```
 
+### Custom label
+
+```rust demo
+view! {
+    <Spinner label="Label"/>
+    <Spinner>
+        <b style="color: blue">"Label"</b>
+    </Spinner>
+}
+```
+
 ### Spinner Props
 
-| Name  | Type                       | Default               | Description                        |
-| ----- | -------------------------- | --------------------- | ---------------------------------- |
-| class | `MaybeProp<String>`        | `Default::default()`  |                                    |
-| label | `MaybeProp<String>`        | `Default::default()`  | An optional label for the Spinner. |
-| size  | `MaybeSignal<SpinnerSize>` | `SpinnerSize::Medium` | The size of the spinner.           |
+| Name     | Type                       | Default               | Description                        |
+| -------- | -------------------------- | --------------------- | ---------------------------------- |
+| class    | `MaybeProp<String>`        | `Default::default()`  |                                    |
+| label    | `MaybeProp<String>`        | `Default::default()`  | An optional label for the Spinner. |
+| size     | `MaybeSignal<SpinnerSize>` | `SpinnerSize::Medium` | The size of the spinner.           |
+| children | `Option<Children>`         | `None`                |                                    |
