@@ -1,3 +1,16 @@
+## [0.3.4](https://github.com/thaw-ui/thaw/compare/v0.3.3...v0.3.4) (2024-09-11)
+
+### Features
+
+* Adds `Flex` component.
+* Update leptos to v0.6.14.
+
+### Bug Fixs
+
+* Allow creating custom theme [#242](https://github.com/thaw-ui/thaw/pull/242).
+* `CheckboxGroup` does not display default value.
+* `Binder` component display position.
+
 ## [0.3.3](https://github.com/thaw-ui/thaw/compare/v0.3.2...v0.3.3) (2024-07-15)
 
 ### Features
