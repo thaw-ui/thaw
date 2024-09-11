@@ -67,10 +67,7 @@ impl<T: Send + Sync> VecModel<T> {
         }
     }
 
-    pub fn with<O>(
-        &self,
-        fun: impl FnOnce(VecModelWithValue<T>) -> O,
-    ) -> O {
+    pub fn with<O>(&self, fun: impl FnOnce(VecModelWithValue<T>) -> O) -> O {
         match self {
             Self::T(read, _, _) => read.with(|value| fun(VecModelWithValue::T(value))),
             Self::Option(read, _, _) => read.with(|value| fun(VecModelWithValue::Option(value))),

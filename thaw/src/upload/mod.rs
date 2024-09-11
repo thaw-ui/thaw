@@ -34,7 +34,7 @@ pub fn Upload(
         let Some(trigger_el) = trigger_ref.get() else {
             return;
         };
-        let handle = add_event_listener(trigger_el.into(), ev::click, move |_| {
+        let handle = add_event_listener(trigger_el, ev::click, move |_| {
             if let Some(input_ref) = input_ref.get_untracked() {
                 input_ref.click();
             }

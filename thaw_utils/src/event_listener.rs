@@ -1,9 +1,9 @@
 use ::wasm_bindgen::{prelude::Closure, JsCast};
 use leptos::ev;
-use web_sys::{Element, EventTarget};
+use web_sys::EventTarget;
 
 pub fn add_event_listener<E>(
-    target: Element,
+    target: impl Into<EventTarget>,
     event: E,
     cb: impl Fn(E::EventType) + 'static,
 ) -> EventListenerHandle
@@ -31,12 +31,12 @@ impl EventListenerHandle {
 }
 
 fn add_event_listener_untyped(
-    target: Element,
+    target: impl Into<EventTarget>,
     event_name: &str,
     cb: impl Fn(web_sys::Event) + 'static,
 ) -> EventListenerHandle {
     fn wel(
-        target: Element,
+        target: EventTarget,
         cb: Box<dyn FnMut(web_sys::Event)>,
         event_name: &str,
     ) -> EventListenerHandle {
@@ -54,11 +54,11 @@ fn add_event_listener_untyped(
         })
     }
 
-    wel(target, Box::new(cb), event_name)
+    wel(target.into(), Box::new(cb), event_name)
 }
 
 pub fn add_event_listener_with_bool<E: ev::EventDescriptor + 'static>(
-    target: impl IntoEventTarget,
+    target: impl Into<EventTarget>,
     event: E,
     cb: impl Fn(E::EventType) + 'static,
     use_capture: bool,
@@ -67,7 +67,7 @@ where
     E::EventType: JsCast,
 {
     add_event_listener_untyped_with_bool(
-        target.into_event_target(),
+        target,
         &event.name(),
         move |e| cb(e.unchecked_into::<E::EventType>()),
         use_capture,
@@ -75,7 +75,7 @@ where
 }
 
 fn add_event_listener_untyped_with_bool(
-    target: EventTarget,
+    target: impl Into<EventTarget>,
     event_name: &str,
     cb: impl Fn(web_sys::Event) + 'static,
     use_capture: bool,
@@ -107,24 +107,30 @@ fn add_event_listener_untyped_with_bool(
         })
     }
 
-    wel(target, Box::new(cb), event_name, use_capture)
+    wel(target.into(), Box::new(cb), event_name, use_capture)
 }
 
-pub trait IntoEventTarget {
-    fn into_event_target(self) -> EventTarget;
-}
+// pub trait IntoEventTarget {
+//     fn into_event_target(self) -> EventTarget;
+// }
 
-impl IntoEventTarget for EventTarget {
-    fn into_event_target(self) -> EventTarget {
-        self
-    }
-}
+// impl IntoEventTarget for EventTarget {
+//     fn into_event_target(self) -> EventTarget {
+//         self
+//     }
+// }
 
-impl IntoEventTarget for web_sys::Document {
-    fn into_event_target(self) -> EventTarget {
-        self.into()
-    }
-}
+// impl IntoEventTarget for web_sys::Document {
+//     fn into_event_target(self) -> EventTarget {
+//         self.into()
+//     }
+// }
+
+// impl IntoEventTarget for Element {
+//     fn into_event_target(self) -> EventTarget {
+//         self.into()
+//     }
+// }
 
 // impl IntoEventTarget for HtmlElement<AnyElement> {
 //     fn into_event_target(self) -> EventTarget {

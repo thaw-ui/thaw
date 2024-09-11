@@ -58,7 +58,9 @@ impl<T: Send + Sync> OptionModel<T> {
     pub fn with_untracked<O>(&self, fun: impl FnOnce(OptionModelWithValue<T>) -> O) -> O {
         match self {
             Self::T(read, _, _) => read.with_untracked(|value| fun(OptionModelWithValue::T(value))),
-            Self::Option(read, _, _) => read.with_untracked(|value| fun(OptionModelWithValue::Option(value))),
+            Self::Option(read, _, _) => {
+                read.with_untracked(|value| fun(OptionModelWithValue::Option(value)))
+            }
         }
     }
 }

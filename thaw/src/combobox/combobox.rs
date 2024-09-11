@@ -55,7 +55,7 @@ pub fn Combobox(
             let Some(clear_icon_el) = clear_icon_ref.get() else {
                 return;
             };
-            let handler = add_event_listener(clear_icon_el.into(), ev::click, move |e| {
+            let handler = add_event_listener(clear_icon_el, ev::click, move |e| {
                 if disabled.get_untracked() {
                     return;
                 }

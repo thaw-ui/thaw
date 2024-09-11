@@ -92,13 +92,13 @@ where
                     }
                 };
                 let handle = match types {
-                    AnimationTypes::Transition => add_event_listener(
-                        el.deref().clone().into(),
-                        ev::transitionend,
-                        move |_| event_listener(),
-                    ),
+                    AnimationTypes::Transition => {
+                        add_event_listener(el.deref().clone(), ev::transitionend, move |_| {
+                            event_listener()
+                        })
+                    }
                     AnimationTypes::Animation => {
-                        add_event_listener(el.deref().clone().into(), ev::animationend, move |_| {
+                        add_event_listener(el.deref().clone(), ev::animationend, move |_| {
                             event_listener()
                         })
                     }
