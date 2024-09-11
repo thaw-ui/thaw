@@ -9,5 +9,5 @@
 
 .thaw-binder-follower-content {
     position: absolute;
-    z-index: 2000;
+    z-index: 1000000;
 }
