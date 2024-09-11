@@ -2,7 +2,7 @@ use crate::{ConfigInjection, Icon};
 use leptos::{either::Either, ev, html, prelude::*};
 use thaw_components::{CSSTransition, Teleport};
 use thaw_utils::{
-    add_event_listener, class_list, get_scroll_parent, mount_style, BoxCallback,
+    add_event_listener, class_list, get_scroll_parent_element, mount_style, BoxCallback,
     EventListenerHandle,
 };
 
@@ -43,7 +43,7 @@ pub fn BackTop(
         };
 
         request_animation_frame(move || {
-            let scroll_el = get_scroll_parent(&placeholder_el)
+            let scroll_el = get_scroll_parent_element(&placeholder_el)
                 .unwrap_or_else(|| document().document_element().unwrap());
 
             {

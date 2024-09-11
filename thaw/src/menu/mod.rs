@@ -80,7 +80,7 @@ pub fn Menu(
         let Some(target_el) = target_ref.get() else {
             return;
         };
-        let handler = add_event_listener(target_el.into(), ev::click, move |event| {
+        let handler = add_event_listener(target_el, ev::click, move |event| {
             if trigger_type != MenuTriggerType::Click {
                 return;
             }

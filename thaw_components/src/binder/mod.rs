@@ -14,7 +14,7 @@ use leptos::{
     leptos_dom::helpers::WindowListenerHandle,
     prelude::*,
 };
-use thaw_utils::{add_event_listener, get_scroll_parent, mount_style, EventListenerHandle};
+use thaw_utils::{add_event_listener, get_scroll_parent_node, mount_style, EventListenerHandle};
 
 #[slot]
 pub struct Follower {
@@ -141,12 +141,12 @@ where
         };
 
         let mut handle_vec = vec![];
-        let mut cursor = get_scroll_parent(&el);
+        let mut cursor = get_scroll_parent_node(&el);
         loop {
-            if let Some(el) = cursor.take() {
-                cursor = get_scroll_parent(&el);
+            if let Some(node) = cursor.take() {
+                cursor = get_scroll_parent_node(&node);
 
-                let handle = add_event_listener(el, ev::scroll, move |_| {
+                let handle = add_event_listener(node, ev::scroll, move |_| {
                     sync_position();
                 });
                 handle_vec.push(handle);
@@ -213,9 +213,7 @@ where
                     node_ref=content_ref
                     style=move || content_style.get()
                 >
-                    <Provider value=follower_injection>
-                        {follower_children()}
-                    </Provider>
+                    <Provider value=follower_injection>{follower_children()}</Provider>
                 </div>
             </div>
         </Teleport>

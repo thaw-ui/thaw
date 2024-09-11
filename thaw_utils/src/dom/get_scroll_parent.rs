@@ -1,39 +1,49 @@
 use leptos::prelude::*;
-use web_sys::Element;
+use wasm_bindgen::JsCast;
+use web_sys::{Element, Node};
 
-pub fn get_scroll_parent(element: &Element) -> Option<Element> {
-    let Some(parent_element) = get_parent_element(element) else {
-        return None;
-    };
+pub fn get_scroll_parent_node(node: &Node) -> Option<Node> {
+    let parent_node = node.parent_node()?;
 
-    if parent_element.node_type() == 9 {
-        return Some(parent_element);
-    }
-
-    if parent_element.node_type() == 1 {
-        if let Some((overflow, overflow_x, overflow_y)) = get_overflow(&parent_element) {
+    let node_type = parent_node.node_type();
+    if node_type == Node::ELEMENT_NODE {
+        let el = parent_node.clone().dyn_into::<Element>().unwrap();
+        if let Some((overflow, overflow_x, overflow_y)) = get_overflow(&el) {
             let overflow = format!("{overflow}{overflow_x}{overflow_y}");
             if overflow.contains("auto") {
-                return Some(parent_element);
+                return Some(parent_node);
             }
             if overflow.contains("scroll") {
-                return Some(parent_element);
+                return Some(parent_node);
             }
             if overflow.contains("overlay") {
-                return Some(parent_element);
+                return Some(parent_node);
             }
+        }
+    } else if node_type == Node::DOCUMENT_NODE {
+        return Some(document().into());
+    }
+
+    get_scroll_parent_node(&parent_node)
+}
+
+pub fn get_scroll_parent_element(element: &Element) -> Option<Element> {
+    let parent_element = element.parent_element()?;
+
+    if let Some((overflow, overflow_x, overflow_y)) = get_overflow(&parent_element) {
+        let overflow = format!("{overflow}{overflow_x}{overflow_y}");
+        if overflow.contains("auto") {
+            return Some(parent_element);
+        }
+        if overflow.contains("scroll") {
+            return Some(parent_element);
+        }
+        if overflow.contains("overlay") {
+            return Some(parent_element);
         }
     }
 
-    get_scroll_parent(&parent_element)
-}
-
-fn get_parent_element(element: &Element) -> Option<Element> {
-    if element.node_type() == 9 {
-        None
-    } else {
-        element.parent_element()
-    }
+    get_scroll_parent_element(&parent_element)
 }
 
 fn get_overflow(parent_element: &Element) -> Option<(String, String, String)> {
