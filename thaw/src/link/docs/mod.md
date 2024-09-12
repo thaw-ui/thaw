@@ -77,3 +77,4 @@ view! {
 | disabled | `MaybeSignal<bool>` | `false` | Whether the link is disabled. |
 | disabled_focusable | `MaybeSignal<bool>` | `false` | When set, allows the link to be focusable even when it has been disabled. |
 | children | `Children` |  |  |
+| target | `MaybeSignal<String>` |  | Specifies where to open the linked document. |

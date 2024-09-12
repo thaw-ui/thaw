@@ -16,6 +16,9 @@ pub fn Link(
     #[prop(optional, into)]
     disabled_focusable: MaybeSignal<bool>,
     children: Children,
+    /// Specifies where to open the linked document.
+    #[prop(optional, into)]
+    target: MaybeSignal<String>,
 ) -> impl IntoView {
     mount_style("link", include_str!("./link.css"));
 
@@ -46,6 +49,7 @@ pub fn Link(
                 href=href
                 tabindex=tabindex
                 aria-disabled=move || link_disabled.get().then_some("true")
+                target=target
             >
                 {children()}
             </a>
