@@ -42,7 +42,7 @@ pub fn call_on_click_outside_with_list(refs: Vec<NodeRef<Div>>, on_click: BoxCal
     }
     #[cfg(not(any(feature = "csr", feature = "hydrate")))]
     {
-        let _ = element;
+        let _ = refs;
         let _ = on_click;
     }
 }
