@@ -37,6 +37,76 @@ view! {
 }
 ```
 
+### Grouped
+
+```rust demo
+use leptos::either::Either;
+let selected_options = RwSignal::new(vec![]);
+let land = vec!["Cat", "Dog", "Ferret", "Hamster"];
+let water = vec!["Fish", "Jellyfish", "Octopus", "Seal"];
+
+view! {
+    <TagPicker selected_options>
+        <TagPickerControl slot>
+            <TagPickerGroup>
+                {move || {
+                    selected_options.get().into_iter().map(|option| view!{
+                        <Tag value=option.clone()>
+                            {option}
+                        </Tag>
+                    }).collect_view()
+                }}
+            </TagPickerGroup>
+            <TagPickerInput />
+        </TagPickerControl>
+        {move || {
+            selected_options.with(|selected_options| {
+                let land_view = land.iter().filter_map(|option| {
+                    if selected_options.iter().any(|o| o == option) {
+                        return None
+                    } else {
+                        Some(view! {
+                            <TagPickerOption value=option.clone() text=option.clone() />
+                        })
+                    }
+                }).collect_view();
+                if land_view.is_empty() {
+                    Either::Left(())
+                } else {
+                    Either::Right(view! {
+                        <TagPickerOptionGroup label="Land">
+                            {land_view}
+                        </TagPickerOptionGroup>
+                    })
+                }
+            })
+        }}
+        {move || {
+            selected_options.with(|selected_options| {
+                let water_view = water.iter().filter_map(|option| {
+                    if selected_options.iter().any(|o| o == option) {
+                        return None
+                    } else {
+                        Some(view! {
+                            <TagPickerOption value=option.clone() text=option.clone() />
+                        })
+                    }
+                }).collect_view();
+                if water_view.is_empty() {
+                    Either::Left(())
+                } else {
+                    Either::Right(view! {
+                        <TagPickerOptionGroup label="Sea">
+                            {water_view}
+                        </TagPickerOptionGroup>
+                    })
+                }
+            })
+        }}
+    </TagPicker>
+}
+```
+
 ### TagPicker Props
 
 | Name               | Type                    | Default              | Description                       |
@@ -68,3 +138,11 @@ view! {
 | value | `String` |  | Defines a unique identifier for the option. |
 | text | `String` |  | An optional override the string value of the Option's display text, defaulting to the Option's child content. |
 | children | `Option<Children>` | `None` |  |
+
+### TagPickerOptionGroup Props
+
+| Name     | Type                | Default              | Desciption          |
+| -------- | ------------------- | -------------------- | ------------------- |
+| class    | `MaybeProp<String>` | `Default::default()` |                     |
+| label    | `String`            |                      | Label of the group. |
+| children | `Children`          |                      |                     |
