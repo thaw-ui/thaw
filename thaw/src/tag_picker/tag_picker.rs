@@ -6,7 +6,7 @@ use crate::{
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{call_on_click_outside, class_list, mount_style, BoxCallback, Model};
+use thaw_utils::{call_on_click_outside_with_list, class_list, mount_style, BoxCallback, Model};
 
 #[component]
 pub fn TagPicker(
@@ -55,8 +55,8 @@ pub fn TagPicker(
         }
         is_show_listbox.update(|show| *show = !*show);
     };
-    call_on_click_outside(
-        trigger_ref,
+    call_on_click_outside_with_list(
+        vec![trigger_ref, listbox_ref],
         {
             move || {
                 is_show_listbox.set(false);
