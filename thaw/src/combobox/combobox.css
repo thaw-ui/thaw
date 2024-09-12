@@ -115,21 +115,6 @@
     cursor: not-allowed;
 }
 
-.thaw-combobox__listbox {
-    row-gap: var(--spacingHorizontalXXS);
-    display: flex;
-    flex-direction: column;
-    min-width: 160px;
-    max-height: 80vh;
-    background-color: var(--colorNeutralBackground1);
-    padding: var(--spacingHorizontalXS);
-    outline: 1px solid var(--colorTransparentStroke);
-    border-radius: var(--borderRadiusMedium);
-    box-shadow: var(--shadow16);
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-
 .thaw-combobox-option {
     column-gap: var(--spacingHorizontalXS);
     position: relative;

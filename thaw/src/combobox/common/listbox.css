@@ -1,3 +1,18 @@
+.thaw-listbox {
+    row-gap: var(--spacingHorizontalXXS);
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    max-height: 80vh;
+    background-color: var(--colorNeutralBackground1);
+    padding: var(--spacingHorizontalXS);
+    outline: 1px solid var(--colorTransparentStroke);
+    border-radius: var(--borderRadiusMedium);
+    box-shadow: var(--shadow16);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
 .thaw-listbox.fade-in-scale-up-transition-leave-active {
     transform-origin: inherit;
     transition: opacity 0.2s cubic-bezier(0.4, 0, 1, 1),
