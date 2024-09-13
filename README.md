@@ -4,6 +4,12 @@
 <h1 align="center">Thaw UI</h1>
 <p align="center">An easy to use leptos component library</p>
 
+## The main branch is currently incompatible with Leptos-v0.6, For Lepots-v0.6 you can use Thaw-v0.3
+
+v0.3 branch: https://github.com/thaw-ui/thaw/tree/thaw-v0.3
+
+v0.3 docs: https://thaw-85fsrigp0-thaw.vercel.app
+
 ## Documentation & Community
 
 [https://thawui.vercel.app](https://thawui.vercel.app)
