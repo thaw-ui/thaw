@@ -1,3 +1,24 @@
+## [0.4.0-beta3](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta2...v0.4.0-beta3) (2024-09-13)
+
+### Features
+
+* Adss `Flex` component.
+* Adss `TagPicker` component.
+* `Spinner` adds children prop.
+
+### Bug Fixs
+
+* `AnchorLink` outline.
+* `SliderLabel` position.
+* `NavDrawer` selected category value error.
+* Adjust the z-index of the Binder popup.
+* Binder component display position.
+
+### Breaking Changes
+
+* Change Tag's closable to dismissible.
+* Update leptos to v0.7.0-beta5.
+
 ## [0.3.4](https://github.com/thaw-ui/thaw/compare/v0.3.3...v0.3.4) (2024-09-11)
 
 ### Features
