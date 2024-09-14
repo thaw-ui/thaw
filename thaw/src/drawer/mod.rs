@@ -14,6 +14,7 @@ pub fn Drawer(
     #[prop(default = MaybeSignal::Static("260px".to_string()), into)] height: MaybeSignal<String>,
     #[prop(default = 2000.into(), into)] z_index: MaybeSignal<i16>,
     #[prop(optional, into)] mount: DrawerMount,
+    #[prop(optional, into)] modal_type: DrawerModalType,
     #[prop(optional, into)] class: OptionalProp<MaybeSignal<String>>,
     children: Children,
 ) -> impl IntoView {
@@ -37,6 +38,7 @@ pub fn Drawer(
         placement: MaybeSignal<DrawerPlacement>,
         class: OptionalProp<MaybeSignal<String>>,
         style: Memo<String>,
+        modal_type: DrawerModalType,
         children: Children,
     ) -> impl IntoView {
         let mask_ref = NodeRef::<html::Div>::new();
@@ -73,11 +75,6 @@ pub fn Drawer(
             is_css_transition.set(false);
         };
 
-        let on_mask_click = move |_| {
-            if mask_closeable.get_untracked() {
-                show.set(false);
-            }
-        };
         let on_esc = Callback::new(move |_: ev::KeyboardEvent| {
             show.set(false);
         });
@@ -85,20 +82,31 @@ pub fn Drawer(
         view! {
             <FocusTrap disabled=!close_on_esc active=show.signal() on_esc>
                 <div class="thaw-drawer-container" style=move || style.get()>
-                    <CSSTransition
-                        node_ref=mask_ref
-                        appear=show.get_untracked()
-                        show=show.signal()
-                        name="fade-in-transition"
-                        let:display
-                    >
-                        <div
-                            class="thaw-drawer-mask"
-                            style=move || display.get()
-                            on:click=on_mask_click
-                            ref=mask_ref
-                        ></div>
-                    </CSSTransition>
+                    {if modal_type == DrawerModalType::Modal {
+                        view! {
+                            <CSSTransition
+                                node_ref=mask_ref
+                                appear=show.get_untracked()
+                                show=show.signal()
+                                name="fade-in-transition"
+                                let:display
+                            >
+                                <div
+                                    class="thaw-drawer-mask"
+                                    style=move || display.get()
+                                    on:click=move |_| {
+                                        if mask_closeable.get_untracked() {
+                                            show.set(false);
+                                        }
+                                    }
+                                    ref=mask_ref
+                                ></div>
+                            </CSSTransition>
+                        }
+                            .into_view()
+                    } else {
+                        ().into_view()
+                    }}
                     <CSSTransition
                         node_ref=drawer_ref
                         appear=show.get_untracked()
@@ -136,11 +144,33 @@ pub fn Drawer(
 
     match mount {
         DrawerMount::None => {
-            view! { <DrawerInnr show mask_closeable close_on_esc title placement class style children/> }
+            view! {
+                <DrawerInnr
+                    show
+                    mask_closeable
+                    close_on_esc
+                    title
+                    placement
+                    class
+                    style
+                    modal_type
+                    children
+                />
+            }
         }
         DrawerMount::Body => view! {
             <Teleport immediate=show.signal()>
-                <DrawerInnr show mask_closeable close_on_esc title placement class style children/>
+                <DrawerInnr
+                    show
+                    mask_closeable
+                    close_on_esc
+                    title
+                    placement
+                    class
+                    style
+                    modal_type
+                    children
+                />
             </Teleport>
         },
     }
@@ -173,4 +203,11 @@ pub enum DrawerMount {
     None,
     #[default]
     Body,
+}
+
+#[derive(Default, PartialEq)]
+pub enum DrawerModalType {
+    #[default]
+    Modal,
+    NonModal,
 }

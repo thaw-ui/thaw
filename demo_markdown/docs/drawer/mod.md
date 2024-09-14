@@ -24,6 +24,19 @@ view! {
 }
 ```
 
+### No Modal
+
+```rust demo
+let show = create_rw_signal(false);
+
+view! {
+    <Button on_click=move |_| show.update(|show| *show = !*show)>"Toggle"</Button>
+    <Drawer title="Title" show modal_type=DrawerModalType::NonModal>
+        "Hello"
+    </Drawer>
+}
+```
+
 ### Customize display area
 
 ```rust demo
@@ -59,6 +72,7 @@ view! {
 | class | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Addtional classes for the drawer element. |
 | show | `Model<bool>` |  | Whether to show drawer. |
 | mask_closeable | `MaybeSignal<bool>` | `true` | Whether to emit hide event when click mask. |
+| modal_type | `DrawerModalType` | `DrawerModalType::Modal` |  |
 | close_on_esc | `bool` | `true` | Whether to close drawer on Esc is pressed. |
 | title | `OptionalProp<MaybeSignal<String>>` | `Default::default()` | Drawer title. |
 | placement | `MaybeSignal<DrawerPlacement>` | `DrawerPlacement::Right` | Drawer placement. |
