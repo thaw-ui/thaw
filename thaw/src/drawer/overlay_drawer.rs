@@ -1,6 +1,6 @@
-use super::{DrawerPosition, DrawerSize};
+use super::{DrawerModalType, DrawerPosition, DrawerSize};
 use crate::ConfigInjection;
-use leptos::{ev, html, prelude::*};
+use leptos::{either::Either, ev, html, prelude::*};
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 
@@ -22,6 +22,9 @@ pub fn OverlayDrawer(
     /// Size of the drawer.
     #[prop(optional, into)]
     size: MaybeSignal<DrawerSize>,
+    /// Dialog variations.
+    #[prop(optional, into)]
+    model_type: DrawerModalType,
     children: Children,
 ) -> impl IntoView {
     mount_style("drawer", include_str!("./drawer.css"));
@@ -60,20 +63,28 @@ pub fn OverlayDrawer(
                     class=class_list!["thaw-config-provider thaw-overlay-drawer-container", class]
                     data-thaw-id=config_provider.id()
                 >
-                    <CSSTransition
-                        node_ref=mask_ref
-                        appear=open.get_untracked()
-                        show=open.signal()
-                        name="fade-in-transition"
-                        let:display
-                    >
-                        <div
-                            class="thaw-overlay-drawer__backdrop"
-                            style=move || display.get().unwrap_or_default()
-                            on:click=on_mask_click
-                            node_ref=mask_ref
-                        ></div>
-                    </CSSTransition>
+                    {if model_type == DrawerModalType::Modal {
+                        Either::Left(
+                            view! {
+                                <CSSTransition
+                                    node_ref=mask_ref
+                                    appear=open.get_untracked()
+                                    show=open.signal()
+                                    name="fade-in-transition"
+                                    let:display
+                                >
+                                    <div
+                                        class="thaw-overlay-drawer__backdrop"
+                                        style=move || display.get().unwrap_or_default()
+                                        on:click=on_mask_click
+                                        node_ref=mask_ref
+                                    ></div>
+                                </CSSTransition>
+                            },
+                        )
+                    } else {
+                        Either::Right(())
+                    }}
                     <CSSTransition
                         node_ref=drawer_ref
                         appear=open_drawer.get_untracked()
