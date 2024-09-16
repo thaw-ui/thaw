@@ -117,6 +117,35 @@ view! {
 }
 ```
 
+### Required
+
+```rust demo
+view! {
+    <form>
+        <FieldContextProvider>
+            <Field label="Username" name="username" required=true>
+                <Input rules=vec![InputRule::required(true.into())]/>
+            </Field>
+            <div style="margin-top: 8px">
+                <Button
+                    button_type=ButtonType::Submit
+                    on_click={
+                        let field_context = FieldContextInjection::expect_context();
+                        move |e: ev::MouseEvent| {
+                            if !field_context.validate() {
+                                e.prevent_default();
+                            }
+                        }
+                    }
+                >
+                    "Submit"
+                </Button>
+            </div>
+        </FieldContextProvider>
+    </form>
+}
+```
+
 ### Field Props
 
 | Name | Type | Default | Desciption |
@@ -125,6 +154,7 @@ view! {
 | label | `MaybeProp<String>` | `Default::default()` | The label associated with the field. |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
 | orientation | `MaybeSignal<FieldOrientation>` | `FieldOrientation::Vertical` | The orientation of the label relative to the field component. |
+| reqired | `MaybeSignal<bool>` | `false` | If set to true this field will be marked as required. |
 | children | `Children` |  |  |
 
 ### FieldContextProvider Props
