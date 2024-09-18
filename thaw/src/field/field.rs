@@ -16,7 +16,7 @@ pub fn Field(
     /// The orientation of the label relative to the field component.
     #[prop(optional, into)]
     orientation: MaybeSignal<FieldOrientation>,
-    //Is this input field required
+    ///Is this input field required
     #[prop(optional, into)]
     required: MaybeSignal<bool>,
     children: Children,

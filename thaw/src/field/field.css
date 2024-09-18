@@ -13,8 +13,8 @@
 }
 
 .thaw-field__label--required {
-    padding: 0 var(--spacingHorizontalXS);
-    color: var(--colorPaletteRedForeground1);
+    padding-left: var(--spacingHorizontalXS);
+    color: var(--colorPaletteRedForeground3);
 }
 
 .thaw-field--horizontal {
