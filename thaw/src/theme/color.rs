@@ -119,6 +119,7 @@ pub struct ColorTheme {
     pub shadow4: String,
     pub shadow8: String,
     pub shadow16: String,
+    pub shadow64: String,
 }
 
 impl ColorTheme {
@@ -242,6 +243,7 @@ impl ColorTheme {
             shadow4: "0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14)".into(),
             shadow8: "0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14)".into(),
             shadow16: "0 0 2px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.14)".into(),
+            shadow64: "0 0 8px rgba(0,0,0,0.12), 0 32px 64px rgba(0,0,0,0.14)".into(),
         }
     }
 
@@ -365,6 +367,7 @@ impl ColorTheme {
             shadow4: "0 0 2px rgba(0,0,0,0.24), 0 2px 4px rgba(0,0,0,0.28)".into(),
             shadow8: "0 0 2px rgba(0,0,0,0.24), 0 4px 8px rgba(0,0,0,0.28)".into(),
             shadow16: "0 0 2px rgba(0,0,0,0.24), 0 8px 16px rgba(0,0,0,0.28)".into(),
+            shadow64: "0 0 8px rgba(0,0,0,0.24), 0 32px 64px rgba(0,0,0,0.28)".into(),
         }
     }
 }

@@ -24,7 +24,7 @@ pub fn OverlayDrawer(
     size: MaybeSignal<DrawerSize>,
     /// Dialog variations.
     #[prop(optional, into)]
-    model_type: DrawerModalType,
+    modal_type: DrawerModalType,
     children: Children,
 ) -> impl IntoView {
     mount_style("drawer", include_str!("./drawer.css"));
@@ -63,7 +63,7 @@ pub fn OverlayDrawer(
                     class=class_list!["thaw-config-provider thaw-overlay-drawer-container", class]
                     data-thaw-id=config_provider.id()
                 >
-                    {if model_type == DrawerModalType::Modal {
+                    {if modal_type == DrawerModalType::Modal {
                         Either::Left(
                             view! {
                                 <CSSTransition

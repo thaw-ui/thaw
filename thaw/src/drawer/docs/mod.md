@@ -46,7 +46,7 @@ let open = RwSignal::new(false);
 
 view! {
     <Button on_click=move |_| open.update(|open| *open = !*open)>"Toggle"</Button>
-    <Drawer open modal_type=DrawerModalType::NonModal>
+    <OverlayDrawer open modal_type=DrawerModalType::NonModal>
         <DrawerHeader>
           <DrawerHeaderTitle>
             <DrawerHeaderTitleAction slot>
@@ -63,7 +63,7 @@ view! {
         <DrawerBody>
           <p>"Drawer content"</p>
         </DrawerBody>
-    </Drawer>
+    </OverlayDrawer>
 }
 ```
 
@@ -179,7 +179,7 @@ view! {
 | close_on_esc | `bool` | `false` | Whether to close drawer on Esc is pressed. |
 | position | `MaybeSignal<DrawerPosition>` | `DrawerPlacement::Left` | Position of the drawer. |
 | size | `MaybeSignal<DrawerSize>` | `DrawerSize::Small` | Size of the drawer. |
-| model_type | `DrawerModalType` | `DrawerModalType::Modal` | Dialog variations. |
+| modal_type | `DrawerModalType` | `DrawerModalType::Modal` | Dialog variations. |
 | children | `Children` |  |  |
 
 ### InlineDrawer Props
