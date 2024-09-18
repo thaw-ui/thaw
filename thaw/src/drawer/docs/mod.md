@@ -39,6 +39,34 @@ view! {
 }
 ```
 
+### Overlay No Modal
+
+```rust demo
+let open = RwSignal::new(false);
+
+view! {
+    <Button on_click=move |_| open.update(|open| *open = !*open)>"Toggle"</Button>
+    <OverlayDrawer open modal_type=DrawerModalType::NonModal>
+        <DrawerHeader>
+          <DrawerHeaderTitle>
+            <DrawerHeaderTitleAction slot>
+                 <Button
+                    appearance=ButtonAppearance::Subtle
+                    on_click=move |_| open.set(false)
+                >
+                    "x"
+                </Button>
+            </DrawerHeaderTitleAction>
+            "Default Drawer"
+          </DrawerHeaderTitle>
+        </DrawerHeader>
+        <DrawerBody>
+          <p>"Drawer content"</p>
+        </DrawerBody>
+    </OverlayDrawer>
+}
+```
+
 ### Inline
 
 ```rust demo
@@ -151,6 +179,7 @@ view! {
 | close_on_esc | `bool` | `false` | Whether to close drawer on Esc is pressed. |
 | position | `MaybeSignal<DrawerPosition>` | `DrawerPlacement::Left` | Position of the drawer. |
 | size | `MaybeSignal<DrawerSize>` | `DrawerSize::Small` | Size of the drawer. |
+| modal_type | `DrawerModalType` | `DrawerModalType::Modal` | Dialog variations. |
 | children | `Children` |  |  |
 
 ### InlineDrawer Props
