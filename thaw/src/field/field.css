@@ -12,6 +12,11 @@
     color: var(--colorNeutralForeground1);
 }
 
+.thaw-field__label--required {
+    padding-left: var(--spacingHorizontalXS);
+    color: var(--colorPaletteRedForeground3);
+}
+
 .thaw-field--horizontal {
     grid-template-columns: 33% 1fr;
     grid-template-rows: auto auto auto 1fr;

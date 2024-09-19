@@ -1,5 +1,5 @@
 use leptos::{context::Provider, either::EitherOf3, prelude::*};
-use thaw_components::OptionComp;
+use thaw_components::{OptionComp, If, Then};
 use thaw_utils::{class_list, mount_style};
 use uuid::Uuid;
 
@@ -16,6 +16,9 @@ pub fn Field(
     /// The orientation of the label relative to the field component.
     #[prop(optional, into)]
     orientation: MaybeSignal<FieldOrientation>,
+    ///Is this input field required
+    #[prop(optional, into)]
+    required: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("field", include_str!("./field.css"));
@@ -46,6 +49,11 @@ pub fn Field(
                         <OptionComp value=label.get() let:label>
                             <label class="thaw-field__label" for=id.get_value()>
                                 {label}
+                                <If cond=required>
+                                    <Then slot>
+                                        <span class="thaw-field__label--required">*</span>
+                                    </Then>
+                                </If>
                             </label>
                         </OptionComp>
                     }
