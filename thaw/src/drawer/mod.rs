@@ -58,7 +58,7 @@ impl DrawerSize {
 #[derive(Debug, Default, PartialEq)]
 pub enum DrawerModalType {
     /// When this type of dialog is open,
-    /// the rest of the page is dimmed out and cannot be interacted with. 
+    /// the rest of the page is dimmed out and cannot be interacted with.
     #[default]
     Modal,
     /// When a non-modal dialog is open,
