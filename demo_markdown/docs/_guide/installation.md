@@ -8,7 +8,9 @@ cargo add thaw --features=csr
 
 <MessageBar intent=MessageBarIntent::Warning>
     <MessageBarBody>
-        "If you are using the nightly feature in Leptos, please enable Thaw's nightly as well."
+        <div style="white-space: normal">
+            "If you are using the nightly feature in Leptos, please enable Thaw's nightly as well."
+        </div>
     </MessageBarBody>
 </MessageBar>
 

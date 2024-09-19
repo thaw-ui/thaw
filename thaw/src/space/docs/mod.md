@@ -1,5 +1,13 @@
 # Space
 
+<MessageBar intent=MessageBarIntent::Warning>
+    <MessageBarBody>
+        <div style="white-space: normal">
+            "The Space component may be removed in future versions. It is recommended to use the Flex component."
+        </div>
+    </MessageBarBody>
+</MessageBar>
+
 ```rust demo
 view! {
     <Space>

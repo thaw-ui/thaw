@@ -1,5 +1,6 @@
+use crate::Label;
 use leptos::{context::Provider, either::EitherOf3, prelude::*};
-use thaw_components::{OptionComp, If, Then};
+use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style};
 use uuid::Uuid;
 
@@ -47,14 +48,13 @@ pub fn Field(
                 move || {
                     view! {
                         <OptionComp value=label.get() let:label>
-                            <label class="thaw-field__label" for=id.get_value()>
+                            <Label
+                                class="thaw-field__label"
+                                required=required
+                                attr:r#for=id.get_value()
+                            >
                                 {label}
-                                <If cond=required>
-                                    <Then slot>
-                                        <span class="thaw-field__label--required">*</span>
-                                    </Then>
-                                </If>
-                            </label>
+                            </Label>
                         </OptionComp>
                     }
                 }
