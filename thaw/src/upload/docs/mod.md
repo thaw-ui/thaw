@@ -28,13 +28,13 @@ let toaster = ToasterInjection::expect_context();
 
 let custom_request = move |file_list: FileList| {
     let len = file_list.length();
-    toaster.dispatch_toast(view! {
+    toaster.dispatch_toast(move || view! {
         <Toast>
             <ToastBody>
                 {format!("Number of uploaded files: {len}")}
             </ToastBody>
         </Toast>
-    }.into_any(), Default::default());
+    }, Default::default());
 };
 
 view! {

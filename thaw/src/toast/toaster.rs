@@ -1,6 +1,6 @@
 use super::{ToastOptions, ToastPosition, ToasterReceiver};
 use crate::ConfigInjection;
-use leptos::{either::Either, html, prelude::*, tachys::view::any_view::AnyView};
+use leptos::{either::Either, html, prelude::*};
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
 use thaw_components::{CSSTransition, Teleport};
@@ -21,7 +21,7 @@ pub fn Toaster(
     let bottom_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_start_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_end_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
-    let toasts = StoredValue::<HashMap<uuid::Uuid, (SendWrapper<AnyView<Dom>>, ToastOptions)>>::new(
+    let toasts = StoredValue::<HashMap<uuid::Uuid, (SendWrapper<Children>, ToastOptions)>>::new(
         Default::default(),
     );
 
@@ -77,7 +77,7 @@ pub fn Toaster(
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close view=view.take() options /> },
+                                view! { <ToasterContainer on_close children=view.take() options /> },
                             )
                         } else {
                             Either::Right(())
@@ -91,7 +91,7 @@ pub fn Toaster(
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close view=view.take() options /> },
+                                view! { <ToasterContainer on_close children=view.take() options /> },
                             )
                         } else {
                             Either::Right(())
@@ -105,7 +105,7 @@ pub fn Toaster(
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close view=view.take() options /> },
+                                view! { <ToasterContainer on_close children=view.take() options /> },
                             )
                         } else {
                             Either::Right(())
@@ -119,7 +119,7 @@ pub fn Toaster(
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close view=view.take() options /> },
+                                view! { <ToasterContainer on_close children=view.take() options /> },
                             )
                         } else {
                             Either::Right(())
@@ -133,7 +133,7 @@ pub fn Toaster(
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close view=view.take() options /> },
+                                view! { <ToasterContainer on_close children=view.take() options /> },
                             )
                         } else {
                             Either::Right(())
@@ -147,7 +147,7 @@ pub fn Toaster(
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close view=view.take() options /> },
+                                view! { <ToasterContainer on_close children=view.take() options /> },
                             )
                         } else {
                             Either::Right(())
@@ -161,9 +161,9 @@ pub fn Toaster(
 
 #[component]
 fn ToasterContainer(
-    view: AnyView<Dom>,
     options: ToastOptions,
     #[prop(into)] on_close: StoredValue<ArcTwoCallback<uuid::Uuid, ToastPosition>>,
+    children: Children,
 ) -> impl IntoView {
     let container_ref = NodeRef::<html::Div>::new();
     let is_show = RwSignal::new(true);
@@ -210,7 +210,7 @@ fn ToasterContainer(
             let:_
         >
             <div class="thaw-toaster-container" node_ref=container_ref>
-                {view}
+                {children()}
             </div>
         </CSSTransition>
     }

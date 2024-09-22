@@ -38,14 +38,14 @@ view! {
 let toaster = ToasterInjection::expect_context();
 
 let on_dismiss = move |_| {
-    toaster.dispatch_toast(view! {
+    toaster.dispatch_toast(move || view! {
         <Toast>
             <ToastTitle>"Tag"</ToastTitle>
             <ToastBody>
                 "Tag dismiss"
             </ToastBody>
         </Toast>
-     }.into_any(), Default::default());
+     }, Default::default());
 };
 
 view! {

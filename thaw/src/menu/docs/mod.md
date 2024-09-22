@@ -5,13 +5,13 @@ let toaster = ToasterInjection::expect_context();
 
 let on_select = move |key: String| {
   leptos::logging::warn!("{}", key);
-  toaster.dispatch_toast(view! {
+  toaster.dispatch_toast(move || view! {
         <Toast>
             <ToastBody>
                 "key"
             </ToastBody>
         </Toast>
-  }.into_any(), Default::default());
+  }, Default::default());
 };
 
 view! {
