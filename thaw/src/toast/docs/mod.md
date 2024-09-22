@@ -4,7 +4,7 @@
 let toaster = ToasterInjection::expect_context();
 
 let on_click = move |_| {
-    toaster.dispatch_toast(view! {
+    toaster.dispatch_toast(move || view! {
         <Toast>
             <ToastTitle>"Email sent"</ToastTitle>
             <ToastBody>
@@ -19,7 +19,7 @@ let on_click = move |_| {
                 // <Link>Action</Link>
             </ToastFooter>
         </Toast>
-     }.into_any(), Default::default());
+     }, Default::default());
 };
 
 view! {
@@ -33,7 +33,7 @@ view! {
 let toaster = ToasterInjection::expect_context();
 
 fn dispatch_toast(toaster: ToasterInjection, position: ToastPosition) {
-    toaster.dispatch_toast(view! {
+    toaster.dispatch_toast(move || view! {
         <Toast>
             <ToastTitle>"Email sent"</ToastTitle>
             <ToastBody>
@@ -48,7 +48,7 @@ fn dispatch_toast(toaster: ToasterInjection, position: ToastPosition) {
                 // <Link>Action</Link>
             </ToastFooter>
         </Toast>
-     }.into_any(), ToastOptions::default().with_position(position));
+     }, ToastOptions::default().with_position(position));
 };
 
 view! {
