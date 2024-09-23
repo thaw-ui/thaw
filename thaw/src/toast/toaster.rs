@@ -1,6 +1,6 @@
 use super::{ToastOptions, ToastPosition, ToasterReceiver};
 use crate::ConfigInjection;
-use leptos::{either::Either, html, prelude::*};
+use leptos::{context::Provider, either::Either, html, prelude::*};
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
 use thaw_components::{CSSTransition, Teleport};
@@ -171,19 +171,21 @@ fn ToasterContainer(
         id,
         timeout,
         position,
+        intent,
         ..
     } = options;
     let timeout = timeout.unwrap_throw();
     let position = position.unwrap_throw();
+    let intent = intent.unwrap_or_default();
 
-    if !timeout.is_zero() {
-        set_timeout(
-            move || {
-                is_show.set(false);
-            },
-            timeout,
-        );
-    }
+    //if !timeout.is_zero() {
+        //set_timeout(
+            //move || {
+                //is_show.set(false);
+            //},
+            //timeout,
+        //);
+    //}
 
     let on_before_leave = move || {
         let Some(el) = container_ref.get_untracked() else {
@@ -209,9 +211,11 @@ fn ToasterContainer(
             on_after_leave=on_after_leave
             let:_
         >
-            <div class="thaw-toaster-container" node_ref=container_ref>
-                {children()}
-            </div>
+            <Provider value=intent>
+                <div class="thaw-toaster-container" node_ref=container_ref>
+                    {children()}
+                </div>
+            </Provider>
         </CSSTransition>
     }
 }

@@ -34,9 +34,10 @@ impl ToastPosition {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Default, Debug, Clone)]
 pub enum ToastIntent {
     Success,
+    #[default]
     Info,
     Warning,
     Error,
