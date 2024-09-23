@@ -1,4 +1,4 @@
-use super::{ToastOptions, ToastPosition, ToasterReceiver};
+use super::{ToastIntent, ToastOptions, ToastPosition, ToasterReceiver};
 use crate::ConfigInjection;
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use send_wrapper::SendWrapper;
@@ -11,6 +11,7 @@ use wasm_bindgen::UnwrapThrowExt;
 pub fn Toaster(
     receiver: ToasterReceiver,
     #[prop(optional)] position: ToastPosition,
+    #[prop(optional)] intent: ToastIntent,
     #[prop(default = Duration::from_secs(3))] timeout: Duration,
 ) -> impl IntoView {
     mount_style("toaster", include_str!("./toaster.css"));
@@ -41,6 +42,9 @@ pub fn Toaster(
             }
             if options.timeout.is_none() {
                 options.timeout = Some(timeout);
+            }
+            if options.intent.is_none() {
+                options.intent = Some(intent);
             }
 
             let list = id_list(&options.position.unwrap_throw());
@@ -176,16 +180,16 @@ fn ToasterContainer(
     } = options;
     let timeout = timeout.unwrap_throw();
     let position = position.unwrap_throw();
-    let intent = intent.unwrap_or_default();
+    let intent = intent.unwrap_throw();
 
-    //if !timeout.is_zero() {
-        //set_timeout(
-            //move || {
-                //is_show.set(false);
-            //},
-            //timeout,
-        //);
-    //}
+    if !timeout.is_zero() {
+        set_timeout(
+            move || {
+                is_show.set(false);
+            },
+            timeout,
+        );
+    }
 
     let on_before_leave = move || {
         let Some(el) = container_ref.get_untracked() else {
