@@ -158,7 +158,7 @@ fn iter_nodes<'a>(
         NodeValue::Superscript => quote!("Superscript todo!!!"),
         NodeValue::Link(node_link) => {
             let NodeLink { url, title } = node_link;
-            
+
             quote!(
                 <Link href=#url attr:title=#title>
                     #(#children)*
