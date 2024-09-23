@@ -6,7 +6,7 @@ pub fn ToasterProvider(
     /// The position the toast should render.
     #[prop(optional)]
     position: ToastPosition,
-    /// The intentthe toast should render.
+    /// The intent of the toasts 
     #[prop(optional)]
     intent: ToastIntent,
     children: Children,
