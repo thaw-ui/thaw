@@ -1,6 +1,6 @@
-use super::{ToastOptions, ToastPosition, ToasterReceiver};
+use super::{ToastIntent, ToastOptions, ToastPosition, ToasterReceiver};
 use crate::ConfigInjection;
-use leptos::{either::Either, html, prelude::*};
+use leptos::{context::Provider, either::Either, html, prelude::*};
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
 use thaw_components::{CSSTransition, Teleport};
@@ -11,6 +11,7 @@ use wasm_bindgen::UnwrapThrowExt;
 pub fn Toaster(
     receiver: ToasterReceiver,
     #[prop(optional)] position: ToastPosition,
+    #[prop(optional)] intent: ToastIntent,
     #[prop(default = Duration::from_secs(3))] timeout: Duration,
 ) -> impl IntoView {
     mount_style("toaster", include_str!("./toaster.css"));
@@ -41,6 +42,9 @@ pub fn Toaster(
             }
             if options.timeout.is_none() {
                 options.timeout = Some(timeout);
+            }
+            if options.intent.is_none() {
+                options.intent = Some(intent);
             }
 
             let list = id_list(&options.position.unwrap_throw());
@@ -171,10 +175,12 @@ fn ToasterContainer(
         id,
         timeout,
         position,
+        intent,
         ..
     } = options;
     let timeout = timeout.unwrap_throw();
     let position = position.unwrap_throw();
+    let intent = intent.unwrap_throw();
 
     if !timeout.is_zero() {
         set_timeout(
@@ -209,9 +215,11 @@ fn ToasterContainer(
             on_after_leave=on_after_leave
             let:_
         >
-            <div class="thaw-toaster-container" node_ref=container_ref>
-                {children()}
-            </div>
+            <Provider value=intent>
+                <div class="thaw-toaster-container" node_ref=container_ref>
+                    {children()}
+                </div>
+            </Provider>
         </CSSTransition>
     }
 }

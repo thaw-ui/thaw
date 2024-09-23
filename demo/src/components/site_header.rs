@@ -79,7 +79,9 @@ pub fn SiteHeader() -> impl IntoView {
     {
         use leptos::ev;
         let handle = window_event_listener(ev::keydown, move |e| {
-            if js_sys::Reflect::has(&e, &js_sys::wasm_bindgen::JsValue::from_str("key")).unwrap_or_default() {
+            if js_sys::Reflect::has(&e, &js_sys::wasm_bindgen::JsValue::from_str("key"))
+                .unwrap_or_default()
+            {
                 let key = e.key();
                 if key == *"/" {
                     if let Some(auto_complete_ref) = auto_complete_ref.get_untracked() {
@@ -88,7 +90,6 @@ pub fn SiteHeader() -> impl IntoView {
                     }
                 }
             }
-            
         });
         on_cleanup(move || handle.remove());
     }

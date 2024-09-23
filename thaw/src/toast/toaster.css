@@ -108,8 +108,23 @@ div.thaw-toaster-wrapper {
     grid-column-end: 2;
     padding-right: 8px;
     font-size: 16px;
-    color: var(--colorNeutralForeground1);
     color: var(--colorNeutralForeground2);
+}
+
+.thaw-toast-title__info {
+    color: var(--colorNeutralForeground2);
+}
+
+.thaw-toast-title__success {
+    color: var(--colorStatusSuccessForeground1);
+}
+
+.thaw-toast-title__warning {
+    color: var(--colorStatusWarningForeground3);
+}
+
+.thaw-toast-title__error {
+    color: var(--colorStatusDangerForeground1);
 }
 
 .thaw-toast-title__media > svg {

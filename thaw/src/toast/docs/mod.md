@@ -63,11 +63,67 @@ view! {
 }
 ```
 
+### Toast Intent
+
+```rust demo
+let toaster = ToasterInjection::expect_context();
+
+fn dispatch_toast(toaster: ToasterInjection, intent: ToastIntent) {
+    toaster.dispatch_toast(move || view! {
+        <Toast>
+            <ToastTitle>"Email sent"</ToastTitle>
+            <ToastBody>
+                "This is a toast body"
+                <ToastBodySubtitle slot>
+                    "Subtitle"
+                </ToastBodySubtitle>
+            </ToastBody>
+            <ToastFooter>
+                "Footer"
+            </ToastFooter>
+        </Toast>
+     }, ToastOptions::default().with_intent(intent));
+};
+
+view! {
+    <Space>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastIntent::Info)>"Info"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastIntent::Success)>"Success"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastIntent::Warning)>"Warning"</Button>
+        <Button on_click=move |_| dispatch_toast(toaster, ToastIntent::Error)>"Error"</Button>
+    </Space>
+}
+```
+
+### Toast Title Media
+
+```rust demo
+let toaster = ToasterInjection::expect_context();
+
+let on_click = move |_| {
+    toaster.dispatch_toast(move || view! {
+        <Toast>
+            <ToastTitle>
+                "Loading"
+                <ToastTitleMedia slot>
+                    <Spinner size=SpinnerSize::Tiny/>
+                </ToastTitleMedia>
+            </ToastTitle>
+        </Toast>
+     }, Default::default());
+};
+
+view! {
+    <Button on_click=on_click>"Make toast"</Button>
+}
+```
+
 ### ToasterProvider Props
 
 | Name     | Type            | Default                    | Description                           |
 | -------- | --------------- | -------------------------- | ------------------------------------- |
 | position | `ToastPosition` | `ToastPosition::BottomEnd` | The position the toast should render. |
+| intent   | `ToastIntent  ` | `ToastPosition::Info`      | The intent of the toast.              |
 | children | `Children`      |                            |                                       |
 
 ### ToastOptions Props
@@ -76,7 +132,7 @@ view! {
 | ------------- | --------------------------------------- | ------------------------------------- |
 | with_position | `Fn(mut self, position: ToastPosition)` | The position the toast should render. |
 | with_timeout  | `Fn(mut self, timeout: Duration)`       | Auto dismiss timeout in milliseconds. |
-| with_intent   | `Fn(mut self, intent: ToastIntent)`     | Intent.                               |
+| with_intent   | `Fn(mut self, intent: ToastIntent)`     | The intent of the toast.              |
 
 ### Toast & ToastFooter Props
 

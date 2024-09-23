@@ -1,8 +1,8 @@
 use crate::components::SiteHeader;
 use leptos::prelude::*;
+use leptos_meta::Style;
 use leptos_router::hooks::{use_navigate, use_query_map};
 use thaw::*;
-use leptos_meta::Style;
 
 #[component]
 pub fn Home() -> impl IntoView {
