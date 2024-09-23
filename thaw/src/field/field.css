@@ -37,6 +37,10 @@
     color: var(--colorPaletteRedForeground1);
 }
 
+.thaw-field--error .thaw-spin-button:not(:focus-within),
+.thaw-field--error .thaw-select__select:not(:focus-within),
+.thaw-field--error .thaw-combobox:not(:focus-within),
+.thaw-field--error .thaw-textarea:not(:focus-within),
 .thaw-field--error .thaw-input:not(:focus-within) {
     border-color: var(--colorPaletteRedBorder2);
 }
