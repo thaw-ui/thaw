@@ -95,6 +95,43 @@ view! {
 }
 ```
 
+### Dismiss Toast
+
+```rust demo
+let toaster = ToasterInjection::expect_context();
+let id = uuid::Uuid::new_v4();
+
+
+let dispatch = move |_| {
+    toaster.dispatch_toast(move || view! {
+        <Toast>
+            <ToastTitle>"Email sent"</ToastTitle>
+            <ToastBody>
+                "This is a toast body"
+                <ToastBodySubtitle slot>
+                    "Subtitle"
+                </ToastBodySubtitle>
+            </ToastBody>
+            <ToastFooter>
+                "Footer"
+                // <Link>Action</Link>
+                // <Link>Action</Link>
+            </ToastFooter>
+        </Toast>
+     },ToastOptions::default().with_id(uuid::Uuid::new_v4()));
+};
+
+let dismiss = move |_| {
+    toaster.dismiss_toast(id);
+};
+
+view! {
+    <Button on_click=dispatch>"Show toast"</Button>
+    <Button on_click=dismiss>"Hide toast"</Button>
+}
+```
+
+
 ### Toast Title Media
 
 ```rust demo

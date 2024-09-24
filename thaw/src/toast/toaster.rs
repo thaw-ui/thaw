@@ -1,5 +1,5 @@
 use super::{ToastIntent, ToastOptions, ToastPosition, ToasterReceiver};
-use crate::ConfigInjection;
+use crate::{toast::ToasterMessage, ConfigInjection};
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
@@ -22,7 +22,7 @@ pub fn Toaster(
     let bottom_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_start_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_end_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
-    let toasts = StoredValue::<HashMap<uuid::Uuid, (SendWrapper<Children>, ToastOptions)>>::new(
+    let toasts = StoredValue::<HashMap<uuid::Uuid, (SendWrapper<Children>, ToastOptions, RwSignal<bool>)>>::new(
         Default::default(),
     );
 
@@ -36,25 +36,32 @@ pub fn Toaster(
     };
 
     Effect::new(move |_| {
-        for (view, mut options) in receiver.try_recv() {
-            if options.position.is_none() {
-                options.position = Some(position);
-            }
-            if options.timeout.is_none() {
-                options.timeout = Some(timeout);
-            }
-            if options.intent.is_none() {
-                options.intent = Some(intent);
-            }
+        for message in receiver.try_recv() {
+            match message {
+                ToasterMessage::Dispatch(view, mut options) => {
+                    if options.position.is_none() {
+                        options.position = Some(position);
+                    }
+                    if options.timeout.is_none() {
+                        options.timeout = Some(timeout);
+                    }
+                    if options.intent.is_none() {
+                        options.intent = Some(intent);
+                    }
 
-            let list = id_list(&options.position.unwrap_throw());
-            let id = options.id;
-            toasts.update_value(|map| {
-                map.insert(id, (SendWrapper::new(view), options));
-            });
-            list.update(|list| {
-                list.push(id);
-            });
+                    let list = id_list(&options.position.unwrap_throw());
+                    let id = options.id;
+                    toasts.update_value(|map| {
+                        map.insert(id, (SendWrapper::new(view), options, RwSignal::new(true)));
+                    });
+                    list.update(|list| {
+                        list.push(id);
+                    });
+                },
+                ToasterMessage::Dismiss(toast_id) => {
+                    leptos::logging::log!("{}", toast_id);
+                }
+            }
         }
     });
 
@@ -76,7 +83,7 @@ pub fn Toaster(
             >
                 <div class="thaw-toaster thaw-toaster--top">
                     <For each=move || top_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
@@ -90,7 +97,7 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--top-start">
                     <For each=move || top_start_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
@@ -104,7 +111,7 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--top-end">
                     <For each=move || top_end_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
@@ -118,7 +125,7 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom">
                     <For each=move || bottom_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
@@ -132,7 +139,7 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom-start">
                     <For each=move || bottom_start_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
@@ -146,7 +153,7 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom-end">
                     <For each=move || bottom_end_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {

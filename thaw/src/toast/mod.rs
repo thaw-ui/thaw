@@ -17,8 +17,13 @@ use wasm_bindgen::UnwrapThrowExt;
 
 #[derive(Clone, Copy)]
 pub struct ToasterInjection {
-    sender: StoredValue<Sender<(Children, ToastOptions)>>,
+    sender: StoredValue<Sender<ToasterMessage>>,
     trigger: StoredValue<ArcTrigger>,
+}
+
+enum ToasterMessage {
+    Dispatch(Children, ToastOptions),
+    Dismiss(uuid::Uuid)
 }
 
 impl ToasterInjection {
@@ -27,7 +32,7 @@ impl ToasterInjection {
     }
 
     pub fn channel() -> (Self, ToasterReceiver) {
-        let (sender, receiver) = channel::<(Children, ToastOptions)>();
+        let (sender, receiver) = channel::<ToasterMessage>();
         let trigger = ArcTrigger::new();
 
         (
@@ -39,6 +44,16 @@ impl ToasterInjection {
         )
     }
 
+    pub fn dismiss_toast(&self, toast_id: uuid::Uuid)
+    {
+        self.sender.with_value(|sender| {
+            sender
+                .send(ToasterMessage::Dismiss(toast_id))
+                .unwrap_throw()
+        });
+        self.trigger.with_value(|trigger| trigger.notify());
+    }
+
     pub fn dispatch_toast<C, IV>(&self, children: C, options: ToastOptions)
     where
         C: FnOnce() -> IV + Send + 'static,
@@ -46,7 +61,7 @@ impl ToasterInjection {
     {
         self.sender.with_value(|sender| {
             sender
-                .send((Box::new(move || children().into_any()), options))
+                .send(ToasterMessage::Dispatch(Box::new(move || children().into_any()), options))
                 .unwrap_throw()
         });
         self.trigger.with_value(|trigger| trigger.notify());
@@ -54,16 +69,16 @@ impl ToasterInjection {
 }
 
 pub struct ToasterReceiver {
-    receiver: Receiver<(Children, ToastOptions)>,
+    receiver: Receiver<ToasterMessage>,
     trigger: ArcTrigger,
 }
 
 impl ToasterReceiver {
-    pub fn new(receiver: Receiver<(Children, ToastOptions)>, trigger: ArcTrigger) -> Self {
+    fn new(receiver: Receiver<ToasterMessage>, trigger: ArcTrigger) -> Self {
         Self { receiver, trigger }
     }
 
-    pub fn try_recv(&self) -> TryIter<'_, (Children, ToastOptions)> {
+    fn try_recv(&self) -> TryIter<'_, ToasterMessage> {
         self.trigger.track();
         self.receiver.try_iter()
     }
