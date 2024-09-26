@@ -22,11 +22,11 @@ pub fn Toaster(
     let bottom_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_start_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_end_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
-    let toast_show_list =
-        StoredValue::<HashMap<uuid::Uuid, RwSignal<bool>>>::new(Default::default());
     let toasts = StoredValue::<
         HashMap<uuid::Uuid, (SendWrapper<Children>, ToastOptions, RwSignal<bool>)>,
     >::new(Default::default());
+    let toast_show_list =
+        StoredValue::<HashMap<uuid::Uuid, RwSignal<bool>>>::new(Default::default());
 
     let id_list = move |position: &ToastPosition| match position {
         ToastPosition::Top => top_id_list,
@@ -67,11 +67,6 @@ pub fn Toaster(
                 }
                 ToasterMessage::Dismiss(toast_id) => {
                     leptos::logging::log!("hide {}", toast_id);
-                    toast_show_list.with_value(|map| {
-                        if let Some(is_show) = map.get(&toast_id) {
-                            is_show.set(false);
-                        }
-                    })
                 }
             }
         }
@@ -85,7 +80,7 @@ pub fn Toaster(
             };
             list.remove(index);
         });
-        toast_show_list.update_value(|map| map.remove(&id));
+        //        toast_show_list.update_value(|map| map.remove(&id));
     }));
 
     view! {
@@ -248,7 +243,7 @@ fn ToasterContainer(
     if !timeout.is_zero() {
         set_timeout(
             move || {
-                leptos::logging::log!("hide");
+                leptos::logging::log!("hide {}", id);
                 is_show.set(false);
             },
             timeout,
@@ -283,6 +278,7 @@ fn ToasterContainer(
                 <div class="thaw-toaster-container" node_ref=container_ref>
                     {children()}
                     {move || is_show.get()}
+                    {format!("{}", id)}
                 </div>
             </Provider>
         </CSSTransition>
