@@ -118,7 +118,7 @@ let dispatch = move |_| {
                 // <Link>Action</Link>
             </ToastFooter>
         </Toast>
-     },ToastOptions::default().with_id(uuid::Uuid::new_v4()));
+     },ToastOptions::default().with_id(id));
 };
 
 let dismiss = move |_| {
