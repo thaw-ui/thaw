@@ -112,11 +112,6 @@ let dispatch = move |_| {
                     "Subtitle"
                 </ToastBodySubtitle>
             </ToastBody>
-            <ToastFooter>
-                "Footer"
-                // <Link>Action</Link>
-                // <Link>Action</Link>
-            </ToastFooter>
         </Toast>
      },ToastOptions::default().with_id(id));
 };

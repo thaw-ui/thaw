@@ -37,6 +37,7 @@ pub fn Toaster(
         ToastPosition::BottomEnd => bottom_end_id_list,
     };
 
+    let owner = Owner::current().unwrap();
     Effect::new(move |_| {
         for message in receiver.try_recv() {
             match message {
@@ -53,7 +54,7 @@ pub fn Toaster(
 
                     let list = id_list(&options.position.unwrap_throw());
                     let id = options.id;
-                    let is_show = RwSignal::new(true);
+                    let is_show = owner.with(|| RwSignal::new(true));
                     toasts.update_value(|map| {
                         map.insert(id, (SendWrapper::new(view), options, is_show));
                     });
@@ -63,10 +64,11 @@ pub fn Toaster(
                     list.update(|list| {
                         list.push(id);
                     });
-                    leptos::logging::log!("show {}", id);
                 }
                 ToasterMessage::Dismiss(toast_id) => {
-                    leptos::logging::log!("hide {}", toast_id);
+                    toast_show_list.with_value(|map| {
+                        map.get(&toast_id).unwrap_throw().set(false)
+                    });
                 }
             }
         }
@@ -80,7 +82,7 @@ pub fn Toaster(
             };
             list.remove(index);
         });
-        //        toast_show_list.update_value(|map| map.remove(&id));
+        toast_show_list.update_value(|map| map.remove(&id));
     }));
 
     view! {
@@ -243,7 +245,6 @@ fn ToasterContainer(
     if !timeout.is_zero() {
         set_timeout(
             move || {
-                leptos::logging::log!("hide {}", id);
                 is_show.set(false);
             },
             timeout,
@@ -277,8 +278,6 @@ fn ToasterContainer(
             <Provider value=intent>
                 <div class="thaw-toaster-container" node_ref=container_ref>
                     {children()}
-                    {move || is_show.get()}
-                    {format!("{}", id)}
                 </div>
             </Provider>
         </CSSTransition>
