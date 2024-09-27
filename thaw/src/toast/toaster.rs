@@ -80,7 +80,10 @@ pub fn Toaster(
             };
             list.remove(index);
         });
-        toast_show_list.update_value(|map| map.remove(&id));
+        let is_show = toast_show_list.try_update_value(|map| { map.remove(&id) } ).flatten();
+        if let Some(is_show) = is_show {
+            is_show.dispose();
+        }
     }));
 
     view! {
