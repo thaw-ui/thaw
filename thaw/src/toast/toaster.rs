@@ -66,9 +66,7 @@ pub fn Toaster(
                     });
                 }
                 ToasterMessage::Dismiss(toast_id) => {
-                    toast_show_list.with_value(|map| {
-                        map.get(&toast_id).unwrap_throw().set(false)
-                    });
+                    toast_show_list.with_value(|map| map.get(&toast_id).unwrap_throw().set(false));
                 }
             }
         }

@@ -23,7 +23,7 @@ pub struct ToasterInjection {
 
 enum ToasterMessage {
     Dispatch(Children, ToastOptions),
-    Dismiss(uuid::Uuid)
+    Dismiss(uuid::Uuid),
 }
 
 impl ToasterInjection {
@@ -44,8 +44,7 @@ impl ToasterInjection {
         )
     }
 
-    pub fn dismiss_toast(&self, toast_id: uuid::Uuid)
-    {
+    pub fn dismiss_toast(&self, toast_id: uuid::Uuid) {
         self.sender.with_value(|sender| {
             sender
                 .send(ToasterMessage::Dismiss(toast_id))
@@ -61,7 +60,10 @@ impl ToasterInjection {
     {
         self.sender.with_value(|sender| {
             sender
-                .send(ToasterMessage::Dispatch(Box::new(move || children().into_any()), options))
+                .send(ToasterMessage::Dispatch(
+                    Box::new(move || children().into_any()),
+                    options,
+                ))
                 .unwrap_throw()
         });
         self.trigger.with_value(|trigger| trigger.notify());
