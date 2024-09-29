@@ -63,6 +63,12 @@ impl Default for ToastOptions {
 }
 
 impl ToastOptions {
+    /// The id that will be assigned to this toast.
+    pub fn with_id(mut self, id: uuid::Uuid) -> Self {
+        self.id = id;
+        self
+    }
+
     /// The position the toast should render.
     pub fn with_position(mut self, position: ToastPosition) -> Self {
         self.position = Some(position);

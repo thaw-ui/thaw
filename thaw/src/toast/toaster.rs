@@ -1,5 +1,5 @@
 use super::{ToastIntent, ToastOptions, ToastPosition, ToasterReceiver};
-use crate::ConfigInjection;
+use crate::{toast::ToasterMessage, ConfigInjection};
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
@@ -22,9 +22,11 @@ pub fn Toaster(
     let bottom_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_start_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let bottom_end_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
-    let toasts = StoredValue::<HashMap<uuid::Uuid, (SendWrapper<Children>, ToastOptions)>>::new(
-        Default::default(),
-    );
+    let toasts = StoredValue::<
+        HashMap<uuid::Uuid, (SendWrapper<Children>, ToastOptions, RwSignal<bool>)>,
+    >::new(Default::default());
+    let toast_show_list =
+        StoredValue::<HashMap<uuid::Uuid, RwSignal<bool>>>::new(Default::default());
 
     let id_list = move |position: &ToastPosition| match position {
         ToastPosition::Top => top_id_list,
@@ -35,26 +37,38 @@ pub fn Toaster(
         ToastPosition::BottomEnd => bottom_end_id_list,
     };
 
+    let owner = Owner::current().unwrap();
     Effect::new(move |_| {
-        for (view, mut options) in receiver.try_recv() {
-            if options.position.is_none() {
-                options.position = Some(position);
-            }
-            if options.timeout.is_none() {
-                options.timeout = Some(timeout);
-            }
-            if options.intent.is_none() {
-                options.intent = Some(intent);
-            }
+        for message in receiver.try_recv() {
+            match message {
+                ToasterMessage::Dispatch(view, mut options) => {
+                    if options.position.is_none() {
+                        options.position = Some(position);
+                    }
+                    if options.timeout.is_none() {
+                        options.timeout = Some(timeout);
+                    }
+                    if options.intent.is_none() {
+                        options.intent = Some(intent);
+                    }
 
-            let list = id_list(&options.position.unwrap_throw());
-            let id = options.id;
-            toasts.update_value(|map| {
-                map.insert(id, (SendWrapper::new(view), options));
-            });
-            list.update(|list| {
-                list.push(id);
-            });
+                    let list = id_list(&options.position.unwrap_throw());
+                    let id = options.id;
+                    let is_show = owner.with(|| RwSignal::new(true));
+                    toasts.update_value(|map| {
+                        map.insert(id, (SendWrapper::new(view), options, is_show));
+                    });
+                    toast_show_list.update_value(|map| {
+                        map.insert(id, is_show);
+                    });
+                    list.update(|list| {
+                        list.push(id);
+                    });
+                }
+                ToasterMessage::Dismiss(toast_id) => {
+                    toast_show_list.with_value(|map| map.get(&toast_id).unwrap_throw().set(false));
+                }
+            }
         }
     });
 
@@ -66,6 +80,10 @@ pub fn Toaster(
             };
             list.remove(index);
         });
+        let is_show = toast_show_list.try_update_value(|map| { map.remove(&id) } ).flatten();
+        if let Some(is_show) = is_show {
+            is_show.dispose();
+        }
     }));
 
     view! {
@@ -76,12 +94,19 @@ pub fn Toaster(
             >
                 <div class="thaw-toaster thaw-toaster--top">
                     <For each=move || top_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close children=view.take() options /> },
+                                view! {
+                                    <ToasterContainer
+                                        on_close
+                                        children=view.take()
+                                        options
+                                        is_show
+                                    />
+                                },
                             )
                         } else {
                             Either::Right(())
@@ -90,12 +115,19 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--top-start">
                     <For each=move || top_start_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close children=view.take() options /> },
+                                view! {
+                                    <ToasterContainer
+                                        on_close
+                                        children=view.take()
+                                        options
+                                        is_show
+                                    />
+                                },
                             )
                         } else {
                             Either::Right(())
@@ -104,12 +136,19 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--top-end">
                     <For each=move || top_end_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close children=view.take() options /> },
+                                view! {
+                                    <ToasterContainer
+                                        on_close
+                                        children=view.take()
+                                        options
+                                        is_show
+                                    />
+                                },
                             )
                         } else {
                             Either::Right(())
@@ -118,12 +157,19 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom">
                     <For each=move || bottom_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close children=view.take() options /> },
+                                view! {
+                                    <ToasterContainer
+                                        on_close
+                                        children=view.take()
+                                        options
+                                        is_show
+                                    />
+                                },
                             )
                         } else {
                             Either::Right(())
@@ -132,12 +178,19 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom-start">
                     <For each=move || bottom_start_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close children=view.take() options /> },
+                                view! {
+                                    <ToasterContainer
+                                        on_close
+                                        children=view.take()
+                                        options
+                                        is_show
+                                    />
+                                },
                             )
                         } else {
                             Either::Right(())
@@ -146,12 +199,19 @@ pub fn Toaster(
                 </div>
                 <div class="thaw-toaster thaw-toaster--bottom-end">
                     <For each=move || bottom_end_id_list.get() key=|id| id.clone() let:id>
-                        {if let Some((view, options)) = toasts
+                        {if let Some((view, options, is_show)) = toasts
                             .try_update_value(|map| { map.remove(&id) })
                             .flatten()
                         {
                             Either::Left(
-                                view! { <ToasterContainer on_close children=view.take() options /> },
+                                view! {
+                                    <ToasterContainer
+                                        on_close
+                                        children=view.take()
+                                        options
+                                        is_show
+                                    />
+                                },
                             )
                         } else {
                             Either::Right(())
@@ -168,9 +228,9 @@ fn ToasterContainer(
     options: ToastOptions,
     #[prop(into)] on_close: StoredValue<ArcTwoCallback<uuid::Uuid, ToastPosition>>,
     children: Children,
+    is_show: RwSignal<bool>,
 ) -> impl IntoView {
     let container_ref = NodeRef::<html::Div>::new();
-    let is_show = RwSignal::new(true);
     let ToastOptions {
         id,
         timeout,
@@ -178,6 +238,7 @@ fn ToasterContainer(
         intent,
         ..
     } = options;
+
     let timeout = timeout.unwrap_throw();
     let position = position.unwrap_throw();
     let intent = intent.unwrap_throw();

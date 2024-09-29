@@ -18,6 +18,7 @@ chrono = "0.4.38"
 cfg-if = "1.0.0"
 # leptos-use = "0.10.10"
 send_wrapper = "0.6"
+uuid = { version = "1.10.0", features = ["v4", "js"] }
 console_error_panic_hook = "0.1.7"
 console_log = "1"
 log = "0.4"
