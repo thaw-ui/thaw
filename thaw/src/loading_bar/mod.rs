@@ -1,12 +1,10 @@
 mod loading_bar_provider;
 
-use std::sync::Arc;
-
 pub use loading_bar_provider::*;
-use tachys::renderer::DomRenderer;
 
 use crate::ConfigInjection;
 use leptos::{html, prelude::*};
+use std::sync::Arc;
 use thaw_utils::{mount_style, ComponentRef};
 
 #[derive(Clone)]
