@@ -95,11 +95,11 @@ pub(crate) struct NavItemOption {
 }
 
 trait VecIntoView {
-    fn into_view(self) -> Vec<AnyView<Dom>>;
+    fn into_view(self) -> Vec<AnyView>;
 }
 
 impl VecIntoView for Vec<NavItemOption> {
-    fn into_view(self) -> Vec<AnyView<Dom>> {
+    fn into_view(self) -> Vec<AnyView> {
         let mut iter = self.into_iter().peekable();
         let mut views = vec![];
         while let Some(item) = iter.next() {

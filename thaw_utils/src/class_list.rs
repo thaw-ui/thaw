@@ -6,7 +6,7 @@ use leptos::{
 use leptos::{
     prelude::{Oco, RenderEffect, RwSignal},
     reactive_graph::traits::{Update, With, WithUntracked},
-    tachys::renderer::DomRenderer,
+    tachys::renderer::{types, Rndr},
 };
 use std::collections::HashSet;
 #[cfg(not(feature = "ssr"))]
@@ -163,12 +163,9 @@ impl ClassList {
     }
 }
 
-impl<R> leptos::tachys::html::class::IntoClass<R> for ClassList
-where
-    R: DomRenderer,
-{
+impl leptos::tachys::html::class::IntoClass for ClassList {
     type AsyncOutput = Self;
-    type State = RenderEffect<(R::Element, String)>;
+    type State = RenderEffect<(types::Element, String)>;
     type Cloneable = Self;
     type CloneableOwned = Self;
 
@@ -193,7 +190,7 @@ where
         self.write_class_string(class);
     }
 
-    fn hydrate<const FROM_SERVER: bool>(self, el: &R::Element) -> Self::State {
+    fn hydrate<const FROM_SERVER: bool>(self, el: &types::Element) -> Self::State {
         let el = el.to_owned();
         RenderEffect::new(move |prev| {
             let mut class = String::new();
@@ -202,7 +199,7 @@ where
             if let Some(state) = prev {
                 let (el, prev_class) = state;
                 if class != prev_class {
-                    R::set_attribute(&el, "class", &class);
+                    Rndr::set_attribute(&el, "class", &class);
                     (el, class)
                 } else {
                     (el, prev_class)
@@ -210,7 +207,7 @@ where
             } else {
                 if !class.is_empty() {
                     if !FROM_SERVER {
-                        R::set_attribute(&el, "class", &class);
+                        Rndr::set_attribute(&el, "class", &class);
                     }
                 }
                 (el.clone(), class)
@@ -218,7 +215,7 @@ where
         })
     }
 
-    fn build(self, el: &R::Element) -> Self::State {
+    fn build(self, el: &types::Element) -> Self::State {
         let el = el.to_owned();
         RenderEffect::new(move |prev| {
             let mut class = String::new();
@@ -226,14 +223,14 @@ where
             if let Some(state) = prev {
                 let (el, prev_class) = state;
                 if class != prev_class {
-                    R::set_attribute(&el, "class", &class);
+                    Rndr::set_attribute(&el, "class", &class);
                     (el, class)
                 } else {
                     (el, prev_class)
                 }
             } else {
                 if !class.is_empty() {
-                    R::set_attribute(&el, "class", &class);
+                    Rndr::set_attribute(&el, "class", &class);
                 }
                 (el.clone(), class)
             }
@@ -249,7 +246,7 @@ where
                     self.write_class_string(&mut class);
                     let (el, prev_class) = state;
                     if class != *prev_class {
-                        R::set_attribute(&el, "class", &class);
+                        Rndr::set_attribute(&el, "class", &class);
                         (el, class)
                     } else {
                         (el, prev_class)

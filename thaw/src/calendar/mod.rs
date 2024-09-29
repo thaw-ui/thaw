@@ -226,10 +226,10 @@ pub(crate) fn now_date() -> NaiveDate {
 }
 
 #[derive(Clone)]
-pub struct CalendarChildrenFn(Arc<dyn Fn(&NaiveDate) -> AnyView<Dom> + Send + Sync>);
+pub struct CalendarChildrenFn(Arc<dyn Fn(&NaiveDate) -> AnyView + Send + Sync>);
 
 impl Deref for CalendarChildrenFn {
-    type Target = Arc<dyn Fn(&NaiveDate) -> AnyView<Dom> + Send + Sync>;
+    type Target = Arc<dyn Fn(&NaiveDate) -> AnyView + Send + Sync>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -239,7 +239,7 @@ impl Deref for CalendarChildrenFn {
 impl<F, C> From<F> for CalendarChildrenFn
 where
     F: Fn(&NaiveDate) -> C + Send + Sync + 'static,
-    C: RenderHtml<Dom> + Send + 'static,
+    C: RenderHtml + Send + 'static,
 {
     fn from(f: F) -> Self {
         Self(Arc::new(move |date| f(date).into_any()))
