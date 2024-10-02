@@ -75,6 +75,13 @@ pub fn Toaster(
                             is_show.set(false)
                         }
                     });
+                },
+                ToasterMessage::DismissAll => {
+                    toast_show_list.with_value(|map| {
+                        for is_show in map.values() {
+                            is_show.set(false)
+                        }
+                    });
                 }
             }
         }

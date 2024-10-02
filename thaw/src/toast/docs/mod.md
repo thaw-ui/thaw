@@ -135,6 +135,40 @@ view! {
 }}}
 ```
 
+### Dismiss All 
+
+```rust demo
+let toaster = ToasterInjection::expect_context();
+
+fn dispatch_toast(toaster: ToasterInjection) {
+    toaster.dispatch_toast(move || view! {
+        <Toast>
+            <ToastTitle>"Email sent"</ToastTitle>
+            <ToastBody>
+                "This is a toast body"
+                <ToastBodySubtitle slot>
+                    "Subtitle"
+                </ToastBodySubtitle>
+            </ToastBody>
+            <ToastFooter>
+                "Footer"
+            </ToastFooter>
+        </Toast>
+     }, ToastOptions::default());
+};
+
+let dismiss_all = move || {
+    toaster.dismiss_all();
+};
+
+view! {
+    <Space>
+        <Button on_click=move |_| dispatch_toast(toaster)>"Dispatch toast"</Button>
+        <Button on_click=move |_| dismiss_all()>"Dismiss all"</Button>
+    </Space>
+}
+```
+
 
 ### Toast Title Media
 
