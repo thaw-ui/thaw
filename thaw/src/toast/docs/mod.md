@@ -102,6 +102,12 @@ let toaster = ToasterInjection::expect_context();
 let id = uuid::Uuid::new_v4();
 
 
+let mounted = RwSignal::new(false);
+
+let on_status_change = move |status| {
+    mounted.set(status == ToastStatus::Mounted);
+};
+
 let dispatch = move |_| {
     toaster.dispatch_toast(move || view! {
         <Toast>
@@ -113,7 +119,7 @@ let dispatch = move |_| {
                 </ToastBodySubtitle>
             </ToastBody>
         </Toast>
-     },ToastOptions::default().with_id(id));
+     },ToastOptions::default().with_id(id).with_on_status_change(on_status_change))
 };
 
 let dismiss = move |_| {
@@ -121,9 +127,12 @@ let dismiss = move |_| {
 };
 
 view! {
-    <Button on_click=dispatch>"Show toast"</Button>
-    <Button on_click=dismiss>"Hide toast"</Button>
-}
+    {move || {if !mounted.get() {
+        view!{<Button on_click=dispatch>"Show toast"</Button>}
+    } else {
+        view!{<Button on_click=dismiss>"Hide toast"</Button>}
+    }
+}}}
 ```
 
 

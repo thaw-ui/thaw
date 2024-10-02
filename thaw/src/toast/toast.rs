@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use std::time::Duration;
-use thaw_utils::class_list;
+use thaw_utils::{class_list, ArcOneCallback};
 
 #[component]
 pub fn Toast(
@@ -43,12 +43,19 @@ pub enum ToastIntent {
     Error,
 }
 
+#[derive(Debug, Clone, PartialEq)]
+pub enum ToastStatus {
+    Mounted,
+    Unmounted
+}
+
 #[derive(Clone)]
 pub struct ToastOptions {
     pub(crate) id: uuid::Uuid,
     pub(crate) position: Option<ToastPosition>,
     pub(crate) timeout: Option<Duration>,
     pub(crate) intent: Option<ToastIntent>,
+    pub(crate) on_status_change: Option<ArcOneCallback<ToastStatus>>
 }
 
 impl Default for ToastOptions {
@@ -58,6 +65,7 @@ impl Default for ToastOptions {
             position: None,
             timeout: None,
             intent: None,
+            on_status_change: None,
         }
     }
 }
@@ -84,6 +92,12 @@ impl ToastOptions {
     /// Intent.
     pub fn with_intent(mut self, intent: ToastIntent) -> Self {
         self.intent = Some(intent);
+        self
+    }
+
+    /// Status change callback.
+    pub fn with_on_status_change(mut self, on_status_change: impl Fn(ToastStatus) + Send + Sync + 'static) -> Self {
+        self.on_status_change= Some(on_status_change.into());
         self
     }
 }

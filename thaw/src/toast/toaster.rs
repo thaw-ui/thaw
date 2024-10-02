@@ -1,5 +1,5 @@
 use super::{ToastIntent, ToastOptions, ToastPosition, ToasterReceiver};
-use crate::{toast::ToasterMessage, ConfigInjection};
+use crate::{toast::ToasterMessage, ConfigInjection, ToastStatus};
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
@@ -51,10 +51,14 @@ pub fn Toaster(
                     if options.intent.is_none() {
                         options.intent = Some(intent);
                     }
-
                     let list = id_list(&options.position.unwrap_throw());
                     let id = options.id;
                     let is_show = owner.with(|| RwSignal::new(true));
+
+                    if let Some(on_status_change) = options.on_status_change.clone() {
+                        on_status_change(ToastStatus::Mounted)
+                    }
+
                     toasts.update_value(|map| {
                         map.insert(id, (SendWrapper::new(view), options, is_show));
                     });
@@ -66,7 +70,11 @@ pub fn Toaster(
                     });
                 }
                 ToasterMessage::Dismiss(toast_id) => {
-                    toast_show_list.with_value(|map| map.get(&toast_id).unwrap_throw().set(false));
+                    toast_show_list.with_value(|map| {
+                        if let Some(is_show) = map.get(&toast_id) {
+                            is_show.set(false)
+                        }
+                    });
                 }
             }
         }
@@ -238,6 +246,7 @@ fn ToasterContainer(
         timeout,
         position,
         intent,
+        on_status_change,
         ..
     } = options;
 
@@ -266,6 +275,9 @@ fn ToasterContainer(
                 f(id, position);
             }
         });
+        if let Some(on_status_change) = on_status_change.clone() {
+            on_status_change(ToastStatus::Unmounted);
+        }
     };
 
     view! {
