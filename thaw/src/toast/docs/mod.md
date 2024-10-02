@@ -169,11 +169,12 @@ view! {
 
 ### ToastOptions Props
 
-| Name          | Type                                    | Description                           |
-| ------------- | --------------------------------------- | ------------------------------------- |
-| with_position | `Fn(mut self, position: ToastPosition)` | The position the toast should render. |
-| with_timeout  | `Fn(mut self, timeout: Duration)`       | Auto dismiss timeout in milliseconds. |
-| with_intent   | `Fn(mut self, intent: ToastIntent)`     | The intent of the toast.              |
+| Name                  | Type                                                  | Description                           |
+| --------------------- | ----------------------------------------------------- | ------------------------------------- |
+| with_position         | `Fn(mut self, position: ToastPosition)`               | The position the toast should render. |
+| with_timeout          | `Fn(mut self, timeout: Duration)`                     | Auto dismiss timeout in milliseconds. |
+| with_intent           | `Fn(mut self, intent: ToastIntent)`                   | The intent of the toast.              |
+| with_on_status_change | `Fn(mut self, on_status_change: Fn(ToastStatus))`     | The intent of the toast.              |
 
 ### Toast & ToastFooter Props
 
