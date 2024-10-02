@@ -46,7 +46,7 @@ pub enum ToastIntent {
 #[derive(Debug, Clone, PartialEq)]
 pub enum ToastStatus {
     Mounted,
-    Unmounted
+    Unmounted,
 }
 
 #[derive(Clone)]
@@ -55,7 +55,7 @@ pub struct ToastOptions {
     pub(crate) position: Option<ToastPosition>,
     pub(crate) timeout: Option<Duration>,
     pub(crate) intent: Option<ToastIntent>,
-    pub(crate) on_status_change: Option<ArcOneCallback<ToastStatus>>
+    pub(crate) on_status_change: Option<ArcOneCallback<ToastStatus>>,
 }
 
 impl Default for ToastOptions {
@@ -96,8 +96,11 @@ impl ToastOptions {
     }
 
     /// Status change callback.
-    pub fn with_on_status_change(mut self, on_status_change: impl Fn(ToastStatus) + Send + Sync + 'static) -> Self {
-        self.on_status_change= Some(on_status_change.into());
+    pub fn with_on_status_change(
+        mut self,
+        on_status_change: impl Fn(ToastStatus) + Send + Sync + 'static,
+    ) -> Self {
+        self.on_status_change = Some(on_status_change.into());
         self
     }
 }
