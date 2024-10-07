@@ -113,7 +113,7 @@ pub fn OverlayDrawer(
                             }
                             node_ref=drawer_ref
                             role="dialog"
-                            aria-modal="true"
+                            aria-modal={if modal_type == DrawerModalType::Modal {"true"} else {"false"}}
                         >
                             {children()}
                         </div>
