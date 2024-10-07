@@ -102,6 +102,12 @@ let toaster = ToasterInjection::expect_context();
 let id = uuid::Uuid::new_v4();
 
 
+let mounted = RwSignal::new(false);
+
+let on_status_change = move |status| {
+    mounted.set(status == ToastStatus::Mounted);
+};
+
 let dispatch = move |_| {
     toaster.dispatch_toast(move || view! {
         <Toast>
@@ -113,7 +119,7 @@ let dispatch = move |_| {
                 </ToastBodySubtitle>
             </ToastBody>
         </Toast>
-     },ToastOptions::default().with_id(id));
+     },ToastOptions::default().with_id(id).with_on_status_change(on_status_change))
 };
 
 let dismiss = move |_| {
@@ -121,8 +127,45 @@ let dismiss = move |_| {
 };
 
 view! {
-    <Button on_click=dispatch>"Show toast"</Button>
-    <Button on_click=dismiss>"Hide toast"</Button>
+    {move || {if !mounted.get() {
+        view!{<Button on_click=dispatch>"Show toast"</Button>}
+    } else {
+        view!{<Button on_click=dismiss>"Hide toast"</Button>}
+    }
+}}}
+```
+
+### Dismiss All 
+
+```rust demo
+let toaster = ToasterInjection::expect_context();
+
+fn dispatch_toast(toaster: ToasterInjection) {
+    toaster.dispatch_toast(move || view! {
+        <Toast>
+            <ToastTitle>"Email sent"</ToastTitle>
+            <ToastBody>
+                "This is a toast body"
+                <ToastBodySubtitle slot>
+                    "Subtitle"
+                </ToastBodySubtitle>
+            </ToastBody>
+            <ToastFooter>
+                "Footer"
+            </ToastFooter>
+        </Toast>
+     }, ToastOptions::default());
+};
+
+let dismiss_all = move || {
+    toaster.dismiss_all();
+};
+
+view! {
+    <Space>
+        <Button on_click=move |_| dispatch_toast(toaster)>"Dispatch toast"</Button>
+        <Button on_click=move |_| dismiss_all()>"Dismiss all"</Button>
+    </Space>
 }
 ```
 
@@ -160,11 +203,12 @@ view! {
 
 ### ToastOptions Props
 
-| Name          | Type                                    | Description                           |
-| ------------- | --------------------------------------- | ------------------------------------- |
-| with_position | `Fn(mut self, position: ToastPosition)` | The position the toast should render. |
-| with_timeout  | `Fn(mut self, timeout: Duration)`       | Auto dismiss timeout in milliseconds. |
-| with_intent   | `Fn(mut self, intent: ToastIntent)`     | The intent of the toast.              |
+| Name                  | Type                                                  | Description                           |
+| --------------------- | ----------------------------------------------------- | ------------------------------------- |
+| with_position         | `Fn(mut self, position: ToastPosition)`               | The position the toast should render. |
+| with_timeout          | `Fn(mut self, timeout: Duration)`                     | Auto dismiss timeout in milliseconds. |
+| with_intent           | `Fn(mut self, intent: ToastIntent)`                   | The intent of the toast.              |
+| with_on_status_change | `Fn(mut self, on_status_change: Fn(ToastStatus))`     | The intent of the toast.              |
 
 ### Toast & ToastFooter Props
 
