@@ -1,7 +1,8 @@
 use leptos::{
     logging::debug_warn,
     prelude::{
-       Storage, SyncStorage, ArcReadSignal, ArcRwSignal, ArcWriteSignal, RwSignal, Get, GetUntracked, Update
+        ArcReadSignal, ArcRwSignal, ArcWriteSignal, Get, GetUntracked, RwSignal, Storage,
+        SyncStorage, Update,
     },
 };
 
