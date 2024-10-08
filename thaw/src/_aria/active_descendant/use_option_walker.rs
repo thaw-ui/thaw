@@ -1,4 +1,4 @@
-use leptos::{prelude::document, reactive_graph::owner::StoredValue};
+use leptos::prelude::{document, SetValue, StoredValue, WithValue};
 use send_wrapper::SendWrapper;
 use std::sync::Arc;
 use wasm_bindgen::{closure::Closure, JsCast, UnwrapThrowExt};

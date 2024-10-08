@@ -1,13 +1,12 @@
 use std::vec;
 
 use crate::components::SiteHeader;
-use leptos::prelude::*;
+use leptos::{prelude::*, tachys::view::any_view::AnyView};
 use leptos_meta::Style;
 use leptos_router::{
     components::Outlet,
     hooks::{use_location, use_navigate},
 };
-use tachys::view::any_view::AnyView;
 use thaw::*;
 
 #[component]
@@ -75,7 +74,7 @@ pub fn ComponentsPage() -> impl IntoView {
                         }
                     </NavDrawer>
                 </div>
-                <Layout content_style="display: flex" attr:class=("doc-content", true)>
+                <Layout content_style="display: flex" class="doc-content">
                     <Outlet/>
                 </Layout>
             </Layout>

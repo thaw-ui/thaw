@@ -1,4 +1,4 @@
-use leptos::reactive_graph::signal::{ReadSignal, RwSignal};
+use leptos::prelude::{ReadSignal, RwSignal};
 
 pub fn use_click_position() -> ReadSignal<Option<(i32, i32)>> {
     let mouse_position = RwSignal::new(None);

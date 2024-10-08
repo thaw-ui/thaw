@@ -1,9 +1,8 @@
 use leptos::{
     logging::debug_warn,
-    reactive_graph::{
-        owner::{Storage, SyncStorage},
-        signal::{ArcReadSignal, ArcRwSignal, ArcWriteSignal, RwSignal},
-        traits::{Get, GetUntracked, Update},
+    prelude::{
+        ArcReadSignal, ArcRwSignal, ArcWriteSignal, Get, GetUntracked, RwSignal, Storage,
+        SyncStorage, Update,
     },
 };
 

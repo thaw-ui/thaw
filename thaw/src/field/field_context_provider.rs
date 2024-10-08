@@ -38,7 +38,9 @@ impl FieldContextInjection {
 
         let map = self.0.clone();
         Owner::on_cleanup(move || {
-            map.update_value(|map| map.remove(key.unwrap()));
+            map.update_value(|map| {
+                map.remove(key.unwrap());
+            });
         });
     }
 

@@ -1,5 +1,5 @@
 use crate::pages::*;
-use leptos::{prelude::*, reactive_graph::wrappers::write::SignalSetter};
+use leptos::{prelude::*, reactive::wrappers::write::SignalSetter};
 use leptos_meta::provide_meta_context;
 use leptos_router::{
     components::{ParentRoute, Route, Router, Routes},

@@ -152,12 +152,15 @@ impl TagPickerInjection {
 
     /// value: (value, text, disabled)
     pub fn insert_option(&self, id: String, value: (String, String, MaybeSignal<bool>)) {
-        self.options
-            .update_value(|options| options.insert(id, value));
+        self.options.update_value(|options| {
+            options.insert(id, value);
+        });
     }
 
     pub fn remove_option(&self, id: &String) {
-        self.options.update_value(|options| options.remove(id));
+        self.options.update_value(|options| {
+            options.remove(id);
+        });
     }
 
     pub fn is_selected(&self, value: &String) -> bool {

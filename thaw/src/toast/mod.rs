@@ -55,11 +55,8 @@ impl ToasterInjection {
     }
 
     pub fn dismiss_all(&self) {
-        self.sender.with_value(|sender| {
-            sender
-                .send(ToasterMessage::DismissAll)
-                .unwrap_throw()
-        });
+        self.sender
+            .with_value(|sender| sender.send(ToasterMessage::DismissAll).unwrap_throw());
         self.trigger.with_value(|trigger| trigger.notify());
     }
 

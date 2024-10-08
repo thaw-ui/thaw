@@ -1,11 +1,7 @@
 #[cfg(not(feature = "nightly"))]
+use leptos::prelude::{Get, MaybeProp, Memo};
 use leptos::{
-    prelude::{MaybeProp, Memo},
-    reactive_graph::traits::Get,
-};
-use leptos::{
-    prelude::{Oco, RenderEffect, RwSignal},
-    reactive_graph::traits::{Update, With, WithUntracked},
+    prelude::{Oco, RenderEffect, RwSignal, Update, With, WithUntracked},
     tachys::renderer::{types, Rndr},
 };
 use std::collections::HashSet;

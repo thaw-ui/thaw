@@ -140,7 +140,7 @@ pub fn SiteHeader() -> impl IntoView {
                 }
             "
         </Style>
-        <LayoutHeader attr:class=("demo-header", true)>
+        <LayoutHeader class="demo-header">
             <Space on:click=move |_| {
                 navigate("/", Default::default());
             }>

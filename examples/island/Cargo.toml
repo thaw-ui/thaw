@@ -9,10 +9,10 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 axum = { version = "0.7", optional = true }
 console_error_panic_hook = "0.1"
-leptos = { version = "0.7.0-beta7", features = ["experimental-islands"] }
-leptos_axum = { version = "0.7.0-beta7", optional = true }
-leptos_meta = { version = "0.7.0-beta7" }
-leptos_router = { version = "0.7.0-beta7" }
+leptos = { version = "0.7.0-gamma2", features = ["experimental-islands"] }
+leptos_axum = { version = "0.7.0-gamma2", optional = true }
+leptos_meta = { version = "0.7.0-gamma2" }
+leptos_router = { version = "0.7.0-gamma2" }
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 tower = { version = "0.4", optional = true }
 tower-http = { version = "0.5", features = ["fs"], optional = true }

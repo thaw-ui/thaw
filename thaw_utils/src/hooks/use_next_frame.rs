@@ -3,10 +3,7 @@
 //     request_animation_frame_with_handle, StoredValue,
 // };
 
-use leptos::{
-    prelude::window,
-    reactive_graph::owner::{on_cleanup, StoredValue},
-};
+use leptos::prelude::{on_cleanup, window, SetValue, StoredValue, UpdateValue};
 use wasm_bindgen::{closure::Closure, JsCast, JsValue, UnwrapThrowExt};
 
 #[derive(Clone)]
