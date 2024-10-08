@@ -1,4 +1,4 @@
-use leptos::reactive_graph::wrappers::read::MaybeSignal;
+use leptos::prelude::{MaybeSignal, UpdateValue};
 
 pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
