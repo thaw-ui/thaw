@@ -22,6 +22,7 @@ pub fn TableHeader(
 #[component]
 pub fn TableHeaderCell(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] aside: bool,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     view! {
@@ -33,6 +34,16 @@ pub fn TableHeaderCell(
                     Either::Right(())
                 }}
             </button>
+            {if aside {
+                Either::Left(view! {
+                    <span class="thaw-table-header-cell__aside">
+                        <div class="thaw-table-resize-handle" role="separator" aria-hidden="true">
+                        </div>
+                    </span>
+                })
+            } else {
+                Either::Right(())
+            }}
         </th>
     }
 }
