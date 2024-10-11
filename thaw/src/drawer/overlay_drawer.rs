@@ -7,6 +7,7 @@ use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 #[component]
 pub fn OverlayDrawer(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] container_class: MaybeProp<String>,
     /// Controls the open state of the Drawer.
     #[prop(into)]
     open: Model<bool>,
@@ -60,7 +61,7 @@ pub fn OverlayDrawer(
         <Teleport immediate=open.signal()>
             <FocusTrap disabled=!close_on_esc active=open.signal() on_esc>
                 <div
-                    class=class_list!["thaw-config-provider thaw-overlay-drawer-container", class]
+                    class=class_list!["thaw-config-provider thaw-overlay-drawer-container", container_class]
                     data-thaw-id=config_provider.id()
                 >
                     {if modal_type == DrawerModalType::Modal {
@@ -99,7 +100,8 @@ pub fn OverlayDrawer(
                         <div
                             class=class_list![
                                 "thaw-overlay-drawer",
-                                move || format!("thaw-overlay-drawer--position-{}", position.get().as_str())
+                                move || format!("thaw-overlay-drawer--position-{}", position.get().as_str()),
+                                class
                             ]
 
                             style=move || {

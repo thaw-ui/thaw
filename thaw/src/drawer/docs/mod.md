@@ -174,6 +174,7 @@ view! {
 | Name | Type | Default | Desciption |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
+| container_class | `MaybeProp<String>` | `Default::default()` |  |
 | open | `Model<bool>` |  | Controls the open state of the Drawer. |
 | mask_closeable | `MaybeSignal<bool>` | `true` | Whether to emit hide event when click mask. |
 | close_on_esc | `bool` | `false` | Whether to close drawer on Esc is pressed. |
