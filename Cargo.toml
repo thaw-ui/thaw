@@ -10,6 +10,9 @@ members = [
 ]
 exclude = ["examples"]
 
+[workspace.package]
+rust-version = "1.79"
+
 [workspace.dependencies]
 thaw = { version = "0.4.0-beta3", path = "./thaw" }
 thaw_components = { version = "0.2.0-beta3", path = "./thaw_components" }
