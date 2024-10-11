@@ -74,7 +74,16 @@ pub fn TableCell(
 #[component]
 pub fn TableCellLayout(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] truncate: MaybeSignal<bool>,
     children: Children,
 ) -> impl IntoView {
-    view! { <div class=class_list!["thaw-table-cell-layout", class]>{children()}</div> }
+    view! {
+        <div class=class_list![
+            "thaw-table-cell-layout",
+            ("thaw-table-cell-layout--truncate", move || truncate.get()),
+            class
+        ]>
+            {children()}
+        </div>
+    }
 }

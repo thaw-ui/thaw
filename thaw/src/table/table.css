@@ -77,3 +77,9 @@
     align-items: center;
     gap: var(--spacingHorizontalS);
 }
+
+.thaw-table-cell-layout--truncate {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
