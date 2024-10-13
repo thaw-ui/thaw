@@ -45,7 +45,7 @@ view! {
     <Table>
         <TableHeader>
             <TableRow>
-                <TableHeaderCell aside=true>"Tag"</TableHeaderCell>
+                <TableHeaderCell resizable=true>"Tag"</TableHeaderCell>
                 <TableHeaderCell>"Count"</TableHeaderCell>
                 <TableHeaderCell>"Date"</TableHeaderCell>
             </TableRow>
