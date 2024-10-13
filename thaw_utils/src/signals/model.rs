@@ -1,6 +1,6 @@
 use leptos::{
-    Memo, ReadSignal, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSet, SignalUpdate,
-    SignalWith, SignalWithUntracked, WriteSignal,
+    Memo, ReadSignal, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSet, SignalSetter,
+    SignalUpdate, SignalWith, SignalWithUntracked, WriteSignal,
 };
 
 pub struct Model<T>
@@ -8,8 +8,8 @@ where
     T: 'static,
 {
     read: Signal<T>,
-    write: WriteSignal<T>,
-    on_write: Option<WriteSignal<T>>,
+    write: SignalSetter<T>,
+    on_write: Option<SignalSetter<T>>,
 }
 
 impl<T: Default> Default for Model<T> {
@@ -103,15 +103,20 @@ impl<T> SignalWithUntracked for Model<T> {
     }
 }
 
-impl<T> SignalUpdate for Model<T> {
+impl<T: Clone> SignalUpdate for Model<T> {
     type Value = T;
 
     fn update(&self, f: impl FnOnce(&mut Self::Value)) {
-        self.write.update(f);
+        let mut data = self.read.get();
+        f(&mut data);
+        self.write.set(data);
     }
 
     fn try_update<O>(&self, f: impl FnOnce(&mut Self::Value) -> O) -> Option<O> {
-        self.write.try_update(f)
+        let mut data = self.read.get();
+        let object = f(&mut data);
+        self.write.set(data);
+        Some(object)
     }
 }
 
@@ -126,6 +131,16 @@ impl<T> From<RwSignal<T>> for Model<T> {
         let (read, write) = rw_signal.split();
         Self {
             read: read.into(),
+            write: write.into(),
+            on_write: None,
+        }
+    }
+}
+
+impl<T> From<(Signal<T>, SignalSetter<T>)> for Model<T> {
+    fn from((read, write): (Signal<T>, SignalSetter<T>)) -> Self {
+        Self {
+            read,
             write,
             on_write: None,
         }
@@ -136,7 +151,7 @@ impl<T> From<(Signal<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Signal<T>, WriteSignal<T>)) -> Self {
         Self {
             read,
-            write,
+            write: write.into(),
             on_write: None,
         }
     }
@@ -146,7 +161,7 @@ impl<T> From<(ReadSignal<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (ReadSignal<T>, WriteSignal<T>)) -> Self {
         Self {
             read: read.into(),
-            write,
+            write: write.into(),
             on_write: None,
         }
     }
@@ -156,7 +171,7 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Memo<T>, WriteSignal<T>)) -> Self {
         Self {
             read: read.into(),
-            write,
+            write: write.into(),
             on_write: None,
         }
     }
@@ -165,7 +180,7 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
 impl<T: Default> From<(Option<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Option<T>, WriteSignal<T>)) -> Self {
         let mut model = Self::new(read.unwrap_or_default());
-        model.on_write = Some(write);
+        model.on_write = Some(write.into());
         model
     }
 }
