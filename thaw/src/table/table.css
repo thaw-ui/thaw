@@ -111,8 +111,18 @@
     gap: var(--spacingHorizontalS);
 }
 
-.thaw-table-cell-layout--truncate {
+.thaw-table-cell-layout--truncate .thaw-table-cell-layout__main {
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.thaw-table-cell-layout__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.thaw-table-cell-layout--truncate,
+.thaw-table-cell-layout--truncate .thaw-table-cell-layout__content {
+    overflow-x: hidden;
 }

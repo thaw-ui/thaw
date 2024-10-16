@@ -23,6 +23,8 @@ pub fn TableHeader(
 pub fn TableHeaderCell(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] resizable: bool,
+    #[prop(optional, into)] min_width: Option<f64>,
+    #[prop(optional, into)] max_width: Option<f64>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     let th_ref = NodeRef::<html::Th>::new();
@@ -32,21 +34,45 @@ pub fn TableHeaderCell(
 
     let on_mouse_down = move |e: ev::MouseEvent| {
         mouse_down_x.set(e.x());
-        if let Some(th_el) = th_ref.get_untracked() {
-            let th_width = th_el.get_bounding_client_rect().width();
-            mouse_down_th_width.set(th_width);
+        let Some(th_el) = th_ref.get_untracked() else {
+            return;
+        };
+        let Ok(Some(css)) = window().get_computed_style(&th_el) else{
+           return;
+        };
+        if let Ok(width) = css.get_property_value("width") {
+            let width = web_sys::js_sys::Number::parse_float(&width);
+            mouse_down_th_width.set(width);
         }
 
         let on_mouse_move = window_event_listener(ev::mousemove, move |e: ev::MouseEvent| {
             let mouse_x = e.x();
             let mut new_width = mouse_down_th_width.get_untracked()
                 + f64::from(mouse_x - mouse_down_x.get_untracked());
+
+            if let Some(max_width) = max_width {
+                if new_width > max_width {
+                    new_width = max_width;
+                }
+            }
+            if let Some(min_width) = min_width {
+                if new_width < min_width {
+                    new_width = min_width;
+                }
+            }
             if new_width < 0.0 {
                 new_width = 0.0;
             }
 
             if let Some(th_el) = th_ref.get_untracked() {
-                let _ = th_el.set_attribute("style", &format!("width: {new_width:.2}px"));
+                let mut style = format!("width: {new_width:.2}px");
+                if let Some(max_width) = max_width {
+                    style.push_str(&format!(";max-width: {max_width:.2}px"));
+                }
+                if let Some(min_width) = min_width {
+                    style.push_str(&format!(";min-width: {min_width:.2}px"));
+                }
+                let _ = th_el.set_attribute("style", &style);
             }
         });
         let on_mouse_up = window_event_listener(ev::mouseup, move |_| {
@@ -137,7 +163,9 @@ pub fn TableCellLayout(
             ("thaw-table-cell-layout--truncate", move || truncate.get()),
             class
         ]>
-            {children()}
+            <div class="thaw-table-cell-layout__content">
+                <span class="thaw-table-cell-layout__main">{children()}</span>
+            </div>
         </div>
     }
 }

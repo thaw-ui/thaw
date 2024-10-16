@@ -45,21 +45,21 @@ view! {
     <Table>
         <TableHeader>
             <TableRow>
-                <TableHeaderCell resizable=true>"Tag"</TableHeaderCell>
-                <TableHeaderCell>"Count"</TableHeaderCell>
+                <TableHeaderCell resizable=true min_width=100.0 max_width=300.0>"Tag"</TableHeaderCell>
+                <TableHeaderCell resizable=true>"Count"</TableHeaderCell>
                 <TableHeaderCell>"Date"</TableHeaderCell>
             </TableRow>
         </TableHeader>
         <TableBody>
             <TableRow>
                 <TableCell>
-                    <TableCellLayout>
-                        "div"
+                    <TableCellLayout truncate=true>
+                        "Renders content with overflow: hidden and text-overflow: ellipsis"
                     </TableCellLayout>
                 </TableCell>
                 <TableCell>
-                    <TableCellLayout>
-                        "2"
+                    <TableCellLayout truncate=true>
+                        "Renders content with overflow: hidden and text-overflow: ellipsis"
                     </TableCellLayout>
                 </TableCell>
                 <TableCell>
@@ -78,9 +78,27 @@ view! {
 }
 ```
 
-### Table & TableHeader & TableHeaderCell & TableBody & TableRow & TableCell & TableCellLayout Props
+### Table & TableHeader & TableBody & TableRow & TableCell Props
 
 | Name     | Type                | Default              | Description |
 | -------- | ------------------- | -------------------- | ----------- |
 | class    | `MaybeProp<String>` | `Default::default()` |             |
 | children | `Children`          |                      |             |
+
+### TableHeaderCell Props
+
+| Name      | Type                | Default              | Description                                                 |
+| --------- | ------------------- | -------------------- | ----------------------------------------------------------- |
+| class     | `MaybeProp<String>` | `Default::default()` |                                                             |
+| resizable | `bool`              | `false`              | Whethe the column width can be dragged.                     |
+| min_width | `Option<f64>`       | `None`               | Min width of the column. Only works when resizable is true. |
+| max_width | `Option<f64>`       | `None`               | Max width of the column. Only works when resizable is true. |
+| children  | `Children`          |                      |                                                             |
+
+### TableCellLayout Props
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| truncate | `MaybeSignal<bool>` | `false` | Renders content with overflow: hidden and text-overflow: ellipsis |
+| children | `Children` |  |  |
