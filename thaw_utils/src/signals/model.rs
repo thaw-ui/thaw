@@ -3,13 +3,55 @@ use leptos::{
     SignalUpdate, SignalWith, SignalWithUntracked, WriteSignal,
 };
 
+enum SetterVariant<T: 'static> {
+    Setter(SignalSetter<T>),
+    Writer(WriteSignal<T>),
+}
+
+impl<T> From<SignalSetter<T>> for SetterVariant<T> {
+    fn from(value: SignalSetter<T>) -> Self {
+        Self::Setter(value)
+    }
+}
+
+impl <T> From<WriteSignal<T>> for SetterVariant<T> {
+    fn from(value: WriteSignal<T>) -> Self {
+        Self::Writer(value)
+    }
+}
+
+impl<T: 'static> Copy for SetterVariant<T> {}
+impl<T: 'static> Clone for SetterVariant<T> {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<T: 'static> SignalSet for SetterVariant<T> {
+    type Value = T;
+
+    fn set(&self, value: Self::Value) {
+        match self {
+            SetterVariant::Setter(setter) => setter.set(value),
+            SetterVariant::Writer(writer) => writer.set(value),
+        }
+    }
+
+    fn try_set(&self, new_value: Self::Value) -> Option<Self::Value> {
+        match self {
+            SetterVariant::Setter(setter) => setter.try_set(new_value),
+            SetterVariant::Writer(writer) => writer.try_set(new_value),
+        }
+    }
+}
+
 pub struct Model<T>
 where
     T: 'static,
 {
     read: Signal<T>,
-    write: SignalSetter<T>,
-    on_write: Option<SignalSetter<T>>,
+    write: SetterVariant<T>,
+    on_write: Option<SetterVariant<T>>,
 }
 
 impl<T: Default> Default for Model<T> {
@@ -107,16 +149,26 @@ impl<T: Clone> SignalUpdate for Model<T> {
     type Value = T;
 
     fn update(&self, f: impl FnOnce(&mut Self::Value)) {
-        let mut data = self.read.get();
-        f(&mut data);
-        self.write.set(data);
+        match self.write {
+            SetterVariant::Setter(setter) => {
+                let mut data = self.read.get();
+                f(&mut data);
+                setter.set(data);
+            }
+            SetterVariant::Writer(write) => write.update(f),
+        }
     }
 
     fn try_update<O>(&self, f: impl FnOnce(&mut Self::Value) -> O) -> Option<O> {
-        let mut data = self.read.get();
-        let object = f(&mut data);
-        self.write.set(data);
-        Some(object)
+        match self.write {
+            SetterVariant::Setter(setter) => {
+                let mut data = self.read.get();
+                let object = f(&mut data);
+                setter.set(data);
+                Some(object)
+            }
+            SetterVariant::Writer(write) => write.try_update(f),
+        }
     }
 }
 
@@ -141,7 +193,7 @@ impl<T> From<(Signal<T>, SignalSetter<T>)> for Model<T> {
     fn from((read, write): (Signal<T>, SignalSetter<T>)) -> Self {
         Self {
             read,
-            write,
+            write: write.into(),
             on_write: None,
         }
     }
