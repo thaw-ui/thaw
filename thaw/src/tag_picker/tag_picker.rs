@@ -174,6 +174,9 @@ impl TagPickerInjection {
                 options.remove(index);
             } else {
                 options.push(value.clone());
+                if let Some(input_el) = self.input_ref.get_untracked() {
+                    input_el.set_value("");
+                }
             }
         });
         self.is_show_listbox.set(false);
