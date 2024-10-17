@@ -28,6 +28,7 @@ enum ToasterMessage {
 }
 
 impl ToasterInjection {
+    #[track_caller]
     pub fn expect_context() -> Self {
         expect_context()
     }
