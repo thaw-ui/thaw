@@ -6,7 +6,7 @@ members = [
     "thaw_macro",
     "thaw_utils",
     "demo",
-    "demo_markdown",
+    "demo_markdown", "thaw_tabster",
 ]
 exclude = ["examples"]
 

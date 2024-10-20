@@ -68,9 +68,11 @@ pub enum DropdownAction {
     Tab,
 }
 
-enum KeyboardKey {
+pub enum KeyboardKey {
+    ArrowLeft,
     ArrowDown,
     ArrowUp,
+    Backspace,
     Enter,
     Space,
     Escape,
@@ -84,8 +86,10 @@ enum KeyboardKey {
 impl PartialEq<String> for KeyboardKey {
     fn eq(&self, other: &String) -> bool {
         match self {
+            Self::ArrowLeft => other == "ArrowLeft",
             Self::ArrowDown => other == "ArrowDown",
             Self::ArrowUp => other == "ArrowUp",
+            Self::Backspace => other == "Backspace",
             Self::Enter => other == "Enter",
             Self::Space => other == "Space",
             Self::Escape => other == "Escape",

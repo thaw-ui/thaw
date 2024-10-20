@@ -1,6 +1,6 @@
 use super::TagPickerInjection;
 use crate::{TagGroup, TagSize};
-use leptos::prelude::*;
+use leptos::{html, prelude::*};
 
 #[component]
 pub fn TagPickerGroup(
@@ -23,4 +23,17 @@ pub fn TagPickerGroup(
             {children()}
         </TagGroup>
     }
+}
+
+#[derive(Clone, Copy)]
+pub(crate) struct TagPickerGroupInjection {
+    pub input_ref: NodeRef<html::Input>,
+}
+
+impl TagPickerGroupInjection {
+    pub fn expect_context() -> Self {
+        expect_context()
+    }
+
+    
 }

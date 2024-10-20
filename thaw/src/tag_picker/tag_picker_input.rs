@@ -1,5 +1,7 @@
 use super::{TagPickerControlInjection, TagPickerInjection};
-use leptos::prelude::*;
+use crate::combobox::utils::KeyboardKey;
+use leptos::{ev, prelude::*};
+use thaw_tabster::{use_focus_finders, FocusFinders};
 use thaw_utils::class_list;
 
 #[component]
@@ -38,6 +40,18 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
         }
     };
 
+    let FocusFinders {
+        find_last_focusable,
+        ..
+    } = use_focus_finders();
+
+    let on_key_down = move |e: ev::KeyboardEvent| {
+        let key = e.key();
+        if KeyboardKey::ArrowLeft == key || KeyboardKey::Backspace == key {
+            // find_last_focusable()
+        }
+    };
+
     view! {
         <input
             node_ref=input_ref
@@ -46,6 +60,7 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
             class=class_list!["thaw-tag-picker-input", class]
             on:blur=on_blur
             on:input=on_input
+            on:keydown=on_key_down
             prop:value=move || {
                 value_trigger.notify();
                 ""
