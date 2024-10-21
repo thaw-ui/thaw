@@ -23,6 +23,7 @@ pub fn TagPicker(
     } = tag_picker_control;
     let is_show_listbox = RwSignal::new(false);
     let trigger_ref = NodeRef::<html::Div>::new();
+    let tag_group_ref = NodeRef::<html::Div>::new();
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
     let listbox_hidden_callback = StoredValue::new(vec![]);
@@ -30,8 +31,10 @@ pub fn TagPicker(
     let (set_listbox, active_descendant_controller) =
         use_active_descendant(move |el| el.class_list().contains("thaw-tag-picker-option"));
 
-    let tag_picker_control_injection =
-        TagPickerControlInjection(active_descendant_controller.clone());
+    let tag_picker_control_injection = TagPickerControlInjection {
+        active_descendant_controller: active_descendant_controller.clone(),
+        tag_group_ref,
+    };
     let tag_picker_injection = TagPickerInjection {
         selected_options,
         input_ref,
@@ -128,7 +131,10 @@ pub struct TagPickerControl {
 }
 
 #[derive(Clone)]
-pub(crate) struct TagPickerControlInjection(pub ActiveDescendantController);
+pub(crate) struct TagPickerControlInjection {
+    pub active_descendant_controller: ActiveDescendantController,
+    pub tag_group_ref: NodeRef<html::Div>,
+}
 
 impl TagPickerControlInjection {
     pub fn expect_context() -> Self {

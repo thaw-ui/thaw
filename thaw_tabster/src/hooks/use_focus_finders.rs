@@ -3,7 +3,7 @@ use tabster::types::FindFirstProps;
 use web_sys::HtmlElement;
 
 pub struct FocusFinders {
-    pub find_last_focusable: Box<dyn FnMut(HtmlElement)>,
+    pub find_last_focusable: Box<dyn FnMut(HtmlElement) -> Option<HtmlElement>>,
 }
 
 pub fn use_focus_finders() -> FocusFinders {
@@ -12,7 +12,7 @@ pub fn use_focus_finders() -> FocusFinders {
     let find_last_focusable = move |container| {
         tabster
             .focusable
-            .find_last(FindFirstProps { container }, Default::default());
+            .find_last(FindFirstProps { container }, Default::default())
     };
 
     FocusFinders {

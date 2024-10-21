@@ -8,7 +8,8 @@ pub fn use_tabster() -> Tabster {
     let tabseter = create_tabster(
         window,
         TabsterCoreProps {
-            get_parent: todo!(),
+            get_parent: None,
+            auto_root: None,
         },
     );
     tabseter

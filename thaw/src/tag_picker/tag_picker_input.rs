@@ -9,8 +9,10 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
     let TagPickerInjection {
         input_ref, options, ..
     } = TagPickerInjection::expect_context();
-    let TagPickerControlInjection(active_descendant_controller) =
-        TagPickerControlInjection::expect_context();
+    let TagPickerControlInjection {
+        active_descendant_controller,
+        tag_group_ref,
+    } = TagPickerControlInjection::expect_context();
     let value_trigger = ArcTrigger::new();
     let on_blur = {
         let value_trigger = value_trigger.clone();
@@ -41,14 +43,15 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
     };
 
     let FocusFinders {
-        find_last_focusable,
+        mut find_last_focusable,
         ..
     } = use_focus_finders();
 
     let on_key_down = move |e: ev::KeyboardEvent| {
         let key = e.key();
         if KeyboardKey::ArrowLeft == key || KeyboardKey::Backspace == key {
-            // find_last_focusable()
+            let el = tag_group_ref.get_untracked().unwrap();
+            find_last_focusable((*el).clone());
         }
     };
 

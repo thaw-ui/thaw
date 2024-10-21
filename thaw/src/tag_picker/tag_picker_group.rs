@@ -1,6 +1,6 @@
-use super::TagPickerInjection;
+use super::{TagPickerControlInjection, TagPickerInjection};
 use crate::{TagGroup, TagSize};
-use leptos::{html, prelude::*};
+use leptos::prelude::*;
 
 #[component]
 pub fn TagPickerGroup(
@@ -8,6 +8,8 @@ pub fn TagPickerGroup(
     children: Children,
 ) -> impl IntoView {
     let tag_picker = TagPickerInjection::expect_context();
+    let TagPickerControlInjection { tag_group_ref, .. } =
+        TagPickerControlInjection::expect_context();
     let class = MaybeProp::derive(move || {
         Some(format!(
             "thaw-tag-picker-group {}",
@@ -19,21 +21,8 @@ pub fn TagPickerGroup(
     };
 
     view! {
-        <TagGroup attr:role="listbox" class size=TagSize::ExtraSmall dismissible=true on_dismiss>
+        <TagGroup attr:role="listbox" class size=TagSize::ExtraSmall dismissible=true on_dismiss node_ref=tag_group_ref>
             {children()}
         </TagGroup>
     }
-}
-
-#[derive(Clone, Copy)]
-pub(crate) struct TagPickerGroupInjection {
-    pub input_ref: NodeRef<html::Input>,
-}
-
-impl TagPickerGroupInjection {
-    pub fn expect_context() -> Self {
-        expect_context()
-    }
-
-    
 }

@@ -1,5 +1,5 @@
 use super::TagSize;
-use leptos::{context::Provider, prelude::*};
+use leptos::{context::Provider, html, prelude::*};
 use thaw_utils::{class_list, mount_style, ArcOneCallback};
 
 #[component]
@@ -14,12 +14,14 @@ pub fn TagGroup(
     /// A Tag can be dismissible.
     #[prop(optional, into)]
     dismissible: MaybeSignal<bool>,
+    #[prop(optional)] node_ref: Option<NodeRef<html::Div>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag-group", include_str!("./tag-group.css"));
+    let node_ref = node_ref.unwrap_or_else(|| NodeRef::new());
 
     view! {
-        <div class=class_list!["thaw-tag-group", class]>
+        <div class=class_list!["thaw-tag-group", class] node_ref=node_ref>
             <Provider value=TagGroupInjection {
                 size,
                 on_dismiss,
