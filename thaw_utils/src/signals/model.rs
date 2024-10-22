@@ -1,15 +1,57 @@
 use leptos::{
-    Memo, ReadSignal, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSet, SignalUpdate,
-    SignalWith, SignalWithUntracked, WriteSignal,
+    Memo, ReadSignal, RwSignal, Signal, SignalGet, SignalGetUntracked, SignalSet, SignalSetter,
+    SignalUpdate, SignalWith, SignalWithUntracked, WriteSignal,
 };
+
+enum SetterVariant<T: 'static> {
+    Setter(SignalSetter<T>),
+    Writer(WriteSignal<T>),
+}
+
+impl<T> From<SignalSetter<T>> for SetterVariant<T> {
+    fn from(value: SignalSetter<T>) -> Self {
+        Self::Setter(value)
+    }
+}
+
+impl <T> From<WriteSignal<T>> for SetterVariant<T> {
+    fn from(value: WriteSignal<T>) -> Self {
+        Self::Writer(value)
+    }
+}
+
+impl<T: 'static> Copy for SetterVariant<T> {}
+impl<T: 'static> Clone for SetterVariant<T> {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<T: 'static> SignalSet for SetterVariant<T> {
+    type Value = T;
+
+    fn set(&self, value: Self::Value) {
+        match self {
+            SetterVariant::Setter(setter) => setter.set(value),
+            SetterVariant::Writer(writer) => writer.set(value),
+        }
+    }
+
+    fn try_set(&self, new_value: Self::Value) -> Option<Self::Value> {
+        match self {
+            SetterVariant::Setter(setter) => setter.try_set(new_value),
+            SetterVariant::Writer(writer) => writer.try_set(new_value),
+        }
+    }
+}
 
 pub struct Model<T>
 where
     T: 'static,
 {
     read: Signal<T>,
-    write: WriteSignal<T>,
-    on_write: Option<WriteSignal<T>>,
+    write: SetterVariant<T>,
+    on_write: Option<SetterVariant<T>>,
 }
 
 impl<T: Default> Default for Model<T> {
@@ -103,15 +145,30 @@ impl<T> SignalWithUntracked for Model<T> {
     }
 }
 
-impl<T> SignalUpdate for Model<T> {
+impl<T: Clone> SignalUpdate for Model<T> {
     type Value = T;
 
     fn update(&self, f: impl FnOnce(&mut Self::Value)) {
-        self.write.update(f);
+        match self.write {
+            SetterVariant::Setter(setter) => {
+                let mut data = self.read.get();
+                f(&mut data);
+                setter.set(data);
+            }
+            SetterVariant::Writer(write) => write.update(f),
+        }
     }
 
     fn try_update<O>(&self, f: impl FnOnce(&mut Self::Value) -> O) -> Option<O> {
-        self.write.try_update(f)
+        match self.write {
+            SetterVariant::Setter(setter) => {
+                let mut data = self.read.get();
+                let object = f(&mut data);
+                setter.set(data);
+                Some(object)
+            }
+            SetterVariant::Writer(write) => write.try_update(f),
+        }
     }
 }
 
@@ -126,7 +183,17 @@ impl<T> From<RwSignal<T>> for Model<T> {
         let (read, write) = rw_signal.split();
         Self {
             read: read.into(),
-            write,
+            write: write.into(),
+            on_write: None,
+        }
+    }
+}
+
+impl<T> From<(Signal<T>, SignalSetter<T>)> for Model<T> {
+    fn from((read, write): (Signal<T>, SignalSetter<T>)) -> Self {
+        Self {
+            read,
+            write: write.into(),
             on_write: None,
         }
     }
@@ -136,7 +203,7 @@ impl<T> From<(Signal<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Signal<T>, WriteSignal<T>)) -> Self {
         Self {
             read,
-            write,
+            write: write.into(),
             on_write: None,
         }
     }
@@ -146,7 +213,7 @@ impl<T> From<(ReadSignal<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (ReadSignal<T>, WriteSignal<T>)) -> Self {
         Self {
             read: read.into(),
-            write,
+            write: write.into(),
             on_write: None,
         }
     }
@@ -156,7 +223,7 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Memo<T>, WriteSignal<T>)) -> Self {
         Self {
             read: read.into(),
-            write,
+            write: write.into(),
             on_write: None,
         }
     }
@@ -165,7 +232,7 @@ impl<T> From<(Memo<T>, WriteSignal<T>)> for Model<T> {
 impl<T: Default> From<(Option<T>, WriteSignal<T>)> for Model<T> {
     fn from((read, write): (Option<T>, WriteSignal<T>)) -> Self {
         let mut model = Self::new(read.unwrap_or_default());
-        model.on_write = Some(write);
+        model.on_write = Some(write.into());
         model
     }
 }
