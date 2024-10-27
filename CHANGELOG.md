@@ -1,3 +1,25 @@
+## [0.4.0-beta4](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta3...v0.4.0-beta4) (2024-10-28)
+
+### Features
+
+* `OverlayDrawer` adds modal_type prop.
+* `Field` adds required prop.
+* Adss `Label` component.
+* ToastOptions adds intent, dismiss and on_status_change.
+* `Table` resizable.
+* When the `Field` status is Error, the border of the input class component is displayed in red.
+
+### Bug Fixs
+
+* `OverlayDrawer`: only set aria-modal to true when modal.
+* `TagPicker` clears input when value is selected.
+
+### Breaking Changes
+
+* Change the any_view prop of dispatch_toast to children, closes [#267](https://github.com/thaw-ui/thaw/pull/267).
+* apply the OverlayDrawer class prop to thaw-overlay-drawer, closes [#278](https://github.com/thaw-ui/thaw/pull/278).
+* Update leptos to v0.7.0-rc0.
+
 ## [0.4.0-beta3](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta2...v0.4.0-beta3) (2024-09-13)
 
 ### Features
