@@ -1,7 +1,7 @@
 [build]
 target = "index.html"
 # public_url = "/thaw/"
-release = true
+# release = true
 # filehash = false
 
 [watch]
