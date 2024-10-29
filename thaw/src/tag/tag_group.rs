@@ -1,5 +1,6 @@
 use super::TagSize;
 use leptos::{context::Provider, html, prelude::*};
+use thaw_tabster::{use_arrow_navigation_group, Axis, UseArrowNavigationGroupOptions};
 use thaw_utils::{class_list, mount_style, ArcOneCallback};
 
 #[component]
@@ -19,9 +20,14 @@ pub fn TagGroup(
 ) -> impl IntoView {
     mount_style("tag-group", include_str!("./tag-group.css"));
     let node_ref = node_ref.unwrap_or_else(|| NodeRef::new());
-
+    let arrowNavigationProps = use_arrow_navigation_group(UseArrowNavigationGroupOptions {
+        circular: Some(true),
+        axis: Some(Axis::Both),
+        memorize_current: Some(true),
+        ..Default::default()
+    });
     view! {
-        <div class=class_list!["thaw-tag-group", class] node_ref=node_ref>
+        <div class=class_list!["thaw-tag-group", class] node_ref=node_ref data-tabster=arrowNavigationProps.1>
             <Provider value=TagGroupInjection {
                 size,
                 on_dismiss,

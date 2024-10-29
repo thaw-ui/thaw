@@ -7,12 +7,11 @@ pub struct FocusFinders {
 }
 
 pub fn use_focus_finders() -> FocusFinders {
-    let mut tabster = use_tabster();
+    let tabster = use_tabster();
 
     let find_last_focusable = move |container| {
-        tabster
-            .focusable
-            .find_last(FindFirstProps { container }, Default::default())
+        let mut focusable = tabster.focusable.borrow_mut();
+        focusable.find_last(FindFirstProps { container }, Default::default())
     };
 
     FocusFinders {
