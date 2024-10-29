@@ -162,6 +162,11 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     value: "/guide/server-sider-rendering",
                     label: "Server Sider Rendering",
                 },
+                NavItemOption {
+                    group: Some("Theme"),
+                    value: "/guide/customize-theme",
+                    label: "Customize Theme",
+                },
             ],
         },
         // NavGroupOption {
