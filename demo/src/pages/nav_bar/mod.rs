@@ -11,7 +11,7 @@ pub fn NavBarPage() -> impl IntoView {
         <div style="display: flex">
             <NavBarMdPage />
             <div>
-                <MobilePage path="/?path=/mobile/nav-bar"/>
+                <MobilePage path="/?path=/mobile/nav-bar" />
             </div>
         </div>
     }
@@ -33,7 +33,7 @@ pub fn NavBarDemoPage() -> impl IntoView {
                 on_click_right=on_click_right
             >
                 <NavBarRight slot>
-                     <Icon icon=icondata::AiCloseOutlined/>
+                    <Icon icon=icondata::AiCloseOutlined />
                 </NavBarRight>
             </NavBar>
             <div style="padding-top: 50px">{move || click_text.get()}</div>

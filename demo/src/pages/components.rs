@@ -57,12 +57,13 @@ pub fn ComponentsPage() -> impl IntoView {
             "
         </Style>
         <Layout position=LayoutPosition::Absolute>
-            <SiteHeader/>
+            <SiteHeader />
             <Layout has_sider=true position=LayoutPosition::Absolute attr:style="top: 64px;">
                 <div class="demo-components__sider">
                     <NavDrawer selected_value=select_name>
-                        {
-                            gen_nav_data().into_iter().map(|data| {
+                        {gen_nav_data()
+                            .into_iter()
+                            .map(|data| {
                                 let NavGroupOption { label, children } = data;
                                 view! {
                                     <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: inline-block">
@@ -70,12 +71,12 @@ pub fn ComponentsPage() -> impl IntoView {
                                     </Caption1Strong>
                                     {VecIntoView::into_view(children)}
                                 }
-                            }).collect_view()
-                        }
+                            })
+                            .collect_view()}
                     </NavDrawer>
                 </div>
                 <Layout content_style="display: flex" class="doc-content">
-                    <Outlet/>
+                    <Outlet />
                 </Layout>
             </Layout>
         </Layout>
@@ -114,21 +115,13 @@ impl VecIntoView for Vec<NavItemOption> {
                         break;
                     }
                     let NavItemOption { label, value, .. } = iter.next().unwrap();
-                    sub_views.push(view! {
-                        <NavSubItem value=value>
-                            {label}
-                        </NavSubItem>
-                    });
+                    sub_views.push(view! { <NavSubItem value=value>{label}</NavSubItem> });
                 }
                 views.push(
                     view! {
                         <NavCategory value=group>
-                            <NavCategoryItem slot>
-                                {group}
-                            </NavCategoryItem>
-                            <NavSubItem value=value>
-                                {label}
-                            </NavSubItem>
+                            <NavCategoryItem slot>{group}</NavCategoryItem>
+                            <NavSubItem value=value>{label}</NavSubItem>
                             {sub_views}
                         </NavCategory>
                     }
@@ -136,9 +129,7 @@ impl VecIntoView for Vec<NavItemOption> {
                 );
             } else {
                 views.push(
-                    view! {
-                        <NavItem value>{label}</NavItem>
-                    }
+                    view! { <NavItem value>{label}</NavItem> }
                     .into_any(),
                 );
             }

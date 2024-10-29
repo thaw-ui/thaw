@@ -40,12 +40,8 @@ pub fn Demo(
     let html = demo_code.text;
     let styles = use_context::<DemoStyle>().is_none().then(|| {
         view! {
-            <Style id="leptos-thaw-syntect-css">
-                {include_str!("./syntect-css.css")}
-            </Style>
-            <Style id="demo-demo">
-                {include_str!("./demo.css")}
-            </Style>
+            <Style id="leptos-thaw-syntect-css">{include_str!("./syntect-css.css")}</Style>
+            <Style id="demo-demo">{include_str!("./demo.css")}</Style>
         }
     });
     provide_context(DemoStyle);
@@ -53,60 +49,64 @@ pub fn Demo(
     view! {
         {styles}
         <div class="demo-demo" style=move || css_vars.get()>
-            {
-                if let Some(children) = children {
-                    view! {
-                        {
-                            if remove_scrollbar {
-                                Either::Left(view! {
+            {if let Some(children) = children {
+                view! {
+                    {if remove_scrollbar {
+                        Either::Left(view! { <div class="demo-demo__view">{children()}</div> })
+                    } else {
+                        Either::Right(
+                            view! {
+                                <Scrollbar>
                                     <div class="demo-demo__view">{children()}</div>
-                                })
-                            } else {
-                                Either::Right(view! {
-                                    <Scrollbar>
-                                        <div class="demo-demo__view">{children()}</div>
-                                    </Scrollbar>
-                                })
-                            }
-                        }
-                        <div class="demo-demo__toolbar" class=("demo-demo__toolbar--code", move || !is_show_code.get())>
-                            <Tooltip
-                                content=MaybeSignal::derive(move || if is_show_code.get() {
+                                </Scrollbar>
+                            },
+                        )
+                    }}
+                    <div
+                        class="demo-demo__toolbar"
+                        class=("demo-demo__toolbar--code", move || !is_show_code.get())
+                    >
+                        <Tooltip
+                            content=MaybeSignal::derive(move || {
+                                if is_show_code.get() {
                                     "Hide code".to_string()
                                 } else {
                                     "Show code".to_string()
-                                })
-                                appearance=TooltipAppearance::Inverted
-                            >
-                                <Button icon=MaybeProp::derive(move || if is_show_code.get() {
+                                }
+                            })
+                            appearance=TooltipAppearance::Inverted
+                        >
+                            <Button
+                                icon=MaybeProp::derive(move || {
+                                    if is_show_code.get() {
                                         Some(icondata::LuCode2)
                                     } else {
                                         Some(icondata::LuCode)
-                                    })
-                                    on:click=move |_| is_show_code.update(|show| *show = !*show)
-                                    appearance=ButtonAppearance::Transparent
-                                    size=ButtonSize::Small
-                                />
-                            </Tooltip>
-                        </div>
-                    }.into()
-                } else {
-                    None
+                                    }
+                                })
+                                on:click=move |_| is_show_code.update(|show| *show = !*show)
+                                appearance=ButtonAppearance::Transparent
+                                size=ButtonSize::Small
+                            />
+                        </Tooltip>
+                    </div>
                 }
-            }
+                    .into()
+            } else {
+                None
+            }}
             <Scrollbar>
-                <div class=move || code_class.get() style:display=move || (!is_show_code.get()).then_some("none").unwrap_or_default()>
-                    {
-                        if is_highlight {
-                            view! {
-                                <Code inner_html=html />
-                            }
-                        } else {
-                            view! {
-                                <Code text=html />
-                            }
-                        }
+                <div
+                    class=move || code_class.get()
+                    style:display=move || {
+                        (!is_show_code.get()).then_some("none").unwrap_or_default()
                     }
+                >
+                    {if is_highlight {
+                        view! { <Code inner_html=html /> }
+                    } else {
+                        view! { <Code text=html /> }
+                    }}
                 </div>
             </Scrollbar>
         </div>

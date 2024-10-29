@@ -36,11 +36,10 @@ pub fn SwitchVersion() -> impl IntoView {
 
     view! {
         <Combobox value=label selected_options=version placeholder="Switch version">
-            {
-                options.into_iter().map(|option| view! {
-                    <ComboboxOption value=option.1 text=option.0 />
-                }).collect_view()
-            }
+            {options
+                .into_iter()
+                .map(|option| view! { <ComboboxOption value=option.1 text=option.0 /> })
+                .collect_view()}
         </Combobox>
     }
 }

@@ -25,15 +25,16 @@ pub fn Home() -> impl IntoView {
             "
         </Style>
         <Layout position=LayoutPosition::Absolute>
-            <SiteHeader/>
-            <Layout
-                position=LayoutPosition::Absolute
-                attr:style="top: 64px"
-            >
+            <SiteHeader />
+            <Layout position=LayoutPosition::Absolute attr:style="top: 64px">
                 <div class="main">
                     <div>
-                        <h2 style="line-height: 64px; font-size: 56px; margin: 0 0 18px">"Thaw UI"</h2>
-                        <p style="line-height: 36px; font-size: 24px">"An easy to use leptos component library"</p>
+                        <h2 style="line-height: 64px; font-size: 56px; margin: 0 0 18px">
+                            "Thaw UI"
+                        </h2>
+                        <p style="line-height: 36px; font-size: 24px">
+                            "An easy to use leptos component library"
+                        </p>
                         <Space>
                             <Button
                                 appearance=ButtonAppearance::Primary
@@ -55,7 +56,7 @@ pub fn Home() -> impl IntoView {
                         </Space>
                     </div>
                     <div style="text-align: center">
-                        <img src="/logo.svg" style="width: 200px"/>
+                        <img src="/logo.svg" style="width: 200px" />
                     </div>
                 </div>
             </Layout>

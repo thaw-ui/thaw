@@ -144,7 +144,7 @@ pub fn SiteHeader() -> impl IntoView {
             <Space on:click=move |_| {
                 navigate("/", Default::default());
             }>
-                <img src="/logo.svg" style="width: 36px"/>
+                <img src="/logo.svg" style="width: 36px" />
                 <div class="demo-name">"Thaw UI"</div>
             </Space>
             <Space align=SpaceAlign::Center>
@@ -156,7 +156,11 @@ pub fn SiteHeader() -> impl IntoView {
                     on_select=on_search_select
                     comp_ref=auto_complete_ref
                 >
-                    <For each=move || search_options.get() key=|option| option.label.clone() let:option>
+                    <For
+                        each=move || search_options.get()
+                        key=|option| option.label.clone()
+                        let:option
+                    >
                         <AutoCompleteOption value=option.value>{option.label}</AutoCompleteOption>
                     </For>
                     <AutoCompletePrefix slot>
@@ -168,80 +172,90 @@ pub fn SiteHeader() -> impl IntoView {
                 </AutoComplete>
                 <Menu
                     position=MenuPosition::BottomEnd
-                    on_select=move |value : String| match value.as_str() {
+                    on_select=move |value: String| match value.as_str() {
                         "Dark" => change_theme(MouseEvent::new("click").unwrap()),
                         "Light" => change_theme(MouseEvent::new("click").unwrap()),
-                        "github" => { _ = window().open_with_url("http://github.com/thaw-ui/thaw"); },
-                        "discord" => { _ = window().open_with_url("https://discord.com/channels/1031524867910148188/1270735289437913108"); },
-                        _ => navigate_signal.get()(&value, Default::default())
-
+                        "github" => {
+                            _ = window().open_with_url("http://github.com/thaw-ui/thaw");
+                        }
+                        "discord" => {
+                            _ = window()
+                                .open_with_url(
+                                    "https://discord.com/channels/1031524867910148188/1270735289437913108",
+                                );
+                        }
+                        _ => navigate_signal.get()(&value, Default::default()),
                     }
                 >
                     <MenuTrigger slot class="demo-header__menu-mobile">
-                    <Button
+                        <Button
                             appearance=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
                             attr:style="font-size: 22px; padding: 0px 6px;"
                         />
                     </MenuTrigger>
                     <MenuItem value=theme_name>{theme_name}</MenuItem>
-                    <MenuItem icon=icondata::AiGithubOutlined value="github">"Github"</MenuItem>
-                    <MenuItem icon=icondata::BiDiscordAlt value="discord">"Discord"</MenuItem>
+                    <MenuItem icon=icondata::AiGithubOutlined value="github">
+                        "Github"
+                    </MenuItem>
+                    <MenuItem icon=icondata::BiDiscordAlt value="discord">
+                        "Discord"
+                    </MenuItem>
                     {
                         use crate::pages::{gen_nav_data, NavGroupOption, NavItemOption};
-                        gen_nav_data().into_iter().map(|data| {
-                            let NavGroupOption { label, children } = data;
-                            view! {
-                                <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: block">
-                                {label}
-                                </Caption1Strong>
-                                {
-                                    children.into_iter().map(|item| {
-                                        let NavItemOption { label, value, .. } = item;
-                                        view! {
-                                            <MenuItem value=value>{label}</MenuItem>
-                                        }
-                                    }).collect_view()
+                        gen_nav_data()
+                            .into_iter()
+                            .map(|data| {
+                                let NavGroupOption { label, children } = data;
+                                view! {
+                                    <Caption1Strong style="margin-inline-start: 10px; margin-top: 10px; display: block">
+                                        {label}
+                                    </Caption1Strong>
+                                    {children
+                                        .into_iter()
+                                        .map(|item| {
+                                            let NavItemOption { label, value, .. } = item;
+                                            view! { <MenuItem value=value>{label}</MenuItem> }
+                                        })
+                                        .collect_view()}
                                 }
-                            }
-                        }).collect_view()
+                            })
+                            .collect_view()
                     }
                 </Menu>
                 <Space class="demo-header__right-btn" align=SpaceAlign::Center>
-                    <SwitchVersion/>
+                    <SwitchVersion />
                     <Button
                         icon=Memo::new(move |_| {
-                            theme.with(|theme| {
-                                if theme.name == "light" {
-                                    icondata::BiMoonRegular
-                                } else {
-                                    icondata::BiSunRegular
-                                }
-                            })
+                            theme
+                                .with(|theme| {
+                                    if theme.name == "light" {
+                                        icondata::BiMoonRegular
+                                    } else {
+                                        icondata::BiSunRegular
+                                    }
+                                })
                         })
                         on_click=change_theme
                     >
                         {move || theme_name.get()}
                     </Button>
-                    <Button
-                        on_click=move |_| {
-                            let Some(dir) = dir else {
-                                return;
+                    <Button on_click=move |_| {
+                        let Some(dir) = dir else {
+                            return;
+                        };
+                        dir.update(move |dir| {
+                            *dir = match dir {
+                                ConfigDirection::Auto => ConfigDirection::Ltr,
+                                ConfigDirection::Ltr => ConfigDirection::Rtl,
+                                ConfigDirection::Rtl => ConfigDirection::Ltr,
                             };
-                            dir.update(move |dir| {
-                                *dir = match dir {
-                                    ConfigDirection::Auto => ConfigDirection::Ltr,
-                                    ConfigDirection::Ltr => ConfigDirection::Rtl,
-                                    ConfigDirection::Rtl => ConfigDirection::Ltr,
-                                };
-                            });
-                        }
-                    >
+                        });
+                    }>
                         {move || {
                             let Some(dir) = dir else {
                                 return None;
                             };
-
                             match dir.get() {
                                 ConfigDirection::Auto => Some("Auto"),
                                 ConfigDirection::Ltr => Some("LTR"),
@@ -252,7 +266,10 @@ pub fn SiteHeader() -> impl IntoView {
                     <Button
                         icon=icondata::BiDiscordAlt
                         on_click=move |_| {
-                            _ = window().open_with_url("https://discord.com/channels/1031524867910148188/1270735289437913108");
+                            _ = window()
+                                .open_with_url(
+                                    "https://discord.com/channels/1031524867910148188/1270735289437913108",
+                                );
                         }
                     />
 

@@ -9,9 +9,9 @@ use thaw::*;
 pub fn ToastPage() -> impl IntoView {
     view! {
         <div style="display: flex">
-           <ToastMdPage />
+            <ToastMdPage />
             <div>
-                <MobilePage path="/?path=/mobile/toast"/>
+                <MobilePage path="/?path=/mobile/toast" />
             </div>
         </div>
     }
