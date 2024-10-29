@@ -135,7 +135,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
                     <div class="demo-components__toc">
                         <Toc />
                     </div>
-                }
+                }.into_any()
             }
         });
     }
