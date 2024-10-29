@@ -14,14 +14,14 @@ thaw = { ..., features = ["hydrate"] }
 
 ### cargo-leptos
 
-if you use [cargo-leptos](https://github.com/leptos-rs/cargo-leptos), Remember to add thaw to your `Cargo.toml` file in the corresponding feature, e.g.
+If you use [cargo-leptos](https://github.com/leptos-rs/cargo-leptos), Remember to add thaw to your `Cargo.toml` file in the corresponding feature, e.g.
 
 ```toml
 [features]
 ...
 hydrate = [..., "thaw/hydrate"]
 ssr = [
-  ...
+  ...,
   "thaw/ssr",
 ]
 ```
