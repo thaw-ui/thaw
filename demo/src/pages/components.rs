@@ -115,14 +115,14 @@ impl VecIntoView for Vec<NavItemOption> {
                         break;
                     }
                     let NavItemOption { label, value, .. } = iter.next().unwrap();
-                    sub_views.push(view! { <NavSubItem value=value>{label}</NavSubItem> });
+                    sub_views.push(move || view! { <NavSubItem value=value>{label}</NavSubItem> });
                 }
                 views.push(
                     view! {
                         <NavCategory value=group>
                             <NavCategoryItem slot>{group}</NavCategoryItem>
                             <NavSubItem value=value>{label}</NavSubItem>
-                            {sub_views}
+                            {sub_views.into_iter().map(|v| v()).collect_view()}
                         </NavCategory>
                     }
                     .into_any(),
