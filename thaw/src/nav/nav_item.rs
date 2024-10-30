@@ -44,12 +44,29 @@ pub fn NavItem(
     };
 
     let selected = Memo::new(move |_| {
-        nav_drawer.selected_value.with(|selected_value| {
+        let selected = nav_drawer.selected_value.with(|selected_value| {
             value.with(|value| match selected_value {
                 OptionModelWithValue::T(v) => v == value,
                 OptionModelWithValue::Option(v) => v.as_ref() == Some(&value),
             })
-        })
+        });
+
+        if selected {
+            if let Some(nav_category) = nav_category {
+                let value = nav_category.value.get_untracked();
+                if nav_drawer
+                    .selected_category_value
+                    .with_untracked(|selected_category_value| match selected_category_value {
+                        OptionModelWithValue::T(v) => v != &value,
+                        OptionModelWithValue::Option(v) => v.as_ref() != Some(&value),
+                    })
+                {
+                    nav_drawer.selected_category_value.set(Some(value));
+                }
+            }
+        }
+
+        selected
     });
 
     if let Some(href) = href {
