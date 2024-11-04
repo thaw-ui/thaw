@@ -1,6 +1,6 @@
 use crate::Theme;
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::{class_list, mount_dynamic_style, mount_style};
+use thaw_utils::{class_list, mount_dynamic_style, mount_style, mount_style_provider};
 
 #[component]
 pub fn ConfigProvider(
@@ -13,6 +13,7 @@ pub fn ConfigProvider(
     dir: Option<RwSignal<ConfigDirection>>,
     children: Children,
 ) -> impl IntoView {
+    mount_style_provider();
     mount_style("config-provider", include_str!("./config-provider.css"));
 
     let theme = theme.unwrap_or_else(|| RwSignal::new(Theme::light()));

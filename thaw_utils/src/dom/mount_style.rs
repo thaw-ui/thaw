@@ -1,11 +1,56 @@
 use cfg_if::cfg_if;
 
+pub fn mount_style_provider() {
+    cfg_if! {
+        if #[cfg(feature = "ssr")] {
+            use leptos::context::{provide_context, use_context};
+            if use_context::<MountStyleInjection>().is_none() {
+                provide_context(MountStyleInjection::default());
+            }
+        }
+    }
+}
+
+cfg_if! {
+    if #[cfg(feature = "ssr")] {
+        use std::collections::HashSet;
+        use leptos::prelude::{StoredValue, expect_context, UpdateValue};
+
+        #[derive(Clone, Copy, Default)]
+        struct MountStyleInjection(StoredValue<HashSet<String>>);
+
+        impl MountStyleInjection {
+            fn expect_context() -> Self {
+                expect_context()
+            }
+
+            fn update(&self, id: &String) -> bool {
+                self.0
+                    .try_update_value(|set| {
+                        if set.contains(id) {
+                            false
+                        } else {
+                            set.insert(id.to_string());
+                            true
+                        }
+                    })
+                    .unwrap_or_default()
+            }
+        }
+    }
+}
+
 pub fn mount_style(id: &str, content: &'static str) {
     let id = format!("thaw-id-{id}");
     cfg_if! {
         if #[cfg(feature = "ssr")] {
             use leptos::view;
             use leptos_meta::Style;
+
+            let set = MountStyleInjection::expect_context();
+            if !set.update(&id) {
+                return;
+            }
 
             let _ = view! {
                 <Style id=id>
