@@ -2,7 +2,7 @@ use crate::ConfigInjection;
 use leptos::{ev, html, leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{add_event_listener, class_list, mount_style};
+use thaw_utils::{add_event_listener, class_list, mount_style, BoxCallback};
 
 #[slot]
 pub struct PopoverTrigger {
@@ -26,6 +26,8 @@ pub fn Popover(
     /// When not specified, the default style is used.
     #[prop(optional, into)]
     appearance: MaybeProp<PopoverAppearance>,
+    #[prop(optional, into)] on_open: Option<BoxCallback>,
+    #[prop(optional, into)] on_close: Option<BoxCallback>,
     children: Children,
 ) -> impl IntoView {
     mount_style("popover", include_str!("./popover.css"));
@@ -35,6 +37,26 @@ pub fn Popover(
     let target_ref = NodeRef::<html::Div>::new();
     let is_show_popover = RwSignal::new(false);
     let show_popover_handle = StoredValue::new(None::<TimeoutHandle>);
+
+    if on_open.is_some() || on_close.is_some() {
+        Effect::watch(
+            move || is_show_popover.get(),
+            move |is_shown, prev_is_shown, _| {
+                if prev_is_shown != Some(is_shown) {
+                    if *is_shown {
+                        if let Some(on_open) = &on_open {
+                            on_open();
+                        }
+                    } else {
+                        if let Some(on_close) = &on_close {
+                            on_close();
+                        }
+                    }
+                }
+            },
+            false,
+        );
+    }
 
     let on_mouse_enter = move |_| {
         if trigger_type != PopoverTriggerType::Hover {
