@@ -107,6 +107,10 @@
     font-weight: var(--fontWeightRegular);
 }
 
+.thaw-button--small.thaw-button--icon {
+    padding: 1px var(--spacingHorizontalS);
+}
+
 .thaw-button--large {
     min-width: 96px;
 

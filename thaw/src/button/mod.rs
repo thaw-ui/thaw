@@ -118,6 +118,7 @@ pub fn Button(
                 ("thaw-button--disabled", btn_disabled),
                 ("thaw-button--block", move || block.get()),
                 ("thaw-button--only-icon", only_icon),
+                ("thaw-button--icon", move || icon.with(|i| i.is_some())),
                 move || format!("thaw-button--{}", size.get().as_str()),
                 move || format!("thaw-button--{}", appearance.get().as_str()),
                 move || format!("thaw-button--{}", shape.get().as_str()),
