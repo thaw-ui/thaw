@@ -121,6 +121,10 @@
     font-weight: var(--fontWeightSemibold);
 }
 
+.thaw-button--large.thaw-button--icon {
+    padding: 7px var(--spacingHorizontalL);
+}
+
 .thaw-button--only-icon {
     max-width: 32px;
     min-width: 32px;
@@ -131,7 +135,7 @@
     margin-inline-end: var(--spacingHorizontalSNudge);
 }
 
-.thaw-button__icon {
+.thaw-icon.thaw-button__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -151,9 +155,10 @@
     min-width: 40px;
     padding: 7px;
 }
-.thaw-button--large.thaw-button--only-icon .thaw-button__icon {
+.thaw-button--large .thaw-button__icon {
     width: 24px;
     height: 24px;
+    font-size: 24px;
 }
 
 .thaw-button--disabled:hover:active,
