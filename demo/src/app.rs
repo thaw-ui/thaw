@@ -70,6 +70,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/button") view=ButtonMdPage />
                     <Route path=path!("/calendar") view=CalendarMdPage />
                     <Route path=path!("/card") view=CardMdPage />
+                    <Route path=path!("/card-header") view=CardHeaderMdPage />
                     <Route path=path!("/checkbox") view=CheckboxMdPage />
                     <Route path=path!("/color-picker") view=ColorPickerMdPage />
                     <Route path=path!("/combobox") view=ComboboxMdPage />
