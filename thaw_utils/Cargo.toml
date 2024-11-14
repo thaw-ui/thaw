@@ -15,7 +15,7 @@ rust-version.workspace = true
 [dependencies]
 leptos = { workspace = true }
 leptos_meta = { workspace = true, optional = true }
-web-sys = "0.3.70"
+web-sys = { version = "0.3.70", features = ["Element"] }
 wasm-bindgen = "0.2.95"
 cfg-if = "1.0.0"
 chrono = "0.4.38"
@@ -24,5 +24,5 @@ send_wrapper = "0.6"
 [features]
 csr = ["leptos/csr"]
 ssr = ["leptos/ssr", "leptos_meta/ssr"]
-hydrate = ["leptos/hydrate"]
+hydrate = ["leptos/hydrate", "dep:leptos_meta"]
 nightly = ["leptos/nightly"]
