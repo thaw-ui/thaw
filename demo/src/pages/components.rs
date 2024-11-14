@@ -218,9 +218,14 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Calendar",
                 },
                 NavItemOption {
-                    group: None,
+                    group: Some("Card"),
                     value: "/components/card",
                     label: "Card",
+                },
+                NavItemOption {
+                    group: Some("Card"),
+                    value: "/components/card-header",
+                    label: "CardHeader",
                 },
                 NavItemOption {
                     group: None,

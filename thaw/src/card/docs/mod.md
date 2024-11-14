@@ -11,9 +11,7 @@ view! {
                 <Caption1>"Description"</Caption1>
             </CardHeaderDescription>
             <CardHeaderAction slot>
-                <Button appearance=ButtonAppearance::Transparent>
-                    "..."
-                </Button>
+                <Button appearance=ButtonAppearance::Transparent icon=icondata::AiMoreOutlined />
             </CardHeaderAction>
         </CardHeader>
         <CardPreview>
@@ -34,26 +32,6 @@ view! {
 | class    | `MaybeProp<String>` | `Default::default()` |             |
 | children | `Children`          |                      |             |
 
-### CardHeader Props
-
-| Name                    | Type                                 | Default              | Description |
-| ----------------------- | ------------------------------------ | -------------------- | ----------- |
-| class                   | `MaybeProp<String>`                  | `Default::default()` |             |
-| card_header_description | slot `Option<CardHeaderDescription>` | `None`               |             |
-| card_header_action      | slot `Option<CardHeaderAction>`      | `None`               |             |
-| children                | `Children`                           |                      |             |
-
-### CardHeaderDescription Props
-
-| Name     | Type       | Default | Description |
-| -------- | ---------- | ------- | ----------- |
-| children | `Children` |         |             |
-
-### CardHeaderAction Props
-
-| Name     | Type       | Default | Description |
-| -------- | ---------- | ------- | ----------- |
-| children | `Children` |         |             |
 
 ### CardPreview Props
 

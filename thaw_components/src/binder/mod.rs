@@ -12,6 +12,7 @@ use leptos::{
     ev,
     html::{self, ElementType},
     leptos_dom::helpers::WindowListenerHandle,
+    logging,
     prelude::*,
 };
 use thaw_utils::{add_event_listener, get_scroll_parent_node, mount_style, EventListenerHandle};
@@ -128,7 +129,7 @@ where
                 "transform: translateX({left}px) translateY({top}px) {transform};"
             ));
         } else {
-            error!("Thaw-Binder: get_follower_placement_style return None");
+            logging::error!("Thaw-Binder: get_follower_placement_style return None");
         }
 
         content_style.set(style);

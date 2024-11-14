@@ -34,6 +34,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "ButtonMdPage" => "../../thaw/src/button/docs/mod.md",
         "CalendarMdPage" => "../../thaw/src/calendar/docs/mod.md",
         "CardMdPage" => "../../thaw/src/card/docs/mod.md",
+        "CardHeaderMdPage" => "../../thaw/src/card/docs/card-header.md",
         "CheckboxMdPage" => "../../thaw/src/checkbox/docs/mod.md",
         "ColorPickerMdPage" => "../../thaw/src/color_picker/docs/mod.md",
         "ComboboxMdPage" => "../../thaw/src/combobox/docs/mod.md",
