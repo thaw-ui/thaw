@@ -2,9 +2,7 @@ use cfg_if::cfg_if;
 
 #[cfg(any(feature = "ssr", feature = "hydrate"))]
 mod context {
-    use leptos::prelude::{
-        expect_context, provide_context, use_context, StoredValue, UpdateValue,
-    };
+    use leptos::prelude::{expect_context, provide_context, use_context, StoredValue, UpdateValue};
     use std::collections::HashSet;
 
     pub fn provide_mount_style_context() {
@@ -17,7 +15,7 @@ mod context {
     pub struct MountStyleContext {
         hash: StoredValue<HashSet<String>>,
         #[cfg(feature = "hydrate")]
-        styles: StoredValue<Vec<send_wrapper::SendWrapper<leptos::prelude::AnyView>>>,
+        styles: StoredValue<Vec<send_wrapper::SendWrapper<Box<dyn std::any::Any>>>>,
     }
 
     impl MountStyleContext {
@@ -52,16 +50,24 @@ mod context {
         }
 
         #[cfg(feature = "hydrate")]
-        fn insert_style(&self, style: leptos::prelude::AnyView) {
+        fn insert_style(&self, style_state: Box<dyn std::any::Any>) {
             self.styles.update_value(|styles| {
-                styles.push(send_wrapper::SendWrapper::new(style));
+                styles.push(send_wrapper::SendWrapper::new(style_state));
             });
         }
 
         #[cfg(feature = "hydrate")]
         pub fn hydrate_mount_style(id: &String) {
-            use leptos::{prelude::{IntoAny, Owner}, view};
+            use leptos::{
+                prelude::{document, Owner, RenderHtml},
+                tachys::{
+                    hydration::Cursor,
+                    view::{Position, PositionState},
+                },
+                view,
+            };
             use leptos_meta::Style;
+            use std::any::Any;
 
             let shared_context = Owner::current_shared_context();
             if shared_context
@@ -73,7 +79,12 @@ mod context {
                     let style = view! {
                         <Style></Style>
                     };
-                    context.insert_style(style.into_any());
+                    let state = style.hydrate::<true>(
+                        &Cursor::new(document().create_element("mount-style-marker").unwrap()),
+                        &PositionState::new(Position::NextChild),
+                    );
+                    let state = Box::new(state) as Box<dyn Any>;
+                    context.insert_style(state);
                 }
             }
         }
