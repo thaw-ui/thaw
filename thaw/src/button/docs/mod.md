@@ -134,6 +134,38 @@ view! {
 }
 ```
 
+### Loading
+
+```rust demo
+let loading = RwSignal::new(false);
+let on_click = move |_| {
+    loading.set(true);
+    set_timeout(
+        move || {
+            loading.set(false);
+        },
+        std::time::Duration::from_secs(5),
+    );
+};
+
+view! {
+    <Space>
+        <Button loading on_click icon=icondata::AiCloseOutlined>
+            "Start loading"
+        </Button>
+        <Button loading on_click>
+            "Start loading"
+        </Button>
+        <Button loading on_click size=ButtonSize::Small>
+            "Start loading"
+        </Button>
+        <Button loading on_click size=ButtonSize::Large>
+            "Start loading"
+        </Button>
+    </Space>
+}
+```
+
 ### Block
 
 ```rust demo
@@ -173,6 +205,7 @@ view! {
 | icon | `MaybeProp<icondata_core::Icon>` | `None` | The icon of the button. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the button is disabled. |
 | disabled_focusable | `MaybeSignal<bool>` | `false` | When set, allows the button to be focusable even when it has been disabled. |
+| loading | `MaybeSignal<bool>` | `false` | Whether the button shows the loading status. |
 | on_click | `Option<BoxOneCallback<ev::MouseEvent>>` | `None` | Listen for button click events. |
 | children | `Option<Children>` |  |  |
 

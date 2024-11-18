@@ -110,6 +110,7 @@
     font-weight: var(--fontWeightRegular);
 }
 
+.thaw-button--small.thaw-button--loading,
 .thaw-button--small.thaw-button--icon {
     padding: 1px var(--spacingHorizontalS);
 }
@@ -124,6 +125,7 @@
     font-weight: var(--fontWeightSemibold);
 }
 
+.thaw-button--large.thaw-button--loading,
 .thaw-button--large.thaw-button--icon {
     padding: 7px var(--spacingHorizontalL);
 }
@@ -162,6 +164,10 @@
     width: 24px;
     height: 24px;
     font-size: 24px;
+}
+
+.thaw-button--loading:hover {
+    cursor: wait;
 }
 
 .thaw-button--disabled:hover:active,

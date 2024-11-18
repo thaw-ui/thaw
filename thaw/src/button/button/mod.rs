@@ -2,8 +2,12 @@ mod types;
 
 pub use types::*;
 
-use crate::icon::Icon;
-use leptos::{either::Either, ev, prelude::*};
+use crate::{Icon, Spinner};
+use leptos::{
+    either::{Either, EitherOf3},
+    ev,
+    prelude::*,
+};
 use thaw_utils::{class_list, mount_style, BoxOneCallback};
 
 //TODO loading prop
@@ -36,6 +40,9 @@ pub fn Button(
     /// When set, allows the button to be focusable even when it has been disabled.
     #[prop(optional, into)]
     disabled_focusable: MaybeSignal<bool>,
+    /// Whether the button shows the loading status.
+    #[prop(optional, into)]
+    loading: MaybeSignal<bool>,
     #[prop(optional, into)] on_click: Option<BoxOneCallback<ev::MouseEvent>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
@@ -44,9 +51,19 @@ pub fn Button(
     let none_children = children.is_none();
     let only_icon = Memo::new(move |_| icon.with(|i| i.is_some()) && none_children);
     let btn_disabled = Memo::new(move |_| disabled.get() || disabled_focusable.get());
+    let aria_disabled = move || {
+        if loading.get() || disabled_focusable.get() {
+            return Some("true");
+        } else {
+            return None;
+        }
+    };
 
     let on_click = move |e| {
         if btn_disabled.get_untracked() {
+            return;
+        }
+        if loading.get_untracked() {
             return;
         }
 
@@ -64,6 +81,7 @@ pub fn Button(
                 ("thaw-button--block", move || block.get()),
                 ("thaw-button--only-icon", only_icon),
                 ("thaw-button--icon", move || icon.with(|i| i.is_some())),
+                ("thaw-button--loading", move || loading.get()),
                 move || format!("thaw-button--{}", size.get().as_str()),
                 move || format!("thaw-button--{}", appearance.get().as_str()),
                 move || format!("thaw-button--{}", shape.get().as_str()),
@@ -71,15 +89,20 @@ pub fn Button(
             ]
             type=move || button_type.get().map(|t| t.as_str())
             disabled=move || disabled.get().then_some("")
-            aria-disabled=move || disabled_focusable.get().then_some("true")
+            aria-disabled=aria_disabled
             on:click=on_click
         >
             {move || {
-                let icon = icon.get();
-                if let Some(icon) = icon {
-                    Either::Left(view! { <Icon icon=icon class="thaw-button__icon" /> })
+                if loading.get() {
+                    EitherOf3::A(view! {
+                        <span class="thaw-button__icon">
+                            <Spinner size=MaybeSignal::derive(move || size.get().into())/>
+                        </span>
+                    })
+                } else if let Some(icon) = icon.get() {
+                    EitherOf3::B(view! { <Icon icon=icon class="thaw-button__icon" /> })
                 } else {
-                    Either::Right(())
+                    EitherOf3::C(())
                 }
             }}
             {if let Some(children) = children {

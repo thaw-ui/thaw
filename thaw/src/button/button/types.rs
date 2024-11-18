@@ -1,3 +1,5 @@
+use crate::SpinnerSize;
+
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonAppearance {
     /// Gives emphasis to the button in such a way that it indicates a secondary action.
@@ -40,7 +42,7 @@ impl ButtonShape {
     }
 }
 
-#[derive(Default, PartialEq, Clone)]
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub enum ButtonSize {
     Small,
     #[default]
@@ -54,6 +56,16 @@ impl ButtonSize {
             ButtonSize::Small => "small",
             ButtonSize::Medium => "medium",
             ButtonSize::Large => "large",
+        }
+    }
+}
+
+impl From<ButtonSize> for SpinnerSize {
+    fn from(value: ButtonSize) -> Self {
+        match value {
+            ButtonSize::Small => Self::Tiny,
+            ButtonSize::Medium => Self::Tiny,
+            ButtonSize::Large => Self::ExtraSmall,
         }
     }
 }
