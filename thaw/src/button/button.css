@@ -4,6 +4,7 @@
     justify-content: center;
     min-width: 96px;
     box-sizing: border-box;
+    vertical-align: middle;
 
     padding: 5px var(--spacingHorizontalM);
 
@@ -17,6 +18,8 @@
 
     border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
     border-radius: var(--borderRadiusMedium);
+    text-decoration-line: none;
+    overflow: hidden;
 
     transition-duration: var(--durationFaster);
     transition-property: background, border, color;
