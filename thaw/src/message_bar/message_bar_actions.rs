@@ -1,15 +1,18 @@
 use leptos::prelude::*;
+use thaw_components::OptionComp;
 
 #[component]
 pub fn MessageBarActions(
-    message_bar_container_action: MessageBarContainerAction,
+    #[prop(optional)] message_bar_container_action: Option<MessageBarContainerAction>,
     children: Children,
 ) -> impl IntoView {
     view! {
         <div class="thaw-message-bar-actions">{children()}</div>
-        <div class="tha-message-bar-actions__container-action">
-            {(message_bar_container_action.children)()}
-        </div>
+        <OptionComp value=message_bar_container_action.map(|a| a.children) let:children>
+            <div class="tha-message-bar-actions__container-action">
+                {children()}
+            </div>
+        </OptionComp>
     }
 }
 

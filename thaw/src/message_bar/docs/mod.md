@@ -11,9 +11,11 @@ view! {
             <Button size=ButtonSize::Small>"Action"</Button>
             <Button size=ButtonSize::Small>"Action"</Button>
             <MessageBarContainerAction slot>
-                <Button size=ButtonSize::Small appearance=ButtonAppearance::Transparent>
-                    "X"
-                </Button>
+                <Button
+                    size=ButtonSize::Small
+                    appearance=ButtonAppearance::Transparent
+                    icon=icondata::AiCloseOutlined
+                />
             </MessageBarContainerAction>
         </MessageBarActions>
     </MessageBar>
@@ -90,10 +92,10 @@ view! {
 
 ### MessageBarActions Props
 
-| Name                         | Type                             | Default | Description |
-| ---------------------------- | -------------------------------- | ------- | ----------- |
-| message_bar_container_action | slot `MessageBarContainerAction` |         |             |
-| children                     | `Children`                       |         |             |
+| Name                         | Type                                     | Default | Description |
+| ---------------------------- | ---------------------------------------- | ------- | ----------- |
+| message_bar_container_action | slot `Option<MessageBarContainerAction>` | `None`  |             |
+| children                     | `Children`                               |         |             |
 
 ### MessageBarContainerAction Props
 
