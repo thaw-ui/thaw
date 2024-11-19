@@ -1,5 +1,9 @@
 # Button
 
+A button triggers an action or event when activated.
+
+### Default
+
 ```rust demo
 view! {
     <Space>
@@ -200,7 +204,7 @@ view! {
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | appearance | `MaybeSignal<ButtonAppearance>` | `Default::default()` | A button can have its content and borders styled for greater emphasis or to be subtle. |
 | shape | `MaybeSignal<ButtonShape>` | `Default::default()` | A button can be rounded, circular, or square. |
-| size | `MaybeSignal<ButtonSize>` | `ButtonSize::Medium` | A button supports different sizes. |
+| size | `Option<MaybeSignal<ButtonSize>>` | `ButtonSize::Medium` | A button supports different sizes. |
 | block | `MaybeSignal<bool>` | `false` | Whether the button is displayed as block. |
 | icon | `MaybeProp<icondata_core::Icon>` | `None` | The icon of the button. |
 | disabled | `MaybeSignal<bool>` | `false` | Whether the button is disabled. |

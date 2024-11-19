@@ -1,5 +1,9 @@
 # MessageBar
 
+Communicates important information about the state of the entire application or surface. For example, the status of a page, panel, dialog or card. The information shouldn't require someone to take immediate action, but should persist until the user performs one of the required actions.
+
+### Default
+
 ```rust demo
 view! {
     <MessageBar>
@@ -8,11 +12,10 @@ view! {
             "Message providing information to the user with actionable insights."
         </MessageBarBody>
         <MessageBarActions>
-            <Button size=ButtonSize::Small>"Action"</Button>
-            <Button size=ButtonSize::Small>"Action"</Button>
+            <Button>"Action"</Button>
+            <Button>"Action"</Button>
             <MessageBarContainerAction slot>
                 <Button
-                    size=ButtonSize::Small
                     appearance=ButtonAppearance::Transparent
                     icon=icondata::AiCloseOutlined
                 />
@@ -61,9 +64,19 @@ view! {
 view! {
     <MessageBar layout=MessageBarLayout::Multiline>
         <MessageBarBody>
-          <h3 style="margin: 0">"Descriptive title"</h3>
-          <p>"Message providing information to the user with actionable insights."</p>
+            <MessageBarTitle>"Descriptive title"</MessageBarTitle>
+            "Message providing information to the user with actionable insights."
         </MessageBarBody>
+        <MessageBarActions>
+            <Button>"Action"</Button>
+            <Button>"Action"</Button>
+            <MessageBarContainerAction slot>
+                <Button
+                    appearance=ButtonAppearance::Transparent
+                    icon=icondata::AiCloseOutlined
+                />
+            </MessageBarContainerAction>
+        </MessageBarActions>
     </MessageBar>
 }
 ```
@@ -73,7 +86,7 @@ view! {
 | Name     | Type                            | Default                        | Description                           |
 | -------- | ------------------------------- | ------------------------------ | ------------------------------------- |
 | class    | `MaybeProp<String>,`            | `Default::default()`           |                                       |
-| layout   | `MaybeSignal<MessageBarLayout>` | `MessageBarLayout::Singleline` |                                       |
+| layout   | `MessageBarLayout`              | `MessageBarLayout::Singleline` |                                       |
 | intent   | `MaybeSignal<MessageBarIntent>` | `MessageBarIntent::Info`       | Default designs announcement presets. |
 | children | `Children`                      |                                |                                       |
 
