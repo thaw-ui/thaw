@@ -56,7 +56,7 @@ pub fn Input(
     readonly: Signal<bool>,
     /// Input size width.
     #[prop(optional, into)]
-    size: Signal<Option<i32>>,
+    input_size: Signal<Option<i32>>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
@@ -193,7 +193,7 @@ pub fn Input(
                 class="thaw-input__input"
                 disabled=disabled
                 readonly=readonly
-                size=size
+                size=input_size
                 placeholder=move || placeholder.get()
                 node_ref=input_ref
             />
