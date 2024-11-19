@@ -1,4 +1,5 @@
 use crate::SpinnerSize;
+use leptos::prelude::use_context;
 
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonAppearance {
@@ -67,6 +68,15 @@ impl From<ButtonSize> for SpinnerSize {
             ButtonSize::Medium => Self::Tiny,
             ButtonSize::Large => Self::ExtraSmall,
         }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct ButtonSizeInjection(pub ButtonSize);
+
+impl ButtonSizeInjection {
+    pub fn use_context() -> Option<Self> {
+        use_context()
     }
 }
 

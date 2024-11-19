@@ -1,10 +1,14 @@
-use leptos::{either::EitherOf4, prelude::*};
+use leptos::{context::Provider, either::EitherOf4, prelude::*};
 use thaw_utils::{class_list, mount_style, StoredMaybeSignal};
 
+/// Communicates important information about the state of the entire application or surface.
+/// For example, the status of a page, panel, dialog or card.
+/// The information shouldn't require someone to take immediate action,
+/// but should persist until the user performs one of the required actions.
 #[component]
 pub fn MessageBar(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] layout: MaybeSignal<MessageBarLayout>,
+    #[prop(optional, into)] layout: MessageBarLayout,
     /// Default designs announcement presets.
     #[prop(optional, into)]
     intent: MaybeSignal<MessageBarIntent>,
@@ -18,7 +22,7 @@ pub fn MessageBar(
             class=class_list![
                 "thaw-message-bar",
                 move || format!("thaw-message-bar--{}", intent.get().as_str()),
-                move || format!("thaw-message-bar--{}", layout.get().as_str()),
+                move || format!("thaw-message-bar--{}", layout.as_str()),
                 class
             ]
             role="group"
@@ -100,8 +104,19 @@ pub fn MessageBar(
                 }}
 
             </div>
-            {children()}
+            <Provider value=MessageBarInjection { layout }>{children()}</Provider>
         </div>
+    }
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct MessageBarInjection {
+    pub layout: MessageBarLayout,
+}
+
+impl MessageBarInjection {
+    pub fn expect_context() -> Self {
+        expect_context()
     }
 }
 
@@ -125,7 +140,7 @@ impl MessageBarIntent {
     }
 }
 
-#[derive(Default, Clone)]
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
 pub enum MessageBarLayout {
     #[default]
     Singleline,

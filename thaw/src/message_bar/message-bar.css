@@ -88,7 +88,16 @@
     column-gap: var(--spacingHorizontalM);
     padding-right: var(--spacingHorizontalM);
 }
-.tha-message-bar-actions__container-action {
+
+.thaw-message-bar-actions__container-action {
     grid-area: actions;
     padding-right: var(--spacingHorizontalM);
+}
+
+.thaw-message-bar--multiline > .thaw-message-bar-actions {
+    padding-right: var(--spacingVerticalM);
+    margin-bottom: var(--spacingVerticalS);
+    margin-top: var(--spacingVerticalMNudge);
+    justify-content: end;
+    margin-right: 0;
 }

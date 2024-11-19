@@ -10,8 +10,6 @@ use leptos::{
 };
 use thaw_utils::{class_list, mount_style, BoxOneCallback};
 
-//TODO loading prop
-
 /// A button triggers an action or event when activated.
 #[component]
 pub fn Button(
@@ -24,7 +22,7 @@ pub fn Button(
     shape: MaybeSignal<ButtonShape>,
     /// A button supports different sizes.
     #[prop(optional, into)]
-    size: MaybeSignal<ButtonSize>,
+    size: Option<MaybeSignal<ButtonSize>>,
     /// The default behavior of the button.
     #[prop(optional, into)]
     button_type: MaybeProp<ButtonType>,
@@ -49,6 +47,8 @@ pub fn Button(
     mount_style("button", include_str!("./button.css"));
 
     let none_children = children.is_none();
+    let size_injection = ButtonSizeInjection::use_context().map(|s| s.0);
+    let size = size.unwrap_or_else(|| MaybeSignal::Static(size_injection.unwrap_or_default()));
     let only_icon = Memo::new(move |_| icon.with(|i| i.is_some()) && none_children);
     let btn_disabled = Memo::new(move |_| disabled.get() || disabled_focusable.get());
     let aria_disabled = move || {
