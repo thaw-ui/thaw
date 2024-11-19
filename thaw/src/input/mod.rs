@@ -51,6 +51,12 @@ pub fn Input(
     /// Whether the input is disabled.
     #[prop(optional, into)]
     disabled: Signal<bool>,
+    /// Whether the input is readonly.
+    #[prop(optional, into)]
+    readonly: Signal<bool>,
+    /// Input size width.
+    #[prop(optional, into)]
+    size: Signal<Option<i32>>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
@@ -185,7 +191,9 @@ pub fn Input(
                 on:focus=on_internal_focus
                 on:blur=on_internal_blur
                 class="thaw-input__input"
-                disabled=move || disabled.get()
+                disabled=disabled
+                readonly=readonly
+                size=size
                 placeholder=move || placeholder.get()
                 node_ref=input_ref
             />
@@ -281,10 +289,7 @@ impl InputRule {
         })
     }
 
-    pub fn required_with_message(
-        required: Signal<bool>,
-        message: Signal<String>,
-    ) -> Self {
+    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_empty() {
                 Err(FieldValidationState::Error(message.get_untracked()))
