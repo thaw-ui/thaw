@@ -219,5 +219,5 @@ view! {
 | Name       | Type                | Default              | Description                              |
 | ---------- | ------------------- | -------------------- | ---------------------------------------- |
 | class      | `MaybeProp<String>` | `Default::default()` |                                          |
-| scrollable | `Signal<bool>`      | `true`               | Allows the drawer body to be scrollable. |
+| scrollable | `bool`              | `true`               | Allows the drawer body to be scrollable. |
 | children   | `Children`          |                      |                                          |
