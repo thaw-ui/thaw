@@ -216,7 +216,8 @@ view! {
 
 ### DrawerBody Props
 
-| Name     | Type                | Default              | Description |
-| -------- | ------------------- | -------------------- | ----------- |
-| class    | `MaybeProp<String>` | `Default::default()` |             |
-| children | `Children`          |                      |             |
+| Name       | Type                | Default              | Description                              |
+| ---------- | ------------------- | -------------------- | ---------------------------------------- |
+| class      | `MaybeProp<String>` | `Default::default()` |                                          |
+| scrollable | `bool`              | `true`               | Allows the drawer body to be scrollable. |
+| children   | `Children`          |                      |                                          |
