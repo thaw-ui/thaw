@@ -172,7 +172,7 @@ view! {
 | Name     | Type                             | Default              | Description                        |
 | -------- | -------------------------------- | -------------------- | ---------------------------------- |
 | class    | `MaybeProp<String>`              | `Default::default()` |                                    |
-| value    | `MaybeSignal<String>`            | `Default::default()` | The value of the menu item.        |
+| value    | `Signal<String>`                 | `Default::default()` | The value of the menu item.        |
 | icon     | `MaybeProp<icondata_core::Icon>` | `None`               | The icon of the menu item.         |
-| disabled | `MaybeSignal<bool>`              | `false`              | Whether the menu item is disabled. |
+| disabled | `Signal<bool>`                   | `false`              | Whether the menu item is disabled. |
 | children | `Children`                       |                      |                                    |

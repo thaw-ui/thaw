@@ -37,7 +37,7 @@ view! {
 | Name     | Type                | Default              | Description                               |
 | -------- | ------------------- | -------------------- | ----------------------------------------- |
 | class    | `MaybeProp<String>` | `Default::default()` |                                           |
-| current  | `MaybeSignal<bool>` | `false`              | Defines current sate of BreadcrumbButton. |
+| current  | `Signal<bool>`      | `false`              | Defines current sate of BreadcrumbButton. |
 | children | `Children`          |                      |                                           |
 
 ### BreadcrumbDivider Props

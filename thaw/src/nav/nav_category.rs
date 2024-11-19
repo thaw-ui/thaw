@@ -2,16 +2,15 @@ use super::NavDrawerInjection;
 use crate::Icon;
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use thaw_components::CSSTransition;
-use thaw_utils::{class_list, StoredMaybeSignal};
+use thaw_utils::class_list;
 
 #[component]
 pub fn NavCategory(
-    #[prop(into)] value: MaybeSignal<String>,
+    #[prop(into)] value: Signal<String>,
     children: Children,
     nav_category_item: NavCategoryItem,
 ) -> impl IntoView {
     let nav_drawer = NavDrawerInjection::expect_context();
-    let value: StoredMaybeSignal<_> = value.into();
     let group_ref = NodeRef::<html::Div>::new();
     let is_show_group = RwSignal::new(false);
     let is_selected_category =
@@ -93,7 +92,7 @@ pub struct NavCategoryItem {
 
 #[derive(Clone, Copy)]
 pub(crate) struct NavCategoryInjection {
-    pub value: StoredMaybeSignal<String>,
+    pub value: Signal<String>,
 }
 
 impl NavCategoryInjection {

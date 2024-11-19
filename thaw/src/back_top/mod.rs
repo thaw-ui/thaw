@@ -11,13 +11,13 @@ pub fn BackTop(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The width of BackTop from the right side of the page.
     #[prop(default=40.into(), into)]
-    right: MaybeSignal<i32>,
+    right: Signal<i32>,
     /// The height of BackTop from the bottom of the page.
     #[prop(default=40.into(), into)]
-    bottom: MaybeSignal<i32>,
+    bottom: Signal<i32>,
     /// BackTop's trigger scroll top.
     #[prop(default=180.into(), into)]
-    visibility_height: MaybeSignal<i32>,
+    visibility_height: Signal<i32>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("back-top", include_str!("./back-top.css"));

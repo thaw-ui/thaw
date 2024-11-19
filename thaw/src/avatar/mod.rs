@@ -16,7 +16,7 @@ pub fn Avatar(
     initials: MaybeProp<String>,
     /// The avatar can have a circular or square shape.
     #[prop(optional, into)]
-    shape: MaybeSignal<AvatarShape>,
+    shape: Signal<AvatarShape>,
     /// Size of the avatar in pixels.
     #[prop(optional, into)]
     size: MaybeProp<u8>,

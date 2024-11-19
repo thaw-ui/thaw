@@ -74,7 +74,7 @@ view! {
 
 | Name              | Type                   | Default | Description |
 | ----------------- | ---------------------- | ------- | ----------- |
-| value             | `MaybeSignal<String>`  |         |             |
+| value             | `Signal<String>`       |         |             |
 | nav_category_item | slot `NavCategoryItem` |         |             |
 | children          | `Children`             |         |             |
 
@@ -92,6 +92,6 @@ view! {
 | -------- | ------------------------------- | -------------------- | ----------- |
 | class    | `MaybeProp<String>,`            | `Default::default()` |             |
 | icon     | `MaybeProp<icondata_core::Icon` | `None`               |             |
-| value    | `MaybeSignal<String>`           |                      |             |
-| href     | `Option<MaybeSignal<String>>`   | `None`               |             |
+| value    | `Signal<String>`                |                      |             |
+| href     | `Option<Signal<String>>`        | `None`               |             |
 | children | `Children`                      |                      |             |

@@ -58,19 +58,19 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
-| size | `Option<MaybeSignal<TagSize>>` | `None` | Size of the tag. |
-| dismissible | `MaybeSignal<bool>` | `false` | A Tag can be dismissible. |
+| size | `Option<Signal<TagSize>>` | `None` | Size of the tag. |
+| dismissible | `Signal<bool>` | `false` | A Tag can be dismissible. |
 | on_dismiss | `Option<ArcOneCallback<ev::MouseEvent>>` | `None` | Callback for when a tag is dismissed. |
 | value | `Option<String>` | `None` | Unique value identifying the tag within a TagGroup. |
 | children | `Children` |  |  |
 
 ### InteractionTag Props
 
-| Name     | Type                           | Default              | Description      |
-| -------- | ------------------------------ | -------------------- | ---------------- |
-| class    | `MaybeProp<String>`            | `Default::default()` |                  |
-| size     | `Option<MaybeSignal<TagSize>>` | `None`               | Size of the tag. |
-| children | `Children`                     |                      |                  |
+| Name     | Type                      | Default              | Description      |
+| -------- | ------------------------- | -------------------- | ---------------- |
+| class    | `MaybeProp<String>`       | `Default::default()` |                  |
+| size     | `Option<Signal<TagSize>>` | `None`               | Size of the tag. |
+| children | `Children`                |                      |                  |
 
 ### InteractionTagPrimary Props
 

@@ -72,8 +72,8 @@ view! {
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | span | `bool` | `false` |  |
-| href | `Option<MaybeSignal<String>>` | `None` |  |
-| inline | `MaybeSignal<bool>` | `false` | If true, changes styling when the link is being used alongside other text content. |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the link is disabled. |
-| disabled_focusable | `MaybeSignal<bool>` | `false` | When set, allows the link to be focusable even when it has been disabled. |
+| href | `Option<Signal<String>>` | `None` |  |
+| inline | `Signal<bool>` | `false` | If true, changes styling when the link is being used alongside other text content. |
+| disabled | `Signal<bool>` | `false` | Whether the link is disabled. |
+| disabled_focusable | `Signal<bool>` | `false` | When set, allows the link to be focusable even when it has been disabled. |
 | children | `Children` |  |  |

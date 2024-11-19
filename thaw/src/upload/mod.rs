@@ -16,10 +16,10 @@ pub fn Upload(
     name: MaybeProp<String>,
     /// The accept type of upload.
     #[prop(optional, into)]
-    accept: MaybeSignal<String>,
+    accept: Signal<String>,
     /// Allow multiple files to be selected.
     #[prop(optional, into)]
-    multiple: MaybeSignal<bool>,
+    multiple: Signal<bool>,
     /// Customize upload request.
     #[prop(optional, into)]
     custom_request: Option<ArcOneCallback<FileList>>,

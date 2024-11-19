@@ -35,9 +35,9 @@ view! {
 
 ### AnchorLink Props
 
-| Name     | Type                  | Default              | Description          |
-| -------- | --------------------- | -------------------- | -------------------- |
-| class    | `MaybeProp<String>`   | `Default::default()` |                      |
-| title    | `MaybeSignal<String>` |                      | The content of link. |
-| href     | `String`              |                      | The target of link.  |
-| children | `Option<Children>`    | `None`               |                      |
+| Name     | Type                | Default              | Description          |
+| -------- | ------------------- | -------------------- | -------------------- |
+| class    | `MaybeProp<String>` | `Default::default()` |                      |
+| title    | `Signal<String>`    |                      | The content of link. |
+| href     | `String`            |                      | The target of link.  |
+| children | `Option<Children>`  | `None`               |                      |

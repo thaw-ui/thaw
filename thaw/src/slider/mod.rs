@@ -24,10 +24,10 @@ pub fn Slider(
     value: Model<f64>,
     /// Min value of the slider.
     #[prop(default = 0f64.into(), into)]
-    min: MaybeSignal<f64>,
+    min: Signal<f64>,
     /// Max value of the slider.
     #[prop(default = 100f64.into(), into)]
-    max: MaybeSignal<f64>,
+    max: Signal<f64>,
     /// The step in which value is incremented.
     #[prop(optional, into)]
     step: MaybeProp<f64>,
@@ -112,8 +112,8 @@ pub fn Slider(
 
 #[derive(Clone)]
 pub(crate) struct SliderInjection {
-    pub max: MaybeSignal<f64>,
-    pub min: MaybeSignal<f64>,
+    pub max: Signal<f64>,
+    pub min: Signal<f64>,
 }
 
 impl SliderInjection {

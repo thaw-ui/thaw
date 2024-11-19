@@ -153,8 +153,8 @@ view! {
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | label | `MaybeProp<String>` | `Default::default()` | The label associated with the field. |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
-| orientation | `MaybeSignal<FieldOrientation>` | `FieldOrientation::Vertical` | The orientation of the label relative to the field component. |
-| required | `MaybeSignal<bool>` | `false` | If set to true this field will be marked as required. |
+| orientation | `Signal<FieldOrientation>` | `FieldOrientation::Vertical` | The orientation of the label relative to the field component. |
+| required | `Signal<bool>` | `false` | If set to true this field will be marked as required. |
 | children | `Children` |  |  |
 
 ### FieldContextProvider Props

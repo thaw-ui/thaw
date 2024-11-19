@@ -1,14 +1,14 @@
 use super::AnchorInjection;
 use leptos::{html, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, StoredMaybeSignal};
+use thaw_utils::class_list;
 
 #[component]
 pub fn AnchorLink(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The content of link.
     #[prop(into)]
-    title: MaybeSignal<String>,
+    title: Signal<String>,
     /// The target of link.
     #[prop(into)]
     href: String,
@@ -16,7 +16,6 @@ pub fn AnchorLink(
 ) -> impl IntoView {
     let anchor = AnchorInjection::expect_context();
 
-    let title: StoredMaybeSignal<_> = title.into();
     let title_ref = NodeRef::<html::A>::new();
     let href_id = StoredValue::new(None::<String>);
     let is_active = Memo::new(move |_| {

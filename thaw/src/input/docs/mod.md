@@ -111,9 +111,9 @@ view! {
 | rules | `Vec<InputRule>` | `vec![]` | The rules to validate Field. |
 | value | `Model<String>` | `Default::default()` | Set the input value. |
 | allow_value | `Option<ArcOneCallback<String, bool>>` | `None` | Check the incoming value, if it returns false, input will not be accepted. |
-| input_type | `MaybeSignal<InputType>` | `InputType::Text` | An input can have different text-based types based on the type of value the user will enter. |
+| input_type | `Signal<InputType>` | `InputType::Text` | An input can have different text-based types based on the type of value the user will enter. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder text for the input. |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
+| disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | on_focus | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
 | on_blur | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
 | parser | `OptionalProp<BoxOneCallback<String, Option<String>>>` | `None` | Modifies the user input before assigning it to the value. |

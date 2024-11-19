@@ -16,31 +16,31 @@ pub fn Button(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// A button can have its content and borders styled for greater emphasis or to be subtle.
     #[prop(optional, into)]
-    appearance: MaybeSignal<ButtonAppearance>,
+    appearance: Signal<ButtonAppearance>,
     /// A button can be rounded, circular, or square.
     #[prop(optional, into)]
-    shape: MaybeSignal<ButtonShape>,
+    shape: Signal<ButtonShape>,
     /// A button supports different sizes.
     #[prop(optional, into)]
-    size: Option<MaybeSignal<ButtonSize>>,
+    size: Option<Signal<ButtonSize>>,
     /// The default behavior of the button.
     #[prop(optional, into)]
     button_type: MaybeProp<ButtonType>,
     /// Whether the button is displayed as block.
     #[prop(optional, into)]
-    block: MaybeSignal<bool>,
+    block: Signal<bool>,
     /// The icon of the button.
     #[prop(optional, into)]
     icon: MaybeProp<icondata_core::Icon>,
     /// Whether the button is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     /// When set, allows the button to be focusable even when it has been disabled.
     #[prop(optional, into)]
-    disabled_focusable: MaybeSignal<bool>,
+    disabled_focusable: Signal<bool>,
     /// Whether the button shows the loading status.
     #[prop(optional, into)]
-    loading: MaybeSignal<bool>,
+    loading: Signal<bool>,
     #[prop(optional, into)] on_click: Option<BoxOneCallback<ev::MouseEvent>>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
@@ -48,7 +48,7 @@ pub fn Button(
 
     let none_children = children.is_none();
     let size_injection = ButtonSizeInjection::use_context().map(|s| s.0);
-    let size = size.unwrap_or_else(|| MaybeSignal::Static(size_injection.unwrap_or_default()));
+    let size = size.unwrap_or_else(|| Signal::stored(size_injection.unwrap_or_default()));
     let only_icon = Memo::new(move |_| icon.with(|i| i.is_some()) && none_children);
     let btn_disabled = Memo::new(move |_| disabled.get() || disabled_focusable.get());
     let aria_disabled = move || {
@@ -96,7 +96,7 @@ pub fn Button(
                 if loading.get() {
                     EitherOf3::A(view! {
                         <span class="thaw-button__icon">
-                            <Spinner size=MaybeSignal::derive(move || size.get().into())/>
+                            <Spinner size=Signal::derive(move || size.get().into())/>
                         </span>
                     })
                 } else if let Some(icon) = icon.get() {

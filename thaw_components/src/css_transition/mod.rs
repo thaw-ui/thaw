@@ -9,8 +9,8 @@ use web_sys::wasm_bindgen::JsCast;
 #[component]
 pub fn CSSTransition<E, CF, IV>(
     node_ref: NodeRef<E>,
-    #[prop(into)] show: MaybeSignal<bool>,
-    #[prop(into)] name: MaybeSignal<String>,
+    #[prop(into)] show: Signal<bool>,
+    #[prop(into)] name: Signal<String>,
     #[prop(optional)] appear: bool,
     #[prop(optional, into)] on_before_enter: Option<ArcCallback>,
     #[prop(optional, into)] on_enter: Option<ArcCallback>,

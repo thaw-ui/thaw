@@ -11,10 +11,10 @@ pub fn MenuItem(
     icon: MaybeProp<icondata_core::Icon>,
     /// The value of the menu item.
     #[prop(into)]
-    value: MaybeSignal<String>,
+    value: Signal<String>,
     /// Whether the menu item is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("menu-item", include_str!("./menu-item.css"));

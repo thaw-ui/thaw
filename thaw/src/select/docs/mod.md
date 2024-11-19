@@ -61,5 +61,5 @@ view! {
 | rules | `Vec<SelectRule>` | `vec![]` | The rules to validate Field. |
 | value | `Model<String>` | `Default::default()` | Set the select value. |
 | default_value | `Option<String>` | `None` |  |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the select is disabled. |
+| disabled | `Signal<bool>` | `false` | Whether the select is disabled. |
 | children | `Children` |  |  |

@@ -10,7 +10,7 @@ pub fn ComboboxOption(
     /// Sets an option to the disabled state. Disabled options cannot be selected,
     /// but are still keyboard navigable.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     /// Defines a unique identifier for the option. Defaults to `text` if not provided.
     #[prop(optional, into)]
     value: Option<String>,

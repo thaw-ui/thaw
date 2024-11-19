@@ -51,7 +51,7 @@ view! {
 | Name        | Type                             | Default              | Description                           |
 | ----------- | -------------------------------- | -------------------- | ------------------------------------- |
 | class       | `MaybeProp<String>`              | `Default::default()` |                                       |
-| size        | `MaybeSignal<TagSize>`           | `TagSize::Medium`    | Size of the tag.                      |
-| dismissible | `MaybeSignal<bool>`              | `false`              | A Tag can be dismissible.             |
+| size        | `Signal<TagSize>`                | `TagSize::Medium`    | Size of the tag.                      |
+| dismissible | `Signal<bool>`                   | `false`              | A Tag can be dismissible.             |
 | on_dismiss  | `Option<ArcOneCallback<String>>` | `None`               | Callback for when a tag is dismissed. |
 | children    | `Children`                       |                      |                                       |

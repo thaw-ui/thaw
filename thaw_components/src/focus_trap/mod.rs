@@ -9,7 +9,7 @@ thread_local! {
 #[component]
 pub fn FocusTrap(
     disabled: bool,
-    #[prop(into)] active: MaybeSignal<bool>,
+    #[prop(into)] active: Signal<bool>,
     #[prop(into)] on_esc: ArcOneCallback<ev::KeyboardEvent>,
     children: Children,
 ) -> impl IntoView {

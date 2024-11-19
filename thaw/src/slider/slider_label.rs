@@ -7,7 +7,7 @@ pub fn SliderLabel(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Value at which label will be placed.
     #[prop(into)]
-    value: MaybeSignal<f64>,
+    value: Signal<f64>,
     children: Children,
 ) -> impl IntoView {
     mount_style("slider-label", include_str!("./slider_label.css"));

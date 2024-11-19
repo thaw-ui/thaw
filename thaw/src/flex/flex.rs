@@ -13,7 +13,7 @@ pub fn Flex(
     vertical: bool,
     /// Whether it's display is `inline-flex`.
     #[prop(optional, into)]
-    inline: MaybeSignal<bool>,
+    inline: Signal<bool>,
     /// Vertical arrangement.
     #[prop(optional, into)]
     align: MaybeProp<FlexAlign>,

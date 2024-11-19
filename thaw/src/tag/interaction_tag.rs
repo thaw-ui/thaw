@@ -7,7 +7,7 @@ pub fn InteractionTag(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Size of the tag.
     #[prop(optional, into)]
-    size: Option<MaybeSignal<TagSize>>,
+    size: Option<Signal<TagSize>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("interaction-tag", include_str!("./interaction-tag.css"));

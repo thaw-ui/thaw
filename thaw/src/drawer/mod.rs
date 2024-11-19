@@ -10,7 +10,7 @@ pub use drawer_header_title::*;
 pub use inline_drawer::*;
 pub use overlay_drawer::*;
 
-use leptos::prelude::{MaybeSignal, With};
+use leptos::prelude::{Get, Signal};
 
 #[derive(Clone, Default, Copy)]
 pub enum DrawerPosition {
@@ -42,15 +42,15 @@ pub enum DrawerSize {
 }
 
 impl DrawerSize {
-    fn as_size_str(&self, position: MaybeSignal<DrawerPosition>) -> &'static str {
+    fn as_size_str(&self, position: Signal<DrawerPosition>) -> &'static str {
         match self {
             Self::Small => "320px",
             Self::Medium => "592px",
             Self::Large => "940px",
-            Self::Full => position.with(|p| match p {
+            Self::Full => match position.get() {
                 DrawerPosition::Top | DrawerPosition::Bottom => "100vh",
                 DrawerPosition::Left | DrawerPosition::Right => "100vw",
-            }),
+            }
         }
     }
 }

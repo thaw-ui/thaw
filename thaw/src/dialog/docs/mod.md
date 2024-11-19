@@ -27,7 +27,7 @@ view! {
 | -------------- | ------------------- | -------------------- | ------------------------------------------- |
 | class          | `MaybeProp<String>` | `Default::default()` |                                             |
 | open           | `Model<bool>`       |                      | Controls the open state of the dialog.      |
-| mask_closeable | `MaybeSignal<bool>` | `true`               | Whether to emit hide event when click mask. |
+| mask_closeable | `Signal<bool>`      | `true`               | Whether to emit hide event when click mask. |
 | close_on_esc   | `bool`              | `true`               | Whether to close modal on Esc is pressed.   |
 | children       | `Children`          |                      |                                             |
 

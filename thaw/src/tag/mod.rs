@@ -12,10 +12,10 @@ pub fn Tag(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Size of the tag.
     #[prop(optional, into)]
-    size: Option<MaybeSignal<TagSize>>,
+    size: Option<Signal<TagSize>>,
     /// A Tag can be dismissible.
     #[prop(optional, into)]
-    dismissible: MaybeSignal<bool>,
+    dismissible: Signal<bool>,
     /// Callback for when a tag is dismissed.
     #[prop(optional, into)]
     on_dismiss: Option<ArcOneCallback<ev::MouseEvent>>,

@@ -20,7 +20,7 @@ use thaw_utils::{add_event_listener, get_scroll_parent_node, mount_style, EventL
 #[slot]
 pub struct Follower {
     #[prop(into)]
-    show: MaybeSignal<bool>,
+    show: Signal<bool>,
     #[prop(optional)]
     width: Option<FollowerWidth>,
     #[prop(into)]

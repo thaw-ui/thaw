@@ -4,9 +4,14 @@ use num_traits::Bounded;
 use std::ops::{Add, Deref, Sub};
 use std::str::FromStr;
 use thaw_utils::{
-    class_list, mount_style, with, BoxOneCallback, Model, OptionalProp, StoredMaybeSignal,
+    class_list, mount_style, with, BoxOneCallback, Model, OptionalProp,
 };
 
+/// SpinButton are used to allow numerical input bounded between minimum and maximum values
+/// with buttons to increment and decrement the input value.
+/// 
+/// Note: SpinButton is a generic component, so the type must be specified. Example: `<SpinButton<i32> step_page=1/>`.
+/// [Related issue](https://github.com/leptos-rs/leptos/issues/3200)
 #[component]
 pub fn SpinButton<T>(
     #[prop(optional, into)] class: MaybeProp<String>,
@@ -24,19 +29,19 @@ pub fn SpinButton<T>(
     /// Large difference between two values. This should be greater
     /// than step and is used when users hit the Page Up or Page Down keys.
     #[prop(into)]
-    step_page: MaybeSignal<T>,
+    step_page: Signal<T>,
     /// The minimum number that the input value can take.
     #[prop(default = T::min_value().into(), into)]
-    min: MaybeSignal<T>,
+    min: Signal<T>,
     /// The maximum number that the input value can take.
     #[prop(default = T::max_value().into(), into)]
-    max: MaybeSignal<T>,
+    max: Signal<T>,
     /// Placeholder of input number.
     #[prop(optional, into)]
     placeholder: MaybeProp<String>,
     /// Whether the input is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     /// Modifies the user input before assigning it to the value.
     #[prop(optional, into)]
     parser: OptionalProp<BoxOneCallback<String, Option<T>>>,
@@ -53,9 +58,6 @@ where
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
     let initialization_value = value.get_untracked().to_string();
-    let step_page: StoredMaybeSignal<_> = step_page.into();
-    let min: StoredMaybeSignal<_> = min.into();
-    let max: StoredMaybeSignal<_> = max.into();
 
     let update_value = move |new_value| {
         if with!(|value| value == &new_value) {

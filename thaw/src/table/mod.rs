@@ -154,7 +154,7 @@ pub fn TableCell(
 #[component]
 pub fn TableCellLayout(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] truncate: MaybeSignal<bool>,
+    #[prop(optional, into)] truncate: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     view! {

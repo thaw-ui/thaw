@@ -36,9 +36,9 @@ view! {
 
 ### Spinner Props
 
-| Name     | Type                       | Default               | Description                        |
-| -------- | -------------------------- | --------------------- | ---------------------------------- |
-| class    | `MaybeProp<String>`        | `Default::default()`  |                                    |
-| label    | `MaybeProp<String>`        | `Default::default()`  | An optional label for the Spinner. |
-| size     | `MaybeSignal<SpinnerSize>` | `SpinnerSize::Medium` | The size of the spinner.           |
-| children | `Option<Children>`         | `None`                |                                    |
+| Name     | Type                  | Default               | Description                        |
+| -------- | --------------------- | --------------------- | ---------------------------------- |
+| class    | `MaybeProp<String>`   | `Default::default()`  |                                    |
+| label    | `MaybeProp<String>`   | `Default::default()`  | An optional label for the Spinner. |
+| size     | `Signal<SpinnerSize>` | `SpinnerSize::Medium` | The size of the spinner.           |
+| children | `Option<Children>`    | `None`                |                                    |

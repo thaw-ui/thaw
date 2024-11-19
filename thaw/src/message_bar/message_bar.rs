@@ -1,5 +1,5 @@
 use leptos::{context::Provider, either::EitherOf4, prelude::*};
-use thaw_utils::{class_list, mount_style, StoredMaybeSignal};
+use thaw_utils::{class_list, mount_style};
 
 /// Communicates important information about the state of the entire application or surface.
 /// For example, the status of a page, panel, dialog or card.
@@ -11,11 +11,10 @@ pub fn MessageBar(
     #[prop(optional, into)] layout: MessageBarLayout,
     /// Default designs announcement presets.
     #[prop(optional, into)]
-    intent: MaybeSignal<MessageBarIntent>,
+    intent: Signal<MessageBarIntent>,
     children: Children,
 ) -> impl IntoView {
     mount_style("message-bar", include_str!("./message-bar.css"));
-    let intent: StoredMaybeSignal<_> = intent.into();
 
     view! {
         <div

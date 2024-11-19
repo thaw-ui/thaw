@@ -133,7 +133,7 @@ pub enum TimePickerRuleTrigger {
 pub struct TimePickerRule(Rule<Option<NaiveTime>, TimePickerRuleTrigger>);
 
 impl TimePickerRule {
-    pub fn required(required: MaybeSignal<bool>) -> Self {
+    pub fn required(required: Signal<bool>) -> Self {
         Self::validator(move |value, name| {
             if required.get_untracked() && value.is_none() {
                 let message = name.get_untracked().map_or_else(
@@ -148,8 +148,8 @@ impl TimePickerRule {
     }
 
     pub fn required_with_message(
-        required: MaybeSignal<bool>,
-        message: MaybeSignal<String>,
+        required: Signal<bool>,
+        message: Signal<String>,
     ) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_none() {
@@ -187,7 +187,7 @@ fn Panel(
     selected_time: RwSignal<Option<NaiveTime>>,
     time_picker_ref: NodeRef<html::Div>,
     #[prop(into)] close_panel: ArcOneCallback<Option<NaiveTime>>,
-    #[prop(into)] is_show_panel: MaybeSignal<bool>,
+    #[prop(into)] is_show_panel: Signal<bool>,
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let config_provider = ConfigInjection::expect_context();

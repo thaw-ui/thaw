@@ -59,42 +59,33 @@ impl From<&str> for OptionalProp<String> {
 }
 
 /// TODO remove signal
-impl From<&str> for OptionalProp<MaybeSignal<String>> {
+impl From<&str> for OptionalProp<Signal<String>> {
     fn from(value: &str) -> Self {
-        Self(Some(MaybeSignal::from(value.to_string())))
+        Self(Some(Signal::from(value.to_string())))
     }
 }
 
-impl From<String> for OptionalProp<MaybeSignal<String>> {
+impl From<String> for OptionalProp<Signal<String>> {
     fn from(value: String) -> Self {
-        Self(Some(MaybeSignal::from(value)))
+        Self(Some(Signal::from(value)))
     }
 }
 
-impl<T: Send + Sync> From<ReadSignal<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T> From<ReadSignal<T>> for OptionalProp<Signal<T>> where T: Send + Sync + 'static{
     fn from(value: ReadSignal<T>) -> Self {
-        Self(Some(MaybeSignal::from(value)))
+        Self(Some(Signal::from(value)))
     }
 }
 
-impl<T: Send + Sync> From<RwSignal<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T> From<RwSignal<T>> for OptionalProp<Signal<T>> where T: Send + Sync + 'static {
     fn from(value: RwSignal<T>) -> Self {
-        Self(Some(MaybeSignal::from(value)))
+        Self(Some(Signal::from(value)))
     }
 }
 
-impl<T: Send + Sync> From<Memo<T>> for OptionalProp<MaybeSignal<T>> {
+impl<T> From<Memo<T>> for OptionalProp<Signal<T>> where T: Send + Sync + 'static  {
     fn from(value: Memo<T>) -> Self {
-        Self(Some(MaybeSignal::from(value)))
-    }
-}
-
-impl<T, S> From<Signal<T, S>> for OptionalProp<MaybeSignal<T, S>>
-where
-    S: Storage<T>,
-{
-    fn from(value: Signal<T, S>) -> Self {
-        Self(Some(MaybeSignal::from(value)))
+        Self(Some(Signal::from(value)))
     }
 }
 
@@ -116,12 +107,12 @@ impl<T> From<Option<T>> for OptionalProp<T> {
 #[cfg(test)]
 mod test {
     use super::OptionalProp;
-    use leptos::prelude::MaybeSignal;
+    use leptos::prelude::Signal;
 
     #[test]
     fn from() {
-        let _prop: OptionalProp<MaybeSignal<String>> = "prop".into();
-        let _prop: OptionalProp<MaybeSignal<String>> = "prop".to_string().into();
+        let _prop: OptionalProp<Signal<String>> = "prop".into();
+        let _prop: OptionalProp<Signal<String>> = "prop".to_string().into();
         let _prop: OptionalProp<String> = "prop".into();
     }
 }

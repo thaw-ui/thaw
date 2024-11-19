@@ -7,14 +7,14 @@ pub fn ProgressBar(
     /// A decimal number between 0 and 1 (or between 0 and max if given),
     /// which specifies how much of the task has been completed.
     #[prop(into, optional)]
-    value: MaybeSignal<f64>,
+    value: Signal<f64>,
     /// The maximum value, which indicates the task is complete.
     /// The ProgressBar bar will be full when value equals max.
     #[prop(default = 1.0.into(), optional)]
-    max: MaybeSignal<f64>,
+    max: Signal<f64>,
     /// ProgressBar color.
     #[prop(into, optional)]
-    color: MaybeSignal<ProgressBarColor>,
+    color: Signal<ProgressBarColor>,
 ) -> impl IntoView {
     mount_style("progress-bar", include_str!("./progress-bar.css"));
 

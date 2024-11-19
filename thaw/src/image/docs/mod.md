@@ -26,7 +26,7 @@ view! {
 | alt | `MaybeProp<String>` | `Default::default()` | description of the image, which isn't mandatory but is incredibly useful for accessibility. |
 | width | `MaybeProp<String>` | `Default::default()` | Image width. |
 | height | `MaybeProp<String>` | `Default::default()` | Image height. |
-| shape | `MaybeSignal<ImageShape>` | `ImageShape::Square` | An image can appear square, circular, or rounded. |
-| block | `MaybeSignal<bool>` | `Default::default()` | An image can take up the width of its container. |
-| shadow | `MaybeSignal<bool>` | `Default::default()` | An image can appear elevated with shadow. |
-| fit | `MaybeSignal<ImageFit>` | `ImageFit::Fill` | An image can set how it should be resized to fit its container. |
+| shape | `Signal<ImageShape>` | `ImageShape::Square` | An image can appear square, circular, or rounded. |
+| block | `Signal<bool>` | `Default::default()` | An image can take up the width of its container. |
+| shadow | `Signal<bool>` | `Default::default()` | An image can appear elevated with shadow. |
+| fit | `Signal<ImageFit>` | `ImageFit::Fill` | An image can set how it should be resized to fit its container. |

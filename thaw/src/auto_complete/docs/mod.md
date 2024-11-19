@@ -62,9 +62,9 @@ view! {
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | value | `Model<String>` | `Default::default()` | Input of autocomplete. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Autocomplete's placeholder. |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
-| clear_after_select | `MaybeSignal<bool>` | `false` | Whether to clear after selection. |
-| blur_after_select | `MaybeSignal<bool>` | `false` | Whether to blur after selection. |
+| disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
+| clear_after_select | `Signal<bool>` | `false` | Whether to clear after selection. |
+| blur_after_select | `Signal<bool>` | `false` | Whether to blur after selection. |
 | auto_complete_prefix | slot `Option<AutoCompletePrefix>` | `None` |  |
 | auto_complete_suffix | slot `Option<AutoCompleteSuffix>` | `None` |  |
 | comp_ref | ref `ComponentRef<AutoCompleteRef>` | `Default::default()` |  |

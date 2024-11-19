@@ -16,7 +16,7 @@ pub fn Panel(
     selected_date: RwSignal<Option<NaiveDate>>,
     date_picker_ref: NodeRef<html::Div>,
     #[prop(into)] close_panel: ArcOneCallback<Option<NaiveDate>>,
-    #[prop(into)] is_show_panel: MaybeSignal<bool>,
+    #[prop(into)] is_show_panel: Signal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
     let config_provider = ConfigInjection::expect_context();

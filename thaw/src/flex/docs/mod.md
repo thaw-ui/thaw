@@ -102,7 +102,7 @@ view! {
 | -------- | ------------------------ | -------------------- | -------------------------------------- |
 | class    | `MaybeProp<String>`      | `Default::default()` |                                        |
 | style    | `MaybeProp<String>`      | `Default::default()` |                                        |
-| inline   | `MaybeSignal<bool>`      | `false`              | Whether it's display is `inline-flex`. |
+| inline   | `Signal<bool>`           | `false`              | Whether it's display is `inline-flex`. |
 | vertical | `bool`                   | `false`              | Whether to lay out vertically.         |
 | gap      | `FlexGap`                | `FlexGap::Medium`    | Flex's gap.                            |
 | align    | `MaybeProp<FlexAlign>`   | `None`               | Vertical arrangement.                  |

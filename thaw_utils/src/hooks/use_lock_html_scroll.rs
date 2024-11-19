@@ -1,6 +1,6 @@
-use leptos::prelude::MaybeSignal;
+use leptos::prelude::Signal;
 
-pub fn use_lock_html_scroll(is_lock: MaybeSignal<bool>) {
+pub fn use_lock_html_scroll(is_lock: Signal<bool>) {
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
         use leptos::prelude::{document, on_cleanup, Get, RenderEffect, StoredValue, UpdateValue};

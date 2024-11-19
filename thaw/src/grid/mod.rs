@@ -8,13 +8,13 @@ use thaw_utils::class_list;
 pub fn Grid(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Number of grids displayed.
-    #[prop(default = MaybeSignal::Static(1u16), into)]
-    cols: MaybeSignal<u16>,
+    #[prop(default = 1u16.into(), into)]
+    cols: Signal<u16>,
     // Horizontal gap.
-    #[prop(optional, into)] x_gap: MaybeSignal<u16>,
+    #[prop(optional, into)] x_gap: Signal<u16>,
     /// Vertical gap.
     #[prop(optional, into)]
-    y_gap: MaybeSignal<u16>,
+    y_gap: Signal<u16>,
     children: Children,
 ) -> impl IntoView {
     let style = Memo::new(move |_| {
@@ -38,11 +38,11 @@ pub fn Grid(
 
 #[derive(Clone)]
 pub(crate) struct GridInjection {
-    x_gap: MaybeSignal<u16>,
+    x_gap: Signal<u16>,
 }
 
 impl GridInjection {
-    pub fn new(x_gap: MaybeSignal<u16>) -> Self {
+    pub fn new(x_gap: Signal<u16>) -> Self {
         Self { x_gap }
     }
 }

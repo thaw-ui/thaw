@@ -11,7 +11,7 @@ pub fn Dialog(
     open: Model<bool>,
     /// Whether to emit hide event when click mask.
     #[prop(default = true.into(), into)]
-    mask_closeable: MaybeSignal<bool>,
+    mask_closeable: Signal<bool>,
     /// Whether to close modal on Esc is pressed.
     #[prop(default = true, into)]
     close_on_esc: bool,

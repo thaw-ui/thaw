@@ -38,7 +38,7 @@ pub fn Input(
     allow_value: Option<ArcOneCallback<String, bool>>,
     /// An input can have different text-based types based on the type of value the user will enter.
     #[prop(optional, into)]
-    input_type: MaybeSignal<InputType>,
+    input_type: Signal<InputType>,
     /// Placeholder text for the input.
     #[prop(optional, into)]
     placeholder: MaybeProp<String>,
@@ -50,7 +50,7 @@ pub fn Input(
     on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
     /// Whether the input is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
@@ -267,7 +267,7 @@ pub enum InputRuleTrigger {
 pub struct InputRule(Rule<String, InputRuleTrigger>);
 
 impl InputRule {
-    pub fn required(required: MaybeSignal<bool>) -> Self {
+    pub fn required(required: Signal<bool>) -> Self {
         Self::validator(move |value, name| {
             if required.get_untracked() && value.is_empty() {
                 let message = name.get_untracked().map_or_else(
@@ -282,8 +282,8 @@ impl InputRule {
     }
 
     pub fn required_with_message(
-        required: MaybeSignal<bool>,
-        message: MaybeSignal<String>,
+        required: Signal<bool>,
+        message: Signal<String>,
     ) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_empty() {
