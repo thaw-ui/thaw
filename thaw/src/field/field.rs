@@ -16,10 +16,10 @@ pub fn Field(
     name: MaybeProp<String>,
     /// The orientation of the label relative to the field component.
     #[prop(optional, into)]
-    orientation: MaybeSignal<FieldOrientation>,
+    orientation: Signal<FieldOrientation>,
     ///Is this input field required
     #[prop(optional, into)]
-    required: MaybeSignal<bool>,
+    required: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("field", include_str!("./field.css"));

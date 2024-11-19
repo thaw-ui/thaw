@@ -33,5 +33,5 @@ view! {
 | Name     | Type                | Default              | Desciption                                         |
 | -------- | ------------------- | -------------------- | -------------------------------------------------- |
 | class    | `MaybeProp<String>` | `Default::default()` |                                                    |
-| vertical | `MaybeSignal<bool>` | `false`              | A divider can be horizontal (default) or vertical. |
+| vertical | `Signal<bool>`      | `false`              | A divider can be horizontal (default) or vertical. |
 | children | `Option<Children>`  | `None`               |                                                    |

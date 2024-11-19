@@ -100,5 +100,5 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
-| truncate | `MaybeSignal<bool>` | `false` | Renders content with overflow: hidden and text-overflow: ellipsis |
+| truncate | `Signal<bool>` | `false` | Renders content with overflow: hidden and text-overflow: ellipsis |
 | children | `Children` |  |  |

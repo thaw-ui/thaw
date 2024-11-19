@@ -202,14 +202,14 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
-| appearance | `MaybeSignal<ButtonAppearance>` | `Default::default()` | A button can have its content and borders styled for greater emphasis or to be subtle. |
-| shape | `MaybeSignal<ButtonShape>` | `Default::default()` | A button can be rounded, circular, or square. |
-| size | `Option<MaybeSignal<ButtonSize>>` | `ButtonSize::Medium` | A button supports different sizes. |
-| block | `MaybeSignal<bool>` | `false` | Whether the button is displayed as block. |
+| appearance | `Signal<ButtonAppearance>` | `Default::default()` | A button can have its content and borders styled for greater emphasis or to be subtle. |
+| shape | `Signal<ButtonShape>` | `Default::default()` | A button can be rounded, circular, or square. |
+| size | `Option<Signal<ButtonSize>>` | `ButtonSize::Medium` | A button supports different sizes. |
+| block | `Signal<bool>` | `false` | Whether the button is displayed as block. |
 | icon | `MaybeProp<icondata_core::Icon>` | `None` | The icon of the button. |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the button is disabled. |
-| disabled_focusable | `MaybeSignal<bool>` | `false` | When set, allows the button to be focusable even when it has been disabled. |
-| loading | `MaybeSignal<bool>` | `false` | Whether the button shows the loading status. |
+| disabled | `Signal<bool>` | `false` | Whether the button is disabled. |
+| disabled_focusable | `Signal<bool>` | `false` | When set, allows the button to be focusable even when it has been disabled. |
+| loading | `Signal<bool>` | `false` | Whether the button shows the loading status. |
 | on_click | `Option<BoxOneCallback<ev::MouseEvent>>` | `None` | Listen for button click events. |
 | children | `Option<Children>` |  |  |
 

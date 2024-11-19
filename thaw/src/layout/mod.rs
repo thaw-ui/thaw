@@ -43,7 +43,7 @@ pub fn Layout(
     position: LayoutPosition,
     /// Whether the component has sider inside. If so it must be true.
     #[prop(optional, into)]
-    has_sider: MaybeSignal<bool>,
+    has_sider: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("layout", include_str!("./layout.css"));

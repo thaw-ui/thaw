@@ -6,13 +6,13 @@ pub fn Badge(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// A Badge can be filled, outline, ghost, inverted.
     #[prop(optional, into)]
-    appearance: MaybeSignal<BadgeAppearance>,
+    appearance: Signal<BadgeAppearance>,
     /// A Badge can be on of several preset sizes.
     #[prop(optional, into)]
-    size: MaybeSignal<BadgeSize>,
+    size: Signal<BadgeSize>,
     /// A Badge can be one of preset colors.
     #[prop(optional, into)]
-    color: MaybeSignal<BadgeColor>,
+    color: Signal<BadgeColor>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("badge", include_str!("./badge.css"));

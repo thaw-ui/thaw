@@ -83,12 +83,12 @@ view! {
 
 ### MessageBar Props
 
-| Name     | Type                            | Default                        | Description                           |
-| -------- | ------------------------------- | ------------------------------ | ------------------------------------- |
-| class    | `MaybeProp<String>,`            | `Default::default()`           |                                       |
-| layout   | `MessageBarLayout`              | `MessageBarLayout::Singleline` |                                       |
-| intent   | `MaybeSignal<MessageBarIntent>` | `MessageBarIntent::Info`       | Default designs announcement presets. |
-| children | `Children`                      |                                |                                       |
+| Name     | Type                       | Default                        | Description                           |
+| -------- | -------------------------- | ------------------------------ | ------------------------------------- |
+| class    | `MaybeProp<String>,`       | `Default::default()`           |                                       |
+| layout   | `MessageBarLayout`         | `MessageBarLayout::Singleline` |                                       |
+| intent   | `Signal<MessageBarIntent>` | `MessageBarIntent::Info`       | Default designs announcement presets. |
+| children | `Children`                 |                                |                                       |
 
 ### MessageBarTitle Props
 

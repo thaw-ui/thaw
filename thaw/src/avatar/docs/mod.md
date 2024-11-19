@@ -61,5 +61,5 @@ view! {
 | src | `MaybeProp<String>` | `Default::default()` | The Avatar's image. |
 | name | `MaybeProp<String>` | `Default::default()` | The name of the person or entity represented by this Avatar. |
 | initials | `MaybeProp<String>` | `Default::default()` | Custom initials. |
-| shape | `MaybeSignal<AvatarShape>` | `Default::default()` | The avatar can have a circular or square shape. |
+| shape | `Signal<AvatarShape>` | `Default::default()` | The avatar can have a circular or square shape. |
 | size | `MaybeProp<u8>` | `Default::default()` | Size of the avatar in pixels. |

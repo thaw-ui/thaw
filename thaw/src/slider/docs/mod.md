@@ -46,10 +46,10 @@ view! {
 | id | `MaybeProp<String>` | `Default::default()` |  |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
 | rules | `Vec<InputRule>` | `vec![]` | The rules to validate Field. |
-| value | `MaybeSignal<f64>` | `0` | The current value of the controlled Slider. |
-| min | `MaybeSignal<f64>` | `0` | Min value of the slider. |
-| max | `MaybeSignal<f64>` | `100` | Max value of the slider. |
-| step | `MaybeSignal<f64>` | `0` | The step in which value is incremented. |
+| value | `Signal<f64>` | `0` | The current value of the controlled Slider. |
+| min | `Signal<f64>` | `0` | Min value of the slider. |
+| max | `Signal<f64>` | `100` | Max value of the slider. |
+| step | `Signal<f64>` | `0` | The step in which value is incremented. |
 | children | `Option<Children>` | `None` |  |
 
 ### SliderLabel props
@@ -57,5 +57,5 @@ view! {
 | Name     | Type                | Default              | Description                          |
 | -------- | ------------------- | -------------------- | ------------------------------------ |
 | class    | `MaybeProp<String>` | `Default::default()` |                                      |
-| value    | `MaybeSignal<f64>`  |                      | Value at which label will be placed. |
+| value    | `Signal<f64>`       |                      | Value at which label will be placed. |
 | children | `Children`          |                      |                                      |

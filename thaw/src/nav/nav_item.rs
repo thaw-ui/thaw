@@ -1,19 +1,18 @@
 use super::{NavCategoryInjection, NavDrawerInjection};
 use crate::Icon;
 use leptos::{either::Either, prelude::*};
-use thaw_utils::{class_list, OptionModelWithValue, StoredMaybeSignal};
+use thaw_utils::{class_list, OptionModelWithValue};
 
 #[component]
 pub fn NavItem(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] icon: MaybeProp<icondata_core::Icon>,
-    #[prop(into)] value: MaybeSignal<String>,
-    #[prop(optional, into)] href: Option<MaybeSignal<String>>,
+    #[prop(into)] value: Signal<String>,
+    #[prop(optional, into)] href: Option<Signal<String>>,
     children: Children,
 ) -> impl IntoView {
     let nav_drawer = NavDrawerInjection::expect_context();
     let nav_category = NavCategoryInjection::use_context();
-    let value: StoredMaybeSignal<_> = value.into();
     let on_click = move |_| {
         let value = value.get_untracked();
         if nav_drawer
@@ -103,8 +102,8 @@ pub fn NavItem(
 pub fn NavSubItem(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] icon: MaybeProp<icondata_core::Icon>,
-    #[prop(into)] value: MaybeSignal<String>,
-    #[prop(optional, into)] href: Option<MaybeSignal<String>>,
+    #[prop(into)] value: Signal<String>,
+    #[prop(optional, into)] href: Option<Signal<String>>,
     children: Children,
 ) -> impl IntoView {
     let class = MaybeProp::derive(move || {

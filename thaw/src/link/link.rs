@@ -7,14 +7,14 @@ pub fn Link(
     #[prop(optional)] span: bool,
     /// If true, changes styling when the link is being used alongside other text content.
     #[prop(optional, into)]
-    inline: MaybeSignal<bool>,
-    #[prop(optional, into)] href: Option<MaybeSignal<String>>,
+    inline: Signal<bool>,
+    #[prop(optional, into)] href: Option<Signal<String>>,
     /// Whether the link is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     /// When set, allows the link to be focusable even when it has been disabled.
     #[prop(optional, into)]
-    disabled_focusable: MaybeSignal<bool>,
+    disabled_focusable: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("link", include_str!("./link.css"));

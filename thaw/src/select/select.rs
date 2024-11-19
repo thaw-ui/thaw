@@ -16,7 +16,7 @@ pub fn Select(
     #[prop(optional, into)] default_value: Option<String>,
     /// Whether the select is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("select", include_str!("./select.css"));
@@ -87,7 +87,7 @@ pub enum SelectRuleTrigger {
 pub struct SelectRule(Rule<String, SelectRuleTrigger>);
 
 impl SelectRule {
-    pub fn required(required: MaybeSignal<bool>) -> Self {
+    pub fn required(required: Signal<bool>) -> Self {
         Self::validator(move |value, name| {
             if required.get_untracked() && value.is_empty() {
                 let message = name.get_untracked().map_or_else(
@@ -102,8 +102,8 @@ impl SelectRule {
     }
 
     pub fn required_with_message(
-        required: MaybeSignal<bool>,
-        message: MaybeSignal<String>,
+        required: Signal<bool>,
+        message: Signal<String>,
     ) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_empty() {

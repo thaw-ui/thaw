@@ -1,13 +1,24 @@
 # SpinButton
 
+SpinButton are used to allow numerical input bounded between minimum and maximum values with buttons to increment and decrement the input value.
+
+<MessageBar intent=MessageBarIntent::Warning>
+    <MessageBarBody>
+        <div style="white-space: normal">
+            "SpinButton is a generic component, so the type must be specified. Example: <SpinButton<i32> step_page=1/>. "
+            <Link href="https://github.com/leptos-rs/leptos/issues/3200">Related issue</Link>
+        </div>
+    </MessageBarBody>
+</MessageBar>
+
 ```rust demo
 let value = RwSignal::new(0);
 let value_f64 = RwSignal::new(0.0);
 
 view! {
     <Space vertical=true>
-        <SpinButton value step_page=1/>
-        <SpinButton value=value_f64 step_page=1.2/>
+        <SpinButton<i32> value step_page=1/>
+        <SpinButton<f64> value=value_f64 step_page=1.2/>
     </Space>
 }
 ```
@@ -18,7 +29,7 @@ view! {
 let value = RwSignal::new(0);
 
 view! {
-    <SpinButton value step_page=1 min=-1 max=2/>
+    <SpinButton<i32> value step_page=1 min=-1 max=2/>
 }
 ```
 
@@ -28,7 +39,7 @@ view! {
 let value = RwSignal::new(0);
 
 view! {
-    <SpinButton value step_page=1 disabled=true/>
+    <SpinButton<i32> value step_page=1 disabled=true/>
 }
 ```
 
@@ -71,7 +82,7 @@ let parser = move |v: String| {
 };
 
 view! {
-    <SpinButton value parser format step_page=1.0 />
+    <SpinButton<f64> value parser format step_page=1.0 />
     <p>"Underlying value: "{ value }</p>
 }
 ```
@@ -86,10 +97,10 @@ view! {
 | rules | `Vec<SpinButtonRule<T>>` | `vec![]` | The rules to validate Field. |
 | value | `Model<T>` | `T::default()` | Current value of the control. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder of input number. |
-| step_page | `MaybeSignal<T>` |  | Large difference between two values. This should be greater than step and is used when users hit the Page Up or Page Down keys. |
-| min | `MaybeSignal<T>` | `T::min_value()` | The minimum number that the input value can take. |
-| max | `MaybeSignal<T>` | `T::max_value()` | The maximum number that the input value can take. |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
+| step_page | `Signal<T>` |  | Large difference between two values. This should be greater than step and is used when users hit the Page Up or Page Down keys. |
+| min | `Signal<T>` | `T::min_value()` | The minimum number that the input value can take. |
+| max | `Signal<T>` | `T::max_value()` | The maximum number that the input value can take. |
+| disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | parser | `OptionalProp<BoxOneCallback<String, Option<T>>>` | `None` | Modifies the user input before assigning it to the value. |
 | format | `OptionalProp<BoxOneCallback<T, String>>` | `None` | Formats the value to be shown to the user. |
 

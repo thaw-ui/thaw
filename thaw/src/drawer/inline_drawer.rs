@@ -11,10 +11,10 @@ pub fn InlineDrawer(
     open: Model<bool>,
     /// Position of the drawer.
     #[prop(optional, into)]
-    position: MaybeSignal<DrawerPosition>,
+    position: Signal<DrawerPosition>,
     /// Size of the drawer.
     #[prop(optional, into)]
-    size: MaybeSignal<DrawerSize>,
+    size: Signal<DrawerSize>,
     children: Children,
 ) -> impl IntoView {
     mount_style("drawer", include_str!("./drawer.css"));

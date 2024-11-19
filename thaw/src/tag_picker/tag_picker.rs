@@ -26,7 +26,7 @@ pub fn TagPicker(
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
     let listbox_hidden_callback = StoredValue::new(vec![]);
-    let options = StoredValue::new(HashMap::<String, (String, String, MaybeSignal<bool>)>::new());
+    let options = StoredValue::new(HashMap::<String, (String, String, Signal<bool>)>::new());
     let (set_listbox, active_descendant_controller) =
         use_active_descendant(move |el| el.class_list().contains("thaw-tag-picker-option"));
 
@@ -140,7 +140,7 @@ impl TagPickerControlInjection {
 pub(crate) struct TagPickerInjection {
     pub input_ref: NodeRef<html::Input>,
     selected_options: Model<Vec<String>>,
-    pub options: StoredValue<HashMap<String, (String, String, MaybeSignal<bool>)>>,
+    pub options: StoredValue<HashMap<String, (String, String, Signal<bool>)>>,
     is_show_listbox: RwSignal<bool>,
     listbox_hidden_callback: StoredValue<Vec<BoxCallback>>,
 }
@@ -151,7 +151,7 @@ impl TagPickerInjection {
     }
 
     /// value: (value, text, disabled)
-    pub fn insert_option(&self, id: String, value: (String, String, MaybeSignal<bool>)) {
+    pub fn insert_option(&self, id: String, value: (String, String, Signal<bool>)) {
         self.options.update_value(|options| {
             options.insert(id, value);
         });

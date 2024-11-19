@@ -67,7 +67,7 @@ pub fn Demo(
                         class=("demo-demo__toolbar--code", move || !is_show_code.get())
                     >
                         <Tooltip
-                            content=MaybeSignal::derive(move || {
+                            content=Signal::derive(move || {
                                 if is_show_code.get() {
                                     "Hide code".to_string()
                                 } else {

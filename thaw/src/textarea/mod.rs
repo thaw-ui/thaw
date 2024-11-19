@@ -31,10 +31,10 @@ pub fn Textarea(
     on_blur: Option<BoxOneCallback<ev::FocusEvent>>,
     /// Whether the input is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     /// Which direction the Textarea is allowed to be resized.
     #[prop(optional, into)]
-    resize: MaybeSignal<TextareaResize>,
+    resize: Signal<TextareaResize>,
     #[prop(optional)] comp_ref: ComponentRef<TextareaRef>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
@@ -156,7 +156,7 @@ pub enum TextareaRuleTrigger {
 pub struct TextareaRule(Rule<String, TextareaRuleTrigger>);
 
 impl TextareaRule {
-    pub fn required(required: MaybeSignal<bool>) -> Self {
+    pub fn required(required: Signal<bool>) -> Self {
         Self::validator(move |value, name| {
             if required.get_untracked() && value.is_empty() {
                 let message = name.get_untracked().map_or_else(
@@ -171,8 +171,8 @@ impl TextareaRule {
     }
 
     pub fn required_with_message(
-        required: MaybeSignal<bool>,
-        message: MaybeSignal<String>,
+        required: Signal<bool>,
+        message: Signal<String>,
     ) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_empty() {

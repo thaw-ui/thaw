@@ -3,7 +3,7 @@ use std::cell::Cell;
 
 #[component]
 pub fn Teleport(
-    #[prop(default = true.into(), into)] immediate: MaybeSignal<bool>,
+    #[prop(default = true.into(), into)] immediate: Signal<bool>,
     #[prop(into, optional)] mount: Option<web_sys::Element>,
     children: Children,
 ) -> impl IntoView {

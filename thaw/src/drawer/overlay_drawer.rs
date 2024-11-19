@@ -13,16 +13,16 @@ pub fn OverlayDrawer(
     open: Model<bool>,
     /// Whether to emit hide event when click mask.
     #[prop(default = true.into(), into)]
-    mask_closeable: MaybeSignal<bool>,
+    mask_closeable: Signal<bool>,
     /// Whether to close drawer on Esc is pressed.
     #[prop(optional, into)]
     close_on_esc: bool,
     /// Position of the drawer.
     #[prop(optional, into)]
-    position: MaybeSignal<DrawerPosition>,
+    position: Signal<DrawerPosition>,
     /// Size of the drawer.
     #[prop(optional, into)]
-    size: MaybeSignal<DrawerSize>,
+    size: Signal<DrawerSize>,
     /// Dialog variations.
     #[prop(optional, into)]
     modal_type: DrawerModalType,

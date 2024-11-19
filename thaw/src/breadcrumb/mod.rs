@@ -30,7 +30,7 @@ pub fn BreadcrumbButton(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Defines current sate of BreadcrumbButton.
     #[prop(optional, into)]
-    current: MaybeSignal<bool>,
+    current: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     view! {

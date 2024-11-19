@@ -7,13 +7,13 @@ pub fn TagGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Size of the tag.
     #[prop(optional, into)]
-    size: MaybeSignal<TagSize>,
+    size: Signal<TagSize>,
     /// Callback for when a tag is dismissed.
     #[prop(optional, into)]
     on_dismiss: Option<ArcOneCallback<String>>,
     /// A Tag can be dismissible.
     #[prop(optional, into)]
-    dismissible: MaybeSignal<bool>,
+    dismissible: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tag-group", include_str!("./tag-group.css"));
@@ -31,9 +31,9 @@ pub fn TagGroup(
 
 #[derive(Clone)]
 pub(crate) struct TagGroupInjection {
-    pub size: MaybeSignal<TagSize>,
+    pub size: Signal<TagSize>,
     pub on_dismiss: Option<ArcOneCallback<String>>,
-    pub dismissible: MaybeSignal<bool>,
+    pub dismissible: Signal<bool>,
 }
 
 impl TagGroupInjection {

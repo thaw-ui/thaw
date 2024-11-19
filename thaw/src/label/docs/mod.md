@@ -50,8 +50,8 @@ view! {
 | Name | Type | Default | Desciption |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
-| size | `MaybeSignal<LabelSize>` | `LabelSize::Medium` | A label supports different sizes. |
-| weight | `MaybeSignal<LabelWeight>` | `LabelWeight::Regular` | A label supports regular and semibold fontweight. |
-| disabled | `MaybeSignal<bool>` | `false` | Renders the label as disabled. |
-| required | `MaybeSignal<bool>` | `false` | Displays an indicator that the label is for a required field. |
+| size | `Signal<LabelSize>` | `LabelSize::Medium` | A label supports different sizes. |
+| weight | `Signal<LabelWeight>` | `LabelWeight::Regular` | A label supports regular and semibold fontweight. |
+| disabled | `Signal<bool>` | `false` | Renders the label as disabled. |
+| required | `Signal<bool>` | `false` | Displays an indicator that the label is for a required field. |
 | children | `Children` |  |  |

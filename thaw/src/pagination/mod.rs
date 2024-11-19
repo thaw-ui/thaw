@@ -11,10 +11,10 @@ pub fn Pagination(
     page: Model<usize>,
     /// The total numbers of pages.
     #[prop(into)]
-    page_count: MaybeSignal<usize>,
+    page_count: Signal<usize>,
     /// Number of visible pages after and before the current page.
     #[prop(default = 1.into(), into)]
-    sibling_count: MaybeSignal<usize>,
+    sibling_count: Signal<usize>,
 ) -> impl IntoView {
     mount_style("pagination", include_str!("./pagination.css"));
 

@@ -7,16 +7,16 @@ pub fn Label(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// A label supports different sizes.
     #[prop(optional, into)]
-    size: MaybeSignal<LabelSize>,
+    size: Signal<LabelSize>,
     /// A label supports regular and semibold fontweight.
     #[prop(optional, into)]
-    weight: MaybeSignal<LabelWeight>,
+    weight: Signal<LabelWeight>,
     /// Displays an indicator that the label is for a required field.
     #[prop(optional, into)]
-    required: MaybeSignal<bool>,
+    required: Signal<bool>,
     /// Renders the label as disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     mount_style("label", include_str!("./label.css"));

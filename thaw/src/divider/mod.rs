@@ -7,7 +7,7 @@ pub fn Divider(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// A divider can be horizontal (default) or vertical.
     #[prop(optional, into)]
-    vertical: MaybeSignal<bool>,
+    vertical: Signal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("divider", include_str!("./divider.css"));

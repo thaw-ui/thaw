@@ -18,16 +18,16 @@ pub fn Image(
     height: MaybeProp<String>,
     /// An image can appear square, circular, or rounded.
     #[prop(optional, into)]
-    shape: MaybeSignal<ImageShape>,
+    shape: Signal<ImageShape>,
     /// An image can take up the width of its container.
     #[prop(optional, into)]
-    block: MaybeSignal<bool>,
+    block: Signal<bool>,
     /// An image can appear elevated with shadow.
     #[prop(optional, into)]
-    shadow: MaybeSignal<bool>,
+    shadow: Signal<bool>,
     /// An image can set how it should be resized to fit its container.
     #[prop(optional, into)]
-    fit: MaybeSignal<ImageFit>,
+    fit: Signal<ImageFit>,
 ) -> impl IntoView {
     mount_style("image", include_str!("./image.css"));
 

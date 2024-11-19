@@ -93,10 +93,10 @@ view! {
 
 ### Badge Props
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| class | `MaybeProp<String>` | `Default::default()` |  |
-| appearance | `MaybeSignal<BadgeAppearance>` | `Default::default()` | A Badge can be filled, outline, ghost, inverted. |
-| size | `MaybeSignal<BadgeSize>` | `Default::default()` | A Badge can be on of several preset sizes. |
-| color | `MaybeSignal<BadgeColor>` | `Default::default()` | A Badge can be one of preset colors. |
-| children | `Option<Children>` | `None` |  |
+| Name       | Type                      | Default              | Description                                      |
+| ---------- | ------------------------- | -------------------- | ------------------------------------------------ |
+| class      | `MaybeProp<String>`       | `Default::default()` |                                                  |
+| appearance | `Signal<BadgeAppearance>` | `Default::default()` | A Badge can be filled, outline, ghost, inverted. |
+| size       | `Signal<BadgeSize>`       | `Default::default()` | A Badge can be on of several preset sizes.       |
+| color      | `Signal<BadgeColor>`      | `Default::default()` | A Badge can be one of preset colors.             |
+| children   | `Option<Children>`        | `None`               |                                                  |

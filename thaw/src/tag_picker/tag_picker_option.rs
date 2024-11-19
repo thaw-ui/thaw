@@ -8,7 +8,7 @@ pub fn TagPickerOption(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Sets an option to the disabled state.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     /// Defines a unique identifier for the option.
     #[prop(into)]
     value: String,

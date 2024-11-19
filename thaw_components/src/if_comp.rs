@@ -8,13 +8,13 @@ pub struct Then {
 
 #[slot]
 pub struct ElseIf {
-    cond: MaybeSignal<bool>,
+    cond: Signal<bool>,
     children: ChildrenFn,
 }
 
 #[component]
 pub fn If(
-    #[prop(into)] cond: MaybeSignal<bool>,
+    #[prop(into)] cond: Signal<bool>,
     then: Then,
     #[prop(default=vec![])] else_if: Vec<ElseIf>,
     #[prop(optional)] fallback: Option<Fallback>,

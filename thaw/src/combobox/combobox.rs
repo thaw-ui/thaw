@@ -20,7 +20,7 @@ pub fn Combobox(
     selected_options: VecModel<String>,
     /// Whether the input is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     /// Placeholder text for the input.
     #[prop(optional, into)]
     placeholder: MaybeProp<String>,
@@ -36,7 +36,7 @@ pub fn Combobox(
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
     let is_show_listbox = RwSignal::new(false);
-    let options = StoredValue::new(HashMap::<String, (String, String, MaybeSignal<bool>)>::new());
+    let options = StoredValue::new(HashMap::<String, (String, String, Signal<bool>)>::new());
 
     let clear_icon_ref = NodeRef::<html::Span>::new();
     let is_show_clear_icon = Memo::new(move |_| {
@@ -284,7 +284,7 @@ pub fn Combobox(
 pub(crate) struct ComboboxInjection {
     value: Model<String>,
     selected_options: VecModel<String>,
-    options: StoredValue<HashMap<String, (String, String, MaybeSignal<bool>)>>,
+    options: StoredValue<HashMap<String, (String, String, Signal<bool>)>>,
     is_show_listbox: RwSignal<bool>,
     validate: Callback<Option<ComboboxRuleTrigger>, bool>,
     pub multiselect: bool,
@@ -296,7 +296,7 @@ impl ComboboxInjection {
     }
 
     /// value: (value, text, disabled)
-    pub fn insert_option(&self, id: String, value: (String, String, MaybeSignal<bool>)) {
+    pub fn insert_option(&self, id: String, value: (String, String, Signal<bool>)) {
         self.options.update_value(|options| {
             options.insert(id, value);
         });
@@ -357,7 +357,7 @@ pub enum ComboboxRuleTrigger {
 pub struct ComboboxRule(Rule<Vec<String>, ComboboxRuleTrigger>);
 
 impl ComboboxRule {
-    pub fn required(required: MaybeSignal<bool>) -> Self {
+    pub fn required(required: Signal<bool>) -> Self {
         Self::validator(move |value, name| {
             if required.get_untracked() && value.is_empty() {
                 let message = name.get_untracked().map_or_else(
@@ -372,8 +372,8 @@ impl ComboboxRule {
     }
 
     pub fn required_with_message(
-        required: MaybeSignal<bool>,
-        message: MaybeSignal<String>,
+        required: Signal<bool>,
+        message: Signal<String>,
     ) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_empty() {

@@ -98,9 +98,9 @@ view! {
 | Name     | Type                | Default              | Desciption                 |
 | -------- | ------------------- | -------------------- | -------------------------- |
 | class    | `MaybeProp<String>` | `Default::default()` |                            |
-| cols     | `MaybeSignal<u16>`  | `1`                  | Number of grids displayed. |
-| x_gap    | `MaybeSignal<u16>`  | `0`                  | Horizontal gap.            |
-| y_gap    | `MaybeSignal<u16>`  | `0`                  | Vertical gap.              |
+| cols     | `Signal<u16>`       | `1`                  | Number of grids displayed. |
+| x_gap    | `Signal<u16>`       | `0`                  | Horizontal gap.            |
+| y_gap    | `Signal<u16>`       | `0`                  | Vertical gap.              |
 | children | `Children`          |                      |                            |
 
 ### GridItem Props
@@ -108,6 +108,6 @@ view! {
 | Name | Type | Default | Desciption |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
-| column | `MaybeSignal<u16>` | `1` | The number of columns occupied by the grid. The grid item would be hidden if it's 0. |
-| offset | `MaybeSignal<u16>` | `0` | The number of intervals to the left of the grid. |
+| column | `Signal<u16>` | `1` | The number of columns occupied by the grid. The grid item would be hidden if it's 0. |
+| offset | `Signal<u16>` | `0` | The number of intervals to the left of the grid. |
 | children | `Children` |  |  |

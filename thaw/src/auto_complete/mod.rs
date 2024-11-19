@@ -32,15 +32,15 @@ pub fn AutoComplete(
     #[prop(optional, into)]
     placeholder: MaybeProp<String>,
     // Whether to clear after selection.
-    #[prop(optional, into)] clear_after_select: MaybeSignal<bool>,
+    #[prop(optional, into)] clear_after_select: Signal<bool>,
     /// Whether to blur after selection.
     #[prop(optional, into)]
-    blur_after_select: MaybeSignal<bool>,
+    blur_after_select: Signal<bool>,
     // On select callback function.
     #[prop(optional, into)] on_select: Option<BoxOneCallback<String>>,
     /// Whether the input is disabled.
     #[prop(optional, into)]
-    disabled: MaybeSignal<bool>,
+    disabled: Signal<bool>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,

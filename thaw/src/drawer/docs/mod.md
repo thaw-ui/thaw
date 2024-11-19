@@ -171,27 +171,27 @@ view! {
 
 ### OverlayDrawer Props
 
-| Name | Type | Default | Desciption |
-| --- | --- | --- | --- |
-| class | `MaybeProp<String>` | `Default::default()` |  |
-| container_class | `MaybeProp<String>` | `Default::default()` |  |
-| open | `Model<bool>` |  | Controls the open state of the Drawer. |
-| mask_closeable | `MaybeSignal<bool>` | `true` | Whether to emit hide event when click mask. |
-| close_on_esc | `bool` | `false` | Whether to close drawer on Esc is pressed. |
-| position | `MaybeSignal<DrawerPosition>` | `DrawerPlacement::Left` | Position of the drawer. |
-| size | `MaybeSignal<DrawerSize>` | `DrawerSize::Small` | Size of the drawer. |
-| modal_type | `DrawerModalType` | `DrawerModalType::Modal` | Dialog variations. |
-| children | `Children` |  |  |
+| Name            | Type                     | Default                  | Desciption                                  |
+| --------------- | ------------------------ | ------------------------ | ------------------------------------------- |
+| class           | `MaybeProp<String>`      | `Default::default()`     |                                             |
+| container_class | `MaybeProp<String>`      | `Default::default()`     |                                             |
+| open            | `Model<bool>`            |                          | Controls the open state of the Drawer.      |
+| mask_closeable  | `Signal<bool>`           | `true`                   | Whether to emit hide event when click mask. |
+| close_on_esc    | `bool`                   | `false`                  | Whether to close drawer on Esc is pressed.  |
+| position        | `Signal<DrawerPosition>` | `DrawerPlacement::Left`  | Position of the drawer.                     |
+| size            | `Signal<DrawerSize>`     | `DrawerSize::Small`      | Size of the drawer.                         |
+| modal_type      | `DrawerModalType`        | `DrawerModalType::Modal` | Dialog variations.                          |
+| children        | `Children`               |                          |                                             |
 
 ### InlineDrawer Props
 
-| Name     | Type                          | Default                 | Desciption                             |
-| -------- | ----------------------------- | ----------------------- | -------------------------------------- |
-| class    | `MaybeProp<String>`           | `Default::default()`    |                                        |
-| open     | `Model<bool>`                 |                         | Controls the open state of the Drawer. |
-| position | `MaybeSignal<DrawerPosition>` | `DrawerPlacement::Left` | Position of the drawer.                |
-| size     | `MaybeSignal<DrawerSize>`     | `DrawerSize::Small`     | Size of the drawer.                    |
-| children | `Children`                    |                         |                                        |
+| Name     | Type                     | Default                 | Desciption                             |
+| -------- | ------------------------ | ----------------------- | -------------------------------------- |
+| class    | `MaybeProp<String>`      | `Default::default()`    |                                        |
+| open     | `Model<bool>`            |                         | Controls the open state of the Drawer. |
+| position | `Signal<DrawerPosition>` | `DrawerPlacement::Left` | Position of the drawer.                |
+| size     | `Signal<DrawerSize>`     | `DrawerSize::Small`     | Size of the drawer.                    |
+| children | `Children`               |                         |                                        |
 
 ### DrawerHeader Props
 

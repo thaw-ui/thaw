@@ -1,14 +1,14 @@
 use crate::AccordionInjection;
 use leptos::{html, prelude::*};
 use thaw_components::CSSTransition;
-use thaw_utils::{class_list, mount_style, update, with, StoredMaybeSignal};
+use thaw_utils::{class_list, mount_style, update, with};
 
 #[component]
 pub fn AccordionItem(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Required value that identifies this item inside an Accordion component.
     #[prop(into)]
-    value: MaybeSignal<String>,
+    value: Signal<String>,
     accordion_header: AccordionHeader,
     children: Children,
 ) -> impl IntoView {
@@ -19,7 +19,6 @@ pub fn AccordionItem(
         collapsible,
     } = AccordionInjection::expect_context();
     let panel_ref = NodeRef::<html::Div>::new();
-    let value: StoredMaybeSignal<_> = value.into();
 
     let is_show_panel = Memo::new(move |_| with!(|open_items, value| open_items.contains(value)));
 

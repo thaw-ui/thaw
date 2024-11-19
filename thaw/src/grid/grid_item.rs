@@ -7,11 +7,11 @@ pub fn GridItem(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The number of columns occupied by the grid.
     /// The grid item would be hidden if it's 0.
-    #[prop(default = MaybeSignal::Static(1u16), into)]
-    column: MaybeSignal<u16>,
+    #[prop(default = 1u16.into(), into)]
+    column: Signal<u16>,
     /// The number of intervals to the left of the grid.
     #[prop(optional, into)]
-    offset: MaybeSignal<u16>,
+    offset: Signal<u16>,
     children: Children,
 ) -> impl IntoView {
     let grid = use_grid();

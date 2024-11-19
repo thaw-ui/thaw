@@ -42,10 +42,10 @@ view! {
 | value | `Model<String>` | `Default::default()` | The value of the Textarea. |
 | allow_value | `Option<BoxOneCallback<String, bool>>` | `None` | Check the incoming value, if it returns false, input will not be accepted. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder text for the input. |
-| disabled | `MaybeSignal<bool>` | `false` | Whether the input is disabled. |
+| disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | on_focus | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
 | on_blur | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
-| resize | `MaybeSignal<TextareaResize>` | `TextareaResize::None` | Which direction the Textarea is allowed to be resized. |
+| resize | `Signal<TextareaResize>` | `TextareaResize::None` | Which direction the Textarea is allowed to be resized. |
 | comp_ref | ref `ComponentRef<TextareaRef>` | `Default::default()` |  |
 
 ### TextareaRef Props

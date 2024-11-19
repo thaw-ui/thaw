@@ -9,13 +9,13 @@ pub fn Tooltip(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The text of the tooltip.
     #[prop(optional, into)]
-    content: Option<MaybeSignal<String>>,
+    content: Option<Signal<String>>,
     /// Configure the position of the tooltip.
     #[prop(optional)]
     position: TooltipPosition,
     /// The tooltip's visual appearance.
     #[prop(optional, into)]
-    appearance: MaybeSignal<TooltipAppearance>,
+    appearance: Signal<TooltipAppearance>,
     children: Children,
 ) -> impl IntoView {
     mount_style("tooltip", include_str!("./tooltip.css"));

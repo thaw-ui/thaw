@@ -61,7 +61,7 @@ pub enum RadioGroupRuleTrigger {
 pub struct RadioGroupRule(Rule<Option<String>, RadioGroupRuleTrigger>);
 
 impl RadioGroupRule {
-    pub fn required(required: MaybeSignal<bool>) -> Self {
+    pub fn required(required: Signal<bool>) -> Self {
         Self::validator(move |value, name| {
             if required.get_untracked() && value.is_none() {
                 let message = name.get_untracked().map_or_else(
@@ -76,8 +76,8 @@ impl RadioGroupRule {
     }
 
     pub fn required_with_message(
-        required: MaybeSignal<bool>,
-        message: MaybeSignal<String>,
+        required: Signal<bool>,
+        message: Signal<String>,
     ) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_none() {
