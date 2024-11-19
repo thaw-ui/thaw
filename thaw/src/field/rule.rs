@@ -5,7 +5,8 @@ use send_wrapper::SendWrapper;
 use std::ops::Deref;
 use thaw_utils::{Model, OptionModel, OptionModelWithValue, VecModel, VecModelWithValue};
 
-type RuleValidator<T> = Box<dyn Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState>>;
+type RuleValidator<T> =
+    Box<dyn Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState> + Send + Sync>;
 
 pub struct Rule<T, Trigger> {
     validator: RuleValidator<T>,
