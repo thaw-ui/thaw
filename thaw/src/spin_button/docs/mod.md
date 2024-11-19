@@ -6,7 +6,7 @@ SpinButton are used to allow numerical input bounded between minimum and maximum
     <MessageBarBody>
         <div style="white-space: normal">
             "SpinButton is a generic component, so the type must be specified. Example: <SpinButton<i32> step_page=1/>. "
-            <Link href="https://github.com/leptos-rs/leptos/issues/3200">Related issue</Link>
+            <Link href="https://github.com/leptos-rs/leptos/issues/3200">"Related issue"</Link>
         </div>
     </MessageBarBody>
 </MessageBar>
