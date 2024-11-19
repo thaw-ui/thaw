@@ -216,8 +216,8 @@ view! {
 
 ### DrawerBody Props
 
-| Name       | Type                | Default              | Description                              |
-| ---------- | ------------------- | -------------------- | ---------------------------------------- |
-| class      | `MaybeProp<String>` | `Default::default()` |                                          |
-| scrollable | `bool`              | `true`               | Allows the drawer body to be scrollable. |
-| children   | `Children`          |                      |                                          |
+| Name             | Type                | Default              | Description                                |
+| ---------------- | ------------------- | -------------------- | ------------------------------------------ |
+| class            | `MaybeProp<String>` | `Default::default()` |                                            |
+| native_scrollbar | `bool`              | `false`              | Whether to use native scrollbar on itself. |
+| children         | `Children`          |                      |                                            |
