@@ -2,7 +2,7 @@ mod types;
 
 pub use types::*;
 
-use crate::{InfoRegularIcon, Popover, PopoverTrigger, PopoverTriggerType};
+use crate::{InfoRegularIcon, Popover, PopoverPosition, PopoverTrigger, PopoverTriggerType};
 use leptos::prelude::*;
 use thaw_utils::class_list;
 
@@ -10,11 +10,12 @@ use thaw_utils::class_list;
 pub fn InfoButton(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Size of the InfoButton.
-    #[prop(optional, into)] size: Signal<InfoButtonSize>,
+    #[prop(optional, into)]
+    size: Signal<InfoButtonSize>,
     children: Children,
 ) -> impl IntoView {
     view! {
-        <Popover trigger_type=PopoverTriggerType::Click>
+        <Popover trigger_type=PopoverTriggerType::Click position=PopoverPosition::TopStart>
             <PopoverTrigger slot>
                 <button class=class_list![
                     "thaw-info-button",
