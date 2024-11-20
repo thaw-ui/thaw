@@ -79,9 +79,18 @@ pub fn get_follower_placement_offset(
             let top = target_top - content_height;
             let (top, new_placement) =
                 if top < 0.0 && target_bottom + content_height <= window_inner_height {
-                    (target_bottom, FollowerPlacement::Bottom)
+                    let new_placement = if placement == FollowerPlacement::Top {
+                        FollowerPlacement::Bottom
+                    } else if placement == FollowerPlacement::TopStart {
+                        FollowerPlacement::BottomStart
+                    } else if placement == FollowerPlacement::TopEnd {
+                        FollowerPlacement::BottomEnd
+                    } else {
+                        unreachable!()
+                    };
+                    (target_bottom, new_placement)
                 } else {
-                    (top, FollowerPlacement::Top)
+                    (top, placement)
                 };
 
             if placement == FollowerPlacement::Top {
@@ -113,9 +122,18 @@ pub fn get_follower_placement_offset(
             let (top, new_placement) = if top + content_height > window_inner_height
                 && target_top - content_height >= 0.0
             {
-                (target_top - content_height, FollowerPlacement::Top)
+                let new_placement = if placement == FollowerPlacement::Bottom {
+                    FollowerPlacement::Top
+                } else if placement == FollowerPlacement::BottomStart {
+                    FollowerPlacement::TopStart
+                } else if placement == FollowerPlacement::BottomEnd {
+                    FollowerPlacement::TopEnd
+                } else {
+                    unreachable!()
+                };
+                (target_top - content_height, new_placement)
             } else {
-                (top, FollowerPlacement::Bottom)
+                (top, placement)
             };
             if placement == FollowerPlacement::Bottom {
                 let left = target_rect.left() + target_rect.width() / 2.0;
@@ -141,18 +159,21 @@ pub fn get_follower_placement_offset(
             let target_left = target_rect.left();
             let target_right = target_rect.right();
             let left = target_left - content_width;
-            leptos::logging::log!(
-                "{}-{} {} {}",
-                left,
-                target_right,
-                content_width,
-                window_inner_width
-            );
+
             let (left, new_placement) =
                 if left < 0.0 && target_right + content_width <= window_inner_width {
-                    (target_right, FollowerPlacement::Right)
+                    let new_placement = if placement == FollowerPlacement::Left {
+                        FollowerPlacement::Right
+                    } else if placement == FollowerPlacement::LeftStart {
+                        FollowerPlacement::RightStart
+                    } else if placement == FollowerPlacement::LeftEnd {
+                        FollowerPlacement::RightEnd
+                    } else {
+                        unreachable!()
+                    };
+                    (target_right, new_placement)
                 } else {
-                    (left, FollowerPlacement::Left)
+                    (left, placement)
                 };
             if placement == FollowerPlacement::Left {
                 let top = target_rect.top() + target_rect.height() / 2.0;
@@ -182,9 +203,18 @@ pub fn get_follower_placement_offset(
             let (left, new_placement) = if left + content_width > window_inner_width
                 && target_left - content_width >= 0.0
             {
-                (target_left - content_width, FollowerPlacement::Left)
+                let new_placement = if placement == FollowerPlacement::Right {
+                    FollowerPlacement::Left
+                } else if placement == FollowerPlacement::RightStart {
+                    FollowerPlacement::LeftStart
+                } else if placement == FollowerPlacement::RightEnd {
+                    FollowerPlacement::LeftEnd
+                } else {
+                    unreachable!()
+                };
+                (target_left - content_width, new_placement)
             } else {
-                (left, FollowerPlacement::Right)
+                (left, placement)
             };
 
             if placement == FollowerPlacement::Right {

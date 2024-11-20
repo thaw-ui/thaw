@@ -28,6 +28,7 @@
     margin: -1px 0;
 }
 
+.thaw-popover-trigger--open > .thaw-info-button,
 .thaw-info-button:hover {
     background: var(--colorTransparentBackgroundHover);
     color: var(--colorNeutralForeground2BrandHover);
@@ -40,4 +41,16 @@
 .thaw-info-button--large {
     padding: var(--spacingVerticalXXS) var(--spacingHorizontalXXS);
     font-size: 20px;
+}
+
+.thaw-info-button-popover.thaw-popover-surface {
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    font-weight: var(--fontWeightRegular);
+    line-height: var(--lineHeightBase200);
+}
+
+.thaw-info-button-popover.thaw-popover-surface--large {
+    font-size: var(--fontSizeBase300);
+    line-height: var(--lineHeightBase300);
 }

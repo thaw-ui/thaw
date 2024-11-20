@@ -15,7 +15,12 @@ pub fn InfoButton(
     children: Children,
 ) -> impl IntoView {
     view! {
-        <Popover trigger_type=PopoverTriggerType::Click position=PopoverPosition::TopStart>
+        <Popover
+            class="thaw-info-button-popover"
+            trigger_type=PopoverTriggerType::Click
+            position=PopoverPosition::TopStart
+            size=Signal::derive(move || size.get().into())
+        >
             <PopoverTrigger slot>
                 <button class=class_list![
                     "thaw-info-button",
