@@ -1,0 +1,20 @@
+.thaw-info-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration-line: none;
+    box-sizing: border-box;
+    margin: calc(0px - var(--spacingVerticalXXS)) 0;
+    padding: var(--spacingVerticalXS) var(--spacingHorizontalXS);
+    vertical-align: top;
+    color: var(--colorNeutralForeground2);
+    background-color: var(--colorTransparentBackground);
+    border-style: none;
+    border-radius: var(--borderRadiusMedium);
+}
+
+.thaw-info-button:hover {
+    background: var(--colorTransparentBackgroundHover);
+    color: var(--colorNeutralForeground2BrandHover);
+}
