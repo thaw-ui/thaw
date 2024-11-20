@@ -1,15 +1,12 @@
+mod types;
+
+pub use types::*;
+
 use crate::ConfigInjection;
 use leptos::{ev, html, leptos_dom::helpers::TimeoutHandle, prelude::*};
 use std::time::Duration;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_components::{Binder, CSSTransition, Follower};
 use thaw_utils::{add_event_listener, class_list, mount_style, BoxCallback};
-
-#[slot]
-pub struct PopoverTrigger {
-    #[prop(optional, into)]
-    class: MaybeProp<String>,
-    children: Children,
-}
 
 #[component]
 pub fn Popover(
@@ -26,6 +23,7 @@ pub fn Popover(
     /// When not specified, the default style is used.
     #[prop(optional, into)]
     appearance: MaybeProp<PopoverAppearance>,
+    #[prop(optional, into)] size: Signal<PopoverSize>,
     #[prop(optional, into)] on_open: Option<BoxCallback>,
     #[prop(optional, into)] on_close: Option<BoxCallback>,
     children: Children,
@@ -139,7 +137,11 @@ pub fn Popover(
     view! {
         <Binder target_ref>
             <div
-                class=class_list!["thaw-popover-trigger", trigger_class]
+                class=class_list![
+                    "thaw-popover-trigger",
+                    move || is_show_popover.get().then(|| "thaw-popover-trigger--open".to_string()),
+                    trigger_class
+                ]
                 node_ref=target_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
@@ -157,6 +159,7 @@ pub fn Popover(
                     <div
                         class=class_list![
                             "thaw-config-provider thaw-popover-surface",
+                            move || format!("thaw-popover-surface--{}", size.get().as_str()),
                             move || appearance.get().map(|a| format!("thaw-popover-surface--{}", a.as_str())),
                             class
                         ]
@@ -173,65 +176,5 @@ pub fn Popover(
                 </CSSTransition>
             </Follower>
         </Binder>
-    }
-}
-
-#[derive(Clone)]
-pub enum PopoverAppearance {
-    Brand,
-    Inverted,
-}
-
-impl PopoverAppearance {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            PopoverAppearance::Brand => "brand",
-            PopoverAppearance::Inverted => "inverted",
-        }
-    }
-}
-
-#[derive(Default, PartialEq, Clone)]
-pub enum PopoverTriggerType {
-    #[default]
-    Hover,
-    Click,
-}
-
-impl Copy for PopoverTriggerType {}
-
-#[derive(Default)]
-pub enum PopoverPosition {
-    #[default]
-    Top,
-    Bottom,
-    Left,
-    Right,
-    TopStart,
-    TopEnd,
-    LeftStart,
-    LeftEnd,
-    RightStart,
-    RightEnd,
-    BottomStart,
-    BottomEnd,
-}
-
-impl From<PopoverPosition> for FollowerPlacement {
-    fn from(value: PopoverPosition) -> Self {
-        match value {
-            PopoverPosition::Top => Self::Top,
-            PopoverPosition::Bottom => Self::Bottom,
-            PopoverPosition::Left => Self::Left,
-            PopoverPosition::Right => Self::Right,
-            PopoverPosition::TopStart => Self::TopStart,
-            PopoverPosition::TopEnd => Self::TopEnd,
-            PopoverPosition::LeftStart => Self::LeftStart,
-            PopoverPosition::LeftEnd => Self::LeftEnd,
-            PopoverPosition::RightStart => Self::RightStart,
-            PopoverPosition::RightEnd => Self::RightEnd,
-            PopoverPosition::BottomStart => Self::BottomStart,
-            PopoverPosition::BottomEnd => Self::BottomEnd,
-        }
     }
 }

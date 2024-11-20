@@ -85,6 +85,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/grid") view=GridMdPage />
                     <Route path=path!("/icon") view=IconMdPage />
                     <Route path=path!("/image") view=ImageMdPage />
+                    <Route path=path!("/info-label") view=InfoLabelMdPage />
                     <Route path=path!("/input") view=InputMdPage />
                     <Route path=path!("/label") view=LabelMdPage />
                     <Route path=path!("/layout") view=LayoutMdPage />
