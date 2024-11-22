@@ -1,19 +1,21 @@
-use leptos::prelude::*;
+use super::{ReadModel, WriteModel};
+use leptos::{prelude::*, reactive::wrappers::write::SignalSetter};
+use reactive_stores::{ArcField, Field, StoreField, Subfield};
 
 pub enum VecModel<T, S = SyncStorage>
 where
     T: 'static,
     S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
 {
-    T(Signal<T, S>, WriteSignal<T, S>, Option<WriteSignal<T, S>>),
+    T(ReadModel<T, S>, WriteModel<T, S>, Option<WriteSignal<T, S>>),
     Option(
-        Signal<Option<T>, S>,
-        WriteSignal<Option<T>, S>,
+        ReadModel<Option<T>, S>,
+        WriteModel<Option<T>, S>,
         Option<WriteSignal<Option<T>, S>>,
     ),
     Vec(
-        Signal<Vec<T>, S>,
-        WriteSignal<Vec<T>, S>,
+        ReadModel<Vec<T>, S>,
+        WriteModel<Vec<T>, S>,
         Option<WriteSignal<Vec<T>, S>>,
     ),
 }
@@ -174,21 +176,90 @@ impl<T: Send + Sync> From<Vec<T>> for VecModel<T> {
 impl<T: Send + Sync> From<RwSignal<T>> for VecModel<T> {
     fn from(rw_signal: RwSignal<T>) -> Self {
         let (read, write) = rw_signal.split();
-        Self::T(read.into(), write, None)
+        Self::T(ReadModel::Signal(read.into()), write.into(), None)
+    }
+}
+
+impl<T, S> From<Field<T, S>> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from(field: Field<T, S>) -> Self {
+        Self::T(field.clone().into(), field.into(), None)
+    }
+}
+
+impl<T, S, Inner, Prev> From<Subfield<Inner, Prev, T>> for VecModel<T, S>
+where
+    T: Send + Sync,
+    S: Storage<T> + Storage<ArcField<T>> + Storage<Option<T>> + Storage<Vec<T>>,
+    Subfield<Inner, Prev, T>: Clone,
+    Inner: StoreField<Value = Prev> + Send + Sync + 'static,
+    Prev: 'static,
+{
+    fn from(subfield: Subfield<Inner, Prev, T>) -> Self {
+        let field: Field<T, S> = subfield.into();
+        Self::T(field.clone().into(), field.into(), None)
     }
 }
 
 impl<T: Send + Sync> From<RwSignal<Option<T>>> for VecModel<T> {
     fn from(rw_signal: RwSignal<Option<T>>) -> Self {
         let (read, write) = rw_signal.split();
-        Self::Option(read.into(), write, None)
+        Self::Option(ReadModel::Signal(read.into()), write.into(), None)
+    }
+}
+
+impl<T, S> From<Field<Option<T>, S>> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from(field: Field<Option<T>, S>) -> Self {
+        Self::Option(field.clone().into(), field.into(), None)
+    }
+}
+
+impl<T, S, Inner, Prev> From<Subfield<Inner, Prev, Option<T>>> for VecModel<T, S>
+where
+    T: Send + Sync,
+    S: Storage<T> + Storage<ArcField<Option<T>>> + Storage<Option<T>> + Storage<Vec<T>>,
+    Subfield<Inner, Prev, Option<T>>: Clone,
+    Inner: StoreField<Value = Prev> + Send + Sync + 'static,
+    Prev: 'static,
+{
+    fn from(subfield: Subfield<Inner, Prev, Option<T>>) -> Self {
+        let field: Field<Option<T>, S> = subfield.into();
+        Self::Option(field.clone().into(), field.into(), None)
     }
 }
 
 impl<T: Send + Sync> From<RwSignal<Vec<T>>> for VecModel<T> {
     fn from(rw_signal: RwSignal<Vec<T>>) -> Self {
         let (read, write) = rw_signal.split();
-        Self::Vec(read.into(), write, None)
+        Self::Vec(ReadModel::Signal(read.into()), write.into(), None)
+    }
+}
+
+impl<T, S> From<Field<Vec<T>, S>> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from(field: Field<Vec<T>, S>) -> Self {
+        Self::Vec(field.clone().into(), field.into(), None)
+    }
+}
+
+impl<T, S, Inner, Prev> From<Subfield<Inner, Prev, Vec<T>>> for VecModel<T, S>
+where
+    T: Send + Sync,
+    S: Storage<T> + Storage<ArcField<Vec<T>>> + Storage<Option<T>> + Storage<Vec<T>>,
+    Subfield<Inner, Prev, Vec<T>>: Clone,
+    Inner: StoreField<Value = Prev> + Send + Sync + 'static,
+    Prev: 'static,
+{
+    fn from(subfield: Subfield<Inner, Prev, Vec<T>>) -> Self {
+        let field: Field<Vec<T>, S> = subfield.into();
+        Self::Vec(field.clone().into(), field.into(), None)
     }
 }
 
@@ -197,7 +268,20 @@ where
     S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
 {
     fn from((read, write): (Signal<T, S>, WriteSignal<T, S>)) -> Self {
-        Self::T(read, write, None)
+        Self::T(read.into(), write.into(), None)
+    }
+}
+
+impl<T, S> From<(Signal<T, S>, SignalSetter<T, S>)> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from((read, write): (Signal<T, S>, SignalSetter<T, S>)) -> Self {
+        Self::T(
+            read.clone().into(),
+            (ReadModel::Signal(read), write).into(),
+            None,
+        )
     }
 }
 
@@ -206,7 +290,20 @@ where
     S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
 {
     fn from((read, write): (Signal<Option<T>, S>, WriteSignal<Option<T>, S>)) -> Self {
-        Self::Option(read, write, None)
+        Self::Option(read.into(), write.into(), None)
+    }
+}
+
+impl<T, S> From<(Signal<Option<T>, S>, SignalSetter<Option<T>, S>)> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from((read, write): (Signal<Option<T>, S>, SignalSetter<Option<T>, S>)) -> Self {
+        Self::Option(
+            read.clone().into(),
+            (ReadModel::Signal(read), write).into(),
+            None,
+        )
     }
 }
 
@@ -215,43 +312,56 @@ where
     S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
 {
     fn from((read, write): (Signal<Vec<T>, S>, WriteSignal<Vec<T>, S>)) -> Self {
-        Self::Vec(read, write, None)
+        Self::Vec(read.into(), write.into(), None)
+    }
+}
+
+impl<T, S> From<(Signal<Vec<T>, S>, SignalSetter<Vec<T>, S>)> for VecModel<T, S>
+where
+    S: Storage<T> + Storage<Option<T>> + Storage<Vec<T>>,
+{
+    fn from((read, write): (Signal<Vec<T>, S>, SignalSetter<Vec<T>, S>)) -> Self {
+        Self::Vec(
+            read.clone().into(),
+            (ReadModel::Signal(read), write).into(),
+            None,
+        )
     }
 }
 
 impl<T: Send + Sync> From<(ReadSignal<T>, WriteSignal<T>)> for VecModel<T> {
     fn from((read, write): (ReadSignal<T>, WriteSignal<T>)) -> Self {
-        Self::T(read.into(), write, None)
+        Self::T(ReadModel::Signal(read.into()), write.into(), None)
     }
 }
 
 impl<T: Send + Sync> From<(ReadSignal<Option<T>>, WriteSignal<Option<T>>)> for VecModel<T> {
     fn from((read, write): (ReadSignal<Option<T>>, WriteSignal<Option<T>>)) -> Self {
-        Self::Option(read.into(), write, None)
+        Self::Option(ReadModel::Signal(read.into()), write.into(), None)
     }
 }
 
 impl<T: Send + Sync> From<(ReadSignal<Vec<T>>, WriteSignal<Vec<T>>)> for VecModel<T> {
     fn from((read, write): (ReadSignal<Vec<T>>, WriteSignal<Vec<T>>)) -> Self {
-        Self::Vec(read.into(), write, None)
+        Self::Vec(ReadModel::Signal(read.into()), write.into(), None)
     }
 }
 
 impl<T: Send + Sync> From<(Memo<T>, WriteSignal<T>)> for VecModel<T> {
     fn from((read, write): (Memo<T>, WriteSignal<T>)) -> Self {
-        Self::T(read.into(), write, None)
+        Self::T(ReadModel::Signal(read.into()), write.into(), None)
     }
 }
 
 impl<T: Send + Sync> From<(Memo<Option<T>>, WriteSignal<Option<T>>)> for VecModel<T> {
     fn from((read, write): (Memo<Option<T>>, WriteSignal<Option<T>>)) -> Self {
-        Self::Option(read.into(), write, None)
+        Self::Option(ReadModel::Signal(read.into()), write.into(), None)
     }
 }
 
 impl<T: Send + Sync> From<(Memo<Vec<T>>, WriteSignal<Vec<T>>)> for VecModel<T> {
     fn from((read, write): (Memo<Vec<T>>, WriteSignal<Vec<T>>)) -> Self {
-        Self::Vec(read.into(), write, None)
+        Self::Vec(ReadModel::Signal(read.into()), write.into(), None)
     }
 }
 
@@ -282,5 +392,53 @@ impl<T: Default + Send + Sync> From<(Option<Vec<T>>, WriteSignal<Vec<T>>)> for V
             *on_write = Some(write);
         }
         model
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::{VecModel, VecModelWithValue};
+    use leptos::{prelude::*, reactive::wrappers::write::SignalSetter};
+    use reactive_stores::Store;
+
+    #[derive(Debug, Store, Clone)]
+    struct StoreInfo {
+        my_str: String,
+    }
+
+    #[test]
+    fn from() {
+        let owner = Owner::new();
+        owner.set();
+
+        // Signal SignalSetter
+        let (read, write) = signal(0);
+        let signal = Signal::from(read);
+        let setter = SignalSetter::map(move |v: i32| {
+            write.set(v);
+        });
+        let model: VecModel<i32> = (signal, setter).into();
+        model.set(vec![1]);
+        model.with_untracked(|v| {
+            if let VecModelWithValue::T(v) = v {
+                assert_eq!(v, &1);
+            } else {
+                unreachable!()
+            }
+        });
+
+        // Store Subfield
+        let store = Store::new(StoreInfo {
+            my_str: "old".to_string(),
+        });
+        let model: VecModel<String> = store.my_str().into();
+        model.set(vec!["new".to_string()]);
+        model.with_untracked(|v| {
+            if let VecModelWithValue::T(v) = v {
+                assert_eq!(v, "new");
+            } else {
+                unreachable!()
+            }
+        });
     }
 }

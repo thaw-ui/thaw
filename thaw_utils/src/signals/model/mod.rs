@@ -9,8 +9,7 @@ pub use vec_model::{VecModel, VecModelWithValue};
 use leptos::{prelude::*, reactive::wrappers::write::SignalSetter};
 use reactive_stores::{ArcField, Field, StoreField};
 
-#[derive(Clone, Copy)]
-enum ReadModel<T, S = SyncStorage>
+pub enum ReadModel<T, S = SyncStorage>
 where
     T: 'static,
     S: Storage<T>,
@@ -18,6 +17,20 @@ where
     Signal(Signal<T, S>),
     Field(Field<T, S>),
 }
+
+impl<T, S> Clone for ReadModel<T, S>
+where
+    S: Storage<T>,
+{
+    fn clone(&self) -> Self {
+        match self {
+            Self::Signal(signal) => Self::Signal(signal.clone()),
+            Self::Field(field) => Self::Field(field.clone()),
+        }
+    }
+}
+
+impl<T, S> Copy for ReadModel<T, S> where S: Storage<T> {}
 
 impl<T, S> DefinedAt for ReadModel<T, S>
 where
@@ -59,8 +72,25 @@ where
     }
 }
 
-#[derive(Clone, Copy)]
-enum WriteModel<T, S = SyncStorage>
+impl<T, S> From<Signal<T, S>> for ReadModel<T, S>
+where
+    S: Storage<T>,
+{
+    fn from(signal: Signal<T, S>) -> Self {
+        Self::Signal(signal)
+    }
+}
+
+impl<T, S> From<Field<T, S>> for ReadModel<T, S>
+where
+    S: Storage<T>,
+{
+    fn from(field: Field<T, S>) -> Self {
+        Self::Field(field)
+    }
+}
+
+pub enum WriteModel<T, S = SyncStorage>
 where
     T: 'static,
     S: Storage<T>,
@@ -69,6 +99,23 @@ where
     SignalSetter(ReadModel<T, S>, SignalSetter<T, S>),
     Field(Field<T, S>),
 }
+
+impl<T, S> Clone for WriteModel<T, S>
+where
+    S: Storage<T>,
+{
+    fn clone(&self) -> Self {
+        match self {
+            Self::WriteSignal(write_signal) => Self::WriteSignal(write_signal.clone()),
+            Self::SignalSetter(read, signal_setter) => {
+                Self::SignalSetter(read.clone(), signal_setter.clone())
+            }
+            Self::Field(field) => Self::Field(field.clone()),
+        }
+    }
+}
+
+impl<T, S> Copy for WriteModel<T, S> where S: Storage<T> {}
 
 impl<T, S> Update for WriteModel<T, S>
 where
@@ -121,6 +168,33 @@ where
             Self::SignalSetter(_, _) => false,
             Self::Field(field) => field.is_disposed(),
         }
+    }
+}
+
+impl<T, S> From<WriteSignal<T, S>> for WriteModel<T, S>
+where
+    S: Storage<T>,
+{
+    fn from(write_signal: WriteSignal<T, S>) -> Self {
+        Self::WriteSignal(write_signal)
+    }
+}
+
+impl<T, S> From<(ReadModel<T, S>, SignalSetter<T, S>)> for WriteModel<T, S>
+where
+    S: Storage<T>,
+{
+    fn from(value: (ReadModel<T, S>, SignalSetter<T, S>)) -> Self {
+        Self::SignalSetter(value.0, value.1)
+    }
+}
+
+impl<T, S> From<Field<T, S>> for WriteModel<T, S>
+where
+    S: Storage<T>,
+{
+    fn from(field: Field<T, S>) -> Self {
+        Self::Field(field)
     }
 }
 

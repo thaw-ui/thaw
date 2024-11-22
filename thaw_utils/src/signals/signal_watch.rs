@@ -16,10 +16,10 @@ where
     /// ## Usage
     ///
     /// ```rust
-    /// use leptos::*;
-    /// use thaw::*;
+    /// use leptos::prelude::*;
+    /// use thaw_utils::SignalWatch;
     ///
-    /// let count = create_rw_signal(0);
+    /// let count = RwSignal::new(0);
     /// let stop = count.watch(|count| {
     ///     assert_eq!(count, &1);
     /// });

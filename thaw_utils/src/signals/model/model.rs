@@ -2,7 +2,6 @@ use super::{ReadModel, WriteModel};
 use leptos::{prelude::*, reactive::wrappers::write::SignalSetter};
 use reactive_stores::{ArcField, Field, StoreField, Subfield};
 
-#[derive(Clone, Copy)]
 pub struct Model<T, S = SyncStorage>
 where
     T: 'static,
@@ -18,6 +17,17 @@ impl<T: Default + Send + Sync> Default for Model<T> {
         RwSignal::new(Default::default()).into()
     }
 }
+
+impl<T, S> Clone for Model<T, S>
+where
+    S: Storage<T>,
+{
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<T, S> Copy for Model<T, S> where S: Storage<T> {}
 
 impl<T: Send + Sync> Model<T> {
     fn new(value: T) -> Self {
@@ -114,7 +124,7 @@ where
         let (read, write) = rw_signal.split();
         Self {
             read: ReadModel::Signal(read.into()),
-            write: WriteModel::WriteSignal(write),
+            write: write.into(),
             on_write: None,
         }
     }
@@ -125,7 +135,7 @@ impl<T> From<RwSignal<T, LocalStorage>> for Model<T, LocalStorage> {
         let (read, write) = rw_signal.split();
         Self {
             read: ReadModel::Signal(read.into()),
-            write: WriteModel::WriteSignal(write),
+            write: write.into(),
             on_write: None,
         }
     }
@@ -137,8 +147,8 @@ where
 {
     fn from(field: Field<T, S>) -> Self {
         Self {
-            read: ReadModel::Field(field.clone()),
-            write: WriteModel::Field(field),
+            read: field.clone().into(),
+            write: field.into(),
             on_write: None,
         }
     }
@@ -155,8 +165,8 @@ where
     fn from(subfield: Subfield<Inner, Prev, T>) -> Self {
         let field: Field<T, S> = subfield.into();
         Self {
-            read: ReadModel::Field(field.clone()),
-            write: WriteModel::Field(field),
+            read: field.clone().into(),
+            write: field.into(),
             on_write: None,
         }
     }
@@ -168,8 +178,8 @@ where
 {
     fn from((read, write): (Signal<T, S>, WriteSignal<T, S>)) -> Self {
         Self {
-            read: ReadModel::Signal(read),
-            write: WriteModel::WriteSignal(write),
+            read: read.into(),
+            write: write.into(),
             on_write: None,
         }
     }
@@ -181,7 +191,7 @@ where
 {
     fn from((read, write): (Signal<T, S>, SignalSetter<T, S>)) -> Self {
         Self {
-            read: ReadModel::Signal(read.clone()),
+            read: read.clone().into(),
             write: WriteModel::SignalSetter(ReadModel::Signal(read), write),
             on_write: None,
         }
@@ -195,7 +205,7 @@ where
     fn from((read, write): (ReadSignal<T>, WriteSignal<T>)) -> Self {
         Self {
             read: ReadModel::Signal(read.into()),
-            write: WriteModel::WriteSignal(write),
+            write: write.into(),
             on_write: None,
         }
     }
@@ -207,7 +217,7 @@ impl<T> From<(ReadSignal<T, LocalStorage>, WriteSignal<T, LocalStorage>)>
     fn from((read, write): (ReadSignal<T, LocalStorage>, WriteSignal<T, LocalStorage>)) -> Self {
         Self {
             read: ReadModel::Signal(read.into()),
-            write: WriteModel::WriteSignal(write),
+            write: write.into(),
             on_write: None,
         }
     }
@@ -220,7 +230,7 @@ where
     fn from((read, write): (Memo<T>, WriteSignal<T>)) -> Self {
         Self {
             read: ReadModel::Signal(read.into()),
-            write: WriteModel::WriteSignal(write),
+            write: write.into(),
             on_write: None,
         }
     }
@@ -230,7 +240,7 @@ impl<T> From<(Memo<T, LocalStorage>, WriteSignal<T, LocalStorage>)> for Model<T,
     fn from((read, write): (Memo<T, LocalStorage>, WriteSignal<T, LocalStorage>)) -> Self {
         Self {
             read: ReadModel::Signal(read.into()),
-            write: WriteModel::WriteSignal(write),
+            write: write.into(),
             on_write: None,
         }
     }
@@ -286,7 +296,9 @@ mod test {
         // Signal SignalSetter
         let (read, write) = signal(0);
         let signal = Signal::from(read);
-        let setter = SignalSetter::map(move |v: i32| { write.set(v); });
+        let setter = SignalSetter::map(move |v: i32| {
+            write.set(v);
+        });
         let model: Model<i32> = (signal, setter).into();
         assert_eq!(model.get_untracked(), 0);
         model.set(1);
