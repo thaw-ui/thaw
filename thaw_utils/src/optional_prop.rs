@@ -71,19 +71,28 @@ impl From<String> for OptionalProp<Signal<String>> {
     }
 }
 
-impl<T> From<ReadSignal<T>> for OptionalProp<Signal<T>> where T: Send + Sync + 'static{
+impl<T> From<ReadSignal<T>> for OptionalProp<Signal<T>>
+where
+    T: Send + Sync + 'static,
+{
     fn from(value: ReadSignal<T>) -> Self {
         Self(Some(Signal::from(value)))
     }
 }
 
-impl<T> From<RwSignal<T>> for OptionalProp<Signal<T>> where T: Send + Sync + 'static {
+impl<T> From<RwSignal<T>> for OptionalProp<Signal<T>>
+where
+    T: Send + Sync + 'static,
+{
     fn from(value: RwSignal<T>) -> Self {
         Self(Some(Signal::from(value)))
     }
 }
 
-impl<T> From<Memo<T>> for OptionalProp<Signal<T>> where T: Send + Sync + 'static  {
+impl<T> From<Memo<T>> for OptionalProp<Signal<T>>
+where
+    T: Send + Sync + 'static,
+{
     fn from(value: Memo<T>) -> Self {
         Self(Some(Signal::from(value)))
     }

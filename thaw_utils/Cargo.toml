@@ -15,6 +15,7 @@ rust-version.workspace = true
 [dependencies]
 leptos = { workspace = true }
 leptos_meta = { workspace = true, optional = true }
+reactive_stores = { workspace = true }
 web-sys = "0.3.70"
 wasm-bindgen = "0.2.95"
 cfg-if = "1.0.0"

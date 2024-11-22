@@ -22,3 +22,4 @@ thaw_utils = { version = "0.1.0-beta4", path = "./thaw_utils" }
 leptos = { version = "0.7.0-rc1" }
 leptos_meta = { version = "0.7.0-rc1" }
 leptos_router = { version = "0.7.0-rc1" }
+reactive_stores = { version = "0.1.0-rc1" }
