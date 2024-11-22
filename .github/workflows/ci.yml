@@ -102,3 +102,19 @@ jobs:
               run: |
                   cd ./examples/ssr_axum
                   cargo leptos build --release --features nightly
+    stable-cargo-test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Setup Rust
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  target: wasm32-unknown-unknown
+                  override: true
+            - name: cargo test
+              run: |
+                  cd thaw_utils
+                  cargo test
