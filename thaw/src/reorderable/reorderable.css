@@ -1,0 +1,80 @@
+div.reorderable {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: 12px;
+    padding: 16px;
+}
+
+div.reorderable.horizontal {
+    flex-direction: column;
+}
+
+div.reorderable-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 12px;
+    padding: 16px;
+}
+
+div.reorderable-container.horizontal {
+    flex-direction: row;
+}
+
+div.reorderable-container > div.item {
+  position: relative;
+}
+
+div.reorderable-container > div.item.col-item {
+    min-width: 1em;
+}
+
+div.reorderable-container > div.item.row-item {
+    min-height: 1em;
+}
+
+div.reorderable-container > div.dragging {
+    opacity: 70%;
+}
+
+div.reorderable-container > div.col-item::before,
+div.reorderable-container > div.col-item::after {
+  left: 0;
+  width: 100%;
+  height: 4px;
+  position: absolute;
+  background-color: #0ea5e9;
+  border-radius: 8px;
+}
+
+div.reorderable-container > div.col-item::before {
+  top: -8px;
+}
+
+div.reorderable-container > div.col-item::after {
+  bottom: -8px;
+}
+
+div.reorderable-container > div.row-item::before,
+div.reorderable-container > div.row-item::after {
+  top: 0;
+  height: 100%;
+  width: 4px;
+  position: absolute;
+  background-color: #0ea5e9;
+  border-radius: 8px;
+}
+
+div.reorderable-container > div.row-item::before {
+  left: -8px;
+}
+
+div.reorderable-container > div.row-item::after {
+  right: -8px;
+}
+
+div.reorderable-container > div.item--before::before,
+div.reorderable-container > div.item--after::after {
+  content: '';
+}
