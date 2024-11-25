@@ -1,3 +1,30 @@
+## [0.4.0-beta5](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta4...v0.4.0-beta5) (2024-11-26)
+
+### Features
+
+* Add on_open and on_close `Popover` callbacks, closes [#297](https://github.com/thaw-ui/thaw/pull/297).
+* `MessageBarContainerAction` allows optional, closes [#310](https://github.com/thaw-ui/thaw/pull/310).
+* `Button` adds loading prop.
+* Add readonly and input_size props to `Input`, closes [#315](https://github.com/thaw-ui/thaw/pull/315).
+* `DrawerBody` adds native_scrollbar prop, closes [#318](https://github.com/thaw-ui/thaw/pull/318).
+* Add `InfoLabel` component, closes [#319](https://github.com/thaw-ui/thaw/pull/319).
+* `Model` supports Field and SignalSetter, closes [#320](https://github.com/thaw-ui/thaw/pull/320).
+
+### Bug Fixs
+
+* When `NavSubItem` is selected, `NavCategory` is selected by default, closes [#290](https://github.com/thaw-ui/thaw/pull/290).
+* Fixed padding of the `Button` in large size, closes [#299](https://github.com/thaw-ui/thaw/pull/299).
+* Fixed `CardHeader`, closes [#300](https://github.com/thaw-ui/thaw/pull/300).
+* Fixed `MessageBarActions` layout under MessageBarLayout::Multiline, closes [#313](https://github.com/thaw-ui/thaw/pull/313).
+* `Slider` style issue when focused, closes [#323](https://github.com/thaw-ui/thaw/pull/323).
+
+### Breaking Changes
+
+* Update leptos to v0.7.0-rc2.
+* `MaybeSignal` refactored to `Signal`, closes [#314](https://github.com/thaw-ui/thaw/pull/314).
+* Add Send + Sync bounds to `RuleValidator`, closes [#317](https://github.com/thaw-ui/thaw/pull/317).
+* Adjust the z-index to 2000, closes [#325](https://github.com/thaw-ui/thaw/pull/325).
+  
 ## [0.4.0-beta4](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta3...v0.4.0-beta4) (2024-10-28)
 
 ### Features
