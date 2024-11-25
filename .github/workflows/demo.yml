@@ -9,6 +9,7 @@ on:
                 "thaw/**",
                 "thaw_components/**",
                 "thaw_utils/**",
+                "Cargo.toml",
             ]
         branches:
             - main

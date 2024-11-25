@@ -28,7 +28,7 @@
     --thaw-slider__thumb--color: var(--colorCompoundBrandBackgroundPressed);
 }
 
-.thaw-slider:focus,
+/* .thaw-slider:focus,
 .thaw-slider:focus-visible {
     outline-style: none;
 }
@@ -44,7 +44,7 @@
     pointer-events: none;
     border-radius: var(--borderRadiusMedium);
     border: 2px solid var(--colorStrokeFocus2);
-}
+} */
 
 .thaw-slider__input {
     grid-column-end: -1;
