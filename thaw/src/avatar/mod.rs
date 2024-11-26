@@ -46,6 +46,7 @@ pub fn Avatar(
     let name = StoredValue::new(name);
     let src = StoredValue::new(src);
     let initials = StoredValue::new(initials);
+    let image_failed = RwSignal::new(false);
     let is_show_default_icon = Memo::new(move |_| {
         if name.with_value(|n| n.with(|n| n.is_some())) {
             false
@@ -85,10 +86,10 @@ pub fn Avatar(
                 }
             }}
             {move || {
-                let src = src.with_value(|s| s.get());
+                let src = src.with_value(|s| if image_failed.get() { None } else { s.get() });
                 view! {
                     <OptionComp value=src let:src>
-                        <img src=src class="thaw-avatar__image" />
+                        <img src=src class="thaw-avatar__image" on:error=move |_| image_failed.set(true) />
                     </OptionComp>
                 }
             }}
