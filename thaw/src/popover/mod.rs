@@ -3,19 +3,25 @@ mod types;
 pub use types::*;
 
 use crate::ConfigInjection;
-use leptos::{ev, html, leptos_dom::helpers::TimeoutHandle, prelude::*};
+use leptos::{
+    ev::{self, on},
+    html,
+    leptos_dom::helpers::TimeoutHandle,
+    prelude::*,
+    tachys::html::{class::class as tachys_class, node_ref::node_ref},
+};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower};
 use thaw_utils::{add_event_listener, class_list, mount_style, BoxCallback};
 
 #[component]
-pub fn Popover(
+pub fn Popover<T>(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// Action that displays the popover.
     #[prop(optional)]
     trigger_type: PopoverTriggerType,
     /// The element or component that triggers popover.
-    popover_trigger: PopoverTrigger,
+    popover_trigger: PopoverTrigger<T>,
     /// Configures the position of the Popover.
     #[prop(optional)]
     position: PopoverPosition,
@@ -27,7 +33,10 @@ pub fn Popover(
     #[prop(optional, into)] on_open: Option<BoxCallback>,
     #[prop(optional, into)] on_close: Option<BoxCallback>,
     children: Children,
-) -> impl IntoView {
+) -> impl IntoView
+where
+    T: AddAnyAttr + IntoView + Send + 'static,
+{
     mount_style("popover", include_str!("./popover.css"));
     let config_provider = ConfigInjection::expect_context();
 
@@ -130,24 +139,21 @@ pub fn Popover(
     });
 
     let PopoverTrigger {
-        class: trigger_class,
         children: trigger_children,
     } = popover_trigger;
 
     view! {
         <Binder target_ref>
-            <div
-                class=class_list![
-                    "thaw-popover-trigger",
-                    move || is_show_popover.get().then(|| "thaw-popover-trigger--open".to_string()),
-                    trigger_class
-                ]
-                node_ref=target_ref
-                on:mouseenter=on_mouse_enter
-                on:mouseleave=on_mouse_leave
-            >
-                {trigger_children()}
-            </div>
+            {trigger_children
+                .into_inner()()
+                .into_inner()
+                .add_any_attr(tachys_class(("thaw-popover-trigger", true)))
+                .add_any_attr(
+                    tachys_class(("thaw-popover-trigger--open", move || is_show_popover.get())),
+                )
+                .add_any_attr(node_ref(target_ref))
+                .add_any_attr(on(ev::mouseenter, on_mouse_enter))
+                .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
             <Follower slot show=is_show_popover placement=position>
                 <CSSTransition
                     node_ref=popover_ref

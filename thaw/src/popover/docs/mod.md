@@ -1,5 +1,26 @@
 # Popover
 
+
+```rust
+/// Prerequisite
+/// PopoverTrigger can only contain one child.
+view!{
+    // ✅
+    <PopoverTrigger slot>
+        <button>"Click"</button>
+    </PopoverTrigger>
+    // ✅
+    <PopoverTrigger slot>
+        <Button>"Click"</Button>
+    </PopoverTrigger>
+    // 🙅
+    <PopoverTrigger slot>
+        <button>"Click"</button>
+        <button>"Click"</button>
+    </PopoverTrigger>
+}
+```
+
 ```rust demo
 view! {
     <Space>

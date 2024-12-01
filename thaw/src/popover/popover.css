@@ -39,10 +39,6 @@ div.thaw-popover-surface--inverted {
     height: 10px;
 }
 
-.thaw-popover-trigger {
-    display: inline-block;
-}
-
 [data-thaw-placement="top-start"] > .thaw-popover-surface,
 [data-thaw-placement="top-end"] > .thaw-popover-surface,
 [data-thaw-placement="top"] > .thaw-popover-surface {
