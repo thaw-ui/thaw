@@ -80,8 +80,6 @@ impl From<PopoverPosition> for FollowerPlacement {
 }
 
 #[slot]
-pub struct PopoverTrigger {
-    #[prop(optional, into)]
-    class: MaybeProp<String>,
-    children: Children,
+pub struct PopoverTrigger<T> {
+    children: TypedChildren<T>,
 }
