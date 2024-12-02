@@ -1,6 +1,5 @@
 # Popover
 
-
 ```rust
 /// Prerequisite
 /// PopoverTrigger can only contain one child.
@@ -186,7 +185,6 @@ view! {
 
 ### PopoverTrigger Props
 
-| Name     | Type                | Default              | Description |
-| -------- | ------------------- | -------------------- | ----------- |
-| class    | `MaybeProp<String>` | `Default::default()` |             |
-| children | `Children`          |                      |             |
+| Name     | Type                                        | Default | Description |
+| -------- | ------------------------------------------- | ------- | ----------- |
+| children | `T: AddAnyAttr + IntoView + Send + 'static` |         |             |

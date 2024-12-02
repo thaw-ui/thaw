@@ -1,12 +1,17 @@
 use crate::ConfigInjection;
-use leptos::{html, leptos_dom::helpers::TimeoutHandle, prelude::*};
+use leptos::{
+    ev::{self, on},
+    html,
+    leptos_dom::helpers::TimeoutHandle,
+    prelude::*,
+    tachys::html::class::class as tachys_class,
+};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
-pub fn Tooltip(
-    #[prop(optional, into)] class: MaybeProp<String>,
+pub fn Tooltip<T>(
     /// The text of the tooltip.
     #[prop(optional, into)]
     content: Option<Signal<String>>,
@@ -16,8 +21,11 @@ pub fn Tooltip(
     /// The tooltip's visual appearance.
     #[prop(optional, into)]
     appearance: Signal<TooltipAppearance>,
-    children: Children,
-) -> impl IntoView {
+    children: TypedChildren<T>,
+) -> impl IntoView
+where
+    T: AddAnyAttr + IntoView + Send + 'static,
+{
     mount_style("tooltip", include_str!("./tooltip.css"));
     let config_provider = ConfigInjection::expect_context();
 
@@ -58,13 +66,12 @@ pub fn Tooltip(
 
     view! {
         <Binder>
-            <div
-                class=class_list!["thaw-tooltip", class]
-                on:mouseenter=on_mouse_enter
-                on:mouseleave=on_mouse_leave
-            >
-                {children()}
-            </div>
+            {children
+                .into_inner()()
+                .into_inner()
+                .add_any_attr(tachys_class(("thaw-tooltip", true)))
+                .add_any_attr(on(ev::mouseenter, on_mouse_enter))
+                .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
             <Follower slot show=is_show_content placement=position>
                 <CSSTransition
                     node_ref=content_ref
