@@ -1,19 +1,12 @@
 mod get_placement_style;
 
-use std::ops::Deref;
-
 pub use get_placement_style::FollowerPlacement;
-use web_sys::wasm_bindgen::JsCast;
 
 use crate::Teleport;
 use get_placement_style::{get_follower_placement_offset, FollowerPlacementOffset};
 use leptos::{
-    context::Provider,
-    ev,
-    html::{self, ElementType},
-    leptos_dom::helpers::WindowListenerHandle,
-    logging,
-    prelude::*,
+    context::Provider, ev, html, leptos_dom::helpers::WindowListenerHandle, logging, prelude::*,
+    tachys::html::node_ref::node_ref,
 };
 use thaw_utils::{add_event_listener, get_scroll_parent_node, mount_style, EventListenerHandle};
 
@@ -61,17 +54,13 @@ impl Copy for FollowerWidth {}
 /// }
 /// ```
 #[component]
-pub fn Binder<E>(
-    /// Used to track DOM locations
-    #[prop(into)]
-    target_ref: NodeRef<E>,
+pub fn Binder<T>(
     /// Content for pop-up display
     follower: Follower,
-    children: Children,
+    children: TypedChildren<T>,
 ) -> impl IntoView
 where
-    E: ElementType + 'static,
-    E::Output: JsCast + Clone + Deref<Target = web_sys::HtmlElement> + 'static,
+    T: AddAnyAttr + IntoView + Send + 'static,
 {
     mount_style("binder", include_str!("./binder.css"));
     let Follower {
@@ -83,6 +72,7 @@ where
 
     let scrollable_element_handle_vec = StoredValue::<Vec<EventListenerHandle>>::new(vec![]);
     let resize_handle = StoredValue::new(None::<WindowListenerHandle>);
+    let target_ref = NodeRef::<thaw_utils::Element>::new();
     let follower_ref = NodeRef::<html::Div>::new();
     let content_ref = NodeRef::<html::Div>::new();
     let content_style = RwSignal::new(String::new());
@@ -205,7 +195,10 @@ where
     let follower_injection = FollowerInjection(Callback::new(move |_| sync_position()));
 
     view! {
-        {children()}
+        {children
+            .into_inner()()
+            .into_inner()
+            .add_any_attr(node_ref(target_ref))}
         <Teleport immediate=follower_show>
             <div class="thaw-binder-follower" node_ref=follower_ref>
                 <div

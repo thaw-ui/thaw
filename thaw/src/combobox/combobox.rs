@@ -32,7 +32,6 @@ pub fn Combobox(
     mount_style("combobox", include_str!("./combobox.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, selected_options, name);
-    let trigger_ref = NodeRef::<html::Div>::new();
     let input_ref = NodeRef::<html::Input>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
     let is_show_listbox = RwSignal::new(false);
@@ -167,14 +166,13 @@ pub fn Combobox(
     };
 
     view! {
-        <Binder target_ref=trigger_ref>
+        <Binder>
             <div
                 class=class_list![
                     "thaw-combobox",
                     ("thaw-combobox--disabled", move || disabled.get()),
                     class
                 ]
-                node_ref=trigger_ref
             >
                 <input
                     type="text"

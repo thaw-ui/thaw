@@ -104,7 +104,7 @@ pub fn Menu(
     };
 
     view! {
-        <Binder target_ref>
+        <Binder>
             <div
                 class=class_list!["thaw-menu-trigger", trigger_class]
                 node_ref=target_ref

@@ -22,7 +22,6 @@ pub fn Tooltip(
     let config_provider = ConfigInjection::expect_context();
 
     let content_ref = NodeRef::<html::Div>::new();
-    let tooltip_ref = NodeRef::<html::Div>::new();
     let is_show_content = RwSignal::new(false);
     let content_handle = StoredValue::new(None::<TimeoutHandle>);
 
@@ -58,10 +57,9 @@ pub fn Tooltip(
     });
 
     view! {
-        <Binder target_ref=tooltip_ref>
+        <Binder>
             <div
                 class=class_list!["thaw-tooltip", class]
-                node_ref=tooltip_ref
                 on:mouseenter=on_mouse_enter
                 on:mouseleave=on_mouse_leave
             >

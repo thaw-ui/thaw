@@ -49,7 +49,6 @@ pub fn AutoComplete(
     mount_style("auto-complete", include_str!("./auto-complete.css"));
     let input_ref = ComponentRef::<InputRef>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
-    let auto_complete_ref = NodeRef::<html::Div>::new();
     let open_listbox = RwSignal::new(false);
     let options = StoredValue::new(HashMap::<String, String>::new());
 
@@ -110,10 +109,9 @@ pub fn AutoComplete(
     comp_ref.load(AutoCompleteRef { input_ref });
 
     view! {
-        <Binder target_ref=auto_complete_ref>
+        <Binder>
             <div
                 class=class_list!["thaw-auto-complete", class]
-                node_ref=auto_complete_ref
                 on:keydown=on_keydown
             >
                 <Input
