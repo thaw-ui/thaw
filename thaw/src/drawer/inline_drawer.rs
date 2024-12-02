@@ -1,5 +1,5 @@
 use super::{DrawerPosition, DrawerSize};
-use leptos::{html, prelude::*};
+use leptos::prelude::*;
 use thaw_components::CSSTransition;
 use thaw_utils::{class_list, mount_style, Model};
 
@@ -19,7 +19,6 @@ pub fn InlineDrawer(
 ) -> impl IntoView {
     mount_style("drawer", include_str!("./drawer.css"));
     mount_style("inline-drawer", include_str!("./inline-drawer.css"));
-    let drawer_ref = NodeRef::<html::Div>::new();
     let open_drawer: RwSignal<bool> = RwSignal::new(open.get_untracked());
 
     Effect::new(move |_| {
@@ -29,7 +28,6 @@ pub fn InlineDrawer(
 
     view! {
         <CSSTransition
-            node_ref=drawer_ref
             appear=open_drawer.get_untracked()
             show=open_drawer
             name=Memo::new(move |_| {
@@ -49,7 +47,6 @@ pub fn InlineDrawer(
                     };
                     display.get().map_or_else(size, |d| d.to_string())
                 }
-                node_ref=drawer_ref
             >
                 {children()}
             </div>

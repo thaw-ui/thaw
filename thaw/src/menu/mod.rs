@@ -122,7 +122,6 @@ where
             <Follower slot show=is_show_menu placement=position>
                 <Provider value=menu_injection>
                     <CSSTransition
-                        node_ref=menu_ref
                         name="menu-transition"
                         appear=is_show_menu.get_untracked()
                         show=is_show_menu

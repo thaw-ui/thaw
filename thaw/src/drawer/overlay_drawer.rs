@@ -1,6 +1,6 @@
 use super::{DrawerModalType, DrawerPosition, DrawerSize};
 use crate::ConfigInjection;
-use leptos::{either::Either, ev, html, prelude::*};
+use leptos::{either::Either, ev, prelude::*};
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 
@@ -32,7 +32,6 @@ pub fn OverlayDrawer(
     mount_style("overlay-drawer", include_str!("./overlay-drawer.css"));
 
     let config_provider = ConfigInjection::expect_context();
-    let drawer_ref = NodeRef::<html::Div>::new();
     let open_drawer: RwSignal<bool> = RwSignal::new(open.get_untracked());
     let is_lock = RwSignal::new(open.get_untracked());
     Effect::new(move |_| {
@@ -47,7 +46,6 @@ pub fn OverlayDrawer(
         is_lock.set(false);
     };
 
-    let mask_ref = NodeRef::<html::Div>::new();
     let on_mask_click = move |_| {
         if mask_closeable.get_untracked() {
             open.set(false);
@@ -68,7 +66,6 @@ pub fn OverlayDrawer(
                         Either::Left(
                             view! {
                                 <CSSTransition
-                                    node_ref=mask_ref
                                     appear=open.get_untracked()
                                     show=open.signal()
                                     name="fade-in-transition"
@@ -78,7 +75,6 @@ pub fn OverlayDrawer(
                                         class="thaw-overlay-drawer__backdrop"
                                         style=move || display.get().unwrap_or_default()
                                         on:click=on_mask_click
-                                        node_ref=mask_ref
                                     ></div>
                                 </CSSTransition>
                             },
@@ -87,7 +83,6 @@ pub fn OverlayDrawer(
                         Either::Right(())
                     }}
                     <CSSTransition
-                        node_ref=drawer_ref
                         appear=open_drawer.get_untracked()
                         show=open_drawer
                         name=Memo::new(move |_| {
@@ -113,7 +108,6 @@ pub fn OverlayDrawer(
                                 };
                                 display.get().map_or_else(size, |d| d.to_string())
                             }
-                            node_ref=drawer_ref
                             role="dialog"
                             aria-modal={if modal_type == DrawerModalType::Modal {"true"} else {"false"}}
                         >

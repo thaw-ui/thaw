@@ -1,14 +1,12 @@
-use leptos::{ev, html::ElementType, prelude::*};
+use leptos::{ev, prelude::*, tachys::html::node_ref::node_ref};
 use std::{ops::Deref, time::Duration};
 use thaw_utils::{add_event_listener, ArcCallback, EventListenerHandle, NextFrame};
-use web_sys::wasm_bindgen::JsCast;
 
 /// # CSS Transition
 ///
 /// Reference to https://vuejs.org/guide/built-ins/transition.html
 #[component]
-pub fn CSSTransition<E, CF, IV>(
-    node_ref: NodeRef<E>,
+pub fn CSSTransition<CF, IV>(
     #[prop(into)] show: Signal<bool>,
     #[prop(into)] name: Signal<String>,
     #[prop(optional)] appear: bool,
@@ -21,11 +19,10 @@ pub fn CSSTransition<E, CF, IV>(
     children: CF,
 ) -> impl IntoView
 where
-    E: ElementType + 'static,
-    E::Output: JsCast + Clone + Deref<Target = web_sys::HtmlElement> + 'static,
     CF: FnOnce(ReadSignal<Option<&'static str>>) -> IV + Send + 'static,
-    IV: IntoView + 'static,
+    IV: AddAnyAttr + IntoView + Send + 'static,
 {
+    let target_ref = NodeRef::<thaw_utils::Element>::new();
     let display = RwSignal::new((!show.get_untracked()).then_some("display: none;"));
     let next_frame = NextFrame::new();
     let end_handle = StoredValue::new(None::<EventListenerHandle>);
@@ -33,8 +30,7 @@ where
     let finish = StoredValue::new(None::<Box<dyn FnOnce() + Send + Sync>>);
 
     Effect::new(move |_| {
-        let target_ref = node_ref.get();
-        let Some(el) = target_ref.as_deref() else {
+        let Some(el) = target_ref.get() else {
             return;
         };
 
@@ -218,7 +214,7 @@ where
         })
     });
 
-    children(display.read_only())
+    children(display.read_only()).add_any_attr(node_ref(target_ref))
 }
 
 #[derive(PartialEq)]

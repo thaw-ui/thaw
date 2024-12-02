@@ -1,6 +1,6 @@
 use super::NavDrawerInjection;
 use crate::Icon;
-use leptos::{context::Provider, either::Either, html, prelude::*};
+use leptos::{context::Provider, either::Either, prelude::*};
 use thaw_components::CSSTransition;
 use thaw_utils::class_list;
 
@@ -11,7 +11,6 @@ pub fn NavCategory(
     nav_category_item: NavCategoryItem,
 ) -> impl IntoView {
     let nav_drawer = NavDrawerInjection::expect_context();
-    let group_ref = NodeRef::<html::Div>::new();
     let is_show_group = RwSignal::new(false);
     let is_selected_category =
         Memo::new(move |_| value.with(|value| nav_drawer.is_selected_category(value)));
@@ -65,14 +64,12 @@ pub fn NavCategory(
             </span>
         </button>
         <CSSTransition
-            node_ref=group_ref
             show=is_show_group
             name="thaw-nav-sub-item-group"
             let:display
         >
             <div
                 class="thaw-nav-sub-item-group"
-                node_ref=group_ref
                 style=move || display.get().unwrap_or_default()
             >
                 <Provider value=NavCategoryInjection { value }>{children()}</Provider>

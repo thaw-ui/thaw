@@ -289,7 +289,6 @@ fn ToasterContainer(
 
     view! {
         <CSSTransition
-            node_ref=container_ref
             name="fade-in-height-expand-transition"
             show=is_show
             appear=true

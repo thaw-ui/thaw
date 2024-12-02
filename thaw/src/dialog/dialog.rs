@@ -1,5 +1,5 @@
 use crate::ConfigInjection;
-use leptos::{context::Provider, ev, html, prelude::*};
+use leptos::{context::Provider, ev, prelude::*};
 use thaw_components::{CSSTransition, FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, Model};
 
@@ -20,7 +20,6 @@ pub fn Dialog(
     mount_style("dialog", include_str!("./dialog.css"));
     let config_provider = ConfigInjection::expect_context();
 
-    let mask_ref = NodeRef::<html::Div>::new();
     let on_mask_click = move |_| {
         if mask_closeable.get_untracked() {
             open.set(false);
@@ -38,7 +37,6 @@ pub fn Dialog(
                     data-thaw-id=config_provider.id()
                 >
                     <CSSTransition
-                        node_ref=mask_ref
                         appear=open.get_untracked()
                         show=open.signal()
                         name="fade-in-transition"
@@ -48,7 +46,6 @@ pub fn Dialog(
                             class="thaw-dialog-surface__backdrop"
                             style=move || display.get().unwrap_or_default()
                             on:click=on_mask_click
-                            node_ref=mask_ref
                             aria-hidden="true"
                         ></div>
                     </CSSTransition>

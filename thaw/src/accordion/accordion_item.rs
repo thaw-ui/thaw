@@ -1,5 +1,5 @@
 use crate::AccordionInjection;
-use leptos::{html, prelude::*};
+use leptos::prelude::*;
 use thaw_components::CSSTransition;
 use thaw_utils::{class_list, mount_style, update, with};
 
@@ -18,8 +18,6 @@ pub fn AccordionItem(
         multiple,
         collapsible,
     } = AccordionInjection::expect_context();
-    let panel_ref = NodeRef::<html::Div>::new();
-
     let is_show_panel = Memo::new(move |_| with!(|open_items, value| open_items.contains(value)));
 
     let on_click = move |_| {
@@ -74,14 +72,12 @@ pub fn AccordionItem(
                 </button>
             </div>
             <CSSTransition
-                node_ref=panel_ref
                 show=is_show_panel
                 name="thaw-accordion-panel"
                 let:display
             >
                 <div
                     class="thaw-accordion-panel"
-                    node_ref=panel_ref
                     style=move || display.get().unwrap_or_default()
                 >
                     {children()}
