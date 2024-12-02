@@ -41,7 +41,7 @@ where
     let config_provider = ConfigInjection::expect_context();
 
     let popover_ref = NodeRef::<html::Div>::new();
-    let target_ref = NodeRef::<html::Div>::new();
+    let target_ref = NodeRef::<thaw_utils::Element>::new();
     let is_show_popover = RwSignal::new(false);
     let show_popover_handle = StoredValue::new(None::<TimeoutHandle>);
 
@@ -143,7 +143,7 @@ where
     } = popover_trigger;
 
     view! {
-        <Binder target_ref>
+        <Binder>
             {trigger_children
                 .into_inner()()
                 .into_inner()

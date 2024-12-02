@@ -90,7 +90,7 @@ pub fn DatePicker(
     };
 
     view! {
-        <Binder target_ref=date_picker_ref>
+        <Binder>
             <div
                 node_ref=date_picker_ref
                 class=class_list!["thaw-date-picker", class]

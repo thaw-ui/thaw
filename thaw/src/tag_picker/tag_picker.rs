@@ -84,7 +84,7 @@ pub fn TagPicker(
         );
     };
     view! {
-        <Binder target_ref=trigger_ref>
+        <Binder>
             <div
                 class=class_list!["thaw-tag-picker-control", class]
                 node_ref=trigger_ref

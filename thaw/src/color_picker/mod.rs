@@ -133,7 +133,7 @@ pub fn ColorPicker(
     }
 
     view! {
-        <Binder target_ref=trigger_ref>
+        <Binder>
             <div
                 class=class_list!["thaw-color-picker-trigger", class]
                 on:click=show_popover
