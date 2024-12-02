@@ -135,7 +135,7 @@ pub fn SiteHeader() -> impl IntoView {
                         display: none !important;
                     }
                     .demo-header__menu-mobile {
-                        display: block !important;
+                        display: inline-block !important;
                     }
                 }
             "
@@ -187,8 +187,9 @@ pub fn SiteHeader() -> impl IntoView {
                         _ => navigate_signal.get()(&value, Default::default()),
                     }
                 >
-                    <MenuTrigger slot class="demo-header__menu-mobile">
+                    <MenuTrigger slot>
                         <Button
+                            class="demo-header__menu-mobile"
                             appearance=ButtonAppearance::Subtle
                             icon=icondata::AiUnorderedListOutlined
                             attr:style="font-size: 22px; padding: 0px 6px;"

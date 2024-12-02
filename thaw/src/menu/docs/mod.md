@@ -162,10 +162,9 @@ view! {
 
 ### MenuTriger Props
 
-| Name     | Type                | Default              | Description |
-| -------- | ------------------- | -------------------- | ----------- |
-| class    | `MaybeProp<String>` | `Default::default()` |             |
-| children | `Children`          |                      |             |
+| Name     | Type                                        | Default | Description |
+| -------- | ------------------------------------------- | ------- | ----------- |
+| children | `T: AddAnyAttr + IntoView + Send + 'static` |         |             |
 
 ### MenuItem Props
 
