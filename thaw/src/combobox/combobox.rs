@@ -167,13 +167,11 @@ pub fn Combobox(
 
     view! {
         <Binder>
-            <div
-                class=class_list![
-                    "thaw-combobox",
+            <div class=class_list![
+                "thaw-combobox",
                     ("thaw-combobox--disabled", move || disabled.get()),
                     class
-                ]
-            >
+            ]>
                 <input
                     type="text"
                     aria-expanded=move || if is_show_listbox.get() { "true" } else { "false" }
@@ -369,10 +367,7 @@ impl ComboboxRule {
         })
     }
 
-    pub fn required_with_message(
-        required: Signal<bool>,
-        message: Signal<String>,
-    ) -> Self {
+    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_empty() {
                 Err(FieldValidationState::Error(message.get_untracked()))

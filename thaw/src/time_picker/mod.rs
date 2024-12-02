@@ -147,10 +147,7 @@ impl TimePickerRule {
         })
     }
 
-    pub fn required_with_message(
-        required: Signal<bool>,
-        message: Signal<String>,
-    ) -> Self {
+    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
         Self::validator(move |value, _| {
             if required.get_untracked() && value.is_none() {
                 Err(FieldValidationState::Error(message.get_untracked()))

@@ -94,11 +94,13 @@ pub fn Button(
         >
             {move || {
                 if loading.get() {
-                    EitherOf3::A(view! {
-                        <span class="thaw-button__icon">
-                            <Spinner size=Signal::derive(move || size.get().into())/>
-                        </span>
-                    })
+                    EitherOf3::A(
+                        view! {
+                            <span class="thaw-button__icon">
+                                <Spinner size=Signal::derive(move || size.get().into()) />
+                            </span>
+                        },
+                    )
                 } else if let Some(icon) = icon.get() {
                     EitherOf3::B(view! { <Icon icon=icon class="thaw-button__icon" /> })
                 } else {

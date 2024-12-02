@@ -110,10 +110,7 @@ pub fn AutoComplete(
 
     view! {
         <Binder>
-            <div
-                class=class_list!["thaw-auto-complete", class]
-                on:keydown=on_keydown
-            >
+            <div class=class_list!["thaw-auto-complete", class] on:keydown=on_keydown>
                 <Input
                     value
                     placeholder

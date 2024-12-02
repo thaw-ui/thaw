@@ -2,10 +2,10 @@ mod types;
 
 pub use types::*;
 
+use super::info_button::InfoButton;
+use crate::Label;
 use leptos::prelude::*;
 use thaw_utils::{class_list, mount_style};
-use crate::Label;
-use super::info_button::InfoButton;
 
 /// An InfoLabel is a Label with an InfoButton at the end.
 #[component]

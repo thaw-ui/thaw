@@ -63,15 +63,8 @@ pub fn NavCategory(
                 </svg>
             </span>
         </button>
-        <CSSTransition
-            show=is_show_group
-            name="thaw-nav-sub-item-group"
-            let:display
-        >
-            <div
-                class="thaw-nav-sub-item-group"
-                style=move || display.get().unwrap_or_default()
-            >
+        <CSSTransition show=is_show_group name="thaw-nav-sub-item-group" let:display>
+            <div class="thaw-nav-sub-item-group" style=move || display.get().unwrap_or_default()>
                 <Provider value=NavCategoryInjection { value }>{children()}</Provider>
             </div>
         </CSSTransition>

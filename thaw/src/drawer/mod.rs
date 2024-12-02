@@ -50,7 +50,7 @@ impl DrawerSize {
             Self::Full => match position.get() {
                 DrawerPosition::Top | DrawerPosition::Bottom => "100vh",
                 DrawerPosition::Left | DrawerPosition::Right => "100vw",
-            }
+            },
         }
     }
 }

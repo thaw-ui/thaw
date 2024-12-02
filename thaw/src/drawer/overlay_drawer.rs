@@ -59,7 +59,9 @@ pub fn OverlayDrawer(
         <Teleport immediate=open.signal()>
             <FocusTrap disabled=!close_on_esc active=open.signal() on_esc>
                 <div
-                    class=class_list!["thaw-config-provider thaw-overlay-drawer-container", container_class]
+                    class=class_list![
+                        "thaw-config-provider thaw-overlay-drawer-container", container_class
+                    ]
                     data-thaw-id=config_provider.id()
                 >
                     {if modal_type == DrawerModalType::Modal {
@@ -109,7 +111,11 @@ pub fn OverlayDrawer(
                                 display.get().map_or_else(size, |d| d.to_string())
                             }
                             role="dialog"
-                            aria-modal={if modal_type == DrawerModalType::Modal {"true"} else {"false"}}
+                            aria-modal=if modal_type == DrawerModalType::Modal {
+                                "true"
+                            } else {
+                                "false"
+                            }
                         >
                             {children()}
                         </div>

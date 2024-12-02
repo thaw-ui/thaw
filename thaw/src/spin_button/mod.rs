@@ -3,13 +3,11 @@ use leptos::prelude::*;
 use num_traits::Bounded;
 use std::ops::{Add, Deref, Sub};
 use std::str::FromStr;
-use thaw_utils::{
-    class_list, mount_style, with, BoxOneCallback, Model, OptionalProp,
-};
+use thaw_utils::{class_list, mount_style, with, BoxOneCallback, Model, OptionalProp};
 
 /// SpinButton are used to allow numerical input bounded between minimum and maximum values
 /// with buttons to increment and decrement the input value.
-/// 
+///
 /// Note: SpinButton is a generic component, so the type must be specified. Example: `<SpinButton<i32> step_page=1/>`.
 /// [Related issue](https://github.com/leptos-rs/leptos/issues/3200)
 #[component]

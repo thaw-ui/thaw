@@ -1,9 +1,9 @@
-use std::ops::Deref;
 use leptos::html::ElementType;
 use send_wrapper::SendWrapper;
+use std::ops::Deref;
 
 pub struct Element {
-    el: SendWrapper<web_sys::Element>
+    el: SendWrapper<web_sys::Element>,
 }
 
 impl ElementType for Element {

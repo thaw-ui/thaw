@@ -37,8 +37,8 @@ pub fn TableHeaderCell(
         let Some(th_el) = th_ref.get_untracked() else {
             return;
         };
-        let Ok(Some(css)) = window().get_computed_style(&th_el) else{
-           return;
+        let Ok(Some(css)) = window().get_computed_style(&th_el) else {
+            return;
         };
         if let Ok(width) = css.get_property_value("width") {
             let width = web_sys::js_sys::Number::parse_float(&width);
@@ -104,12 +104,17 @@ pub fn TableHeaderCell(
                 }}
             </button>
             {if resizable {
-                Either::Left(view! {
-                    <span class="thaw-table-header-cell__aside" on:mousedown=on_mouse_down>
-                        <div class="thaw-table-resize-handle" role="separator" aria-hidden="true">
-                        </div>
-                    </span>
-                })
+                Either::Left(
+                    view! {
+                        <span class="thaw-table-header-cell__aside" on:mousedown=on_mouse_down>
+                            <div
+                                class="thaw-table-resize-handle"
+                                role="separator"
+                                aria-hidden="true"
+                            ></div>
+                        </span>
+                    },
+                )
             } else {
                 Either::Right(())
             }}

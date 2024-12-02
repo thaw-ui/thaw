@@ -1,6 +1,6 @@
-use leptos::{prelude::Children, slot};
-use crate::{LabelSize, LabelWeight};
 use super::super::info_button::InfoButtonSize;
+use crate::{LabelSize, LabelWeight};
+use leptos::{prelude::Children, slot};
 
 #[derive(Debug, Default, Clone)]
 pub enum InfoLabelSize {
@@ -58,5 +58,5 @@ impl From<InfoLabelWeight> for LabelWeight {
 
 #[slot]
 pub struct InfoLabelInfo {
-    children: Children
+    children: Children,
 }

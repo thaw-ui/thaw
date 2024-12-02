@@ -195,10 +195,7 @@ where
     let follower_injection = FollowerInjection(Callback::new(move |_| sync_position()));
 
     view! {
-        {children
-            .into_inner()()
-            .into_inner()
-            .add_any_attr(node_ref(target_ref))}
+        {children.into_inner()().into_inner().add_any_attr(node_ref(target_ref))}
         <Teleport immediate=follower_show>
             <div class="thaw-binder-follower" node_ref=follower_ref>
                 <div
