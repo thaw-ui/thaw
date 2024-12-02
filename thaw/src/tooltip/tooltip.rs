@@ -1,7 +1,6 @@
 use crate::ConfigInjection;
 use leptos::{
     ev::{self, on},
-    html,
     leptos_dom::helpers::TimeoutHandle,
     prelude::*,
     tachys::html::class::class as tachys_class,
@@ -29,7 +28,6 @@ where
     mount_style("tooltip", include_str!("./tooltip.css"));
     let config_provider = ConfigInjection::expect_context();
 
-    let content_ref = NodeRef::<html::Div>::new();
     let is_show_content = RwSignal::new(false);
     let content_handle = StoredValue::new(None::<TimeoutHandle>);
 
@@ -74,7 +72,6 @@ where
                 .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
             <Follower slot show=is_show_content placement=position>
                 <CSSTransition
-                    node_ref=content_ref
                     name="tooltip-transition"
                     appear=is_show_content.get_untracked()
                     show=is_show_content
@@ -88,7 +85,6 @@ where
                         data-thaw-id=config_provider.id()
                         style=move || display.get().unwrap_or_default()
                         role="tooltip"
-                        node_ref=content_ref
                         on:mouseenter=on_mouse_enter
                         on:mouseleave=on_mouse_leave
                     >

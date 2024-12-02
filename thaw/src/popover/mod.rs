@@ -156,7 +156,6 @@ where
                 .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
             <Follower slot show=is_show_popover placement=position>
                 <CSSTransition
-                    node_ref=popover_ref
                     name="popover-transition"
                     appear=is_show_popover.get_untracked()
                     show=is_show_popover

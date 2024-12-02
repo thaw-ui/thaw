@@ -23,7 +23,6 @@ pub fn BackTop(
     mount_style("back-top", include_str!("./back-top.css"));
     let config_provider = ConfigInjection::expect_context();
     let placeholder_ref = NodeRef::<html::Div>::new();
-    let back_top_ref = NodeRef::<html::Div>::new();
     let is_show_back_top = RwSignal::new(false);
     let scroll_top = RwSignal::new(0);
 
@@ -83,7 +82,6 @@ pub fn BackTop(
         <div style="display: none" class="thaw-back-top-placeholder" node_ref=placeholder_ref>
             <Teleport immediate=is_show_back_top>
                 <CSSTransition
-                    node_ref=back_top_ref
                     name="fade-in-scale-up-transition"
                     appear=is_show_back_top.get_untracked()
                     show=is_show_back_top
@@ -92,7 +90,6 @@ pub fn BackTop(
                     <div
                         class=class_list!["thaw-config-provider thaw-back-top", class]
                         data-thaw-id=config_provider.id()
-                        node_ref=back_top_ref
                         style=move || {
                             display
                                 .get()

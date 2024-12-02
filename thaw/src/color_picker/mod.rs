@@ -145,7 +145,6 @@ pub fn ColorPicker(
             </div>
             <Follower slot show=is_show_popover placement=FollowerPlacement::BottomStart>
                 <CSSTransition
-                    node_ref=popover_ref
                     name="fade-in-scale-up-transition"
                     appear=is_show_popover.get_untracked()
                     show=is_show_popover

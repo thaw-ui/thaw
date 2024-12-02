@@ -42,7 +42,6 @@ pub fn Listbox(
     view! {
         <Provider value=ListboxInjection(trigger)>
             <CSSTransition
-                node_ref=listbox_ref
                 name="fade-in-scale-up-transition"
                 appear=open.get_untracked()
                 show=open
