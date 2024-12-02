@@ -3,7 +3,14 @@ mod menu_item;
 pub use menu_item::*;
 
 use crate::ConfigInjection;
-use leptos::{context::Provider, ev, html::Div, leptos_dom::helpers::TimeoutHandle, prelude::*};
+use leptos::{
+    context::Provider,
+    ev::{self, on},
+    html::Div,
+    leptos_dom::helpers::TimeoutHandle,
+    prelude::*,
+    tachys::html::{class::class as tachys_class, node_ref::node_ref},
+};
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{
@@ -12,17 +19,15 @@ use thaw_utils::{
 };
 
 #[slot]
-pub struct MenuTrigger {
-    #[prop(optional, into)]
-    class: MaybeProp<String>,
-    children: Children,
+pub struct MenuTrigger<T> {
+    children: TypedChildren<T>,
 }
 
 #[component]
-pub fn Menu(
+pub fn Menu<T>(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The element or component that triggers menu.
-    menu_trigger: MenuTrigger,
+    menu_trigger: MenuTrigger<T>,
     /// Action that displays the menu.
     #[prop(optional)]
     trigger_type: MenuTriggerType,
@@ -34,12 +39,15 @@ pub fn Menu(
     on_select: BoxOneCallback<String>,
     #[prop(optional, into)] appearance: MaybeProp<MenuAppearance>,
     children: Children,
-) -> impl IntoView {
+) -> impl IntoView
+where
+    T: AddAnyAttr + IntoView + Send + 'static,
+{
     mount_style("menu", include_str!("./menu.css"));
     let config_provider = ConfigInjection::expect_context();
 
     let menu_ref = NodeRef::<Div>::new();
-    let target_ref = NodeRef::<Div>::new();
+    let target_ref = NodeRef::<thaw_utils::Element>::new();
     let is_show_menu = RwSignal::new(false);
     let show_menu_handle = StoredValue::new(None::<TimeoutHandle>);
 
@@ -91,7 +99,6 @@ pub fn Menu(
     });
 
     let MenuTrigger {
-        class: trigger_class,
         children: trigger_children,
     } = menu_trigger;
 
@@ -105,14 +112,13 @@ pub fn Menu(
 
     view! {
         <Binder>
-            <div
-                class=class_list!["thaw-menu-trigger", trigger_class]
-                node_ref=target_ref
-                on:mouseenter=on_mouse_enter
-                on:mouseleave=on_mouse_leave
-            >
-                {trigger_children()}
-            </div>
+            {trigger_children
+                .into_inner()()
+                .into_inner()
+                .add_any_attr(tachys_class(("thaw-menu-trigger", true)))
+                .add_any_attr(node_ref(target_ref))
+                .add_any_attr(on(ev::mouseenter, on_mouse_enter))
+                .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
             <Follower slot show=is_show_menu placement=position>
                 <Provider value=menu_injection>
                     <CSSTransition
