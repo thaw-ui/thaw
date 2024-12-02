@@ -32,10 +32,6 @@ div.thaw-tooltip-content--inverted {
     height: 8px;
 }
 
-.thaw-tooltip {
-    display: inline-block;
-}
-
 [data-thaw-placement="top-start"] > .thaw-tooltip-content,
 [data-thaw-placement="top-end"] > .thaw-tooltip-content,
 [data-thaw-placement="top"] > .thaw-tooltip-content {
