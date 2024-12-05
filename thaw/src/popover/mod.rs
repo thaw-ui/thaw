@@ -4,6 +4,7 @@ pub use types::*;
 
 use crate::ConfigInjection;
 use leptos::{
+    either::Either,
     ev::{self, on},
     html,
     leptos_dom::helpers::TimeoutHandle,
@@ -12,7 +13,7 @@ use leptos::{
 };
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower};
-use thaw_utils::{add_event_listener, class_list, mount_style, BoxCallback};
+use thaw_utils::{class_list, mount_style, on_click_outside, BoxCallback};
 
 #[component]
 pub fn Popover<T>(
@@ -41,7 +42,6 @@ where
     let config_provider = ConfigInjection::expect_context();
 
     let popover_ref = NodeRef::<html::Div>::new();
-    let target_ref = NodeRef::<thaw_utils::Element>::new();
     let is_show_popover = RwSignal::new(false);
     let show_popover_handle = StoredValue::new(None::<TimeoutHandle>);
 
@@ -93,67 +93,55 @@ where
             .ok();
         });
     };
-    #[cfg(any(feature = "csr", feature = "hydrate"))]
-    {
-        let handle = window_event_listener(ev::click, move |ev| {
-            use leptos::wasm_bindgen::__rt::IntoJsResult;
-            if trigger_type != PopoverTriggerType::Click {
-                return;
-            }
-            if !is_show_popover.get_untracked() {
-                return;
-            }
-            let el = ev.target();
-            let mut el: Option<web_sys::Element> =
-                el.into_js_result().map_or(None, |el| Some(el.into()));
-            let body = document().body().unwrap();
-            while let Some(current_el) = el {
-                if current_el == *body {
-                    break;
-                };
-                let Some(popover_el) = popover_ref.get_untracked() else {
-                    break;
-                };
-                if current_el == **popover_el {
-                    return;
-                }
-                el = current_el.parent_element();
-            }
-            is_show_popover.set(false);
-        });
-        on_cleanup(move || handle.remove());
-    }
-
-    Effect::new(move |_| {
-        let Some(target_el) = target_ref.get() else {
-            return;
-        };
-        let handler = add_event_listener(target_el, ev::click, move |event| {
-            if trigger_type != PopoverTriggerType::Click {
-                return;
-            }
-            event.stop_propagation();
-            is_show_popover.update(|show| *show = !*show);
-        });
-        on_cleanup(move || handler.remove());
-    });
 
     let PopoverTrigger {
         children: trigger_children,
     } = popover_trigger;
+    let trigger_children = trigger_children.into_inner()()
+        .into_inner()
+        .add_any_attr(tachys_class(("thaw-popover-trigger", true)))
+        .add_any_attr(tachys_class(("thaw-popover-trigger--open", move || {
+            is_show_popover.get()
+        })));
+
+    let trigger_children = match trigger_type {
+        PopoverTriggerType::Click => {
+            let trigger_ref = NodeRef::<thaw_utils::Element>::new();
+            on_click_outside(
+                move || {
+                    if !is_show_popover.get_untracked() {
+                        return None;
+                    }
+                    let Some(trigger_el) = trigger_ref.get_untracked() else {
+                        return None;
+                    };
+                    let Some(popover_el) = popover_ref.get_untracked() else {
+                        return None;
+                    };
+                    Some(vec![popover_el.into(), trigger_el])
+                },
+                move || is_show_popover.set(false),
+            );
+            Either::Left(
+                trigger_children
+                    .add_any_attr(node_ref(trigger_ref))
+                    .add_any_attr(on(ev::click, move |_| {
+                        is_show_popover.update(|show| {
+                            *show = !*show;
+                        });
+                    })),
+            )
+        }
+        PopoverTriggerType::Hover => Either::Right(
+            trigger_children
+                .add_any_attr(on(ev::mouseenter, on_mouse_enter))
+                .add_any_attr(on(ev::mouseleave, on_mouse_leave)),
+        ),
+    };
 
     view! {
         <Binder>
-            {trigger_children
-                .into_inner()()
-                .into_inner()
-                .add_any_attr(tachys_class(("thaw-popover-trigger", true)))
-                .add_any_attr(
-                    tachys_class(("thaw-popover-trigger--open", move || is_show_popover.get())),
-                )
-                .add_any_attr(node_ref(target_ref))
-                .add_any_attr(on(ev::mouseenter, on_mouse_enter))
-                .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
+            {trigger_children}
             <Follower slot show=is_show_popover placement=position>
                 <CSSTransition
                     name="popover-transition"
