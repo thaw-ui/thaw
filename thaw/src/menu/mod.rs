@@ -5,6 +5,7 @@ pub use menu_item::*;
 use crate::ConfigInjection;
 use leptos::{
     context::Provider,
+    either::Either,
     ev::{self, on},
     html::Div,
     leptos_dom::helpers::TimeoutHandle,
@@ -13,10 +14,7 @@ use leptos::{
 };
 use std::time::Duration;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
-use thaw_utils::{
-    add_event_listener, call_on_click_outside, class_list, mount_style, ArcOneCallback,
-    BoxCallback, BoxOneCallback,
-};
+use thaw_utils::{class_list, mount_style, on_click_outside, ArcOneCallback, BoxOneCallback};
 
 #[slot]
 pub struct MenuTrigger<T> {
@@ -47,7 +45,6 @@ where
     let config_provider = ConfigInjection::expect_context();
 
     let menu_ref = NodeRef::<Div>::new();
-    let target_ref = NodeRef::<thaw_utils::Element>::new();
     let is_show_menu = RwSignal::new(false);
     let show_menu_handle = StoredValue::new(None::<TimeoutHandle>);
 
@@ -80,27 +77,47 @@ where
         });
     };
 
-    if trigger_type != MenuTriggerType::Hover {
-        call_on_click_outside(menu_ref, BoxCallback::new(move || is_show_menu.set(false)));
-    }
-
-    Effect::new(move |_| {
-        let Some(target_el) = target_ref.get() else {
-            return;
-        };
-        let handler = add_event_listener(target_el, ev::click, move |event| {
-            if trigger_type != MenuTriggerType::Click {
-                return;
-            }
-            event.stop_propagation();
-            is_show_menu.update(|show| *show = !*show);
-        });
-        on_cleanup(move || handler.remove());
-    });
-
     let MenuTrigger {
         children: trigger_children,
     } = menu_trigger;
+    let trigger_children = trigger_children.into_inner()()
+        .into_inner()
+        .add_any_attr(tachys_class(("thaw-menu-trigger", true)));
+
+    let trigger_children = match trigger_type {
+        MenuTriggerType::Click => {
+            let trigger_ref = NodeRef::<thaw_utils::Element>::new();
+            on_click_outside(
+                move || {
+                    if !is_show_menu.get_untracked() {
+                        return None;
+                    }
+                    let Some(trigger_el) = trigger_ref.get_untracked() else {
+                        return None;
+                    };
+                    let Some(menu_el) = menu_ref.get_untracked() else {
+                        return None;
+                    };
+                    Some(vec![menu_el.into(), trigger_el])
+                },
+                move || is_show_menu.set(false),
+            );
+            Either::Left(
+                trigger_children
+                    .add_any_attr(node_ref(trigger_ref))
+                    .add_any_attr(on(ev::click, move |_| {
+                        is_show_menu.update(|show| {
+                            *show = !*show;
+                        });
+                    })),
+            )
+        }
+        MenuTriggerType::Hover => Either::Right(
+            trigger_children
+                .add_any_attr(on(ev::mouseenter, on_mouse_enter))
+                .add_any_attr(on(ev::mouseleave, on_mouse_leave)),
+        ),
+    };
 
     let menu_injection = MenuInjection {
         has_icon: RwSignal::new(false),
@@ -112,13 +129,7 @@ where
 
     view! {
         <Binder>
-            {trigger_children
-                .into_inner()()
-                .into_inner()
-                .add_any_attr(tachys_class(("thaw-menu-trigger", true)))
-                .add_any_attr(node_ref(target_ref))
-                .add_any_attr(on(ev::mouseenter, on_mouse_enter))
-                .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
+            {trigger_children}
             <Follower slot show=is_show_menu placement=position>
                 <Provider value=menu_injection>
                     <CSSTransition
