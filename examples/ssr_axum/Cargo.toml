@@ -23,6 +23,7 @@ http = "1"
 console_log = "1"
 log = "0.4"
 demo = { path = "../../demo", default-features = false }
+thaw = { path = "../../thaw" }
 
 [features]
 hydrate = ["leptos/hydrate", "demo/hydrate"]

@@ -113,3 +113,7 @@ pub use time_picker::*;
 pub use toast::*;
 pub use tooltip::*;
 pub use upload::*;
+
+pub mod ssr {
+    pub use thaw_utils::SSRMountStyleProvider;
+}
