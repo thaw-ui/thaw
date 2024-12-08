@@ -58,6 +58,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/server-sider-rendering") view=ServerSiderRenderingMdPage />
                     <Route path=path!("/development/components") view=DevelopmentComponentsMdPage />
                     <Route path=path!("/customize-theme") view=CustomizeThemeMdPage />
+                    <Route path=path!("/FAQs") view=FAQsMdPage />
                 </ParentRoute>
                 <ParentRoute path=path!("/components") view=ComponentsPage>
                     <Route path=path!("/accordion") view=AccordionMdPage />

@@ -39,7 +39,7 @@ pub fn Home() -> impl IntoView {
                             <Button
                                 appearance=ButtonAppearance::Primary
                                 on_click=move |_| {
-                                    navigate("/components/button", Default::default());
+                                    navigate("/guide/installation", Default::default());
                                 }
                             >
                                 "Read the docs"

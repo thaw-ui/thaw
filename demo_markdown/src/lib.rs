@@ -24,6 +24,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "InstallationMdPage" => "../docs/_guide/installation.md",
         "ServerSiderRenderingMdPage" => "../docs/_guide/server_sider_rendering.md",
         "CustomizeThemeMdPage" => "../docs/_guide/theme/customize_theme.md",
+        "FAQsMdPage" => "../docs/_guide/FAQs.md",
         "AccordionMdPage" => "../../thaw/src/accordion/docs/mod.md",
         "AnchorMdPage" => "../../thaw/src/anchor/docs/mod.md",
         "AutoCompleteMdPage" => "../../thaw/src/auto_complete/docs/mod.md",

@@ -1,6 +1,6 @@
 ## Installation
 
-Installation thaw
+Installation thaw.
 
 ```shell
 cargo add thaw --features=csr
@@ -10,6 +10,14 @@ cargo add thaw --features=csr
     <MessageBarBody>
         <div style="white-space: normal">
             "If you are using the nightly feature in Leptos, please enable Thaw's nightly as well."
+        </div>
+    </MessageBarBody>
+</MessageBar>
+
+<MessageBar intent=MessageBarIntent::Warning attr:style="margin-top: 12px">
+    <MessageBarBody>
+        <div style="white-space: normal">
+            "Currently Thaw supports CSR and SSR. Island is not supported yet."
         </div>
     </MessageBarBody>
 </MessageBar>
@@ -38,6 +46,8 @@ fn main() {
 #[component]
 pub fn App() -> impl IntoView {
     view! {
+        // The ConfigProvider component is required for Thaw,
+        // please place it at the root of the Thaw component.
         <ConfigProvider>
             <Button appearance=ButtonAppearance::Primary>
                 "Primary"
