@@ -1,6 +1,6 @@
 [package]
 name = "thaw_macro"
-version = "0.1.0-beta5"
+version = "0.1.0-rc"
 edition = "2021"
 keywords = ["leptos", "thaw", "macro"]
 readme = "../README.md"

@@ -1,3 +1,20 @@
+## [0.4.0-rc](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta5...v0.4.0-rc) (2024-12-09)
+
+### Features
+
+* Adds `SSRMountStyleProvider` component, closes [#335](https://github.com/thaw-ui/thaw/pull/335).
+
+### Bug Fixs
+
+* Clicking the outer part of the `Popover` component does not close, closes [#334](https://github.com/thaw-ui/thaw/pull/334).
+* Clicking the outer part of the `Menu` component does not close, closes [#334](https://github.com/thaw-ui/thaw/pull/334).
+
+### Breaking Changes
+
+* `PopoverTrigger` can only contain one child, closes [#330](https://github.com/thaw-ui/thaw/pull/330).
+* `Tooltip` can only contain one child, closes [#330](https://github.com/thaw-ui/thaw/pull/330).
+* `Menu` can only contain one child, closes [#330](https://github.com/thaw-ui/thaw/pull/330).
+
 ## [0.4.0-beta5](https://github.com/thaw-ui/thaw/compare/v0.4.0-beta4...v0.4.0-beta5) (2024-11-26)
 
 ### Features
