@@ -1,5 +1,14 @@
 # Toast
 
+<MessageBar layout=MessageBarLayout::Multiline intent=MessageBarIntent::Warning>
+    <MessageBarBody>
+      <h3 style="margin: 0">"Prerequisite"</h3>
+      <p>
+        "If you want to use toast, you need to wrap the component where you call related methods inside ToasterProvider and use ToasterInjection::expect_use to get the API."
+      </p>
+    </MessageBarBody>
+</MessageBar>
+
 ```rust demo
 let toaster = ToasterInjection::expect_context();
 
