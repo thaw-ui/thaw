@@ -123,16 +123,12 @@ pub fn Avatar(
 fn initials_name(name: String) -> String {
     let initials: Vec<_> = name
         .split_whitespace()
-        .filter_map(|word| {
-            word.chars()
-                .next()
-                .map(|c| c.to_uppercase().collect::<String>())
-        })
+        .filter_map(|word| word.chars().next().and_then(|c| c.to_uppercase().next()))
         .collect();
 
     match initials.as_slice() {
         [first, .., last] => format!("{first}{last}"),
-        [first] => first.clone(),
+        [first] => first.to_string(),
         [] => String::new(),
     }
 }
@@ -161,7 +157,7 @@ fn test_initials_name() {
         initials_name("ÇFoo Bar 1Name too ÉLong".into()),
         "ÇÉ".to_string()
     );
-    assert_eq!(initials_name("ﬄ ß".into()), "FFLSS".to_string());
+    assert_eq!(initials_name("ﬄ ß".into()), "FS".to_string());
     assert_eq!(initials_name("".into()), "".to_string());
     assert_eq!(initials_name("山".into()), "山".to_string());
 }
