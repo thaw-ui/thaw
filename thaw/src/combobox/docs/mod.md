@@ -63,6 +63,26 @@ view! {
     </Combobox>
 }
 ```
+### Size
+
+```rust demo
+view! {
+    <Flex vertical=true inline=true>
+        <Combobox size=ComboboxSize::Small>
+            <ComboboxOption value="cat" text="Car" />
+            <ComboboxOption value="dog" text="Dog" />
+        </Combobox>
+        <Combobox>
+            <ComboboxOption value="cat" text="Car" />
+            <ComboboxOption value="dog" text="Dog" />
+        </Combobox>
+        <Combobox size=ComboboxSize::Large>
+            <ComboboxOption value="cat" text="Car" />
+            <ComboboxOption value="dog" text="Dog" />
+        </Combobox>
+    </Flex>
+}
+```
 
 ### Disabled
 
@@ -88,6 +108,7 @@ view! {
 | disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder text for the input. |
 | clearable | `bool` | `false` | If set, the combobox will show an icon to clear the current value. |
+| size | `Signal<ComboboxSize>` | `ComboboxSize::Medium` | Controls the size of the combobox faceplate. |
 | children | `Children` |  |  |
 
 ### ComboboxOption Props
