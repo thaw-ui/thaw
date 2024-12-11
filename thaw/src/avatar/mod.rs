@@ -120,12 +120,20 @@ pub fn Avatar(
     }
 }
 
-// TODO
 fn initials_name(name: String) -> String {
-    if name.len() < 2 {
-        name.to_ascii_uppercase()
-    } else {
-        name.split_at(2).0.to_string().to_ascii_uppercase()
+    let initials: Vec<_> = name
+        .split_whitespace()
+        .filter_map(|word| {
+            word.chars()
+                .next()
+                .map(|c| c.to_uppercase().collect::<String>())
+        })
+        .collect();
+
+    match initials.as_slice() {
+        [first, .., last] => format!("{first}{last}"),
+        [first] => first.clone(),
+        [] => String::new(),
     }
 }
 
@@ -143,4 +151,17 @@ impl AvatarShape {
             Self::Square => "square",
         }
     }
+}
+
+#[test]
+fn test_initials_name() {
+    assert_eq!(initials_name("Jane Doe".into()), "JD".to_string());
+    assert_eq!(initials_name("Ben".into()), "B".to_string());
+    assert_eq!(
+        initials_name("ÇFoo Bar 1Name too ÉLong".into()),
+        "ÇÉ".to_string()
+    );
+    assert_eq!(initials_name("ﬄ ß".into()), "FFLSS".to_string());
+    assert_eq!(initials_name("".into()), "".to_string());
+    assert_eq!(initials_name("山".into()), "山".to_string());
 }
