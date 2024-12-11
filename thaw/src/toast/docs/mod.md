@@ -4,7 +4,7 @@
     <MessageBarBody>
       <h3 style="margin: 0">"Prerequisite"</h3>
       <p>
-        "If you want to use toast, you need to wrap the component where you call related methods inside ToasterProvider and use ToasterInjection::expect_use to get the API."
+        "If you want to use toast, you need to wrap the component where you call related methods inside ToasterProvider and use ToasterInjection::expect_context to get the API."
       </p>
     </MessageBarBody>
 </MessageBar>

@@ -26,8 +26,13 @@ pub struct LoadingBarInjection {
 impl Copy for LoadingBarInjection {}
 
 impl LoadingBarInjection {
+    #[deprecated = "`expect_use()` is deprecated, please use `LoadingBarInjection::expect_context()`."]
     pub fn expect_use() -> Self {
         expect_context::<Self>()
+    }
+
+    pub fn expect_context() -> Self {
+        expect_context()
     }
 
     /// Callback function for loading bar to start loading.

@@ -31,7 +31,7 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn TheRouter() -> impl IntoView {
-    let loading_bar = LoadingBarInjection::expect_use();
+    let loading_bar = LoadingBarInjection::expect_context();
     let is_routing = RwSignal::new(false);
     let set_is_routing = SignalSetter::map(move |is_routing_data| {
         is_routing.set(is_routing_data);

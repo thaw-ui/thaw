@@ -62,7 +62,7 @@ pub(super) struct DialogInjection {
 }
 
 impl DialogInjection {
-    pub fn expect_use() -> Self {
+    pub fn expect_context() -> Self {
         expect_context::<Self>()
     }
 }
