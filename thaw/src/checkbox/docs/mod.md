@@ -9,6 +9,15 @@ view! {
 }
 ```
 
+### Size
+
+```rust demo
+view! {
+    <Checkbox label="Medium"/>
+    <Checkbox size=CheckboxSize::Large label="Large"/>
+}
+```
+
 ### Group
 
 ```rust demo
@@ -28,12 +37,13 @@ view! {
 
 ### Checkbox Props
 
-| Name    | Type                | Default              | Description                                               |
-| ------- | ------------------- | -------------------- | --------------------------------------------------------- |
-| class   | `MaybeProp<String>` | `Default::default()` |                                                           |
-| checked | `Model<bool>`       | `false`              | The controlled value for the checkbox.                    |
-| value   | `Option<String>`    | `None`               | The value of the checkbox to be used in a checkbox group. |
-| label   | `MaybeProp<String>` | `Default::default()` | The Checkbox's label.                                     |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| checked | `Model<bool>` | `false` | The controlled value for the checkbox. |
+| value | `Option<String>` | `None` | The value of the checkbox to be used in a checkbox group. |
+| label | `MaybeProp<String>` | `Default::default()` | The Checkbox's label. |
+| size | `Signal<CheckboxSize>` | `CheckboxSize::Medium` | The size of the checkbox indicator. |
 
 ### CheckboxGroup Props
 

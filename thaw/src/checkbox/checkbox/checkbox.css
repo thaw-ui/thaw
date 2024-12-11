@@ -69,6 +69,10 @@
     cursor: inherit;
 }
 
+.thaw-checkbox--large > .thaw-checkbox__input {
+    width: calc(20px + 2 * var(--spacingHorizontalS));
+}
+
 .thaw-checkbox__indicator {
     align-self: flex-start;
     flex-shrink: 0;
@@ -94,6 +98,12 @@
     overflow: hidden;
 }
 
+.thaw-checkbox--large > .thaw-checkbox__indicator {
+    font-size: 16px;
+    height: 20px;
+    width: 20px;
+}
+
 .thaw-checkbox__label {
     align-self: center;
     margin-bottom: calc((16px - var(--lineHeightBase300)) / 2);
@@ -107,4 +117,9 @@
     font-size: var(--fontSizeBase300);
     color: inherit;
     cursor: inherit;
+}
+
+.thaw-checkbox--large > .thaw-checkbox__label {
+    margin-top: calc((20px - var(--lineHeightBase300)) / 2);
+    margin-bottom: calc((20px - var(--lineHeightBase300)) / 2);
 }
