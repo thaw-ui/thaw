@@ -8,7 +8,7 @@ pub fn DialogSurface(
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
-    let dialog = DialogInjection::expect_use();
+    let dialog = DialogInjection::expect_context();
 
     view! {
         <CSSTransition
