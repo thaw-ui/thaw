@@ -1,6 +1,8 @@
 mod color;
 mod common;
 
+use std::collections::HashMap;
+
 use crate::ConfigInjection;
 pub use color::ColorTheme;
 pub use common::CommonTheme;
@@ -14,6 +16,21 @@ pub struct Theme {
 }
 
 impl Theme {
+    pub fn custom_light(brand_colors: &HashMap<i32, &str>) -> Self {
+        Self {
+            name: "light".into(),
+            common: CommonTheme::new(),
+            color: ColorTheme::custom_light(brand_colors),
+        }
+    }
+    pub fn custom_dark(brand_colors: &HashMap<i32, &str>) -> Self {
+        Self {
+            name: "dark".into(),
+            common: CommonTheme::new(),
+            color: ColorTheme::custom_dark(brand_colors),
+        }
+    }
+
     pub fn light() -> Self {
         Self {
             name: "light".into(),

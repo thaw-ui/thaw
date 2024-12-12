@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use thaw_macro::WriteCSSVars;
 
 #[derive(Clone, WriteCSSVars)]
@@ -123,6 +125,71 @@ pub struct ColorTheme {
 }
 
 impl ColorTheme {
+
+    fn validate_palette(brand_colors: &HashMap<i32, &str>) { 
+        for v in 1..=16 {
+            let variant = v*10; 
+            brand_colors.get(&variant).unwrap_or_else(|| panic!("Missing variant {} in brand color palette", variant));
+        }
+    }
+    pub fn custom_light(brand_colors: &HashMap<i32, &str>) -> Self {
+        Self::validate_palette(brand_colors);
+        let mut theme = Self::light();
+        theme.color_brand_background = brand_colors.get(&80).unwrap().to_string();
+        theme.color_brand_background_2 = brand_colors.get(&160).unwrap().to_string();
+        theme.color_brand_background_hover = brand_colors.get(&70).unwrap().to_string();
+        theme.color_brand_background_pressed = brand_colors.get(&40).unwrap().to_string();
+        theme.color_brand_foreground_1 = brand_colors.get(&80).unwrap().to_string();
+        theme.color_brand_foreground_2 = brand_colors.get(&70).unwrap().to_string();
+        theme.color_brand_foreground_link = brand_colors.get(&70).unwrap().to_string();
+        theme.color_brand_foreground_link_hover = brand_colors.get(&60).unwrap().to_string();
+        theme.color_brand_foreground_link_pressed = brand_colors.get(&40).unwrap().to_string();
+        theme.color_brand_stroke_1 = brand_colors.get(&80).unwrap().to_string();
+        theme.color_brand_stroke_2 = brand_colors.get(&140).unwrap().to_string();
+        theme.color_brand_stroke_2_contrast = brand_colors.get(&140).unwrap().to_string();
+        theme.color_compound_brand_background = brand_colors.get(&80).unwrap().to_string();
+        theme.color_compound_brand_background_hover = brand_colors.get(&70).unwrap().to_string();
+        theme.color_compound_brand_background_pressed = brand_colors.get(&60).unwrap().to_string();
+        theme.color_compound_brand_foreground_1 = brand_colors.get(&80).unwrap().to_string();
+        theme.color_compound_brand_foreground_1_hover = brand_colors.get(&70).unwrap().to_string();
+        theme.color_compound_brand_foreground_1_pressed = brand_colors.get(&60).unwrap().to_string();
+        theme.color_compound_brand_stroke = brand_colors.get(&80).unwrap().to_string();
+        theme.color_compound_brand_stroke_pressed = brand_colors.get(&60).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_hover = brand_colors.get(&80).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_pressed = brand_colors.get(&70).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_selected = brand_colors.get(&80).unwrap().to_string();
+        theme
+    }
+
+    pub fn custom_dark(brand_colors: &HashMap<i32, &str>) -> Self {
+        Self::validate_palette(brand_colors);
+        let mut theme = Self::dark();
+        theme.color_brand_background = brand_colors.get(&70).unwrap().to_string();
+        theme.color_brand_background_2 = brand_colors.get(&20).unwrap().to_string();
+        theme.color_brand_background_hover = brand_colors.get(&80).unwrap().to_string();
+        theme.color_brand_background_pressed = brand_colors.get(&40).unwrap().to_string();
+        theme.color_brand_foreground_1 = brand_colors.get(&110).unwrap().to_string();
+        theme.color_brand_foreground_2 = brand_colors.get(&120).unwrap().to_string();
+        theme.color_brand_foreground_link = brand_colors.get(&100).unwrap().to_string();
+        theme.color_brand_foreground_link_hover = brand_colors.get(&110).unwrap().to_string();
+        theme.color_brand_foreground_link_pressed = brand_colors.get(&90).unwrap().to_string();
+        theme.color_brand_stroke_1 = brand_colors.get(&100).unwrap().to_string();
+        theme.color_brand_stroke_2 = brand_colors.get(&50).unwrap().to_string();
+        theme.color_brand_stroke_2_contrast = brand_colors.get(&50).unwrap().to_string();
+        theme.color_compound_brand_background = brand_colors.get(&100).unwrap().to_string();
+        theme.color_compound_brand_background_hover = brand_colors.get(&110).unwrap().to_string();
+        theme.color_compound_brand_background_pressed = brand_colors.get(&90).unwrap().to_string();
+        theme.color_compound_brand_foreground_1 = brand_colors.get(&100).unwrap().to_string();
+        theme.color_compound_brand_foreground_1_hover = brand_colors.get(&110).unwrap().to_string();
+        theme.color_compound_brand_foreground_1_pressed = brand_colors.get(&90).unwrap().to_string();
+        theme.color_compound_brand_stroke = brand_colors.get(&100).unwrap().to_string();
+        theme.color_compound_brand_stroke_pressed = brand_colors.get(&90).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_hover = brand_colors.get(&100).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_pressed = brand_colors.get(&90).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_selected = brand_colors.get(&100).unwrap().to_string();
+        theme
+    }
+
     pub fn light() -> Self {
         Self {
             color_scheme: "light".into(),
