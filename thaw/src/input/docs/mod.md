@@ -54,6 +54,18 @@ view! {
 }
 ```
 
+### Size
+
+```rust demo
+view! {
+    <Flex vertical=true inline=true>
+        <Input size=InputSize::Small placeholder="Small input"/>
+        <Input placeholder="Medium input"/>
+        <Input size=InputSize::Large placeholder="Large input"/>
+    </Flex>
+}
+```
+
 ### Imperative handle
 
 ```rust demo
@@ -120,6 +132,7 @@ view! {
 | on_blur | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
 | parser | `OptionalProp<BoxOneCallback<String, Option<String>>>` | `None` | Modifies the user input before assigning it to the value. |
 | format | `OptionalProp<BoxOneCallback<String, String>>` | `None` | Formats the value to be shown to the user |
+| size | `Signal<InputSize>` | `InputSize::Medium` | Size of the input (changes the font size and spacing). |
 | input_prefix | slot `Option<InputPrefix>` | `None` |  |
 | input_suffix | slot `Option<InputSuffix>` | `None` |  |
 | comp_ref | ref `ComponentRef<InputRef>` | `Default::default()` |  |

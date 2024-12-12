@@ -1,23 +1,15 @@
-use crate::{FieldInjection, FieldValidationState, Rule};
+mod rule;
+mod types;
+
+pub use rule::*;
+pub use types::*;
+
+use crate::{FieldInjection, Rule};
 use leptos::{ev, html, prelude::*};
-use std::ops::Deref;
+
 use thaw_utils::{
     class_list, mount_style, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp,
 };
-
-#[slot]
-pub struct InputPrefix {
-    #[prop(default = true)]
-    if_: bool,
-    children: Children,
-}
-
-#[slot]
-pub struct InputSuffix {
-    #[prop(default = true)]
-    if_: bool,
-    children: Children,
-}
 
 #[component]
 pub fn Input(
@@ -66,7 +58,9 @@ pub fn Input(
     /// Formats the value to be shown to the user.
     #[prop(optional, into)]
     format: OptionalProp<BoxOneCallback<String, String>>,
-    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    /// Size of the input (changes the font size and spacing).
+    #[prop(optional, into)]
+    size: Signal<InputSize>,
 ) -> impl IntoView {
     mount_style("input", include_str!("./input.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
@@ -161,6 +155,7 @@ pub fn Input(
                 ("thaw-input--prefix", prefix_if_),
                 ("thaw-input--suffix", suffix_if_),
                 ("thaw-input--disabled", move || disabled.get()),
+                move || format!("thaw-input--{}", size.get().as_str()),
                 class
             ]
 
@@ -205,118 +200,5 @@ pub fn Input(
             }}
 
         </span>
-    }
-}
-
-#[derive(Default, Clone)]
-pub enum InputType {
-    #[default]
-    Text,
-    Password,
-    Search,
-    Tel,
-    Url,
-    Email,
-    Time,
-    Date,
-    DatetimeLocal,
-    Month,
-    Week,
-}
-
-impl InputType {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            Self::Text => "text",
-            Self::Password => "password",
-            Self::Search => "search",
-            Self::Tel => "tel",
-            Self::Url => "url",
-            Self::Email => "email",
-            Self::Time => "time",
-            Self::Date => "date",
-            Self::DatetimeLocal => "datetime-local",
-            Self::Month => "month",
-            Self::Week => "week",
-        }
-    }
-}
-
-#[derive(Clone)]
-pub struct InputRef {
-    input_ref: NodeRef<html::Input>,
-}
-
-impl InputRef {
-    /// Focus the input element.
-    pub fn focus(&self) {
-        if let Some(input_el) = self.input_ref.get_untracked() {
-            _ = input_el.focus();
-        }
-    }
-
-    /// Blur the input element.
-    pub fn blur(&self) {
-        if let Some(input_el) = self.input_ref.get_untracked() {
-            _ = input_el.blur();
-        }
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Clone, Copy)]
-pub enum InputRuleTrigger {
-    #[default]
-    Blur,
-    Focus,
-    Input,
-    Change,
-}
-
-pub struct InputRule(Rule<String, InputRuleTrigger>);
-
-impl InputRule {
-    pub fn required(required: Signal<bool>) -> Self {
-        Self::validator(move |value, name| {
-            if required.get_untracked() && value.is_empty() {
-                let message = name.get_untracked().map_or_else(
-                    || String::from("Please input!"),
-                    |name| format!("Please input {name}!"),
-                );
-                Err(FieldValidationState::Error(message))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
-        Self::validator(move |value, _| {
-            if required.get_untracked() && value.is_empty() {
-                Err(FieldValidationState::Error(message.get_untracked()))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn validator(
-        f: impl Fn(&String, Signal<Option<String>>) -> Result<(), FieldValidationState>
-            + Send
-            + Sync
-            + 'static,
-    ) -> Self {
-        Self(Rule::validator(f))
-    }
-
-    pub fn with_trigger(self, trigger: InputRuleTrigger) -> Self {
-        Self(Rule::with_trigger(self.0, trigger))
-    }
-}
-
-impl Deref for InputRule {
-    type Target = Rule<String, InputRuleTrigger>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
     }
 }
