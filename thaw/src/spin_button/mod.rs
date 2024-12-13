@@ -1,7 +1,13 @@
-use crate::{FieldInjection, FieldValidationState, Rule};
+mod rule;
+mod types;
+
+pub use rule::*;
+pub use types::*;
+
+use crate::{FieldInjection, Rule};
 use leptos::prelude::*;
 use num_traits::Bounded;
-use std::ops::{Add, Deref, Sub};
+use std::ops::{Add, Sub};
 use std::str::FromStr;
 use thaw_utils::{class_list, mount_style, with, BoxOneCallback, Model, OptionalProp};
 
@@ -40,6 +46,9 @@ pub fn SpinButton<T>(
     /// Whether the input is disabled.
     #[prop(optional, into)]
     disabled: Signal<bool>,
+    /// Size of the input.
+    #[prop(optional, into)]
+    size: Signal<SpinButtonSize>,
     /// Modifies the user input before assigning it to the value.
     #[prop(optional, into)]
     parser: OptionalProp<BoxOneCallback<String, Option<T>>>,
@@ -96,6 +105,7 @@ where
         <span class=class_list![
             "thaw-spin-button",
             ("thaw-spin-button--disabled", move || disabled.get()),
+            move || format!("thaw-spin-button--{}", size.get().as_str()),
             class
         ]>
             <input
@@ -178,36 +188,5 @@ where
                 </svg>
             </button>
         </span>
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Clone, Copy)]
-pub enum SpinButtonRuleTrigger {
-    #[default]
-    Change,
-}
-
-pub struct SpinButtonRule<T>(Rule<T, SpinButtonRuleTrigger>);
-
-impl<T> SpinButtonRule<T> {
-    pub fn validator(
-        f: impl Fn(&T, Signal<Option<String>>) -> Result<(), FieldValidationState>
-            + Send
-            + Sync
-            + 'static,
-    ) -> Self {
-        Self(Rule::validator(f))
-    }
-
-    pub fn with_trigger(self, trigger: SpinButtonRuleTrigger) -> Self {
-        Self(Rule::with_trigger(self.0, trigger))
-    }
-}
-
-impl<T> Deref for SpinButtonRule<T> {
-    type Target = Rule<T, SpinButtonRuleTrigger>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
     }
 }

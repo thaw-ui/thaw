@@ -15,6 +15,15 @@
     border-radius: var(--borderRadiusMedium);
 }
 
+.thaw-spin-button--small {
+    min-height: 24px;
+    padding-left: var(--spacingHorizontalS);
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+    font-weight: var(--fontWeightRegular);
+    font-family: var(--fontFamilyBase);
+}
+
 .thaw-spin-button:hover {
     border-color: var(--colorNeutralStroke1Hover);
     border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
@@ -121,11 +130,21 @@
     border-top-right-radius: var(--borderRadiusMedium);
 }
 
+.thaw-spin-button--small .thaw-spin-button__increment-button {
+    padding: 3px 6px 0px 4px;
+    height: 12px;
+}
+
 .thaw-spin-button__decrement-button {
     padding-bottom: 4px;
     padding-top: 1px;
     grid-row-start: 2;
     border-bottom-right-radius: var(--borderRadiusMedium);
+}
+
+.thaw-spin-button--small .thaw-spin-button__decrement-button {
+    padding: 0px 6px 3px 4px;
+    height: 12px;
 }
 
 .thaw-spin-button__increment-button:disabled,
