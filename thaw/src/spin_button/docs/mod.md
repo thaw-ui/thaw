@@ -33,6 +33,17 @@ view! {
 }
 ```
 
+### Size
+
+```rust demo
+view! {
+    <Flex vertical=true inline=true>
+        <SpinButton<i32> size=SpinButtonSize::Small step_page=1/>
+        <SpinButton<i32> step_page=1/>
+    </Flex>
+}
+```
+
 ### Disabled
 
 ```rust demo
@@ -101,6 +112,7 @@ view! {
 | min | `Signal<T>` | `T::min_value()` | The minimum number that the input value can take. |
 | max | `Signal<T>` | `T::max_value()` | The maximum number that the input value can take. |
 | disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
+| size | `Signal<SpinButtonSize>` | `SpinButtonSize::Medium` | Size of the input. |
 | parser | `OptionalProp<BoxOneCallback<String, Option<T>>>` | `None` | Modifies the user input before assigning it to the value. |
 | format | `OptionalProp<BoxOneCallback<T, String>>` | `None` | Formats the value to be shown to the user. |
 
