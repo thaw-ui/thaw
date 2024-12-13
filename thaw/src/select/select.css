@@ -64,6 +64,28 @@
     cursor: pointer;
 }
 
+.thaw-select--small .thaw-select__select {
+    height: 24px;
+    padding-right: calc(
+        var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) +
+            var(--spacingHorizontalXXS)
+    );
+    padding-left: calc(
+        var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS)
+    );
+}
+
+.thaw-select--large .thaw-select__select {
+    height: 40px;
+    padding-right: calc(
+        var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) +
+            var(--spacingHorizontalSNudge)
+    );
+    padding-left: calc(
+        var(--spacingHorizontalM) + var(--spacingHorizontalSNudge)
+    );
+}
+
 .thaw-select__select:focus {
     outline-color: transparent;
     outline-style: solid;
@@ -94,6 +116,20 @@
     color: var(--colorNeutralStrokeAccessible);
     box-sizing: border-box;
     font-size: 20px;
+}
+
+.thaw-select--small .thaw-select__icon {
+    width: 16px;
+    height: 16px;
+    right: var(--spacingHorizontalSNudge);
+    font-size: 16px;
+}
+
+.thaw-select--large .thaw-select__icon {
+    width: 24px;
+    height: 24px;
+    right: var(--spacingHorizontalM);
+    font-size: 24px;
 }
 
 .thaw-select__icon svg {

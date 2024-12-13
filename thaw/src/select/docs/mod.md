@@ -51,6 +51,30 @@ view! {
 }
 ```
 
+### Size
+
+```rust demo
+view! {
+    <Flex vertical=true inline=true>
+        <Select size=SelectSize::Small>
+            <option>"Red"</option>
+            <option>"Green"</option>
+            <option>"Blue"</option>
+        </Select>
+        <Select>
+            <option>"Red"</option>
+            <option>"Green"</option>
+            <option>"Blue"</option>
+        </Select>
+        <Select size=SelectSize::Large>
+            <option>"Red"</option>
+            <option>"Green"</option>
+            <option>"Blue"</option>
+        </Select>
+    </Flex>
+}
+```
+
 ### Select Props
 
 | Name | Type | Default | Description |
@@ -62,4 +86,5 @@ view! {
 | value | `Model<String>` | `Default::default()` | Set the select value. |
 | default_value | `Option<String>` | `None` |  |
 | disabled | `Signal<bool>` | `false` | Whether the select is disabled. |
+| size | `Signal<SelectSize>` | `SelectSize::Medium` | Matches the Input sizes. |
 | children | `Children` |  |  |

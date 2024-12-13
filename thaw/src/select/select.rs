@@ -1,6 +1,7 @@
-use crate::{icon::ChevronDownRegularIcon, FieldInjection, FieldValidationState, Rule};
+use super::{SelectRule, SelectSize};
+
+use crate::{icon::ChevronDownRegularIcon, FieldInjection, Rule, SelectRuleTrigger};
 use leptos::{html, prelude::*};
-use std::ops::Deref;
 use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
@@ -17,6 +18,9 @@ pub fn Select(
     /// Whether the select is disabled.
     #[prop(optional, into)]
     disabled: Signal<bool>,
+    /// Matches the Input sizes.
+    #[prop(optional, into)]
+    size: Signal<SelectSize>,
     children: Children,
 ) -> impl IntoView {
     mount_style("select", include_str!("./select.css"));
@@ -58,8 +62,9 @@ pub fn Select(
     view! {
         <span class=class_list![
             "thaw-select",
-                ("thaw-select--disabled", move || disabled.get()),
-                class
+            ("thaw-select--disabled", move || disabled.get()),
+            move || format!("thaw-select--{}", size.get().as_str()),
+            class
         ]>
             <select
                 class="thaw-select__select"
@@ -75,60 +80,5 @@ pub fn Select(
                 <ChevronDownRegularIcon />
             </span>
         </span>
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Clone, Copy)]
-pub enum SelectRuleTrigger {
-    #[default]
-    Change,
-}
-
-pub struct SelectRule(Rule<String, SelectRuleTrigger>);
-
-impl SelectRule {
-    pub fn required(required: Signal<bool>) -> Self {
-        Self::validator(move |value, name| {
-            if required.get_untracked() && value.is_empty() {
-                let message = name.get_untracked().map_or_else(
-                    || String::from("Please select!"),
-                    |name| format!("Please select {name}!"),
-                );
-                Err(FieldValidationState::Error(message))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
-        Self::validator(move |value, _| {
-            if required.get_untracked() && value.is_empty() {
-                Err(FieldValidationState::Error(message.get_untracked()))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn validator(
-        f: impl Fn(&String, Signal<Option<String>>) -> Result<(), FieldValidationState>
-            + Send
-            + Sync
-            + 'static,
-    ) -> Self {
-        Self(Rule::validator(f))
-    }
-
-    pub fn with_trigger(self, trigger: SelectRuleTrigger) -> Self {
-        Self(Rule::with_trigger(self.0, trigger))
-    }
-}
-
-impl Deref for SelectRule {
-    type Target = Rule<String, SelectRuleTrigger>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
     }
 }
