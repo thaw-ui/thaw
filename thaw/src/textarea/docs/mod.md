@@ -18,6 +18,18 @@ view! {
 }
 ```
 
+### Size
+
+```rust demo
+view! {
+    <Flex vertical=true inline=true>
+        <Textarea size=TextareaSize::Small/>
+        <Textarea />
+        <Textarea size=TextareaSize::Large/>
+    </Flex>
+}
+```
+
 ### Resize
 
 ```rust demo
@@ -46,6 +58,7 @@ view! {
 | on_focus | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
 | on_blur | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
 | resize | `Signal<TextareaResize>` | `TextareaResize::None` | Which direction the Textarea is allowed to be resized. |
+| size | `Signal<TextareaSize>` | `TextareaSize::Medium` | Size of the Textarea. |
 | comp_ref | ref `ComponentRef<TextareaRef>` | `Default::default()` |  |
 
 ### TextareaRef Props
