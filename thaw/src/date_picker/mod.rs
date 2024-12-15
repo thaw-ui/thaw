@@ -1,10 +1,14 @@
 mod panel;
+mod rule;
+mod types;
 
-use crate::{FieldInjection, FieldValidationState, Icon, Input, InputSuffix, Rule};
+pub use rule::*;
+pub use types::*;
+
+use crate::{FieldInjection, Icon, Input, InputSuffix, Rule};
 use chrono::NaiveDate;
 use leptos::{html, prelude::*};
 use panel::{Panel, PanelRef};
-use std::ops::Deref;
 use thaw_components::{Binder, Follower, FollowerPlacement};
 use thaw_utils::{
     class_list, mount_style, now_date, ComponentRef, OptionModel, OptionModelWithValue, SignalWatch,
@@ -24,6 +28,9 @@ pub fn DatePicker(
     /// Set the date picker value.
     #[prop(optional, into)]
     value: OptionModel<NaiveDate>,
+    /// Size of the input.
+    #[prop(optional, into)]
+    size: Signal<DatePickerSize>,
 ) -> impl IntoView {
     mount_style("date-picker", include_str!("./date-picker.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
@@ -101,6 +108,7 @@ pub fn DatePicker(
                     name
                     value=show_date_text
                     on_focus=move |_| open_panel()
+                    size=Signal::derive(move || size.get().into())
                     on_blur=on_input_blur
                 >
                     <InputSuffix slot>
@@ -118,60 +126,5 @@ pub fn DatePicker(
                 />
             </Follower>
         </Binder>
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Clone, Copy)]
-pub enum DatePickerRuleTrigger {
-    #[default]
-    Blur,
-}
-
-pub struct DatePickerRule(Rule<Option<NaiveDate>, DatePickerRuleTrigger>);
-
-impl DatePickerRule {
-    pub fn required(required: Signal<bool>) -> Self {
-        Self::validator(move |value, name| {
-            if required.get_untracked() && value.is_none() {
-                let message = name.get_untracked().map_or_else(
-                    || String::from("Please select!"),
-                    |name| format!("Please select {name}!"),
-                );
-                Err(FieldValidationState::Error(message))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
-        Self::validator(move |value, _| {
-            if required.get_untracked() && value.is_none() {
-                Err(FieldValidationState::Error(message.get_untracked()))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn validator(
-        f: impl Fn(&Option<NaiveDate>, Signal<Option<String>>) -> Result<(), FieldValidationState>
-            + Send
-            + Sync
-            + 'static,
-    ) -> Self {
-        Self(Rule::validator(f))
-    }
-
-    pub fn with_trigger(self, trigger: DatePickerRuleTrigger) -> Self {
-        Self(Rule::with_trigger(self.0, trigger))
-    }
-}
-
-impl Deref for DatePickerRule {
-    type Target = Rule<Option<NaiveDate>, DatePickerRuleTrigger>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
     }
 }
