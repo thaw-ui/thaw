@@ -1,6 +1,11 @@
-use crate::{FieldInjection, FieldValidationState, Rule};
+mod rule;
+mod types;
+
+pub use rule::*;
+pub use types::*;
+
+use crate::{FieldInjection, Rule};
 use leptos::{ev, html, prelude::*};
-use std::ops::Deref;
 use thaw_utils::{class_list, mount_style, BoxOneCallback, ComponentRef, Model};
 
 #[component]
@@ -35,6 +40,9 @@ pub fn Textarea(
     /// Which direction the Textarea is allowed to be resized.
     #[prop(optional, into)]
     resize: Signal<TextareaResize>,
+    /// Size of the Textarea.
+    #[prop(optional, into)]
+    size: Signal<TextareaSize>,
     #[prop(optional)] comp_ref: ComponentRef<TextareaRef>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
@@ -80,6 +88,7 @@ pub fn Textarea(
             "thaw-textarea",
             ("thaw-textarea--disabled", move || disabled.get()),
             move || format!("thaw-textarea--resize-{}", resize.get().as_str()),
+            move || format!("thaw-textarea--{}", size.get().as_str()),
             class
         ]>
             <textarea
@@ -100,104 +109,5 @@ pub fn Textarea(
                 node_ref=textarea_ref
             ></textarea>
         </span>
-    }
-}
-
-#[derive(Clone)]
-pub struct TextareaRef {
-    textarea_ref: NodeRef<html::Textarea>,
-}
-
-impl TextareaRef {
-    /// Focus the input element.
-    pub fn focus(&self) {
-        if let Some(textarea_el) = self.textarea_ref.get_untracked() {
-            _ = textarea_el.focus();
-        }
-    }
-
-    /// Blur the input element.
-    pub fn blur(&self) {
-        if let Some(textarea_el) = self.textarea_ref.get_untracked() {
-            _ = textarea_el.blur();
-        }
-    }
-}
-
-#[derive(Clone, Default)]
-pub enum TextareaResize {
-    #[default]
-    None,
-    Both,
-    Horizontal,
-    Vertical,
-}
-
-impl TextareaResize {
-    pub fn as_str(&self) -> &'static str {
-        match self {
-            TextareaResize::None => "none",
-            TextareaResize::Both => "both",
-            TextareaResize::Horizontal => "horizontal",
-            TextareaResize::Vertical => "vertical",
-        }
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Clone, Copy)]
-pub enum TextareaRuleTrigger {
-    #[default]
-    Blur,
-    Focus,
-    Input,
-    Change,
-}
-
-pub struct TextareaRule(Rule<String, TextareaRuleTrigger>);
-
-impl TextareaRule {
-    pub fn required(required: Signal<bool>) -> Self {
-        Self::validator(move |value, name| {
-            if required.get_untracked() && value.is_empty() {
-                let message = name.get_untracked().map_or_else(
-                    || String::from("Please input!"),
-                    |name| format!("Please input {name}!"),
-                );
-                Err(FieldValidationState::Error(message))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
-        Self::validator(move |value, _| {
-            if required.get_untracked() && value.is_empty() {
-                Err(FieldValidationState::Error(message.get_untracked()))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn validator(
-        f: impl Fn(&String, Signal<Option<String>>) -> Result<(), FieldValidationState>
-            + Send
-            + Sync
-            + 'static,
-    ) -> Self {
-        Self(Rule::validator(f))
-    }
-
-    pub fn with_trigger(self, trigger: TextareaRuleTrigger) -> Self {
-        Self(Rule::with_trigger(self.0, trigger))
-    }
-}
-
-impl Deref for TextareaRule {
-    type Target = Rule<String, TextareaRuleTrigger>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
     }
 }

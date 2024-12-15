@@ -78,6 +78,24 @@
     resize: none;
 }
 
+.thaw-textarea--small .thaw-textarea__textarea {
+    max-height: 200px;
+    min-height: 40px;
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+    padding: var(--spacingVerticalXS)
+        calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
+}
+
+.thaw-textarea--large .thaw-textarea__textarea {
+    max-height: 320px;
+    min-height: 64px;
+    font-size: var(--fontSizeBase400);
+    line-height: var(--lineHeightBase400);
+    padding: var(--spacingVerticalS)
+        calc(var(--spacingHorizontalM) + var(--spacingHorizontalXXS));
+}
+
 .thaw-textarea__textarea-el::placeholder {
     color: var(--thaw-placeholder-color);
 }
