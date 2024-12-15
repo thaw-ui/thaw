@@ -1,6 +1,8 @@
 mod auto_complete_option;
+mod types;
 
 pub use auto_complete_option::AutoCompleteOption;
+pub use types::*;
 
 use crate::{
     combobox::listbox::{listbox_keyboard_event, Listbox},
@@ -11,16 +13,6 @@ use leptos::{context::Provider, either::Either, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, ArcOneCallback, BoxOneCallback, Model};
-
-#[slot]
-pub struct AutoCompletePrefix {
-    children: Children,
-}
-
-#[slot]
-pub struct AutoCompleteSuffix {
-    children: Children,
-}
 
 #[component]
 pub fn AutoComplete(
@@ -41,6 +33,9 @@ pub fn AutoComplete(
     /// Whether the input is disabled.
     #[prop(optional, into)]
     disabled: Signal<bool>,
+    /// Size of the input.
+    #[prop(optional, into)]
+    size: Signal<AutoCompleteSize>,
     #[prop(optional)] auto_complete_prefix: Option<AutoCompletePrefix>,
     #[prop(optional)] auto_complete_suffix: Option<AutoCompleteSuffix>,
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
@@ -118,6 +113,7 @@ pub fn AutoComplete(
                     on_focus=move |_| open_listbox.set(true)
                     on_blur=on_blur
                     allow_value
+                    size=Signal::derive(move || size.get().into())
                     comp_ref=input_ref
                 >
                     <InputPrefix if_=auto_complete_prefix.is_some() slot>
@@ -166,59 +162,5 @@ pub fn AutoComplete(
                 </Provider>
             </Follower>
         </Binder>
-    }
-}
-
-#[derive(Clone)]
-pub(crate) struct AutoCompleteInjection {
-    value: Model<String>,
-    select_option: ArcOneCallback<String>,
-    options: StoredValue<HashMap<String, String>>,
-}
-
-impl AutoCompleteInjection {
-    pub fn expect_context() -> Self {
-        expect_context()
-    }
-
-    pub fn is_selected(&self, key: &String) -> bool {
-        self.value.with(|value| value == key)
-    }
-
-    pub fn select_option(&self, value: String) {
-        (self.select_option)(value);
-    }
-
-    pub fn insert_option(&self, id: String, value: String) {
-        self.options.update_value(|options| {
-            options.insert(id, value);
-        });
-    }
-
-    pub fn remove_option(&self, id: &String) {
-        self.options.update_value(|options| {
-            options.remove(id);
-        });
-    }
-}
-
-#[derive(Clone)]
-pub struct AutoCompleteRef {
-    input_ref: ComponentRef<InputRef>,
-}
-
-impl AutoCompleteRef {
-    /// Focus the input element.
-    pub fn focus(&self) {
-        if let Some(input_ref) = self.input_ref.get_untracked() {
-            input_ref.focus();
-        }
-    }
-
-    /// Blur the input element.
-    pub fn blur(&self) {
-        if let Some(input_ref) = self.input_ref.get_untracked() {
-            input_ref.blur();
-        }
     }
 }

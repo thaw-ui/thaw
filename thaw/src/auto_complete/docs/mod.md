@@ -36,6 +36,18 @@ view! {
 }
 ```
 
+### Size
+
+```rust demo
+view! {
+    <Flex vertical=true inline=true>
+        <AutoComplete size=AutoCompleteSize::Small/>
+        <AutoComplete />
+        <AutoComplete size=AutoCompleteSize::Large/>
+    </Flex>
+}
+```
+
 ### Prefix & Suffix
 
 ```rust demo
@@ -65,6 +77,7 @@ view! {
 | disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | clear_after_select | `Signal<bool>` | `false` | Whether to clear after selection. |
 | blur_after_select | `Signal<bool>` | `false` | Whether to blur after selection. |
+| size | `Signal<AutoCompleteSize>` | `AutoCompleteSize::Medium` | Size of the input. |
 | auto_complete_prefix | slot `Option<AutoCompletePrefix>` | `None` |  |
 | auto_complete_suffix | slot `Option<AutoCompleteSuffix>` | `None` |  |
 | comp_ref | ref `ComponentRef<AutoCompleteRef>` | `Default::default()` |  |
