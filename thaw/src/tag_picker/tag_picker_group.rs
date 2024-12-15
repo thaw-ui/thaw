@@ -1,4 +1,4 @@
-use super::TagPickerInjection;
+use super::{TagPickerInjection, TagPickerSize};
 use crate::{TagGroup, TagSize};
 use leptos::prelude::*;
 
@@ -14,12 +14,17 @@ pub fn TagPickerGroup(
             class.get().unwrap_or_default()
         ))
     });
+    let size = Signal::derive(move || match tag_picker.size.get() {
+        TagPickerSize::ExtraLarge => TagSize::Medium,
+        TagPickerSize::Large => TagSize::Small,
+        TagPickerSize::Medium => TagSize::ExtraSmall,
+    });
     let on_dismiss = move |value| {
         tag_picker.remove_selected_option(value);
     };
 
     view! {
-        <TagGroup attr:role="listbox" class size=TagSize::ExtraSmall dismissible=true on_dismiss>
+        <TagGroup attr:role="listbox" class size dismissible=true on_dismiss>
             {children()}
         </TagGroup>
     }

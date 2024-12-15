@@ -1,12 +1,16 @@
+mod types;
+
+pub use types::*;
+
 use crate::{
-    _aria::{use_active_descendant, ActiveDescendantController},
+    _aria::use_active_descendant,
     icon::ChevronDownRegularIcon,
     listbox::{listbox_keyboard_event, Listbox},
 };
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{call_on_click_outside_with_list, class_list, mount_style, BoxCallback, Model};
+use thaw_utils::{call_on_click_outside_with_list, class_list, mount_style, Model};
 
 #[component]
 pub fn TagPicker(
@@ -14,6 +18,9 @@ pub fn TagPicker(
     /// An array of selected option keys.
     #[prop(optional, into)]
     selected_options: Model<Vec<String>>,
+    /// The size of the TagPicker.
+    #[prop(optional, into)]
+    size: Signal<TagPickerSize>,
     tag_picker_control: TagPickerControl,
     children: Children,
 ) -> impl IntoView {
@@ -33,6 +40,7 @@ pub fn TagPicker(
     let tag_picker_control_injection =
         TagPickerControlInjection(active_descendant_controller.clone());
     let tag_picker_injection = TagPickerInjection {
+        size,
         selected_options,
         input_ref,
         options,
@@ -86,7 +94,11 @@ pub fn TagPicker(
     view! {
         <Binder>
             <div
-                class=class_list!["thaw-tag-picker-control", class]
+                class=class_list![
+                    "thaw-tag-picker-control",
+                    move || format!("thaw-tag-picker-control--{}", size.get().as_str()),
+                    class
+                ]
                 node_ref=trigger_ref
                 on:keydown=on_keydown
                 on:click=on_click
@@ -119,87 +131,5 @@ pub fn TagPicker(
                 </Provider>
             </Follower>
         </Binder>
-    }
-}
-
-#[slot]
-pub struct TagPickerControl {
-    children: Children,
-}
-
-#[derive(Clone)]
-pub(crate) struct TagPickerControlInjection(pub ActiveDescendantController);
-
-impl TagPickerControlInjection {
-    pub fn expect_context() -> Self {
-        expect_context()
-    }
-}
-
-#[derive(Clone, Copy)]
-pub(crate) struct TagPickerInjection {
-    pub input_ref: NodeRef<html::Input>,
-    selected_options: Model<Vec<String>>,
-    pub options: StoredValue<HashMap<String, (String, String, Signal<bool>)>>,
-    is_show_listbox: RwSignal<bool>,
-    listbox_hidden_callback: StoredValue<Vec<BoxCallback>>,
-}
-
-impl TagPickerInjection {
-    pub fn expect_context() -> Self {
-        expect_context()
-    }
-
-    /// value: (value, text, disabled)
-    pub fn insert_option(&self, id: String, value: (String, String, Signal<bool>)) {
-        self.options.update_value(|options| {
-            options.insert(id, value);
-        });
-    }
-
-    pub fn remove_option(&self, id: &String) {
-        self.options.update_value(|options| {
-            options.remove(id);
-        });
-    }
-
-    pub fn is_selected(&self, value: &String) -> bool {
-        self.selected_options
-            .with(|options| options.contains(value))
-    }
-
-    pub fn select_option(&self, value: &String) {
-        self.selected_options.update(|options| {
-            if let Some(index) = options.iter().position(|v| v == value) {
-                options.remove(index);
-            } else {
-                options.push(value.clone());
-                if let Some(input_el) = self.input_ref.get_untracked() {
-                    input_el.set_value("");
-                }
-            }
-        });
-        self.is_show_listbox.set(false);
-    }
-
-    pub fn remove_selected_option(&self, value: String) {
-        if self.is_show_listbox.get_untracked() {
-            let selected_options = self.selected_options;
-            self.listbox_hidden_callback.update_value(|list| {
-                list.push(BoxCallback::new(move || {
-                    selected_options.try_update(|options| {
-                        if let Some(index) = options.iter().position(|v| v == &value) {
-                            options.remove(index);
-                        }
-                    });
-                }));
-            });
-        } else {
-            self.selected_options.update(|options| {
-                if let Some(index) = options.iter().position(|v| v == &value) {
-                    options.remove(index);
-                }
-            });
-        }
     }
 }

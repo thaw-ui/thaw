@@ -53,6 +53,16 @@
     cursor: text;
 }
 
+.thaw-tag-picker-control--large,
+.thaw-tag-picker-control--large .thaw-tag-picker-control__aside {
+    min-height: 40px;
+}
+
+.thaw-tag-picker-control--extra-large,
+.thaw-tag-picker-control--extra-large .thaw-tag-picker-control__aside {
+    min-height: 44px;
+}
+
 .thaw-tag-picker-control__expand-icon {
     display: block;
     margin-left: var(--spacingHorizontalXXS);
@@ -60,6 +70,15 @@
     font-size: 16px;
     cursor: pointer;
     box-sizing: border-box;
+}
+
+.thaw-tag-picker-control--large .thaw-tag-picker-control__expand-icon {
+    font-size: 20px;
+}
+
+.thaw-tag-picker-control--extra-large .thaw-tag-picker-control__expand-icon {
+    font-size: 24px;
+    margin-left: var(--spacingHorizontalSNudge);
 }
 
 .thaw-tag-picker-input {
@@ -76,6 +95,14 @@
     font-family: var(--fontFamilyBase);
     box-sizing: border-box;
     border: none;
+}
+
+.thaw-tag-picker-control--large .thaw-tag-picker-input {
+    padding: var(--spacingVerticalMNudge) 0 var(--spacingVerticalMNudge) 0;
+}
+
+.thaw-tag-picker-control--extra-large .thaw-tag-picker-input {
+    padding: var(--spacingVerticalM) 0 var(--spacingVerticalM) 0;
 }
 
 .thaw-tag-picker-input:focus {
@@ -138,4 +165,10 @@
     padding: var(--spacingVerticalSNudge) 0 var(--spacingVerticalSNudge) 0;
     box-sizing: border-box;
     cursor: text;
+}
+
+.thaw-tag-picker-control--large .thaw-tag-picker-group,
+.thaw-tag-picker-control--extra-large .thaw-tag-picker-group {
+    padding: var(--spacingVerticalS) 0 var(--spacingVerticalS) 0;
+    gap: var(--spacingHorizontalSNudge);
 }
