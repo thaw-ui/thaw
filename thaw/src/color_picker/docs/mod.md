@@ -38,9 +38,11 @@ use palette::Srgb;
 let value = RwSignal::new(Color::from(Srgb::new(0.0, 0.0, 0.0)));
 
 view! {
-    <ColorPicker value size=ColorPickerSize::Small/>
-    <ColorPicker value/>
-    <ColorPicker value size=ColorPickerSize::Large/>
+    <Flex vertical=true>
+        <ColorPicker value size=ColorPickerSize::Small/>
+        <ColorPicker value/>
+        <ColorPicker value size=ColorPickerSize::Large/>
+    </Flex>
 }
 ```
 
