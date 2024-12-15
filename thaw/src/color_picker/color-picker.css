@@ -9,6 +9,18 @@
     cursor: pointer;
 }
 
+.thaw-color-picker-trigger--small {
+    height: 24px;
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+}
+
+.thaw-color-picker-trigger--large {
+    height: 40px;
+    font-size: var(--fontSizeBase400);
+    line-height: var(--lineHeightBase400);
+}
+
 .thaw-color-picker-trigger__content {
     display: flex;
     justify-content: center;
