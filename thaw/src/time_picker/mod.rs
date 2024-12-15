@@ -1,10 +1,15 @@
+mod rule;
+mod types;
+
+pub use rule::*;
+pub use types::*;
+
 use crate::{
-    Button, ButtonSize, ConfigInjection, FieldInjection, FieldValidationState, Icon, Input,
-    InputSuffix, Rule, Scrollbar, ScrollbarRef,
+    Button, ButtonSize, ConfigInjection, FieldInjection, Icon, Input, InputSuffix, Rule, Scrollbar,
+    ScrollbarRef,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
-use std::ops::Deref;
 use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
 use thaw_utils::{
     class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue,
@@ -25,7 +30,9 @@ pub fn TimePicker(
     /// Set the TimePicker value.
     #[prop(optional, into)]
     value: OptionModel<NaiveTime>,
-    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    /// Size of the input.
+    #[prop(optional, into)]
+    size: Signal<TimePickerSize>,
 ) -> impl IntoView {
     mount_style("time-picker", include_str!("./time-picker.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
@@ -105,6 +112,7 @@ pub fn TimePicker(
                     value=show_time_text
                     on_focus=move |_| open_panel()
                     on_blur=on_input_blur
+                    size=Signal::derive(move || size.get().into())
                 >
                     <InputSuffix slot>
                         <Icon icon=icondata_ai::AiClockCircleOutlined style="font-size: 18px" />
@@ -121,61 +129,6 @@ pub fn TimePicker(
                 />
             </Follower>
         </Binder>
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Clone, Copy)]
-pub enum TimePickerRuleTrigger {
-    #[default]
-    Blur,
-}
-
-pub struct TimePickerRule(Rule<Option<NaiveTime>, TimePickerRuleTrigger>);
-
-impl TimePickerRule {
-    pub fn required(required: Signal<bool>) -> Self {
-        Self::validator(move |value, name| {
-            if required.get_untracked() && value.is_none() {
-                let message = name.get_untracked().map_or_else(
-                    || String::from("Please select!"),
-                    |name| format!("Please select {name}!"),
-                );
-                Err(FieldValidationState::Error(message))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn required_with_message(required: Signal<bool>, message: Signal<String>) -> Self {
-        Self::validator(move |value, _| {
-            if required.get_untracked() && value.is_none() {
-                Err(FieldValidationState::Error(message.get_untracked()))
-            } else {
-                Ok(())
-            }
-        })
-    }
-
-    pub fn validator(
-        f: impl Fn(&Option<NaiveTime>, Signal<Option<String>>) -> Result<(), FieldValidationState>
-            + Send
-            + Sync
-            + 'static,
-    ) -> Self {
-        Self(Rule::validator(f))
-    }
-
-    pub fn with_trigger(self, trigger: TimePickerRuleTrigger) -> Self {
-        Self(Rule::with_trigger(self.0, trigger))
-    }
-}
-
-impl Deref for TimePickerRule {
-    type Target = Rule<Option<NaiveTime>, TimePickerRuleTrigger>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
     }
 }
 
