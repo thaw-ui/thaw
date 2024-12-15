@@ -1,6 +1,8 @@
 mod color;
+mod types;
 
 pub use color::*;
+pub use types::*;
 
 use crate::ConfigInjection;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
@@ -15,6 +17,9 @@ pub fn ColorPicker(
     /// Value of the picker.
     #[prop(optional, into)]
     value: Model<Color>,
+    /// Size of the picker.
+    #[prop(optional, into)]
+    size: Signal<ColorPickerSize>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let config_provider = ConfigInjection::expect_context();
@@ -135,7 +140,11 @@ pub fn ColorPicker(
     view! {
         <Binder>
             <div
-                class=class_list!["thaw-color-picker-trigger", class]
+                class=class_list![
+                    "thaw-color-picker-trigger",
+                    move || format!("thaw-color-picker-trigger--{}", size.get().as_str()),
+                    class
+                ]
                 on:click=show_popover
                 node_ref=trigger_ref
             >
