@@ -19,7 +19,7 @@ thaw_components = { version = "0.2.0-rc", path = "./thaw_components" }
 thaw_macro = { version = "0.1.0-rc", path = "./thaw_macro" }
 thaw_utils = { version = "0.1.0-rc", path = "./thaw_utils" }
 
-leptos = { version = "0.7.0" }
-leptos_meta = { version = "0.7.0" }
-leptos_router = { version = "0.7.0" }
-reactive_stores = { version = "0.1.0" }
+leptos = { version = "0.7.2" }
+leptos_meta = { version = "0.7.2" }
+leptos_router = { version = "0.7.2" }
+reactive_stores = { version = "0.1.2" }
