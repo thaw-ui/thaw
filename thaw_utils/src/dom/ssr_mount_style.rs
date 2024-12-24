@@ -139,6 +139,19 @@ impl RenderHtml for SSRMountStyle {
         buf.insert_str(marker_loc, &self.context.to_html());
     }
 
+    fn to_html_async_with_buf<const OUT_OF_ORDER: bool>(
+        self,
+        buf: &mut leptos::tachys::ssr::StreamBuilder,
+        position: &mut Position,
+        escape: bool,
+        mark_branches: bool,
+    ) where
+        Self: Sized,
+    {
+        self.children
+            .to_html_async_with_buf::<OUT_OF_ORDER>(buf, position, escape, mark_branches);
+    }
+
     fn hydrate<const FROM_SERVER: bool>(
         self,
         cursor: &Cursor,
