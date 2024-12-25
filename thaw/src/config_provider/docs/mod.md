@@ -47,5 +47,6 @@ view! {
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | theme | `Option<RwSignal<Theme>>` | `None` | Sets the theme used in a scope. |
+| theme_id | `Option<String>` | `None` | Theme id. |
 | dir | `RwSignal<Option<ConfigDirection>>` |  | Sets the direction of text & generated styles. |
 | children | `Children` |  |  |

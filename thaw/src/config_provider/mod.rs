@@ -8,6 +8,9 @@ pub fn ConfigProvider(
     /// Sets the theme used in a scope.
     #[prop(optional, into)]
     theme: Option<RwSignal<Theme>>,
+    /// Theme id
+    #[prop(optional, into)]
+    theme_id: Option<String>,
     /// Sets the direction of text & generated styles.
     #[prop(optional, into)]
     dir: Option<RwSignal<ConfigDirection>>,
@@ -16,7 +19,8 @@ pub fn ConfigProvider(
     mount_style("config-provider", include_str!("./config-provider.css"));
 
     let theme = theme.unwrap_or_else(|| RwSignal::new(Theme::light()));
-    let id = StoredValue::new(uuid::Uuid::new_v4().to_string());
+    let theme_id = theme_id.unwrap_or_else(|| uuid::Uuid::new_v4().to_string());
+    let id = StoredValue::new(theme_id);
 
     mount_dynamic_style(id.get_value(), move || {
         let mut css_vars = String::new();
