@@ -150,6 +150,16 @@ impl RenderHtml for SSRMountStyle {
     {
         self.children
             .to_html_async_with_buf::<OUT_OF_ORDER>(buf, position, escape, mark_branches);
+
+        buf.with_buf(|buf| {
+            let head_loc = buf
+                .find("<head>")
+                .expect("you are using SSRMountStyleProvider without a <head> tag");
+            let marker_loc = buf
+                .find(r#"<meta name="thaw-ui-style""#)
+                .unwrap_or(head_loc + 6);
+            buf.insert_str(marker_loc, &self.context.to_html());
+        });
     }
 
     fn hydrate<const FROM_SERVER: bool>(
