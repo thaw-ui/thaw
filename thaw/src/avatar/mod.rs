@@ -43,20 +43,33 @@ pub fn Avatar(
         Some(style)
     };
 
-    let name = StoredValue::new(name);
-    let src = StoredValue::new(src);
-    let initials = StoredValue::new(initials);
+    let image_hidden = RwSignal::new(false);
     let is_show_default_icon = Memo::new(move |_| {
-        if name.with_value(|n| n.with(|n| n.is_some())) {
+        if name.with(|n| n.is_some()) {
             false
-        } else if src.with_value(|s| s.with(|s| s.is_some())) {
+        } else if src.with(|s| s.is_some()) && !image_hidden.get() {
             false
-        } else if initials.with_value(|i| i.with(|i| i.is_some())) {
+        } else if initials.with(|i| i.is_some()) {
             false
         } else {
             true
         }
     });
+
+    let on_load = move |_| {
+        image_hidden.maybe_update(|hidden| {
+            if *hidden {
+                *hidden = false;
+                true
+            } else {
+                true
+            }
+        });
+    };
+
+    let on_error = move |_| {
+        image_hidden.set(true);
+    };
 
     view! {
         <span
@@ -65,18 +78,16 @@ pub fn Avatar(
                 move || format!("thaw-avatar--{}", shape.get().as_str()),
                 class
             ]
-            style=move || style().unwrap_or_default()
+            style=move || style()
             role="img"
-            aria-label=move || name.with_value(|n| n.get())
+            aria-label=move || name.get()
         >
             {move || {
-                let mut initials = initials.with_value(|i| i.get());
+                let mut initials = initials.get();
                 if initials.is_none() {
-                    name.with_value(|name| {
-                        if let Some(name) = name.get() {
-                            initials = Some(initials_name(name));
-                        }
-                    });
+                    if let Some(name) = name.get() {
+                        initials = Some(initials_name(name));
+                    }
                 }
                 view! {
                     <OptionComp value=initials let:initials>
@@ -85,10 +96,17 @@ pub fn Avatar(
                 }
             }}
             {move || {
-                let src = src.with_value(|s| s.get());
                 view! {
-                    <OptionComp value=src let:src>
-                        <img src=src class="thaw-avatar__image" />
+                    <OptionComp value=src.get() let:src>
+                        <img
+                            src=src
+                            class="thaw-avatar__image"
+                            role="presentation"
+                            aria-hidden="true"
+                            hidden=move || image_hidden.get()
+                            on:load=on_load
+                            on:error=on_error
+                        />
                     </OptionComp>
                 }
             }}
@@ -103,6 +121,7 @@ pub fn Avatar(
                                     width="1em"
                                     height="1em"
                                     viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
                                         d="M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM7 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-2 5a2 2 0 0 0-2 2c0 1.7.83 2.97 2.13 3.8A9.14 9.14 0 0 0 10 18c1.85 0 3.58-.39 4.87-1.2A4.35 4.35 0 0 0 17 13a2 2 0 0 0-2-2H5Zm-1 2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1c0 1.3-.62 2.28-1.67 2.95A8.16 8.16 0 0 1 10 17a8.16 8.16 0 0 1-4.33-1.05A3.36 3.36 0 0 1 4 13Z"
