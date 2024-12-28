@@ -28,8 +28,17 @@ pub fn Switch(
     let input_ref = NodeRef::<html::Input>::new();
     let on_change = move |_| {
         let input = input_ref.get_untracked().unwrap();
-        checked.set(input.checked());
-        validate.run(Some(SwitchRuleTrigger::Change));
+        let did_update = checked.try_maybe_update(|checked| {
+            if *checked != input.checked() {
+                *checked = input.checked();
+                (true, true)
+            } else {
+                (false, false)
+            }
+        });
+        if did_update.unwrap_or_default() {
+            validate.run(Some(SwitchRuleTrigger::Change));
+        }
     };
 
     view! {
@@ -41,6 +50,7 @@ pub fn Switch(
                 id=id
                 name=name
                 checked=checked.get_untracked()
+                prop:checked=move || { checked.get() }
                 node_ref=input_ref
                 on:change=on_change
             />
