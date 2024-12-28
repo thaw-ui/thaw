@@ -3,43 +3,77 @@ use thaw::*;
 
 #[component]
 pub fn SwitchVersion() -> impl IntoView {
-    let options = vec![
-        ("main", "https://thawui.vercel.app"),
-        ("0.3.3", "https://thaw-85fsrigp0-thaw.vercel.app"),
-        ("0.3.2", "https://thaw-czldv7au5-thaw.vercel.app"),
-        ("0.3.1", "https://thaw-bwh2r7eok-thaw.vercel.app"),
-        ("0.3.0", "https://thaw-gxcwse9r5-thaw.vercel.app"),
-        ("0.2.6", "https://thaw-mzh1656cm-thaw.vercel.app"),
-        ("0.2.5", "https://thaw-8og1kv8zs-thaw.vercel.app"),
-    ];
-
+    let options = RwSignal::new(Vec::<(String, String)>::new());
     let version = RwSignal::new(None::<String>);
     let label = RwSignal::new(String::new());
-    #[cfg(any(feature = "csr", feature = "hydrate"))]
-    {
-        let location = window().location();
-        let origin = location.origin().ok();
-        if let Some(origin) = origin.as_ref() {
-            if let Some(item) = options.iter().find(|item| item.1 == origin) {
-                label.set(item.0.to_string());
+    Effect::watch(
+        move || version.get(),
+        move |v, prev_v, _| {
+            if prev_v.is_some() {
+                return;
             }
-        }
-        version.set(origin);
-        let _ = version.watch(move |origin| {
-            if let Some(origin) = origin {
+            if let Some(origin) = v {
+                let location = window().location();
                 let pathname = location.pathname().unwrap_or_default();
                 let href = format!("{}{}", origin, pathname);
                 let _ = location.set_href(&href);
             }
-        });
-    }
+        },
+        false,
+    );
+
+    #[cfg(any(feature = "csr", feature = "hydrate"))]
+    leptos::task::spawn_local(async move {
+        use gloo_net::http::Request;
+        let Ok(res) = Request::get(
+            "https://raw.githubusercontent.com/thaw-ui/thaw/refs/heads/main/version-site.txt",
+        )
+        .send()
+        .await
+        else {
+            return;
+        };
+
+        let Ok(text) = res.text().await else {
+            return;
+        };
+
+        let ops: Vec<_> = text
+            .split('\n')
+            .filter_map(|line| {
+                let Some((v, url)) = line.trim().split_once('=') else {
+                    return None;
+                };
+
+                Some((v.trim().to_string(), url.trim().to_string()))
+            })
+            .collect();
+        options.set(ops);
+
+        let location = window().location();
+        let origin = location.origin().ok();
+        if let Some(origin) = origin {
+            {
+                let origin = origin.clone();
+                options.with_untracked(move |options| {
+                    if let Some(item) = options.iter().find(|item| item.1 == origin) {
+                        label.set(item.0.to_string());
+                    }
+                });
+            }
+            version.set(Some(origin));
+        }
+    });
 
     view! {
         <Combobox value=label selected_options=version placeholder="Switch version">
-            {options
-                .into_iter()
-                .map(|option| view! { <ComboboxOption value=option.1 text=option.0 /> })
-                .collect_view()}
+            {move || {
+                options
+                    .get()
+                    .into_iter()
+                    .map(|option| view! { <ComboboxOption value=option.1 text=option.0 /> })
+                    .collect_view()
+            }}
         </Combobox>
     }
 }
