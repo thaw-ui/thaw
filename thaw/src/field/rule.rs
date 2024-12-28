@@ -1,7 +1,6 @@
 use super::{FieldContextInjection, FieldInjection, FieldValidationState};
 use chrono::{NaiveDate, NaiveTime};
 use leptos::prelude::*;
-use send_wrapper::SendWrapper;
 use std::ops::Deref;
 use thaw_utils::{Model, OptionModel, OptionModelWithValue, VecModel, VecModelWithValue};
 
@@ -44,26 +43,27 @@ impl<T, Trigger> Rule<T, Trigger> {
         V: RuleValueWithUntracked<T>,
         // V: WithUntracked<Value = T>,
         V: Send + Sync + Copy + 'static,
-        R: Deref<Target = Rule<T, Trigger>> + 'static,
+        R: Deref<Target = Rule<T, Trigger>> + Send + Sync + 'static,
         Trigger: PartialEq + 'static,
     {
-        let field_injection = FieldInjection::use_context();
-        let rules_is_empty = rules.is_empty();
-        let rules = StoredValue::new(SendWrapper::new(rules));
-        let validate = Callback::new(move |trigger: Option<Trigger>| {
-            let state = rules.with_value(move |rules| {
-                if rules.is_empty() {
-                    return None;
-                }
+        if rules.is_empty() {
+            return Callback::new(move |_trigger: Option<Trigger>| {
+                return true;
+            });
+        }
 
+        let field_injection = FieldInjection::use_context();
+        // let rules = StoredValue::new(SendWrapper::new(rules));
+        let validate = Callback::new(move |trigger: Option<Trigger>| {
+            let state = {
                 let mut rules_iter = rules.iter();
                 let mut call_count = 0;
                 loop {
                     let Some(rule) = rules_iter.next() else {
                         if call_count == 0 {
-                            return None;
+                            break None;
                         } else {
-                            return Some(Ok(()));
+                            break Some(Ok(()));
                         }
                     };
 
@@ -76,10 +76,10 @@ impl<T, Trigger> Rule<T, Trigger> {
 
                     let state = value.value_with_untracked(|value| (rule.validator)(value, name));
                     if state.is_err() {
-                        return Some(state);
+                        break Some(state);
                     }
                 }
-            });
+            };
 
             let Some(state) = state else {
                 return true;
@@ -92,10 +92,8 @@ impl<T, Trigger> Rule<T, Trigger> {
             rt
         });
 
-        if !rules_is_empty {
-            if let Some(field_context) = FieldContextInjection::use_context() {
-                field_context.register_field(name, move || validate.run(None));
-            }
+        if let Some(field_context) = FieldContextInjection::use_context() {
+            field_context.register_field(name, move || validate.run(None));
         }
 
         validate
