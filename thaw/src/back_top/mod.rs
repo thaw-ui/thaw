@@ -85,25 +85,14 @@ pub fn BackTop(
                     name="fade-in-scale-up-transition"
                     appear=is_show_back_top.get_untracked()
                     show=is_show_back_top
-                    let:display
                 >
                     <div
                         class=class_list!["thaw-config-provider thaw-back-top", class]
                         data-thaw-id=config_provider.id()
                         style=move || {
-                            display
-                                .get()
-                                .map_or_else(
-                                    || {
-                                        format!(
-                                            "right: {}px; bottom: {}px",
-                                            right.get(),
-                                            bottom.get(),
-                                        )
-                                    },
-                                    |d| d.to_string(),
-                                )
+                            format!("right: {}px; bottom: {}px", right.get(), bottom.get())
                         }
+
                         on:click=on_click
                     >
                         {if let Some(children) = children {

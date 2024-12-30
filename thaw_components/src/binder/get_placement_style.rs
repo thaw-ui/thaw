@@ -89,9 +89,21 @@ pub fn get_follower_placement_offset(
                     } else {
                         unreachable!()
                     };
-                    (target_bottom, new_placement, window_inner_height - target_bottom)
+                    (
+                        target_bottom,
+                        new_placement,
+                        if target_bottom > 0.0 {
+                            window_inner_height - target_bottom
+                        } else {
+                            0.0
+                        },
+                    )
                 } else {
-                    (top, placement, window_inner_height - target_top)
+                    (
+                        top,
+                        placement,
+                        if target_top > 0.0 { target_top } else { 0.0 },
+                    )
                 };
 
             if placement == FollowerPlacement::Top {
@@ -132,9 +144,21 @@ pub fn get_follower_placement_offset(
                 } else {
                     unreachable!()
                 };
-                (target_top - content_height, new_placement, window_inner_height - target_top)
+                (
+                    target_top - content_height,
+                    new_placement,
+                    if target_top > 0.0 { target_top } else { 0.0 },
+                )
             } else {
-                (top, placement, window_inner_height - target_bottom)
+                (
+                    top,
+                    placement,
+                    if target_bottom > 0.0 {
+                        window_inner_height - target_bottom
+                    } else {
+                        0.0
+                    },
+                )
             };
             if placement == FollowerPlacement::Bottom {
                 let left = target_rect.left() + target_rect.width() / 2.0;

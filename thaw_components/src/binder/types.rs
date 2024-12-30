@@ -31,6 +31,12 @@ impl Copy for FollowerWidth {}
 pub struct FollowerInjection(pub(crate) Callback<()>);
 
 impl FollowerInjection {
+    pub fn new(f: impl Fn() + Send + Sync + 'static) -> Self {
+        Self(Callback::new(move |_| f()))
+    }
+}
+
+impl FollowerInjection {
     pub fn expect_context() -> Self {
         expect_context()
     }

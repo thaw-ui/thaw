@@ -71,11 +71,9 @@ pub fn OverlayDrawer(
                                     appear=open.get_untracked()
                                     show=open.signal()
                                     name="fade-in-transition"
-                                    let:display
                                 >
                                     <div
                                         class="thaw-overlay-drawer__backdrop"
-                                        style=move || display.get().unwrap_or_default()
                                         on:click=on_mask_click
                                     ></div>
                                 </CSSTransition>
@@ -92,7 +90,6 @@ pub fn OverlayDrawer(
                         })
 
                         on_after_leave
-                        let:display
                     >
                         <div
                             class=class_list![
@@ -102,13 +99,7 @@ pub fn OverlayDrawer(
                             ]
 
                             style=move || {
-                                let size = move || {
-                                    format!(
-                                        "--thaw-drawer--size: {}",
-                                        size.get().as_size_str(position),
-                                    )
-                                };
-                                display.get().map_or_else(size, |d| d.to_string())
+                                format!("--thaw-drawer--size: {}", size.get().as_size_str(position))
                             }
                             role="dialog"
                             aria-modal=if modal_type == DrawerModalType::Modal {

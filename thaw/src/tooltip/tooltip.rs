@@ -1,4 +1,3 @@
-use crate::ConfigInjection;
 use leptos::{
     ev::{self, on},
     leptos_dom::helpers::TimeoutHandle,
@@ -6,7 +5,7 @@ use leptos::{
     tachys::html::class::class as tachys_class,
 };
 use std::time::Duration;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_components::{Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
@@ -26,7 +25,6 @@ where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
     mount_style("tooltip", include_str!("./tooltip.css"));
-    let config_provider = ConfigInjection::expect_context();
 
     let is_show_content = RwSignal::new(false);
     let content_handle = StoredValue::new(None::<TimeoutHandle>);
@@ -63,7 +61,7 @@ where
     });
 
     view! {
-        <Binder>
+        <crate::_binder::Binder>
             {children
                 .into_inner()()
                 .into_inner()
@@ -71,29 +69,20 @@ where
                 .add_any_attr(on(ev::mouseenter, on_mouse_enter))
                 .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
             <Follower slot show=is_show_content placement=position>
-                <CSSTransition
-                    name="tooltip-transition"
-                    appear=is_show_content.get_untracked()
-                    show=is_show_content
-                    let:display
+                <div
+                    class=class_list![
+                        "thaw-tooltip-content",
+                         move || format!("thaw-tooltip-content--{}", appearance.get().as_str())
+                    ]
+                    role="tooltip"
+                    on:mouseenter=on_mouse_enter
+                    on:mouseleave=on_mouse_leave
                 >
-                    <div
-                        class=class_list![
-                            "thaw-config-provider thaw-tooltip-content",
-                            move || format!("thaw-tooltip-content--{}", appearance.get().as_str())
-                        ]
-                        data-thaw-id=config_provider.id()
-                        style=move || display.get().unwrap_or_default()
-                        role="tooltip"
-                        on:mouseenter=on_mouse_enter
-                        on:mouseleave=on_mouse_leave
-                    >
-                        {move || { content.as_ref().map(|c| c.get()).unwrap_or_default() }}
-                        <div class="thaw-tooltip-content__angle"></div>
-                    </div>
-                </CSSTransition>
+                    {move || { content.as_ref().map(|c| c.get()).unwrap_or_default() }}
+                    <div class="thaw-tooltip-content__angle"></div>
+                </div>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }
 

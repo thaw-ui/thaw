@@ -40,11 +40,9 @@ pub fn Dialog(
                         appear=open.get_untracked()
                         show=open.signal()
                         name="fade-in-transition"
-                        let:display
                     >
                         <div
                             class="thaw-dialog-surface__backdrop"
-                            style=move || display.get().unwrap_or_default()
                             on:click=on_mask_click
                             aria-hidden="true"
                         ></div>

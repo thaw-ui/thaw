@@ -36,21 +36,3 @@
 [data-thaw-placement="right"] > .thaw-menu {
     margin-left: 4px;
 }
-
-.thaw-menu.dropdown-transition-enter-from,
-.thaw-menu.dropdown-transition-leave-to {
-    opacity: 0;
-    transform: scale(0.85);
-}
-
-.thaw-menu.dropdown-transition-enter-to,
-.thaw-menu.dropdown-transition-leave-from {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.thaw-menu.dropdown-transition-enter-active,
-.thaw-menu.dropdown-transition-leave-active {
-    transition: opacity var(--durationNormal) var(--curveDecelerateMid),
-        transform var(--durationNormal) var(--curveDecelerateMid);
-}

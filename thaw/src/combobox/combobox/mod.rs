@@ -1,14 +1,16 @@
 mod rule;
 mod types;
 
-pub use types::*;
 pub use rule::*;
+pub use types::*;
 
 use super::listbox::{listbox_keyboard_event, Listbox};
-use crate::{ChevronDownRegularIcon, DismissRegularIcon, FieldInjection, Rule, _aria::use_active_descendant};
+use crate::{
+    ChevronDownRegularIcon, DismissRegularIcon, FieldInjection, Rule, _aria::use_active_descendant,
+};
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
-use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
+use thaw_components::{Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{add_event_listener, class_list, mount_style, Model, VecModel, VecModelWithValue};
 
 #[component]
@@ -175,7 +177,7 @@ pub fn Combobox(
     };
 
     view! {
-        <Binder>
+        <crate::_binder::Binder>
             <div class=class_list![
                 "thaw-combobox",
                 ("thaw-combobox--disabled", move || disabled.get()),
@@ -250,17 +252,11 @@ pub fn Combobox(
                 width=FollowerWidth::MinTarget
             >
                 <Provider value=combobox_injection>
-                    <Listbox
-                        open=is_show_listbox.read_only()
-                        set_listbox
-                        listbox_ref
-                        class="thaw-combobox__listbox"
-                    >
+                    <Listbox set_listbox listbox_ref class="thaw-combobox__listbox">
                         {children()}
                     </Listbox>
                 </Provider>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }
-

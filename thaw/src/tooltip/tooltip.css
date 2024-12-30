@@ -107,20 +107,3 @@ div.thaw-tooltip-content--inverted {
     bottom: 7px;
 }
 
-.thaw-tooltip-content.tooltip-transition-enter-from,
-.thaw-tooltip-content.tooltip-transition-leave-to {
-    opacity: 0;
-    transform: scale(0.85);
-}
-
-.thaw-tooltip-content.tooltip-transition-enter-to,
-.thaw-tooltip-content.tooltip-transition-leave-from {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.thaw-tooltip-content.tooltip-transition-leave-active,
-.thaw-tooltip-content.tooltip-transition-enter-active {
-    transition: opacity var(--durationNormal) var(--curveDecelerateMid),
-        transform var(--durationNormal) var(--curveDecelerateMid);
-}

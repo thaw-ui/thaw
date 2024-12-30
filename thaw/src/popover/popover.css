@@ -113,24 +113,3 @@ div.thaw-popover-surface--inverted {
     top: initial;
     bottom: 7px;
 }
-
-.thaw-popover-surface.popover-transition-enter-from,
-.thaw-popover-surface.popover-transition-leave-to {
-    opacity: 0;
-    transform: scale(0.85);
-}
-
-.thaw-popover-surface.popover-transition-enter-to,
-.thaw-popover-surface.popover-transition-leave-from {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.thaw-popover-surface.popover-transition-leave-active,
-.thaw-popover-surface.popover-transition-enter-active {
-    transition: box-shadow var(--durationSlow) var(--curveDecelerateMid),
-        background-color var(--durationSlow) var(--curveDecelerateMid),
-        color var(--durationSlow) var(--curveDecelerateMid),
-        opacity var(--durationNormal) var(--curveDecelerateMid),
-        transform var(--durationNormal) var(--curveDecelerateMid);
-}
