@@ -60,6 +60,7 @@ pub struct FollowerPlacementOffset {
     pub left: f64,
     pub transform: String,
     pub placement: FollowerPlacement,
+    pub max_height: Option<f64>,
 }
 
 pub fn get_follower_placement_offset(
@@ -68,7 +69,7 @@ pub fn get_follower_placement_offset(
     follower_rect: DomRect,
     content_rect: DomRect,
 ) -> Option<FollowerPlacementOffset> {
-    let (left, placement, top, transform) = match placement {
+    let (left, placement, top, transform, max_height) = match placement {
         FollowerPlacement::Top | FollowerPlacement::TopStart | FollowerPlacement::TopEnd => {
             let Some(window_inner_height) = window_inner_height() else {
                 return None;
@@ -77,7 +78,7 @@ pub fn get_follower_placement_offset(
             let target_top = target_rect.top();
             let target_bottom = target_rect.bottom();
             let top = target_top - content_height;
-            let (top, new_placement) =
+            let (top, new_placement, max_height) =
                 if top < 0.0 && target_bottom + content_height <= window_inner_height {
                     let new_placement = if placement == FollowerPlacement::Top {
                         FollowerPlacement::Bottom
@@ -88,23 +89,23 @@ pub fn get_follower_placement_offset(
                     } else {
                         unreachable!()
                     };
-                    (target_bottom, new_placement)
+                    (target_bottom, new_placement, window_inner_height - target_bottom)
                 } else {
-                    (top, placement)
+                    (top, placement, window_inner_height - target_top)
                 };
 
             if placement == FollowerPlacement::Top {
                 let left = target_rect.left() + target_rect.width() / 2.0;
                 let transform = String::from("translateX(-50%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, Some(max_height))
             } else if placement == FollowerPlacement::TopStart {
                 let left = target_rect.left();
                 let transform = String::new();
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, Some(max_height))
             } else if placement == FollowerPlacement::TopEnd {
                 let left = target_rect.right();
                 let transform = String::from("translateX(-100%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, Some(max_height))
             } else {
                 unreachable!()
             }
@@ -119,7 +120,7 @@ pub fn get_follower_placement_offset(
             let target_top = target_rect.top();
             let target_bottom = target_rect.bottom();
             let top = target_bottom;
-            let (top, new_placement) = if top + content_height > window_inner_height
+            let (top, new_placement, max_height) = if top + content_height > window_inner_height
                 && target_top - content_height >= 0.0
             {
                 let new_placement = if placement == FollowerPlacement::Bottom {
@@ -131,22 +132,22 @@ pub fn get_follower_placement_offset(
                 } else {
                     unreachable!()
                 };
-                (target_top - content_height, new_placement)
+                (target_top - content_height, new_placement, window_inner_height - target_top)
             } else {
-                (top, placement)
+                (top, placement, window_inner_height - target_bottom)
             };
             if placement == FollowerPlacement::Bottom {
                 let left = target_rect.left() + target_rect.width() / 2.0;
                 let transform = String::from("translateX(-50%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, Some(max_height))
             } else if placement == FollowerPlacement::BottomStart {
                 let left = target_rect.left();
                 let transform = String::new();
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, Some(max_height))
             } else if placement == FollowerPlacement::BottomEnd {
                 let left = target_rect.right();
                 let transform = String::from("translateX(-100%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, Some(max_height))
             } else {
                 unreachable!()
             }
@@ -178,15 +179,15 @@ pub fn get_follower_placement_offset(
             if placement == FollowerPlacement::Left {
                 let top = target_rect.top() + target_rect.height() / 2.0;
                 let transform = String::from("translateY(-50%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, None)
             } else if placement == FollowerPlacement::LeftStart {
                 let top = target_rect.top();
                 let transform = String::new();
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, None)
             } else if placement == FollowerPlacement::LeftEnd {
                 let top = target_rect.bottom();
                 let transform = String::from("translateY(-100%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, None)
             } else {
                 unreachable!()
             }
@@ -220,15 +221,15 @@ pub fn get_follower_placement_offset(
             if placement == FollowerPlacement::Right {
                 let top = target_rect.top() + target_rect.height() / 2.0;
                 let transform = String::from("translateY(-50%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, None)
             } else if placement == FollowerPlacement::RightStart {
                 let top = target_rect.top();
                 let transform = String::new();
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, None)
             } else if placement == FollowerPlacement::RightEnd {
                 let top = target_rect.bottom();
                 let transform = String::from("translateY(-100%)");
-                (left, new_placement, top, transform)
+                (left, new_placement, top, transform, None)
             } else {
                 unreachable!()
             }
@@ -240,6 +241,7 @@ pub fn get_follower_placement_offset(
         left: left - follower_rect.left(),
         placement,
         transform,
+        max_height,
     })
 }
 
