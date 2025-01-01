@@ -1,5 +1,5 @@
 use super::FollowerPlacement;
-use leptos::prelude::*;
+use leptos::{html, prelude::*};
 
 #[slot]
 pub struct Follower<T>
@@ -13,6 +13,10 @@ where
     #[prop(into)]
     placement: FollowerPlacement,
     children: TypedChildren<T>,
+    #[prop(optional)]
+    auto_height: bool,
+    #[prop(optional)]
+    arrow: Option<(f64, NodeRef<html::Div>)>,
 }
 
 #[derive(Debug, Clone)]

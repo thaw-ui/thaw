@@ -127,7 +127,7 @@ where
 
     view! {
         <crate::_binder::Binder>
-            {trigger_children} <Follower slot show=is_show_menu placement=position>
+            {trigger_children} <Follower slot show=is_show_menu placement=position auto_height=true>
                 <div
                     class=class_list![
                         "thaw-menu",

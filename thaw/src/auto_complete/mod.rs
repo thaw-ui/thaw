@@ -141,6 +141,7 @@ pub fn AutoComplete(
                 show=open_listbox
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::Target
+                auto_height=true
             >
                 <Provider value=AutoCompleteInjection {
                     value,

@@ -126,6 +126,7 @@ pub fn TagPicker(
                 show=is_show_listbox
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::MinTarget
+                auto_height=true
             >
                 <Listbox set_listbox listbox_ref class="thaw-tag-picker__listbox">
                     <Provider value=tag_picker_injection>{children()}</Provider>

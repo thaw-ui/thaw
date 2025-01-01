@@ -68,13 +68,14 @@ pub fn get_follower_placement_offset(
     target_rect: DomRect,
     follower_rect: DomRect,
     content_rect: DomRect,
+    arrow_padding: Option<f64>,
 ) -> Option<FollowerPlacementOffset> {
     let (left, placement, top, transform, max_height) = match placement {
         FollowerPlacement::Top | FollowerPlacement::TopStart | FollowerPlacement::TopEnd => {
             let Some(window_inner_height) = window_inner_height() else {
                 return None;
             };
-            let content_height = content_rect.height();
+            let content_height = content_rect.height() + arrow_padding.unwrap_or_default();
             let target_top = target_rect.top();
             let target_bottom = target_rect.bottom();
             let top = target_top - content_height;
@@ -131,7 +132,7 @@ pub fn get_follower_placement_offset(
             let content_height = content_rect.height();
             let target_top = target_rect.top();
             let target_bottom = target_rect.bottom();
-            let top = target_bottom;
+            let top = target_bottom + arrow_padding.unwrap_or_default();
             let (top, new_placement, max_height) = if top + content_height > window_inner_height
                 && target_top - content_height >= 0.0
             {
@@ -180,7 +181,7 @@ pub fn get_follower_placement_offset(
             let Some(window_inner_width) = window_inner_width() else {
                 return None;
             };
-            let content_width = content_rect.width();
+            let content_width = content_rect.width() + arrow_padding.unwrap_or_default();
             let target_left = target_rect.left();
             let target_right = target_rect.right();
             let left = target_left - content_width;
@@ -224,7 +225,7 @@ pub fn get_follower_placement_offset(
             let content_width = content_rect.width();
             let target_left = target_rect.left();
             let target_right = target_rect.right();
-            let left = target_right;
+            let left = target_right + arrow_padding.unwrap_or_default();
             let (left, new_placement) = if left + content_width > window_inner_width
                 && target_left - content_width >= 0.0
             {

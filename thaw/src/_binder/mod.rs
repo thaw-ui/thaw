@@ -22,6 +22,8 @@ where
         width: follower_width,
         placement: follower_placement,
         children: follower_children,
+        auto_height,
+        arrow
     } = follower;
 
     let UseBinder {
@@ -32,7 +34,7 @@ where
         sync_position,
         ensure_listener,
         remove_listener,
-    } = use_binder(follower_width, follower_placement);
+    } = use_binder(follower_width, follower_placement, auto_height, arrow);
 
     let follower_injection = FollowerInjection::new({
         let sync_position = sync_position.clone();

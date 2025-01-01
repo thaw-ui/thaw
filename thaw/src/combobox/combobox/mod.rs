@@ -250,6 +250,7 @@ pub fn Combobox(
                 show=is_show_listbox
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::MinTarget
+                auto_height=true
             >
                 <Provider value=combobox_injection>
                     <Listbox set_listbox listbox_ref class="thaw-combobox__listbox">

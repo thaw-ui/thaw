@@ -137,9 +137,17 @@ where
         ),
     };
 
+    let arrow_ref = NodeRef::<html::Div>::new();
+    let edge_length = 1.414 * 8.0;
+    let arrow_style = format!(
+        "--thaw-positioning-arrow-height: {}px; --thaw-positioning-arrow-offset: {}px;",
+        edge_length,
+        (edge_length / 2.0) * -1.0
+    );
+
     view! {
         <crate::_binder::Binder>
-            {trigger_children} <Follower slot show=is_show_popover placement=position>
+            {trigger_children} <Follower slot show=is_show_popover placement=position arrow=(edge_length / 2.0 + 2.0, arrow_ref)>
                 <div
                     class=class_list![
                         "thaw-popover-surface",
@@ -153,7 +161,7 @@ where
                     on:mouseleave=on_mouse_leave
                 >
                     {children()}
-                    <div class="thaw-popover-surface__angle"></div>
+                    <div class="thaw-popover-surface__angle" style=arrow_style node_ref=arrow_ref></div>
                 </div>
             </Follower>
         </crate::_binder::Binder>

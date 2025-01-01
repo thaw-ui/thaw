@@ -20,6 +20,8 @@ pub struct UseBinder {
 pub fn use_binder(
     follower_width: Option<FollowerWidth>,
     follower_placement: FollowerPlacement,
+    auto_height: bool,
+    arrow: Option<(f64, NodeRef<html::Div>)>
 ) -> UseBinder {
     mount_style("binder", include_str!("./binder.css"));
 
@@ -39,6 +41,7 @@ pub fn use_binder(
         let Some(target_ref) = target_ref.get_untracked() else {
             return;
         };
+        let (arrow_padding, arrow_ref) = arrow.map_or((None, None), |(p, r)| (Some(p), Some(r)));
         let follower_rect = follower_el.get_bounding_client_rect();
         let target_rect = target_ref.get_bounding_client_rect();
         let content_rect = content_ref.get_bounding_client_rect();
@@ -66,10 +69,14 @@ pub fn use_binder(
             target_rect,
             follower_rect,
             content_rect,
+            arrow_padding
         ) {
-            if let Some(max_height) = max_height {
-                styles.push(("max-height", format!("{max_height}px")))
+            if auto_height {
+                if let Some(max_height) = max_height {
+                    styles.push(("max-height", format!("{max_height}px")))
+                }
             }
+
             styles.push((
                 "transform-origin",
                 new_placement.transform_origin().to_string(),

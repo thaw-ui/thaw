@@ -35,64 +35,53 @@ div.thaw-popover-surface--inverted {
 .thaw-popover-surface__angle {
     position: absolute;
     background-color: inherit;
-    width: 10px;
-    height: 10px;
+    background-clip: content-box;
+    box-sizing: border-box;
+    z-index: -1;
+
+    width: var(--thaw-positioning-arrow-height);
+    height: var(--thaw-positioning-arrow-height);
+    border-bottom-left-radius: var(--borderRadiusSmall);
 }
 
-[data-thaw-placement="top-start"] > .thaw-popover-surface,
-[data-thaw-placement="top-end"] > .thaw-popover-surface,
-[data-thaw-placement="top"] > .thaw-popover-surface {
-    margin-bottom: 7px;
+.thaw-popover-surface__angle::before {
+    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+    border-bottom-left-radius: var(--borderRadiusSmall);
+    height: 100%;
+    width: 100%;
+    background-color: inherit;
+    display: block;
+    content: "";
+    margin: -1px;
+    border: 1px solid var(--colorTransparentStroke);
 }
 
 [data-thaw-placement="top-start"] .thaw-popover-surface__angle,
 [data-thaw-placement="top-end"] .thaw-popover-surface__angle,
 [data-thaw-placement="top"] .thaw-popover-surface__angle {
-    transform: rotate(45deg) translateX(-7px);
-    bottom: -10px;
-    left: 50%;
-}
-
-[data-thaw-placement="bottom-start"] > .thaw-popover-surface,
-[data-thaw-placement="bottom-end"] > .thaw-popover-surface,
-[data-thaw-placement="bottom"] > .thaw-popover-surface {
-    margin-top: 7px;
+    transform: rotate(-45deg);
+    bottom: var(--thaw-positioning-arrow-offset);
 }
 
 [data-thaw-placement="bottom-start"] .thaw-popover-surface__angle,
 [data-thaw-placement="bottom-end"] .thaw-popover-surface__angle,
 [data-thaw-placement="bottom"] .thaw-popover-surface__angle {
-    transform: rotate(45deg) translateY(7px);
-    top: -10px;
-    left: 50%;
-}
-
-[data-thaw-placement="left-start"] > .thaw-popover-surface,
-[data-thaw-placement="left-end"] > .thaw-popover-surface,
-[data-thaw-placement="left"] > .thaw-popover-surface {
-    margin-right: 7px;
+    transform: rotate(135deg);
+    top: var(--thaw-positioning-arrow-offset);
 }
 
 [data-thaw-placement="left-start"] .thaw-popover-surface__angle,
 [data-thaw-placement="left-end"] .thaw-popover-surface__angle,
 [data-thaw-placement="left"] .thaw-popover-surface__angle {
-    transform: rotate(45deg) translateX(-7px);
-    top: 50%;
-    right: -10px;
-}
-
-[data-thaw-placement="right-start"] > .thaw-popover-surface,
-[data-thaw-placement="right-end"] > .thaw-popover-surface,
-[data-thaw-placement="right"] > .thaw-popover-surface {
-    margin-left: 7px;
+    transform: rotate(225deg);
+    right: var(--thaw-positioning-arrow-offset);
 }
 
 [data-thaw-placement="right-start"] .thaw-popover-surface__angle,
 [data-thaw-placement="right-end"] .thaw-popover-surface__angle,
 [data-thaw-placement="right"] .thaw-popover-surface__angle {
-    transform: rotate(45deg) translateY(-7px);
-    top: 50%;
-    left: -10px;
+    transform: rotate(45deg);
+    left: var(--thaw-positioning-arrow-offset);
 }
 
 [data-thaw-placement="bottom-start"] .thaw-popover-surface__angle,
