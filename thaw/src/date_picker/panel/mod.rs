@@ -2,12 +2,10 @@ mod date_panel;
 mod month_panel;
 mod year_panel;
 
-use crate::ConfigInjection;
 use chrono::NaiveDate;
 use date_panel::DatePanel;
 use leptos::{html, prelude::*};
 use month_panel::MonthPanel;
-use thaw_components::CSSTransition;
 use thaw_utils::{now_date, ArcOneCallback, ComponentRef};
 use year_panel::YearPanel;
 
@@ -16,10 +14,8 @@ pub fn Panel(
     selected_date: RwSignal<Option<NaiveDate>>,
     date_picker_ref: NodeRef<html::Div>,
     #[prop(into)] close_panel: ArcOneCallback<Option<NaiveDate>>,
-    #[prop(into)] is_show_panel: Signal<bool>,
     #[prop(optional)] comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let config_provider = ConfigInjection::expect_context();
     let panel_ref = NodeRef::<html::Div>::new();
     #[cfg(any(feature = "csr", feature = "hydrate"))]
     {
@@ -64,47 +60,28 @@ pub fn Panel(
     });
 
     view! {
-        <CSSTransition
-            name="fade-in-scale-up-transition"
-            appear=is_show_panel.get_untracked()
-            show=is_show_panel
-            let:display
-        >
-            <div
-                class="thaw-config-provider thaw-date-picker-panel"
-                data-thaw-id=config_provider.id()
-                style=move || display.get().unwrap_or_default()
-                node_ref=panel_ref
-                on:mousedown=|e| e.prevent_default()
-            >
+        <div class="thaw-date-picker-panel" node_ref=panel_ref on:mousedown=|e| e.prevent_default()>
 
-                {move || {
-                    match panel_variant.get() {
-                        PanelVariant::Date => {
-                            let close_panel = close_panel.clone();
-                            view! {
-                                <DatePanel
-                                    value=selected_date
-                                    show_date
-                                    close_panel
-                                    panel_variant
-                                />
-                            }
-                                .into_any()
+            {move || {
+                match panel_variant.get() {
+                    PanelVariant::Date => {
+                        let close_panel = close_panel.clone();
+                        view! {
+                            <DatePanel value=selected_date show_date close_panel panel_variant />
                         }
-                        PanelVariant::Month => {
-                            view! { <MonthPanel date_panel_show_date=show_date panel_variant /> }
-                                .into_any()
-                        }
-                        PanelVariant::Year => {
-                            view! { <YearPanel date_panel_show_date=show_date panel_variant /> }
-                                .into_any()
-                        }
+                            .into_any()
                     }
-                }}
-
-            </div>
-        </CSSTransition>
+                    PanelVariant::Month => {
+                        view! { <MonthPanel date_panel_show_date=show_date panel_variant /> }
+                            .into_any()
+                    }
+                    PanelVariant::Year => {
+                        view! { <YearPanel date_panel_show_date=show_date panel_variant /> }
+                            .into_any()
+                    }
+                }
+            }}
+        </div>
     }
 }
 

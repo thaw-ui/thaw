@@ -13,8 +13,7 @@ div.thaw-auto-complete__listbox {
     display: flex;
     flex-direction: column;
     min-width: 160px;
-    /* max-height: 80vh; */
-    max-height: 200px;
+    max-height: 80vh;
     background-color: var(--colorNeutralBackground1);
     padding: var(--spacingHorizontalXS);
     outline: 1px solid var(--colorTransparentStroke);

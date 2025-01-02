@@ -1,12 +1,12 @@
-use crate::ConfigInjection;
 use leptos::{
     ev::{self, on},
+    html,
     leptos_dom::helpers::TimeoutHandle,
     prelude::*,
     tachys::html::class::class as tachys_class,
 };
 use std::time::Duration;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_components::{Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
@@ -26,7 +26,6 @@ where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
     mount_style("tooltip", include_str!("./tooltip.css"));
-    let config_provider = ConfigInjection::expect_context();
 
     let is_show_content = RwSignal::new(false);
     let content_handle = StoredValue::new(None::<TimeoutHandle>);
@@ -54,6 +53,14 @@ where
         });
     };
 
+    let arrow_ref = NodeRef::<html::Div>::new();
+    let edge_length = 1.414 * 8.0;
+    let arrow_style = format!(
+        "--thaw-positioning-arrow-height: {}px; --thaw-positioning-arrow-offset: {}px;",
+        edge_length,
+        (edge_length / 2.0) * -1.0
+    );
+
     Owner::on_cleanup(move || {
         content_handle.update_value(|handle| {
             if let Some(handle) = handle.take() {
@@ -63,37 +70,28 @@ where
     });
 
     view! {
-        <Binder>
+        <crate::_binder::Binder>
             {children
                 .into_inner()()
                 .into_inner()
                 .add_any_attr(tachys_class(("thaw-tooltip", true)))
                 .add_any_attr(on(ev::mouseenter, on_mouse_enter))
                 .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
-            <Follower slot show=is_show_content placement=position>
-                <CSSTransition
-                    name="tooltip-transition"
-                    appear=is_show_content.get_untracked()
-                    show=is_show_content
-                    let:display
+            <Follower slot show=is_show_content placement=position arrow=(edge_length / 2.0 + 2.0, arrow_ref)>
+                <div
+                    class=class_list![
+                        "thaw-tooltip-content",
+                         move || format!("thaw-tooltip-content--{}", appearance.get().as_str())
+                    ]
+                    role="tooltip"
+                    on:mouseenter=on_mouse_enter
+                    on:mouseleave=on_mouse_leave
                 >
-                    <div
-                        class=class_list![
-                            "thaw-config-provider thaw-tooltip-content",
-                            move || format!("thaw-tooltip-content--{}", appearance.get().as_str())
-                        ]
-                        data-thaw-id=config_provider.id()
-                        style=move || display.get().unwrap_or_default()
-                        role="tooltip"
-                        on:mouseenter=on_mouse_enter
-                        on:mouseleave=on_mouse_leave
-                    >
-                        {move || { content.as_ref().map(|c| c.get()).unwrap_or_default() }}
-                        <div class="thaw-tooltip-content__angle"></div>
-                    </div>
-                </CSSTransition>
+                    {move || { content.as_ref().map(|c| c.get()).unwrap_or_default() }}
+                    <div class="thaw-tooltip-content__angle" style=arrow_style node_ref=arrow_ref></div>
+                </div>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }
 

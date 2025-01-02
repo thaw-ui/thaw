@@ -3,11 +3,5 @@
     left: 0;
     right: 0;
     top: 0;
-    height: 0;
-    z-index: auto;
-}
-
-.thaw-binder-follower-content {
-    position: absolute;
     z-index: 2000;
 }

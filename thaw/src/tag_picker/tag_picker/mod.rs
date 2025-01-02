@@ -9,7 +9,7 @@ use crate::{
 };
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
-use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
+use thaw_components::{Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{call_on_click_outside_with_list, class_list, mount_style, Model};
 
 #[component]
@@ -91,8 +91,17 @@ pub fn TagPicker(
             },
         );
     };
+
+    let on_after_leave = move || {
+        if let Some(list) =
+            listbox_hidden_callback.try_update_value(|list| list.drain(..).collect::<Vec<_>>())
+        {
+            list.into_iter().for_each(|f| f());
+        }
+    };
+
     view! {
-        <Binder>
+        <crate::_binder::Binder on_css_transition_after_leave=on_after_leave>
             <div
                 class=class_list![
                     "thaw-tag-picker-control",
@@ -117,19 +126,12 @@ pub fn TagPicker(
                 show=is_show_listbox
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::MinTarget
+                auto_height=true
             >
-                <Provider value=tag_picker_injection>
-                    <Listbox
-                        open=is_show_listbox.read_only()
-                        set_listbox
-                        listbox_ref
-                        on_hidden=listbox_hidden_callback
-                        class="thaw-tag-picker__listbox"
-                    >
-                        {children()}
-                    </Listbox>
-                </Provider>
+                <Listbox set_listbox listbox_ref class="thaw-tag-picker__listbox">
+                    <Provider value=tag_picker_injection>{children()}</Provider>
+                </Listbox>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }

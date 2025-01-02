@@ -15,14 +15,8 @@ pub fn DialogSurface(
             appear=dialog.open.get_untracked()
             show=dialog.open.signal()
             name="fade-in-scale-up-transition"
-            let:display
         >
-            <div
-                class=class_list!["thaw-dialog-surface", class]
-                role="dialog"
-                aria-modal="true"
-                style:display=move || display.get().map(|_| "none").unwrap_or_default()
-            >
+            <div class=class_list!["thaw-dialog-surface", class] role="dialog" aria-modal="true">
                 {children()}
             </div>
         </CSSTransition>

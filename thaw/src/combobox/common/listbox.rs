@@ -1,23 +1,19 @@
 use super::utils::{get_dropdown_action_from_key, DropdownAction};
-use crate::{ConfigInjection, _aria::ActiveDescendantController};
+use crate::_aria::ActiveDescendantController;
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::sync::Arc;
-use thaw_components::CSSTransition;
-use thaw_utils::{mount_style, BoxCallback};
+use thaw_utils::mount_style;
 use web_sys::{HtmlElement, Node};
 
 #[component]
 pub fn Listbox(
-    open: ReadSignal<bool>,
     class: &'static str,
     set_listbox: Arc<dyn Fn(Node) + Send + Sync>,
     listbox_ref: NodeRef<html::Div>,
-    #[prop(optional)] on_hidden: StoredValue<Vec<BoxCallback>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("listbox", include_str!("./listbox.css"));
 
-    let config_provider = ConfigInjection::expect_context();
     let trigger = ArcTrigger::new();
     let effect = RenderEffect::new({
         let trigger = trigger.clone();
@@ -28,38 +24,20 @@ pub fn Listbox(
             }
         }
     });
-    let on_after_leave = move || {
-        if let Some(list) =
-            on_hidden.try_update_value(|list| list.drain(..).collect::<Vec<BoxCallback>>())
-        {
-            list.into_iter().for_each(|f| f());
-        }
-    };
+
     on_cleanup(move || {
         drop(effect);
     });
 
     view! {
-        <Provider value=ListboxInjection(trigger)>
-            <CSSTransition
-                name="fade-in-scale-up-transition"
-                appear=open.get_untracked()
-                show=open
-                let:display
-                on_after_leave
-            >
-                <div
-                    class=format!("thaw-config-provider thaw-listbox {class}")
-                    style=move || display.get().unwrap_or_default()
-                    data-thaw-id=config_provider.id()
-                    node_ref=listbox_ref
-                    role="listbox"
-                    on:mousedown=|e| e.prevent_default()
-                >
-                    {children()}
-                </div>
-            </CSSTransition>
-        </Provider>
+        <div
+            class=format!("thaw-listbox {class}")
+            node_ref=listbox_ref
+            role="listbox"
+            on:mousedown=|e| e.prevent_default()
+        >
+            <Provider value=ListboxInjection(trigger)>{children()}</Provider>
+        </div>
     }
 }
 

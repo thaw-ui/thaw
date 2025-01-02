@@ -71,8 +71,8 @@ pub fn AccordionItem(
                     {(accordion_header.children)()}
                 </button>
             </div>
-            <CSSTransition show=is_show_panel name="thaw-accordion-panel" let:display>
-                <div class="thaw-accordion-panel" style=move || display.get().unwrap_or_default()>
+            <CSSTransition show=is_show_panel name="thaw-accordion-panel">
+                <div class="thaw-accordion-panel">
                     {children()}
                 </div>
             </CSSTransition>

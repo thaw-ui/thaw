@@ -5,12 +5,12 @@ pub use rule::*;
 pub use types::*;
 
 use crate::{
-    Button, ButtonSize, ConfigInjection, FieldInjection, Icon, Input, InputSuffix, Rule, Scrollbar,
+    Button, ButtonSize, FieldInjection, Icon, Input, InputSuffix, Rule, Scrollbar,
     ScrollbarRef,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_components::{Follower, FollowerPlacement};
 use thaw_utils::{
     class_list, mount_style, ArcOneCallback, ComponentRef, OptionModel, OptionModelWithValue,
     SignalWatch,
@@ -100,7 +100,7 @@ pub fn TimePicker(
     };
 
     view! {
-        <Binder>
+        <crate::_binder::Binder>
             <div
                 node_ref=time_picker_ref
                 class=class_list!["thaw-time-picker", class]
@@ -124,11 +124,10 @@ pub fn TimePicker(
                     selected_time=panel_selected_time
                     close_panel
                     time_picker_ref
-                    is_show_panel
                     comp_ref=panel_ref
                 />
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }
 
@@ -137,10 +136,8 @@ fn Panel(
     selected_time: RwSignal<Option<NaiveTime>>,
     time_picker_ref: NodeRef<html::Div>,
     #[prop(into)] close_panel: ArcOneCallback<Option<NaiveTime>>,
-    #[prop(into)] is_show_panel: Signal<bool>,
     comp_ref: ComponentRef<PanelRef>,
 ) -> impl IntoView {
-    let config_provider = ConfigInjection::expect_context();
     let now = {
         let close_panel = close_panel.clone();
         move |_| {
@@ -196,127 +193,114 @@ fn Panel(
     });
 
     view! {
-        <CSSTransition
-            name="fade-in-scale-up-transition"
-            appear=is_show_panel.get_untracked()
-            show=is_show_panel
-            let:display
-        >
-            <div
-                class="thaw-config-provider thaw-time-picker-panel"
-                data-thaw-id=config_provider.id()
-                style=move || display.get().unwrap_or_default()
-                node_ref=panel_ref
-                on:mousedown=|e| e.prevent_default()
-            >
-                <div class="thaw-time-picker-panel__time">
-                    <div class="thaw-time-picker-panel__time-hour">
-                        <Scrollbar size=6 comp_ref=hour_ref>
-                            {(0..24)
-                                .map(|hour| {
-                                    let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
-                                    let on_click = move |_| {
-                                        selected_time
-                                            .update(move |time| {
-                                                *time = if let Some(time) = time {
-                                                    time.with_hour(hour)
-                                                } else {
-                                                    NaiveTime::from_hms_opt(hour, 0, 0)
-                                                }
-                                            });
-                                        comp_ref.get_untracked().unwrap().scroll_into_view();
-                                    };
-                                    let is_selected = Memo::new(move |_| {
-                                        selected_time.get().map_or(false, |v| v.hour() == hour)
-                                    });
-                                    view! {
-                                        <PanelTimeItem
-                                            value=hour
-                                            on:click=on_click
-                                            is_selected
-                                            comp_ref
-                                        />
-                                    }
-                                })
-                                .collect_view()}
-                            <div class="thaw-time-picker-panel__time-padding"></div>
-                        </Scrollbar>
-                    </div>
-                    <div class="thaw-time-picker-panel__time-minute">
-                        <Scrollbar size=6 comp_ref=minute_ref>
-                            {(0..60)
-                                .map(|minute| {
-                                    let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
-                                    let on_click = move |_| {
-                                        selected_time
-                                            .update(move |time| {
-                                                *time = if let Some(time) = time {
-                                                    time.with_minute(minute)
-                                                } else {
-                                                    NaiveTime::from_hms_opt(now_time().hour(), minute, 0)
-                                                }
-                                            });
-                                        comp_ref.get_untracked().unwrap().scroll_into_view();
-                                    };
-                                    let is_selected = Memo::new(move |_| {
-                                        selected_time.get().map_or(false, |v| v.minute() == minute)
-                                    });
-                                    view! {
-                                        <PanelTimeItem
-                                            value=minute
-                                            on:click=on_click
-                                            is_selected
-                                            comp_ref
-                                        />
-                                    }
-                                })
-                                .collect_view()}
-                            <div class="thaw-time-picker-panel__time-padding"></div>
-                        </Scrollbar>
-                    </div>
-                    <div class="thaw-time-picker-panel__time-second">
-                        <Scrollbar size=6 comp_ref=second_ref>
-                            {(0..60)
-                                .map(|second| {
-                                    let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
-                                    let on_click = move |_| {
-                                        selected_time
-                                            .update(move |time| {
-                                                *time = if let Some(time) = time {
-                                                    time.with_second(second)
-                                                } else {
-                                                    now_time().with_second(second)
-                                                }
-                                            });
-                                        comp_ref.get_untracked().unwrap().scroll_into_view();
-                                    };
-                                    let is_selected = Memo::new(move |_| {
-                                        selected_time.get().map_or(false, |v| v.second() == second)
-                                    });
-                                    view! {
-                                        <PanelTimeItem
-                                            value=second
-                                            on:click=on_click
-                                            is_selected
-                                            comp_ref
-                                        />
-                                    }
-                                })
-                                .collect_view()}
-                            <div class="thaw-time-picker-panel__time-padding"></div>
-                        </Scrollbar>
-                    </div>
+        <div class="thaw-time-picker-panel" node_ref=panel_ref on:mousedown=|e| e.prevent_default()>
+            <div class="thaw-time-picker-panel__time">
+                <div class="thaw-time-picker-panel__time-hour">
+                    <Scrollbar size=6 comp_ref=hour_ref>
+                        {(0..24)
+                            .map(|hour| {
+                                let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
+                                let on_click = move |_| {
+                                    selected_time
+                                        .update(move |time| {
+                                            *time = if let Some(time) = time {
+                                                time.with_hour(hour)
+                                            } else {
+                                                NaiveTime::from_hms_opt(hour, 0, 0)
+                                            }
+                                        });
+                                    comp_ref.get_untracked().unwrap().scroll_into_view();
+                                };
+                                let is_selected = Memo::new(move |_| {
+                                    selected_time.get().map_or(false, |v| v.hour() == hour)
+                                });
+                                view! {
+                                    <PanelTimeItem
+                                        value=hour
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
+                                }
+                            })
+                            .collect_view()}
+                        <div class="thaw-time-picker-panel__time-padding"></div>
+                    </Scrollbar>
                 </div>
-                <div class="thaw-time-picker-panel__footer">
-                    <Button size=ButtonSize::Small on_click=now>
-                        "Now"
-                    </Button>
-                    <Button size=ButtonSize::Small on_click=ok>
-                        "OK"
-                    </Button>
+                <div class="thaw-time-picker-panel__time-minute">
+                    <Scrollbar size=6 comp_ref=minute_ref>
+                        {(0..60)
+                            .map(|minute| {
+                                let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
+                                let on_click = move |_| {
+                                    selected_time
+                                        .update(move |time| {
+                                            *time = if let Some(time) = time {
+                                                time.with_minute(minute)
+                                            } else {
+                                                NaiveTime::from_hms_opt(now_time().hour(), minute, 0)
+                                            }
+                                        });
+                                    comp_ref.get_untracked().unwrap().scroll_into_view();
+                                };
+                                let is_selected = Memo::new(move |_| {
+                                    selected_time.get().map_or(false, |v| v.minute() == minute)
+                                });
+                                view! {
+                                    <PanelTimeItem
+                                        value=minute
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
+                                }
+                            })
+                            .collect_view()}
+                        <div class="thaw-time-picker-panel__time-padding"></div>
+                    </Scrollbar>
+                </div>
+                <div class="thaw-time-picker-panel__time-second">
+                    <Scrollbar size=6 comp_ref=second_ref>
+                        {(0..60)
+                            .map(|second| {
+                                let comp_ref = ComponentRef::<PanelTimeItemRef>::default();
+                                let on_click = move |_| {
+                                    selected_time
+                                        .update(move |time| {
+                                            *time = if let Some(time) = time {
+                                                time.with_second(second)
+                                            } else {
+                                                now_time().with_second(second)
+                                            }
+                                        });
+                                    comp_ref.get_untracked().unwrap().scroll_into_view();
+                                };
+                                let is_selected = Memo::new(move |_| {
+                                    selected_time.get().map_or(false, |v| v.second() == second)
+                                });
+                                view! {
+                                    <PanelTimeItem
+                                        value=second
+                                        on:click=on_click
+                                        is_selected
+                                        comp_ref
+                                    />
+                                }
+                            })
+                            .collect_view()}
+                        <div class="thaw-time-picker-panel__time-padding"></div>
+                    </Scrollbar>
                 </div>
             </div>
-        </CSSTransition>
+            <div class="thaw-time-picker-panel__footer">
+                <Button size=ButtonSize::Small on_click=now>
+                    "Now"
+                </Button>
+                <Button size=ButtonSize::Small on_click=ok>
+                    "OK"
+                </Button>
+            </div>
+        </div>
     }
 }
 

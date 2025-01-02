@@ -33,7 +33,6 @@ pub fn InlineDrawer(
             name=Memo::new(move |_| {
                 format!("slide-in-from-{}-transition", position.get().as_str())
             })
-            let:display
         >
             <div
                 class=class_list![
@@ -41,12 +40,7 @@ pub fn InlineDrawer(
                     move || format!("thaw-inline-drawer--position-{}", position.get().as_str()),
                     class
                 ]
-                style=move || {
-                    let size = move || {
-                        format!("--thaw-drawer--size: {}", size.get().as_size_str(position))
-                    };
-                    display.get().map_or_else(size, |d| d.to_string())
-                }
+                style=move || format!("--thaw-drawer--size: {}", size.get().as_size_str(position))
             >
                 {children()}
             </div>

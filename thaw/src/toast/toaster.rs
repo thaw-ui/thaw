@@ -294,7 +294,6 @@ fn ToasterContainer(
             appear=true
             on_before_leave=on_before_leave
             on_after_leave=on_after_leave
-            let:_
         >
             <Provider value=intent>
                 <div class="thaw-toaster-container" node_ref=container_ref>

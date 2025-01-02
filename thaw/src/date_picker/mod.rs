@@ -9,7 +9,7 @@ use crate::{FieldInjection, Icon, Input, InputSuffix, Rule};
 use chrono::NaiveDate;
 use leptos::{html, prelude::*};
 use panel::{Panel, PanelRef};
-use thaw_components::{Binder, Follower, FollowerPlacement};
+use thaw_components::{Follower, FollowerPlacement};
 use thaw_utils::{
     class_list, mount_style, now_date, ComponentRef, OptionModel, OptionModelWithValue, SignalWatch,
 };
@@ -97,7 +97,7 @@ pub fn DatePicker(
     };
 
     view! {
-        <Binder>
+        <crate::_binder::Binder>
             <div
                 node_ref=date_picker_ref
                 class=class_list!["thaw-date-picker", class]
@@ -122,9 +122,8 @@ pub fn DatePicker(
                     close_panel
                     selected_date=panel_selected_date
                     comp_ref=panel_ref
-                    is_show_panel
                 />
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }
