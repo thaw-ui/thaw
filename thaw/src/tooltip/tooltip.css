@@ -1,5 +1,5 @@
 div.thaw-tooltip-content {
-    position: relative;
+    position: absolute;
     transform-origin: inherit;
 
     padding: 4px 11px 6px;
@@ -28,82 +28,51 @@ div.thaw-tooltip-content--inverted {
 .thaw-tooltip-content__angle {
     position: absolute;
     background-color: inherit;
-    width: 8px;
-    height: 8px;
+    background-clip: content-box;
+    box-sizing: border-box;
+    z-index: -1;
+
+    width: var(--thaw-positioning-arrow-height);
+    height: var(--thaw-positioning-arrow-height);
+    border-bottom-left-radius: var(--borderRadiusSmall);
 }
 
-[data-thaw-placement="top-start"] > .thaw-tooltip-content,
-[data-thaw-placement="top-end"] > .thaw-tooltip-content,
-[data-thaw-placement="top"] > .thaw-tooltip-content {
-    margin-bottom: 7px;
+.thaw-popover-surface__angle::before {
+    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+    border-bottom-left-radius: var(--borderRadiusSmall);
+    height: 100%;
+    width: 100%;
+    background-color: inherit;
+    display: block;
+    content: "";
+    margin: -1px;
+    border: 1px solid var(--colorTransparentStroke);
 }
 
 [data-thaw-placement="top-start"] .thaw-tooltip-content__angle,
 [data-thaw-placement="top-end"] .thaw-tooltip-content__angle,
 [data-thaw-placement="top"] .thaw-tooltip-content__angle {
-    transform: rotate(45deg) translateX(-7px);
-    bottom: -10px;
-    left: 50%;
-}
-
-[data-thaw-placement="bottom-start"] > .thaw-tooltip-content,
-[data-thaw-placement="bottom-end"] > .thaw-tooltip-content,
-[data-thaw-placement="bottom"] > .thaw-tooltip-content {
-    margin-top: 7px;
+    transform: rotate(-45deg);
+    bottom: var(--thaw-positioning-arrow-offset);
 }
 
 [data-thaw-placement="bottom-start"] .thaw-tooltip-content__angle,
 [data-thaw-placement="bottom-end"] .thaw-tooltip-content__angle,
 [data-thaw-placement="bottom"] .thaw-tooltip-content__angle {
-    transform: rotate(45deg) translateY(7px);
-    top: -10px;
-    left: 50%;
-}
-
-[data-thaw-placement="left-start"] > .thaw-tooltip-content,
-[data-thaw-placement="left-end"] > .thaw-tooltip-content,
-[data-thaw-placement="left"] > .thaw-tooltip-content {
-    margin-right: 7px;
+    transform: rotate(135deg);
+    top: var(--thaw-positioning-arrow-offset);
 }
 
 [data-thaw-placement="left-start"] .thaw-tooltip-content__angle,
 [data-thaw-placement="left-end"] .thaw-tooltip-content__angle,
 [data-thaw-placement="left"] .thaw-tooltip-content__angle {
-    transform: rotate(45deg) translateX(-7px);
-    top: 50%;
-    right: -10px;
-}
-
-[data-thaw-placement="right-start"] > .thaw-tooltip-content,
-[data-thaw-placement="right-end"] > .thaw-tooltip-content,
-[data-thaw-placement="right"] > .thaw-tooltip-content {
-    margin-left: 7px;
+    transform: rotate(225deg);
+    right: var(--thaw-positioning-arrow-offset);
 }
 
 [data-thaw-placement="right-start"] .thaw-tooltip-content__angle,
 [data-thaw-placement="right-end"] .thaw-tooltip-content__angle,
 [data-thaw-placement="right"] .thaw-tooltip-content__angle {
-    transform: rotate(45deg) translateY(-7px);
-    top: 50%;
-    left: -10px;
+    transform: rotate(45deg);
+    left: var(--thaw-positioning-arrow-offset);
 }
-
-[data-thaw-placement="bottom-start"] .thaw-tooltip-content__angle,
-[data-thaw-placement="top-start"] .thaw-tooltip-content__angle {
-    left: 16px;
-}
-[data-thaw-placement="bottom-end"] .thaw-tooltip-content__angle,
-[data-thaw-placement="top-end"] .thaw-tooltip-content__angle {
-    left: initial;
-    right: 7px;
-}
-[data-thaw-placement="right-start"] .thaw-tooltip-content__angle,
-[data-thaw-placement="left-start"] .thaw-tooltip-content__angle {
-    top: 16px;
-}
-[data-thaw-placement="right-end"] .thaw-tooltip-content__angle,
-[data-thaw-placement="left-end"] .thaw-tooltip-content__angle {
-    top: initial;
-    bottom: 7px;
-}
-

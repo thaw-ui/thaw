@@ -21,7 +21,7 @@ pub fn use_binder(
     follower_width: Option<FollowerWidth>,
     follower_placement: FollowerPlacement,
     auto_height: bool,
-    arrow: Option<(f64, NodeRef<html::Div>)>
+    arrow: Option<(f64, NodeRef<html::Div>)>,
 ) -> UseBinder {
     mount_style("binder", include_str!("./binder.css"));
 
@@ -31,6 +31,8 @@ pub fn use_binder(
     let follower_ref = NodeRef::<html::Div>::new();
     let content_ref = NodeRef::<thaw_utils::HtmlElement>::new();
     let placement = RwSignal::new(follower_placement);
+    let (arrow_padding, arrow_ref) = arrow.map_or((None, None), |(p, r)| (Some(p), Some(r)));
+
     let sync_position = move || {
         let Some(follower_el) = follower_ref.get_untracked() else {
             return;
@@ -41,7 +43,6 @@ pub fn use_binder(
         let Some(target_ref) = target_ref.get_untracked() else {
             return;
         };
-        let (arrow_padding, arrow_ref) = arrow.map_or((None, None), |(p, r)| (Some(p), Some(r)));
         let follower_rect = follower_el.get_bounding_client_rect();
         let target_rect = target_ref.get_bounding_client_rect();
         let content_rect = content_ref.get_bounding_client_rect();
@@ -66,10 +67,10 @@ pub fn use_binder(
             max_height,
         }) = get_follower_placement_offset(
             follower_placement,
-            target_rect,
-            follower_rect,
-            content_rect,
-            arrow_padding
+            &target_rect,
+            &follower_rect,
+            &content_rect,
+            arrow_padding,
         ) {
             if auto_height {
                 if let Some(max_height) = max_height {
@@ -97,6 +98,78 @@ pub fn use_binder(
                 .set_property(name, &value)
                 .unwrap_throw();
         });
+
+        if let Some(arrow_el) = arrow_ref.map(|r| r.get()).flatten() {
+            let style = (*arrow_el).style();
+            let arrow_padding = arrow_padding.unwrap();
+
+            match placement.get_untracked() {
+                FollowerPlacement::Top | FollowerPlacement::Bottom => {
+                    let _ = style.set_property(
+                        "left",
+                        &format!(
+                            "calc({}px + var(--thaw-positioning-arrow-offset))",
+                            content_rect.width() / 2.0
+                        ),
+                    );
+                }
+                FollowerPlacement::TopStart | FollowerPlacement::BottomStart => {
+                    let content_width = content_rect.width();
+                    let target_width = target_rect.width();
+                    if content_width > target_width && target_width <= arrow_padding * 3.0 {
+                        let _ = style.set_property("left", &format!("{}px", target_width / 2.0));
+                    } else {
+                        let _ = style.set_property(
+                            "left",
+                            "calc(var(--thaw-positioning-arrow-offset) * -2)",
+                        );
+                    }
+                }
+                FollowerPlacement::TopEnd | FollowerPlacement::BottomEnd => {
+                    let content_width = content_rect.width();
+                    let target_width = target_rect.width();
+                    if content_width > target_width && target_width <= arrow_padding * 3.0 {
+                        let _ = style.set_property("right", &format!("{}px", target_width / 2.0));
+                    } else {
+                        let _ = style.set_property(
+                            "right",
+                            "calc(var(--thaw-positioning-arrow-offset) * -2)",
+                        );
+                    }
+                }
+                FollowerPlacement::Left | FollowerPlacement::Right => {
+                    let _ = style.set_property(
+                        "top",
+                        &format!(
+                            "calc({}px + var(--thaw-positioning-arrow-offset))",
+                            content_rect.height() / 2.0
+                        ),
+                    );
+                }
+                FollowerPlacement::LeftStart | FollowerPlacement::RightStart => {
+                    let content_height = content_rect.height();
+                    let target_height = target_rect.height();
+                    if content_height > target_height && target_height <= arrow_padding * 3.0 {
+                        let _ = style.set_property("top", &format!("{}px", target_height / 2.0));
+                    } else {
+                        let _ = style
+                            .set_property("top", "calc(var(--thaw-positioning-arrow-offset) * -2)");
+                    }
+                }
+                FollowerPlacement::LeftEnd | FollowerPlacement::RightEnd => {
+                    let content_height = content_rect.height();
+                    let target_height = target_rect.height();
+                    if content_height > target_height && target_height <= arrow_padding * 3.0 {
+                        let _ = style.set_property("bottom", &format!("{}px", target_height / 2.0));
+                    } else {
+                        let _ = style.set_property(
+                            "bottom",
+                            "calc(var(--thaw-positioning-arrow-offset) * -2)",
+                        );
+                    }
+                }
+            }
+        }
     };
 
     let ensure_listener = move || {

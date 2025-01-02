@@ -1,5 +1,6 @@
 use leptos::{
     ev::{self, on},
+    html,
     leptos_dom::helpers::TimeoutHandle,
     prelude::*,
     tachys::html::class::class as tachys_class,
@@ -52,6 +53,14 @@ where
         });
     };
 
+    let arrow_ref = NodeRef::<html::Div>::new();
+    let edge_length = 1.414 * 8.0;
+    let arrow_style = format!(
+        "--thaw-positioning-arrow-height: {}px; --thaw-positioning-arrow-offset: {}px;",
+        edge_length,
+        (edge_length / 2.0) * -1.0
+    );
+
     Owner::on_cleanup(move || {
         content_handle.update_value(|handle| {
             if let Some(handle) = handle.take() {
@@ -68,7 +77,7 @@ where
                 .add_any_attr(tachys_class(("thaw-tooltip", true)))
                 .add_any_attr(on(ev::mouseenter, on_mouse_enter))
                 .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
-            <Follower slot show=is_show_content placement=position>
+            <Follower slot show=is_show_content placement=position arrow=(edge_length / 2.0 + 2.0, arrow_ref)>
                 <div
                     class=class_list![
                         "thaw-tooltip-content",
@@ -79,7 +88,7 @@ where
                     on:mouseleave=on_mouse_leave
                 >
                     {move || { content.as_ref().map(|c| c.get()).unwrap_or_default() }}
-                    <div class="thaw-tooltip-content__angle"></div>
+                    <div class="thaw-tooltip-content__angle" style=arrow_style node_ref=arrow_ref></div>
                 </div>
             </Follower>
         </crate::_binder::Binder>

@@ -65,9 +65,9 @@ pub struct FollowerPlacementOffset {
 
 pub fn get_follower_placement_offset(
     placement: FollowerPlacement,
-    target_rect: DomRect,
-    follower_rect: DomRect,
-    content_rect: DomRect,
+    target_rect: &DomRect,
+    follower_rect: &DomRect,
+    content_rect: &DomRect,
     arrow_padding: Option<f64>,
 ) -> Option<FollowerPlacementOffset> {
     let (left, placement, top, transform, max_height) = match placement {

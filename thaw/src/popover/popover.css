@@ -1,5 +1,5 @@
 div.thaw-popover-surface {
-    position: relative;
+    position: absolute;
     transform-origin: inherit;
 
     padding: 16px;
@@ -82,23 +82,4 @@ div.thaw-popover-surface--inverted {
 [data-thaw-placement="right"] .thaw-popover-surface__angle {
     transform: rotate(45deg);
     left: var(--thaw-positioning-arrow-offset);
-}
-
-[data-thaw-placement="bottom-start"] .thaw-popover-surface__angle,
-[data-thaw-placement="top-start"] .thaw-popover-surface__angle {
-    left: 16px;
-}
-[data-thaw-placement="bottom-end"] .thaw-popover-surface__angle,
-[data-thaw-placement="top-end"] .thaw-popover-surface__angle {
-    left: initial;
-    right: 7px;
-}
-[data-thaw-placement="right-start"] .thaw-popover-surface__angle,
-[data-thaw-placement="left-start"] .thaw-popover-surface__angle {
-    top: 16px;
-}
-[data-thaw-placement="right-end"] .thaw-popover-surface__angle,
-[data-thaw-placement="left-end"] .thaw-popover-surface__angle {
-    top: initial;
-    bottom: 7px;
 }

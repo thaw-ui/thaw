@@ -1,5 +1,5 @@
 .thaw-menu {
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: column;
     row-gap: var(--spacingHorizontalXXS);
