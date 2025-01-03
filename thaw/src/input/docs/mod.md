@@ -80,6 +80,10 @@ let blur = move |_| {
     input_ref.get_untracked().unwrap().blur()
 };
 
+let select = move |_| {
+    input_ref.get_untracked().unwrap().select()
+};
+
 view! {
     <Space vertical=true>
         <Space>
@@ -88,6 +92,9 @@ view! {
             </Button>
             <Button on_click=blur>
                 "Blur"
+            </Button>
+            <Button on_click=select>
+                "Select"
             </Button>
         </Space>
         <Input value comp_ref=input_ref/>
@@ -155,3 +162,4 @@ view! {
 | ----- | ----------- | ------------------------ |
 | focus | `Fn(&self)` | Focus the input element. |
 | blur  | `Fn(&self)` | Blur the input element.  |
+| select | `Fn(&self)` | Select the input element. |

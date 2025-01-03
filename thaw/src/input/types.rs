@@ -67,6 +67,13 @@ impl InputRef {
             _ = input_el.blur();
         }
     }
+
+    /// Select the input element.
+    pub fn select(&self) {
+        if let Some(input_el) = self.input_ref.get_untracked() {
+            _ = input_el.select();
+        }
+    }
 }
 
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
