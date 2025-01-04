@@ -1,4 +1,8 @@
-use leptos::{ev, prelude::*, tachys::html::node_ref::node_ref};
+use leptos::{
+    ev,
+    prelude::*,
+    tachys::html::{node_ref::node_ref, style::style},
+};
 use std::{ops::Deref, time::Duration};
 use thaw_utils::{add_event_listener, ArcCallback, EventListenerHandle, NextFrame};
 
@@ -6,7 +10,7 @@ use thaw_utils::{add_event_listener, ArcCallback, EventListenerHandle, NextFrame
 ///
 /// Reference to https://vuejs.org/guide/built-ins/transition.html
 #[component]
-pub fn CSSTransition<CF, IV>(
+pub fn CSSTransition<T>(
     #[prop(into)] show: Signal<bool>,
     #[prop(into)] name: Signal<String>,
     #[prop(optional)] appear: bool,
@@ -16,14 +20,12 @@ pub fn CSSTransition<CF, IV>(
     #[prop(optional, into)] on_before_leave: Option<ArcCallback>,
     #[prop(optional, into)] on_leave: Option<ArcCallback>,
     #[prop(optional, into)] on_after_leave: Option<ArcCallback>,
-    children: CF,
+    children: TypedChildren<T>,
 ) -> impl IntoView
 where
-    CF: FnOnce(ReadSignal<Option<&'static str>>) -> IV + Send + 'static,
-    IV: AddAnyAttr + IntoView + Send + 'static,
+    T: AddAnyAttr + IntoView + Send + 'static,
 {
-    let target_ref = NodeRef::<thaw_utils::Element>::new();
-    let display = RwSignal::new((!show.get_untracked()).then_some("display: none;"));
+    let target_ref = NodeRef::<thaw_utils::HtmlElement>::new();
     let next_frame = NextFrame::new();
     let end_handle = StoredValue::new(None::<EventListenerHandle>);
     let end_count = StoredValue::new(None::<usize>);
@@ -35,6 +37,7 @@ where
         };
 
         let class_list = el.class_list();
+        let style = el.style();
 
         let on_end = {
             let el = send_wrapper::SendWrapper::new(el.clone());
@@ -123,6 +126,11 @@ where
             } else if show && appear {
                 false
             } else {
+                if show {
+                    let _ = style.set_property("display", "");
+                } else {
+                    let _ = style.set_property("display", "none");
+                }
                 return show;
             };
 
@@ -140,7 +148,7 @@ where
                     let enter_to = format!("{name}-enter-to");
 
                     let _ = class_list.add_2(&enter_from, &enter_active);
-                    display.set(None);
+                    let _ = style.set_property("display", "");
 
                     let class_list = class_list.clone();
                     let on_end = on_end.clone();
@@ -178,6 +186,7 @@ where
                     let _ = class_list.add_2(&leave_from, &leave_active);
 
                     let class_list = class_list.clone();
+                    let style = style.clone();
                     let on_end = on_end.clone();
                     let on_leave = on_leave.clone();
                     let on_after_leave = on_after_leave.clone();
@@ -186,9 +195,10 @@ where
                         let _ = class_list.add_1(&leave_to);
 
                         let class_list = send_wrapper::SendWrapper::new(class_list);
+                        let style = send_wrapper::SendWrapper::new(style);
                         let remove = Box::new(move || {
                             let _ = class_list.remove_2(&leave_active, &leave_to);
-                            display.set(Some("display: none;"));
+                            let _ = style.set_property("display", "none");
                             if let Some(on_after_leave) = on_after_leave.as_ref() {
                                 on_after_leave();
                             }
@@ -214,7 +224,13 @@ where
         })
     });
 
-    children(display.read_only()).add_any_attr(node_ref(target_ref))
+    children.into_inner()()
+        .into_inner()
+        .add_any_attr(style((
+            "display",
+            if show.get_untracked() { "" } else { "none" },
+        )))
+        .add_any_attr(node_ref(target_ref))
 }
 
 #[derive(PartialEq)]

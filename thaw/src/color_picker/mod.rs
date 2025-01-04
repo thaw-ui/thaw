@@ -4,11 +4,10 @@ mod types;
 pub use color::*;
 pub use types::*;
 
-use crate::ConfigInjection;
 use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::{ev, html, prelude::*};
 use palette::{Hsv, IntoColor, Srgb};
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_components::{Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
@@ -22,7 +21,6 @@ pub fn ColorPicker(
     size: Signal<ColorPickerSize>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
-    let config_provider = ConfigInjection::expect_context();
     let hue = RwSignal::new(0f32);
     let sv = RwSignal::new((0f32, 0f32));
     let label = RwSignal::new(String::new());
@@ -138,7 +136,7 @@ pub fn ColorPicker(
     }
 
     view! {
-        <Binder>
+        <crate::_binder::Binder>
             <div
                 class=class_list![
                     "thaw-color-picker-trigger",
@@ -153,25 +151,13 @@ pub fn ColorPicker(
                 </div>
             </div>
             <Follower slot show=is_show_popover placement=FollowerPlacement::BottomStart>
-                <CSSTransition
-                    name="fade-in-scale-up-transition"
-                    appear=is_show_popover.get_untracked()
-                    show=is_show_popover
-                    let:display
-                >
-                    <div
-                        class="thaw-config-provider thaw-color-picker-popover"
-                        node_ref=popover_ref
-                        style=move || display.get().unwrap_or_default()
-                        data-thaw-id=config_provider.id()
-                    >
+                <div class="thaw-color-picker-popover" node_ref=popover_ref>
 
-                        <ColorPanel hue=hue.read_only() sv />
-                        <HueSlider hue />
-                    </div>
-                </CSSTransition>
+                    <ColorPanel hue=hue.read_only() sv />
+                    <HueSlider hue />
+                </div>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }
 

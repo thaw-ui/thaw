@@ -11,7 +11,7 @@ use crate::{
 };
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use std::collections::HashMap;
-use thaw_components::{Binder, Follower, FollowerPlacement, FollowerWidth};
+use thaw_components::{Follower, FollowerPlacement, FollowerWidth};
 use thaw_utils::{class_list, mount_style, ArcOneCallback, BoxOneCallback, Model};
 
 #[component]
@@ -104,7 +104,7 @@ pub fn AutoComplete(
     comp_ref.load(AutoCompleteRef { input_ref });
 
     view! {
-        <Binder>
+        <crate::_binder::Binder>
             <div class=class_list!["thaw-auto-complete", class] on:keydown=on_keydown>
                 <Input
                     value
@@ -141,18 +141,14 @@ pub fn AutoComplete(
                 show=open_listbox
                 placement=FollowerPlacement::BottomStart
                 width=FollowerWidth::Target
+                auto_height=true
             >
                 <Provider value=AutoCompleteInjection {
                     value,
                     select_option,
                     options,
                 }>
-                    <Listbox
-                        open=open_listbox.read_only()
-                        set_listbox
-                        listbox_ref
-                        class="thaw-auto-complete__listbox"
-                    >
+                    <Listbox set_listbox listbox_ref class="thaw-auto-complete__listbox">
                         {if let Some(children) = children {
                             Either::Left(children())
                         } else {
@@ -161,6 +157,6 @@ pub fn AutoComplete(
                     </Listbox>
                 </Provider>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }

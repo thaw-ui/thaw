@@ -2,7 +2,6 @@ mod types;
 
 pub use types::*;
 
-use crate::ConfigInjection;
 use leptos::{
     either::Either,
     ev::{self, on},
@@ -12,7 +11,7 @@ use leptos::{
     tachys::html::{class::class as tachys_class, node_ref::node_ref},
 };
 use std::time::Duration;
-use thaw_components::{Binder, CSSTransition, Follower};
+use thaw_components::Follower;
 use thaw_utils::{class_list, mount_style, on_click_outside, BoxCallback};
 
 #[component]
@@ -39,7 +38,6 @@ where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
     mount_style("popover", include_str!("./popover.css"));
-    let config_provider = ConfigInjection::expect_context();
 
     let popover_ref = NodeRef::<html::Div>::new();
     let is_show_popover = RwSignal::new(false);
@@ -139,35 +137,33 @@ where
         ),
     };
 
-    view! {
-        <Binder>
-            {trigger_children}
-            <Follower slot show=is_show_popover placement=position>
-                <CSSTransition
-                    name="popover-transition"
-                    appear=is_show_popover.get_untracked()
-                    show=is_show_popover
-                    let:display
-                >
-                    <div
-                        class=class_list![
-                            "thaw-config-provider thaw-popover-surface",
-                            move || format!("thaw-popover-surface--{}", size.get().as_str()),
-                            move || appearance.get().map(|a| format!("thaw-popover-surface--{}", a.as_str())),
-                            class
-                        ]
-                        data-thaw-id=config_provider.id()
-                        style=move || display.get().unwrap_or_default()
+    let arrow_ref = NodeRef::<html::Div>::new();
+    let edge_length = 1.414 * 8.0;
+    let arrow_style = format!(
+        "--thaw-positioning-arrow-height: {}px; --thaw-positioning-arrow-offset: {}px;",
+        edge_length,
+        (edge_length / 2.0) * -1.0
+    );
 
-                        node_ref=popover_ref
-                        on:mouseenter=on_mouse_enter
-                        on:mouseleave=on_mouse_leave
-                    >
-                        {children()}
-                        <div class="thaw-popover-surface__angle"></div>
-                    </div>
-                </CSSTransition>
+    view! {
+        <crate::_binder::Binder>
+            {trigger_children} <Follower slot show=is_show_popover placement=position arrow=(edge_length / 2.0 + 2.0, arrow_ref)>
+                <div
+                    class=class_list![
+                        "thaw-popover-surface",
+                        move || format!("thaw-popover-surface--{}", size.get().as_str()),
+                        move || appearance.get().map(|a| format!("thaw-popover-surface--{}", a.as_str())),
+                        class
+                    ]
+
+                    node_ref=popover_ref
+                    on:mouseenter=on_mouse_enter
+                    on:mouseleave=on_mouse_leave
+                >
+                    {children()}
+                    <div class="thaw-popover-surface__angle" style=arrow_style node_ref=arrow_ref></div>
+                </div>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }

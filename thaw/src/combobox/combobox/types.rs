@@ -1,7 +1,7 @@
+use super::ComboboxRuleTrigger;
+use leptos::prelude::*;
 use std::collections::HashMap;
 use thaw_utils::{Model, VecModel, VecModelWithValue};
-use leptos::prelude::*;
-use super::ComboboxRuleTrigger;
 
 #[derive(Clone, Copy)]
 pub(crate) struct ComboboxInjection {

@@ -1,4 +1,5 @@
 mod _aria;
+mod _binder;
 mod accordion;
 mod anchor;
 mod auto_complete;

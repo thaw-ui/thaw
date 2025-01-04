@@ -2,7 +2,6 @@ mod menu_item;
 
 pub use menu_item::*;
 
-use crate::ConfigInjection;
 use leptos::{
     context::Provider,
     either::Either,
@@ -13,7 +12,7 @@ use leptos::{
     tachys::html::{class::class as tachys_class, node_ref::node_ref},
 };
 use std::time::Duration;
-use thaw_components::{Binder, CSSTransition, Follower, FollowerPlacement};
+use thaw_components::{Follower, FollowerPlacement};
 use thaw_utils::{class_list, mount_style, on_click_outside, ArcOneCallback, BoxOneCallback};
 
 #[slot]
@@ -42,7 +41,6 @@ where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
     mount_style("menu", include_str!("./menu.css"));
-    let config_provider = ConfigInjection::expect_context();
 
     let menu_ref = NodeRef::<Div>::new();
     let is_show_menu = RwSignal::new(false);
@@ -128,34 +126,22 @@ where
     };
 
     view! {
-        <Binder>
-            {trigger_children}
-            <Follower slot show=is_show_menu placement=position>
-                <Provider value=menu_injection>
-                    <CSSTransition
-                        name="menu-transition"
-                        appear=is_show_menu.get_untracked()
-                        show=is_show_menu
-                        let:display
-                    >
-                        <div
-                            class=class_list![
-                                "thaw-config-provider thaw-menu",
-                                move || appearance.get().map(|a| format!("thaw-menu--{}", a.as_str())),
-                                class
-                            ]
-                            data-thaw-id=config_provider.id()
-                            style=move || display.get().unwrap_or_default()
-                            node_ref=menu_ref
-                            on:mouseenter=on_mouse_enter
-                            on:mouseleave=on_mouse_leave
-                        >
-                            {children()}
-                        </div>
-                    </CSSTransition>
-                </Provider>
+        <crate::_binder::Binder>
+            {trigger_children} <Follower slot show=is_show_menu placement=position auto_height=true>
+                <div
+                    class=class_list![
+                        "thaw-menu",
+                        move || appearance.get().map(|a| format!("thaw-menu--{}", a.as_str())),
+                        class
+                    ]
+                    node_ref=menu_ref
+                    on:mouseenter=on_mouse_enter
+                    on:mouseleave=on_mouse_leave
+                >
+                    <Provider value=menu_injection>{children()}</Provider>
+                </div>
             </Follower>
-        </Binder>
+        </crate::_binder::Binder>
     }
 }
 
