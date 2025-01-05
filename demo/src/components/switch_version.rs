@@ -1,21 +1,25 @@
-use leptos::prelude::*;
+use leptos::{logging, prelude::*};
 use thaw::*;
 
 #[component]
 pub fn SwitchVersion() -> impl IntoView {
     let options = RwSignal::new(Vec::<(String, String)>::new());
-    let version = RwSignal::new(None::<String>);
+    let version_url = RwSignal::new(None::<String>);
     let label = RwSignal::new(String::new());
     Effect::watch(
-        move || version.get(),
-        move |v, prev_v, _| {
-            if prev_v.is_some() {
+        move || version_url.get(),
+        move |url, prev_url, _| {
+            let Some(Some(prev_url)) = prev_url else {
                 return;
-            }
-            if let Some(origin) = v {
+            };
+            let Some(url) = url else {
+                return;
+            };
+
+            if url != prev_url {
                 let location = window().location();
                 let pathname = location.pathname().unwrap_or_default();
-                let href = format!("{}{}", origin, pathname);
+                let href = format!("{}{}", url, pathname);
                 let _ = location.set_href(&href);
             }
         },
@@ -61,12 +65,12 @@ pub fn SwitchVersion() -> impl IntoView {
                     }
                 });
             }
-            version.set(Some(origin));
+            version_url.set(Some(origin));
         }
     });
 
     view! {
-        <Combobox value=label selected_options=version placeholder="Switch version">
+        <Combobox value=label selected_options=version_url placeholder="Switch version">
             {move || {
                 options
                     .get()
