@@ -5,6 +5,10 @@
 <p align="center">An easy to use leptos component library</p>
 <p align="center">A UI component based on Fluent Design and Leptos</p>
 
+## Starter Template
+
+You can refer to the [thaw-template](https://github.com/thaw-ui/thaw-template) repository to create a project.
+
 ## Documentation & Community
 
 [https://thawui.vercel.app](https://thawui.vercel.app)
