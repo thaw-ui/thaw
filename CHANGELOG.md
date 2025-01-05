@@ -1,3 +1,17 @@
+## [0.4.1](https://github.com/thaw-ui/thaw/compare/v0.4.0...v0.4.1) (2025-01-05)
+
+### Features
+
+* Add a select property for `InputRef`, closes [#358](https://github.com/thaw-ui/thaw/pull/358).
+
+### Bug Fixs
+
+* `SSRMountStyleProvider` hydration error, closes [#347](https://github.com/thaw-ui/thaw/pull/347).
+* When the `Switch` changes the value, it is not displayed correctly, closes [#351](https://github.com/thaw-ui/thaw/pull/351).
+* Fallback `Avatar` to initials on image load error, closes [#353](https://github.com/thaw-ui/thaw/pull/353).
+* Panic when using `Input` inside `Suspense` under load, closes [#352](https://github.com/thaw-ui/thaw/pull/352).
+* `Combobox` height, closes [#356](https://github.com/thaw-ui/thaw/pull/356).
+
 ## [0.4.0](https://github.com/thaw-ui/thaw/compare/v0.4.0-rc...v0.4.0) (2024-12-23)
 
 ### Features
