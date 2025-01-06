@@ -125,6 +125,7 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
+| style    | `MaybeProp<String>` | `Default::default()` | |
 | id | `MaybeProp<String>` | `Default::default()` |  |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
 | rules | `Vec<InputRule>` | `vec![]` | The rules to validate Field. |
