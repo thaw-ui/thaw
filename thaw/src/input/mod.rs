@@ -14,7 +14,6 @@ use thaw_utils::{
 #[component]
 pub fn Input(
     #[prop(optional, into)] class: MaybeProp<String>,
-    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
@@ -52,6 +51,7 @@ pub fn Input(
     input_size: Signal<Option<i32>>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
+    #[prop(optional, into)] input_style: MaybeProp<String>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     /// Modifies the user input before assigning it to the value.
     #[prop(optional, into)]
@@ -63,7 +63,7 @@ pub fn Input(
     #[prop(optional, into)]
     size: Signal<InputSize>,
 ) -> impl IntoView {
-    let style = move || style.get().unwrap_or_default();
+    let input_style = move || input_style.get().unwrap_or_default();
     mount_style("input", include_str!("./input.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
@@ -193,7 +193,7 @@ pub fn Input(
                 size=input_size
                 placeholder=move || placeholder.get()
                 node_ref=input_ref
-                style=style
+                style=input_style
             />
 
             {if let Some(suffix) = input_suffix.and_then(|suffix| suffix.if_.then_some(suffix)) {

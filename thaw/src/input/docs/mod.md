@@ -125,7 +125,6 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
-| style    | `MaybeProp<String>` | `Default::default()` | |
 | id | `MaybeProp<String>` | `Default::default()` |  |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
 | rules | `Vec<InputRule>` | `vec![]` | The rules to validate Field. |
@@ -143,6 +142,7 @@ view! {
 | size | `Signal<InputSize>` | `InputSize::Medium` | Size of the input (changes the font size and spacing). |
 | input_prefix | slot `Option<InputPrefix>` | `None` |  |
 | input_suffix | slot `Option<InputSuffix>` | `None` |  |
+| input_style    | `MaybeProp<String>` | `Default::default()` | Style of the input. |
 | comp_ref | ref `ComponentRef<InputRef>` | `Default::default()` |  |
 
 ### InputPrefix Props
