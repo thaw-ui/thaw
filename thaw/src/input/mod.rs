@@ -51,6 +51,7 @@ pub fn Input(
     input_size: Signal<Option<i32>>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
+    #[prop(optional, into)] input_style: MaybeProp<String>,
     #[prop(optional)] comp_ref: ComponentRef<InputRef>,
     /// Modifies the user input before assigning it to the value.
     #[prop(optional, into)]
@@ -62,6 +63,7 @@ pub fn Input(
     #[prop(optional, into)]
     size: Signal<InputSize>,
 ) -> impl IntoView {
+    let input_style = move || input_style.get().unwrap_or_default();
     mount_style("input", include_str!("./input.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
@@ -191,6 +193,7 @@ pub fn Input(
                 size=input_size
                 placeholder=move || placeholder.get()
                 node_ref=input_ref
+                style=input_style
             />
 
             {if let Some(suffix) = input_suffix.and_then(|suffix| suffix.if_.then_some(suffix)) {

@@ -142,6 +142,7 @@ view! {
 | size | `Signal<InputSize>` | `InputSize::Medium` | Size of the input (changes the font size and spacing). |
 | input_prefix | slot `Option<InputPrefix>` | `None` |  |
 | input_suffix | slot `Option<InputSuffix>` | `None` |  |
+| input_style    | `MaybeProp<String>` | `Default::default()` | Style of the input. |
 | comp_ref | ref `ComponentRef<InputRef>` | `Default::default()` |  |
 
 ### InputPrefix Props
