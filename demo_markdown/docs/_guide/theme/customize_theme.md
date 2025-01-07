@@ -55,6 +55,8 @@ let on_customize_dark_theme = move |_| {
     theme.set(Theme::custom_dark(&brand_colors.get()));
 };
 let value = RwSignal::new(0.0);
+let page = RwSignal::new(1);
+let selected_value = RwSignal::new(String::from("apple"));
 
 view! {
     <ConfigProvider theme>
@@ -64,13 +66,42 @@ view! {
                 <Button appearance=ButtonAppearance::Primary on_click=on_customize_light_theme>"Custom Light Theme"</Button>
                 <Button appearance=ButtonAppearance::Primary on_click=on_customize_dark_theme>"Custom Dark Theme"</Button>
             </Space>
-            <Input/>
             <Link href="https://react.fluentui.dev/?path=/docs/theme-theme-designer--docs">
                 "You can use this tool to generate brand color palette"
             </Link>
-            <Checkbox />
+            <TabList selected_value>
+                <Tab value="apple">
+                    "Apple"
+                </Tab>
+                <Tab value="pear">
+                    "Pear"
+                </Tab>
+            </TabList>
+            <RadioGroup value=selected_value>
+                <Radio value="apple" label="Apple"/>
+                <Radio value="pear" label="Pear"/>
+            </RadioGroup>
+            <InfoLabel>
+                <InfoLabelInfo slot>
+                    "This is example information for an InfoLabel. "
+                </InfoLabelInfo>
+                "Example label"
+            </InfoLabel>
             <Badge appearance=BadgeAppearance::Filled>"10+"</Badge>
+            <Checkbox />
+            <Switch />
+            <Tag dismissible=true>"Tag"</Tag> //TODO make dismissable
+            <Input/>
+            <Select>
+                <option>"Red"</option>
+                <option>"Green"</option>
+                <option>"Blue"</option>
+            </Select>
+            <TimePicker />
+            <DatePicker/>
             <Slider step=25.0 value/>
+            <ProgressBar value/>
+            <Pagination page page_count=10 />
         </Card>
     </ConfigProvider>
 }

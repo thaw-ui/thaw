@@ -45,6 +45,14 @@
     border-color: var(--colorTransparentStroke);
 }
 
+.thaw-switch__input:enabled:checked:hover ~ .thaw-switch__indicator {
+    background-color: var(--colorCompoundBrandBackgroundHover);
+}
+
+.thaw-switch__input:enabled:checked:active ~ .thaw-switch__indicator {
+    background-color: var(--colorCompoundBrandBackgroundPressed);
+}
+
 .thaw-switch__indicator > svg {
     display: inline;
     line-height: 0;
