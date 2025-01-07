@@ -52,6 +52,13 @@
     overflow: hidden;
 }
 
+.thaw-tab:hover .thaw-tab__content {
+    color: var(--colorNeutralForeground2Hover);
+}
+
+.thaw-tab:active .thaw-tab__content {
+    color: var(--colorNeutralForeground2Pressed);
+}
 
 .thaw-tab--selected {
     overflow: visible;
