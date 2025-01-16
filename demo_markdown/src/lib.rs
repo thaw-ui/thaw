@@ -66,6 +66,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "SelectMdPage" => "../../thaw/src/select/docs/mod.md",
         "SkeletonMdPage" => "../../thaw/src/skeleton/docs/mod.md",
         "SliderMdPage" => "../../thaw/src/slider/docs/mod.md",
+        "RangeSliderMdPage" => "../../thaw/src/slider/docs/range-slider.md",
         "SpaceMdPage" => "../../thaw/src/space/docs/mod.md",
         "SpinButtonMdPage" => "../../thaw/src/spin_button/docs/mod.md",
         "SpinnerMdPage" => "../../thaw/src/spinner/docs/mod.md",

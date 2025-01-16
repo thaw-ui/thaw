@@ -102,6 +102,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/select") view=SelectMdPage />
                     <Route path=path!("/skeleton") view=SkeletonMdPage />
                     <Route path=path!("/slider") view=SliderMdPage />
+                    <Route path=path!("/range-slider") view=RangeSliderMdPage />
                     <Route path=path!("/space") view=SpaceMdPage />
                     <Route path=path!("/spin-button") view=SpinButtonMdPage />
                     <Route path=path!("/spinner") view=SpinnerMdPage />
