@@ -13,7 +13,7 @@ You can refer to the [thaw-template](https://github.com/thaw-ui/thaw-template) r
 
 [https://thawui.vercel.app](https://thawui.vercel.app)
 
-[Discord](https://discord.com/channels/1031524867910148188/1270735289437913108)
+[Discord](https://discord.gg/VwtS7b8c)
 
 ## Leptos compatibility
 
