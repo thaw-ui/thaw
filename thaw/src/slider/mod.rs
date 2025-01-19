@@ -1,5 +1,7 @@
+mod range_slider;
 mod slider_label;
 
+pub use range_slider::*;
 pub use slider_label::SliderLabel;
 
 use crate::{FieldInjection, FieldValidationState, Rule};

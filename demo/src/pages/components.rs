@@ -128,10 +128,7 @@ impl VecIntoView for Vec<NavItemOption> {
                     .into_any(),
                 );
             } else {
-                views.push(
-                    view! { <NavItem value>{label}</NavItem> }
-                    .into_any(),
-                );
+                views.push(view! { <NavItem value>{label}</NavItem> }.into_any());
             }
         }
         views
@@ -378,9 +375,14 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Skeleton",
                 },
                 NavItemOption {
-                    group: None,
+                    group: Some("Slider"),
                     value: "/components/slider",
                     label: "Slider",
+                },
+                NavItemOption {
+                    group: Some("Slider"),
+                    value: "/components/range-slider",
+                    label: "RangeSlider",
                 },
                 NavItemOption {
                     group: None,

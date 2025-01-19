@@ -1,0 +1,105 @@
+.thaw-range-slider {
+    position: relative;
+    min-width: 120px;
+    min-height: 32px;
+    display: inline-grid;
+    grid-template-columns:
+        1fr calc(100% - 20px)
+        1fr;
+    grid-template-rows: 1fr 20px 1fr;
+    justify-items: center;
+    align-items: center;
+    touch-action: none;
+    cursor: pointer;
+
+    --thaw-slider__thumb--size: 20px;
+}
+
+.thaw-range-slider__rail {
+    position: relative;
+    forced-color-adjust: none;
+    grid-column-end: 2;
+    grid-column-start: 2;
+    grid-row-end: 2;
+    grid-row-start: 2;
+    width: 100%;
+    height: 4px;
+    background-image: linear-gradient(
+        90deg,
+        var(--colorNeutralStrokeAccessible) 0%
+            var(--thaw-range-slider--left-progress),
+        var(--colorCompoundBrandBackground)
+            var(--thaw-range-slider--left-progress)
+            var(--thaw-range-slider--right-progress),
+        var(--colorNeutralStrokeAccessible)
+            var(--thaw-range-slider--right-progress) 100%
+    );
+    border-radius: var(--borderRadiusXLarge);
+    outline: 1px solid var(--colorTransparentStroke);
+    pointer-events: none;
+}
+
+.thaw-range-slider__rail::before {
+    content: "";
+    position: absolute;
+
+    height: 4px;
+    right: -1px;
+    left: -1px;
+
+    background-image: repeating-linear-gradient(
+        90deg,
+        #0000 0%,
+        #0000 calc(var(--thaw-range-slider--steps-percent) - 1px),
+        var(--colorNeutralBackground1)
+            calc(var(--thaw-range-slider--steps-percent) - 1px),
+        var(--colorNeutralBackground1) var(--thaw-range-slider--steps-percent)
+    );
+}
+
+.thaw-range-slider__thumb {
+    position: absolute;
+    forced-color-adjust: none;
+    grid-column-end: 2;
+    grid-column-start: 2;
+    grid-row-end: 2;
+    grid-row-start: 2;
+    height: 20px;
+    width: 20px;
+    left: var(--thaw-range-slider--progress);
+    background-color: var(--colorCompoundBrandBackground);
+    outline-style: none;
+    /* pointer-events: none; */
+    border-radius: var(--borderRadiusCircular);
+    box-shadow: 0 0 0 4px var(--colorNeutralBackground1) inset;
+    transform: translateX(-50%);
+}
+
+.thaw-range-slider__thumb:hover {
+    background-color: var(--colorCompoundBrandBackgroundHover);
+}
+
+.thaw-range-slider__thumb:active {
+    background-color: var(--colorCompoundBrandBackgroundPressed);
+}
+
+.thaw-range-slider__thumb::before {
+    content: "";
+    position: absolute;
+
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+
+    box-sizing: border-box;
+    border-radius: var(--borderRadiusCircular);
+    border: 1px solid var(--colorNeutralStroke1);
+}
+
+.thaw-range-slider__datalist {
+    display: block;
+    position: absolute;
+    width: 100%;
+    top: 24px;
+}
