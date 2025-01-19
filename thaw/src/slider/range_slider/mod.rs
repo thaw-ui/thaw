@@ -1,9 +1,12 @@
-use leptos::{ev, html, logging, prelude::*};
+use super::super::SliderInjection;
+use leptos::{context::Provider, ev, html, logging, prelude::*};
+use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
 pub fn RangeSlider(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional, into)] value: Model<(f64, f64)>,
     /// Min value of the slider.
     #[prop(default = 0f64.into(), into)]
@@ -14,6 +17,7 @@ pub fn RangeSlider(
     /// The step in which value is incremented.
     #[prop(optional, into)]
     step: MaybeProp<f64>,
+    #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("range-slider", include_str!("./range-slider.css"));
 
@@ -26,42 +30,68 @@ pub fn RangeSlider(
         let (mut left, mut right) = value.get();
         let min = min.get();
         let max = max.get();
+        let step = step.get().unwrap_or_default();
 
-        if left < min {
-            left = min;
-        } else if left > max {
-            left = max;
-        }
+        left = closest_multiple(left, step, min, max);
+        right = closest_multiple(right, step, min, max);
 
-        if right < min {
-            right = min;
-        } else if right > max {
-            right = max;
-        }
+        logging::log!("l {} r {}", left, right);
 
         (left, right)
     });
 
-    let left_css_vars = move || {
-        format!(
-            "--thaw-range-slider--progress: {:.2}%;",
-            current_value.get().0
-        )
+    let left_progress = Memo::new(move |_| {
+        let value = current_value.get().0;
+        let min = min.get();
+        let max = max.get();
+
+        value / (max - min) * 100.0
+    });
+
+    let right_progress = Memo::new(move |_| {
+        let value = current_value.get().1;
+        let min = min.get();
+        let max = max.get();
+
+        value / (max - min) * 100.0
+    });
+
+    let css_vars = move || {
+        let mut css_vars = style.get().unwrap_or_default();
+        if let Some(step) = step.get() {
+            if step > 0.0 {
+                let max = max.get();
+                let min = min.get();
+
+                css_vars.push_str(&format!(
+                    ";--thaw-range-slider--steps-percent: {:.2}%;",
+                    step * 100.0 / (max - min)
+                ));
+            }
+        }
+        css_vars
     };
-    let right_css_vars = move || {
-        format!(
-            "--thaw-range-slider--progress: {:.2}%;",
-            current_value.get().1
-        )
-    };
+
     let rail_css_vars = move || {
-        let (left, right) = current_value.get();
+        let left = left_progress.get();
+        let right = right_progress.get();
         let (left, right) = if left > right {
             (right, left)
         } else {
             (left, right)
         };
         format!("--thaw-range-slider--left-progress: {left:.2}%; --thaw-range-slider--right-progress: {right:.2}%;")
+    };
+
+    let update_value = move |left, right| {
+        let min = min.get_untracked();
+        let max = max.get_untracked();
+        let step = step.get_untracked().unwrap_or_default();
+
+        value.set((
+            closest_multiple(left, step, min, max),
+            closest_multiple(right, step, min, max),
+        ));
     };
 
     let on_click = move |e: web_sys::MouseEvent| {
@@ -78,9 +108,9 @@ pub fn RangeSlider(
             let right_diff = (right - percentage).abs();
 
             if left_diff <= right_diff {
-                value.set((percentage, right));
+                update_value(percentage, right);
             } else {
-                value.set((left, percentage));
+                update_value(left, percentage);
             }
         };
     };
@@ -117,13 +147,11 @@ pub fn RangeSlider(
                 let max = max.get_untracked();
                 let percentage = length / slider_width * (max - min);
 
-                logging::log!("{percentage}");
-
                 if left_mousemove.get_value() {
-                    value.set((percentage, current_value.get_untracked().1));
+                    update_value(percentage, current_value.get_untracked().1);
                     return;
                 } else if right_mousemove.get_value() {
-                    value.set((current_value.get_untracked().0, percentage));
+                    update_value(current_value.get_untracked().0, percentage);
                     return;
                 }
             }
@@ -153,10 +181,61 @@ pub fn RangeSlider(
     Owner::on_cleanup(cleanup_event);
 
     view! {
-        <div class=class_list!["thaw-range-slider", class] on:click=on_click node_ref=slider_ref>
+        <div
+            class=class_list!["thaw-range-slider", class]
+            on:click=on_click
+            node_ref=slider_ref
+            style=css_vars
+        >
             <div class="thaw-range-slider__rail" style=rail_css_vars></div>
-            <div class="thaw-range-slider__thumb" style=left_css_vars on:mousedown=on_left_mousedown></div>
-            <div class="thaw-range-slider__thumb" style=right_css_vars on:mousedown=on_right_mousedown></div>
+            <div
+                class="thaw-range-slider__thumb"
+                style=move || format!("--thaw-range-slider--progress: {:.2}%;", left_progress.get())
+                on:mousedown=on_left_mousedown
+            ></div>
+            <div
+                class="thaw-range-slider__thumb"
+                style=move || {
+                    format!("--thaw-range-slider--progress: {:.2}%;", right_progress.get())
+                }
+                on:mousedown=on_right_mousedown
+            ></div>
+            <OptionComp value=children let:children>
+                <Provider value=SliderInjection { max, min }>
+                    <div class="thaw-range-slider__datalist">{children()}</div>
+                </Provider>
+            </OptionComp>
         </div>
+    }
+}
+
+fn closest_multiple(mut value: f64, multiple: f64, min: f64, max: f64) -> f64 {
+    if value < min {
+        return min;
+    }
+
+    if multiple <= 0.0 {
+        return if value > max { max } else { value };
+    }
+
+    let quotient = (value - min) / multiple;
+
+    let lower_multiple = quotient.floor() * multiple + min;
+    let upper_multiple = quotient.ceil() * multiple + min;
+
+    value = if (value - lower_multiple).abs() <= (value - upper_multiple).abs() {
+        lower_multiple
+    } else {
+        upper_multiple
+    };
+
+    while value > max {
+        value -= multiple;
+    }
+
+    if value < min {
+        min
+    } else {
+        value
     }
 }
