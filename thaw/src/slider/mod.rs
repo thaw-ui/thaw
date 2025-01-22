@@ -33,6 +33,9 @@ pub fn Slider(
     /// The step in which value is incremented.
     #[prop(optional, into)]
     step: MaybeProp<f64>,
+    /// Render the Slider in a vertical orientation, smallest value on the bottom.
+    #[prop(optional, into)]
+    vertical: Signal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("slider", include_str!("./slider.css"));
@@ -63,13 +66,19 @@ pub fn Slider(
         let max = max.get();
         let min = min.get();
         let mut css_vars = format!(
-            "--thaw-slider--direction: 90deg;--thaw-slider--progress: {:.2}%;",
+            "--thaw-slider--progress: {:.2}%;",
             if max == min {
                 0.0
             } else {
                 (current_value.get() - min) / (max - min) * 100.0
             }
         );
+
+        if vertical.get() {
+            css_vars.push_str("--thaw-slider--direction: 0deg;");
+        } else {
+            css_vars.push_str("--thaw-slider--direction: 90deg;");
+        }
 
         if is_chldren {
             css_vars.push_str(&format!("--thaw-slider--max: {:.2};", max));
@@ -89,7 +98,14 @@ pub fn Slider(
 
     view! {
         <Provider value=SliderInjection { max, min }>
-            <div class=class_list!["thaw-slider", class] style=css_vars>
+            <div
+                class=class_list![
+                    "thaw-slider",
+                    move || format!("thaw-slider--{}", if vertical.get() { "vertical" } else { "horizontal" }),
+                    class
+                ]
+                style=css_vars
+            >
                 <input
                     min=move || min.get()
                     max=move || max.get()
