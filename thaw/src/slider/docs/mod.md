@@ -18,6 +18,16 @@ view! {
 }
 ```
 
+### Vertical
+
+```rust demo
+let value = RwSignal::new(6.0);
+
+view! {
+    <Slider value vertical=true step=2.0 min=0.0 max=10.0 />
+}
+```
+
 ## Slider Label
 
 ```rust demo
@@ -50,6 +60,7 @@ view! {
 | min | `Signal<f64>` | `0` | Min value of the slider. |
 | max | `Signal<f64>` | `100` | Max value of the slider. |
 | step | `Signal<f64>` | `0` | The step in which value is incremented. |
+| vertical | `Signal<bool>` | `false` | Render the Slider in a vertical orientation, smallest value on the bottom. |
 | children | `Option<Children>` | `None` |  |
 
 ### SliderLabel props
