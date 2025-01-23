@@ -16,11 +16,23 @@ pub fn SliderLabel(
 
     let style = move || {
         let value = (value.get() - slider.min.get()) / (slider.max.get() - slider.min.get());
-        format!("left: calc({} * (100% - var(--thaw-slider__thumb--size)) + var(--thaw-slider__thumb--size) / 2)", value)
+
+        if slider.vertical.get() {
+            format!("bottom: calc({} * (100% - var(--thaw-slider__thumb--size)) + var(--thaw-slider__thumb--size) / 2)", value)
+        } else {
+            format!("left: calc({} * (100% - var(--thaw-slider__thumb--size)) + var(--thaw-slider__thumb--size) / 2)", value)
+        }
     };
 
     view! {
-        <div class=class_list!["thaw-slider-label", class] style=style>
+        <div
+            class=class_list![
+                "thaw-slider-label",
+            move || format!("thaw-slider-label--{}", if slider.vertical.get() { "vertical" } else { "horizontal" }),
+            class
+            ]
+            style=style
+        >
 
             {children()}
         </div>

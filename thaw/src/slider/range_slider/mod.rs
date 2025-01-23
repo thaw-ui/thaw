@@ -238,7 +238,11 @@ pub fn RangeSlider(
                 on:mousedown=on_right_mousedown
             ></div>
             <OptionComp value=children let:children>
-                <Provider value=SliderInjection { max, min }>
+                <Provider value=SliderInjection {
+                    max,
+                    min,
+                    vertical,
+                }>
                     <div class="thaw-range-slider__datalist">{children()}</div>
                 </Provider>
             </OptionComp>

@@ -94,33 +94,37 @@ pub fn Slider(
     };
 
     view! {
-        <Provider value=SliderInjection { max, min }>
-            <div
-                class=class_list![
-                    "thaw-slider",
-                    move || format!("thaw-slider--{}", if vertical.get() { "vertical" } else { "horizontal" }),
-                    class
-                ]
-                style=css_vars
-            >
-                <input
-                    min=move || min.get()
-                    max=move || max.get()
-                    step=move || step.get()
-                    type="range"
-                    class="thaw-slider__input"
-                    id=id
-                    name=name
-                    on:input=on_input
-                    value=current_value.get_untracked()
-                    prop:value=move || current_value.get()
-                />
-                <div class="thaw-slider__rail"></div>
-                <div class="thaw-slider__thumb"></div>
-                <OptionComp value=children let:children>
+        <div
+            class=class_list![
+                "thaw-slider",
+                move || format!("thaw-slider--{}", if vertical.get() { "vertical" } else { "horizontal" }),
+                class
+            ]
+            style=css_vars
+        >
+            <input
+                min=move || min.get()
+                max=move || max.get()
+                step=move || step.get()
+                type="range"
+                class="thaw-slider__input"
+                id=id
+                name=name
+                on:input=on_input
+                value=current_value.get_untracked()
+                prop:value=move || current_value.get()
+            />
+            <div class="thaw-slider__rail"></div>
+            <div class="thaw-slider__thumb"></div>
+            <OptionComp value=children let:children>
+                <Provider value=SliderInjection {
+                    max,
+                    min,
+                    vertical,
+                }>
                     <div class="thaw-slider__datalist">{children()}</div>
-                </OptionComp>
-            </div>
-        </Provider>
+                </Provider>
+            </OptionComp>
+        </div>
     }
 }

@@ -1,5 +1,12 @@
 .thaw-slider-label {
     position: absolute;
     display: inline-block;
+}
+
+.thaw-slider-label--horizontal {
     transform: translateX(-50%);
+}
+
+.thaw-slider-label--vertical {
+    transform: translateY(50%);
 }
