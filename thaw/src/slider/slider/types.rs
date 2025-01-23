@@ -2,10 +2,11 @@ use crate::{FieldValidationState, Rule};
 use leptos::prelude::*;
 use std::ops::Deref;
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub(crate) struct SliderInjection {
     pub max: Signal<f64>,
     pub min: Signal<f64>,
+    pub vertical: Signal<bool>,
 }
 
 impl SliderInjection {

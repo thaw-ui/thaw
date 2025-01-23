@@ -132,6 +132,14 @@
 .thaw-range-slider__datalist {
     display: block;
     position: absolute;
+}
+
+.thaw-range-slider--horizontal .thaw-range-slider__datalist {
     width: 100%;
-    top: 24px;
+    top: calc(var(--thaw-slider__thumb--size) + 4px);
+}
+
+.thaw-range-slider--vertical .thaw-range-slider__datalist {
+    height: 100%;
+    left: calc(var(--thaw-slider__thumb--size) + 4px);
 }

@@ -181,6 +181,14 @@
 .thaw-slider__datalist {
     display: block;
     position: absolute;
+}
+
+.thaw-slider--horizontal .thaw-slider__datalist {
     width: 100%;
     top: calc(var(--thaw-slider__thumb--size) + 4px);
+}
+
+.thaw-slider--vertical .thaw-slider__datalist {
+    height: 100%;
+    left: calc(var(--thaw-slider__thumb--size) + 4px);
 }
