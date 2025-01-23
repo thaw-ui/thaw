@@ -21,6 +21,16 @@ view! {
 }
 ```
 
+### Vertical
+
+```rust demo
+let value = RwSignal::new((6.0, 8.0));
+
+view! {
+    <RangeSlider value vertical=true step=2.0 min=0.0 max=10.0 />
+}
+```
+
 ### SliderLabel
 
 ```rust demo
@@ -43,11 +53,12 @@ view! {
 
 ### RangeSlider Props
 
-| Name  | Type                | Default              | Description                                 |
-| ----- | ------------------- | -------------------- | ------------------------------------------- |
-| class | `MaybeProp<String>` | `Default::default()` |                                             |
-| style | `MaybeProp<String>` | `Default::default()` |                                             |
-| value | `Model<(f64, f64)>` | `(0.0, 0.0)`         | The current value of the controlled Slider. |
-| min   | `Signal<f64>`       | `0`                  | Min value of the slider.                    |
-| max   | `Signal<f64>`       | `100`                | Max value of the slider.                    |
-| step  | `Signal<f64>`       | `0`                  | The step in which value is incremented.     |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| class | `MaybeProp<String>` | `Default::default()` |  |
+| style | `MaybeProp<String>` | `Default::default()` |  |
+| value | `Model<(f64, f64)>` | `(0.0, 0.0)` | The current value of the controlled Slider. |
+| min | `Signal<f64>` | `0` | Min value of the slider. |
+| max | `Signal<f64>` | `100` | Max value of the slider. |
+| step | `Signal<f64>` | `0` | The step in which value is incremented. |
+| vertical | `Signal<bool>` | `false` | Render the Slider in a vertical orientation, smallest value on the bottom. |

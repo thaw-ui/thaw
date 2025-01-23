@@ -1,5 +1,5 @@
 use super::super::SliderInjection;
-use leptos::{context::Provider, ev, html, logging, prelude::*};
+use leptos::{context::Provider, ev, html, prelude::*};
 use thaw_components::OptionComp;
 use thaw_utils::{class_list, mount_style, Model};
 
@@ -17,6 +17,9 @@ pub fn RangeSlider(
     /// The step in which value is incremented.
     #[prop(optional, into)]
     step: MaybeProp<f64>,
+    /// Render the Slider in a vertical orientation, smallest value on the bottom.
+    #[prop(optional, into)]
+    vertical: Signal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
     mount_style("range-slider", include_str!("./range-slider.css"));
@@ -34,8 +37,6 @@ pub fn RangeSlider(
 
         left = closest_multiple(left, step, min, max);
         right = closest_multiple(right, step, min, max);
-
-        logging::log!("l {} r {}", left, right);
 
         (left, right)
     });
@@ -58,6 +59,13 @@ pub fn RangeSlider(
 
     let css_vars = move || {
         let mut css_vars = style.get().unwrap_or_default();
+
+        if vertical.get() {
+            css_vars.push_str(";--thaw-slider--direction: 0deg;");
+        } else {
+            css_vars.push_str(";--thaw-slider--direction: 90deg;");
+        }
+
         if let Some(step) = step.get() {
             if step > 0.0 {
                 let max = max.get();
@@ -96,14 +104,20 @@ pub fn RangeSlider(
 
     let on_click = move |e: web_sys::MouseEvent| {
         if let Some(slider) = slider_ref.get_untracked() {
-            let rect = slider.get_bounding_client_rect();
-            let ev_x = f64::from(e.x());
             let min = min.get_untracked();
             let max = max.get_untracked();
 
-            let percentage = (ev_x - rect.x()) / rect.width() * (max - min);
-            let (left, right) = current_value.get();
+            let rect = slider.get_bounding_client_rect();
+            let percentage = if vertical.get_untracked() {
+                let ev_y = f64::from(e.y());
+                let slider_height = rect.height();
+                (slider_height + rect.y() - ev_y) / slider_height * (max - min)
+            } else {
+                let ev_x = f64::from(e.x());
+                (ev_x - rect.x()) / rect.width() * (max - min)
+            };
 
+            let (left, right) = current_value.get();
             let left_diff = (left - percentage).abs();
             let right_diff = (right - percentage).abs();
 
@@ -132,20 +146,39 @@ pub fn RangeSlider(
     let on_mousemove = move || {
         let mousemove = window_event_listener(ev::mousemove, move |e| {
             if let Some(slider_el) = slider_ref.get_untracked() {
-                let slider_rect = slider_el.get_bounding_client_rect();
-                let slider_width = slider_rect.width();
-                let slider_x = slider_rect.x();
-                let ev_x = f64::from(e.x());
-                let length = if ev_x < slider_x {
-                    0.0
-                } else if ev_x > slider_x + slider_width {
-                    slider_width
-                } else {
-                    ev_x - slider_x
-                };
                 let min = min.get_untracked();
                 let max = max.get_untracked();
-                let percentage = length / slider_width * (max - min);
+
+                let slider_rect = slider_el.get_bounding_client_rect();
+                let percentage = if vertical.get_untracked() {
+                    let ev_y = f64::from(e.y());
+                    let slider_y = slider_rect.y();
+                    let slider_height = slider_rect.height();
+
+                    let length = if ev_y < slider_y {
+                        0.0
+                    } else if ev_y > slider_y + slider_height {
+                        slider_height
+                    } else {
+                        slider_y + slider_height - ev_y
+                    };
+
+                    length / slider_height * (max - min)
+                } else {
+                    let ev_x = f64::from(e.x());
+                    let slider_x = slider_rect.x();
+                    let slider_width = slider_rect.width();
+
+                    let length = if ev_x < slider_x {
+                        0.0
+                    } else if ev_x > slider_x + slider_width {
+                        slider_width
+                    } else {
+                        ev_x - slider_x
+                    };
+
+                    length / slider_width * (max - min)
+                };
 
                 if left_mousemove.get_value() {
                     update_value(percentage, current_value.get_untracked().1);
@@ -182,7 +215,11 @@ pub fn RangeSlider(
 
     view! {
         <div
-            class=class_list!["thaw-range-slider", class]
+            class=class_list![
+                "thaw-range-slider",
+                move || format!("thaw-range-slider--{}", if vertical.get() { "vertical" } else { "horizontal" }),
+                class
+            ]
             on:click=on_click
             node_ref=slider_ref
             style=css_vars
