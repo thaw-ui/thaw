@@ -10,6 +10,18 @@
     font-size: 28px;
 }
 
+.thaw-rating-item__half-value-input {
+    position: absolute;
+    inset: 0px;
+    box-sizing: border-box;
+    margin: 0px;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+
+    right: 50%;
+}
+
 .thaw-rating-item__full-value-input {
     position: absolute;
     inset: 0px;
@@ -20,7 +32,12 @@
     height: 100%;
 }
 
-.thaw-rating-item__unselected-icon {
+.thaw-rating-item__half-value-input + .thaw-rating-item__full-value-input {
+    left: 50%;
+}
+
+.thaw-rating-item__unselected-icon,
+.thaw-rating-item__selected-icon {
     display: flex;
     overflow: hidden;
     color: var(--colorNeutralForeground1);
@@ -30,7 +47,26 @@
     inset: 0px;
 }
 
-.thaw-rating-item__unselected-icon > svg {
+.thaw-rating-item--brand .thaw-rating-item__unselected-icon,
+.thaw-rating-item--brand .thaw-rating-item__selected-icon {
+    color: var(--colorBrandForeground1);
+}
+
+.thaw-rating-item--half .thaw-rating-item__unselected-icon {
+    margin-left: -50%;
+    left: 50%;
+}
+
+.thaw-rating-item--half .thaw-rating-item__selected-icon {
+    right: 50%;
+}
+
+.thaw-rating-item__unselected-icon > svg,
+.thaw-rating-item__selected-icon > svg {
     display: inline;
     line-height: 0;
+}
+
+.thaw-rating-item--half .thaw-rating-item__selected-icon > svg {
+    flex: 0 0 auto;
 }
