@@ -17,7 +17,10 @@ view! {
 let value = RwSignal::new((50.0, 70.0));
 
 view! {
-    <RangeSlider step=25.0 value style="width: 400px"/>
+    <Flex vertical=true inline=true>
+        <RangeSlider step=25.0 value style="width: 400px"/>
+        <RangeSlider step=25.0 value style="width: 400px" show_stops=false/>
+    </Flex>
 }
 ```
 
@@ -61,4 +64,5 @@ view! {
 | min | `Signal<f64>` | `0` | Min value of the slider. |
 | max | `Signal<f64>` | `100` | Max value of the slider. |
 | step | `Signal<f64>` | `0` | The step in which value is incremented. |
+| show_stops | `Signal<bool>` | `true` | Whether to display breakpoints. |
 | vertical | `Signal<bool>` | `false` | Render the Slider in a vertical orientation, smallest value on the bottom. |

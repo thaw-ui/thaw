@@ -17,6 +17,9 @@ pub fn RangeSlider(
     /// The step in which value is incremented.
     #[prop(optional, into)]
     step: MaybeProp<f64>,
+    /// Whether to display breakpoints.
+    #[prop(default = true.into(), into)]
+    show_stops: Signal<bool>,
     /// Render the Slider in a vertical orientation, smallest value on the bottom.
     #[prop(optional, into)]
     vertical: Signal<bool>,
@@ -67,7 +70,7 @@ pub fn RangeSlider(
         }
 
         if let Some(step) = step.get() {
-            if step > 0.0 {
+            if step > 0.0 && show_stops.get() {
                 let max = max.get();
                 let min = min.get();
 
