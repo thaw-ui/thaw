@@ -10,6 +10,7 @@ use thaw_utils::{class_list, mount_style, Model};
 #[component]
 pub fn Slider(
     #[prop(optional, into)] class: MaybeProp<String>,
+    #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
@@ -30,6 +31,9 @@ pub fn Slider(
     /// The step in which value is incremented.
     #[prop(optional, into)]
     step: MaybeProp<f64>,
+    /// Whether to display breakpoints.
+    #[prop(default = true.into(), into)]
+    show_stops: Signal<bool>,
     /// Render the Slider in a vertical orientation, smallest value on the bottom.
     #[prop(optional, into)]
     vertical: Signal<bool>,
@@ -83,13 +87,18 @@ pub fn Slider(
         }
 
         if let Some(step) = step.get() {
-            if step > 0.0 {
+            if step > 0.0 && show_stops.get() {
                 css_vars.push_str(&format!(
-                    "--thaw-slider--steps-percent: {:.2}%",
+                    "--thaw-slider--steps-percent: {:.2}%;",
                     step * 100.0 / (max - min)
                 ));
             }
         }
+
+        if let Some(style) = style.get() {
+            css_vars.push_str(&style);
+        }
+
         css_vars
     };
 

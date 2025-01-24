@@ -14,7 +14,10 @@ view! {
 let value = RwSignal::new(0.0);
 
 view! {
-    <Slider step=25.0 value/>
+    <Flex vertical=true inline=true>
+        <Slider step=25.0 value />
+        <Slider step=25.0 value show_stops=false />
+    </Flex>
 }
 ```
 
@@ -53,6 +56,7 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
+| style | `MaybeProp<String>` | `Default::default()` |  |
 | id | `MaybeProp<String>` | `Default::default()` |  |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
 | rules | `Vec<InputRule>` | `vec![]` | The rules to validate Field. |
@@ -60,6 +64,7 @@ view! {
 | min | `Signal<f64>` | `0` | Min value of the slider. |
 | max | `Signal<f64>` | `100` | Max value of the slider. |
 | step | `Signal<f64>` | `0` | The step in which value is incremented. |
+| show_stops | `Signal<bool>` | `true` | Whether to display breakpoints. |
 | vertical | `Signal<bool>` | `false` | Render the Slider in a vertical orientation, smallest value on the bottom. |
 | children | `Option<Children>` | `None` |  |
 
