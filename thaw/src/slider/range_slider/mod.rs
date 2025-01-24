@@ -24,7 +24,7 @@ pub fn RangeSlider(
 ) -> impl IntoView {
     mount_style("range-slider", include_str!("./range-slider.css"));
 
-    let slider_ref = NodeRef::<html::Div>::new();
+    let rail_ref = NodeRef::<html::Div>::new();
     let left_mousemove = StoredValue::new(false);
     let right_mousemove = StoredValue::new(false);
     let mousemove_handle = StoredValue::new(None::<WindowListenerHandle>);
@@ -58,12 +58,12 @@ pub fn RangeSlider(
     });
 
     let css_vars = move || {
-        let mut css_vars = style.get().unwrap_or_default();
+        let mut css_vars = String::new();
 
         if vertical.get() {
-            css_vars.push_str(";--thaw-slider--direction: 0deg;");
+            css_vars.push_str("--thaw-slider--direction: 0deg;");
         } else {
-            css_vars.push_str(";--thaw-slider--direction: 90deg;");
+            css_vars.push_str("--thaw-slider--direction: 90deg;");
         }
 
         if let Some(step) = step.get() {
@@ -72,11 +72,16 @@ pub fn RangeSlider(
                 let min = min.get();
 
                 css_vars.push_str(&format!(
-                    ";--thaw-range-slider--steps-percent: {:.2}%;",
+                    "--thaw-range-slider--steps-percent: {:.2}%;",
                     step * 100.0 / (max - min)
                 ));
             }
         }
+
+        if let Some(style) = style.get() {
+            css_vars.push_str(&style);
+        }
+
         css_vars
     };
 
@@ -103,18 +108,18 @@ pub fn RangeSlider(
     };
 
     let on_click = move |e: web_sys::MouseEvent| {
-        if let Some(slider) = slider_ref.get_untracked() {
+        if let Some(rail_el) = rail_ref.get_untracked() {
             let min = min.get_untracked();
             let max = max.get_untracked();
 
-            let rect = slider.get_bounding_client_rect();
+            let rail_rect = rail_el.get_bounding_client_rect();
             let percentage = if vertical.get_untracked() {
                 let ev_y = f64::from(e.y());
-                let slider_height = rect.height();
-                (slider_height + rect.y() - ev_y) / slider_height * (max - min)
+                let rail_height = rail_rect.height();
+                (rail_height + rail_rect.y() - ev_y) / rail_height * (max - min)
             } else {
                 let ev_x = f64::from(e.x());
-                (ev_x - rect.x()) / rect.width() * (max - min)
+                (ev_x - rail_rect.x()) / rail_rect.width() * (max - min)
             };
 
             let (left, right) = current_value.get();
@@ -145,39 +150,39 @@ pub fn RangeSlider(
 
     let on_mousemove = move || {
         let mousemove = window_event_listener(ev::mousemove, move |e| {
-            if let Some(slider_el) = slider_ref.get_untracked() {
+            if let Some(rail_el) = rail_ref.get_untracked() {
                 let min = min.get_untracked();
                 let max = max.get_untracked();
 
-                let slider_rect = slider_el.get_bounding_client_rect();
+                let rail_rect = rail_el.get_bounding_client_rect();
                 let percentage = if vertical.get_untracked() {
                     let ev_y = f64::from(e.y());
-                    let slider_y = slider_rect.y();
-                    let slider_height = slider_rect.height();
+                    let rail_y = rail_rect.y();
+                    let rail_height = rail_rect.height();
 
-                    let length = if ev_y < slider_y {
+                    let length = if ev_y < rail_y {
+                        rail_height
+                    } else if ev_y > rail_y + rail_height {
                         0.0
-                    } else if ev_y > slider_y + slider_height {
-                        slider_height
                     } else {
-                        slider_y + slider_height - ev_y
+                        rail_y + rail_height - ev_y
                     };
 
-                    length / slider_height * (max - min)
+                    length / rail_height * (max - min)
                 } else {
                     let ev_x = f64::from(e.x());
-                    let slider_x = slider_rect.x();
-                    let slider_width = slider_rect.width();
+                    let rail_x = rail_rect.x();
+                    let rail_width = rail_rect.width();
 
-                    let length = if ev_x < slider_x {
+                    let length = if ev_x < rail_x {
                         0.0
-                    } else if ev_x > slider_x + slider_width {
-                        slider_width
+                    } else if ev_x > rail_x + rail_width {
+                        rail_width
                     } else {
-                        ev_x - slider_x
+                        ev_x - rail_x
                     };
 
-                    length / slider_width * (max - min)
+                    length / rail_width * (max - min)
                 };
 
                 if left_mousemove.get_value() {
@@ -221,10 +226,9 @@ pub fn RangeSlider(
                 class
             ]
             on:click=on_click
-            node_ref=slider_ref
             style=css_vars
         >
-            <div class="thaw-range-slider__rail" style=rail_css_vars></div>
+            <div class="thaw-range-slider__rail" style=rail_css_vars node_ref=rail_ref></div>
             <div
                 class="thaw-range-slider__thumb"
                 style=move || format!("--thaw-range-slider--progress: {:.2}%;", left_progress.get())
