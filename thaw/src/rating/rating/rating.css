@@ -1,0 +1,36 @@
+.thaw-rating {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.thaw-rating-item {
+    position: relative;
+    height: 28px;
+    width: 28px;
+    font-size: 28px;
+}
+
+.thaw-rating-item__full-value-input {
+    position: absolute;
+    inset: 0px;
+    box-sizing: border-box;
+    margin: 0px;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
+}
+
+.thaw-rating-item__unselected-icon {
+    display: flex;
+    overflow: hidden;
+    color: var(--colorNeutralForeground1);
+    fill: currentcolor;
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+}
+
+.thaw-rating-item__unselected-icon > svg {
+    display: inline;
+    line-height: 0;
+}

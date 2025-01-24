@@ -361,6 +361,11 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                 },
                 NavItemOption {
                     group: None,
+                    value: "/components/rating",
+                    label: "Rating",
+                },
+                NavItemOption {
+                    group: None,
                     value: "/components/scrollbar",
                     label: "Scrollbar",
                 },
