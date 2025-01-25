@@ -14,7 +14,7 @@ exclude = ["examples"]
 rust-version = "1.79"
 
 [workspace.dependencies]
-thaw = { version = "0.4.1", path = "./thaw" }
+thaw = { version = "0.4.2", path = "./thaw" }
 thaw_components = { version = "0.3.0", path = "./thaw_components" }
 thaw_macro = { version = "0.1.0", path = "./thaw_macro" }
 thaw_utils = { version = "0.1.1", path = "./thaw_utils" }

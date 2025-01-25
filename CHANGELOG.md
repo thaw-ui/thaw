@@ -1,3 +1,18 @@
+## [0.4.2](https://github.com/thaw-ui/thaw/compare/v0.4.1...v0.4.2) (2025-01-25)
+
+### Features
+
+* `Input` adds input_style prop, closes [#360](https://github.com/thaw-ui/thaw/pull/360).
+* Adds `RangeSlider` component, closes [#366](https://github.com/thaw-ui/thaw/pull/366).
+* `Slider` adds vertical prop.
+* `Slider` adds show_stops prop.
+* Adds `Rating` component, closes [#369](https://github.com/thaw-ui/thaw/pull/369).
+* Adds `RatingDisplay` component, closes [#369](https://github.com/thaw-ui/thaw/pull/369).
+
+### Bug Fixs
+
+* Fix `Radio` and `Switch` component styles, closes [#362](https://github.com/thaw-ui/thaw/pull/362).
+
 ## [0.4.1](https://github.com/thaw-ui/thaw/compare/v0.4.0...v0.4.1) (2025-01-05)
 
 ### Features
