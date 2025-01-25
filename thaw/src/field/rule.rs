@@ -116,6 +116,18 @@ impl<T: Send + Sync> RuleValueWithUntracked<T> for Model<T> {
     }
 }
 
+impl RuleValueWithUntracked<Option<f32>> for OptionModel<f32> {
+    fn value_with_untracked(
+        &self,
+        f: impl FnOnce(&Option<f32>) -> Result<(), FieldValidationState>,
+    ) -> Result<(), FieldValidationState> {
+        self.with_untracked(move |v| match v {
+            OptionModelWithValue::T(v) => f(&Some(v.clone())),
+            OptionModelWithValue::Option(v) => f(v),
+        })
+    }
+}
+
 impl RuleValueWithUntracked<Option<String>> for OptionModel<String> {
     fn value_with_untracked(
         &self,

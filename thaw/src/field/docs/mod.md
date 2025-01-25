@@ -47,6 +47,9 @@ view! {
                     <Radio label="1" value="true"/>
                 </RadioGroup>
             </Field>
+            <Field label="Rating" name="rating">
+                <Rating rules=vec![RatingRule::required(true.into())] />
+            </Field>
             <Field label="Combobox" name="combobox">
                 <Combobox rules=vec![ComboboxRule::required(true.into())] placeholder="Select an animal" clearable=true>
                     <ComboboxOption value="cat" text="Cat"/>
