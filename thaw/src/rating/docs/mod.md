@@ -59,7 +59,10 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
-| value | `Model<f32>` | `0.0` | The value of the rating. |
+| id | `MaybeProp<String>` | `Default::default()` |  |
+| name | `MaybeProp<String>` | `Default::default()` | Name for the Radio inputs. If not provided, one will be automatically generated. |
+| rules | `Vec<RatingRule>` | `vec![]` | The rules to validate Field. |
+| value | `OptionModel<f32>` | `None` | The value of the rating. |
 | max | `Signal<u8>` | `5` | The max value of the rating. This controls the number of rating items displayed. Must be a whole number greater than 1. |
 | step | `Signal<f32>` | `1.0` | Sets the precision to allow half-filled shapes in Rating. |
 | size | `Signal<RatingSize>` | `RatingSize::ExtraLarge` | Sets the size of the Rating items. |

@@ -35,7 +35,7 @@ pub fn RatingDisplay(
             <Provider value=RatingInjection {
                 value: (value, SignalSetter::default()).into(),
                 hovered_value: RwSignal::new(None::<f32>),
-                name: StoredValue::new(String::new()),
+                name: Memo::new(move |_| String::new()),
                 step: 0.5.into(),
                 size,
                 color,

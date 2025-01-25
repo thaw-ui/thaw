@@ -11,7 +11,7 @@ pub fn RatingItem(value: u8) -> impl IntoView {
         let displayed_rating_value = rating
             .hovered_value
             .get()
-            .unwrap_or_else(|| (rating.value.get() * 2.0).round() / 2.0);
+            .unwrap_or_else(|| (rating.value.get().unwrap_or_default() * 2.0).round() / 2.0);
         let value = f32::from(value);
 
         if displayed_rating_value >= value {
@@ -40,7 +40,7 @@ pub fn RatingItem(value: u8) -> impl IntoView {
                             <Then slot>
                                 <input
                                     type="radio"
-                                    name=rating.name.get_value()
+                                    name=rating.name
                                     aria-label=f32::from(value) - 0.5
                                     class="thaw-rating-item__half-value-input"
                                     value=f32::from(value) - 0.5
@@ -49,7 +49,7 @@ pub fn RatingItem(value: u8) -> impl IntoView {
                         </If>
                         <input
                             type="radio"
-                            name=rating.name.get_value()
+                            name=rating.name
                             aria-label=value
                             class="thaw-rating-item__full-value-input"
                             value=value
