@@ -360,9 +360,14 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Radio",
                 },
                 NavItemOption {
-                    group: None,
+                    group: Some("Rating"),
                     value: "/components/rating",
                     label: "Rating",
+                },
+                NavItemOption {
+                    group: Some("Rating"),
+                    value: "/components/rating-display",
+                    label: "RatingDisplay",
                 },
                 NavItemOption {
                     group: None,

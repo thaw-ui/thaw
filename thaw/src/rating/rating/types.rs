@@ -7,7 +7,9 @@ pub(crate) struct RatingInjection {
     pub hovered_value: RwSignal<Option<f32>>,
     pub name: StoredValue<String>,
     pub step: Signal<f32>,
+    pub size: Signal<RatingSize>,
     pub color: Signal<RatingColor>,
+    pub interactive: bool,
 }
 
 impl RatingInjection {
@@ -30,6 +32,25 @@ impl RatingColor {
             Self::Brand => "brand",
             // RatingColor::Marigold => "marigold",
             Self::Neutral => "neutral",
+        }
+    }
+}
+
+#[derive(Clone)]
+pub enum RatingSize {
+    Small,
+    Medium,
+    Large,
+    ExtraLarge,
+}
+
+impl RatingSize {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Self::Small => "small",
+            Self::Medium => "medium",
+            Self::Large => "large",
+            Self::ExtraLarge => "extra-large",
         }
     }
 }

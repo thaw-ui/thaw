@@ -1,10 +1,57 @@
-.thaw-rating {
+.thaw-rating,
+.thaw-rating-display {
     display: flex;
     flex-wrap: wrap;
 }
 
+.thaw-rating-display {
+    align-items: center;
+}
+
+.thaw-rating-display__value-text {
+    color: var(--colorNeutralForeground1);
+    margin-left: var(--spacingHorizontalXS);
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+    font-weight: var(--fontWeightSemibold);
+}
+
+.thaw-rating-display--large .thaw-rating-display__value-text {
+    margin-left: var(--spacingHorizontalSNudge);
+    line-height: var(--lineHeightBase300);
+    font-size: var(--fontSizeBase300);
+}
+
+.thaw-rating-display--extra-large .thaw-rating-display__value-text {
+    margin-left: var(--spacingHorizontalS);
+    font-size: var(--fontSizeBase400);
+    line-height: var(--lineHeightBase400);
+}
+
 .thaw-rating-item {
     position: relative;
+}
+
+.thaw-rating-item--small {
+    height: 12px;
+    width: 12px;
+    font-size: 12px;
+}
+
+.thaw-rating-item--medium {
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+}
+
+.thaw-rating-item--large {
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+}
+
+.thaw-rating-item--extra-large {
     height: 28px;
     width: 28px;
     font-size: 28px;
@@ -50,6 +97,16 @@
 .thaw-rating-item--brand .thaw-rating-item__unselected-icon,
 .thaw-rating-item--brand .thaw-rating-item__selected-icon {
     color: var(--colorBrandForeground1);
+}
+
+.thaw-rating-item--filled .thaw-rating-item__unselected-icon {
+    stroke: var(--colorTransparentStroke);
+    color: var(--colorNeutralBackground6);
+}
+
+.thaw-rating-item--filled.thaw-rating-item--brand
+    .thaw-rating-item__unselected-icon {
+    color: var(--colorBrandBackground2);
 }
 
 .thaw-rating-item--half .thaw-rating-item__unselected-icon {

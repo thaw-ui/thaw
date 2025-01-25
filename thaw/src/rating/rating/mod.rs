@@ -21,6 +21,9 @@ pub fn Rating(
     /// Sets the precision to allow half-filled shapes in Rating.
     #[prop(default = 1.0.into(), into)]
     step: Signal<f32>,
+    /// Sets the size of the Rating items.
+    #[prop(default = RatingSize::ExtraLarge.into(), into)]
+    size: Signal<RatingSize>,
     /// Rating color.
     #[prop(optional, into)]
     color: Signal<RatingColor>,
@@ -63,7 +66,9 @@ pub fn Rating(
                 hovered_value,
                 name,
                 step,
+                size,
                 color,
+                interactive: true,
             }>
                 {move || {
                     let mut max = max.get();

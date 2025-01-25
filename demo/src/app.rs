@@ -99,6 +99,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/progress-bar") view=ProgressBarMdPage />
                     <Route path=path!("/radio") view=RadioMdPage />
                     <Route path=path!("/rating") view=RatingMdPage />
+                    <Route path=path!("/rating-display") view=RatingDisplayMdPage />
                     <Route path=path!("/scrollbar") view=ScrollbarMdPage />
                     <Route path=path!("/select") view=SelectMdPage />
                     <Route path=path!("/skeleton") view=SkeletonMdPage />
