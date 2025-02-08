@@ -137,15 +137,7 @@ pub fn Input(
         }
     };
 
-    let input_value: Option<String>;
-    #[cfg(feature = "ssr")]
-    {
-        input_value = Some(value.get_untracked());
-    }
-    #[cfg(not(feature = "ssr"))]
-    {
-        input_value = None;
-    }
+    let input_value = value.get_untracked();
 
     let prefix_if_ = input_prefix.as_ref().map_or(false, |prefix| prefix.if_);
     let suffix_if_ = input_suffix.as_ref().map_or(false, |suffix| suffix.if_);
