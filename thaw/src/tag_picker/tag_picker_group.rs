@@ -1,5 +1,5 @@
 use super::{TagPickerInjection, TagPickerSize};
-use crate::{TagGroup, TagSize};
+use crate::{TagGroup, TagPickerControlInjection, TagSize};
 use leptos::prelude::*;
 
 #[component]
@@ -8,6 +8,8 @@ pub fn TagPickerGroup(
     children: Children,
 ) -> impl IntoView {
     let tag_picker = TagPickerInjection::expect_context();
+    let TagPickerControlInjection { tag_group_ref, .. } =
+        TagPickerControlInjection::expect_context();
     let class = MaybeProp::derive(move || {
         Some(format!(
             "thaw-tag-picker-group {}",
@@ -24,7 +26,7 @@ pub fn TagPickerGroup(
     };
 
     view! {
-        <TagGroup attr:role="listbox" class size dismissible=true on_dismiss>
+        <TagGroup attr:role="listbox" class size dismissible=true on_dismiss node_ref=tag_group_ref>
             {children()}
         </TagGroup>
     }

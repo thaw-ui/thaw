@@ -1,5 +1,8 @@
+use crate::utils::KeyboardKey;
+
 use super::{TagPickerControlInjection, TagPickerInjection};
-use leptos::prelude::*;
+use leptos::{ev, prelude::*};
+use thaw_tabster::{use_focus_finders, FocusFinders};
 use thaw_utils::class_list;
 
 #[component]
@@ -7,8 +10,10 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
     let TagPickerInjection {
         input_ref, options, ..
     } = TagPickerInjection::expect_context();
-    let TagPickerControlInjection(active_descendant_controller) =
-        TagPickerControlInjection::expect_context();
+    let TagPickerControlInjection {
+        active_descendant_controller,
+        tag_group_ref,
+    } = TagPickerControlInjection::expect_context();
     let value_trigger = ArcTrigger::new();
     let on_blur = {
         let value_trigger = value_trigger.clone();
@@ -38,6 +43,19 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
         }
     };
 
+    let FocusFinders {
+        mut find_last_focusable,
+        ..
+    } = use_focus_finders();
+
+    let on_keydown = move |e: ev::KeyboardEvent| {
+        let key = e.key();
+        if KeyboardKey::ArrowLeft == key || KeyboardKey::Backspace == key {
+            let el = tag_group_ref.get_untracked().unwrap();
+            find_last_focusable((*el).clone());
+        }
+    };
+
     view! {
         <input
             node_ref=input_ref
@@ -46,6 +64,7 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
             class=class_list!["thaw-tag-picker-input", class]
             on:blur=on_blur
             on:input=on_input
+            on:keydown=on_keydown
             prop:value=move || {
                 value_trigger.notify();
                 ""

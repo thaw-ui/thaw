@@ -4,6 +4,7 @@ members = [
     "thaw",
     "thaw_components",
     "thaw_macro",
+    "thaw_tabster",
     "thaw_utils",
     "demo",
     "demo_markdown",

@@ -9,7 +9,10 @@ pub struct TagPickerControl {
 }
 
 #[derive(Clone)]
-pub(crate) struct TagPickerControlInjection(pub ActiveDescendantController);
+pub(crate) struct TagPickerControlInjection {
+    pub active_descendant_controller: ActiveDescendantController,
+    pub tag_group_ref: NodeRef<html::Div>,
+}
 
 impl TagPickerControlInjection {
     pub fn expect_context() -> Self {
