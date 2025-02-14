@@ -196,6 +196,7 @@ pub enum MenuPosition {
     RightEnd,
     BottomStart,
     BottomEnd,
+    FlexibleTop,FlexibleBottom
 }
 
 impl From<MenuPosition> for FollowerPlacement {
@@ -213,6 +214,8 @@ impl From<MenuPosition> for FollowerPlacement {
             MenuPosition::RightEnd => Self::RightEnd,
             MenuPosition::BottomStart => Self::BottomStart,
             MenuPosition::BottomEnd => Self::BottomEnd,
+            MenuPosition::FlexibleTop => Self::FlexibleTop,
+            MenuPosition::FlexibleBottom => Self::FlexibleBottom
         }
     }
 }

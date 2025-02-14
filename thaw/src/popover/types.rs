@@ -58,6 +58,8 @@ pub enum PopoverPosition {
     RightEnd,
     BottomStart,
     BottomEnd,
+    FlexibleTop,
+    FlexibleBottom
 }
 
 impl From<PopoverPosition> for FollowerPlacement {
@@ -75,6 +77,8 @@ impl From<PopoverPosition> for FollowerPlacement {
             PopoverPosition::RightEnd => Self::RightEnd,
             PopoverPosition::BottomStart => Self::BottomStart,
             PopoverPosition::BottomEnd => Self::BottomEnd,
+            PopoverPosition::FlexibleTop => Self::FlexibleTop,
+            PopoverPosition::FlexibleBottom => Self::FlexibleBottom
         }
     }
 }
