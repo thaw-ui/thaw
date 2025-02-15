@@ -1,3 +1,13 @@
+## [0.4.3](https://github.com/thaw-ui/thaw/compare/v0.4.2...v0.4.3) (2025-02-15)
+
+### Features
+
+* Update leptos to v0.7.7, closes [#375](https://github.com/thaw-ui/thaw/pull/375).
+
+### Bug Fixs
+
+* The default initial value of Input, closes [#373](https://github.com/thaw-ui/thaw/pull/373).
+
 ## [0.4.2](https://github.com/thaw-ui/thaw/compare/v0.4.1...v0.4.2) (2025-01-25)
 
 ### Features
