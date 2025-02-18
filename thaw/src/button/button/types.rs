@@ -120,4 +120,11 @@ impl ButtonRef {
             _ = button_el.click();
         }
     }
+
+    /// Focus the button element.
+    pub fn focus(&self) {
+        if let Some(button_el) = self.button_ref.get_untracked() {
+            _ = button_el.focus();
+        }
+    }
 }

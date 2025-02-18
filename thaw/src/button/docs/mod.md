@@ -209,9 +209,14 @@ let click = move |_| {
     button_ref.get_untracked().unwrap().click()
 };
 
+let focus = move |_| {
+    button_ref.get_untracked().unwrap().focus()
+};
+
 view! {
     <Space>
         <Button on_click=click>"Click"</Button>
+        <Button on_click=focus>"Focus"</Button>
         <Button comp_ref=button_ref on_click>{count}</Button>
     </Space>
 }
@@ -244,6 +249,7 @@ view! {
 
 ### ButtonRef Props
 
-| Name  | Type        | Description              |
-| ----- | ----------- | ------------------------ |
+| Name  | Type        | Description               |
+| ----- | ----------- | ------------------------- |
 | click | `Fn(&self)` | Click the button element. |
+| focus | `Fn(&self)` | Focus the button element. |
