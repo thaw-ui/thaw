@@ -64,7 +64,6 @@ pub fn Input(
     size: Signal<InputSize>,
     #[prop(optional, into)] autocomplete: MaybeProp<String>,
 ) -> impl IntoView {
-    let input_style = move || input_style.get().unwrap_or_default();
     mount_style("input", include_str!("./input.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
@@ -186,7 +185,7 @@ pub fn Input(
                 size=input_size
                 placeholder=move || placeholder.get()
                 node_ref=input_ref
-                style=input_style
+                style=move || input_style.get()
                 autocomplete=move || autocomplete.get()
             />
 
