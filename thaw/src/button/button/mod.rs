@@ -5,10 +5,10 @@ pub use types::*;
 use crate::{Icon, Spinner};
 use leptos::{
     either::{Either, EitherOf3},
-    ev,
+    ev, html,
     prelude::*,
 };
-use thaw_utils::{class_list, mount_style, BoxOneCallback};
+use thaw_utils::{class_list, mount_style, BoxOneCallback, ComponentRef};
 
 /// A button triggers an action or event when activated.
 #[component]
@@ -43,6 +43,7 @@ pub fn Button(
     loading: Signal<bool>,
     #[prop(optional, into)] on_click: Option<BoxOneCallback<ev::MouseEvent>>,
     #[prop(optional)] children: Option<Children>,
+    #[prop(optional)] comp_ref: ComponentRef<ButtonRef>,
 ) -> impl IntoView {
     mount_style("button", include_str!("./button.css"));
 
@@ -58,6 +59,9 @@ pub fn Button(
             return None;
         }
     };
+
+    let button_ref = NodeRef::<html::Button>::new();
+    comp_ref.load(ButtonRef { button_ref });
 
     let on_click = move |e| {
         if btn_disabled.get_untracked() {
@@ -91,6 +95,7 @@ pub fn Button(
             disabled=move || disabled.get().then_some("")
             aria-disabled=aria_disabled
             on:click=on_click
+            node_ref=button_ref
         >
             {move || {
                 if loading.get() {

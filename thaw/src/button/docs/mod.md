@@ -197,6 +197,31 @@ view! {
 }
 ```
 
+### Imperative handle
+
+```rust demo
+let count = RwSignal::new(0);
+let on_click = move |_| *count.write() += 1;
+
+let button_ref = ComponentRef::<ButtonRef>::new();
+
+let click = move |_| {
+    button_ref.get_untracked().unwrap().click()
+};
+
+let focus = move |_| {
+    button_ref.get_untracked().unwrap().focus()
+};
+
+view! {
+    <Space>
+        <Button on_click=click>"Click"</Button>
+        <Button on_click=focus>"Focus"</Button>
+        <Button comp_ref=button_ref on_click>{count}</Button>
+    </Space>
+}
+```
+
 ### Button Props
 
 | Name | Type | Default | Description |
@@ -212,6 +237,7 @@ view! {
 | loading | `Signal<bool>` | `false` | Whether the button shows the loading status. |
 | on_click | `Option<BoxOneCallback<ev::MouseEvent>>` | `None` | Listen for button click events. |
 | children | `Option<Children>` |  |  |
+| comp_ref | ref `ComponentRef<ButtonRef>` | `Default::default()` |  |
 
 ### ButtonGroup props
 
@@ -220,3 +246,10 @@ view! {
 | class    | `MaybeProp<String>` | `Default::default()` |                                     |
 | vertical | `bool`              | `false`              | Directions of buttons in the group. |
 | children | `Children`          |                      |                                     |
+
+### ButtonRef Props
+
+| Name  | Type        | Description               |
+| ----- | ----------- | ------------------------- |
+| click | `Fn(&self)` | Click the button element. |
+| focus | `Fn(&self)` | Focus the button element. |

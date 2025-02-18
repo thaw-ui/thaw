@@ -1,5 +1,5 @@
 use crate::SpinnerSize;
-use leptos::prelude::use_context;
+use leptos::{html, prelude::*};
 
 #[derive(Default, PartialEq, Clone, Copy)]
 pub enum ButtonAppearance {
@@ -104,6 +104,27 @@ impl ButtonType {
             Self::Submit => "submit",
             Self::Reset => "reset",
             Self::Button => "button",
+        }
+    }
+}
+
+#[derive(Clone)]
+pub struct ButtonRef {
+    pub(super) button_ref: NodeRef<html::Button>,
+}
+
+impl ButtonRef {
+    /// Click the button element.
+    pub fn click(&self) {
+        if let Some(button_el) = self.button_ref.get_untracked() {
+            _ = button_el.click();
+        }
+    }
+
+    /// Focus the button element.
+    pub fn focus(&self) {
+        if let Some(button_el) = self.button_ref.get_untracked() {
+            _ = button_el.focus();
         }
     }
 }
