@@ -62,6 +62,7 @@ pub fn Input(
     /// Size of the input (changes the font size and spacing).
     #[prop(optional, into)]
     size: Signal<InputSize>,
+    #[prop(optional, into)] autocomplete: MaybeProp<String>,
 ) -> impl IntoView {
     let input_style = move || input_style.get().unwrap_or_default();
     mount_style("input", include_str!("./input.css"));
@@ -186,6 +187,7 @@ pub fn Input(
                 placeholder=move || placeholder.get()
                 node_ref=input_ref
                 style=input_style
+                autocomplete=move || autocomplete.get()
             />
 
             {if let Some(suffix) = input_suffix.and_then(|suffix| suffix.if_.then_some(suffix)) {
