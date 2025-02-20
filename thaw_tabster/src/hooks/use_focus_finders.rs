@@ -11,6 +11,7 @@ pub fn use_focus_finders() -> FocusFinders {
 
     let find_last_focusable = move |container| {
         let mut focusable = tabster.focusable.borrow_mut();
+
         focusable.find_last(
             FindFirstProps {
                 container,

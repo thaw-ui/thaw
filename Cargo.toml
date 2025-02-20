@@ -4,6 +4,7 @@ members = [
     "thaw",
     "thaw_components",
     "thaw_macro",
+    "thaw_shared_contexts",
     "thaw_tabster",
     "thaw_utils",
     "demo",

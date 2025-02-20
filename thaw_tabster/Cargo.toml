@@ -6,5 +6,8 @@ rust-version.workspace = true
 
 [dependencies]
 tabster = { path = "../../tabster" }
+keyborg = { path = "../../keyborg" }
 leptos = { workspace = true }
 web-sys = { version = "0.3.70" }
+gloo-events = "0.2.0"
+send_wrapper = "0.6"

@@ -1,5 +1,6 @@
 use crate::Theme;
 use leptos::{context::Provider, prelude::*};
+use thaw_tabster::use_focus_visible;
 use thaw_utils::{class_list, mount_dynamic_style, mount_style};
 
 #[component]
@@ -21,6 +22,7 @@ pub fn ConfigProvider(
     let theme = theme.unwrap_or_else(|| RwSignal::new(Theme::light()));
     let theme_id = theme_id.unwrap_or_else(|| uuid::Uuid::new_v4().to_string());
     let id = StoredValue::new(theme_id);
+    let node_ref = use_focus_visible(None);
 
     mount_dynamic_style(id.get_value(), move || {
         let mut css_vars = String::new();
@@ -51,6 +53,7 @@ pub fn ConfigProvider(
                 class=class_list!["thaw-config-provider", class]
                 data-thaw-id=id.get_value()
                 dir=move || dir.map(move |dir| dir.get().as_str())
+                node_ref=node_ref
             >
                 {children()}
             </div>
