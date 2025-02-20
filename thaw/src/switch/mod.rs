@@ -11,6 +11,9 @@ pub fn Switch(
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
     name: MaybeProp<String>,
+    /// A String specifying the value of the input control.
+    #[prop(optional, into)]
+    value: MaybeProp<String>,
     /// The rules to validate Field.
     #[prop(optional, into)]
     rules: Vec<SwitchRule>,
@@ -49,6 +52,7 @@ pub fn Switch(
                 type="checkbox"
                 id=id
                 name=name
+                value=move || value.get()
                 checked=checked.get_untracked()
                 prop:checked=move || { checked.get() }
                 node_ref=input_ref
