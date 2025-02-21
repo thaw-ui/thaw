@@ -99,7 +99,7 @@ pub fn use_binder(
                 .unwrap_throw();
         });
 
-        if let Some(arrow_el) = arrow_ref.map(|r| r.get()).flatten() {
+        if let Some(arrow_el) = arrow_ref.map(|r| r.get_untracked()).flatten() {
             let style = (*arrow_el).style();
             let arrow_padding = arrow_padding.unwrap();
 
