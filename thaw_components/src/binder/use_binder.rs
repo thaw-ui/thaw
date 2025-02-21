@@ -104,7 +104,7 @@ pub fn use_binder(
             let arrow_padding = arrow_padding.unwrap();
 
             match placement.get_untracked() {
-                FollowerPlacement::Top | FollowerPlacement::Bottom => {
+                FollowerPlacement::Top | FollowerPlacement::FlexibleTop | FollowerPlacement::Bottom | FollowerPlacement::FlexibleBottom => {
                     let _ = style.set_property(
                         "left",
                         &format!(
