@@ -1,4 +1,5 @@
 main = https://thawui.vercel.app
+0.4.3 = https://thaw-qw87aibc2-thaw.vercel.app
 0.4.2 = https://thaw-gqp50wt0n-thaw.vercel.app
 0.4.1 = https://thaw-lym7uqo2l-thaw.vercel.app
 0.4.0 = https://thaw-dsc1blr5k-thaw.vercel.app
