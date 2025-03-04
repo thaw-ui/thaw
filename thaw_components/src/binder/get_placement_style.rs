@@ -15,6 +15,8 @@ pub enum FollowerPlacement {
     RightEnd,
     BottomStart,
     BottomEnd,
+    FlexibleTop,
+    FlexibleBottom,
 }
 
 impl Copy for FollowerPlacement {}
@@ -22,8 +24,8 @@ impl Copy for FollowerPlacement {}
 impl FollowerPlacement {
     pub fn as_str(&self) -> &'static str {
         match self {
-            Self::Top => "top",
-            Self::Bottom => "bottom",
+            Self::Top | Self::FlexibleTop=> "top",
+            Self::Bottom | Self::FlexibleBottom => "bottom",
             Self::Left => "left",
             Self::Right => "right",
             Self::TopStart => "top-start",
@@ -39,8 +41,8 @@ impl FollowerPlacement {
 
     pub fn transform_origin(&self) -> &'static str {
         match self {
-            Self::Top => "bottom center",
-            Self::Bottom => "top center",
+            Self::Top | Self::FlexibleTop => "bottom center",
+            Self::Bottom | Self::FlexibleBottom => "top center",
             Self::Left => "center right",
             Self::Right => "center left",
             Self::TopStart => "bottom left",
@@ -71,7 +73,7 @@ pub fn get_follower_placement_offset(
     arrow_padding: Option<f64>,
 ) -> Option<FollowerPlacementOffset> {
     let (left, placement, top, transform, max_height) = match placement {
-        FollowerPlacement::Top | FollowerPlacement::TopStart | FollowerPlacement::TopEnd => {
+        FollowerPlacement::Top | FollowerPlacement::FlexibleTop | FollowerPlacement::TopStart | FollowerPlacement::TopEnd => {
             let Some(window_inner_height) = window_inner_height() else {
                 return None;
             };
@@ -81,7 +83,7 @@ pub fn get_follower_placement_offset(
             let top = target_top - content_height;
             let (top, new_placement, max_height) =
                 if top < 0.0 && target_bottom + content_height <= window_inner_height {
-                    let new_placement = if placement == FollowerPlacement::Top {
+                    let new_placement = if placement == FollowerPlacement::Top || placement == FollowerPlacement::FlexibleTop {
                         FollowerPlacement::Bottom
                     } else if placement == FollowerPlacement::TopStart {
                         FollowerPlacement::BottomStart
@@ -107,7 +109,14 @@ pub fn get_follower_placement_offset(
                     )
                 };
 
-            if placement == FollowerPlacement::Top {
+            if placement == FollowerPlacement::FlexibleTop {
+                let left = target_rect.left() + target_rect.width() / 2.0;
+                let max_left = content_rect.width() / 2.0;
+                let max_right = window_inner_width()? - max_left;
+                let transform = String::from("translateX(-50%)");
+                (left.max(max_left).min(max_right), new_placement,top,transform, Some(max_height))
+            }
+            else if placement == FollowerPlacement::Top {
                 let left = target_rect.left() + target_rect.width() / 2.0;
                 let transform = String::from("translateX(-50%)");
                 (left, new_placement, top, transform, Some(max_height))
@@ -124,6 +133,7 @@ pub fn get_follower_placement_offset(
             }
         }
         FollowerPlacement::Bottom
+        | FollowerPlacement::FlexibleBottom
         | FollowerPlacement::BottomStart
         | FollowerPlacement::BottomEnd => {
             let Some(window_inner_height) = window_inner_height() else {
@@ -136,7 +146,7 @@ pub fn get_follower_placement_offset(
             let (top, new_placement, max_height) = if top + content_height > window_inner_height
                 && target_top - content_height >= 0.0
             {
-                let new_placement = if placement == FollowerPlacement::Bottom {
+                let new_placement = if placement == FollowerPlacement::Bottom || placement == FollowerPlacement::FlexibleBottom {
                     FollowerPlacement::Top
                 } else if placement == FollowerPlacement::BottomStart {
                     FollowerPlacement::TopStart
@@ -161,7 +171,14 @@ pub fn get_follower_placement_offset(
                     },
                 )
             };
-            if placement == FollowerPlacement::Bottom {
+
+            if placement == FollowerPlacement::FlexibleBottom {
+                let left = target_rect.left() + target_rect.width() / 2.0;
+                let max_left = content_rect.width() / 2.0;
+                let max_right = window_inner_width()? - max_left;
+                let transform = String::from("translateX(-50%)");
+                (left.max(max_left).min(max_right), new_placement,top,transform, Some(max_height))
+            } else if placement == FollowerPlacement::Bottom {
                 let left = target_rect.left() + target_rect.width() / 2.0;
                 let transform = String::from("translateX(-50%)");
                 (left, new_placement, top, transform, Some(max_height))
