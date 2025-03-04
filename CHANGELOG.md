@@ -1,3 +1,26 @@
+## [0.4.4](https://github.com/thaw-ui/thaw/compare/v0.4.3...v0.4.4) (2025-03-02)
+
+### Features
+
+* Add click imperative handle to `Button`, closes [#377](https://github.com/thaw-ui/thaw/pull/377).
+* Added autocomplete to `Input`, closes [#379](https://github.com/thaw-ui/thaw/pull/379).
+* Add value prop to `Switch`, closes [#381](https://github.com/thaw-ui/thaw/pull/381).
+* Adds `Persona` component, closes [#386](https://github.com/thaw-ui/thaw/pull/386).
+
+### Bug Fixs
+
+* Signal tracking problem in use_binder, closes [#383](https://github.com/thaw-ui/thaw/pull/383).
+
+## [0.4.3](https://github.com/thaw-ui/thaw/compare/v0.4.2...v0.4.3) (2025-02-15)
+
+### Features
+
+* Update leptos to v0.7.7, closes [#375](https://github.com/thaw-ui/thaw/pull/375).
+
+### Bug Fixs
+
+* The default initial value of Input, closes [#373](https://github.com/thaw-ui/thaw/pull/373).
+
 ## [0.4.2](https://github.com/thaw-ui/thaw/compare/v0.4.1...v0.4.2) (2025-01-25)
 
 ### Features

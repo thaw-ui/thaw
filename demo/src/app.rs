@@ -95,6 +95,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/message-bar") view=MessageBarMdPage />
                     <Route path=path!("/nav") view=NavMdPage />
                     <Route path=path!("/pagination") view=PaginationMdPage />
+                    <Route path=path!("/persona") view=PersonaMdPage />
                     <Route path=path!("/popover") view=PopoverMdPage />
                     <Route path=path!("/progress-bar") view=ProgressBarMdPage />
                     <Route path=path!("/radio") view=RadioMdPage />

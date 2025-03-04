@@ -143,6 +143,7 @@ view! {
 | input_prefix | slot `Option<InputPrefix>` | `None` |  |
 | input_suffix | slot `Option<InputSuffix>` | `None` |  |
 | input_style    | `MaybeProp<String>` | `Default::default()` | Style of the input. |
+| autocomplete | `MaybeProp<String>` | `Default::default()` | Autocomplete value of the input. |
 | comp_ref | ref `ComponentRef<InputRef>` | `Default::default()` |  |
 
 ### InputPrefix Props

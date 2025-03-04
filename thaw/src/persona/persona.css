@@ -1,0 +1,96 @@
+.thaw-persona {
+    display: inline-grid;
+    grid-auto-rows: max-content;
+    grid-auto-flow: column;
+    justify-items: start;
+    grid-template-columns: max-content [middle] auto;
+}
+
+.thaw-persona.thaw-persona--center:not(.thaw-persona--below) {
+    /* This template is needed to make sure the Avatar is centered when it takes up more space than the text lines */
+    grid-template-rows: 1fr [primary] max-content [secondary] max-content [tertiary] max-content [quaternary] max-content 1fr;
+}
+
+.thaw-persona--before {
+    justify-items: end;
+    grid-template-columns: auto [middle] max-content;
+}
+
+.thaw-persona--below {
+    grid-auto-flow: unset;
+    justify-items: center;
+    grid-template-columns: unset;
+}
+
+.thaw-persona:not(.thaw-persona--below) .thaw-persona__avatar {
+    grid-row-start: span 5;
+}
+
+.thaw-persona--start .thaw-persona__avatar {
+    align-self: start;
+}
+
+.thaw-persona--center .thaw-persona__avatar {
+    align-self: center;
+}
+
+.thaw-persona.thaw-persona--center:not(.thaw-persona--below)
+    .thaw-persona__avatar {
+    grid-row-start: span 6;
+}
+
+.thaw-persona--after .thaw-persona__avatar {
+    margin-right: var(--thaw-persona__avatar-spacing);
+}
+
+.thaw-persona--below .thaw-persona__avatar {
+    margin-bottom: var(--thaw-persona__avatar-spacing);
+}
+
+.thaw-persona--before .thaw-persona__avatar {
+    margin-left: var(--thaw-persona__avatar-spacing);
+}
+
+.thaw-persona__primary-text {
+    display: block;
+    color: var(--colorNeutralForeground1);
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightRegular);
+    line-height: var(--lineHeightBase300);
+}
+
+.thaw-persona__secondary-text {
+    margin-top: -2px;
+}
+
+.thaw-persona__secondary-text,
+.thaw-persona__tertiary-text,
+.thaw-persona__quaternary-text {
+    display: block;
+    color: var(--colorNeutralForeground2);
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    font-weight: var(--fontWeightRegular);
+    line-height: var(--lineHeightBase200);
+}
+
+.thaw-persona.thaw-persona--center:not(.thaw-persona--below)
+    .thaw-persona__primary-text {
+    grid-row-start: primary;
+}
+
+.thaw-persona.thaw-persona--center:not(.thaw-persona--below)
+    .thaw-persona__secondary-text {
+    grid-row-start: secondary;
+}
+
+.thaw-persona.thaw-persona--center:not(.thaw-persona--below)
+    .thaw-persona__tertiary-text {
+    grid-row-start: tertiary;
+}
+
+.thaw-persona.thaw-persona--center:not(.thaw-persona--below)
+    .thaw-persona__quaternary-text {
+    grid-row-start: quaternary;
+}
