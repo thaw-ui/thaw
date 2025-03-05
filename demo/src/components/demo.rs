@@ -20,7 +20,7 @@ pub fn Demo(
     let css_vars = Memo::new(move |_| {
         let mut css_vars = String::new();
         theme.with(|theme| {
-            if theme.color.color_scheme == "dark" {
+            if theme.color.color_scheme() == "dark" {
                 css_vars.push_str("--demo-border-color: #383f52;");
                 css_vars.push_str("--demo-background-color: #242832;");
             } else {
@@ -32,7 +32,12 @@ pub fn Demo(
     });
 
     let code_class = Memo::new(move |_| {
-        theme.with(|theme| format!("demo-demo__code color-scheme--{}", theme.color.color_scheme))
+        theme.with(|theme| {
+            format!(
+                "demo-demo__code color-scheme--{}",
+                theme.color.color_scheme()
+            )
+        })
     });
     let is_show_code = RwSignal::new(children.is_none());
 

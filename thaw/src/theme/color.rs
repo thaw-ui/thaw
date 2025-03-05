@@ -1,135 +1,137 @@
+use getset::{Getters, Setters};
 use std::collections::HashMap;
-
 use thaw_macro::WriteCSSVars;
 
-#[derive(Clone, WriteCSSVars)]
+#[derive(Clone, WriteCSSVars, Getters, Setters)]
+#[getset(get = "pub", set = "pub")]
 pub struct ColorTheme {
-    pub color_scheme: String,
+    color_scheme: String,
 
-    pub color_neutral_background_static: String,
-    pub color_neutral_background_inverted: String,
-    pub color_neutral_background_disabled: String,
-    pub color_neutral_background_1: String,
-    pub color_neutral_background_1_hover: String,
-    pub color_neutral_background_1_pressed: String,
-    pub color_neutral_background_3: String,
-    pub color_neutral_background_3_hover: String,
-    pub color_neutral_background_3_pressed: String,
-    pub color_neutral_background_4: String,
-    pub color_neutral_background_4_hover: String,
-    pub color_neutral_background_4_pressed: String,
-    pub color_neutral_background_5: String,
-    pub color_neutral_background_6: String,
+    color_neutral_background_static: String,
+    color_neutral_background_inverted: String,
+    color_neutral_background_disabled: String,
+    color_neutral_background_1: String,
+    color_neutral_background_1_hover: String,
+    color_neutral_background_1_pressed: String,
+    color_neutral_background_3: String,
+    color_neutral_background_3_hover: String,
+    color_neutral_background_3_pressed: String,
+    color_neutral_background_4: String,
+    color_neutral_background_4_hover: String,
+    color_neutral_background_4_pressed: String,
+    color_neutral_background_5: String,
+    color_neutral_background_6: String,
 
-    pub color_neutral_foreground_static_inverted: String,
-    pub color_neutral_foreground_disabled: String,
-    pub color_neutral_foreground_1: String,
-    pub color_neutral_foreground_1_hover: String,
-    pub color_neutral_foreground_1_pressed: String,
-    pub color_neutral_foreground_2: String,
-    pub color_neutral_foreground_2_hover: String,
-    pub color_neutral_foreground_2_pressed: String,
-    pub color_neutral_foreground_2_brand_hover: String,
-    pub color_neutral_foreground_2_brand_pressed: String,
-    pub color_neutral_foreground_2_brand_selected: String,
-    pub color_neutral_foreground_3: String,
-    pub color_neutral_foreground_4: String,
-    pub color_neutral_foreground_on_brand: String,
-    pub color_neutral_foreground_inverted: String,
+    color_neutral_foreground_static_inverted: String,
+    color_neutral_foreground_disabled: String,
+    color_neutral_foreground_1: String,
+    color_neutral_foreground_1_hover: String,
+    color_neutral_foreground_1_pressed: String,
+    color_neutral_foreground_2: String,
+    color_neutral_foreground_2_hover: String,
+    color_neutral_foreground_2_pressed: String,
+    color_neutral_foreground_2_brand_hover: String,
+    color_neutral_foreground_2_brand_pressed: String,
+    color_neutral_foreground_2_brand_selected: String,
+    color_neutral_foreground_3: String,
+    color_neutral_foreground_4: String,
+    color_neutral_foreground_on_brand: String,
+    color_neutral_foreground_inverted: String,
 
-    pub color_neutral_stroke_disabled: String,
-    pub color_neutral_stroke_1: String,
-    pub color_neutral_stroke_1_hover: String,
-    pub color_neutral_stroke_1_pressed: String,
-    pub color_neutral_stroke_2: String,
-    pub color_neutral_stroke_accessible: String,
-    pub color_neutral_stroke_accessible_hover: String,
-    pub color_neutral_stroke_accessible_pressed: String,
+    color_neutral_stroke_disabled: String,
+    color_neutral_stroke_1: String,
+    color_neutral_stroke_1_hover: String,
+    color_neutral_stroke_1_pressed: String,
+    color_neutral_stroke_2: String,
+    color_neutral_stroke_accessible: String,
+    color_neutral_stroke_accessible_hover: String,
+    color_neutral_stroke_accessible_pressed: String,
 
-    pub color_neutral_shadow_ambient: String,
-    pub color_neutral_shadow_key: String,
+    color_neutral_shadow_ambient: String,
+    color_neutral_shadow_key: String,
 
-    pub color_neutral_stencil_1: String,
-    pub color_neutral_stencil_2: String,
+    color_neutral_stencil_1: String,
+    color_neutral_stencil_2: String,
 
-    pub color_compound_brand_foreground_1: String,
-    pub color_compound_brand_foreground_1_hover: String,
-    pub color_compound_brand_foreground_1_pressed: String,
-    pub color_compound_brand_background: String,
-    pub color_compound_brand_background_hover: String,
-    pub color_compound_brand_background_pressed: String,
-    pub color_compound_brand_stroke: String,
-    pub color_compound_brand_stroke_pressed: String,
+    color_compound_brand_foreground_1: String,
+    color_compound_brand_foreground_1_hover: String,
+    color_compound_brand_foreground_1_pressed: String,
+    color_compound_brand_background: String,
+    color_compound_brand_background_hover: String,
+    color_compound_brand_background_pressed: String,
+    color_compound_brand_stroke: String,
+    color_compound_brand_stroke_pressed: String,
 
-    pub color_brand_background: String,
-    pub color_brand_background_hover: String,
-    pub color_brand_background_pressed: String,
-    pub color_brand_background_2: String,
-    pub color_brand_foreground_1: String,
-    pub color_brand_foreground_2: String,
-    pub color_brand_stroke_1: String,
-    pub color_brand_stroke_2: String,
-    pub color_brand_stroke_2_contrast: String,
-    pub color_brand_foreground_link: String,
-    pub color_brand_foreground_link_hover: String,
-    pub color_brand_foreground_link_pressed: String,
+    color_brand_background: String,
+    color_brand_background_hover: String,
+    color_brand_background_pressed: String,
+    color_brand_background_2: String,
+    color_brand_foreground_1: String,
+    color_brand_foreground_2: String,
+    color_brand_stroke_1: String,
+    color_brand_stroke_2: String,
+    color_brand_stroke_2_contrast: String,
+    color_brand_foreground_link: String,
+    color_brand_foreground_link_hover: String,
+    color_brand_foreground_link_pressed: String,
 
-    pub color_stroke_focus_2: String,
+    color_stroke_focus_2: String,
 
-    pub color_palette_red_background_1: String,
-    pub color_palette_red_background_3: String,
-    pub color_palette_red_foreground_1: String,
-    pub color_palette_red_foreground_3: String,
-    pub color_palette_red_border_1: String,
-    pub color_palette_red_border_2: String,
-    pub color_palette_green_background_1: String,
-    pub color_palette_green_background_3: String,
-    pub color_palette_green_foreground_1: String,
-    pub color_palette_green_foreground_3: String,
-    pub color_palette_green_border_1: String,
-    pub color_palette_green_border_2: String,
-    pub color_palette_yellow_background_1: String,
-    pub color_palette_yellow_background_3: String,
-    pub color_palette_yellow_foreground_1: String,
-    pub color_palette_yellow_foreground_2: String,
-    pub color_palette_yellow_border_1: String,
+    color_palette_red_background_1: String,
+    color_palette_red_background_3: String,
+    color_palette_red_foreground_1: String,
+    color_palette_red_foreground_3: String,
+    color_palette_red_border_1: String,
+    color_palette_red_border_2: String,
+    color_palette_green_background_1: String,
+    color_palette_green_background_3: String,
+    color_palette_green_foreground_1: String,
+    color_palette_green_foreground_3: String,
+    color_palette_green_border_1: String,
+    color_palette_green_border_2: String,
+    color_palette_yellow_background_1: String,
+    color_palette_yellow_background_3: String,
+    color_palette_yellow_foreground_1: String,
+    color_palette_yellow_foreground_2: String,
+    color_palette_yellow_border_1: String,
 
-    pub color_palette_dark_orange_background_1: String,
-    pub color_palette_dark_orange_background_3: String,
-    pub color_palette_dark_orange_foreground_1: String,
-    pub color_palette_dark_orange_foreground_3: String,
-    pub color_palette_dark_orange_border_1: String,
+    color_palette_dark_orange_background_1: String,
+    color_palette_dark_orange_background_3: String,
+    color_palette_dark_orange_foreground_1: String,
+    color_palette_dark_orange_foreground_3: String,
+    color_palette_dark_orange_border_1: String,
 
-    pub color_status_success_background_1: String,
-    pub color_status_success_foreground_1: String,
-    pub color_status_success_border_1: String,
-    pub color_status_warning_background_1: String,
-    pub color_status_warning_foreground_3: String,
-    pub color_status_warning_border_1: String,
-    pub color_status_danger_background_1: String,
-    pub color_status_danger_foreground_1: String,
-    pub color_status_danger_border_1: String,
+    color_status_success_background_1: String,
+    color_status_success_foreground_1: String,
+    color_status_success_border_1: String,
+    color_status_warning_background_1: String,
+    color_status_warning_foreground_3: String,
+    color_status_warning_border_1: String,
+    color_status_danger_background_1: String,
+    color_status_danger_foreground_1: String,
+    color_status_danger_border_1: String,
 
-    pub color_subtle_background: String,
-    pub color_subtle_background_hover: String,
-    pub color_subtle_background_pressed: String,
-    pub color_transparent_background: String,
-    pub color_transparent_background_hover: String,
-    pub color_transparent_background_pressed: String,
-    pub color_transparent_stroke: String,
+    color_subtle_background: String,
+    color_subtle_background_hover: String,
+    color_subtle_background_pressed: String,
+    color_transparent_background: String,
+    color_transparent_background_hover: String,
+    color_transparent_background_pressed: String,
+    color_transparent_stroke: String,
 
-    pub shadow4: String,
-    pub shadow8: String,
-    pub shadow16: String,
-    pub shadow64: String,
+    shadow4: String,
+    shadow8: String,
+    shadow16: String,
+    shadow64: String,
 }
 
 impl ColorTheme {
-
-    fn validate_palette(brand_colors: &HashMap<i32, &str>) { 
+    fn validate_palette(brand_colors: &HashMap<i32, &str>) {
         for v in 1..=16 {
-            let variant = v*10; 
-            brand_colors.get(&variant).unwrap_or_else(|| panic!("Missing variant {} in brand color palette", variant));
+            let variant = v * 10;
+            brand_colors
+                .get(&variant)
+                .unwrap_or_else(|| panic!("Missing variant {} in brand color palette", variant));
         }
     }
     pub fn custom_light(brand_colors: &HashMap<i32, &str>) -> Self {
@@ -152,12 +154,14 @@ impl ColorTheme {
         theme.color_compound_brand_background_pressed = brand_colors.get(&60).unwrap().to_string();
         theme.color_compound_brand_foreground_1 = brand_colors.get(&80).unwrap().to_string();
         theme.color_compound_brand_foreground_1_hover = brand_colors.get(&70).unwrap().to_string();
-        theme.color_compound_brand_foreground_1_pressed = brand_colors.get(&60).unwrap().to_string();
+        theme.color_compound_brand_foreground_1_pressed =
+            brand_colors.get(&60).unwrap().to_string();
         theme.color_compound_brand_stroke = brand_colors.get(&80).unwrap().to_string();
         theme.color_compound_brand_stroke_pressed = brand_colors.get(&60).unwrap().to_string();
         theme.color_neutral_foreground_2_brand_hover = brand_colors.get(&80).unwrap().to_string();
         theme.color_neutral_foreground_2_brand_pressed = brand_colors.get(&70).unwrap().to_string();
-        theme.color_neutral_foreground_2_brand_selected = brand_colors.get(&80).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_selected =
+            brand_colors.get(&80).unwrap().to_string();
         theme
     }
 
@@ -181,12 +185,14 @@ impl ColorTheme {
         theme.color_compound_brand_background_pressed = brand_colors.get(&90).unwrap().to_string();
         theme.color_compound_brand_foreground_1 = brand_colors.get(&100).unwrap().to_string();
         theme.color_compound_brand_foreground_1_hover = brand_colors.get(&110).unwrap().to_string();
-        theme.color_compound_brand_foreground_1_pressed = brand_colors.get(&90).unwrap().to_string();
+        theme.color_compound_brand_foreground_1_pressed =
+            brand_colors.get(&90).unwrap().to_string();
         theme.color_compound_brand_stroke = brand_colors.get(&100).unwrap().to_string();
         theme.color_compound_brand_stroke_pressed = brand_colors.get(&90).unwrap().to_string();
         theme.color_neutral_foreground_2_brand_hover = brand_colors.get(&100).unwrap().to_string();
         theme.color_neutral_foreground_2_brand_pressed = brand_colors.get(&90).unwrap().to_string();
-        theme.color_neutral_foreground_2_brand_selected = brand_colors.get(&100).unwrap().to_string();
+        theme.color_neutral_foreground_2_brand_selected =
+            brand_colors.get(&100).unwrap().to_string();
         theme
     }
 
