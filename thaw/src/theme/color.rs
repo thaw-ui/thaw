@@ -95,6 +95,9 @@ pub struct ColorTheme {
     color_palette_yellow_foreground_2: String,
     color_palette_yellow_border_1: String,
 
+    color_palette_marigold_background_2: String,
+    color_palette_marigold_border_active: String,
+
     color_palette_dark_orange_background_1: String,
     color_palette_dark_orange_background_3: String,
     color_palette_dark_orange_foreground_1: String,
@@ -289,6 +292,9 @@ impl ColorTheme {
             color_palette_yellow_foreground_2: "#817400".into(),
             color_palette_yellow_border_1: "#fef7b2".into(),
 
+            color_palette_marigold_background_2: "#f9e2ae".into(),
+            color_palette_marigold_border_active: "#eaa300".into(),
+
             color_palette_dark_orange_background_1: "#fdf6f3".into(),
             color_palette_dark_orange_background_3: "#da3b01".into(),
             color_palette_dark_orange_foreground_1: "#c43501".into(),
@@ -412,6 +418,9 @@ impl ColorTheme {
             color_palette_yellow_foreground_1: "#feee66".into(),
             color_palette_yellow_foreground_2: "#fef7b2".into(),
             color_palette_yellow_border_1: "#fde300".into(),
+
+            color_palette_marigold_background_2: "#835b00".into(),
+            color_palette_marigold_border_active: "#f2c661".into(),
 
             color_palette_dark_orange_background_1: "#411200".into(),
             color_palette_dark_orange_background_3: "#da3b01".into(),
