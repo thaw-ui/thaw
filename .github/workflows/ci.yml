@@ -27,6 +27,7 @@ jobs:
                   toolchain: stable
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: Install Trunk
               uses: jetli/trunk-action@v0.4.0
               with:
@@ -47,6 +48,7 @@ jobs:
                   toolchain: nightly
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: Install Trunk
               uses: jetli/trunk-action@v0.4.0
               with:
@@ -67,6 +69,7 @@ jobs:
                   toolchain: stable
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: Install Cargo BInstall
               uses: cargo-bins/cargo-binstall@main
             - name: Install Cargo Leptos
@@ -87,6 +90,7 @@ jobs:
                   toolchain: nightly
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: Install Cargo BInstall
               uses: cargo-bins/cargo-binstall@main
             - name: Install Cargo Leptos
@@ -108,6 +112,7 @@ jobs:
                   toolchain: stable
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: cargo test
               run: |
                   cd thaw_utils
