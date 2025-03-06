@@ -63,4 +63,4 @@
 
 ### 0.1.0-beta2 - 0.4.0-rc (2023-11-14 - 2024-12-09)
 
-See [0.1 - 0.4 changelog](./changelog/CHANGELOG-0.1-0.4.md)
+See [0.1 - 0.4 changelog](./changelogs/CHANGELOG-0.1-0.4.md)
