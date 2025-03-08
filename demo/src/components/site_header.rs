@@ -195,13 +195,13 @@ pub fn SiteHeader() -> impl IntoView {
                             attr:style="font-size: 22px; padding: 0px 6px;"
                         />
                     </MenuTrigger>
-                    <MenuItem value=theme_name>{theme_name}</MenuItem>
-                    <MenuItem icon=icondata::AiGithubOutlined value="github">
+                    <MenuItem<String> value=theme_name>{theme_name}</MenuItem<String>>
+                    <MenuItem<String> icon=icondata::AiGithubOutlined value="github">
                         "Github"
-                    </MenuItem>
-                    <MenuItem icon=icondata::BiDiscordAlt value="discord">
+                    </MenuItem<String>>
+                    <MenuItem<String> icon=icondata::BiDiscordAlt value="discord">
                         "Discord"
-                    </MenuItem>
+                    </MenuItem<String>>
                     {
                         use crate::pages::{gen_nav_data, NavGroupOption, NavItemOption};
                         gen_nav_data()
@@ -216,7 +216,7 @@ pub fn SiteHeader() -> impl IntoView {
                                         .into_iter()
                                         .map(|item| {
                                             let NavItemOption { label, value, .. } = item;
-                                            view! { <MenuItem value=value>{label}</MenuItem> }
+                                            view! { <MenuItem<String> value=value.to_owned()>{label}</MenuItem<String>> }
                                         })
                                         .collect_view()}
                                 }
