@@ -156,6 +156,11 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Customize Theme",
                 },
                 NavItemOption {
+                    group: Some("Theme"),
+                    value: "/guide/style-element-position",
+                    label: "Style Element Position",
+                },
+                NavItemOption {
                     group: None,
                     value: "/guide/FAQs",
                     label: "FAQs",

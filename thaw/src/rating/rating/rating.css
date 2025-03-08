@@ -99,6 +99,11 @@
     color: var(--colorBrandForeground1);
 }
 
+.thaw-rating-item--marigold .thaw-rating-item__unselected-icon,
+.thaw-rating-item--marigold .thaw-rating-item__selected-icon {
+    color: var(--colorPaletteMarigoldBorderActive);
+}
+
 .thaw-rating-item--filled .thaw-rating-item__unselected-icon {
     stroke: var(--colorTransparentStroke);
     color: var(--colorNeutralBackground6);
@@ -107,6 +112,11 @@
 .thaw-rating-item--filled.thaw-rating-item--brand
     .thaw-rating-item__unselected-icon {
     color: var(--colorBrandBackground2);
+}
+
+.thaw-rating-item--filled.thaw-rating-item--marigold
+    .thaw-rating-item__unselected-icon {
+    color: var(--colorPaletteMarigoldBackground2);
 }
 
 .thaw-rating-item--half .thaw-rating-item__unselected-icon {
