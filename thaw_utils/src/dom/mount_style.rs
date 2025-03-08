@@ -34,7 +34,16 @@ pub fn mount_style(id: &str, content: &'static str) {
                 .expect("create style element error");
             _ = style.set_attribute("id", &id);
             style.set_text_content(Some(content));
-            _ = head.prepend_with_node_1(&style);
+
+            let thaw_meta = head
+                .query_selector(&format!(r#"meta[name="thaw-ui-style"]"#))
+                .expect(r#"query meta[name="thaw-ui-style"] element error"#);
+
+            if let Some(thaw_meta) = thaw_meta {
+                let _ = head.insert_before(&style, Some(&thaw_meta));
+            } else {
+                let _ = head.prepend_with_node_1(&style);
+            }
         }
     }
 }
@@ -68,8 +77,17 @@ pub fn mount_dynamic_style<T: Fn() -> String + Send + Sync + 'static>(id: String
                     let style = document()
                         .create_element("style")
                         .expect("create style element error");
-                    _ = style.set_attribute("id", &id);
-                    _ = head.prepend_with_node_1(&style);
+                    let _ = style.set_attribute("id", &id);
+
+                    let thaw_meta = head
+                        .query_selector(&format!(r#"meta[name="thaw-ui-style"]"#))
+                        .expect(r#"query meta[name="thaw-ui-style"] element error"#);
+
+                    if let Some(thaw_meta) = thaw_meta {
+                        let _ = head.insert_before(&style, Some(&thaw_meta));
+                    } else {
+                        let _ = head.prepend_with_node_1(&style);
+                    }
 
                     style
                 });

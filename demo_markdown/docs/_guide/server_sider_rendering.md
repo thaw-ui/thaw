@@ -32,6 +32,15 @@ For [start-actix](https://github.com/leptos-rs/start-actix), it is in the [src/m
 
 ## Features
 
+<MessageBar layout=MessageBarLayout::Multiline intent=MessageBarIntent::Warning>
+    <MessageBarBody>
+      <h3 style="margin: 0">"Prerequisite"</h3>
+      <p>
+        "The following configuration is only suitable for enabling one of SSR and Hydrate at the same time. If you want to enable both SSR and Hydrate, please refer to the configuration of cargo-leptos section below."
+      </p>
+    </MessageBarBody>
+</MessageBar>
+
 To enable the ssr mode, the following configurations are required:
 
 ```toml

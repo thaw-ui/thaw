@@ -1,5 +1,25 @@
 # Tooltip
 
+```rust
+/// Prerequisite
+/// Tooltip can only contain one child.
+view!{
+    // ✅
+    <Tooltip content="Example tooltip">
+        <button>"Click"</button>
+    </Tooltip>
+    // ✅
+    <Tooltip content="Example tooltip">
+        <Button>"Click"</Button>
+    </Tooltip>
+    // 🙅
+    <Tooltip content="Example tooltip">
+        <button>"Click"</button>
+        <button>"Click"</button>
+    </Tooltip>
+}
+```
+
 ```rust demo
 view! {
     <Tooltip content="Example tooltip">
