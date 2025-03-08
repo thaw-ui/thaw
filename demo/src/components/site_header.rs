@@ -5,6 +5,14 @@ use leptos_router::hooks::use_navigate;
 // use leptos_use::{storage::use_local_storage, utils::FromToStringCodec};
 use thaw::*;
 
+#[derive(Clone)]
+enum HeaderAction {
+    ChangeTheme,
+    Github,
+    Discord,
+    Navigate(&'static str),
+}
+
 #[component]
 pub fn SiteHeader() -> impl IntoView {
     let navigate = use_navigate();
@@ -172,19 +180,18 @@ pub fn SiteHeader() -> impl IntoView {
                 </AutoComplete>
                 <Menu
                     position=MenuPosition::BottomEnd
-                    on_select=move |value: String| match value.as_str() {
-                        "Dark" => change_theme(MouseEvent::new("click").unwrap()),
-                        "Light" => change_theme(MouseEvent::new("click").unwrap()),
-                        "github" => {
+                    on_select=move |value: HeaderAction| match value {
+                        HeaderAction::ChangeTheme => change_theme(MouseEvent::new("click").unwrap()),
+                        HeaderAction::Github => {
                             _ = window().open_with_url("http://github.com/thaw-ui/thaw");
                         }
-                        "discord" => {
+                        HeaderAction::Discord => {
                             _ = window()
                                 .open_with_url(
                                     "https://discord.gg/VwtS7b8c",
                                 );
                         }
-                        _ => navigate_signal.get()(&value, Default::default()),
+                        HeaderAction::Navigate(value) => navigate_signal.get()(&value, Default::default()),
                     }
                 >
                     <MenuTrigger slot>
@@ -195,13 +202,13 @@ pub fn SiteHeader() -> impl IntoView {
                             attr:style="font-size: 22px; padding: 0px 6px;"
                         />
                     </MenuTrigger>
-                    <MenuItem value=theme_name>{theme_name}</MenuItem>
-                    <MenuItem icon=icondata::AiGithubOutlined value="github">
+                    <MenuItem<HeaderAction> value=HeaderAction::ChangeTheme>{theme_name}</MenuItem<HeaderAction>>
+                    <MenuItem<HeaderAction> value=HeaderAction::Github icon=icondata::AiGithubOutlined>
                         "Github"
-                    </MenuItem>
-                    <MenuItem icon=icondata::BiDiscordAlt value="discord">
+                    </MenuItem<HeaderAction>>
+                    <MenuItem<HeaderAction>  value=HeaderAction::Discord icon=icondata::BiDiscordAlt>
                         "Discord"
-                    </MenuItem>
+                    </MenuItem<HeaderAction>>
                     {
                         use crate::pages::{gen_nav_data, NavGroupOption, NavItemOption};
                         gen_nav_data()
@@ -216,7 +223,7 @@ pub fn SiteHeader() -> impl IntoView {
                                         .into_iter()
                                         .map(|item| {
                                             let NavItemOption { label, value, .. } = item;
-                                            view! { <MenuItem value=value>{label}</MenuItem> }
+                                            view! { <MenuItem<HeaderAction> value=HeaderAction::Navigate(value)>{label}</MenuItem<HeaderAction>> }
                                         })
                                         .collect_view()}
                                 }

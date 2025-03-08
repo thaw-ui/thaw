@@ -20,17 +20,17 @@ view! {
             <MenuTrigger slot>
                 <Button>"Hover"</Button>
             </MenuTrigger>
-            <MenuItem value="facebook" icon=icondata::AiFacebookOutlined>"Facebook"</MenuItem>
-            <MenuItem value="twitter" disabled=true icon=icondata::AiTwitterOutlined>"Twitter"</MenuItem>
+            <MenuItem<String> value="facebook" icon=icondata::AiFacebookOutlined>"Facebook"</MenuItem<String>>
+            <MenuItem<String> value="twitter" disabled=true icon=icondata::AiTwitterOutlined>"Twitter"</MenuItem<String>>
         </Menu>
 
         <Menu on_select>
             <MenuTrigger slot>
                 <Button>"Click"</Button>
             </MenuTrigger>
-            <MenuItem value="facebook" icon=icondata::AiFacebookOutlined>"Facebook"</MenuItem>
-            <MenuItem value="twitter" icon=icondata::AiTwitterOutlined>"Twitter"</MenuItem>
-            <MenuItem value="no_icon" disabled=true>"Mastodon"</MenuItem>
+            <MenuItem<String> value="facebook" icon=icondata::AiFacebookOutlined>"Facebook"</MenuItem<String>>
+            <MenuItem<String> value="twitter" icon=icondata::AiTwitterOutlined>"Twitter"</MenuItem<String>>
+            <MenuItem<String> value="no_icon" disabled=true>"Mastodon"</MenuItem<String>>
         </Menu>
     </Space>
 }
@@ -41,7 +41,7 @@ view! {
 ```rust demo
 use leptos_meta::Style;
 
-let on_select = move |value| leptos::logging::warn!("{}", value);
+let on_select = move |value: String| leptos::logging::warn!("{}", value);
 
 view! {
     <Style>
@@ -53,7 +53,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Top Start"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -61,7 +61,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Top"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -69,7 +69,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Top End"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -77,7 +77,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Left Start"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem offset=1>
@@ -85,7 +85,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Right Start"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -93,7 +93,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Left"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem offset=1>
@@ -101,7 +101,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Right"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -109,7 +109,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Left End"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem offset=1>
@@ -117,7 +117,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Right End"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -125,7 +125,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Bottom Start"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -133,7 +133,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Bottom"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
         <GridItem>
@@ -141,7 +141,7 @@ view! {
                 <MenuTrigger slot>
                     <Button>"Bottom End"</Button>
                 </MenuTrigger>
-                <MenuItem value="content">"Content"</MenuItem>
+                <MenuItem<String> value="content">"Content"</MenuItem<String>>
             </Menu>
         </GridItem>
     </Grid>
@@ -153,7 +153,7 @@ view! {
 | Name         | Type                        | Default                  | Description                                  |
 | ------------ | --------------------------- | ------------------------ | -------------------------------------------- |
 | class        | `MaybeProp<String>,`        | `Default::default()`     |                                              |
-| on_select    | `BoxOneCallback<String>`    |                          | Called when item is selected.                |
+| on_select    | `BoxOneCallback<V>`         |                          | Called when item is selected.                |
 | trigger_type | `MenuTriggerType`           | `MenuTriggerType::Click` | Action that displays the menu.               |
 | position     | `MenuPosition`              | `MenuPosition::Bottom`   | Menu position.                               |
 | appearance   | `MaybeProp<MenuAppearance>` | `Default::default()`     |                                              |
@@ -166,12 +166,12 @@ view! {
 | -------- | ------------------------------------------- | ------- | ----------- |
 | children | `T: AddAnyAttr + IntoView + Send + 'static` |         |             |
 
-### MenuItem Props
+### MenuItem<V> Props
 
 | Name     | Type                             | Default              | Description                        |
 | -------- | -------------------------------- | -------------------- | ---------------------------------- |
 | class    | `MaybeProp<String>`              | `Default::default()` |                                    |
-| value    | `Signal<String>`                 | `Default::default()` | The value of the menu item.        |
+| value    | `Signal<V>`                      | `Default::default()` | The value of the menu item.        |
 | icon     | `MaybeProp<icondata_core::Icon>` | `None`               | The icon of the menu item.         |
 | disabled | `Signal<bool>`                   | `false`              | Whether the menu item is disabled. |
 | children | `Children`                       |                      |                                    |
