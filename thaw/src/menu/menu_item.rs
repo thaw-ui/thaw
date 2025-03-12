@@ -4,14 +4,13 @@ use thaw_components::{Fallback, If, OptionComp, Then};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
-pub fn MenuItem(
+pub fn MenuItem<V: Clone + Send + Sync + 'static>(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The icon of the menu item.
     #[prop(optional, into)]
     icon: MaybeProp<icondata_core::Icon>,
     /// The value of the menu item.
-    #[prop(into)]
-    value: Signal<String>,
+    value: V,
     /// Whether the menu item is disabled.
     #[prop(optional, into)]
     disabled: Signal<bool>,
@@ -33,7 +32,7 @@ pub fn MenuItem(
             return;
         }
 
-        on_select(value.get_untracked());
+        on_select(value.clone());
     };
 
     view! {

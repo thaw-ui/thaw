@@ -48,8 +48,9 @@ view! {
 ```rust demo
 view! {
     <Flex vertical=true inline=true>
-        <Rating />
-        <Rating color=RatingColor::Brand/>
+        <Rating value=3.0/>
+        <Rating color=RatingColor::Brand value=3.0/>
+        <Rating color=RatingColor::Marigold value=3.0/>
     </Flex>
 }
 ```
