@@ -20,10 +20,10 @@ thaw_macro = { version = "0.1.0", path = "./thaw_macro" }
 thaw_utils = { version = "0.1.1", path = "./thaw_utils" }
 
 # leptos
-leptos = { git = "https://github.com/leptos-rs/leptos", branch = "leptos_0.8" }
-leptos_meta = { git = "https://github.com/leptos-rs/leptos", branch = "leptos_0.8" }
-leptos_router = { git = "https://github.com/leptos-rs/leptos", branch = "leptos_0.8" }
-reactive_stores = { git = "https://github.com/leptos-rs/leptos", branch = "leptos_0.8" }
+leptos = { version = "0.8.0-beta" }
+leptos_meta = { version = "0.8.0-beta" }
+leptos_router = { version = "0.8.0-beta" }
+reactive_stores = { version = "0.2.0-beta" }
 
 # web
 wasm-bindgen = { version = "0.2.100" }
