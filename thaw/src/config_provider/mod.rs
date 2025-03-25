@@ -58,7 +58,7 @@ pub fn ConfigProvider(
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct ConfigInjection {
     pub theme: RwSignal<Theme>,
     pub dir: Option<RwSignal<ConfigDirection>>,
@@ -75,7 +75,7 @@ impl ConfigInjection {
     }
 }
 
-#[derive(Debug, Clone, Copy, Default)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub enum ConfigDirection {
     Ltr,
     Rtl,
