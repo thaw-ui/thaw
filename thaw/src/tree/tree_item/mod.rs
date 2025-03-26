@@ -26,6 +26,8 @@ pub fn TreeItem(
             .with(|open_items| open_items.contains(&value))
     });
 
+    // --thaw-tree-item--level
+
     view! {
         <div class=class_list!["thaw-tree-item"] role="treeitem">
             <Provider value=TreeItemInjection { open }>{children()}</Provider>

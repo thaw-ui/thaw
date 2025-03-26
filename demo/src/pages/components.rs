@@ -476,6 +476,11 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                 },
                 NavItemOption {
                     group: None,
+                    value: "/components/tree",
+                    label: "Tree",
+                },
+                NavItemOption {
+                    group: None,
                     value: "/components/upload",
                     label: "Upload",
                 },

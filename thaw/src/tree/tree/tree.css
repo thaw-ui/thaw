@@ -3,3 +3,48 @@
     flex-direction: column;
     row-gap: var(--spacingVerticalXXS);
 }
+
+.thaw-tree-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: var(--colorSubtleBackground);
+    color: var(--colorNeutralForeground2);
+    padding-right: var(--spacingHorizontalNone);
+    cursor: pointer;
+}
+
+.thaw-tree-item-layout {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    box-sizing: border-box;
+    padding-left: calc(
+        (var(--thaw-tree-item--level, 1) - 1) * var(--spacingHorizontalXXL)
+    );
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    line-height: var(--lineHeightBase300);
+}
+
+.thaw-tree-item-layout:hover {
+    color: var(--colorNeutralForeground2Hover);
+    background-color: var(--colorSubtleBackgroundHover);
+}
+
+.thaw-tree-item-layout__expand-icon {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    box-sizing: border-box;
+    color: var(--colorNeutralForeground3);
+    padding: var(--spacingVerticalXS) 0;
+}
+
+.thaw-tree-item-layout__main {
+    padding: 0 var(--spacingHorizontalXXS);
+}
