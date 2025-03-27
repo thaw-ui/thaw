@@ -1,4 +1,4 @@
-use leptos::prelude::{expect_context, use_context, Owner};
+use leptos::prelude::{expect_context, use_context};
 use std::collections::HashSet;
 use thaw_utils::Model;
 
@@ -10,10 +10,6 @@ pub(crate) struct TreeInjection {
 impl TreeInjection {
     pub fn expect_context() -> Self {
         expect_context()
-    }
-
-    pub fn use_context() -> Option<Self> {
-        use_context()
     }
 }
 
@@ -30,4 +26,4 @@ impl SubtreeInjection {
     pub fn use_context() -> Option<Self> {
         use_context()
     }
-} 
+}
