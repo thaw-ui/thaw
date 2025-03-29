@@ -44,6 +44,7 @@ view! {
     <Flex vertical=true inline=true>
         <RatingDisplay value=3.0/>
         <RatingDisplay color=RatingColor::Brand value=3.0/>
+        <RatingDisplay color=RatingColor::Marigold value=3.0/>
     </Flex>
 }
 ```

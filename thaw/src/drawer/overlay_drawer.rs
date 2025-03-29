@@ -1,7 +1,8 @@
 use super::{DrawerModalType, DrawerPosition, DrawerSize};
 use crate::ConfigInjection;
 use leptos::{either::Either, ev, prelude::*};
-use thaw_components::{CSSTransition, FocusTrap, Teleport};
+use leptos_transition_group::CSSTransition;
+use thaw_components::{FocusTrap, Teleport};
 use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 
 #[component]
@@ -42,7 +43,7 @@ pub fn OverlayDrawer(
         open_drawer.set(is_open);
     });
     use_lock_html_scroll(is_lock.into());
-    let on_after_leave = move || {
+    let on_after_leave = move |_| {
         is_lock.set(false);
     };
 
