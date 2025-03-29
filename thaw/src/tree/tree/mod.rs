@@ -4,8 +4,8 @@ pub use types::*;
 
 use crate::TreeItemInjection;
 use leptos::{context::Provider, either::Either, prelude::*};
+use leptos_transition_group::CSSTransition;
 use std::collections::HashSet;
-use thaw_components::CSSTransition;
 use thaw_utils::{class_list, mount_style, Model};
 
 #[component]
