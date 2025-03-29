@@ -19,6 +19,7 @@ leptos = { workspace = true }
 thaw_components = { workspace = true }
 thaw_macro = { workspace = true }
 thaw_utils = { workspace = true }
+leptos_transition_group = { git = "https://github.com/thaw-ui/leptos-transition-group" }
 web-sys = { version = "0.3.72", features = [
     "DomRect",
     "File",

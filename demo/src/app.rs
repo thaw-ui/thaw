@@ -121,6 +121,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/time-picker") view=TimePickerMdPage />
                     <Route path=path!("/toast") view=ToastMdPage />
                     <Route path=path!("/tooltip") view=TooltipMdPage />
+                    <Route path=path!("/tree") view=TreeMdPage />
                     <Route path=path!("/upload") view=UploadMdPage />
                 </ParentRoute>
             </Routes>

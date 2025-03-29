@@ -1,5 +1,6 @@
 mod _aria;
 mod _binder;
+mod _motion;
 mod accordion;
 mod anchor;
 mod auto_complete;
@@ -57,6 +58,7 @@ mod theme;
 mod time_picker;
 mod toast;
 mod tooltip;
+mod tree;
 mod upload;
 
 pub use accordion::*;
@@ -117,6 +119,7 @@ pub use theme::*;
 pub use time_picker::*;
 pub use toast::*;
 pub use tooltip::*;
+pub use tree::*;
 pub use upload::*;
 
 pub mod ssr {

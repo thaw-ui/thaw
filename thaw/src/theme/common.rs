@@ -67,6 +67,7 @@ pub struct CommonTheme {
     curve_decelerate_max: String,
     curve_decelerate_mid: String,
     curve_easy_ease: String,
+    curve_easy_ease_max: String,
 }
 
 impl CommonTheme {
@@ -135,6 +136,7 @@ impl CommonTheme {
             curve_decelerate_max: "cubic-bezier(0.1,0.9,0.2,1)".into(),
             curve_decelerate_mid: "cubic-bezier(0,0,0,1)".into(),
             curve_easy_ease: "cubic-bezier(0.33,0,0.67,1)".into(),
+            curve_easy_ease_max: "cubic-bezier(0.8,0,0.2,1)".into(),
         }
     }
 }
