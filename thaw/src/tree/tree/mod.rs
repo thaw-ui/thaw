@@ -2,9 +2,8 @@ mod types;
 
 pub use types::*;
 
-use crate::TreeItemInjection;
+use crate::{TreeItemInjection, _motion::CollapseTransition};
 use leptos::{context::Provider, either::Either, prelude::*};
-use leptos_transition_group::CSSTransition;
 use std::collections::HashSet;
 use thaw_utils::{class_list, mount_style, Model};
 
@@ -36,17 +35,15 @@ fn RootTree(open_items: Model<HashSet<String>>, children: Children) -> impl Into
 
 #[component]
 fn Subtree(level: usize, children: Children) -> impl IntoView {
-    mount_style("motion", include_str!("../../_motion/index.css"));
-
     let tree_item_injection = TreeItemInjection::expect_context();
     let open = tree_item_injection.open;
     let subtree_ref = tree_item_injection.subtree_ref;
 
     view! {
-        <CSSTransition show=open name="thaw-motion-collapse">
+        <CollapseTransition show=open>
             <div class=class_list!["thaw-tree", "thaw-subtree"] role="group" node_ref=subtree_ref>
                 <Provider value=SubtreeInjection { level }>{children()}</Provider>
             </div>
-        </CSSTransition>
+        </CollapseTransition>
     }
 }

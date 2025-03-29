@@ -1,0 +1,17 @@
+.thaw-motion-collapse-enter-from,
+.thaw-motion-collapse-leave-to {
+    opacity: 0;
+    padding-top: 0 !important;
+}
+
+.thaw-motion-collapse-enter-to,
+.thaw-motion-collapse-leave-from {
+    opacity: 1;
+}
+
+.thaw-motion-collapse-enter-active,
+.thaw-motion-collapse-leave-active {
+    overflow-y: hidden;
+    transition: max-height var(--durationNormal) var(--curveEasyEaseMax),
+        opacity var(--durationNormal) var(--curveEasyEaseMax);
+}
