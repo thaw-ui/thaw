@@ -8,7 +8,8 @@ use thaw_utils::class_list;
 
 #[component]
 pub fn TreeItem(
-    /// A tree item can be a leaf or a branch
+    #[prop(optional, into)] class: MaybeProp<String>,
+    /// A tree item can be a leaf or a branch.
     #[prop(optional)]
     item_type: TreeItemType,
     /// A tree item should have a well defined value, in case one is not provided by the user by this prop
@@ -65,7 +66,9 @@ pub fn TreeItem(
 
     view! {
         <div
-            class=class_list!["thaw-tree-item", format!("thaw-tree-item--{}", item_type.as_str())]
+            class=class_list![
+                "thaw-tree-item", format!("thaw-tree-item--{}", item_type.as_str()), class
+            ]
             role="treeitem"
             style=style
             on:click=on_click

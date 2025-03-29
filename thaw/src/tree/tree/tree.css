@@ -27,9 +27,9 @@
     padding-left: calc(
         (var(--thaw-tree-item--level, 1) - 1) * var(--spacingHorizontalXXL)
     );
+    font-family: var(--fontFamilyBase);
     font-weight: var(--fontWeightRegular);
     font-size: var(--fontSizeBase300);
-    font-family: var(--fontFamilyBase);
     line-height: var(--lineHeightBase300);
     grid-area: layout;
 }
@@ -38,6 +38,12 @@
     padding-left: calc(
         var(--thaw-tree-item--level, 1) * var(--spacingHorizontalXXL)
     );
+}
+
+.thaw-tree--small .thaw-tree-item-layout {
+    min-height: 24px;
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
 }
 
 .thaw-tree-item-layout:hover {

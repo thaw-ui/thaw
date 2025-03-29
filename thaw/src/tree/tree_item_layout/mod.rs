@@ -5,13 +5,17 @@ use leptos::{either::Either, prelude::*};
 use thaw_utils::class_list;
 
 #[component]
-pub fn TreeItemLayout(children: Children) -> impl IntoView {
+pub fn TreeItemLayout(
+    #[prop(optional, into)] class: MaybeProp<String>,
+    children: Children,
+) -> impl IntoView {
     let tree_item_injection = TreeItemInjection::expect_context();
     let is_branch = tree_item_injection.item_type == TreeItemType::Branch;
 
     view! {
         <div class=class_list![
-            "thaw-tree-item-layout"
+            "thaw-tree-item-layout",
+            class
         ]>
             {if is_branch {
                 Either::Left(
@@ -29,7 +33,7 @@ pub fn TreeItemLayout(children: Children) -> impl IntoView {
 }
 
 #[component]
-pub fn TreeItemChevron() -> impl IntoView {
+fn TreeItemChevron() -> impl IntoView {
     let tree_item_injection = TreeItemInjection::expect_context();
     let open = tree_item_injection.open;
 
