@@ -1,3 +1,19 @@
+## [0.5.0-alpha](https://github.com/thaw-ui/thaw/compare/v0.4.5...v0.5.0-alpha) (2025-03-30)
+
+### Features
+
+* Adds `Tree` component, closes [#392](https://github.com/thaw-ui/thaw/pull/392).
+* `Menu` is changed to a generic component, closes [#390](https://github.com/thaw-ui/thaw/pull/390).
+ 
+### Breaking Changes
+
+* Update leptos to v0.8.0-beta.
+* Theme is changed to use getset.
+* RatingColor adds Marigold prop.
+* InputType adds Number prop.
+* The icon prop of `Icon` is changed to icondata_core::Icon type.
+* The value prop of `MenuItem` is changed to generic type.
+
 ## [0.4.5](https://github.com/thaw-ui/thaw/compare/v0.4.4...v0.4.5) (2025-03-30)
 
 ### Features
