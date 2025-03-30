@@ -1,3 +1,9 @@
+## [0.4.5](https://github.com/thaw-ui/thaw/compare/v0.4.4...v0.4.5) (2025-03-30)
+
+### Features
+
+* `NavDrawer` adds open_categories prop, closes [#387](https://github.com/thaw-ui/thaw/pull/387).
+
 ## [0.4.4](https://github.com/thaw-ui/thaw/compare/v0.4.3...v0.4.4) (2025-03-02)
 
 ### Features
