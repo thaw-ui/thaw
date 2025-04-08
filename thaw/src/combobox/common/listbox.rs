@@ -78,8 +78,8 @@ pub fn listbox_keyboard_event(
             }
         }
         DropdownAction::CloseSelect | DropdownAction::Select => {
-            e.prevent_default();
             if let Some(option) = active_option {
+                e.prevent_default();
                 select_option(option);
             }
         }
