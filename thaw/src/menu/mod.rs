@@ -21,7 +21,7 @@ pub struct MenuTrigger<T> {
 }
 
 #[component]
-pub fn Menu<T>(
+pub fn Menu<T, V: 'static>(
     #[prop(optional, into)] class: MaybeProp<String>,
     /// The element or component that triggers menu.
     menu_trigger: MenuTrigger<T>,
@@ -33,7 +33,7 @@ pub fn Menu<T>(
     position: MenuPosition,
     /// Called when item is selected.
     #[prop(into)]
-    on_select: BoxOneCallback<String>,
+    on_select: BoxOneCallback<V>,
     #[prop(optional, into)] appearance: MaybeProp<MenuAppearance>,
     children: Children,
 ) -> impl IntoView
@@ -146,12 +146,12 @@ where
 }
 
 #[derive(Clone)]
-pub(crate) struct MenuInjection {
+pub(crate) struct MenuInjection<V> {
     has_icon: RwSignal<bool>,
-    on_select: ArcOneCallback<String>,
+    on_select: ArcOneCallback<V>,
 }
 
-impl MenuInjection {
+impl<V: Clone + 'static> MenuInjection<V> {
     pub fn expect_context() -> Self {
         expect_context()
     }

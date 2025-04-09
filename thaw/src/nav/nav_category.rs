@@ -1,7 +1,7 @@
 use super::NavDrawerInjection;
 use crate::Icon;
 use leptos::{context::Provider, either::Either, prelude::*};
-use thaw_components::CSSTransition;
+use leptos_transition_group::CSSTransition;
 use thaw_utils::class_list;
 
 #[component]
