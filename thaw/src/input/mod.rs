@@ -15,6 +15,7 @@ use thaw_utils::{
 pub fn Input(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    #[prop(optional, into)] autofocus: MaybeProp<bool>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
@@ -67,6 +68,7 @@ pub fn Input(
     mount_style("input", include_str!("./input.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
+    let autofocus = autofocus.get_untracked().unwrap_or(false);
 
     let parser_none = parser.is_none();
     let on_input = {
@@ -166,6 +168,7 @@ pub fn Input(
                 type=move || input_type.get().as_str()
                 name=name
                 value=input_value
+                autofocus=autofocus
                 prop:value=move || {
                     let value = value.get();
                     if let Some(format) = format.as_ref() {
