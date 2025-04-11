@@ -35,6 +35,7 @@ impl DrawerPosition {
 #[derive(Clone, Default, Copy)]
 pub enum DrawerSize {
     #[default]
+    FitNav,
     Small,
     Medium,
     Large,
@@ -44,6 +45,7 @@ pub enum DrawerSize {
 impl DrawerSize {
     fn as_size_str(&self, position: Signal<DrawerPosition>) -> &'static str {
         match self {
+            Self::FitNav => "260px",
             Self::Small => "320px",
             Self::Medium => "592px",
             Self::Large => "940px",
