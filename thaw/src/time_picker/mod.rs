@@ -5,8 +5,7 @@ pub use rule::*;
 pub use types::*;
 
 use crate::{
-    Button, ButtonSize, FieldInjection, Icon, Input, InputSuffix, Rule, Scrollbar,
-    ScrollbarRef,
+    Button, ButtonSize, FieldInjection, Icon, Input, InputSuffix, Rule, Scrollbar, ScrollbarRef,
 };
 use chrono::{Local, NaiveTime, Timelike};
 use leptos::{html, prelude::*};
@@ -55,6 +54,13 @@ pub fn TimePicker(
         });
     };
     update_show_time_text();
+    Effect::new(move |prev: Option<Option<NaiveTime>>| {
+        let time = value.get();
+        if time != prev.flatten() {
+            update_show_time_text();
+        }
+        time
+    });
     let panel_selected_time = RwSignal::new(None::<NaiveTime>);
     _ = panel_selected_time.watch(move |time| {
         let text = time.as_ref().map_or(String::new(), |time| {
@@ -69,7 +75,6 @@ pub fn TimePicker(
         {
             if value.get_untracked() != Some(time) {
                 value.set(Some(time));
-                update_show_time_text();
             }
         } else {
             update_show_time_text();
