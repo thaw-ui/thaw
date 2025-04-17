@@ -52,6 +52,13 @@ pub fn DatePicker(
         });
     };
     update_show_date_text();
+    Effect::new(move |prev: Option<Option<NaiveDate>>| {
+        let date = value.get();
+        if date != prev.flatten() {
+            update_show_date_text();
+        }
+        date
+    });
     let panel_ref = ComponentRef::<PanelRef>::default();
     let panel_selected_date = RwSignal::new(None::<NaiveDate>);
     _ = panel_selected_date.watch(move |date| {
@@ -67,7 +74,6 @@ pub fn DatePicker(
         {
             if value.get_untracked() != Some(date) {
                 value.set(Some(date));
-                update_show_date_text();
             }
         } else {
             update_show_date_text();

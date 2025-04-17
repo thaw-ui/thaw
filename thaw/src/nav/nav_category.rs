@@ -11,7 +11,13 @@ pub fn NavCategory(
     nav_category_item: NavCategoryItem,
 ) -> impl IntoView {
     let nav_drawer = NavDrawerInjection::expect_context();
-    let is_show_group = RwSignal::new(false);
+    let open = Memo::new(move |_| {
+        value.with(|value| {
+            nav_drawer
+                .open_categories
+                .with(|open_categories| open_categories.contains(value))
+        })
+    });
     let is_selected_category =
         Memo::new(move |_| value.with(|value| nav_drawer.is_selected_category(value)));
 
@@ -21,6 +27,10 @@ pub fn NavCategory(
         children: item_children,
     } = nav_category_item;
 
+    let on_nav_category_item_click = move |_| {
+        nav_drawer.on_request_nav_category_item_toggle(value.get_untracked());
+    };
+
     view! {
         <button
             class=class_list![
@@ -28,10 +38,8 @@ pub fn NavCategory(
                 ("thaw-nav-category-item--selected", move || is_selected_category.get()),
                 item_class
             ]
-            on:click=move |_| {
-                is_show_group.update(|show| *show = !*show);
-            }
-            aria-expanded=move || if is_show_group.get() { "true" } else { "false" }
+            on:click=on_nav_category_item_click
+            aria-expanded=move || if open.get() { "true" } else { "false" }
         >
             {move || {
                 if let Some(icon) = item_icon.get() {
@@ -49,7 +57,7 @@ pub fn NavCategory(
                     height="20"
                     viewBox="0 0 20 20"
                     style=move || {
-                        if is_show_group.get() {
+                        if open.get() {
                             "transform: rotate(90deg)"
                         } else {
                             "transform: rotate(0deg)"
@@ -63,7 +71,7 @@ pub fn NavCategory(
                 </svg>
             </span>
         </button>
-        <CSSTransition show=is_show_group name="thaw-nav-sub-item-group">
+        <CSSTransition show=open name="thaw-nav-sub-item-group">
             <div class="thaw-nav-sub-item-group">
                 <Provider value=NavCategoryInjection { value }>{children()}</Provider>
             </div>

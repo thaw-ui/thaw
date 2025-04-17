@@ -1,7 +1,7 @@
 use crate::Scrollbar;
 use leptos::{context::Provider, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, OptionModel, OptionModelWithValue};
+use thaw_utils::{class_list, mount_style, Model, OptionModel, OptionModelWithValue};
 
 #[component]
 pub fn NavDrawer(
@@ -12,6 +12,12 @@ pub fn NavDrawer(
     /// Indicates a category that has a selected child Will show the category as selected if it is closed.
     #[prop(optional, into)]
     selected_category_value: OptionModel<String>,
+    /// Controls the open categories.
+    #[prop(optional, into)]
+    open_categories: Model<Vec<String>>,
+    /// Indicates if NavDrawer supports multiple open Categories at the same time.
+    #[prop(default = true.into(), into)]
+    multiple: Signal<bool>,
     children: Children,
     #[prop(optional)] nav_drawer_header: Option<NavDrawerHeader>,
     #[prop(optional)] nav_drawer_footer: Option<NavDrawerFooter>,
@@ -22,6 +28,8 @@ pub fn NavDrawer(
         <Provider value=NavDrawerInjection {
             selected_value,
             selected_category_value,
+            open_categories,
+            multiple,
         }>
             <div class=class_list!["thaw-nav-drawer", class]>
                 <OptionComp value=nav_drawer_header let:header>
@@ -48,10 +56,12 @@ pub struct NavDrawerFooter {
     children: Children,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub(crate) struct NavDrawerInjection {
     pub selected_value: OptionModel<String>,
     pub selected_category_value: OptionModel<String>,
+    pub open_categories: Model<Vec<String>>,
+    multiple: Signal<bool>,
 }
 
 impl NavDrawerInjection {
@@ -65,5 +75,23 @@ impl NavDrawerInjection {
                 OptionModelWithValue::T(v) => v == value,
                 OptionModelWithValue::Option(v) => v.as_ref() == Some(value),
             })
+    }
+
+    pub fn on_request_nav_category_item_toggle(&self, category_value: String) {
+        self.open_categories.update(move |open_categories| {
+            if self.multiple.get_untracked() {
+                if let Some(index) = open_categories.iter().position(|v| v == &category_value) {
+                    open_categories.remove(index);
+                } else {
+                    open_categories.push(category_value);
+                }
+            } else {
+                if open_categories.first() == Some(&category_value) {
+                    open_categories.clear();
+                } else {
+                    *open_categories = vec![category_value];
+                }
+            }
+        });
     }
 }
