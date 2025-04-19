@@ -67,7 +67,7 @@ pub fn get_follower_placement_offset(
     placement: FollowerPlacement,
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
 ) -> Option<FollowerPlacementOffset> {
     use FollowerPlacement::*;
     let placement_list = match placement {
@@ -93,18 +93,18 @@ pub fn get_follower_placement_offset(
         };
         let must = placement_len == index + 1;
         let rt = match placement {
-            TopStart => placement_top_start(target_rect, content_rect, arrow_padding, must),
-            Top => placement_top(target_rect, content_rect, arrow_padding, must),
-            TopEnd => placement_top_end(target_rect, content_rect, arrow_padding, must),
-            BottomStart => placement_bottom_start(target_rect, content_rect, arrow_padding, must),
-            Bottom => placement_bottom(target_rect, content_rect, arrow_padding, must),
-            BottomEnd => placement_bottom_end(target_rect, content_rect, arrow_padding, must),
-            RightStart => placement_right_start(target_rect, content_rect, arrow_padding, must),
-            Right => placement_right(target_rect, content_rect, arrow_padding, must),
-            RightEnd => placement_right_end(target_rect, content_rect, arrow_padding, must),
-            LeftStart => placement_left_start(target_rect, content_rect, arrow_padding, must),
-            Left => placement_left(target_rect, content_rect, arrow_padding, must),
-            LeftEnd => placement_left_end(target_rect, content_rect, arrow_padding, must),
+            TopStart => placement_top_start(target_rect, content_rect, arrow_height, must),
+            Top => placement_top(target_rect, content_rect, arrow_height, must),
+            TopEnd => placement_top_end(target_rect, content_rect, arrow_height, must),
+            BottomStart => placement_bottom_start(target_rect, content_rect, arrow_height, must),
+            Bottom => placement_bottom(target_rect, content_rect, arrow_height, must),
+            BottomEnd => placement_bottom_end(target_rect, content_rect, arrow_height, must),
+            RightStart => placement_right_start(target_rect, content_rect, arrow_height, must),
+            Right => placement_right(target_rect, content_rect, arrow_height, must),
+            RightEnd => placement_right_end(target_rect, content_rect, arrow_height, must),
+            LeftStart => placement_left_start(target_rect, content_rect, arrow_height, must),
+            Left => placement_left(target_rect, content_rect, arrow_height, must),
+            LeftEnd => placement_left_end(target_rect, content_rect, arrow_height, must),
         };
         if rt.is_some() {
             return rt;
@@ -122,10 +122,10 @@ pub fn get_follower_placement_offset(
 fn placement_top_start(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
-    let content_height = content_rect.height() + arrow_padding.unwrap_or_default();
+    let content_height = content_rect.height() + arrow_height.unwrap_or_default();
     let target_top = target_rect.top();
     let top = target_top - content_height;
     // Top
@@ -157,10 +157,10 @@ fn placement_top_start(
 fn placement_top(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
-    let content_height = content_rect.height() + arrow_padding.unwrap_or_default();
+    let content_height = content_rect.height() + arrow_height.unwrap_or_default();
     let target_top = target_rect.top();
     let top = target_top - content_height;
     // Top
@@ -194,10 +194,10 @@ fn placement_top(
 fn placement_top_end(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
-    let content_height = content_rect.height() + arrow_padding.unwrap_or_default();
+    let content_height = content_rect.height() + arrow_height.unwrap_or_default();
     let target_top = target_rect.top();
     let top = target_top - content_height;
     // Top
@@ -226,14 +226,14 @@ fn placement_top_end(
 fn placement_bottom_start(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
     let Some(window_inner_height) = window_inner_height() else {
         return None;
     };
     let content_height = content_rect.height();
-    let target_bottom = target_rect.bottom() + arrow_padding.unwrap_or_default();
+    let target_bottom = target_rect.bottom() + arrow_height.unwrap_or_default();
     let top = target_bottom;
     // Bottom
     if !must && target_bottom + content_height > window_inner_height {
@@ -269,14 +269,14 @@ fn placement_bottom_start(
 fn placement_bottom(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
     let Some(window_inner_height) = window_inner_height() else {
         return None;
     };
     let content_height = content_rect.height();
-    let target_bottom = target_rect.bottom() + arrow_padding.unwrap_or_default();
+    let target_bottom = target_rect.bottom() + arrow_height.unwrap_or_default();
     let top = target_bottom;
     // Bottom
     if !must && target_bottom + content_height > window_inner_height {
@@ -315,14 +315,14 @@ fn placement_bottom(
 fn placement_bottom_end(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
     let Some(window_inner_height) = window_inner_height() else {
         return None;
     };
     let content_height = content_rect.height();
-    let target_bottom = target_rect.bottom() + arrow_padding.unwrap_or_default();
+    let target_bottom = target_rect.bottom() + arrow_height.unwrap_or_default();
     let top = target_bottom;
     // Bottom
     if !must && target_bottom + content_height > window_inner_height {
@@ -355,7 +355,7 @@ fn placement_bottom_end(
 fn placement_right_start(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
     let Some(window_inner_width) = window_inner_width() else {
@@ -363,7 +363,7 @@ fn placement_right_start(
     };
     let content_width = content_rect.width();
     let target_right = target_rect.right();
-    let left = target_right + arrow_padding.unwrap_or_default();
+    let left = target_right + arrow_height.unwrap_or_default();
     // Right
     if !must && left + content_width > window_inner_width {
         return None;
@@ -393,7 +393,7 @@ fn placement_right_start(
 fn placement_right(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
     let Some(window_inner_width) = window_inner_width() else {
@@ -401,7 +401,7 @@ fn placement_right(
     };
     let content_width = content_rect.width();
     let target_right = target_rect.right();
-    let left = target_right + arrow_padding.unwrap_or_default();
+    let left = target_right + arrow_height.unwrap_or_default();
     // Right
     if !must && left + content_width > window_inner_width {
         return None;
@@ -434,7 +434,7 @@ fn placement_right(
 fn placement_right_end(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
     let Some(window_inner_width) = window_inner_width() else {
@@ -442,7 +442,7 @@ fn placement_right_end(
     };
     let content_width = content_rect.width();
     let target_right = target_rect.right();
-    let left = target_right + arrow_padding.unwrap_or_default();
+    let left = target_right + arrow_height.unwrap_or_default();
     // Right
     if !must && left + content_width > window_inner_width {
         return None;
@@ -468,10 +468,10 @@ fn placement_right_end(
 fn placement_left_start(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
-    let content_width = content_rect.width() + arrow_padding.unwrap_or_default();
+    let content_width = content_rect.width() + arrow_height.unwrap_or_default();
     let target_left = target_rect.left();
     let left = target_left - content_width;
     // Left
@@ -503,10 +503,10 @@ fn placement_left_start(
 fn placement_left(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
-    let content_width = content_rect.width() + arrow_padding.unwrap_or_default();
+    let content_width = content_rect.width() + arrow_height.unwrap_or_default();
     let target_left = target_rect.left();
     let left = target_left - content_width;
     // Left
@@ -541,10 +541,10 @@ fn placement_left(
 fn placement_left_end(
     target_rect: &DomRect,
     content_rect: &DomRect,
-    arrow_padding: Option<f64>,
+    arrow_height: Option<f64>,
     must: bool,
 ) -> Option<FollowerPlacementOffset> {
-    let content_width = content_rect.width() + arrow_padding.unwrap_or_default();
+    let content_width = content_rect.width() + arrow_height.unwrap_or_default();
     let target_left = target_rect.left();
     let left = target_left - content_width;
     // Left

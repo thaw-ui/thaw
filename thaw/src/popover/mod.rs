@@ -11,7 +11,7 @@ use leptos::{
     tachys::html::{class::class as tachys_class, node_ref::node_ref},
 };
 use std::time::Duration;
-use thaw_components::Follower;
+use thaw_components::{Follower, FollowerArrow};
 use thaw_utils::{class_list, mount_style, on_click_outside, BoxCallback};
 
 #[component]
@@ -144,10 +144,16 @@ where
         edge_length,
         (edge_length / 2.0) * -1.0
     );
+    let arrow = FollowerArrow {
+        safe_width: 4.0,
+        width: edge_length / 2.0 + 1.0,
+        height: edge_length / 2.0 + 2.0,
+        node_ref: arrow_ref,
+    };
 
     view! {
         <crate::_binder::Binder>
-            {trigger_children} <Follower slot show=is_show_popover placement=position arrow=(edge_length / 2.0 + 2.0, arrow_ref)>
+            {trigger_children} <Follower slot show=is_show_popover placement=position arrow=arrow>
                 <div
                     class=class_list![
                         "thaw-popover-surface",
