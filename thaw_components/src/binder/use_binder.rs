@@ -34,7 +34,7 @@ pub fn use_binder(
     let (arrow_padding, arrow_ref) = arrow.map_or((None, None), |(p, r)| (Some(p), Some(r)));
 
     let sync_position = move || {
-        let Some(follower_el) = follower_ref.get_untracked() else {
+        let Some(_) = follower_ref.get_untracked() else {
             return;
         };
         let Some(content_ref) = content_ref.get_untracked() else {
@@ -43,7 +43,6 @@ pub fn use_binder(
         let Some(target_ref) = target_ref.get_untracked() else {
             return;
         };
-        let follower_rect = follower_el.get_bounding_client_rect();
         let target_rect = target_ref.get_bounding_client_rect();
         let content_rect = content_ref.get_bounding_client_rect();
         let mut styles = Vec::<(&str, String)>::new();
@@ -68,7 +67,6 @@ pub fn use_binder(
         }) = get_follower_placement_offset(
             follower_placement,
             &target_rect,
-            &follower_rect,
             &content_rect,
             arrow_padding,
         ) {
@@ -102,6 +100,8 @@ pub fn use_binder(
         if let Some(arrow_el) = arrow_ref.map(|r| r.get_untracked()).flatten() {
             let style = (*arrow_el).style();
             let arrow_padding = arrow_padding.unwrap();
+            let _ = style.remove_property("left");
+            let _ = style.remove_property("top");
 
             match placement.get_untracked() {
                 FollowerPlacement::Top | FollowerPlacement::Bottom => {
