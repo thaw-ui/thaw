@@ -138,8 +138,6 @@ pub fn Input(
         }
     };
 
-    let input_value = value.get_untracked();
-
     let prefix_if_ = input_prefix.as_ref().map_or(false, |prefix| prefix.if_);
     let suffix_if_ = input_suffix.as_ref().map_or(false, |suffix| suffix.if_);
 
@@ -166,8 +164,8 @@ pub fn Input(
                 id=id
                 type=move || input_type.get().as_str()
                 name=name
-                value=input_value
                 autofocus=autofocus
+                value=move || value.get()
                 prop:value=move || {
                     let value = value.get();
                     if let Some(format) = format.as_ref() {

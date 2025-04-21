@@ -1,3 +1,12 @@
+## [0.4.6](https://github.com/thaw-ui/thaw/compare/v0.4.5...v0.4.6) (2025-04-20)
+
+### Bug Fixs
+
+* `AutoComplete` allow typing space, closes [#395](https://github.com/thaw-ui/thaw/pull/395).
+* `DatePicker` is not reactive on value change, closes [#398](https://github.com/thaw-ui/thaw/pull/398).
+* `TimePicker` is not reactive on value change, closes [#398](https://github.com/thaw-ui/thaw/pull/398).
+* `Input` value is not reactive, closes [#400](https://github.com/thaw-ui/thaw/pull/400).
+
 ## [0.4.5](https://github.com/thaw-ui/thaw/compare/v0.4.4...v0.4.5) (2025-03-30)
 
 ### Features

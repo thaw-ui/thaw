@@ -43,8 +43,16 @@ where
         self.0.get()
     }
 
+    pub fn try_get(&self) -> Option<T> {
+        self.0.try_get().flatten()
+    }
+
     pub fn get_untracked(&self) -> Option<T> {
         self.0.get_untracked()
+    }
+
+    pub fn try_get_untracked(&self) -> Option<T> {
+        self.0.try_get_untracked().flatten()
     }
 }
 
