@@ -15,6 +15,7 @@ use thaw_utils::{
 pub fn Input(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    #[prop(optional, into)] autofocus: Signal<bool>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
@@ -163,6 +164,7 @@ pub fn Input(
                 id=id
                 type=move || input_type.get().as_str()
                 name=name
+                autofocus=autofocus
                 value=move || value.get()
                 prop:value=move || {
                     let value = value.get();
