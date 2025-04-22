@@ -2,7 +2,7 @@ use super::Fallback;
 use leptos::{either::EitherOf3, prelude::*};
 
 #[component]
-pub fn OptionComp<T, CF, IV>(
+pub fn OptionComp<T: 'static, CF, IV>(
     value: Option<T>,
     children: CF,
     #[prop(optional)] fallback: Option<Fallback>,
