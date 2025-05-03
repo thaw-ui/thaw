@@ -1,3 +1,13 @@
+## [0.5.0-beta](https://github.com/thaw-ui/thaw/compare/v0.5.0-alpha...v0.5.0-beta) (2025-05-04)
+
+### Bug Fixs
+
+* The arrow position of the InfoLabel component.
+ 
+### Breaking Changes
+
+* Update leptos to v0.8.0.
+
 ## [0.5.0-alpha](https://github.com/thaw-ui/thaw/compare/v0.4.5...v0.5.0-alpha) (2025-03-30)
 
 ### Features

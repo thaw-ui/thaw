@@ -1,10 +1,10 @@
 [package]
 name = "thaw_utils"
-version = "0.2.0-alpha"
+version = "0.2.0-beta"
 edition = "2021"
 keywords = ["leptos", "thaw", "utils"]
 readme = "../README.md"
-authors = ["luoxiaozero"]
+authors = ["lizidev"]
 description = "Shared Thaw utility functions"
 repository = "https://github.com/thaw-ui/thaw"
 license = "MIT"

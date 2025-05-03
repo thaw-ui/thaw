@@ -1,10 +1,10 @@
 [package]
 name = "thaw"
-version = "0.5.0-alpha"
+version = "0.5.0-beta"
 edition = "2021"
 keywords = ["web", "leptos", "ui", "thaw", "component"]
 readme = "../README.md"
-authors = ["luoxiaozero"]
+authors = ["lizidev"]
 description = "An easy to use leptos component library"
 homepage = "https://github.com/thaw-ui/thaw"
 repository = "https://github.com/thaw-ui/thaw"
@@ -19,7 +19,7 @@ leptos = { workspace = true }
 thaw_components = { workspace = true }
 thaw_macro = { workspace = true }
 thaw_utils = { workspace = true }
-leptos_transition_group = { version = "0.2.0-alpha" }
+leptos_transition_group = { version = "0.2.0" }
 web-sys = { version = "0.3.72", features = [
     "DomRect",
     "File",
