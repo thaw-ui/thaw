@@ -188,7 +188,7 @@ pub fn SiteHeader() -> impl IntoView {
                         HeaderAction::Discord => {
                             _ = window()
                                 .open_with_url(
-                                    "https://discord.gg/VwtS7b8c",
+                                    "https://discord.gg/uMGvWBDV",
                                 );
                         }
                         HeaderAction::Navigate(value) => navigate_signal.get()(&value, Default::default()),
@@ -276,7 +276,7 @@ pub fn SiteHeader() -> impl IntoView {
                         on_click=move |_| {
                             _ = window()
                                 .open_with_url(
-                                    "https://discord.gg/VwtS7b8c",
+                                    "https://discord.gg/uMGvWBDV",
                                 );
                         }
                     />

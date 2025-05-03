@@ -54,6 +54,14 @@ view! {
 }
 ```
 
+### Autofocus
+
+```rust demo
+view! {
+    <Input autofocus=true/>
+}
+```
+
 ### Size
 
 ```rust demo
@@ -132,6 +140,7 @@ view! {
 | allow_value | `Option<ArcOneCallback<String, bool>>` | `None` | Check the incoming value, if it returns false, input will not be accepted. |
 | input_type | `Signal<InputType>` | `InputType::Text` | An input can have different text-based types based on the type of value the user will enter. |
 | placeholder | `MaybeProp<String>` | `Default::default()` | Placeholder text for the input. |
+| autofocus | `Signal<bool>` | `false` | Whether the input receives focus automatically. |
 | disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | readonly | `Signal<bool>` | `false` | Whether the input is readonly. |
 | input_size | `Signal<Option<i32>>` | `None` | The input size width. |

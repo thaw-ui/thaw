@@ -15,6 +15,7 @@ use thaw_utils::{
 pub fn Input(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    #[prop(optional, into)] autofocus: Signal<bool>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
@@ -137,8 +138,6 @@ pub fn Input(
         }
     };
 
-    let input_value = value.get_untracked();
-
     let prefix_if_ = input_prefix.as_ref().map_or(false, |prefix| prefix.if_);
     let suffix_if_ = input_suffix.as_ref().map_or(false, |suffix| suffix.if_);
 
@@ -165,7 +164,8 @@ pub fn Input(
                 id=id
                 type=move || input_type.get().as_str()
                 name=name
-                value=input_value
+                autofocus=autofocus
+                value=move || value.get()
                 prop:value=move || {
                     let value = value.get();
                     if let Some(format) = format.as_ref() {
