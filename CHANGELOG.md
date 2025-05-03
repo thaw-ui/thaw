@@ -1,3 +1,13 @@
+## [0.4.7](https://github.com/thaw-ui/thaw/compare/v0.4.6...v0.4.7) (2025-05-04)
+
+### Features
+
+* `Input` adds autofocus prop, closes [#404](https://github.com/thaw-ui/thaw/pull/404).
+
+### Bug Fixs
+
+* Compilation errors when using cfg erase_components, closes [#405](https://github.com/thaw-ui/thaw/pull/405).
+
 ## [0.4.6](https://github.com/thaw-ui/thaw/compare/v0.4.5...v0.4.6) (2025-04-20)
 
 ### Bug Fixs
