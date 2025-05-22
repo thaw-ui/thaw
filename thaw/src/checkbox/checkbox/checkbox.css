@@ -6,6 +6,10 @@
     cursor: pointer;
 }
 
+.thaw-checkbox.thaw-checkbox--disabled {
+    cursor: not-allowed;
+}
+
 .thaw-checkbox:hover {
     color: var(--colorNeutralForeground2);
 
@@ -49,6 +53,28 @@
     );
     --thaw-checkbox__indicator--background-color: var(
         --colorCompoundBrandBackgroundPressed
+    );
+}
+
+.thaw-checkbox--disabled,
+.thaw-checkbox--disabled:hover,
+.thaw-checkbox--disabled:active {
+    color: var(--colorNeutralForeground3);
+
+    --thaw-checkbox__indicator--background-color: var(
+        --colorNeutralBackgroundDisabled
+    );
+    --thaw-checkbox__indicator--color: var(
+        --colorNeutralForegroundStaticInverted
+    );
+    --thaw-checkbox__indicator--border-color: var(
+        ---colorNeutralStrokeDisabled
+    );
+}
+
+.thaw-checkbox--checked.thaw-checkbox--disabled {
+    --thaw-checkbox__indicator--background-color: var(
+        --colorNeutralForegroundDisabled
     );
 }
 
