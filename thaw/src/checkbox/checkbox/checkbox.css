@@ -26,7 +26,7 @@
     );
 }
 
-.thaw-checkbox--checked {
+.thaw-checkbox--checked:not(.thaw-checkbox--disabled) {
     color: var(--colorNeutralForeground1);
 
     --thaw-checkbox__indicator--background-color: var(
@@ -38,7 +38,7 @@
     );
 }
 
-.thaw-checkbox--checked:hover {
+.thaw-checkbox--checked:not(.thaw-checkbox--disabled):hover {
     --thaw-checkbox__indicator--border-color: var(
         --colorCompoundBrandBackgroundHover
     );
@@ -47,7 +47,7 @@
     );
 }
 
-.thaw-checkbox--checked:active {
+.thaw-checkbox--checked:not(.thaw-checkbox--disabled):active {
     --thaw-checkbox__indicator--border-color: var(
         --colorCompoundBrandBackgroundPressed
     );
@@ -61,9 +61,6 @@
 .thaw-checkbox--disabled:active {
     color: var(--colorNeutralForegroundDisabled);
 
-    --thaw-checkbox__indicator--background-color: var(
-        --colorBackgroundOverlay
-    );
     --thaw-checkbox__indicator--color: var(
         --colorNeutralForegroundDisabled
     );
