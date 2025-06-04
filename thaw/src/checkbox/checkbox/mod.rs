@@ -22,6 +22,9 @@ pub fn Checkbox(
     /// The size of the checkbox indicator.
     #[prop(optional, into)]
     size: Signal<CheckboxSize>,
+    /// Whether the input is disabled.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
 ) -> impl IntoView {
     mount_style("checkbox", include_str!("./checkbox.css"));
 
@@ -64,11 +67,13 @@ pub fn Checkbox(
     };
 
     let checked = move || group_checked.get().unwrap_or_else(|| checked.get());
+    let disabled = move || disabled.get();
 
     view! {
         <span class=class_list![
             "thaw-checkbox",
             ("thaw-checkbox--checked", checked),
+            ("thaw-checkbox--disabled", disabled),
             move || format!("thaw-checkbox--{}", size.get().as_str()),
             class
         ]>
@@ -80,6 +85,7 @@ pub fn Checkbox(
                 value=item_value.get_value()
                 checked=checked
                 node_ref=input_ref
+                disabled=disabled
                 on:change=on_change
             />
             <div aria-hidden="true" class="thaw-checkbox__indicator">
