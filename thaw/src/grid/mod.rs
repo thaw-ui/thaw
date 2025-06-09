@@ -15,13 +15,23 @@ pub fn Grid(
     /// Vertical gap.
     #[prop(optional, into)]
     y_gap: Signal<u16>,
+    /// The min width of columns.
+    /// Defaults to "0px".
+    #[prop(into, default = "0px".into())]
+    min: MaybeProp<String>,
+    /// The max width of columns.
+    /// Defaults to "1fr".
+    #[prop(into, default = "1fr".into())]
+    max: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
     let style = Memo::new(move |_| {
         let mut style = String::from("display: grid;");
         style.push_str(&format!(
-            "grid-template-columns: repeat({}, minmax(0px, 1fr));",
-            cols.get()
+            "grid-template-columns: repeat({}, minmax({}, {}));",
+            cols.get(),
+            min.get().unwrap_or_default(),
+            max.get().unwrap_or_default()
         ));
         style.push_str(&format!("grid-gap: {}px {}px;", y_gap.get(), x_gap.get()));
         style
