@@ -18,11 +18,11 @@ pub fn Grid(
     /// The min width of columns.
     /// Defaults to "0px".
     #[prop(into, default = "0px".into())]
-    min: MaybeProp<String>,
+    min: Signal<String>,
     /// The max width of columns.
     /// Defaults to "1fr".
     #[prop(into, default = "1fr".into())]
-    max: MaybeProp<String>,
+    max: Signal<String>,
     children: Children,
 ) -> impl IntoView {
     let style = Memo::new(move |_| {
@@ -30,8 +30,8 @@ pub fn Grid(
         style.push_str(&format!(
             "grid-template-columns: repeat({}, minmax({}, {}));",
             cols.get(),
-            min.get().unwrap_or_default(),
-            max.get().unwrap_or_default()
+            min.get(),
+            max.get()
         ));
         style.push_str(&format!("grid-gap: {}px {}px;", y_gap.get(), x_gap.get()));
         style
