@@ -101,6 +101,8 @@ view! {
 | cols     | `Signal<u16>`       | `1`                  | Number of grids displayed. |
 | x_gap    | `Signal<u16>`       | `0`                  | Horizontal gap.            |
 | y_gap    | `Signal<u16>`       | `0`                  | Vertical gap.              |
+| min      | `Signal<String>`    | `0px`                | Min width of columns.      |
+| max      | `Signal<String>`    | `1fr`                | Max width of columns.      |
 | children | `Children`          |                      |                            |
 
 ### GridItem Props
