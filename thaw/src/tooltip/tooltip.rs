@@ -6,7 +6,7 @@ use leptos::{
     tachys::html::class::class as tachys_class,
 };
 use std::time::Duration;
-use thaw_components::{Follower, FollowerPlacement};
+use thaw_components::{Follower, FollowerArrow, FollowerPlacement};
 use thaw_utils::{class_list, mount_style};
 
 #[component]
@@ -60,6 +60,12 @@ where
         edge_length,
         (edge_length / 2.0) * -1.0
     );
+    let arrow = FollowerArrow {
+        safe_width: 4.0,
+        width: edge_length / 2.0 + 1.0,
+        height: edge_length / 2.0 + 2.0,
+        node_ref: arrow_ref,
+    };
 
     Owner::on_cleanup(move || {
         content_handle.update_value(|handle| {
@@ -77,7 +83,7 @@ where
                 .add_any_attr(tachys_class(("thaw-tooltip", true)))
                 .add_any_attr(on(ev::mouseenter, on_mouse_enter))
                 .add_any_attr(on(ev::mouseleave, on_mouse_leave))}
-            <Follower slot show=is_show_content placement=position arrow=(edge_length / 2.0 + 2.0, arrow_ref)>
+            <Follower slot show=is_show_content placement=position arrow=arrow>
                 <div
                     class=class_list![
                         "thaw-tooltip-content",

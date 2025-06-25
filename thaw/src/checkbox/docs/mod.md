@@ -18,6 +18,17 @@ view! {
 }
 ```
 
+### Disabled
+
+```rust demo
+let disabled = RwSignal::new(true);
+
+view! {
+    <Checkbox label="Disabled" disabled/>
+    <Checkbox label="Disabled and checked" disabled checked={true}/>
+}
+```
+
 ### Group
 
 ```rust demo
@@ -41,6 +52,7 @@ view! {
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | checked | `Model<bool>` | `false` | The controlled value for the checkbox. |
+| disabled | `Model<bool>` | `false` | Whether the input is disabled. |
 | value | `Option<String>` | `None` | The value of the checkbox to be used in a checkbox group. |
 | label | `MaybeProp<String>` | `Default::default()` | The Checkbox's label. |
 | size | `Signal<CheckboxSize>` | `CheckboxSize::Medium` | The size of the checkbox indicator. |

@@ -1,6 +1,7 @@
 use crate::{ConfigInjection, Icon};
 use leptos::{either::Either, ev, html, prelude::*};
-use thaw_components::{CSSTransition, Teleport};
+use leptos_transition_group::CSSTransition;
+use thaw_components::Teleport;
 use thaw_utils::{
     add_event_listener, class_list, get_scroll_parent_element, mount_style, BoxCallback,
     EventListenerHandle,
