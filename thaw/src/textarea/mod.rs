@@ -107,7 +107,9 @@ pub fn Textarea(
                 disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
                 node_ref=textarea_ref
-            ></textarea>
+            >
+                {move || value.get_untracked()}
+            </textarea>
         </span>
     }
 }

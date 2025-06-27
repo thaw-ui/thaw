@@ -165,6 +165,7 @@ pub fn Input(
                 type=move || input_type.get().as_str()
                 name=name
                 autofocus=autofocus
+                value=move || value.get_untracked()
                 prop:value=move || {
                     let value = value.get();
                     if let Some(format) = format.as_ref() {
