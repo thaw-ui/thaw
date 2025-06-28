@@ -64,7 +64,6 @@ where
     mount_style("spin-button", include_str!("./spin-button.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
-    let initialization_value = value.get_untracked().to_string();
 
     let update_value = move |new_value| {
         if with!(|value| value == &new_value) {
@@ -86,7 +85,7 @@ where
     let increment_disabled = Memo::new(move |_| disabled.get() || value.get() >= max.get());
     let decrement_disabled = Memo::new(move |_| disabled.get() || value.get() <= min.get());
 
-    let on_change = move |e| {
+    let on_input = move |e| {
         let target_value = event_target_value(&e);
         let v = if let Some(parser) = parser.as_ref() {
             parser(target_value)
@@ -115,7 +114,7 @@ where
                 type="text"
                 disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
-                value=initialization_value
+                value=move || value.get_untracked().to_string()
                 prop:value=move || {
                     let value = value.get();
                     if let Some(format) = format.as_ref() {
@@ -127,7 +126,7 @@ where
                 class="thaw-spin-button__input"
                 id=id
                 name=name
-                on:change=on_change
+                on:input=on_input
             />
             <button
                 tabindex="-1"
