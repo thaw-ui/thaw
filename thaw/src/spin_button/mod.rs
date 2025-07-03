@@ -5,7 +5,7 @@ pub use rule::*;
 pub use types::*;
 
 use crate::{FieldInjection, Rule};
-use leptos::prelude::*;
+use leptos::{html, prelude::*};
 use num_traits::Bounded;
 use std::ops::{Add, Sub};
 use std::str::FromStr;
@@ -64,6 +64,7 @@ where
     mount_style("spin-button", include_str!("./spin-button.css"));
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
+    let spin_ref = NodeRef::<html::Input>::new();
 
     let update_value = move |new_value| {
         if with!(|value| value == &new_value) {
@@ -126,6 +127,7 @@ where
                 class="thaw-spin-button__input"
                 id=id
                 name=name
+                node_ref=spin_ref
                 on:input=on_input
             />
             <button
@@ -140,7 +142,11 @@ where
                 disabled=move || disabled.get()
                 on:click=move |_| {
                     if !increment_disabled.get_untracked() {
-                        update_value(value.get_untracked() + step_page.get_untracked());
+                        if let Some(spin_ref) = spin_ref.get() {
+                            if let Ok(parsed_value) = spin_ref.value().parse::<T>() {
+                                update_value(parsed_value + step_page.get_untracked())
+                            }
+                        }
                     }
                 }
             >
@@ -168,8 +174,12 @@ where
                     move || decrement_disabled.get(),
                 )
                 on:click=move |_| {
-                    if !decrement_disabled.get_untracked() {
-                        update_value(value.get_untracked() - step_page.get_untracked());
+                    if !increment_disabled.get_untracked() {
+                        if let Some(spin_ref) = spin_ref.get() {
+                            if let Ok(parsed_value) = spin_ref.value().parse::<T>() {
+                                update_value(parsed_value - step_page.get_untracked())
+                            }
+                        }
                     }
                 }
             >
