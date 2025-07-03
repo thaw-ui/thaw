@@ -174,7 +174,7 @@ where
                     move || decrement_disabled.get(),
                 )
                 on:click=move |_| {
-                    if !increment_disabled.get_untracked() {
+                    if !decrement_disabled.get_untracked() {
                         if let Some(spin_ref) = spin_ref.get() {
                             if let Ok(parsed_value) = spin_ref.value().parse::<T>() {
                                 update_value(parsed_value - step_page.get_untracked())
