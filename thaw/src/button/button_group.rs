@@ -1,5 +1,8 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/button/button-group.css");
 
 #[component]
 pub fn ButtonGroup(
@@ -9,7 +12,9 @@ pub fn ButtonGroup(
     vertical: bool,
     children: Children,
 ) -> impl IntoView {
-    mount_style("button-group", include_str!("./button-group.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("button-group", include_str!("./button-group.css"));
+
     view! {
         <div
             class=class_list!["thaw-button-group", class]

@@ -1,5 +1,8 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/icon/icon.css");
 
 #[component]
 pub fn ProgressCircle(
@@ -15,7 +18,8 @@ pub fn ProgressCircle(
     size: Signal<String>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("progress-circle", include_str!("./progress-circle.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("progress-circle", include_str!("./progress-circle.css"));
 
     let stroke_width = 7;
     let view_box_width = 100;

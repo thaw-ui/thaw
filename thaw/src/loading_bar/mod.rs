@@ -5,7 +5,10 @@ pub use loading_bar_provider::*;
 use crate::ConfigInjection;
 use leptos::{html, prelude::*};
 use std::sync::Arc;
-use thaw_utils::{mount_style, ComponentRef};
+use thaw_utils::ComponentRef;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/loading_bar/loading-bar.css");
 
 #[derive(Clone)]
 pub(crate) struct LoadingBarRef {
@@ -31,7 +34,9 @@ impl LoadingBarRef {
 
 #[component]
 fn LoadingBar(#[prop(optional)] comp_ref: ComponentRef<LoadingBarRef>) -> impl IntoView {
-    mount_style("loading-bar", include_str!("./loading-bar.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("loading-bar", include_str!("./loading-bar.css"));
+
     let config_provider = ConfigInjection::expect_context();
     let container_ref = NodeRef::<html::Div>::new();
     let loading_bar_ref = NodeRef::<html::Div>::new();

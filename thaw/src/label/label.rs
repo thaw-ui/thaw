@@ -1,6 +1,9 @@
 use leptos::prelude::*;
 use thaw_components::{If, Then};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/label/label.css");
 
 #[component]
 pub fn Label(
@@ -19,7 +22,8 @@ pub fn Label(
     disabled: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("label", include_str!("./label.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("label", include_str!("./label.css"));
 
     view! {
         <label class=class_list![

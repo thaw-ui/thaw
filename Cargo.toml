@@ -27,3 +27,6 @@ reactive_stores = { version = "0.2.5" }
 
 # web
 wasm-bindgen = { version = "0.2.100" }
+
+# assets
+manganis = "=0.7.0-alpha.3"

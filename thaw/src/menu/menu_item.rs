@@ -1,7 +1,10 @@
 use crate::{Icon, MenuInjection};
 use leptos::prelude::*;
 use thaw_components::{Fallback, If, OptionComp, Then};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/menu/menu-item.css");
 
 #[component]
 pub fn MenuItem<V: Clone + Send + Sync + 'static>(
@@ -16,7 +19,8 @@ pub fn MenuItem<V: Clone + Send + Sync + 'static>(
     disabled: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("menu-item", include_str!("./menu-item.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("menu-item", include_str!("./menu-item.css"));
 
     let MenuInjection {
         has_icon,

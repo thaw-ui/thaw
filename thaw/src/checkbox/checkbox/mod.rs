@@ -5,7 +5,10 @@ pub use types::*;
 use super::checkbox_group::CheckboxGroupInjection;
 use crate::{Checkmark12FilledIcon, Checkmark16FilledIcon};
 use leptos::{either::Either, html, prelude::*};
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/checkbox/checkbox/checkbox.css");
 
 #[component]
 pub fn Checkbox(
@@ -26,7 +29,8 @@ pub fn Checkbox(
     #[prop(optional, into)]
     disabled: Signal<bool>,
 ) -> impl IntoView {
-    mount_style("checkbox", include_str!("./checkbox.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("checkbox", include_str!("./checkbox.css"));
 
     let id = uuid::Uuid::new_v4().to_string();
     let input_ref = NodeRef::<html::Input>::new();

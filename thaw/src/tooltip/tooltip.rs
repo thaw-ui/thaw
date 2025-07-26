@@ -7,7 +7,10 @@ use leptos::{
 };
 use std::time::Duration;
 use thaw_components::{Follower, FollowerArrow, FollowerPlacement};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/tooltip/tooltip.css");
 
 #[component]
 pub fn Tooltip<T>(
@@ -25,7 +28,8 @@ pub fn Tooltip<T>(
 where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
-    mount_style("tooltip", include_str!("./tooltip.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("tooltip", include_str!("./tooltip.css"));
 
     let is_show_content = RwSignal::new(false);
     let content_handle = StoredValue::new(None::<TimeoutHandle>);

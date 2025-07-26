@@ -5,7 +5,10 @@ pub use types::*;
 use super::info_button::InfoButton;
 use crate::Label;
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/info_label/info_label/info_label.css");
 
 /// An InfoLabel is a Label with an InfoButton at the end.
 #[component]
@@ -26,7 +29,8 @@ pub fn InfoLabel(
     info_label_info: InfoLabelInfo,
     children: Children,
 ) -> impl IntoView {
-    mount_style("info-label", include_str!("./info_label.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("info-label", include_str!("./info_label.css"));
 
     view! {
         <span class=class_list![

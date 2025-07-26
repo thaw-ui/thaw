@@ -1,6 +1,9 @@
 use super::{TagGroupInjection, TagSize};
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/tag/interaction-tag.css");
 
 #[component]
 pub fn InteractionTag(
@@ -10,7 +13,9 @@ pub fn InteractionTag(
     size: Option<Signal<TagSize>>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("interaction-tag", include_str!("./interaction-tag.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("interaction-tag", include_str!("./interaction-tag.css"));
+
     let tag_group = TagGroupInjection::use_context();
     let size_class = {
         if let Some(size) = size {

@@ -1,7 +1,10 @@
 use super::super::SliderInjection;
 use leptos::{context::Provider, ev, html, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/slider/range_slider/range-slider.css");
 
 #[component]
 pub fn RangeSlider(
@@ -25,7 +28,8 @@ pub fn RangeSlider(
     vertical: Signal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("range-slider", include_str!("./range-slider.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("range-slider", include_str!("./range-slider.css"));
 
     let rail_ref = NodeRef::<html::Div>::new();
     let left_mousemove = StoredValue::new(false);

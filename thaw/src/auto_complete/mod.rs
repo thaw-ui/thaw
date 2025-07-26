@@ -12,7 +12,10 @@ use crate::{
 use leptos::{context::Provider, either::Either, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{class_list, mount_style, ArcOneCallback, BoxOneCallback, Model};
+use thaw_utils::{class_list, ArcOneCallback, BoxOneCallback, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/auto_complete/auto-complete.css");
 
 #[component]
 pub fn AutoComplete(
@@ -41,7 +44,9 @@ pub fn AutoComplete(
     #[prop(optional)] comp_ref: ComponentRef<AutoCompleteRef>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("auto-complete", include_str!("./auto-complete.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("auto-complete", include_str!("./auto-complete.css"));
+
     let input_ref = ComponentRef::<InputRef>::new();
     let listbox_ref = NodeRef::<html::Div>::new();
     let open_listbox = RwSignal::new(false);

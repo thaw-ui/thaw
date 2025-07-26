@@ -3,8 +3,11 @@ mod anchor_link;
 pub use anchor_link::AnchorLink;
 
 use leptos::{context::Provider, html, prelude::*};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
 use web_sys::{DomRect, Element};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/anchor/anchor.css");
 
 #[component]
 pub fn Anchor(
@@ -16,7 +19,9 @@ pub fn Anchor(
     offset_target: Option<OffsetTarget>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("anchor", include_str!("./anchor.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("anchor", include_str!("./anchor.css"));
+
     let anchor_ref = NodeRef::new();
     let bar_ref = NodeRef::new();
     let element_ids = RwSignal::new(Vec::<String>::new());

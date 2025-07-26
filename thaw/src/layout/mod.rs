@@ -6,7 +6,10 @@ pub use layout_sider::*;
 
 use crate::Scrollbar;
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/layout/layout.css");
 
 #[derive(Default, PartialEq)]
 pub enum LayoutPosition {
@@ -46,7 +49,8 @@ pub fn Layout(
     has_sider: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("layout", include_str!("./layout.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("layout", include_str!("./layout.css"));
 
     let sider_style = Memo::new(move |_| {
         if has_sider.get() {

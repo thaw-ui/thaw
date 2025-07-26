@@ -1,6 +1,9 @@
 use crate::SliderInjection;
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/slider/slider_label.css");
 
 #[component]
 pub fn SliderLabel(
@@ -10,7 +13,8 @@ pub fn SliderLabel(
     value: Signal<f64>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("slider-label", include_str!("./slider_label.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("slider-label", include_str!("./slider_label.css"));
 
     let slider = SliderInjection::expect_context();
 

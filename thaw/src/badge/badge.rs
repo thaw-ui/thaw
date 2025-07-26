@@ -1,5 +1,8 @@
 use leptos::{either::Either, prelude::*};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/badge/badge.css");
 
 #[component]
 pub fn Badge(
@@ -15,7 +18,8 @@ pub fn Badge(
     color: Signal<BadgeColor>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("badge", include_str!("./badge.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("badge", include_str!("./badge.css"));
 
     view! {
         <div class=class_list![

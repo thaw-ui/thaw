@@ -1,7 +1,10 @@
 use crate::{FieldInjection, FieldValidationState, Rule};
 use leptos::{html, prelude::*};
 use std::ops::Deref;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/switch/switch.css");
 
 #[component]
 pub fn Switch(
@@ -24,7 +27,9 @@ pub fn Switch(
     #[prop(optional, into)]
     label: MaybeProp<String>,
 ) -> impl IntoView {
-    mount_style("switch", include_str!("./switch.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("switch", include_str!("./switch.css"));
+
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, checked, name);
     let id = Signal::derive(move || id.get().unwrap_or_else(|| uuid::Uuid::new_v4().to_string()));

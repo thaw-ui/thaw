@@ -3,9 +3,11 @@ use leptos::{either::Either, ev, html, prelude::*};
 use leptos_transition_group::CSSTransition;
 use thaw_components::Teleport;
 use thaw_utils::{
-    add_event_listener, class_list, get_scroll_parent_element, mount_style, BoxCallback,
-    EventListenerHandle,
+    add_event_listener, class_list, get_scroll_parent_element, BoxCallback, EventListenerHandle,
 };
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/back_top/back-top.css");
 
 #[component]
 pub fn BackTop(
@@ -21,7 +23,9 @@ pub fn BackTop(
     visibility_height: Signal<i32>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("back-top", include_str!("./back-top.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("back-top", include_str!("./back-top.css"));
+
     let config_provider = ConfigInjection::expect_context();
     let placeholder_ref = NodeRef::<html::Div>::new();
     let is_show_back_top = RwSignal::new(false);

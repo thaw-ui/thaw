@@ -1,6 +1,6 @@
-use std::ops::Deref;
-use leptos::prelude::*;
 use crate::{FieldValidationState, Rule};
+use leptos::prelude::*;
+use std::ops::Deref;
 
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub enum InputRuleTrigger {

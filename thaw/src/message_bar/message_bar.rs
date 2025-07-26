@@ -1,5 +1,8 @@
 use leptos::{context::Provider, either::EitherOf4, prelude::*};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/message_bar/message-bar.css");
 
 /// Communicates important information about the state of the entire application or surface.
 /// For example, the status of a page, panel, dialog or card.
@@ -14,7 +17,8 @@ pub fn MessageBar(
     intent: Signal<MessageBarIntent>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("message-bar", include_str!("./message-bar.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("message-bar", include_str!("./message-bar.css"));
 
     view! {
         <div

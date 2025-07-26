@@ -12,7 +12,10 @@ use leptos::{
 };
 use std::time::Duration;
 use thaw_components::{Follower, FollowerArrow};
-use thaw_utils::{class_list, mount_style, on_click_outside, BoxCallback};
+use thaw_utils::{class_list, on_click_outside, BoxCallback};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/popover/popover.css");
 
 #[component]
 pub fn Popover<T>(
@@ -37,7 +40,8 @@ pub fn Popover<T>(
 where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
-    mount_style("popover", include_str!("./popover.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("popover", include_str!("./popover.css"));
 
     let popover_ref = NodeRef::<html::Div>::new();
     let is_show_popover = RwSignal::new(false);

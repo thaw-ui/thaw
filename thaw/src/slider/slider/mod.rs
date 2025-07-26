@@ -5,7 +5,10 @@ pub use types::*;
 use crate::{FieldInjection, Rule};
 use leptos::{context::Provider, ev, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/slider/slider/slider.css");
 
 #[component]
 pub fn Slider(
@@ -39,7 +42,9 @@ pub fn Slider(
     vertical: Signal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("slider", include_str!("./slider.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("slider", include_str!("./slider.css"));
+
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
     let is_chldren = children.is_some();

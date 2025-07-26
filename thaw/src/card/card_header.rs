@@ -1,6 +1,9 @@
 use leptos::prelude::*;
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/avatar/avatar.css");
 
 #[component]
 pub fn CardHeader(
@@ -9,7 +12,9 @@ pub fn CardHeader(
     #[prop(optional)] card_header_action: Option<CardHeaderAction>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("card-header", include_str!("./card-header.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("card-header", include_str!("./card-header.css"));
+
     let some_description = card_header_description.is_some();
     view! {
         <div class=class_list![

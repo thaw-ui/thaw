@@ -2,8 +2,10 @@ use super::utils::{get_dropdown_action_from_key, DropdownAction};
 use crate::_aria::ActiveDescendantController;
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::sync::Arc;
-use thaw_utils::mount_style;
 use web_sys::{HtmlElement, Node};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/combobox/common/listbox.css");
 
 #[component]
 pub fn Listbox(
@@ -12,7 +14,8 @@ pub fn Listbox(
     listbox_ref: NodeRef<html::Div>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("listbox", include_str!("./listbox.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("listbox", include_str!("./listbox.css"));
 
     let trigger = ArcTrigger::new();
     let effect = RenderEffect::new({

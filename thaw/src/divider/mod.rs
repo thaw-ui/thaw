@@ -1,6 +1,9 @@
 use leptos::prelude::*;
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/divider/divider.css");
 
 #[component]
 pub fn Divider(
@@ -10,7 +13,8 @@ pub fn Divider(
     vertical: Signal<bool>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("divider", include_str!("./divider.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("divider", include_str!("./divider.css"));
 
     view! {
         <div

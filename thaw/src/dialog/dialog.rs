@@ -1,8 +1,11 @@
 use crate::ConfigInjection;
 use leptos::{context::Provider, ev, prelude::*};
-use thaw_components::{FocusTrap, Teleport};
 use leptos_transition_group::CSSTransition;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_components::{FocusTrap, Teleport};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/dialog/dialog.css");
 
 #[component]
 pub fn Dialog(
@@ -18,7 +21,9 @@ pub fn Dialog(
     close_on_esc: bool,
     children: Children,
 ) -> impl IntoView {
-    mount_style("dialog", include_str!("./dialog.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("dialog", include_str!("./dialog.css"));
+
     let config_provider = ConfigInjection::expect_context();
 
     let on_mask_click = move |_| {

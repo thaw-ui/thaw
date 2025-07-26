@@ -1,7 +1,13 @@
 use super::{DrawerPosition, DrawerSize};
 use leptos::prelude::*;
 use leptos_transition_group::CSSTransition;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/drawer/drawer.css");
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/drawer/inline-drawer.css");
 
 #[component]
 pub fn InlineDrawer(
@@ -17,8 +23,12 @@ pub fn InlineDrawer(
     size: Signal<DrawerSize>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("drawer", include_str!("./drawer.css"));
-    mount_style("inline-drawer", include_str!("./inline-drawer.css"));
+    #[cfg(not(feature = "manganis"))]
+    {
+        thaw_utils::mount_style("drawer", include_str!("./drawer.css"));
+        thaw_utils::mount_style("inline-drawer", include_str!("./inline-drawer.css"));
+    }
+
     let open_drawer: RwSignal<bool> = RwSignal::new(open.get_untracked());
 
     Effect::new(move |_| {

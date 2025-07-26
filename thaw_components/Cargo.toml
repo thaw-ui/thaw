@@ -19,8 +19,10 @@ web-sys = { version = "0.3.72", features = ["DomRect"] }
 cfg-if = "1.0.0"
 uuid = { version = "1.10.0", features = ["v4", "js"] }
 send_wrapper = "0.6"
+manganis = { workspace = true, optional = true }
 
 [features]
 csr = ["leptos/csr"]
 ssr = ["leptos/ssr"]
 hydrate = ["leptos/hydrate"]
+manganis = ["dep:manganis"]

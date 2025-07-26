@@ -10,7 +10,10 @@ use crate::{
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{call_on_click_outside_with_list, class_list, mount_style, Model};
+use thaw_utils::{call_on_click_outside_with_list, class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/tag_picker/tag_picker/tag-picker.css");
 
 #[component]
 pub fn TagPicker(
@@ -24,7 +27,9 @@ pub fn TagPicker(
     tag_picker_control: TagPickerControl,
     children: Children,
 ) -> impl IntoView {
-    mount_style("tag-picker", include_str!("./tag-picker.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("tag-picker", include_str!("./tag-picker.css"));
+
     let TagPickerControl {
         children: control_children,
     } = tag_picker_control;

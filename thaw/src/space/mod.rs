@@ -1,5 +1,8 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/space/space.css");
 
 #[derive(Default)]
 pub enum SpaceGap {
@@ -29,7 +32,9 @@ pub fn Space(
     justify: MaybeProp<SpaceJustify>,
     children: ChildrenFragment,
 ) -> impl IntoView {
-    mount_style("space", include_str!("./space.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("space", include_str!("./space.css"));
+
     let gap = match gap {
         SpaceGap::Small => "4px 8px".into(),
         SpaceGap::Medium => "8px 12px".into(),

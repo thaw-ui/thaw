@@ -1,6 +1,9 @@
 use crate::Theme;
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::{class_list, mount_dynamic_style, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/config_provider/config-provider.css");
 
 #[component]
 pub fn ConfigProvider(
@@ -16,13 +19,13 @@ pub fn ConfigProvider(
     dir: Option<RwSignal<ConfigDirection>>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("config-provider", include_str!("./config-provider.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("config-provider", include_str!("./config-provider.css"));
 
     let theme = theme.unwrap_or_else(|| RwSignal::new(Theme::light()));
     let theme_id = theme_id.unwrap_or_else(|| uuid::Uuid::new_v4().to_string());
     let id = StoredValue::new(theme_id);
-
-    mount_dynamic_style(id.get_value(), move || {
+    let css_vars = move || {
         let mut css_vars = String::new();
         theme.with(|theme| {
             theme.common.write_css_vars(&mut css_vars);
@@ -30,9 +33,12 @@ pub fn ConfigProvider(
         });
         format!(
             ".thaw-config-provider[data-thaw-id=\"{}\"]{{{css_vars}}}",
-            id.get_value()
+            id.get_value(),
         )
-    });
+    };
+
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_dynamic_style(id.get_value(), css_vars);
 
     #[cfg(not(feature = "ssr"))]
     Owner::on_cleanup(move || {
@@ -47,6 +53,16 @@ pub fn ConfigProvider(
 
     view! {
         <Provider value=config_injection>
+            {
+                #[cfg(feature = "manganis")]
+                {
+                    view! {
+                        <leptos_meta::Style id=id.get_value()>
+                            {css_vars}
+                        </leptos_meta::Style>
+                    }
+                }
+            }
             <div
                 class=class_list!["thaw-config-provider", class]
                 data-thaw-id=id.get_value()

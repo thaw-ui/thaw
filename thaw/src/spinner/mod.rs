@@ -1,5 +1,8 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/spinner/spinner.css");
 
 #[derive(Default, Clone)]
 pub enum SpinnerSize {
@@ -40,7 +43,9 @@ pub fn Spinner(
     size: Signal<SpinnerSize>,
     #[prop(optional)] children: Option<Children>,
 ) -> impl IntoView {
-    mount_style("spinner", include_str!("./spinner.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("spinner", include_str!("./spinner.css"));
+
     let id = StoredValue::new(uuid::Uuid::new_v4().to_string());
 
     let spinner_label = label.clone();

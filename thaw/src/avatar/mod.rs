@@ -1,6 +1,9 @@
 use leptos::{either::Either, prelude::*};
 use thaw_components::OptionComp;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/avatar/avatar.css");
 
 #[component]
 pub fn Avatar(
@@ -21,7 +24,8 @@ pub fn Avatar(
     #[prop(optional, into)]
     size: MaybeProp<u8>,
 ) -> impl IntoView {
-    mount_style("avatar", include_str!("./avatar.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("avatar", include_str!("./avatar.css"));
 
     let style = move || {
         let size = size.get()?;

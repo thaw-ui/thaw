@@ -2,7 +2,10 @@ use super::{SelectRule, SelectSize};
 
 use crate::{icon::ChevronDownRegularIcon, FieldInjection, Rule, SelectRuleTrigger};
 use leptos::{html, prelude::*};
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/select/select.css");
 
 #[component]
 pub fn Select(
@@ -23,7 +26,9 @@ pub fn Select(
     size: Signal<SelectSize>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("select", include_str!("./select.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("select", include_str!("./select.css"));
+
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
     let select_ref = NodeRef::<html::Select>::new();

@@ -8,7 +8,10 @@ use leptos::{
     ev, html,
     prelude::*,
 };
-use thaw_utils::{class_list, mount_style, BoxOneCallback, ComponentRef};
+use thaw_utils::{class_list, BoxOneCallback, ComponentRef};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/button/button/button.css");
 
 /// A button triggers an action or event when activated.
 #[component]
@@ -45,7 +48,8 @@ pub fn Button(
     #[prop(optional)] children: Option<Children>,
     #[prop(optional)] comp_ref: ComponentRef<ButtonRef>,
 ) -> impl IntoView {
-    mount_style("button", include_str!("./button.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("button", include_str!("./button.css"));
 
     let none_children = children.is_none();
     let size_injection = ButtonSizeInjection::use_context().map(|s| s.0);

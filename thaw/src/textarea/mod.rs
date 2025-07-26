@@ -6,7 +6,10 @@ pub use types::*;
 
 use crate::{FieldInjection, Rule};
 use leptos::{ev, html, prelude::*};
-use thaw_utils::{class_list, mount_style, BoxOneCallback, ComponentRef, Model};
+use thaw_utils::{class_list, BoxOneCallback, ComponentRef, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/textarea/textarea.css");
 
 #[component]
 pub fn Textarea(
@@ -46,7 +49,9 @@ pub fn Textarea(
     #[prop(optional)] comp_ref: ComponentRef<TextareaRef>,
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
 ) -> impl IntoView {
-    mount_style("textarea", include_str!("./textarea.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("textarea", include_str!("./textarea.css"));
+
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
     let value_trigger = ArcTrigger::new();

@@ -1,6 +1,9 @@
 use super::TagSize;
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::{class_list, mount_style, ArcOneCallback};
+use thaw_utils::{class_list, ArcOneCallback};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/tag/tag-group.css");
 
 #[component]
 pub fn TagGroup(
@@ -16,7 +19,8 @@ pub fn TagGroup(
     dismissible: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("tag-group", include_str!("./tag-group.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("tag-group", include_str!("./tag-group.css"));
 
     view! {
         <div class=class_list!["thaw-tag-group", class]>

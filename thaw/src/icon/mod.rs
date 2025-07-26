@@ -5,7 +5,10 @@ mod icons;
 pub(crate) use icons::*;
 
 use leptos::{ev, prelude::*};
-use thaw_utils::{class_list, mount_style, ArcOneCallback};
+use thaw_utils::{class_list, ArcOneCallback};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/icon/icon.css");
 
 /// The Icon component.
 #[component]
@@ -31,7 +34,8 @@ pub fn Icon(
     #[prop(optional, into)]
     on_click: Option<ArcOneCallback<ev::MouseEvent>>,
 ) -> impl IntoView {
-    mount_style("icon", include_str!("./icon.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("icon", include_str!("./icon.css"));
 
     let style = match (style, icon.style) {
         (Some(a), Some(b)) => Some(ArcMemo::new(move |_| format!("{b} {}", a.get())).into()),

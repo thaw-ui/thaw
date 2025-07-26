@@ -5,7 +5,10 @@ pub use types::*;
 use crate::{TreeItemInjection, _motion::CollapseTransition};
 use leptos::{context::Provider, either::Either, prelude::*};
 use std::collections::HashSet;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/tree/tree/tree.css");
 
 #[component]
 pub fn Tree(
@@ -19,7 +22,8 @@ pub fn Tree(
     size: Signal<TreeSize>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("tree", include_str!("./tree.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("tree", include_str!("./tree.css"));
 
     if let Some(subtree_injection) = SubtreeInjection::use_context() {
         let level = subtree_injection.level + 1;

@@ -2,7 +2,10 @@ use crate::RatingInjection;
 
 use super::{rating_item::RatingItem, RatingColor, RatingSize};
 use leptos::{context::Provider, prelude::*, reactive::wrappers::write::SignalSetter};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/rating/rating/rating.css");
 
 #[component]
 pub fn RatingDisplay(
@@ -21,7 +24,8 @@ pub fn RatingDisplay(
     #[prop(optional, into)]
     color: Signal<RatingColor>,
 ) -> impl IntoView {
-    mount_style("rating", include_str!("../rating/rating.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("rating", include_str!("../rating/rating.css"));
 
     view! {
         <div

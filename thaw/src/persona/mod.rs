@@ -5,7 +5,10 @@ pub use types::*;
 use crate::Avatar;
 use leptos::{either::Either, prelude::*};
 use thaw_components::{If, Then};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/persona/persona.css");
 
 #[component]
 pub fn Persona(
@@ -38,7 +41,8 @@ pub fn Persona(
     #[prop(optional)]
     persona_quaternary_text: Option<PersonaQuaternaryText>,
 ) -> impl IntoView {
-    mount_style("persona", include_str!("./persona.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("persona", include_str!("./persona.css"));
 
     let text_position_before =
         Memo::new(move |_| text_position.get() == PersonaTextPosition::Before);

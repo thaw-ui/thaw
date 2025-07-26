@@ -1,5 +1,8 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/progress_bar/progress-bar.css");
 
 #[component]
 pub fn ProgressBar(
@@ -16,7 +19,8 @@ pub fn ProgressBar(
     #[prop(into, optional)]
     color: Signal<ProgressBarColor>,
 ) -> impl IntoView {
-    mount_style("progress-bar", include_str!("./progress-bar.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("progress-bar", include_str!("./progress-bar.css"));
 
     let style = move || {
         let max = max.get();

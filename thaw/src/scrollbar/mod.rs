@@ -1,5 +1,8 @@
 use leptos::{ev, html, leptos_dom::helpers::WindowListenerHandle, prelude::*};
-use thaw_utils::{class_list, mount_style, ComponentRef};
+use thaw_utils::{class_list, ComponentRef};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/scrollbar/scrollbar.css");
 
 #[component]
 pub fn Scrollbar(
@@ -17,7 +20,9 @@ pub fn Scrollbar(
     #[prop(optional)] comp_ref: Option<ComponentRef<ScrollbarRef>>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("scrollbar", include_str!("./scrollbar.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("scrollbar", include_str!("./scrollbar.css"));
+
     let container_ref = NodeRef::<html::Div>::new();
     let content_ref = NodeRef::<html::Div>::new();
     let x_track_ref = NodeRef::<html::Div>::new();

@@ -1,5 +1,8 @@
 use leptos::{either::EitherOf3, prelude::*};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/link/link.css");
 
 #[component]
 pub fn Link(
@@ -17,7 +20,8 @@ pub fn Link(
     disabled_focusable: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("link", include_str!("./link.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("link", include_str!("./link.css"));
 
     let link_disabled = Memo::new(move |_| disabled.get() || disabled_focusable.get());
     let class = class_list![

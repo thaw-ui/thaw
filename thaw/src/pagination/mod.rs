@@ -1,7 +1,10 @@
 use crate::{Button, ButtonAppearance};
 use leptos::{either::Either, prelude::*};
 use std::cmp::min;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/pagination/pagination.css");
 
 #[component]
 pub fn Pagination(
@@ -16,7 +19,8 @@ pub fn Pagination(
     #[prop(default = 1.into(), into)]
     sibling_count: Signal<usize>,
 ) -> impl IntoView {
-    mount_style("pagination", include_str!("./pagination.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("pagination", include_str!("./pagination.css"));
 
     let no_next = Memo::new(move |_| page.get() == page_count.get());
     let no_previous = Memo::new(move |_| page.get() == 1);

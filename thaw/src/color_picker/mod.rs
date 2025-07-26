@@ -8,7 +8,10 @@ use leptos::leptos_dom::helpers::WindowListenerHandle;
 use leptos::{ev, html, prelude::*};
 use palette::{Hsv, IntoColor, Srgb};
 use thaw_components::{Follower, FollowerPlacement};
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/color_picker/color-picker.css");
 
 #[component]
 pub fn ColorPicker(
@@ -20,7 +23,9 @@ pub fn ColorPicker(
     #[prop(optional, into)]
     size: Signal<ColorPickerSize>,
 ) -> impl IntoView {
-    mount_style("color-picker", include_str!("./color-picker.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("color-picker", include_str!("./color-picker.css"));
+
     let hue = RwSignal::new(0f32);
     let sv = RwSignal::new((0f32, 0f32));
     let label = RwSignal::new(String::new());

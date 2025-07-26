@@ -1,5 +1,8 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/image/image.css");
 
 #[component]
 pub fn Image(
@@ -29,7 +32,8 @@ pub fn Image(
     #[prop(optional, into)]
     fit: Signal<ImageFit>,
 ) -> impl IntoView {
-    mount_style("image", include_str!("./image.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("image", include_str!("./image.css"));
 
     view! {
         <img

@@ -1,12 +1,16 @@
 use leptos::prelude::*;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/breadcrumb/breadcrumb.css");
 
 #[component]
 pub fn Breadcrumb(
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("breadcrumb", include_str!("./breadcrumb.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("breadcrumb", include_str!("./breadcrumb.css"));
 
     view! {
         <nav class=class_list!["thaw-breadcrumb", class]>

@@ -4,8 +4,11 @@ use super::{
 };
 use leptos::{ev, html, leptos_dom::helpers::WindowListenerHandle, logging, prelude::*};
 use std::sync::Arc;
-use thaw_utils::{add_event_listener, get_scroll_parent_node, mount_style, EventListenerHandle};
+use thaw_utils::{add_event_listener, get_scroll_parent_node, EventListenerHandle};
 use web_sys::wasm_bindgen::UnwrapThrowExt;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/binder/binder.css");
 
 pub fn use_binder(
     follower_width: Option<FollowerWidth>,
@@ -13,7 +16,8 @@ pub fn use_binder(
     auto_height: bool,
     arrow: Option<FollowerArrow>,
 ) -> UseBinder {
-    mount_style("binder", include_str!("./binder.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("binder", include_str!("./binder.css"));
 
     let scrollable_element_handle_vec = StoredValue::<Vec<EventListenerHandle>>::new(vec![]);
     let resize_handle = StoredValue::new(None::<WindowListenerHandle>);

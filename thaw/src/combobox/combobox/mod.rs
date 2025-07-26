@@ -11,7 +11,10 @@ use crate::{
 use leptos::{context::Provider, ev, html, prelude::*};
 use std::collections::HashMap;
 use thaw_components::{Follower, FollowerPlacement, FollowerWidth};
-use thaw_utils::{add_event_listener, class_list, mount_style, Model, VecModel, VecModelWithValue};
+use thaw_utils::{add_event_listener, class_list, Model, VecModel, VecModelWithValue};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/combobox/combobox/combobox.css");
 
 #[component]
 pub fn Combobox(
@@ -40,7 +43,9 @@ pub fn Combobox(
     size: Signal<ComboboxSize>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("combobox", include_str!("./combobox.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("combobox", include_str!("./combobox.css"));
+
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, selected_options, name);
     let input_ref = NodeRef::<html::Input>::new();

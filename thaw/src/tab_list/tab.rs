@@ -1,7 +1,10 @@
 use super::{TabListInjection, TabRegisterData};
 use leptos::{html, prelude::*};
 use std::ops::Deref;
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/tab_list/tab.css");
 
 #[component]
 pub fn Tab(
@@ -11,7 +14,8 @@ pub fn Tab(
     value: String,
     children: Children,
 ) -> impl IntoView {
-    mount_style("tab", include_str!("./tab.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("tab", include_str!("./tab.css"));
 
     let tab_ref = NodeRef::<html::Button>::new();
     let tab_list = TabListInjection::expect_context();

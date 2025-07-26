@@ -2,7 +2,10 @@ use crate::{Button, ButtonGroup};
 use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
 use leptos::{prelude::*, tachys::view::any_view::AnyView};
 use std::{ops::Deref, sync::Arc};
-use thaw_utils::{class_list, mount_style, OptionModel, OptionModelWithValue};
+use thaw_utils::{class_list, OptionModel, OptionModelWithValue};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/calendar/calendar.css");
 
 #[component]
 pub fn Calendar(
@@ -12,7 +15,9 @@ pub fn Calendar(
     value: OptionModel<NaiveDate>,
     #[prop(optional, into)] children: Option<CalendarChildrenFn>,
 ) -> impl IntoView {
-    mount_style("calendar", include_str!("./calendar.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("calendar", include_str!("./calendar.css"));
+
     let show_date = RwSignal::new(value.get_untracked().unwrap_or(now_date()));
     Effect::new(move |_| {
         if let Some(selected_date) = value.get() {

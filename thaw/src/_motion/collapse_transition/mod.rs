@@ -1,7 +1,9 @@
 use leptos::prelude::*;
 use leptos_transition_group::CSSTransition;
-use thaw_utils::mount_style;
 use web_sys::HtmlElement;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/_motion/collapse_transition/index.css");
 
 #[component]
 pub fn CollapseTransition<T>(
@@ -11,7 +13,8 @@ pub fn CollapseTransition<T>(
 where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
-    mount_style("motion-collapse", include_str!("./index.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("motion-collapse", include_str!("./index.css"));
 
     let on_enter = |el: HtmlElement| {
         let style = el.style();

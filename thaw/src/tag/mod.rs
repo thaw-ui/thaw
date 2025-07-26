@@ -5,7 +5,10 @@ pub use interaction_tag::*;
 pub use tag_group::*;
 
 use leptos::{either::Either, ev, prelude::*};
-use thaw_utils::{class_list, mount_style, ArcOneCallback};
+use thaw_utils::{class_list, ArcOneCallback};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/tag/tag.css");
 
 #[component]
 pub fn Tag(
@@ -24,7 +27,9 @@ pub fn Tag(
     value: Option<String>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("tag", include_str!("./tag.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("tag", include_str!("./tag.css"));
+
     let (group_size, group_on_dismiss, group_dismissible) = TagGroupInjection::use_context()
         .map(
             |TagGroupInjection {

@@ -7,9 +7,10 @@ pub use types::*;
 use crate::{FieldInjection, Rule};
 use leptos::{ev, html, prelude::*};
 
-use thaw_utils::{
-    class_list, mount_style, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp,
-};
+use thaw_utils::{class_list, ArcOneCallback, BoxOneCallback, ComponentRef, Model, OptionalProp};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/input/input.css");
 
 #[component]
 pub fn Input(
@@ -65,7 +66,9 @@ pub fn Input(
     size: Signal<InputSize>,
     #[prop(optional, into)] autocomplete: MaybeProp<String>,
 ) -> impl IntoView {
-    mount_style("input", include_str!("./input.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("input", include_str!("./input.css"));
+
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
 

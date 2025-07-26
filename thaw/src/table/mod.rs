@@ -1,12 +1,16 @@
 use leptos::{either::Either, ev, html, prelude::*};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/table/table.css");
 
 #[component]
 pub fn Table(
     #[prop(optional, into)] class: MaybeProp<String>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("table", include_str!("./table.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("table", include_str!("./table.css"));
 
     view! { <table class=class_list!["thaw-table", class]>{children()}</table> }
 }

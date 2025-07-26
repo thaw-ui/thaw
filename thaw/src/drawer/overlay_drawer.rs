@@ -3,7 +3,13 @@ use crate::ConfigInjection;
 use leptos::{either::Either, ev, prelude::*};
 use leptos_transition_group::CSSTransition;
 use thaw_components::{FocusTrap, Teleport};
-use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
+use thaw_utils::{class_list, use_lock_html_scroll, Model};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/drawer/drawer.css");
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/drawer/overlay-drawer.css");
 
 #[component]
 pub fn OverlayDrawer(
@@ -29,8 +35,11 @@ pub fn OverlayDrawer(
     modal_type: DrawerModalType,
     children: Children,
 ) -> impl IntoView {
-    mount_style("drawer", include_str!("./drawer.css"));
-    mount_style("overlay-drawer", include_str!("./overlay-drawer.css"));
+    #[cfg(not(feature = "manganis"))]
+    {
+        thaw_utils::mount_style("drawer", include_str!("./drawer.css"));
+        thaw_utils::mount_style("overlay-drawer", include_str!("./overlay-drawer.css"));
+    }
 
     let config_provider = ConfigInjection::expect_context();
     let open_drawer: RwSignal<bool> = RwSignal::new(open.get_untracked());

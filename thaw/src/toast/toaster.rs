@@ -5,8 +5,11 @@ use leptos_transition_group::CSSTransition;
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
 use thaw_components::Teleport;
-use thaw_utils::{mount_style, ArcTwoCallback};
+use thaw_utils::ArcTwoCallback;
 use wasm_bindgen::UnwrapThrowExt;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/toast/toaster.css");
 
 #[component]
 pub fn Toaster(
@@ -15,7 +18,9 @@ pub fn Toaster(
     #[prop(optional)] intent: ToastIntent,
     #[prop(default = Duration::from_secs(3))] timeout: Duration,
 ) -> impl IntoView {
-    mount_style("toaster", include_str!("./toaster.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("toaster", include_str!("./toaster.css"));
+
     let config_provider = ConfigInjection::expect_context();
     let top_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());
     let top_start_id_list = RwSignal::<Vec<uuid::Uuid>>::new(Default::default());

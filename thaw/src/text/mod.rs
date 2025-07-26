@@ -1,5 +1,8 @@
 use leptos::{prelude::*, tachys::view::any_view::IntoAny};
-use thaw_utils::{class_list, mount_style};
+use thaw_utils::class_list;
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/text/text.css");
 
 #[component]
 pub fn Caption1(
@@ -47,7 +50,9 @@ pub fn Text(
     #[prop(optional)] tag: TextTag,
     children: Children,
 ) -> impl IntoView {
-    mount_style("text", include_str!("./text.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("text", include_str!("./text.css"));
+
     let class = class_list!["thaw-text", class];
     let style = move || style.get();
 

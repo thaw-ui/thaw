@@ -13,7 +13,10 @@ use leptos::{
 };
 use std::time::Duration;
 use thaw_components::{Follower, FollowerPlacement};
-use thaw_utils::{class_list, mount_style, on_click_outside, ArcOneCallback, BoxOneCallback};
+use thaw_utils::{class_list, on_click_outside, ArcOneCallback, BoxOneCallback};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/menu/menu.css");
 
 #[slot]
 pub struct MenuTrigger<T> {
@@ -40,7 +43,8 @@ pub fn Menu<T, V: 'static>(
 where
     T: AddAnyAttr + IntoView + Send + 'static,
 {
-    mount_style("menu", include_str!("./menu.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("menu", include_str!("./menu.css"));
 
     let menu_ref = NodeRef::<Div>::new();
     let is_show_menu = RwSignal::new(false);

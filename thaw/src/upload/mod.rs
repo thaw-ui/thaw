@@ -4,7 +4,10 @@ pub use upload_dragger::UploadDragger;
 pub use web_sys::FileList;
 
 use leptos::{ev, html, prelude::*};
-use thaw_utils::{add_event_listener, class_list, mount_style, ArcOneCallback};
+use thaw_utils::{add_event_listener, class_list, ArcOneCallback};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/upload/upload.css");
 
 #[component]
 pub fn Upload(
@@ -25,7 +28,8 @@ pub fn Upload(
     custom_request: Option<ArcOneCallback<FileList>>,
     children: Children,
 ) -> impl IntoView {
-    mount_style("upload", include_str!("./upload.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("upload", include_str!("./upload.css"));
 
     let input_ref = NodeRef::<html::Input>::new();
     let trigger_ref = NodeRef::<html::Div>::new();

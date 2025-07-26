@@ -5,9 +5,12 @@ pub use types::*;
 use super::rating_item::RatingItem;
 use crate::{FieldInjection, Rule};
 use leptos::{context::Provider, prelude::*};
-use thaw_utils::{class_list, mount_style, OptionModel};
+use thaw_utils::{class_list, OptionModel};
 use wasm_bindgen::JsCast;
 use web_sys::{Event, EventTarget, HtmlInputElement, MouseEvent};
+
+#[cfg(feature = "manganis")]
+const _: manganis::Asset = manganis::asset!("/src/rating/rating/rating.css");
 
 #[component]
 pub fn Rating(
@@ -34,7 +37,9 @@ pub fn Rating(
     #[prop(optional, into)]
     color: Signal<RatingColor>,
 ) -> impl IntoView {
-    mount_style("rating", include_str!("./rating.css"));
+    #[cfg(not(feature = "manganis"))]
+    thaw_utils::mount_style("rating", include_str!("./rating.css"));
+
     let (id, name) = FieldInjection::use_id_and_name(id, name);
     let validate = Rule::validate(rules, value, name);
 
