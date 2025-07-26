@@ -15,7 +15,7 @@ where
     ///
     /// ## Usage
     ///
-    /// ```rust
+    /// ```rust,no_run
     /// use leptos::prelude::*;
     /// use thaw_utils::SignalWatch;
     ///

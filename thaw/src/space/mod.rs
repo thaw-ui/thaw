@@ -113,6 +113,7 @@ impl SpaceJustify {
 
 #[cfg(test)]
 mod test {
+    #[cfg(feature = "ssr")]
     #[test]
     fn main() {
         use super::Space;
