@@ -1,6 +1,6 @@
 use super::PanelVariant;
-use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate};
-use chrono::{Datelike, Days, Month, Months, NaiveDate};
+use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate, LocaleConfig};
+use chrono::{Datelike, Days, Months, NaiveDate};
 use leptos::{html, prelude::*};
 use std::ops::Deref;
 use thaw_components::FollowerInjection;
@@ -14,6 +14,7 @@ pub fn DatePanel(
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
     let follower = FollowerInjection::expect_context();
+    let locale = LocaleConfig::use_locale();
     let panel_ref = NodeRef::<html::Div>::new();
     Effect::new(move || {
         let Some(_) = panel_ref.get() else {
@@ -117,7 +118,7 @@ pub fn DatePanel(
                             size=ButtonSize::Small
                             on_click=move |_| panel_variant.set(PanelVariant::Month)
                         >
-                            {move || Month::try_from(show_date.get().month() as u8).unwrap().name()}
+                            {move || locale.get().month(show_date.get().month() as u8)}
                         </Button>
                         <Button
                             appearance=ButtonAppearance::Subtle

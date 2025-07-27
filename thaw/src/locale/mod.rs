@@ -34,4 +34,12 @@ impl LocaleConfig {
     pub fn month(&self, month: u8) -> &'static str {
         self.months()[(month - 1) as usize]
     }
+
+    pub fn ab_months(&self) -> &'static [&'static str] {
+        locale_match!(self.locale => LC_TIME::ABMON)
+    }
+
+    pub fn ab_month(&self, month: u8) -> &'static str {
+        self.ab_months()[(month - 1) as usize]
+    }
 }
