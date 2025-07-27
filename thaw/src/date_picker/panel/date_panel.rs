@@ -142,13 +142,13 @@ pub fn DatePanel(
                     />
                 </div>
                 <div class="thaw-date-picker-date-panel__weekdays">
-                    <span>"Su"</span>
-                    <span>"Mo"</span>
-                    <span>"Tu"</span>
-                    <span>"We"</span>
-                    <span>"Th"</span>
-                    <span>"Fr"</span>
-                    <span>"Sa"</span>
+                    {move|| {
+                        (0..=6)
+                            .into_iter()
+                            .map(|n| view! { <span>{locale.get().ab_day(n)}</span>})
+                            .collect_view()
+                        }
+                    }
                 </div>
                 <div class="thaw-date-picker-date-panel__dates">
                     {move || {
