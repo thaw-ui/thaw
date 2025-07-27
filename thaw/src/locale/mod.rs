@@ -42,4 +42,13 @@ impl LocaleConfig {
     pub fn ab_month(&self, month: u8) -> &'static str {
         self.ab_months()[(month - 1) as usize]
     }
+
+    pub fn ab_days(&self) -> &'static [&'static str] {
+        locale_match!(self.locale => LC_TIME::ABDAY)
+    }
+
+    /// day is the number of day from sunday (sunday=0, monday=1, ...)
+    pub fn ab_day(&self, day: u8) -> &'static str {
+        self.ab_days()[day as usize]
+    }
 }

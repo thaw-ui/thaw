@@ -146,6 +146,7 @@ fn CalendarItem(
     date: CalendarItemDate,
     children: Option<CalendarChildrenFn>,
 ) -> impl IntoView {
+    let locale = LocaleConfig::use_locale();
     let is_selected = Memo::new({
         let date = date.clone();
         move |_| {
@@ -155,7 +156,6 @@ fn CalendarItem(
             })
         }
     });
-    let weekday_str = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let on_click = {
         let date = date.clone();
         move |_| {
@@ -175,7 +175,7 @@ fn CalendarItem(
 
                 {if index < 7 {
                     view! {
-                        <span class="thaw-calendar-item__header-title">{weekday_str[index]}</span>
+                        <span class="thaw-calendar-item__header-title">{move || locale.get().ab_day(index as u8)}</span>
                     }
                         .into()
                 } else {
