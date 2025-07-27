@@ -41,6 +41,7 @@ num-traits = "0.2.19"
 send_wrapper = "0.6"
 slotmap = "1.0"
 getset = "0.1.5"
+pure-rust-locales = "0.8.1"
 
 [features]
 csr = ["leptos/csr", "thaw_components/csr", "thaw_utils/csr"]
