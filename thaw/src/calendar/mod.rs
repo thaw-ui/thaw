@@ -33,19 +33,23 @@ pub fn Calendar(
         let show_date_month = show_date.month();
         let mut dates = vec![];
 
+        let first_weekday = locale.get().first_weekday();
+        let last_weekday = first_weekday.pred();
+
         let mut current_date = show_date;
-        let mut current_weekday_number = None::<u32>;
+        let mut current_weekday = None;
         loop {
             let date = current_date - Days::new(1);
             if date.month() != show_date_month {
-                if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
+                if current_weekday.is_none() {
+                    current_weekday = Some(current_date.weekday());
                 }
-                let weekday_number = current_weekday_number.unwrap();
-                if weekday_number == 0 {
+                let weekday = current_weekday.unwrap();
+
+                if weekday == first_weekday {
                     break;
                 }
-                current_weekday_number = Some(weekday_number - 1);
+                current_weekday = Some(weekday.pred());
 
                 dates.push(CalendarItemDate::Previous(date));
             } else {
@@ -56,18 +60,18 @@ pub fn Calendar(
         dates.reverse();
         dates.push(CalendarItemDate::Current(show_date));
         current_date = show_date;
-        current_weekday_number = None;
+        current_weekday = None;
         loop {
             let date = current_date + Days::new(1);
             if date.month() != show_date_month {
-                if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
+                if current_weekday.is_none() {
+                    current_weekday = Some(current_date.weekday());
                 }
-                let weekday_number = current_weekday_number.unwrap();
-                if weekday_number == 6 {
+                let weekday = current_weekday.unwrap();
+                if weekday == last_weekday {
                     break;
                 }
-                current_weekday_number = Some(weekday_number + 1);
+                current_weekday = Some(weekday.succ());
                 dates.push(CalendarItemDate::Next(date));
             } else {
                 dates.push(CalendarItemDate::Current(date));
@@ -175,7 +179,12 @@ fn CalendarItem(
 
                 {if index < 7 {
                     view! {
-                        <span class="thaw-calendar-item__header-title">{move || locale.get().ab_day(index as u8)}</span>
+                        <span class="thaw-calendar-item__header-title">
+                            {
+                                let date = date.clone();
+                                move || locale.get().ab_weekday(date.weekday())
+                            }
+                        </span>
                     }
                         .into()
                 } else {
