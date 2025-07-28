@@ -66,4 +66,11 @@ impl LocaleConfig {
             ((locale_match!(self.locale => LC_TIME::FIRST_WEEKDAY).unwrap_or(1) + 5) % 7) as u8;
         number_of_days_since_mondays.try_into().unwrap()
     }
+
+    pub fn today(&self) -> &'static str {
+        match locale_match!(self.locale => LC_ADDRESS::LANG_AB) {
+            Some("fr") => "Aujourd'hui",
+            _ => "Today",
+        }
+    }
 }

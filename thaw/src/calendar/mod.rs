@@ -114,7 +114,7 @@ pub fn Calendar(
                 </span>
                 <ButtonGroup>
                     <Button icon=icondata_ai::AiLeftOutlined on_click=previous_month />
-                    <Button on_click=today>"Today"</Button>
+                    <Button on_click=today>{move || locale.get().today()}</Button>
                     <Button icon=icondata_ai::AiRightOutlined on_click=next_month />
                 </ButtonGroup>
             </div>

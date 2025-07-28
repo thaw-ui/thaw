@@ -4,6 +4,8 @@ Some component, `Calendar` and `DatePicker`, can use another locale that the def
 
 You can set the locale via the `locale` props of the `ConfigProvider`. If you need to change the locale, you can call the `LocaleConfig::use_rw_locale()` function to get a `RwSignal` of the locale.
 
+Only the English and French locales are fully supported. For other locales, the "Today" button is not translated.
+
 ```rust demo
 use chrono::prelude::*;
 use Locale;
