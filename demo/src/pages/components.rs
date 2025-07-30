@@ -162,6 +162,11 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                 },
                 NavItemOption {
                     group: None,
+                    value: "/guide/internationalization",
+                    label: "Internationalization",
+                },
+                NavItemOption {
+                    group: None,
                     value: "/guide/FAQs",
                     label: "FAQs",
                 },

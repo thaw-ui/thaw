@@ -1,4 +1,4 @@
-use crate::Theme;
+use crate::{LocaleConfig, Theme};
 use leptos::{context::Provider, prelude::*};
 use thaw_utils::{class_list, mount_dynamic_style, mount_style};
 
@@ -14,6 +14,9 @@ pub fn ConfigProvider(
     /// Sets the direction of text & generated styles.
     #[prop(optional, into)]
     dir: Option<RwSignal<ConfigDirection>>,
+    /// Sets the locale used in a scope.
+    #[prop(optional, into)]
+    locale: Option<RwSignal<LocaleConfig>>,
     children: Children,
 ) -> impl IntoView {
     mount_style("config-provider", include_str!("./config-provider.css"));
@@ -21,6 +24,7 @@ pub fn ConfigProvider(
     let theme = theme.unwrap_or_else(|| RwSignal::new(Theme::light()));
     let theme_id = theme_id.unwrap_or_else(|| uuid::Uuid::new_v4().to_string());
     let id = StoredValue::new(theme_id);
+    let locale = locale.unwrap_or_else(|| RwSignal::new(LocaleConfig::default()));
 
     mount_dynamic_style(id.get_value(), move || {
         let mut css_vars = String::new();
@@ -43,7 +47,12 @@ pub fn ConfigProvider(
         }
     });
 
-    let config_injection = ConfigInjection { theme, dir, id };
+    let config_injection = ConfigInjection {
+        theme,
+        dir,
+        id,
+        locale,
+    };
 
     view! {
         <Provider value=config_injection>
@@ -62,6 +71,7 @@ pub fn ConfigProvider(
 pub struct ConfigInjection {
     pub theme: RwSignal<Theme>,
     pub dir: Option<RwSignal<ConfigDirection>>,
+    pub locale: RwSignal<LocaleConfig>,
     id: StoredValue<String>,
 }
 
