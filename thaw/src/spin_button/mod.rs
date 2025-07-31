@@ -49,6 +49,9 @@ pub fn SpinButton<T>(
     /// Size of the input.
     #[prop(optional, into)]
     size: Signal<SpinButtonSize>,
+    /// Input size width.
+    #[prop(optional, into)]
+    input_size: Signal<Option<i32>>,
     /// Modifies the user input before assigning it to the value.
     #[prop(optional, into)]
     parser: OptionalProp<BoxOneCallback<String, Option<T>>>,
@@ -116,6 +119,7 @@ where
                 disabled=move || disabled.get()
                 placeholder=move || placeholder.get()
                 value=initialization_value
+                size=input_size
                 prop:value=move || {
                     let value = value.get();
                     if let Some(format) = format.as_ref() {
