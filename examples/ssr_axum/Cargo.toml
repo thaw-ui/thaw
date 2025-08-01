@@ -7,21 +7,27 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-axum = { version = "0.7.5", optional = true }
-console_error_panic_hook = "0.1"
-leptos = { version = "0.7.7" }
-leptos_axum = { version = "0.7.7", optional = true }
-leptos_meta = { version = "0.7.7" }
-leptos_router = { version = "0.7.7" }
-tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
+http = "1"
 tower = { version = "0.5.0", optional = true }
 tower-http = { version = "0.5", features = ["fs"], optional = true }
-wasm-bindgen = "0.2.95"
+axum = { version = "0.8.1", optional = true }
+
+tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
+
+console_log = "1"
+console_error_panic_hook = "0.1"
+
+leptos = { version = "0.8.5" }
+leptos_axum = { version = "0.8.5", optional = true }
+leptos_meta = { version = "0.8.5" }
+leptos_router = { version = "0.8.5" }
+
+wasm-bindgen = "0.2.100"
+
 thiserror = "1"
 tracing = { version = "0.1", optional = true }
-http = "1"
-console_log = "1"
 log = "0.4"
+
 demo = { path = "../../demo", default-features = false }
 thaw = { path = "../../thaw" }
 

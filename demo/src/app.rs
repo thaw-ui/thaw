@@ -58,6 +58,8 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/server-sider-rendering") view=ServerSiderRenderingMdPage />
                     <Route path=path!("/development/components") view=DevelopmentComponentsMdPage />
                     <Route path=path!("/customize-theme") view=CustomizeThemeMdPage />
+                    <Route path=path!("/style-element-position") view=StyleElementPositionMdPage />
+                    <Route path=path!("/internationalization") view=InternationalizationMdPage />
                     <Route path=path!("/FAQs") view=FAQsMdPage />
                 </ParentRoute>
                 <ParentRoute path=path!("/components") view=ComponentsPage>
@@ -120,6 +122,7 @@ fn TheRouter() -> impl IntoView {
                     <Route path=path!("/time-picker") view=TimePickerMdPage />
                     <Route path=path!("/toast") view=ToastMdPage />
                     <Route path=path!("/tooltip") view=TooltipMdPage />
+                    <Route path=path!("/tree") view=TreeMdPage />
                     <Route path=path!("/upload") view=UploadMdPage />
                 </ParentRoute>
             </Routes>

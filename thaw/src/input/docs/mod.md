@@ -143,7 +143,7 @@ view! {
 | autofocus | `Signal<bool>` | `false` | Whether the input receives focus automatically. |
 | disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | readonly | `Signal<bool>` | `false` | Whether the input is readonly. |
-| input_size | `Signal<Option<i32>>` | `None` | The input size width. |
+| input_size | `Signal<Option<u32>>` | `None` | The input size width. |
 | on_focus | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is focussed on. |
 | on_blur | `Option<BoxOneCallback<ev::FocusEvent>>` | `None` | Callback triggered when the input is blurred. |
 | parser | `OptionalProp<BoxOneCallback<String, Option<String>>>` | `None` | Modifies the user input before assigning it to the value. |

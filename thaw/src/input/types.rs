@@ -28,6 +28,7 @@ pub enum InputType {
     DatetimeLocal,
     Month,
     Week,
+    Number,
 }
 
 impl InputType {
@@ -44,6 +45,7 @@ impl InputType {
             Self::DatetimeLocal => "datetime-local",
             Self::Month => "month",
             Self::Week => "week",
+            Self::Number => "number",
         }
     }
 }
