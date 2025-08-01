@@ -49,7 +49,7 @@ pub fn Input(
     readonly: Signal<bool>,
     /// Input size width.
     #[prop(optional, into)]
-    input_size: Signal<Option<i32>>,
+    input_size: Signal<Option<u32>>,
     #[prop(optional)] input_prefix: Option<InputPrefix>,
     #[prop(optional)] input_suffix: Option<InputSuffix>,
     #[prop(optional, into)] input_style: MaybeProp<String>,
