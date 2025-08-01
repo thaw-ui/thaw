@@ -51,7 +51,7 @@ pub fn SpinButton<T>(
     size: Signal<SpinButtonSize>,
     /// Input size width.
     #[prop(optional, into)]
-    input_size: Signal<Option<i32>>,
+    input_size: Signal<Option<u32>>,
     /// Modifies the user input before assigning it to the value.
     #[prop(optional, into)]
     parser: OptionalProp<BoxOneCallback<String, Option<T>>>,

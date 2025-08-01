@@ -113,7 +113,7 @@ view! {
 | max | `Signal<T>` | `T::max_value()` | The maximum number that the input value can take. |
 | disabled | `Signal<bool>` | `false` | Whether the input is disabled. |
 | size | `Signal<SpinButtonSize>` | `SpinButtonSize::Medium` | Size of the input. |
-| input_size | `Signal<Option<i32>>` | `None` | The input size width. |
+| input_size | `Signal<Option<u32>>` | `None` | The input size width. |
 | parser | `OptionalProp<BoxOneCallback<String, Option<T>>>` | `None` | Modifies the user input before assigning it to the value. |
 | format | `OptionalProp<BoxOneCallback<T, String>>` | `None` | Formats the value to be shown to the user. |
 
