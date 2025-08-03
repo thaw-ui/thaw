@@ -1,3 +1,9 @@
+## [0.4.8](https://github.com/thaw-ui/thaw/compare/v0.4.7...v0.4.8) (2025-08-03)
+
+### Features
+
+* min and max props added to `Grid`, closes [#417](https://github.com/thaw-ui/thaw/pull/417).
+
 ## [0.4.7](https://github.com/thaw-ui/thaw/compare/v0.4.6...v0.4.7) (2025-05-04)
 
 ### Features
