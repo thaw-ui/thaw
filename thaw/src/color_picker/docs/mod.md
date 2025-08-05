@@ -46,6 +46,14 @@ view! {
 }
 ```
 
+### Label
+
+```rust demo
+view! {
+    <ColorPicker label="Color"/>
+}
+```
+
 ### ColorPicker Props
 
 | Name  | Type                      | Default                   | Desciption           |
@@ -53,3 +61,4 @@ view! {
 | class | `MaybeProp<String>`       | `Default::default()`      |                      |
 | value | `Model<Color>`            | `Default::default()`      | Value of the picker. |
 | size  | `Signal<ColorPickerSize>` | `ColorPickerSize::Medium` | Size of the picker.  |
+| label | `MaybeProp<String>`       | `Default::default()`      | Label of the picker. |
