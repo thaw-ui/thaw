@@ -182,6 +182,11 @@ impl RenderHtml for SSRMountStyle {
         SSRMountStyleState { state }
     }
 
+    async fn hydrate_async(self, cursor: &Cursor, position: &PositionState) -> Self::State {
+        let state = self.children.hydrate_async(cursor, position).await;
+        SSRMountStyleState { state }
+    }
+
     fn into_owned(self) -> Self::Owned {
         self
     }
