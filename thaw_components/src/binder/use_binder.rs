@@ -5,7 +5,7 @@ use super::{
 use leptos::{ev, html, leptos_dom::helpers::WindowListenerHandle, logging, prelude::*};
 use std::sync::Arc;
 use thaw_utils::{add_event_listener, get_scroll_parent_node, mount_style, EventListenerHandle};
-use web_sys::wasm_bindgen::UnwrapThrowExt;
+use web_sys::{wasm_bindgen::UnwrapThrowExt, DomRect, Element};
 
 pub fn use_binder(
     follower_width: Option<FollowerWidth>,
@@ -41,8 +41,8 @@ pub fn use_binder(
         let Some(target_ref) = target_ref.get_untracked() else {
             return;
         };
-        let target_rect = target_ref.get_bounding_client_rect();
-        let content_rect = content_ref.get_bounding_client_rect();
+        let target_rect = get_true_rect(&target_ref);
+        let content_rect = get_true_rect(&content_ref);
         let mut styles = Vec::<(&str, String)>::new();
         styles.push(("position", "absolute".to_string()));
         if let Some(width) = follower_width {
@@ -237,4 +237,18 @@ pub fn use_binder(
         ensure_listener: Arc::new(ensure_listener),
         remove_listener: Arc::new(remove_listener),
     }
+}
+
+fn get_true_rect(e: &Element) -> DomRect {
+    let rect = e.get_bounding_client_rect();
+    let Some(window) = web_sys::window() else {
+        return rect;
+    };
+    if let Ok(s) = window.scroll_x() {
+        rect.set_x(rect.x() + s);
+    }
+    if let Ok(s) = window.scroll_y() {
+        rect.set_y(rect.y() + s);
+    }
+    rect
 }
