@@ -49,7 +49,7 @@ pub fn Text(
 ) -> impl IntoView {
     mount_style("text", include_str!("./text.css"));
     let class = class_list!["thaw-text", class];
-    let style = move || style.get().unwrap_or_default();
+    let style = move || style.get();
 
     match tag {
         TextTag::B => view! {

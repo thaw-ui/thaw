@@ -1,8 +1,7 @@
 use crate::ConfigInjection;
 use leptos::{context::Provider, prelude::*, tachys::html::node_ref::node_ref};
-use thaw_components::{
-    use_binder, CSSTransition, Follower, FollowerInjection, Teleport, UseBinder,
-};
+use leptos_transition_group::CSSTransition;
+use thaw_components::{use_binder, Follower, FollowerInjection, Teleport, UseBinder};
 use thaw_utils::BoxCallback;
 
 #[component]
@@ -23,7 +22,7 @@ where
         placement: follower_placement,
         children: follower_children,
         auto_height,
-        arrow
+        arrow,
     } = follower;
 
     let UseBinder {
@@ -43,7 +42,7 @@ where
 
     let on_before_enter = {
         let sync_position = sync_position.clone();
-        move || {
+        move |_| {
             sync_position();
         }
     };
@@ -65,7 +64,7 @@ where
         }
     });
 
-    let on_after_leave = move || {
+    let on_after_leave = move |_| {
         if let Some(on_css_transition_after_leave) = &on_css_transition_after_leave {
             on_css_transition_after_leave();
         }

@@ -20,7 +20,8 @@ You can refer to the [thaw-template](https://github.com/thaw-ui/thaw-template) r
 | Crate version                                                            | Compatible Leptos version |
 | ------------------------------------------------------------------------ | ------------------------- |
 | 0.3 / [thaw-v0.3 branch](https://github.com/thaw-ui/thaw/tree/thaw-v0.3) | 0.6                       |
-| 0.4 / main branch                                                        | 0.7                       |
+| 0.4 / [thaw-v0.4 branch](https://github.com/thaw-ui/thaw/tree/thaw-v0.4) | 0.7                       |
+| 0.5-beta / main branch                                                   | 0.8                       |
 
 ## Resources
 

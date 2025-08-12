@@ -1,11 +1,14 @@
 use leptos::{
-    attr::Attribute,
+    attr::{any_attribute::AnyAttribute, Attribute},
     context::{Provider, ProviderProps},
     prelude::*,
     tachys::{
         hydration::Cursor,
         renderer::types,
-        view::{any_view::AnyViewState, Position, PositionState},
+        view::{
+            any_view::{AnyViewState, AnyViewWithAttrs},
+            Position, PositionState,
+        },
     },
 };
 use std::collections::HashMap;
@@ -92,18 +95,19 @@ impl Render for SSRMountStyle {
 }
 
 impl AddAnyAttr for SSRMountStyle {
-    type Output<SomeNewAttr: Attribute> = Self;
+    type Output<SomeNewAttr: Attribute> = AnyViewWithAttrs;
 
-    fn add_any_attr<NewAttr: Attribute>(self, _attr: NewAttr) -> Self::Output<NewAttr>
+    fn add_any_attr<NewAttr: Attribute>(self, attr: NewAttr) -> Self::Output<NewAttr>
     where
         Self::Output<NewAttr>: RenderHtml,
     {
-        self
+        self.children.add_any_attr(attr)
     }
 }
 
 impl RenderHtml for SSRMountStyle {
     type AsyncOutput = Self;
+    type Owned = Self;
 
     const MIN_LENGTH: usize = 0;
 
@@ -125,9 +129,10 @@ impl RenderHtml for SSRMountStyle {
         position: &mut Position,
         escape: bool,
         mark_branches: bool,
+        extra_attrs: Vec<AnyAttribute>,
     ) {
         self.children
-            .to_html_with_buf(buf, position, escape, mark_branches);
+            .to_html_with_buf(buf, position, escape, mark_branches, extra_attrs);
 
         let head_loc = buf
             .find("<head>")
@@ -145,11 +150,17 @@ impl RenderHtml for SSRMountStyle {
         position: &mut Position,
         escape: bool,
         mark_branches: bool,
+        extra_attrs: Vec<AnyAttribute>,
     ) where
         Self: Sized,
     {
-        self.children
-            .to_html_async_with_buf::<OUT_OF_ORDER>(buf, position, escape, mark_branches);
+        self.children.to_html_async_with_buf::<OUT_OF_ORDER>(
+            buf,
+            position,
+            escape,
+            mark_branches,
+            extra_attrs,
+        );
 
         buf.with_buf(|buf| {
             let head_loc = buf
@@ -170,6 +181,15 @@ impl RenderHtml for SSRMountStyle {
         let state = self.children.hydrate::<FROM_SERVER>(cursor, position);
         SSRMountStyleState { state }
     }
+
+    async fn hydrate_async(self, cursor: &Cursor, position: &PositionState) -> Self::State {
+        let state = self.children.hydrate_async(cursor, position).await;
+        SSRMountStyleState { state }
+    }
+
+    fn into_owned(self) -> Self::Owned {
+        self
+    }
 }
 
 impl Mountable for SSRMountStyleState {
@@ -183,5 +203,9 @@ impl Mountable for SSRMountStyleState {
 
     fn insert_before_this(&self, child: &mut dyn Mountable) -> bool {
         self.state.insert_before_this(child)
+    }
+
+    fn elements(&self) -> Vec<types::Element> {
+        self.state.elements()
     }
 }

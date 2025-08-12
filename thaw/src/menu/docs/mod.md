@@ -3,12 +3,13 @@
 ```rust demo
 let toaster = ToasterInjection::expect_context();
 
-let on_select = move |key: String| {
+let on_select = move |key: &str| {
   leptos::logging::warn!("{}", key);
+  let key = key.to_owned();
   toaster.dispatch_toast(move || view! {
         <Toast>
             <ToastBody>
-                "key"
+                {key}
             </ToastBody>
         </Toast>
   }, Default::default());
@@ -41,7 +42,7 @@ view! {
 ```rust demo
 use leptos_meta::Style;
 
-let on_select = move |value| leptos::logging::warn!("{}", value);
+let on_select = move |value: &str| leptos::logging::warn!("{}", value);
 
 view! {
     <Style>
@@ -153,25 +154,25 @@ view! {
 | Name         | Type                        | Default                  | Description                                  |
 | ------------ | --------------------------- | ------------------------ | -------------------------------------------- |
 | class        | `MaybeProp<String>,`        | `Default::default()`     |                                              |
-| on_select    | `BoxOneCallback<String>`    |                          | Called when item is selected.                |
+| on_select    | `BoxOneCallback<V>`         |                          | Called when item is selected.                |
 | trigger_type | `MenuTriggerType`           | `MenuTriggerType::Click` | Action that displays the menu.               |
 | position     | `MenuPosition`              | `MenuPosition::Bottom`   | Menu position.                               |
 | appearance   | `MaybeProp<MenuAppearance>` | `Default::default()`     |                                              |
 | menu_trigger | slot `MenuTrigger`          |                          | The element or component that triggers menu. |
 | children     | `Children`                  |                          |                                              |
 
-### MenuTriger Props
+### MenuTrigger Props
 
 | Name     | Type                                        | Default | Description |
 | -------- | ------------------------------------------- | ------- | ----------- |
 | children | `T: AddAnyAttr + IntoView + Send + 'static` |         |             |
 
-### MenuItem Props
+### MenuItem&lt;V&gt; Props
 
 | Name     | Type                             | Default              | Description                        |
 | -------- | -------------------------------- | -------------------- | ---------------------------------- |
 | class    | `MaybeProp<String>`              | `Default::default()` |                                    |
-| value    | `Signal<String>`                 | `Default::default()` | The value of the menu item.        |
+| value    | `V`                              |                      | The value of the menu item.        |
 | icon     | `MaybeProp<icondata_core::Icon>` | `None`               | The icon of the menu item.         |
 | disabled | `Signal<bool>`                   | `false`              | Whether the menu item is disabled. |
 | children | `Children`                       |                      |                                    |

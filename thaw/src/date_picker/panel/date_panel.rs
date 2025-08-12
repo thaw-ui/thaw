@@ -1,6 +1,6 @@
 use super::PanelVariant;
-use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate};
-use chrono::{Datelike, Days, Month, Months, NaiveDate};
+use crate::{Button, ButtonAppearance, ButtonSize, CalendarItemDate, LocaleConfig};
+use chrono::{Datelike, Days, Months, NaiveDate};
 use leptos::{html, prelude::*};
 use std::ops::Deref;
 use thaw_components::FollowerInjection;
@@ -14,6 +14,7 @@ pub fn DatePanel(
     panel_variant: RwSignal<PanelVariant>,
 ) -> impl IntoView {
     let follower = FollowerInjection::expect_context();
+    let locale = LocaleConfig::use_locale();
     let panel_ref = NodeRef::<html::Div>::new();
     Effect::new(move || {
         let Some(_) = panel_ref.get() else {
@@ -26,19 +27,23 @@ pub fn DatePanel(
         let show_date_month = show_date.month();
         let mut dates = vec![];
 
+        let first_weekday = locale.get().first_weekday();
+        let last_weekday = first_weekday.pred();
+
         let mut current_date = show_date;
-        let mut current_weekday_number = None::<u32>;
+        let mut current_weekday = None;
         loop {
             let date = current_date - Days::new(1);
             if date.month() != show_date_month {
-                if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
+                if current_weekday.is_none() {
+                    current_weekday = Some(current_date.weekday());
                 }
-                let weekday_number = current_weekday_number.unwrap();
-                if weekday_number == 0 {
+                let weekday = current_weekday.unwrap();
+
+                if weekday == first_weekday {
                     break;
                 }
-                current_weekday_number = Some(weekday_number - 1);
+                current_weekday = Some(weekday.pred());
 
                 dates.push(CalendarItemDate::Previous(date));
             } else {
@@ -49,18 +54,18 @@ pub fn DatePanel(
         dates.reverse();
         dates.push(CalendarItemDate::Current(show_date));
         current_date = show_date;
-        current_weekday_number = None;
+        current_weekday = None;
         loop {
             let date = current_date + Days::new(1);
             if date.month() != show_date_month {
-                if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
+                if current_weekday.is_none() {
+                    current_weekday = Some(current_date.weekday());
                 }
-                let weekday_number = current_weekday_number.unwrap();
-                if weekday_number == 6 {
+                let weekday = current_weekday.unwrap();
+                if weekday == last_weekday {
                     break;
                 }
-                current_weekday_number = Some(weekday_number + 1);
+                current_weekday = Some(weekday.succ());
                 dates.push(CalendarItemDate::Next(date));
             } else {
                 dates.push(CalendarItemDate::Current(date));
@@ -69,6 +74,7 @@ pub fn DatePanel(
         }
         dates
     });
+
     let previous_year = move |_| {
         show_date.update(|date| {
             *date = *date - Months::new(12);
@@ -117,7 +123,7 @@ pub fn DatePanel(
                             size=ButtonSize::Small
                             on_click=move |_| panel_variant.set(PanelVariant::Month)
                         >
-                            {move || Month::try_from(show_date.get().month() as u8).unwrap().name()}
+                            {move || locale.get().month(show_date.get().month() as u8)}
                         </Button>
                         <Button
                             appearance=ButtonAppearance::Subtle
@@ -141,13 +147,17 @@ pub fn DatePanel(
                     />
                 </div>
                 <div class="thaw-date-picker-date-panel__weekdays">
-                    <span>"Su"</span>
-                    <span>"Mo"</span>
-                    <span>"Tu"</span>
-                    <span>"We"</span>
-                    <span>"Th"</span>
-                    <span>"Fr"</span>
-                    <span>"Sa"</span>
+                    {move|| {
+                        let first_weekday_number = locale.get().first_weekday().num_days_from_sunday() as u8;
+                        let last_weekday_number = first_weekday_number + 6;
+                        (first_weekday_number..=last_weekday_number)
+                            .into_iter()
+                            .map(|n| {
+                                view! { <span>{locale.get().ab_day(n%7)}</span>}
+                            })
+                            .collect_view()
+                        }
+                    }
                 </div>
                 <div class="thaw-date-picker-date-panel__dates">
                     {move || {
@@ -171,7 +181,7 @@ pub fn DatePanel(
             </div>
             <div class="thaw-date-picker-date-panel__footer">
                 <Button size=ButtonSize::Small on_click=now>
-                    "Now"
+                    { move || locale.get().today() }
                 </Button>
             </div>
         </div>

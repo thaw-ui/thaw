@@ -1,10 +1,10 @@
 [package]
 name = "thaw"
-version = "0.4.8"
+version = "0.5.0-beta"
 edition = "2021"
 keywords = ["web", "leptos", "ui", "thaw", "component"]
 readme = "../README.md"
-authors = ["luoxiaozero"]
+authors = ["lizidev"]
 description = "An easy to use leptos component library"
 homepage = "https://github.com/thaw-ui/thaw"
 repository = "https://github.com/thaw-ui/thaw"
@@ -19,7 +19,8 @@ leptos = { workspace = true }
 thaw_components = { workspace = true }
 thaw_macro = { workspace = true }
 thaw_utils = { workspace = true }
-web-sys = { version = "0.3.70", features = [
+leptos_transition_group = { version = "0.2.0" }
+web-sys = { version = "0.3.72", features = [
     "DomRect",
     "File",
     "FileList",
@@ -29,7 +30,7 @@ web-sys = { version = "0.3.70", features = [
     "TreeWalker",
     "NodeFilter",
 ] }
-wasm-bindgen = "0.2.95"
+wasm-bindgen = { workspace = true }
 icondata_core = "0.1.0"
 icondata_ai = "0.0.10"
 uuid = { version = "1.10.0", features = ["v4", "js"] }
@@ -39,6 +40,8 @@ palette = "0.7.6"
 num-traits = "0.2.19"
 send_wrapper = "0.6"
 slotmap = "1.0"
+getset = "0.1.5"
+pure-rust-locales = "0.8.1"
 
 [features]
 csr = ["leptos/csr", "thaw_components/csr", "thaw_utils/csr"]

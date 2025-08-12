@@ -23,9 +23,9 @@ view! {
 let theme = RwSignal::new(Theme::light());
 let on_customize_theme = move |_| {
     theme.update(|theme| {
-        theme.color.color_brand_background = "#f5222d".to_string();
-        theme.color.color_brand_background_hover = "#ff4d4f".to_string();
-        theme.color.color_brand_background_pressed = "#cf1322".to_string();
+        theme.color.set_color_brand_background("#f5222d".to_string());
+        theme.color.set_color_brand_background_hover("#ff4d4f".to_string());
+        theme.color.set_color_brand_background_pressed("#cf1322".to_string());
     });
 };
 
@@ -49,4 +49,5 @@ view! {
 | theme | `Option<RwSignal<Theme>>` | `None` | Sets the theme used in a scope. |
 | theme_id | `Option<String>` | `None` | Theme id. |
 | dir | `RwSignal<Option<ConfigDirection>>` |  | Sets the direction of text & generated styles. |
+| locale | `Option<RwSignal<LocaleConfig>>` | | Set the locale used for some component. | 
 | children | `Children` |  |  |

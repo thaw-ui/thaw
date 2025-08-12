@@ -156,6 +156,16 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     label: "Customize Theme",
                 },
                 NavItemOption {
+                    group: Some("Theme"),
+                    value: "/guide/style-element-position",
+                    label: "Style Element Position",
+                },
+                NavItemOption {
+                    group: None,
+                    value: "/guide/internationalization",
+                    label: "Internationalization",
+                },
+                NavItemOption {
                     group: None,
                     value: "/guide/FAQs",
                     label: "FAQs",
@@ -468,6 +478,11 @@ pub(crate) fn gen_nav_data() -> Vec<NavGroupOption> {
                     group: None,
                     value: "/components/tooltip",
                     label: "Tooltip",
+                },
+                NavItemOption {
+                    group: None,
+                    value: "/components/tree",
+                    label: "Tree",
                 },
                 NavItemOption {
                     group: None,

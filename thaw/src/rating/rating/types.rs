@@ -24,7 +24,7 @@ impl RatingInjection {
 #[derive(Default, Clone)]
 pub enum RatingColor {
     Brand,
-    // TODO v0.5 Marigold,
+    Marigold,
     #[default]
     Neutral,
 }
@@ -33,7 +33,7 @@ impl RatingColor {
     pub fn as_str(&self) -> &'static str {
         match self {
             Self::Brand => "brand",
-            // RatingColor::Marigold => "marigold",
+            Self::Marigold => "marigold",
             Self::Neutral => "neutral",
         }
     }

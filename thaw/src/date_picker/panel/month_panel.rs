@@ -1,5 +1,5 @@
 use super::PanelVariant;
-use crate::{Button, ButtonAppearance, ButtonSize};
+use crate::{Button, ButtonAppearance, ButtonSize, LocaleConfig};
 use chrono::{Datelike, Month, Months, NaiveDate};
 use leptos::{html, prelude::*};
 use thaw_components::FollowerInjection;
@@ -82,6 +82,8 @@ pub fn MonthPanel(
 
 #[component]
 fn MonthPanelItem(date_panel_show_date: RwSignal<NaiveDate>, month: Month) -> impl IntoView {
+    let locale = LocaleConfig::use_locale();
+
     let is_selected = Memo::new(move |_| {
         date_panel_show_date.with(|date| date.month() == month.number_from_month())
     });
@@ -91,7 +93,7 @@ fn MonthPanelItem(date_panel_show_date: RwSignal<NaiveDate>, month: Month) -> im
             class="thaw-date-picker-month-panel__item"
             class=("thaw-date-picker-month-panel__item--selected", move || is_selected.get())
         >
-            <div class="thaw-date-picker-month-panel__item-month">{month.name().split_at(3).0}</div>
+            <div class="thaw-date-picker-month-panel__item-month">{locale.get().ab_month(month.number_from_month() as u8)}</div>
         </div>
     }
 }

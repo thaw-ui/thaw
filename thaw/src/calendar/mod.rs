@@ -1,5 +1,5 @@
-use crate::{Button, ButtonGroup};
-use chrono::{Datelike, Days, Local, Month, Months, NaiveDate};
+use crate::{Button, ButtonGroup, LocaleConfig};
+use chrono::{Datelike, Days, Local, Months, NaiveDate};
 use leptos::{prelude::*, tachys::view::any_view::AnyView};
 use std::{ops::Deref, sync::Arc};
 use thaw_utils::{class_list, mount_style, OptionModel, OptionModelWithValue};
@@ -13,6 +13,9 @@ pub fn Calendar(
     #[prop(optional, into)] children: Option<CalendarChildrenFn>,
 ) -> impl IntoView {
     mount_style("calendar", include_str!("./calendar.css"));
+
+    let locale = LocaleConfig::use_locale();
+
     let show_date = RwSignal::new(value.get_untracked().unwrap_or(now_date()));
     Effect::new(move |_| {
         if let Some(selected_date) = value.get() {
@@ -30,19 +33,23 @@ pub fn Calendar(
         let show_date_month = show_date.month();
         let mut dates = vec![];
 
+        let first_weekday = locale.get().first_weekday();
+        let last_weekday = first_weekday.pred();
+
         let mut current_date = show_date;
-        let mut current_weekday_number = None::<u32>;
+        let mut current_weekday = None;
         loop {
             let date = current_date - Days::new(1);
             if date.month() != show_date_month {
-                if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
+                if current_weekday.is_none() {
+                    current_weekday = Some(current_date.weekday());
                 }
-                let weekday_number = current_weekday_number.unwrap();
-                if weekday_number == 0 {
+                let weekday = current_weekday.unwrap();
+
+                if weekday == first_weekday {
                     break;
                 }
-                current_weekday_number = Some(weekday_number - 1);
+                current_weekday = Some(weekday.pred());
 
                 dates.push(CalendarItemDate::Previous(date));
             } else {
@@ -53,18 +60,18 @@ pub fn Calendar(
         dates.reverse();
         dates.push(CalendarItemDate::Current(show_date));
         current_date = show_date;
-        current_weekday_number = None;
+        current_weekday = None;
         loop {
             let date = current_date + Days::new(1);
             if date.month() != show_date_month {
-                if current_weekday_number.is_none() {
-                    current_weekday_number = Some(current_date.weekday().num_days_from_sunday());
+                if current_weekday.is_none() {
+                    current_weekday = Some(current_date.weekday());
                 }
-                let weekday_number = current_weekday_number.unwrap();
-                if weekday_number == 6 {
+                let weekday = current_weekday.unwrap();
+                if weekday == last_weekday {
                     break;
                 }
-                current_weekday_number = Some(weekday_number + 1);
+                current_weekday = Some(weekday.succ());
                 dates.push(CalendarItemDate::Next(date));
             } else {
                 dates.push(CalendarItemDate::Current(date));
@@ -98,7 +105,7 @@ pub fn Calendar(
                             .with(|date| {
                                 format!(
                                     "{} {}",
-                                    Month::try_from(date.month() as u8).unwrap().name(),
+                                    locale.get().month(date.month() as u8),
                                     date.year(),
                                 )
                             })
@@ -107,7 +114,7 @@ pub fn Calendar(
                 </span>
                 <ButtonGroup>
                     <Button icon=icondata_ai::AiLeftOutlined on_click=previous_month />
-                    <Button on_click=today>"Today"</Button>
+                    <Button on_click=today>{move || locale.get().today()}</Button>
                     <Button icon=icondata_ai::AiRightOutlined on_click=next_month />
                 </ButtonGroup>
             </div>
@@ -143,6 +150,7 @@ fn CalendarItem(
     date: CalendarItemDate,
     children: Option<CalendarChildrenFn>,
 ) -> impl IntoView {
+    let locale = LocaleConfig::use_locale();
     let is_selected = Memo::new({
         let date = date.clone();
         move |_| {
@@ -152,7 +160,6 @@ fn CalendarItem(
             })
         }
     });
-    let weekday_str = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let on_click = {
         let date = date.clone();
         move |_| {
@@ -172,7 +179,12 @@ fn CalendarItem(
 
                 {if index < 7 {
                     view! {
-                        <span class="thaw-calendar-item__header-title">{weekday_str[index]}</span>
+                        <span class="thaw-calendar-item__header-title">
+                            {
+                                let date = date.clone();
+                                move || locale.get().ab_weekday(date.weekday())
+                            }
+                        </span>
                     }
                         .into()
                 } else {

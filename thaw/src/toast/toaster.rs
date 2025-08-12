@@ -1,9 +1,10 @@
 use super::{ToastIntent, ToastOptions, ToastPosition, ToasterReceiver};
 use crate::{toast::ToasterMessage, ConfigInjection, ToastStatus};
 use leptos::{context::Provider, either::Either, html, prelude::*};
+use leptos_transition_group::CSSTransition;
 use send_wrapper::SendWrapper;
 use std::{collections::HashMap, time::Duration};
-use thaw_components::{CSSTransition, Teleport};
+use thaw_components::Teleport;
 use thaw_utils::{mount_style, ArcTwoCallback};
 use wasm_bindgen::UnwrapThrowExt;
 
@@ -270,13 +271,13 @@ fn ToasterContainer(
         );
     }
 
-    let on_before_leave = move || {
+    let on_before_leave = move |_| {
         let Some(el) = container_ref.get_untracked() else {
             return;
         };
         el.style(("max-height", format!("{}px", el.offset_height())));
     };
-    let on_after_leave = move || {
+    let on_after_leave = move |_| {
         request_animation_frame(move || {
             if let Some(f) = on_close.try_with_value(|f| f.clone()) {
                 f(id, position);

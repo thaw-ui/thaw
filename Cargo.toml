@@ -14,12 +14,16 @@ exclude = ["examples"]
 rust-version = "1.79"
 
 [workspace.dependencies]
-thaw = { version = "0.4.8", path = "./thaw" }
-thaw_components = { version = "0.3.2", path = "./thaw_components" }
+thaw = { version = "0.5.0-beta", path = "./thaw" }
+thaw_components = { version = "0.4.0-beta", path = "./thaw_components" }
 thaw_macro = { version = "0.1.0", path = "./thaw_macro" }
-thaw_utils = { version = "0.1.2", path = "./thaw_utils" }
+thaw_utils = { version = "0.2.0-beta", path = "./thaw_utils" }
 
-leptos = { version = "0.7.7" }
-leptos_meta = { version = "0.7.7" }
-leptos_router = { version = "0.7.7" }
-reactive_stores = { version = "0.1.7" }
+# leptos
+leptos = { version = "0.8.5" }
+leptos_meta = { version = "0.8.5" }
+leptos_router = { version = "0.8.5" }
+reactive_stores = { version = "0.2.5" }
+
+# web
+wasm-bindgen = { version = "0.2.100" }

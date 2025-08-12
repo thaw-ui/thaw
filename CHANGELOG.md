@@ -1,3 +1,29 @@
+## [0.5.0-beta](https://github.com/thaw-ui/thaw/compare/v0.5.0-alpha...v0.5.0-beta) (2025-05-04)
+
+### Bug Fixs
+
+* The arrow position of the InfoLabel component.
+ 
+### Breaking Changes
+
+* Update leptos to v0.8.0.
+
+## [0.5.0-alpha](https://github.com/thaw-ui/thaw/compare/v0.4.5...v0.5.0-alpha) (2025-03-30)
+
+### Features
+
+* Adds `Tree` component, closes [#392](https://github.com/thaw-ui/thaw/pull/392).
+* `Menu` is changed to a generic component, closes [#390](https://github.com/thaw-ui/thaw/pull/390).
+ 
+### Breaking Changes
+
+* Update leptos to v0.8.0-beta.
+* Theme is changed to use getset.
+* RatingColor adds Marigold prop.
+* InputType adds Number prop.
+* The icon prop of `Icon` is changed to icondata_core::Icon type.
+* The value prop of `MenuItem` is changed to generic type.
+
 ## [0.4.8](https://github.com/thaw-ui/thaw/compare/v0.4.7...v0.4.8) (2025-08-03)
 
 ### Features
@@ -94,4 +120,4 @@
 
 ### 0.1.0-beta2 - 0.4.0-rc (2023-11-14 - 2024-12-09)
 
-See [0.1 - 0.4 changelog](./changelog/CHANGELOG-0.1-0.4.md)
+See [0.1 - 0.4 changelog](./changelogs/CHANGELOG-0.1-0.4.md)

@@ -27,6 +27,7 @@ jobs:
                   toolchain: stable
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: Install Trunk
               uses: jetli/trunk-action@v0.4.0
               with:
@@ -47,6 +48,7 @@ jobs:
                   toolchain: nightly
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: Install Trunk
               uses: jetli/trunk-action@v0.4.0
               with:
@@ -67,14 +69,11 @@ jobs:
                   toolchain: stable
                   target: wasm32-unknown-unknown
                   override: true
-            - name: Install Trunk
-              uses: jetli/trunk-action@v0.4.0
-              with:
-                  version: "latest"
+            - uses: Swatinem/rust-cache@v2
             - name: Install Cargo BInstall
               uses: cargo-bins/cargo-binstall@main
             - name: Install Cargo Leptos
-              run: cargo binstall cargo-leptos -y
+              run: cargo binstall cargo-leptos --locked --no-confirm
             - name: Build
               run: |
                   cd ./examples/ssr_axum
@@ -91,14 +90,11 @@ jobs:
                   toolchain: nightly
                   target: wasm32-unknown-unknown
                   override: true
-            - name: Install Trunk
-              uses: jetli/trunk-action@v0.4.0
-              with:
-                  version: "latest"
+            - uses: Swatinem/rust-cache@v2
             - name: Install Cargo BInstall
               uses: cargo-bins/cargo-binstall@main
             - name: Install Cargo Leptos
-              run: cargo binstall cargo-leptos -y
+              run: cargo binstall cargo-leptos --locked --no-confirm
             - name: Build
               run: |
                   cd ./examples/ssr_axum
@@ -116,6 +112,7 @@ jobs:
                   toolchain: stable
                   target: wasm32-unknown-unknown
                   override: true
+            - uses: Swatinem/rust-cache@v2
             - name: cargo test
               run: |
                   cd thaw_utils
