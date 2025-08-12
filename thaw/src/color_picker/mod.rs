@@ -19,11 +19,14 @@ pub fn ColorPicker(
     /// Size of the picker.
     #[prop(optional, into)]
     size: Signal<ColorPickerSize>,
+    /// Label of the picker.
+    #[prop(optional, into)]
+    label: MaybeProp<String>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let hue = RwSignal::new(0f32);
     let sv = RwSignal::new((0f32, 0f32));
-    let label = RwSignal::new(String::new());
+    let caption = RwSignal::new(String::new());
     let style = Memo::new(move |_| {
         let mut style = String::new();
 
@@ -39,7 +42,7 @@ pub fn ColorPicker(
                     let rgb = Srgb::<u8>::from_format(rgb.clone());
                     let color = format!("rgb({}, {}, {})", rgb.red, rgb.green, rgb.blue);
                     style.push_str(&format!("background-color: {color};"));
-                    label.set(color);
+                    caption.set(color);
                 }
                 Color::HSV(hsv) => {
                     let rgb: Srgb = hsv.clone().into_color();
@@ -53,7 +56,7 @@ pub fn ColorPicker(
                         hsv.saturation * 100.0,
                         hsv.value * 100.0
                     );
-                    label.set(color);
+                    caption.set(color);
                 }
                 Color::HSL(hsl) => {
                     let color = format!(
@@ -63,7 +66,7 @@ pub fn ColorPicker(
                         hsl.lightness * 100.0
                     );
                     style.push_str(&format!("background-color: {color};"));
-                    label.set(color);
+                    caption.set(color);
                 }
             }
         });
@@ -147,7 +150,7 @@ pub fn ColorPicker(
                 node_ref=trigger_ref
             >
                 <div class="thaw-color-picker-trigger__content" style=move || style.get()>
-                    {move || label.get()}
+                    {move || label.get().unwrap_or_else(|| caption.get())}
                 </div>
             </div>
             <Follower slot show=is_show_popover placement=FollowerPlacement::BottomStart>
