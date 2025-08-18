@@ -46,10 +46,23 @@ view! {
 }
 ```
 
+### Disabled
+
+```rust demo
+use palette::Srgb;
+
+let value = RwSignal::new(Color::from(Srgb::new(0.0, 0.0, 0.0)));
+
+view! {
+    <ColorPicker value disabled=true />
+}
+```
+
 ### ColorPicker Props
 
-| Name  | Type                      | Default                   | Desciption           |
-| ----- | ------------------------- | ------------------------- | -------------------- |
-| class | `MaybeProp<String>`       | `Default::default()`      |                      |
-| value | `Model<Color>`            | `Default::default()`      | Value of the picker. |
-| size  | `Signal<ColorPickerSize>` | `ColorPickerSize::Medium` | Size of the picker.  |
+| Name     | Type                      | Default                   | Desciption                           |
+| -------- | ------------------------- | ------------------------- | ------------------------------------ |
+| class    | `MaybeProp<String>`       | `Default::default()`      |                                      |
+| disabled | `Signal<bool>`            | `false`                   | Whether to disable the color picker. |
+| value    | `Model<Color>`            | `Default::default()`      | Value of the picker.                 |
+| size     | `Signal<ColorPickerSize>` | `ColorPickerSize::Medium` | Size of the picker.                  |

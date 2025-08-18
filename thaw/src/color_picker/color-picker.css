@@ -28,6 +28,10 @@
     height: 100%;
 }
 
+.thaw-color-picker-trigger--disabled {
+    cursor: not-allowed;
+}
+
 div.thaw-color-picker-popover {
     width: 240px;
     padding: var(--spacingVerticalM) var(--spacingHorizontalM);

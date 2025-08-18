@@ -19,6 +19,9 @@ pub fn ColorPicker(
     /// Size of the picker.
     #[prop(optional, into)]
     size: Signal<ColorPickerSize>,
+    /// Whether to disable the color picker.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
 ) -> impl IntoView {
     mount_style("color-picker", include_str!("./color-picker.css"));
     let hue = RwSignal::new(0f32);
@@ -104,6 +107,9 @@ pub fn ColorPicker(
     let trigger_ref = NodeRef::<html::Div>::new();
     let popover_ref = NodeRef::<html::Div>::new();
     let show_popover = move |_| {
+        if disabled.get() {
+            return;
+        }
         is_show_popover.set(true);
     };
 
@@ -140,6 +146,7 @@ pub fn ColorPicker(
             <div
                 class=class_list![
                     "thaw-color-picker-trigger",
+                    ("thaw-color-picker-trigger--disabled", move || disabled.get()),
                     move || format!("thaw-color-picker-trigger--{}", size.get().as_str()),
                     class
                 ]
