@@ -7,6 +7,10 @@ use thaw_utils::{class_list, OptionModel};
 pub fn RadioGroup(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    /// Disable all Radio items in this group.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
+    /// The rules to validate Field.
     #[prop(optional, into)] rules: Vec<RadioGroupRule>,
     /// The selected Radio item in this group.
     #[prop(optional, into)]
@@ -32,7 +36,7 @@ pub fn RadioGroup(
     });
 
     view! {
-        <Provider value=RadioGroupInjection { value, name }>
+        <Provider value=RadioGroupInjection { value, name, disabled }>
             <div class=class_list!["thaw-radio-group", class] id=id role="radiogroup">
                 {children()}
             </div>
@@ -44,6 +48,7 @@ pub fn RadioGroup(
 pub(crate) struct RadioGroupInjection {
     pub value: OptionModel<String>,
     pub name: Signal<String>,
+    pub disabled: Signal<bool>,
 }
 
 impl RadioGroupInjection {

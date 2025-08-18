@@ -44,6 +44,7 @@ pub fn Radio(
                 class="thaw-radio__input"
                 type="radio"
                 id=id.clone()
+                disabled=group.disabled
                 name=group.name
                 value=item_value.get_value()
                 prop:checked=move || checked.get()
