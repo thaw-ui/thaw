@@ -166,6 +166,8 @@
     cursor: not-allowed;
 }
 
+.thaw-input--disabled > .thaw-input__prefix,
+.thaw-input--disabled > .thaw-input__suffix,
 .thaw-input--disabled > .thaw-input__input::placeholder {
     color: var(--colorNeutralForegroundDisabled);
 }

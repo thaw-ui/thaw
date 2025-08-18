@@ -25,12 +25,21 @@ view! {
 }
 ```
 
+### Disabled
+
+```rust demo
+view! {
+    <DatePicker disabled=true/>
+}
+```
+
 ### DatePicker Props
 
 | Name | Type | Default | Desciption |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | id | `MaybeProp<String>` | `Default::default()` |  |
+| disabled | `Signal<bool>` | `false` | Whether the date picker is disabled. |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
 | rules | `Vec<DatePickerRule<T>>` | `vec![]` | The rules to validate Field. |
 | value | `OptionModel<NaiveDate>` | `Default::default()` | Set the date picker value. |
