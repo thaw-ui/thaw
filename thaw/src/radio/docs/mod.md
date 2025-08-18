@@ -24,6 +24,19 @@ view! {
 }
 ```
 
+## Disabled
+
+RadioGroup can be disabled, which disables all Radio items inside.
+
+```rust demo
+view! {
+    <RadioGroup value="a".to_string() disabled=true>
+        <Radio value="a" label="Apple"/>
+        <Radio value="o" label="Orange"/>
+    </RadioGroup>
+}
+```
+
 ### Radio Props
 
 | Name  | Type                | Default              | Description                                         |
@@ -38,6 +51,7 @@ view! {
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
 | id | `MaybeProp<String>` | `Default::default()` |  |
+| disabled | `Signal<bool>` | `false` | Disable all Radio items in this group. |
 | name | `MaybeProp<String>` | `Default::default()` | A string specifying a name for the input control. This name is submitted along with the control's value when the form data is submitted. |
 | rules | `Vec<RadioGroupRule>` | `vec![]` | The rules to validate Field. |
 | value | `OptionModel<String>` | `Default::default()` | The selected Radio item in this group. |

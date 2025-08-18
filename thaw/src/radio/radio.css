@@ -50,11 +50,11 @@
     color: var(--colorCompoundBrandForeground1);
 }
 
-.thaw-radio__input:hover:checked ~ .thaw-radio__indicator {
+.thaw-radio__input:hover:checked:not(:disabled) ~ .thaw-radio__indicator {
     color: var(--colorCompoundBrandForeground1Hover);
 }
 
-.thaw-radio__input:hover:active ~ .thaw-radio__indicator {
+.thaw-radio__input:hover:active:not(:disabled) ~ .thaw-radio__indicator {
     color: var(--colorCompoundBrandForeground1Pressed);
 }
 
@@ -69,6 +69,11 @@
 
 .thaw-radio__input:checked ~ .thaw-radio__indicator::after {
     content: "";
+}
+
+.thaw-radio__input:disabled ~ .thaw-radio__indicator {
+    border-color: var(--colorNeutralStrokeDisabled);
+    color: var(--colorNeutralForegroundDisabled);
 }
 
 .thaw-radio__label {
@@ -99,4 +104,9 @@
 
 .thaw-radio__input:enabled ~ .thaw-radio__label {
     cursor: pointer;
+}
+
+.thaw-radio__input:disabled ~ .thaw-radio__label {
+    color: var(--colorNeutralForegroundDisabled);
+    cursor: default;
 }
