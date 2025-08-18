@@ -18,6 +18,9 @@ use thaw_utils::{
 pub fn DatePicker(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    /// Whether the date picker is disabled.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
@@ -92,6 +95,9 @@ pub fn DatePicker(
     };
 
     let open_panel = move || {
+        if disabled.get() {
+            return;
+        }
         if is_show_panel.get() {
             return;
         }
@@ -112,6 +118,7 @@ pub fn DatePicker(
                 <Input
                     id
                     name
+                    disabled
                     value=show_date_text
                     on_focus=move |_| open_panel()
                     size=Signal::derive(move || size.get().into())
