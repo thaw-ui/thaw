@@ -37,6 +37,12 @@
     --thaw-slider__thumb--color: var(--colorCompoundBrandBackgroundPressed);
 }
 
+.thaw-slider.thaw-slider--disabled {
+    --thaw-slider__thumb--color: var(--colorNeutralForegroundDisabled);
+    --thaw-slider__progress--color: var(--colorNeutralForegroundDisabled);
+    --thaw-slider__rail--color: var(--colorNeutralBackgroundDisabled);
+}
+
 /* .thaw-slider:focus,
 .thaw-slider:focus-visible {
     outline-style: none;
@@ -181,6 +187,7 @@
 .thaw-slider__datalist {
     display: block;
     position: absolute;
+    color: var(--colorNeutralForeground1);
 }
 
 .thaw-slider--horizontal .thaw-slider__datalist {
@@ -191,4 +198,8 @@
 .thaw-slider--vertical .thaw-slider__datalist {
     height: 100%;
     left: calc(var(--thaw-slider__thumb--size) + 4px);
+}
+
+.thaw-slider--disabled .thaw-slider__datalist {
+    color: var(--colorNeutralForegroundDisabled);
 }
