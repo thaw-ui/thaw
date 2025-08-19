@@ -7,7 +7,12 @@ use thaw_utils::{class_list, mount_style, Model};
 pub fn RangeSlider(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] style: MaybeProp<String>,
-    #[prop(optional, into)] value: Model<(f64, f64)>,
+    /// Whether the slider is disabled.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
+    /// The current value of the controlled Slider.
+    #[prop(optional, into)]
+    value: Model<(f64, f64)>,
     /// Min value of the slider.
     #[prop(default = 0f64.into(), into)]
     min: Signal<f64>,
@@ -111,6 +116,9 @@ pub fn RangeSlider(
     };
 
     let on_click = move |e: web_sys::MouseEvent| {
+        if disabled.get() {
+            return;
+        }
         if let Some(rail_el) = rail_ref.get_untracked() {
             let min = min.get_untracked();
             let max = max.get_untracked();
@@ -210,11 +218,17 @@ pub fn RangeSlider(
     };
 
     let on_left_mousedown = move |_| {
+        if disabled.get() {
+            return;
+        }
         left_mousemove.set_value(true);
         on_mousemove();
     };
 
     let on_right_mousedown = move |_| {
+        if disabled.get() {
+            return;
+        }
         right_mousemove.set_value(true);
         on_mousemove();
     };
@@ -225,6 +239,7 @@ pub fn RangeSlider(
         <div
             class=class_list![
                 "thaw-range-slider",
+                ("thaw-range-slider--disabled", move || disabled.get()),
                 move || format!("thaw-range-slider--{}", if vertical.get() { "vertical" } else { "horizontal" }),
                 class
             ]

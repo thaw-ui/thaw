@@ -12,6 +12,9 @@ pub fn Slider(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] style: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    /// Whether the slider is disabled.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
@@ -106,12 +109,14 @@ pub fn Slider(
         <div
             class=class_list![
                 "thaw-slider",
+                ("thaw-slider--disabled", move || disabled.get()),
                 move || format!("thaw-slider--{}", if vertical.get() { "vertical" } else { "horizontal" }),
                 class
             ]
             style=css_vars
         >
             <input
+                disabled=move || disabled.get()
                 min=move || min.get()
                 max=move || max.get()
                 step=move || step.get()
