@@ -17,6 +17,10 @@
     cursor: pointer;
 }
 
+.thaw-switch__input:disabled {
+    cursor: default;
+}
+
 .thaw-switch__indicator {
     flex-shrink: 0;
     width: 40px;
@@ -53,6 +57,19 @@
     background-color: var(--colorCompoundBrandBackgroundPressed);
 }
 
+.thaw-switch__input:disabled:not(:checked) ~ .thaw-switch__indicator {
+    border-color: var(--colorNeutralStrokeDisabled);
+}
+
+.thaw-switch__input:disabled:checked ~ .thaw-switch__indicator {
+    background-color: var(--colorNeutralBackgroundDisabled);
+    border-color: var(--colorTransparentStrokeDisabled);
+}
+
+.thaw-switch__input:disabled ~ .thaw-switch__indicator {
+    color: var(--colorNeutralForegroundDisabled);
+}
+
 .thaw-switch__indicator > svg {
     display: inline;
     line-height: 0;
@@ -80,4 +97,9 @@
 
 .thaw-switch__input:enabled:not(:checked) ~ .thaw-switch__label {
     color: var(--colorNeutralForeground1);
+}
+
+.thaw-switch__input:disabled ~ .thaw-switch__label {
+    cursor: default;
+    color: var(--colorNeutralForegroundDisabled);
 }

@@ -7,6 +7,9 @@ use thaw_utils::{class_list, mount_style, Model};
 pub fn Switch(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    /// Whether to disable the switch.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
@@ -48,6 +51,7 @@ pub fn Switch(
         <div class=class_list!["thaw-switch", class]>
             <input
                 class="thaw-switch__input"
+                disabled=move || disabled.get()
                 role="switch"
                 type="checkbox"
                 id=id
