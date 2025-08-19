@@ -19,6 +19,9 @@ use thaw_utils::{
 pub fn TimePicker(
     #[prop(optional, into)] class: MaybeProp<String>,
     #[prop(optional, into)] id: MaybeProp<String>,
+    /// Whether time picker is disabled.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
     /// A string specifying a name for the input control.
     /// This name is submitted along with the control's value when the form data is submitted.
     #[prop(optional, into)]
@@ -92,6 +95,9 @@ pub fn TimePicker(
     };
 
     let open_panel = move || {
+        if disabled.get() {
+            return;
+        }
         if is_show_panel.get() {
             return;
         }
@@ -114,6 +120,7 @@ pub fn TimePicker(
                 <Input
                     id
                     name
+                    disabled
                     value=show_time_text
                     on_focus=move |_| open_panel()
                     on_blur=on_input_blur
