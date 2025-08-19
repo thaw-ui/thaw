@@ -117,10 +117,12 @@ pub struct ColorTheme {
     color_subtle_background: String,
     color_subtle_background_hover: String,
     color_subtle_background_pressed: String,
+
     color_transparent_background: String,
     color_transparent_background_hover: String,
     color_transparent_background_pressed: String,
     color_transparent_stroke: String,
+    color_transparent_stroke_disabled: String,
 
     shadow4: String,
     shadow8: String,
@@ -318,6 +320,7 @@ impl ColorTheme {
             color_transparent_background_hover: "transparent".into(),
             color_transparent_background_pressed: "transparent".into(),
             color_transparent_stroke: "transparent".into(),
+            color_transparent_stroke_disabled: "transparent".into(),
 
             shadow4: "0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14)".into(),
             shadow8: "0 0 2px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.14)".into(),
@@ -445,6 +448,7 @@ impl ColorTheme {
             color_transparent_background_hover: "transparent".into(),
             color_transparent_background_pressed: "transparent".into(),
             color_transparent_stroke: "transparent".into(),
+            color_transparent_stroke_disabled: "transparent".into(),
 
             shadow4: "0 0 2px rgba(0,0,0,0.24), 0 2px 4px rgba(0,0,0,0.28)".into(),
             shadow8: "0 0 2px rgba(0,0,0,0.24), 0 4px 8px rgba(0,0,0,0.28)".into(),
