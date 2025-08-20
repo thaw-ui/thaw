@@ -51,6 +51,13 @@
     background-color: var(--colorNeutralBackground3Pressed);
 }
 
+.thaw-interaction-tag--disabled .thaw-interaction-tag-primary {
+    background-color: var(--colorNeutralBackgroundDisabled);
+    color: var(--colorNeutralForegroundDisabled);
+    border-color: var(--colorTransparentStrokeDisabled);
+    cursor: not-allowed;
+}
+
 .thaw-interaction-tag-primary__primary-text {
     grid-row-end: secondary;
     grid-row-start: primary;
