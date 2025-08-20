@@ -24,7 +24,14 @@ pub fn TagPickerGroup(
     };
 
     view! {
-        <TagGroup attr:role="listbox" class size dismissible=true on_dismiss>
+        <TagGroup
+            attr:role="listbox"
+            class
+            size
+            disabled=tag_picker.disabled
+            dismissible=true
+            on_dismiss
+        >
             {children()}
         </TagGroup>
     }

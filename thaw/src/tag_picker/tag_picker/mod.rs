@@ -15,6 +15,9 @@ use thaw_utils::{call_on_click_outside_with_list, class_list, mount_style, Model
 #[component]
 pub fn TagPicker(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Whether the tag picker is disabled.
+    #[prop(optional, into)]
+    disabled: Signal<bool>,
     /// An array of selected option keys.
     #[prop(optional, into)]
     selected_options: Model<Vec<String>>,
@@ -40,6 +43,7 @@ pub fn TagPicker(
     let tag_picker_control_injection =
         TagPickerControlInjection(active_descendant_controller.clone());
     let tag_picker_injection = TagPickerInjection {
+        disabled,
         size,
         selected_options,
         input_ref,
@@ -48,6 +52,9 @@ pub fn TagPicker(
         listbox_hidden_callback,
     };
     let on_click = move |e: ev::MouseEvent| {
+        if disabled.get() {
+            return;
+        }
         if e.default_prevented() {
             if is_show_listbox.get() {
                 is_show_listbox.set(false);
@@ -105,6 +112,7 @@ pub fn TagPicker(
             <div
                 class=class_list![
                     "thaw-tag-picker-control",
+                    ("thaw-tag-picker-control--disabled", move || disabled.get()),
                     move || format!("thaw-tag-picker-control--{}", size.get().as_str()),
                     class
                 ]
