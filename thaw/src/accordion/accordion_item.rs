@@ -72,9 +72,7 @@ pub fn AccordionItem(
                 </button>
             </div>
             <CSSTransition show=is_show_panel name="thaw-accordion-panel">
-                <div class="thaw-accordion-panel">
-                    {children()}
-                </div>
+                <div class="thaw-accordion-panel">{children()}</div>
             </CSSTransition>
         </div>
     }

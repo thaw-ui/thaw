@@ -11,7 +11,8 @@ pub fn RadioGroup(
     #[prop(optional, into)]
     disabled: Signal<bool>,
     /// The rules to validate Field.
-    #[prop(optional, into)] rules: Vec<RadioGroupRule>,
+    #[prop(optional, into)]
+    rules: Vec<RadioGroupRule>,
     /// The selected Radio item in this group.
     #[prop(optional, into)]
     value: OptionModel<String>,
@@ -36,7 +37,11 @@ pub fn RadioGroup(
     });
 
     view! {
-        <Provider value=RadioGroupInjection { value, name, disabled }>
+        <Provider value=RadioGroupInjection {
+            value,
+            name,
+            disabled,
+        }>
             <div class=class_list!["thaw-radio-group", class] id=id role="radiogroup">
                 {children()}
             </div>

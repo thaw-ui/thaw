@@ -94,7 +94,11 @@ where
                     on:mouseleave=on_mouse_leave
                 >
                     {move || { content.as_ref().map(|c| c.get()).unwrap_or_default() }}
-                    <div class="thaw-tooltip-content__angle" style=arrow_style node_ref=arrow_ref></div>
+                    <div
+                        class="thaw-tooltip-content__angle"
+                        style=arrow_style
+                        node_ref=arrow_ref
+                    ></div>
                 </div>
             </Follower>
         </crate::_binder::Binder>

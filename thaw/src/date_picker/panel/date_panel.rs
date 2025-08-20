@@ -147,17 +147,19 @@ pub fn DatePanel(
                     />
                 </div>
                 <div class="thaw-date-picker-date-panel__weekdays">
-                    {move|| {
-                        let first_weekday_number = locale.get().first_weekday().num_days_from_sunday() as u8;
+                    {move || {
+                        let first_weekday_number = locale
+                            .get()
+                            .first_weekday()
+                            .num_days_from_sunday() as u8;
                         let last_weekday_number = first_weekday_number + 6;
                         (first_weekday_number..=last_weekday_number)
                             .into_iter()
                             .map(|n| {
-                                view! { <span>{locale.get().ab_day(n%7)}</span>}
+                                view! { <span>{locale.get().ab_day(n % 7)}</span> }
                             })
                             .collect_view()
-                        }
-                    }
+                    }}
                 </div>
                 <div class="thaw-date-picker-date-panel__dates">
                     {move || {
@@ -181,7 +183,7 @@ pub fn DatePanel(
             </div>
             <div class="thaw-date-picker-date-panel__footer">
                 <Button size=ButtonSize::Small on_click=now>
-                    { move || locale.get().today() }
+                    {move || locale.get().today()}
                 </Button>
             </div>
         </div>
