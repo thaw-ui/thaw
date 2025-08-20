@@ -167,7 +167,11 @@ where
                     on:mouseleave=on_mouse_leave
                 >
                     {children()}
-                    <div class="thaw-popover-surface__angle" style=arrow_style node_ref=arrow_ref></div>
+                    <div
+                        class="thaw-popover-surface__angle"
+                        style=arrow_style
+                        node_ref=arrow_ref
+                    ></div>
                 </div>
             </Follower>
         </crate::_binder::Binder>

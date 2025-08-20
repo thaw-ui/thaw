@@ -32,8 +32,8 @@ pub fn ChevronRight12RegularIcon() -> impl IntoView {
         >
             <path
                 d="M4.65 2.15a.5.5 0 0 0 0 .7L7.79 6 4.65 9.15a.5.5 0 1 0 .7.7l3.5-3.5a.5.5 0 0 0 0-.7l-3.5-3.5a.5.5 0 0 0-.7 0Z"
-                fill="currentColor">
-            </path>
+                fill="currentColor"
+            ></path>
         </svg>
     }
 }

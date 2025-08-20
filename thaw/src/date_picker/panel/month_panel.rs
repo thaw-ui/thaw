@@ -93,7 +93,9 @@ fn MonthPanelItem(date_panel_show_date: RwSignal<NaiveDate>, month: Month) -> im
             class="thaw-date-picker-month-panel__item"
             class=("thaw-date-picker-month-panel__item--selected", move || is_selected.get())
         >
-            <div class="thaw-date-picker-month-panel__item-month">{locale.get().ab_month(month.number_from_month() as u8)}</div>
+            <div class="thaw-date-picker-month-panel__item-month">
+                {locale.get().ab_month(month.number_from_month() as u8)}
+            </div>
         </div>
     }
 }
