@@ -4,12 +4,16 @@ mod tag_group;
 pub use interaction_tag::*;
 pub use tag_group::*;
 
+use crate::DismissRegularIcon;
 use leptos::{either::Either, ev, prelude::*};
 use thaw_utils::{class_list, mount_style, ArcOneCallback};
 
 #[component]
 pub fn Tag(
     #[prop(optional, into)] class: MaybeProp<String>,
+    /// Whether the tag is disabled.
+    #[prop(optional, into)]
+    disabled: Option<Signal<bool>>,
     /// Size of the tag.
     #[prop(optional, into)]
     size: Option<Signal<TagSize>>,
@@ -25,21 +29,33 @@ pub fn Tag(
     children: Children,
 ) -> impl IntoView {
     mount_style("tag", include_str!("./tag.css"));
-    let (group_size, group_on_dismiss, group_dismissible) = TagGroupInjection::use_context()
-        .map(
-            |TagGroupInjection {
-                 size,
-                 on_dismiss,
-                 dismissible,
-             }| {
-                if value.is_none() {
-                    (Some(size), None, None)
-                } else {
-                    (Some(size), on_dismiss, Some(dismissible))
-                }
-            },
-        )
-        .unwrap_or_default();
+    let (group_disabled, group_size, group_on_dismiss, group_dismissible) =
+        TagGroupInjection::use_context()
+            .map(
+                |TagGroupInjection {
+                     disabled,
+                     size,
+                     on_dismiss,
+                     dismissible,
+                 }| {
+                    if value.is_none() {
+                        (Some(disabled), Some(size), None, None)
+                    } else {
+                        (Some(disabled), Some(size), on_dismiss, Some(dismissible))
+                    }
+                },
+            )
+            .unwrap_or_default();
+
+    let disabled = {
+        if let Some(disabled) = disabled {
+            Some(disabled)
+        } else if let Some(disabled) = group_disabled {
+            Some(disabled)
+        } else {
+            None
+        }
+    };
 
     let size_class = {
         if let Some(size) = size {
@@ -55,6 +71,7 @@ pub fn Tag(
         <span class=class_list![
             "thaw-tag",
                 ("thaw-tag--dismissible", move || group_dismissible.map_or_else(|| dismissible.get(), |d| d.get())),
+                ("thaw-tag--disabled", move || disabled.map_or(false, |d| d.get())),
                 size_class.map(|size| move || format!("thaw-tag--{}", size.get().as_str())),
                 class
         ]>
@@ -67,6 +84,9 @@ pub fn Tag(
                     let group_on_dismiss = group_on_dismiss.clone();
                     let value = value.clone();
                     let on_dismiss = move |event: ev::MouseEvent| {
+                        if disabled.map_or(false, |d| d.get()) {
+                            return;
+                        }
                         if let Some(on_dismiss) = group_on_dismiss.as_ref() {
                             event.prevent_default();
                             on_dismiss(value.clone().unwrap());
@@ -79,18 +99,7 @@ pub fn Tag(
                     Either::Left(
                         view! {
                             <button class="thaw-tag__dismiss" on:click=on_dismiss>
-                                <svg
-                                    fill="currentColor"
-                                    aria-hidden="true"
-                                    width="1em"
-                                    height="1em"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path
-                                        d="m4.09 4.22.06-.07a.5.5 0 0 1 .63-.06l.07.06L10 9.29l5.15-5.14a.5.5 0 0 1 .63-.06l.07.06c.18.17.2.44.06.63l-.06.07L10.71 10l5.14 5.15c.18.17.2.44.06.63l-.06.07a.5.5 0 0 1-.63.06l-.07-.06L10 10.71l-5.15 5.14a.5.5 0 0 1-.63.06l-.07-.06a.5.5 0 0 1-.06-.63l.06-.07L9.29 10 4.15 4.85a.5.5 0 0 1-.06-.63l.06-.07-.06.07Z"
-                                        fill="currentColor"
-                                    ></path>
-                                </svg>
+                                <DismissRegularIcon />
                             </button>
                         },
                     )

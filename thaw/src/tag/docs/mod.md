@@ -13,6 +13,21 @@ view! {
 }
 ```
 
+### Disabled
+
+```rust demo
+view! {
+    <Flex>
+        <Tag disabled=true dismissible=true>"Disabled"</Tag>
+        <InteractionTag disabled=true>
+            <InteractionTagPrimary>
+                "Interaction Tag"
+            </InteractionTagPrimary>
+        </InteractionTag>
+    </Flex>
+}
+```
+
 ### Size
 
 ```rust demo
@@ -58,6 +73,7 @@ view! {
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | class | `MaybeProp<String>` | `Default::default()` |  |
+| disabled | `Option<Signal<bool>>` | `None` | Whether the tag is disabled. |
 | size | `Option<Signal<TagSize>>` | `None` | Size of the tag. |
 | dismissible | `Signal<bool>` | `false` | A Tag can be dismissible. |
 | on_dismiss | `Option<ArcOneCallback<ev::MouseEvent>>` | `None` | Callback for when a tag is dismissed. |
@@ -66,11 +82,12 @@ view! {
 
 ### InteractionTag Props
 
-| Name     | Type                      | Default              | Description      |
-| -------- | ------------------------- | -------------------- | ---------------- |
-| class    | `MaybeProp<String>`       | `Default::default()` |                  |
-| size     | `Option<Signal<TagSize>>` | `None`               | Size of the tag. |
-| children | `Children`                |                      |                  |
+| Name     | Type                      | Default              | Description                              |
+| -------- | ------------------------- | -------------------- | ---------------------------------------- |
+| class    | `MaybeProp<String>`       | `Default::default()` |                                          |
+| disabled | `Option<Signal<bool>>`    | `None`               | Whether the interaction tag is disabled. |
+| size     | `Option<Signal<TagSize>>` | `None`               | Size of the tag.                         |
+| children | `Children`                |                      |                                          |
 
 ### InteractionTagPrimary Props
 

@@ -17,6 +17,13 @@
     border-radius: var(--borderRadiusMedium);
 }
 
+.thaw-tag--disabled {
+    background-color: var(--colorNeutralBackgroundDisabled);
+    color: var(--colorNeutralForegroundDisabled);
+    border-color: var(--colorTransparentStrokeDisabled);
+    cursor: not-allowed;
+}
+
 .thaw-tag--small {
     height: 24px;
     padding: 0 5px;
@@ -41,7 +48,6 @@
     font-weight: var(--fontWeightRegular);
     font-size: var(--fontSizeBase300);
     font-family: var(--fontFamilyBase);
-    color: var(--colorNeutralForeground2);
 }
 
 .thaw-tag--small .thaw-tag__primary-text,
@@ -62,6 +68,11 @@
     cursor: pointer;
 }
 
+.thaw-tag--disabled .thaw-tag__dismiss {
+    color: currentColor;
+    cursor: not-allowed;
+}
+
 .thaw-tag--small .thaw-tag__dismiss {
     padding-left: var(--spacingHorizontalXXS);
     font-size: 16px;
@@ -79,10 +90,10 @@
     line-height: 0;
 }
 
-.thaw-tag__dismiss:hover {
+.thaw-tag:not(.thaw-tag--disabled) > .thaw-tag__dismiss:hover {
     color: var(--colorCompoundBrandForeground1Hover);
 }
 
-.thaw-tag__dismiss:active {
+.thaw-tag:not(.thaw-tag--disabled) > .thaw-tag__dismiss:active {
     color: var(--colorCompoundBrandForeground1Pressed);
 }
