@@ -19,6 +19,7 @@ impl TagPickerControlInjection {
 
 #[derive(Clone, Copy)]
 pub(crate) struct TagPickerInjection {
+    pub disabled: Signal<bool>,
     pub size: Signal<TagPickerSize>,
     pub input_ref: NodeRef<html::Input>,
     pub(super) selected_options: Model<Vec<String>>,

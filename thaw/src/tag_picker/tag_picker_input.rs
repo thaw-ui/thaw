@@ -5,7 +5,10 @@ use thaw_utils::class_list;
 #[component]
 pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl IntoView {
     let TagPickerInjection {
-        input_ref, options, ..
+        disabled,
+        input_ref,
+        options,
+        ..
     } = TagPickerInjection::expect_context();
     let TagPickerControlInjection(active_descendant_controller) =
         TagPickerControlInjection::expect_context();
@@ -40,6 +43,7 @@ pub fn TagPickerInput(#[prop(optional, into)] class: MaybeProp<String>) -> impl 
 
     view! {
         <input
+            disabled=move || disabled.get()
             node_ref=input_ref
             type="text"
             role="combobox"
