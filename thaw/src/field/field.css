@@ -31,6 +31,8 @@
     font-size: var(--fontSizeBase200);
     font-weight: var(--fontWeightRegular);
     line-height: var(--lineHeightBase200);
+    display: flex;
+    align-items: center;
 }
 
 .thaw-field--error > .thaw-field__validation-message {
