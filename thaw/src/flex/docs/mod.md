@@ -77,10 +77,25 @@ view! {
 ```rust demo
 view! {
     <Flex vertical=true>
+        <Flex justify=FlexJustify::SpaceBetween>
+            <Button>"SpaceBetween"</Button>
+            <Button>"SpaceBetween"</Button>
+            <Button>"SpaceBetween"</Button>
+        </Flex>
         <Flex justify=FlexJustify::SpaceAround>
             <Button>"SpaceAround"</Button>
             <Button>"SpaceAround"</Button>
             <Button>"SpaceAround"</Button>
+        </Flex>
+        <Flex justify=FlexJustify::SpaceEvenly>
+            <Button>"SpaceEvenly"</Button>
+            <Button>"SpaceEvenly"</Button>
+            <Button>"SpaceEvenly"</Button>
+        </Flex>
+        <Flex justify=FlexJustify::Start>
+            <Button>"Start"</Button>
+            <Button>"Start"</Button>
+            <Button>"Start"</Button>
         </Flex>
         <Flex justify=FlexJustify::Center>
             <Button>"Center"</Button>
