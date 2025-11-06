@@ -253,3 +253,4 @@ view! {
 | ----- | ----------- | ------------------------- |
 | click | `Fn(&self)` | Click the button element. |
 | focus | `Fn(&self)` | Focus the button element. |
+| blur  | `Fn(&self)` | Blurs the button element. |

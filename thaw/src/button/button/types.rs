@@ -127,4 +127,11 @@ impl ButtonRef {
             _ = button_el.focus();
         }
     }
+
+    /// Blur the button element
+    pub fn blur(&self) {
+        if let Some(button_el) = self.button_ref.get_untracked() {
+            _ = button_el.blur()
+        }
+    }
 }
