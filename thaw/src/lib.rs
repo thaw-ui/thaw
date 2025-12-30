@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 mod _aria;
 mod _binder;
 mod _motion;
