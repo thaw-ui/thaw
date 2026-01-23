@@ -20,6 +20,7 @@ pub fn Tooltip<T>(
     /// The tooltip's visual appearance.
     #[prop(optional, into)]
     appearance: Signal<TooltipAppearance>,
+    #[prop(optional, into)] class: MaybeProp<String>,
     children: TypedChildren<T>,
 ) -> impl IntoView
 where
@@ -87,7 +88,8 @@ where
                 <div
                     class=class_list![
                         "thaw-tooltip-content",
-                         move || format!("thaw-tooltip-content--{}", appearance.get().as_str())
+                         move || format!("thaw-tooltip-content--{}", appearance.get().as_str()),
+                         class
                     ]
                     role="tooltip"
                     on:mouseenter=on_mouse_enter
