@@ -19,3 +19,27 @@ pub use optional_prop::OptionalProp;
 pub use signals::*;
 pub use throttle::throttle;
 pub use time::now_date;
+
+#[macro_export]
+macro_rules! maybe_unstable {
+    (INV $e:expr) => {{
+        #[cfg(web_sys_unstable_apis)]
+        {
+            $e as f64
+        }
+        #[cfg(not(web_sys_unstable_apis))]
+        {
+            $e
+        }
+    }};
+    ($e:expr) => {{
+        #[cfg(web_sys_unstable_apis)]
+        {
+            $e.round() as i32
+        }
+        #[cfg(not(web_sys_unstable_apis))]
+        {
+            $e
+        }
+    }};
+}
