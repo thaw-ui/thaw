@@ -2,7 +2,7 @@ use crate::ConfigInjection;
 use leptos::{context::Provider, ev, prelude::*};
 use thaw_components::{FocusTrap, Teleport};
 use leptos_transition_group::CSSTransition;
-use thaw_utils::{class_list, mount_style, Model};
+use thaw_utils::{class_list, mount_style, use_lock_html_scroll, Model};
 
 #[component]
 pub fn Dialog(
@@ -20,6 +20,11 @@ pub fn Dialog(
 ) -> impl IntoView {
     mount_style("dialog", include_str!("./dialog.css"));
     let config_provider = ConfigInjection::expect_context();
+
+    // Prevent the page behind the backdrop from scrolling while the dialog
+    // is open. Same as OverlayDrawer — the Dialog was the only overlay
+    // component missing this.
+    use_lock_html_scroll(open.signal());
 
     let on_mask_click = move |_| {
         if mask_closeable.get_untracked() {
