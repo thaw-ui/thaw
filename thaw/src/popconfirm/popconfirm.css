@@ -1,0 +1,20 @@
+.thaw-popconfirm__title {
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightSemibold);
+    line-height: var(--lineHeightBase300);
+}
+
+.thaw-popconfirm__description {
+    font-size: var(--fontSizeBase200);
+    font-weight: var(--fontWeightRegular);
+    line-height: var(--lineHeightBase200);
+    color: var(--colorNeutralForeground2);
+    margin-top: 4px;
+}
+
+.thaw-popconfirm__actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}

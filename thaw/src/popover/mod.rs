@@ -12,7 +12,7 @@ use leptos::{
 };
 use std::time::Duration;
 use thaw_components::{Follower, FollowerArrow};
-use thaw_utils::{class_list, mount_style, on_click_outside, BoxCallback};
+use thaw_utils::{class_list, mount_style, on_click_outside, BoxCallback, Model};
 
 #[component]
 pub fn Popover<T>(
@@ -30,6 +30,10 @@ pub fn Popover<T>(
     #[prop(optional, into)]
     appearance: MaybeProp<PopoverAppearance>,
     #[prop(optional, into)] size: Signal<PopoverSize>,
+    /// Controls the open state of the popover. When provided, the popover
+    /// becomes controlled and can be opened/closed programmatically.
+    #[prop(optional, into)]
+    open: Option<Model<bool>>,
     #[prop(optional, into)] on_open: Option<BoxCallback>,
     #[prop(optional, into)] on_close: Option<BoxCallback>,
     children: Children,
@@ -40,7 +44,21 @@ where
     mount_style("popover", include_str!("./popover.css"));
 
     let popover_ref = NodeRef::<html::Div>::new();
-    let is_show_popover = RwSignal::new(false);
+    let is_show_popover = RwSignal::new(open.map(|m| m.get_untracked()).unwrap_or(false));
+
+    // Sync: model → internal signal
+    if let Some(model) = open {
+        Effect::new(move || {
+            is_show_popover.set(model.get());
+        });
+    }
+
+    let set_show = move |val: bool| {
+        is_show_popover.set(val);
+        if let Some(model) = open {
+            model.set(val);
+        }
+    };
     let show_popover_handle = StoredValue::new(None::<TimeoutHandle>);
 
     if on_open.is_some() || on_close.is_some() {
@@ -72,7 +90,7 @@ where
                 handle.clear();
             }
         });
-        is_show_popover.set(true);
+        set_show(true);
     };
     let on_mouse_leave = move |_| {
         if trigger_type != PopoverTriggerType::Hover {
@@ -84,7 +102,7 @@ where
             }
             *handle = set_timeout_with_handle(
                 move || {
-                    is_show_popover.set(false);
+                    set_show(false);
                 },
                 Duration::from_millis(100),
             )
@@ -118,15 +136,13 @@ where
                     };
                     Some(vec![popover_el.into(), trigger_el])
                 },
-                move || is_show_popover.set(false),
+                move || set_show(false),
             );
             Either::Left(
                 trigger_children
                     .add_any_attr(node_ref(trigger_ref))
                     .add_any_attr(on(ev::click, move |_| {
-                        is_show_popover.update(|show| {
-                            *show = !*show;
-                        });
+                        set_show(!is_show_popover.get_untracked());
                     })),
             )
         }
