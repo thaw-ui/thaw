@@ -179,6 +179,7 @@ view! {
 | appearance | `MaybeProp<PopoverAppearance>` | `Default::default()` | A popover can appear styled with brand or inverted. When not specified, the default style is used. |
 | trigger_type | `PopoverTriggerType` | `PopoverTriggerType::Hover` | Action that displays the popover. |
 | popover_trigger | slot `PopoverTrigger` |  | The element or component that triggers popover. |
+| open | `Option<Model<bool>>` | `None` | Controls the open state of the popover programmatically. |
 | on_open | `Option<BoxCallback>` | `None` | Listen for popover open events. |
 | on_close | `Option<BoxCallback>` | `None` | Listen for popover close events. |
 | children | `Children` |  |  |

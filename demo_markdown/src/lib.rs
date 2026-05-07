@@ -62,6 +62,7 @@ pub fn include_md(_token_stream: proc_macro::TokenStream) -> proc_macro::TokenSt
         "NavMdPage" => "../../thaw/src/nav/docs/mod.md",
         "PaginationMdPage" => "../../thaw/src/pagination/docs/mod.md",
         "PersonaMdPage" => "../../thaw/src/persona/docs/mod.md",
+        "PopconfirmMdPage" => "../../thaw/src/popconfirm/docs/mod.md",
         "PopoverMdPage" => "../../thaw/src/popover/docs/mod.md",
         "ProgressBarMdPage" => "../../thaw/src/progress_bar/docs/mod.md",
         "RadioMdPage" => "../../thaw/src/radio/docs/mod.md",
