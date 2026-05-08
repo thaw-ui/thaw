@@ -54,7 +54,7 @@ pub fn RangeSlider(
         let min = min.get();
         let max = max.get();
 
-        value / (max - min) * 100.0
+        (value - min) / (max - min) * 100.0
     });
 
     let right_progress = Memo::new(move |_| {
@@ -62,7 +62,7 @@ pub fn RangeSlider(
         let min = min.get();
         let max = max.get();
 
-        value / (max - min) * 100.0
+        (value - min) / (max - min) * 100.0
     });
 
     let css_vars = move || {
@@ -124,23 +124,23 @@ pub fn RangeSlider(
             let max = max.get_untracked();
 
             let rail_rect = rail_el.get_bounding_client_rect();
-            let percentage = if vertical.get_untracked() {
+            let value = if vertical.get_untracked() {
                 let ev_y = f64::from(e.y());
                 let rail_height = rail_rect.height();
-                (rail_height + rail_rect.y() - ev_y) / rail_height * (max - min)
+                (rail_height + rail_rect.y() - ev_y) / rail_height * (max - min) + min
             } else {
                 let ev_x = f64::from(e.x());
-                (ev_x - rail_rect.x()) / rail_rect.width() * (max - min)
+                (ev_x - rail_rect.x()) / rail_rect.width() * (max - min) + min
             };
 
             let (left, right) = current_value.get();
-            let left_diff = (left - percentage).abs();
-            let right_diff = (right - percentage).abs();
+            let left_diff = (left - value).abs();
+            let right_diff = (right - value).abs();
 
             if left_diff <= right_diff {
-                update_value(percentage, right);
+                update_value(value, right);
             } else {
-                update_value(left, percentage);
+                update_value(left, value);
             }
         };
     };
@@ -166,7 +166,7 @@ pub fn RangeSlider(
                 let max = max.get_untracked();
 
                 let rail_rect = rail_el.get_bounding_client_rect();
-                let percentage = if vertical.get_untracked() {
+                let value = if vertical.get_untracked() {
                     let ev_y = f64::from(e.y());
                     let rail_y = rail_rect.y();
                     let rail_height = rail_rect.height();
@@ -179,7 +179,7 @@ pub fn RangeSlider(
                         rail_y + rail_height - ev_y
                     };
 
-                    length / rail_height * (max - min)
+                    length / rail_height * (max - min) + min
                 } else {
                     let ev_x = f64::from(e.x());
                     let rail_x = rail_rect.x();
@@ -193,14 +193,14 @@ pub fn RangeSlider(
                         ev_x - rail_x
                     };
 
-                    length / rail_width * (max - min)
+                    length / rail_width * (max - min) + min
                 };
 
                 if left_mousemove.get_value() {
-                    update_value(percentage, current_value.get_untracked().1);
+                    update_value(value, current_value.get_untracked().1);
                     return;
                 } else if right_mousemove.get_value() {
-                    update_value(current_value.get_untracked().0, percentage);
+                    update_value(current_value.get_untracked().0, value);
                     return;
                 }
             }
