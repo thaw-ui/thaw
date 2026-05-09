@@ -12,8 +12,10 @@ pub fn use_click_position() -> ReadSignal<Option<(i32, i32)>> {
         use web_sys::MouseEvent;
 
         fn click_handler(event: MouseEvent) -> Option<(i32, i32)> {
-            if event.client_x() > 0 || event.client_y() > 0 {
-                return Some((event.client_x(), event.client_y()));
+            let client_x = crate::maybe_unstable!(event.client_x());
+            let client_y = crate::maybe_unstable!(event.client_y());
+            if client_x > 0 || client_y > 0 {
+                return Some((client_x, client_y));
             }
             let Some(target) = event.target() else {
                 return None;

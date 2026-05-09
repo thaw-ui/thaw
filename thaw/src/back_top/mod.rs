@@ -57,7 +57,7 @@ pub fn BackTop(
             }
 
             let handle = add_event_listener(scroll_el.clone(), ev::scroll, move |_| {
-                scroll_top.set(scroll_el.scroll_top());
+                scroll_top.set(thaw_utils::maybe_unstable!(scroll_el.scroll_top()));
             });
             scroll_handle.set_value(Some(handle));
         });

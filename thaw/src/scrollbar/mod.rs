@@ -109,8 +109,8 @@ pub fn Scrollbar(
 
     let sync_scroll_state = move || {
         if let Some(el) = container_ref.get_untracked() {
-            container_scroll_top.set(el.scroll_top());
-            container_scroll_left.set(el.scroll_left());
+            container_scroll_top.set(thaw_utils::maybe_unstable!(el.scroll_top()));
+            container_scroll_left.set(thaw_utils::maybe_unstable!(el.scroll_left()));
         }
     };
     let sync_position_state = move || {
@@ -173,7 +173,7 @@ pub fn Scrollbar(
             let x_track_width = x_track_width.get();
             let x_thumb_width = x_thumb_width.get() as i32;
 
-            let x_diff = e.client_x() - memo_mouse_x.get_value();
+            let x_diff = thaw_utils::maybe_unstable!(e.client_x()) - memo_mouse_x.get_value();
             let to_scroll_left_upper_bound = content_width - container_width;
             let scroll_left =
                 (x_diff * to_scroll_left_upper_bound) / (x_track_width - x_thumb_width);
@@ -183,7 +183,7 @@ pub fn Scrollbar(
             to_scroll_left = to_scroll_left.max(0);
 
             if let Some(el) = container_ref.get_untracked() {
-                el.set_scroll_left(to_scroll_left);
+                el.set_scroll_left(thaw_utils::maybe_unstable!(INV to_scroll_left));
             }
         });
         x_trumb_mousemove_handle.set_value(Some(handle));
@@ -209,7 +209,7 @@ pub fn Scrollbar(
         });
         x_trumb_mouseup_handle.set_value(Some(handle));
         memo_x_left.set_value(container_scroll_left.get());
-        memo_mouse_x.set_value(e.client_x());
+        memo_mouse_x.set_value(thaw_utils::maybe_unstable!(e.client_x()));
         thumb_status.set_value(Some(ThumbStatus::Enter));
     };
 
@@ -226,7 +226,7 @@ pub fn Scrollbar(
             let y_track_height = y_track_height.get();
             let y_thumb_height = y_thumb_height.get() as i32;
 
-            let y_diff = e.client_y() - memo_mouse_y.get_value();
+            let y_diff = thaw_utils::maybe_unstable!(e.client_y()) - memo_mouse_y.get_value();
             let to_scroll_top_upper_bound = content_height - container_height;
             let scroll_top =
                 (y_diff * to_scroll_top_upper_bound) / (y_track_height - y_thumb_height);
@@ -236,7 +236,7 @@ pub fn Scrollbar(
             to_scroll_top = to_scroll_top.max(0);
 
             if let Some(el) = container_ref.get_untracked() {
-                el.set_scroll_top(to_scroll_top);
+                el.set_scroll_top(thaw_utils::maybe_unstable!(INV to_scroll_top));
             }
         });
         y_trumb_mousemove_handle.set_value(Some(handle));
@@ -262,7 +262,7 @@ pub fn Scrollbar(
         });
         y_trumb_mouseup_handle.set_value(Some(handle));
         memo_y_top.set_value(container_scroll_top.get());
-        memo_mouse_y.set_value(e.client_y());
+        memo_mouse_y.set_value(thaw_utils::maybe_unstable!(e.client_y()));
         thumb_status.set_value(Some(ThumbStatus::Enter));
     };
 

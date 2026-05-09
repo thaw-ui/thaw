@@ -23,7 +23,7 @@ thaw_utils = { version = "0.2.0-beta", path = "./thaw_utils" }
 leptos = { version = "0.8.5" }
 leptos_meta = { version = "0.8.5" }
 leptos_router = { version = "0.8.5" }
-reactive_stores = { version = "0.2.5" }
+reactive_stores = { version = "0.4.3" }
 
 # web
 wasm-bindgen = { version = "0.2.100" }

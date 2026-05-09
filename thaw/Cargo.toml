@@ -12,6 +12,9 @@ license = "MIT"
 exclude = ["src/**/*.md"]
 rust-version.workspace = true
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(web_sys_unstable_apis)'] }
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -32,7 +35,7 @@ web-sys = { version = "0.3.72", features = [
 ] }
 wasm-bindgen = { workspace = true }
 icondata_core = "0.1.0"
-icondata_ai = "0.0.10"
+icondata_ai = "0.1"
 uuid = { version = "1.10.0", features = ["v4", "js"] }
 cfg-if = "1.0.0"
 chrono = "0.4.38"
