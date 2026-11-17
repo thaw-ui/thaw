@@ -1,8 +1,10 @@
 use std::sync::Arc;
 
 use crate::ConfigInjection;
+#[cfg(feature = "chrono")]
 use chrono::Weekday;
 use leptos::prelude::*;
+#[cfg(feature = "chrono")]
 use pure_rust_locales::locale_match;
 
 pub use pure_rust_locales::Locale;
@@ -45,36 +47,44 @@ impl LocaleConfig {
         self.0.today()
     }
 
+    #[cfg(feature = "chrono")]
     pub(crate) fn months(&self) -> &'static [&'static str] {
         locale_match!(self.locale() => LC_TIME::MON)
     }
 
+    #[cfg(feature = "chrono")]
     pub(crate) fn month(&self, month: u8) -> &'static str {
         self.months()[(month - 1) as usize]
     }
 
+    #[cfg(feature = "chrono")]
     pub(crate) fn ab_months(&self) -> &'static [&'static str] {
         locale_match!(self.locale() => LC_TIME::ABMON)
     }
 
+    #[cfg(feature = "chrono")]
     pub(crate) fn ab_month(&self, month: u8) -> &'static str {
         self.ab_months()[(month - 1) as usize]
     }
 
+    #[cfg(feature = "chrono")]
     pub(crate) fn ab_days(&self) -> &'static [&'static str] {
         locale_match!(self.locale() => LC_TIME::ABDAY)
     }
 
     /// day is the number of day from sunday (sunday=0, monday=1, ...)
+    #[cfg(feature = "chrono")]
     pub(crate) fn ab_day(&self, day: u8) -> &'static str {
         self.ab_days()[day as usize]
     }
 
+    #[cfg(feature = "chrono")]
     pub(crate) fn ab_weekday(&self, day: Weekday) -> &'static str {
         self.ab_day(((day as u8) + 1) % 7)
     }
 
     /// Return the first day of the week
+    #[cfg(feature = "chrono")]
     pub(crate) fn first_weekday(&self) -> Weekday {
         // the `LC_TIME::FIRST_WEEKDAY` value start at 1 for sunday, 2 for monday, ...
         // the `Weekday` values start at 0 for monday, 1 for tuesday, ...

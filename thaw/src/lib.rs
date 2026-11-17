@@ -11,6 +11,7 @@ mod back_top;
 mod badge;
 mod breadcrumb;
 mod button;
+#[cfg(feature = "chrono")]
 mod calendar;
 mod card;
 mod checkbox;
@@ -18,6 +19,7 @@ mod code;
 mod color_picker;
 mod combobox;
 mod config_provider;
+#[cfg(feature = "chrono")]
 mod date_picker;
 mod dialog;
 mod divider;
@@ -58,6 +60,7 @@ mod tag_picker;
 mod text;
 mod textarea;
 mod theme;
+#[cfg(feature = "chrono")]
 mod time_picker;
 mod toast;
 mod tooltip;
@@ -72,6 +75,7 @@ pub use back_top::*;
 pub use badge::*;
 pub use breadcrumb::*;
 pub use button::*;
+#[cfg(feature = "chrono")]
 pub use calendar::*;
 pub use card::*;
 pub use checkbox::*;
@@ -79,6 +83,7 @@ pub use code::*;
 pub use color_picker::*;
 pub use combobox::*;
 pub use config_provider::*;
+#[cfg(feature = "chrono")]
 pub use date_picker::*;
 pub use dialog::*;
 pub use divider::*;
@@ -120,6 +125,7 @@ pub use text::*;
 pub use textarea::*;
 pub use thaw_utils::{ComponentRef, SignalWatch};
 pub use theme::*;
+#[cfg(feature = "chrono")]
 pub use time_picker::*;
 pub use toast::*;
 pub use tooltip::*;

@@ -8,6 +8,7 @@ mod on_click_outside;
 mod optional_prop;
 mod signals;
 mod throttle;
+#[cfg(feature = "chrono")]
 mod time;
 
 pub use callback::*;
@@ -18,4 +19,5 @@ pub use on_click_outside::*;
 pub use optional_prop::OptionalProp;
 pub use signals::*;
 pub use throttle::throttle;
+#[cfg(feature = "chrono")]
 pub use time::now_date;

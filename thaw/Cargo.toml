@@ -35,7 +35,7 @@ icondata_core = "0.1.0"
 icondata_ai = "0.0.10"
 uuid = { version = "1.10.0", features = ["v4", "js"] }
 cfg-if = "1.0.0"
-chrono = "0.4.38"
+chrono = { version = "0.4.38", optional = true }
 palette = "0.7.6"
 num-traits = "0.2.19"
 send_wrapper = "0.6"
@@ -44,6 +44,8 @@ getset = "0.1.5"
 pure-rust-locales = "0.8.1"
 
 [features]
+default = ["chrono"]
+chrono = ["dep:chrono", "thaw_utils/chrono"]
 csr = ["leptos/csr", "thaw_components/csr", "thaw_utils/csr"]
 ssr = ["leptos/ssr", "thaw_components/ssr", "thaw_utils/ssr"]
 hydrate = ["leptos/hydrate", "thaw_components/hydrate", "thaw_utils/hydrate"]
