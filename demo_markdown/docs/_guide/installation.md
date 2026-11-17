@@ -22,6 +22,14 @@ cargo add thaw --features=csr
     </MessageBarBody>
 </MessageBar>
 
+### Features
+
+`Calendar`, `DatePicker` and `TimePicker` use [chrono](https://crates.io/crates/chrono) and need the `chrono` feature, which is enabled by default. If you use none of them, you can disable the default features to drop `chrono`:
+
+```shell
+cargo add thaw --no-default-features --features=csr
+```
+
 ## Usage
 
 You just need to import thaw and use it.

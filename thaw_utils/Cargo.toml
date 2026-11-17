@@ -19,10 +19,12 @@ reactive_stores = { workspace = true }
 web-sys = "0.3.72"
 wasm-bindgen = { workspace = true }
 cfg-if = "1.0.0"
-chrono = "0.4.38"
+chrono = { version = "0.4.38", optional = true }
 send_wrapper = "0.6"
 
 [features]
+default = ["chrono"]
+chrono = ["dep:chrono"]
 csr = ["leptos/csr"]
 ssr = ["leptos/ssr", "leptos_meta/ssr"]
 hydrate = ["leptos/hydrate"]

@@ -1,4 +1,5 @@
 use super::{FieldContextInjection, FieldInjection, FieldValidationState};
+#[cfg(feature = "chrono")]
 use chrono::{NaiveDate, NaiveTime};
 use leptos::prelude::*;
 use std::ops::Deref;
@@ -146,6 +147,7 @@ impl RuleValueWithUntracked<Option<String>> for OptionModel<String> {
     }
 }
 
+#[cfg(feature = "chrono")]
 impl RuleValueWithUntracked<Option<NaiveDate>> for OptionModel<NaiveDate> {
     fn value_with_untracked(
         &self,
@@ -158,6 +160,7 @@ impl RuleValueWithUntracked<Option<NaiveDate>> for OptionModel<NaiveDate> {
     }
 }
 
+#[cfg(feature = "chrono")]
 impl RuleValueWithUntracked<Option<NaiveTime>> for OptionModel<NaiveTime> {
     fn value_with_untracked(
         &self,
